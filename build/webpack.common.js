@@ -64,7 +64,7 @@ const withModuleFederationPlugin = new webpack.container.ModuleFederationPlugin(
     name: federatedModuleName,
     filename: 'remoteEntry.js',
     exposes: {
-      './Home': './client/Panels/Home',
+      './Panels/Home.patternfly': './client/Panels/Home/Home.patternfly',
     },
     shared: {
       ...dependencies,
