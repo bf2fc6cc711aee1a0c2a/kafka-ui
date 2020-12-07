@@ -8,6 +8,24 @@ const merge = require('lodash.merge');
 const { PRODUCTION, DEVELOPMENT } = require('../utils/tooling/constants.js');
 const { dependencies, federatedModuleName } = require('../package.json');
 
+// Need to removed dependencies that can not be shared in federate module.
+const nonSharedDependencies = [
+  '@apollo/client',
+  '@apollo/react-hooks',
+  'graphql',
+  'i18next',
+  'i18next-browser-languagedetector',
+  'lodash.get',
+  'lodash.merge',
+  'lodash.mergewith',
+  'lodash.set',
+  'react-i18next',
+  'uuid',
+];
+nonSharedDependencies.map((dependency) => {
+  delete dependencies[dependency];
+});
+
 // constants
 const UI_TITLE = 'Strimzi UI';
 const ROOT_DIR = path.resolve(__dirname, '../');
