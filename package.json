@@ -64,6 +64,7 @@
     "http-proxy": "^1.18.1",
     "i18next": "^19.8.3",
     "i18next-browser-languagedetector": "^6.0.1",
+    "lodash.debounce": "^4.0.8",
     "lodash.get": "^4.4.2",
     "lodash.keyby": "^4.6.0",
     "lodash.merge": "^4.6.2",
