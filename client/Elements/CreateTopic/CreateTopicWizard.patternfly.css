@@ -1,0 +1,41 @@
+.topics-wizard-content {
+  max-width: 500px;
+}
+
+.pf-c-form__group-control > * {
+  margin-bottom: 16px;
+}
+
+.form-in-wizard {
+  padding-top: 16px;
+}
+
+.radio-description {
+  padding-left: 23px;
+}
+
+.radio-step-3 {
+  margin-top: -36px;
+}
+
+.create-topic-wizard {
+  margin-top: 16px;
+}
+
+.pf-c-form__group-control > * {
+  margin-bottom: 0;
+}
+
+.topics-wizard-content .pf-c-form {
+  margin-top: 24px;
+  margin-bottom: 64px;
+}
+
+.form-group-radio .pf-c-form__group-control > * {
+  margin-bottom: 16px;
+}
+
+.minimum-insync-replicas {
+  margin-top: 16px;
+  margin-bottom: 4px !important;
+}
