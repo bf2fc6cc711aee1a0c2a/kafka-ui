@@ -14,5 +14,5 @@
     "noImplicitAny": false,
     "outDir": "./js"
   },
-  "exclude": ["utils", "build", "**/test_common", "**/*.js"]
+  "exclude": ["utils", "build", "**/test_common", "**/*.js", "**/*.generated.ts"]
 }
