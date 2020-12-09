@@ -90,25 +90,25 @@ const securedApiModuleConfig: () => serverConfigType = () =>
 
 export const getConfigForName: (name: string) => serverConfigType = (name) => {
   switch (name) {
-  default:
-  case 'default':
-  case 'production':
-    return defaultTestConfig();
-  case 'mockapi_only':
-    return mockapiModuleConfig();
-  case 'log_only':
-    return logModuleConfig();
-  case 'config_only':
-    return configModuleConfig();
-  case 'config_only_with_config_overrides':
-    return configModuleWithConfigOverrides();
-  case 'client_only':
-    return clientModuleConfig();
-  case 'api_only':
-    return apiModuleConfig();
-  case 'api_secured_only':
-    return securedApiModuleConfig();
-  case 'api_with_custom_context_root':
-    return apiModuleConfigWithCustomContextRoot();
+    default:
+    case 'default':
+    case 'production':
+      return defaultTestConfig();
+    case 'mockapi_only':
+      return mockapiModuleConfig();
+    case 'log_only':
+      return logModuleConfig();
+    case 'config_only':
+      return configModuleConfig();
+    case 'config_only_with_config_overrides':
+      return configModuleWithConfigOverrides();
+    case 'client_only':
+      return clientModuleConfig();
+    case 'api_only':
+      return apiModuleConfig();
+    case 'api_secured_only':
+      return securedApiModuleConfig();
+    case 'api_with_custom_context_root':
+      return apiModuleConfigWithCustomContextRoot();
   }
 };

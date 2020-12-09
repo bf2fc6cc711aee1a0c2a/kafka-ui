@@ -58,8 +58,8 @@ export const generateMockResponseForGQLRequest: <T>(
   },
   result: data
     ? {
-      data,
-    }
+        data,
+      }
     : {},
   error: error ? error : undefined,
 });

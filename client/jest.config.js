@@ -15,7 +15,8 @@ const config = {
   moduleNameMapper: {
     ...pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' }),
     ...jestModuleMapper,
-    "\\.(css|less)$": "<rootDir>/../node_modules/@patternfly/react-styles/__mocks__/styleMock.js"
+    '\\.(css|less)$':
+      '<rootDir>/../node_modules/@patternfly/react-styles/__mocks__/styleMock.js',
   },
   testEnvironment: 'jsdom',
   collectCoverageFrom: [
@@ -29,7 +30,7 @@ const config = {
     '!**/mock/**/*',
     // Wrapper around graphql - not something we need/wish to test
     '!Bootstrap/GraphQLClient/**',
-    '!Bootstrap/bootstrap.tsx'
+    '!Bootstrap/bootstrap.tsx',
   ],
 };
 

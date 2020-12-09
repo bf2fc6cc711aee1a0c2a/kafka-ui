@@ -11,10 +11,10 @@ export default {
     operations: {
       create: ({ mutations }) => {
         if (Object.keys(mutations).length === 0) {
-          throw new Error("mutations is empty")
+          throw new Error('mutations is empty');
         }
         return true;
       },
-    }
+    },
   },
 } as Expectations;

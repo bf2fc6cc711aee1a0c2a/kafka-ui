@@ -46,9 +46,11 @@ export default {
     },
     subscriptions: {
       topicsUpdate: ({ subscriptions }) => {
-        return subscriptions['topicAdded'] &&
+        return (
+          subscriptions['topicAdded'] &&
           subscriptions['topicAdded'].type.kind === 'OBJECT' &&
-          subscriptions['topicAdded'].type.name === 'Topic';
+          subscriptions['topicAdded'].type.name === 'Topic'
+        );
       }, // function that checks for a named subscription which relates to topics
     },
   },

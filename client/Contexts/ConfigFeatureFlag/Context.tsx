@@ -58,11 +58,11 @@ const ConfigFeatureFlagProvider: FunctionComponent = ({
   const sanitisedParams = sanitiseUrlParams(getLocation().search);
   const featureFlagsFromUrl = sanitisedParams.ff
     ? sanitisedParams.ff
-      .split(',')
-      .map((encodedKeyValuePair) => encodedKeyValuePair.split('='))
-      .reduce((acc, [ffKey, value]) => {
-        return set(acc, ffKey, value === 'true');
-      }, {})
+        .split(',')
+        .map((encodedKeyValuePair) => encodedKeyValuePair.split('='))
+        .reduce((acc, [ffKey, value]) => {
+          return set(acc, ffKey, value === 'true');
+        }, {})
     : {};
   const featureFlagsWithUrlFlags = merge(
     merge({}, featureFlags),

@@ -49,9 +49,7 @@ const indexBy = <T>(array: readonly T[], propName: string) => {
   return keyBy(array, (thing) => {
     const prop = thing[propName];
     if (typeof prop !== 'string') {
-      throw new Error(
-        `key identified by ${propName} must be of type string`
-      );
+      throw new Error(`key identified by ${propName} must be of type string`);
     }
     return prop;
   });
