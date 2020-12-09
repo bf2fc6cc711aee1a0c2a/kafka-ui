@@ -18,9 +18,19 @@ When('it is rendered', () => {
   renderResult = render(component);
 });
 
-Then('it should display text', () => {
+Then('it should display the expected text', () => {
   const { getByText } = renderResult;
   expect(getByText('Welcome to the Strimzi UI for PatternFly')).toBeInTheDocument();
 });
+
+When('it is rendered with no version', () => {
+  renderResult = render(component);
+});
+
+Then('it should display the expected text', () => {
+  const { getByText } = renderResult;
+  expect(getByText('Welcome to the Strimzi UI for PatternFly')).toBeInTheDocument();
+});
+
 
 Fusion('Home.feature');
