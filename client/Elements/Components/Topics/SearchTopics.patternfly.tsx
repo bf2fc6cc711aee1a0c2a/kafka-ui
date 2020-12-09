@@ -6,10 +6,7 @@ import React, {useState} from 'react';
 import {InputGroup, SearchInput} from '@patternfly/react-core';
 import {useTopicsModel} from "../../../Panels/Topics/Model";
 
-export interface ISearchTopics {
-}
-
-const SearchTopics: React.FunctionComponent<ISearchTopics> = () => {
+const SearchTopics: React.FunctionComponent = () => {
     const [search, setSearch] = useState('');
 
     const {updateTopicsFilter} = useTopicsModel();
@@ -17,7 +14,7 @@ const SearchTopics: React.FunctionComponent<ISearchTopics> = () => {
         setSearch(value);
         updateTopicsFilter(search);
     };
-    const onClear = (evt) => {
+    const onClear = () => {
         setSearch('');
         updateTopicsFilter(search);
     };

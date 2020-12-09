@@ -1,6 +1,13 @@
+/*
+ * Copyright Strimzi authors.
+ * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
+ */
+/* eslint-disable */
 import { gql } from '@apollo/client';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -16,13 +23,11 @@ export type Query = {
   topic: Topic;
 };
 
-
 export type QueryTopicListArgs = {
   search?: Maybe<Scalars['String']>;
   page?: Maybe<PageRequest>;
   orderBy?: Maybe<OrderByInput>;
 };
-
 
 export type QueryTopicArgs = {
   name: Scalars['String'];
@@ -33,11 +38,9 @@ export type Mutation = {
   deleteTopics?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
-
 export type MutationCreateTopicArgs = {
   input: NewTopic;
 };
-
 
 export type MutationDeleteTopicsArgs = {
   names?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -82,7 +85,7 @@ export type PageRequest = {
 
 export enum SortDirectionEnum {
   Desc = 'DESC',
-  Asc = 'ASC'
+  Asc = 'ASC',
 }
 
 export type TopicList = {

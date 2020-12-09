@@ -15,12 +15,17 @@ const Topics: FunctionComponent = ({ children }) => {
   if (model.loading) {
     topics = <p>Loading...</p>;
   } else {
-    topics = <p>{`Topics retrieved: ${JSON.stringify(model.topics)}`}</p>;
+    topics = (
+      <p>{`Topics retrieved: ${JSON.stringify(model.topicList.items)}`}</p>
+    );
   }
 
   return (
     <div className='topics'>
-      <input placeholder='filter' onChange={updateTopicsFilter} />
+      <input
+        placeholder='filter'
+        onChange={(evt) => updateTopicsFilter(evt.target.value)}
+      />
       {topics}
       {children}
     </div>

@@ -7,6 +7,8 @@ extensions:
         plugins:
           - typescript
           - typescript-react-apollo
+          - add:
+              content: '/* eslint-disable */'
     config:
       skipTypeNameForRoot: true
       skipTypename: true

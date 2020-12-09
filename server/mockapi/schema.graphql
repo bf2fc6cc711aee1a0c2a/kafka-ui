@@ -1,71 +1,83 @@
+# Copyright Strimzi authors.
+# License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
 type Query {
-    """ search: can contain any form of Kafka topic name """
-    topicList(search: String, page: PageRequest, orderBy: OrderByInput): TopicList
-    topic(name: String!): Topic!
+  """
+  search: can contain any form of Kafka topic name
+  """
+  topicList(search: String, page: PageRequest, orderBy: OrderByInput): TopicList
+  topic(name: String!): Topic!
 }
 
 type Mutation {
-    createTopic(input: NewTopic!): Topic!
-    deleteTopics(names: [String]): [String]
+  createTopic(input: NewTopic!): Topic!
+  deleteTopics(names: [String]): [String]
 }
 
 type Topic {
-    """ID"""
-    name: String
-    isInternal: Boolean
-    partitions: [Partition!]!
-    config: [ConfigEntry]
+  """
+  ID
+  """
+  name: String
+  isInternal: Boolean
+  partitions: [Partition!]!
+  config: [ConfigEntry]
 }
 
-"""embedded in Topic"""
+"""
+embedded in Topic
+"""
 type Partition {
-    """ID"""
-    partition: Int
-    replicas: [Node!]!
-    """InSyncReplicas"""
-    isr: [Node]
-    leader: Node
+  """
+  ID
+  """
+  partition: Int
+  replicas: [Node!]!
+  """
+  InSyncReplicas
+  """
+  isr: [Node]
+  leader: Node
 }
 
 type Node {
-    id: Int!
+  id: Int!
 }
 
 type ConfigEntry {
-    key: String!
-    value: String!
+  key: String!
+  value: String!
 }
 
 input OrderByInput {
-    field: String!
-    order: SortDirectionEnum = ASC
+  field: String!
+  order: SortDirectionEnum = ASC
 }
 
 input PageRequest {
-    limit: Int
-    offset: Int
+  limit: Int
+  offset: Int
 }
 
 enum SortDirectionEnum {
-    DESC
-    ASC
+  DESC
+  ASC
 }
 
 type TopicList {
-    items: [Topic]!
-    offset: Int
-    limit: Int
-    count: Int
+  items: [Topic]!
+  offset: Int
+  limit: Int
+  count: Int
 }
 
 input NewTopicConfigEntry {
-    key: String
-    value: String
+  key: String
+  value: String
 }
 
 input NewTopic {
-    name: String!
-    numPartitions: Int!
-    replicationFactor: Int!
-    config: [NewTopicConfigEntry]
+  name: String!
+  numPartitions: Int!
+  replicationFactor: Int!
+  config: [NewTopicConfigEntry]
 }
