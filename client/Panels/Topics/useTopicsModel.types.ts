@@ -4,24 +4,15 @@
  */
 import { ApolloError } from '@apollo/client';
 import { ChangeEvent } from 'react';
+import {TopicList} from "../../Entities/Entities.generated";
 
 /** the shape of the object returned by the useTopicsModel hook */
 export type useTopicsModelType = {
   model: {
     filter: string | undefined;
-    topics: topicType[];
+    topicList: TopicList;
     error: ApolloError | undefined;
     loading: boolean;
   };
-  updateTopicsFilter: (evt: ChangeEvent<HTMLInputElement>) => void;
-};
-
-export type topicsType = {
-  topics: topicType[];
-};
-
-export type topicType = {
-  name: string;
-  partitions: number;
-  replicas: number;
+  updateTopicsFilter: (filter: string) => void;
 };

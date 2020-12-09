@@ -5,7 +5,7 @@
 import {Fusion, Given, Then, When} from 'jest-cucumber-fusion';
 import {render, RenderResult} from "@testing-library/react";
 import React, {ReactElement} from "react";
-import Topics from "./Topics.patternfly";
+import Topics from "./View.patternfly";
 
 
 let renderResult: RenderResult;

@@ -4,12 +4,19 @@
  */
 import gql from 'graphql-tag';
 
-export const GET_TOPICS = gql`
-  query Topics($filter: String) {
-    topics(filter: $filter) {
-      name
-      partitions
-      replicas
+export const
+  GET_TOPICS = gql`
+    query Topics($filter: String) {
+        topicList(search: $filter) {
+            items {
+                name
+                partitions {
+                    partition
+                    replicas {
+                        id
+                    }
+                }
+            }
+        }
     }
-  }
 `;
