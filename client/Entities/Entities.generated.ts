@@ -10,6 +10,39 @@ export type Scalars = {
   Float: number;
 };
 
+export type Query = {
+  /**  search: can contain any form of Kafka topic name  */
+  topicList?: Maybe<TopicList>;
+  topic: Topic;
+};
+
+
+export type QueryTopicListArgs = {
+  search?: Maybe<Scalars['String']>;
+  page?: Maybe<PageRequest>;
+  orderBy?: Maybe<OrderByInput>;
+};
+
+
+export type QueryTopicArgs = {
+  name: Scalars['String'];
+};
+
+export type Mutation = {
+  createTopic: Topic;
+  deleteTopics?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+
+export type MutationCreateTopicArgs = {
+  input: NewTopic;
+};
+
+
+export type MutationDeleteTopicsArgs = {
+  names?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
 export type Topic = {
   /** ID */
   name?: Maybe<Scalars['String']>;
