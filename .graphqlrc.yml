@@ -3,7 +3,7 @@ schema: https://raw.githubusercontent.com/strimzi/strimzi-admin/d73f77de68ad15d5
 extensions:
   codegen:
     generates:
-      ./generated/entityModelConstants.ts:
+      ./client/Entities/Entities.generated.ts:
         plugins:
           - typescript
           - typescript-react-apollo
