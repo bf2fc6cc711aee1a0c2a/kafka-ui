@@ -2,14 +2,14 @@
  * Copyright Strimzi authors.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
-import React from "react";
-import "@patternfly/react-core/dist/styles/base.css";
+import React from 'react';
+import '@patternfly/react-core/dist/styles/base.css';
 import {
   TextContent,
   Text,
   TextVariants,
   Touchspin,
-} from "@patternfly/react-core";
+} from '@patternfly/react-core';
 
 interface IStepPartitions {
   setPartitionTouchspinValue: (value: number) => void;
@@ -26,10 +26,13 @@ export const StepPartitions: React.FC<IStepPartitions> = ({
   const handleOnMinus = () => {
     setPartitionTouchspinValue(partitionTouchspinValue - 1);
   };
+  const handlePartitionTouchspinChange = (event) => {
+    setPartitionTouchspinValue(Number(event.target.value));
+  };
 
   return (
     <>
-      <TextContent className="topics-wizard-content">
+      <TextContent className='topics-wizard-content'>
         <Text component={TextVariants.h2}>Partitions</Text>
         <Text component={TextVariants.p}>
           One or more partitions make up a topic. A partition is an ordered list
@@ -44,6 +47,8 @@ export const StepPartitions: React.FC<IStepPartitions> = ({
           onPlus={handleOnPlus}
           onMinus={handleOnMinus}
           value={partitionTouchspinValue}
+          inputName='input'
+          onChange={handlePartitionTouchspinChange}
         />
       </TextContent>
     </>
