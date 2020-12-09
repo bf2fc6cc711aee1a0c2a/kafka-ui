@@ -2,7 +2,7 @@
  * Copyright Strimzi authors.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
-import {ChangeEvent, useCallback, useState} from 'react';
+import {useCallback, useState} from 'react';
 import {GET_TOPICS} from 'Queries/Topics';
 import {useQuery} from '@apollo/client';
 import {useTopicsModelType} from './useTopicsModel.types';
@@ -17,7 +17,7 @@ const onChangeEvent = (
 export const useTopicsModel = (): useTopicsModelType => {
     const [filter, setTopicsFilter] = useState();
     const debouncedUpdateTopicsFilter = useCallback(
-        debounce(setTopicsFilter, 500),
+        () => debounce(setTopicsFilter, 500),
         []
     );
     const {data, loading, error} = useQuery<Query>(GET_TOPICS, {

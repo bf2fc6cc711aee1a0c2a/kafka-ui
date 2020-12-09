@@ -12,7 +12,6 @@ import {
   ToolbarItem,
   ToolbarContent,
 } from '@patternfly/react-core';
-import { TopicsData } from './mocks/TopicsData';
 
 import {
   Table,
@@ -21,7 +20,7 @@ import {
   TableBody,
 } from '@patternfly/react-table';
 import { SearchTopics } from './SearchTopics.patternfly';
-import {useTopicsModel} from "../../../Panels/Topics/Model";
+import { useTopicsModel } from '../../../Panels/Topics/Model';
 export interface ITopic {
   name: string;
   replicas: number;
@@ -34,7 +33,6 @@ export interface ITopicProps {
 export const TopicsList: React.FunctionComponent = () => {
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(10);
-  const [, setViewFilteredTable] = useState<boolean>(false);;
   const [offset, setOffset] = useState(0);
 
   const { model } = useTopicsModel();
@@ -56,7 +54,9 @@ export const TopicsList: React.FunctionComponent = () => {
 
   const rowData = model.topicList.items.map((topic) => [
     topic?.name,
-    topic?.partitions?.map(p => p.replicas.length).reduce((previousValue, currentValue) => previousValue + currentValue),
+    topic?.partitions
+      ?.map((p) => p.replicas.length)
+      .reduce((previousValue, currentValue) => previousValue + currentValue),
     topic?.partitions?.length,
   ]);
 
