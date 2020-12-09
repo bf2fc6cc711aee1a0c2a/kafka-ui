@@ -1,4 +1,4 @@
-schema: https://raw.githubusercontent.com/rkpattnaik780/enmasse/14c4e82a0c13370d5e14a74669982e1a1105a0ba/console/console-init/ui/mock-console-server/schema.graphql
+schema: https://raw.githubusercontent.com/strimzi/strimzi-admin/d73f77de68ad15d5b155d7e555200393b5b68596/kafka-admin/src/main/resources/graphql-schema/kafka-admin.graphql
 
 extensions:
   codegen:
