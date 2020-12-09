@@ -33,6 +33,8 @@ const {
 } = moduleLoaders;
 const { DEVELOPMENT, BUILD_DIR, BUNDLE_ANALYSER_DIR } = CONSTANTS;
 
+const publicPath = `http${devEnvToUseTls ? 's' : ''}://${webpackDevServer.hostname}:${webpackDevServer.port}/`;
+
 const devSpecificConfig = {
   mode: DEVELOPMENT,
   module: {
@@ -86,7 +88,7 @@ const devSpecificConfig = {
     },
   },
   output: {
-    publicPath: `http${devEnvToUseTls ? 's' : ''}://${webpackDevServer.hostname}:${webpackDevServer.port}/`
+    publicPath
   }
 };
 

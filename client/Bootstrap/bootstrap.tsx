@@ -10,6 +10,8 @@ import {apolloClient} from "./GraphQLClient";
 import {ConfigFeatureFlagProvider, FeatureFlag} from "../Contexts/ConfigFeatureFlag";
 import {LoggingProvider} from "../Contexts/Logging";
 import {Topics} from "../Panels/Topics";
+import {Switch, Route, HashRouter as Router} from 'react-router-dom';
+import {Home} from "../Panels/Home";
 
 init(); //Bootstrap i18next support
 ReactDOM.render(
@@ -17,10 +19,17 @@ ReactDOM.render(
         <ConfigFeatureFlagProvider>
             <LoggingProvider>
                 <FeatureFlag flag={'client.Pages.PlaceholderHome'}>
-                    <Topics/>
+                    <Router>
+                        <Switch>
+                            <Route path='/' component={Home} exact />
+                            <Route path='/topics' component={Topics} exact />
+                        </Switch>
+                    </Router>
                 </FeatureFlag>
             </LoggingProvider>
         </ConfigFeatureFlagProvider>
     </ApolloProvider>,
     document.getElementById('root')
 );
+
+
