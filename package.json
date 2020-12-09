@@ -3,6 +3,7 @@
   "federatedModuleName": "strimziUi",
   "private": true,
   "version": "0.0.1",
+  "schemaUrl": "https://raw.githubusercontent.com/strimzi/strimzi-admin/d73f77de68ad15d5b155d7e555200393b5b68596/kafka-admin/src/main/resources/graphql-schema/kafka-admin.graphql",
   "description": "Strimzi UI provides a way for managing Strimzi and Kafka clusters (+ other components) deployed by it using a graphical user interface.",
   "scripts": {
     "clean": "rm -rf dist/ && rm -rf js/ && rm -rf .out/ && rm -rf generated/ && rm -rf coverage/ && npx jest --clear-cache",
@@ -36,7 +37,7 @@
     "cy:open": "cypress open --config-file e2e/cypress.json",
     "cy:closed": "cypress run --config-file e2e/cypress.json",
     "addDevCerts": "./utils/tooling/generateCerts.sh",
-    "graphql:codegen": "graphql codegen"
+    "graphql:codegen": "curl $npm_package_schemaUrl > server/mockapi/schema.graphql && graphql codegen"
   },
   "sideEffects": false,
   "repository": {
@@ -64,6 +65,7 @@
     "http-proxy": "^1.18.1",
     "i18next": "^19.8.3",
     "i18next-browser-languagedetector": "^6.0.1",
+    "lodash.debounce": "^4.0.8",
     "lodash.get": "^4.4.2",
     "lodash.keyby": "^4.6.0",
     "lodash.merge": "^4.6.2",
@@ -88,6 +90,9 @@
     "ws": "^7.3.1"
   },
   "devDependencies": {
+    "@graphql-cli/codegen": "1.17.14",
+    "@graphql-codegen/typescript": "1.17.11",
+    "@graphql-codegen/typescript-react-apollo": "2.1.1",
     "@storybook/addon-actions": "^6.0.28",
     "@storybook/addon-essentials": "^6.0.28",
     "@storybook/addon-knobs": "^6.0.28",
@@ -128,6 +133,7 @@
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.2.0",
     "file-loader": "^6.2.0",
+    "graphql-cli": "4.1.0",
     "html-webpack-plugin": "^5.0.0-alpha.14",
     "husky": "^4.3.0",
     "jest": "^26.6.3",
@@ -135,6 +141,7 @@
     "license-check-and-add": "^3.0.4",
     "lint-staged": "^10.5.1",
     "mock-socket": "^9.0.3",
+    "node-fetch": "^2.6.1",
     "nodemon": "^2.0.6",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.1.2",
@@ -160,10 +167,6 @@
     "webpack-bundle-analyzer": "^3.9.0",
     "webpack-cli": "^4.1.0",
     "webpack-dev-server": "^3.11.0",
-    "webpack-node-externals": "^2.5.2",
-    "graphql-cli": "4.1.0",
-    "@graphql-cli/codegen": "1.17.14",
-    "@graphql-codegen/typescript": "1.17.11",
-    "@graphql-codegen/typescript-react-apollo": "2.1.1"
+    "webpack-node-externals": "^2.5.2"
   }
 }

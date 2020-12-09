@@ -4,5 +4,10 @@
  */
 
 // placeholder GQL schema for a topic/topic list - ideally to come from file
-export const schema =
-  'type Topic {name: String partitions: Int replicas: Int } type Query { topic(name: String): Topic topics: [Topic] } ';
+var fs = require('fs');
+
+const loadSchema = () => {
+    return fs.readFileSync('./server/mockapi/schema.graphql', 'utf8');
+}
+
+export const schema = `${loadSchema()}`;

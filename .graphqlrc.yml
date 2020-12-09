@@ -1,4 +1,4 @@
-schema: https://raw.githubusercontent.com/strimzi/strimzi-admin/d73f77de68ad15d5b155d7e555200393b5b68596/kafka-admin/src/main/resources/graphql-schema/kafka-admin.graphql
+schema: ./server/mockapi/schema.graphql
 
 extensions:
   codegen:

@@ -12,7 +12,7 @@ import {
   ToolbarItem,
   ToolbarContent,
 } from '@patternfly/react-core';
-import { TopicsData } from './TopicsData';
+import { TopicsData } from './mocks/TopicsData';
 
 import {
   Table,
@@ -21,6 +21,7 @@ import {
   TableBody,
 } from '@patternfly/react-table';
 import { SearchTopics } from './SearchTopics.patternfly';
+import {useTopicsModel} from "../../../Panels/Topics/Model";
 export interface ITopic {
   name: string;
   replicas: number;
@@ -33,9 +34,10 @@ export interface ITopicProps {
 export const TopicsList: React.FunctionComponent = () => {
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(10);
-  const [, setViewFilteredTable] = useState<boolean>(false);
-  const [tableData, setTableData] = useState(TopicsData);
+  const [, setViewFilteredTable] = useState<boolean>(false);;
   const [offset, setOffset] = useState(0);
+
+  const { model } = useTopicsModel();
 
   const onSetPage = (_event, pageNumber: number) => {
     setPage(pageNumber);
@@ -52,10 +54,10 @@ export const TopicsList: React.FunctionComponent = () => {
     { title: 'Partitions' },
   ];
 
-  const rowData = tableData.map((topic) => [
-    topic.name,
-    topic.replicas,
-    topic.partitions,
+  const rowData = model.topicList.items.map((topic) => [
+    topic?.name,
+    topic?.partitions?.map(p => p.replicas.length).reduce((previousValue, currentValue) => previousValue + currentValue),
+    topic?.partitions?.length,
   ]);
 
   const actions = [{ title: 'Edit' }, { title: 'Delete' }];
@@ -65,10 +67,7 @@ export const TopicsList: React.FunctionComponent = () => {
         <Toolbar>
           <ToolbarContent>
             <ToolbarItem>
-              <SearchTopics
-                viewFilteredTable={setViewFilteredTable}
-                tableData={setTableData}
-              />
+              <SearchTopics />
             </ToolbarItem>
             <ToolbarItem>
               <Button className='topics-per-page'>Create topic</Button>
