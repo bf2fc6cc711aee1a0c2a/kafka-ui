@@ -14,8 +14,8 @@ import {
 } from '@apollo/client';
 
 export type ApolloClientProps = {
-  basePath: string;
-  middlewares: ApolloLink[];
+  basePath?: string;
+  middlewares?: ApolloLink[];
 };
 
 const getApolloClient = ({
