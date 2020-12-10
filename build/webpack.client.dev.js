@@ -39,6 +39,7 @@ const publicPath = `http${devEnvToUseTls ? 's' : ''}://${
 
 const devSpecificConfig = {
   mode: DEVELOPMENT,
+  devtool: 'eval-source-map',
   module: {
     rules: [
       withStylingModuleLoader(['style-loader']),
