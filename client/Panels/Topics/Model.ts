@@ -15,7 +15,7 @@ const onChangeEvent = (value: string, callWithValue: (value: string) => void) =>
 export const useTopicsModel = (): useTopicsModelType => {
   const [filter, setTopicsFilter] = useState();
   const debouncedUpdateTopicsFilter = useCallback(
-    () => debounce(setTopicsFilter, 500),
+    (value) => debounce(setTopicsFilter(value), 500),
     []
   );
   const { data, loading, error } = useQuery<Query>(GET_TOPICS, {
