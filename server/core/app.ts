@@ -23,12 +23,14 @@ export const returnExpress: (
   const { session } = getConfig();
 
   // add helmet middleware
-  app.use(
+  if (process.env.NODE_ENV === 'production') {
+    app.use(helmet());
+  } else {
+    // Needed to enable the graphql playground
     helmet({
-      contentSecurityPolicy:
-        process.env.NODE_ENV === 'production' ? undefined : false,
+      contentSecurityPolicy: false
     })
-  );
+  }
 
   // add pino-http middleware
   app.use(generateHttpLogger());
