@@ -16,12 +16,6 @@ Feature: core module
         When I make a request with a unique request header
         Then the unique request header sent is returned in the response
 
-    Scenario: When making a call to the strimzi-ui server, the expected secuirty headers are present
-        Given a 'mockapi_only' server configuration
-        And I run an instance of the Strimzi-UI server
-        When I make a 'get' request to '/api/test'
-        Then all expected security headers are present
-
     Scenario: If two modules mount routes on the same mounting point, and one is disabled, the enabled module is invoked
         Given a 'mockapi_only' server configuration
         And I run an instance of the Strimzi-UI server
