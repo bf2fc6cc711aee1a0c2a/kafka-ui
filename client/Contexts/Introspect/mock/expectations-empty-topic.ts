@@ -8,6 +8,6 @@ import { Expectations } from '../ExpectationTypes';
 export default {
   Topic: {
     type: 'Topic', // the GraphQL type name
-    fields: {}
+    fields: {},
   },
 } as Expectations;

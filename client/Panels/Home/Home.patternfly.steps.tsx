@@ -20,7 +20,9 @@ When('it is rendered', () => {
 
 Then('it should display the expected text', () => {
   const { getByText } = renderResult;
-  expect(getByText('Welcome to the Strimzi UI for PatternFly')).toBeInTheDocument();
+  expect(
+    getByText('Welcome to the Strimzi UI for PatternFly')
+  ).toBeInTheDocument();
 });
 
 When('it is rendered with no version', () => {
@@ -29,8 +31,9 @@ When('it is rendered with no version', () => {
 
 Then('it should display the expected text', () => {
   const { getByText } = renderResult;
-  expect(getByText('Welcome to the Strimzi UI for PatternFly')).toBeInTheDocument();
+  expect(
+    getByText('Welcome to the Strimzi UI for PatternFly')
+  ).toBeInTheDocument();
 });
-
 
 Fusion('Home.feature');

@@ -23,7 +23,12 @@ export const returnExpress: (
   const { session } = getConfig();
 
   // add helmet middleware
-  app.use(helmet({ contentSecurityPolicy: (process.env.NODE_ENV === 'production') ? undefined : false }));
+  app.use(
+    helmet({
+      contentSecurityPolicy:
+        process.env.NODE_ENV === 'production' ? undefined : false,
+    })
+  );
 
   // add pino-http middleware
   app.use(generateHttpLogger());

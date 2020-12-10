@@ -7,6 +7,6 @@ import { Expectations } from '../ExpectationTypes';
 
 export default {
   Foo: {
-    type: 'Foo'
-  }
+    type: 'Foo',
+  },
 } as Expectations;

@@ -23,7 +23,7 @@ const {
   withMiniCssExtractPlugin,
   withWebpackBundleAnalyzerPlugin,
   withTsconfigPathsPlugin,
-  withModuleFederationPlugin
+  withModuleFederationPlugin,
 } = plugins;
 const {
   withStylingModuleLoader,
@@ -33,7 +33,9 @@ const {
 } = moduleLoaders;
 const { DEVELOPMENT, BUILD_DIR, BUNDLE_ANALYSER_DIR } = CONSTANTS;
 
-const publicPath = `http${devEnvToUseTls ? 's' : ''}://${webpackDevServer.hostname}:${webpackDevServer.port}/`;
+const publicPath = `http${devEnvToUseTls ? 's' : ''}://${
+  webpackDevServer.hostname
+}:${webpackDevServer.port}/`;
 
 const devSpecificConfig = {
   mode: DEVELOPMENT,
@@ -59,7 +61,7 @@ const devSpecificConfig = {
       analyzerMode: 'static',
       reportFilename: `${BUNDLE_ANALYSER_DIR}/bundles.html`, // when in dev mode, produce a static html file
     }),
-    withModuleFederationPlugin
+    withModuleFederationPlugin,
   ],
   resolve: {
     plugins: [withTsconfigPathsPlugin({ configFile: 'client/tsconfig.json' })],
@@ -88,8 +90,8 @@ const devSpecificConfig = {
     },
   },
   output: {
-    publicPath
-  }
+    publicPath,
+  },
 };
 
 module.exports = returnBasicConfigMergedWith(devSpecificConfig);

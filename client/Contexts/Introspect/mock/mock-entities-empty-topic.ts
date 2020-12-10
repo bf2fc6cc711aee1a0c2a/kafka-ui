@@ -20,7 +20,7 @@ export const entitiesBasic = {
     type: 'Other',
   },
   Topic: {
-    fields: { },
+    fields: {},
     operations: { create: true, update: true, delete: false, findByName: true },
     subscriptions: { topicsUpdate: true },
     type: 'Topic',
