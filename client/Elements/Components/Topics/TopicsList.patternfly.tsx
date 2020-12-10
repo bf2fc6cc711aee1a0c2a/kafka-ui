@@ -4,28 +4,30 @@
  */
 import React, { useState } from 'react';
 import {
-  Divider,
-  Pagination,
   Button,
   Card,
+  Divider,
+  Pagination,
   Toolbar,
-  ToolbarItem,
   ToolbarContent,
+  ToolbarItem,
 } from '@patternfly/react-core';
 
 import {
   Table,
-  TableVariant,
-  TableHeader,
   TableBody,
+  TableHeader,
+  TableVariant,
 } from '@patternfly/react-table';
 import { SearchTopics } from './SearchTopics.patternfly';
 import { useTopicsModel } from '../../../Panels/Topics/Model';
+
 export interface ITopic {
   name: string;
   replicas: number;
   partitions: number;
 }
+
 export interface ITopicProps {
   rows: ITopic[];
 }
