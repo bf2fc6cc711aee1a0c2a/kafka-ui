@@ -7,8 +7,6 @@
 
 import { readFileSync } from 'fs';
 
-const loadSchema = () => {
+export const loadSchema = (): string => {
   return readFileSync('./server/mockapi/schema.graphql', 'utf8');
 };
-
-export const schema = `${loadSchema()}`;

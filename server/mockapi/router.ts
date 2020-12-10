@@ -6,7 +6,7 @@ import express from 'express';
 import { UIServerModule } from 'types';
 import bodyParser from 'body-parser';
 import { ApolloServer } from 'apollo-server-express';
-import { schema } from './data';
+import { loadSchema } from './data';
 
 const moduleName = 'mockapi';
 
@@ -26,7 +26,7 @@ export const MockApiModule: UIServerModule = {
     });
 
     const server = new ApolloServer({
-      typeDefs: schema,
+      typeDefs: loadSchema(),
       resolvers: {},
       debug: true,
       mockEntireSchema: true,
