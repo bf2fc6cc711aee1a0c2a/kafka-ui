@@ -1,3 +1,7 @@
+/*
+ * Copyright Strimzi authors.
+ * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
+ */
 .topics-wizard-content {
   max-width: 500px;
 }
@@ -15,7 +19,7 @@
 }
 
 .radio-step-3 {
-  margin-top: -36px;
+  margin-top: -22px;
 }
 
 .create-topic-wizard {

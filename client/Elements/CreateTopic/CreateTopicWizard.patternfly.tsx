@@ -22,7 +22,7 @@ import { StepTopicName } from "./StepTopicName.patternfly";
 import { StepPartitions } from "./StepPartitions.patternfly";
 import { StepMessageRetention } from "./StepMessageRetention.patternfly";
 import { StepReplicas } from "./StepReplicas.patternfly";
-import "./CreateTopicWizard.patternfly.css"
+import "./CreateTopicWizard.patternfly.css";
 
 interface ICreateTopicWizard {
   setIsCreateTopic: (value: boolean) => void;
@@ -33,9 +33,17 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
 }) => {
   const [alertVisible, setAlertVisible] = useState(false);
   const [isSwitchChecked, setIsSwitchChecked] = useState(false);
-  const [msgRetentionValue, setMsgRetentionValue] = useState("");
+  const [msgRetentionValue, setMsgRetentionValue] = useState(1);
   const [topicNameInput, setTopicNameInput] = useState("");
   const [partitionTouchspinValue, setPartitionTouchspinValue] = useState(1);
+  const [
+    replicationFactorTouchspinValue,
+    setReplicationFactorTouchspinValue,
+  ] = useState(1);
+  const [
+    minInSyncReplicaTouchspinValue,
+    setMinInSyncReplicaTouchspinValue,
+  ] = useState(1);
 
   const mainBreadcrumbs = (
     <Breadcrumb>
@@ -60,8 +68,20 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   };
 
   const closeWizard = () => {
-    // setIsCreateTopic(false);
-    // setAlertVisible(true);
+    setIsCreateTopic(false);
+  };
+
+  const saveTopic = () => {
+    //Object may change based on schema
+    const topic = {
+      name: topicNameInput,
+      partitions: partitionTouchspinValue,
+      replicationFactor: replicationFactorTouchspinValue,
+      minInSyncReplicaTouchspinValue: minInSyncReplicaTouchspinValue,
+      messageRetention: msgRetentionValue,
+    };
+    //call controller/model method to save Topic
+    setAlertVisible(true);
   };
 
   const steps = [
@@ -91,7 +111,16 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     },
     {
       name: "Replicas",
-      component: <StepReplicas setMsgRetentionValue={setMsgRetentionValue} />,
+      component: (
+        <StepReplicas
+          setReplicationFactorTouchspinValue={
+            setReplicationFactorTouchspinValue
+          }
+          setMinInSyncReplicaTouchspinValue={setMinInSyncReplicaTouchspinValue}
+          replicationFactorTouchspinValue={replicationFactorTouchspinValue}
+          minInSyncReplicaTouchspinValue={minInSyncReplicaTouchspinValue}
+        />
+      ),
       nextButtonText: "Finish",
     },
   ];
@@ -156,6 +185,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
             mainAriaLabel={`${title} content`}
             steps={steps}
             onClose={closeWizard}
+            onSave={saveTopic}
           />
         </PageSection>
       )}
