@@ -140,10 +140,16 @@ export interface expressMiddleware {
     next: express.NextFunction
   ): void;
 }
+
+interface dictionary {
+  [key: string]: string;
+}
+
 /** the request object provided on UI server request. Core express request plus additions */
 export type strimziUIRequestType = express.Request & {
   /** indicates this request is a websocket request (and that the response will have a ws object to interact with) */
   isWs: boolean | false;
+  locals: dictionary;
   headers: {
     /** unique identifier for a request. If not present, will be added by the core module, and returned in the response */
     'x-strimzi-ui-request': string;
