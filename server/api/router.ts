@@ -34,6 +34,8 @@ export const ApiModule: UIServerModule = {
     ) => {
       const token = req.header('X-API-OpenShift-Com-Token');
       const id = req.header('X-Kafka-ID');
+      req.headers['x-api-openshift-com-token'] = '';
+      req.headers['X-Kafka-ID'] = '';
       if (token === undefined || id === undefined) {
         return next();
       }
@@ -51,15 +53,33 @@ export const ApiModule: UIServerModule = {
         console.log(data);
         const host = data['bootstrapServerHost'];
         console.log(host);
-        res.locals.proxyTarget = host;
+        req['locals'].proxyTarget = `https://admin-server-${host}/graphql`;
         next();
       } else {
         throw new Error(`Unable to load ${id} from API because ${data}`);
       }
     };
 
+    /*const useSpecifiedBootstrapHostMiddleware = async (
+            req: Request,
+            res: Response,
+            next: NextFunction
+        ) => {
+            req["locals"].proxyTarget = "https://admin-server-my-cluster--lvxuydnqmjzftmtehrpobunwla.apps.ppatiern.sqe5.s1.devshift.org/graphql";
+            return next();
+        }*/
+
+    const useLocalsMiddleware = async (
+      req: Request,
+      res: Response,
+      next: NextFunction
+    ) => {
+      req['locals'] = {};
+      return next();
+    };
+
     const proxyMiddleware = (req: Request, res: Response) => {
-      const target = res.locals.proxyTarget;
+      const target = req['locals'].proxyTarget;
       const proxyConfig = {
         target:
           target ||
@@ -69,6 +89,7 @@ export const ApiModule: UIServerModule = {
         changeOrigin: true,
         secure: cert ? true : false,
       };
+      console.log(proxyConfig);
       const cfg = { ...proxyConfig, target };
       backendProxy.web(req, res, cfg);
     };
@@ -82,6 +103,7 @@ export const ApiModule: UIServerModule = {
       '*',
       middlewares,
       cors(),
+      useLocalsMiddleware,
       findBootstrapServerHostMiddleware,
       proxyMiddleware
     );
