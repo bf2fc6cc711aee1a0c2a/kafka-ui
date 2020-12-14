@@ -2,8 +2,8 @@
  * Copyright Strimzi authors.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
-import React, { useState } from "react";
-import "@patternfly/react-core/dist/styles/base.css";
+import React, { useState } from 'react';
+import '@patternfly/react-core/dist/styles/base.css';
 import {
   Form,
   FormGroup,
@@ -12,8 +12,8 @@ import {
   Text,
   TextVariants,
   Touchspin,
-} from "@patternfly/react-core";
-import "./CreateTopicWizard.patternfly.css";
+} from '@patternfly/react-core';
+import './CreateTopicWizard.patternfly.css';
 
 interface IStepReplicas {
   setReplicationFactorTouchspinValue: (value: number) => void;
@@ -40,15 +40,15 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
     const target = event.target;
     const name = target.name;
 
-    if (name === "radio4") {
+    if (name === 'radio4') {
       setRadio1Step4(true);
       setMinInSyncReplicaTouchspinValue(1);
       setReplicationFactorTouchspinValue(1);
-    } else if (name === "radio5") {
+    } else if (name === 'radio5') {
       setRadio2Step4(true);
       setMinInSyncReplicaTouchspinValue(2);
       setReplicationFactorTouchspinValue(2);
-    } else if (name === "radio6") {
+    } else if (name === 'radio6') {
       setRadio3Step4(true);
       setMinInSyncReplicaTouchspinValue(minInSyncReplicaTouchspinValue);
       setReplicationFactorTouchspinValue(replicationFactorTouchspinValue);
@@ -77,7 +77,7 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
 
   return (
     <>
-      <TextContent className="topics-wizard-content">
+      <TextContent className='topics-wizard-content'>
         <Text component={TextVariants.h2}>Replicas</Text>
         <Text component={TextVariants.p}>
           This is how many copies of a topic will be made for high availability.
@@ -88,37 +88,37 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
         </Text>
         <Form>
           <FormGroup
-            fieldId="create-wizard-replica-form-group"
-            label="Replicas"
-            className="form-group-radio"
+            fieldId='create-wizard-replica-form-group'
+            label='Replicas'
+            className='form-group-radio'
           >
             <Radio
               isChecked={radio1Step4}
-              name="radio4"
+              name='radio4'
               onChange={handleChangeStep4}
-              label="Replication factor: 1"
-              id="radio-controlled-4"
-              value="radio4"
-              description="Minimum in-sync replicas: 1"
+              label='Replication factor: 1'
+              id='radio-controlled-4'
+              value='radio4'
+              description='Minimum in-sync replicas: 1'
             />
             <Radio
               isChecked={radio2Step4}
-              name="radio5"
+              name='radio5'
               onChange={handleChangeStep4}
-              label="Replication factor: 2"
-              id="radio-controlled-5"
-              value="radio5"
-              description="Minimum in-sync replicas: 2"
+              label='Replication factor: 2'
+              id='radio-controlled-5'
+              value='radio5'
+              description='Minimum in-sync replicas: 2'
             />
             <Radio
               isChecked={radio3Step4}
-              name="radio6"
+              name='radio6'
               onChange={handleChangeStep4}
-              label="Replication factor"
-              id="radio-controlled-6"
-              value="radio6"
+              label='Replication factor'
+              id='radio-controlled-6'
+              value='radio6'
             />
-            <div className="radio-description">
+            <div className='radio-description'>
               <Touchspin
                 value={replicationFactorTouchspinValue}
                 onMinus={handleOnMinusReplicationFactorFactor}
@@ -127,7 +127,7 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
               />
               <Text
                 component={TextVariants.small}
-                className="minimum-in-sync-replicas"
+                className='minimum-in-sync-replicas'
               >
                 Minimum in-sync replicas
               </Text>

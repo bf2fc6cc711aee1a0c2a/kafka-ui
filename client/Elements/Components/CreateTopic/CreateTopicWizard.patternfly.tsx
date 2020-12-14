@@ -3,8 +3,8 @@
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
 
-import React, { useState } from "react";
-import "@patternfly/react-core/dist/styles/base.css";
+import React, { useState } from 'react';
+import '@patternfly/react-core/dist/styles/base.css';
 import {
   AlertGroup,
   AlertActionCloseButton,
@@ -17,12 +17,15 @@ import {
   Switch,
   Title,
   Wizard,
-} from "@patternfly/react-core";
-import { StepTopicName } from "./StepTopicName.patternfly";
-import { StepPartitions } from "./StepPartitions.patternfly";
-import { StepMessageRetention } from "./StepMessageRetention.patternfly";
-import { StepReplicas } from "./StepReplicas.patternfly";
-import "./CreateTopicWizard.patternfly.css";
+} from '@patternfly/react-core';
+import { StepTopicName } from './StepTopicName.patternfly';
+import { StepPartitions } from './StepPartitions.patternfly';
+import { StepMessageRetention } from './StepMessageRetention.patternfly';
+import { StepReplicas } from './StepReplicas.patternfly';
+import './CreateTopicWizard.patternfly.css';
+import { CREATE_TOPIC } from 'Queries/Topics';
+import { useMutation } from '@apollo/client';
+import { NewTopic } from 'Entities/Entities.generated';
 
 interface ICreateTopicWizard {
   setIsCreateTopic: (value: boolean) => void;
@@ -33,8 +36,8 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
 }) => {
   const [alertVisible, setAlertVisible] = useState(false);
   const [isSwitchChecked, setIsSwitchChecked] = useState(false);
-  const [msgRetentionValue, setMsgRetentionValue] = useState(1);
-  const [topicNameInput, setTopicNameInput] = useState("");
+  const [setMsgRetentionValue] = useState(1);
+  const [topicNameInput, setTopicNameInput] = useState('');
   const [partitionTouchspinValue, setPartitionTouchspinValue] = useState(1);
   const [
     replicationFactorTouchspinValue,
@@ -45,15 +48,19 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     setMinInSyncReplicaTouchspinValue,
   ] = useState(1);
 
+  const [createTopic] = useMutation(CREATE_TOPIC);
+  const addTopic = async (newTopic: NewTopic) => {
+    await createTopic({ variables: { topic: newTopic } });
+  };
   const mainBreadcrumbs = (
     <Breadcrumb>
-      <BreadcrumbItem to="/openshiftstreams">
+      <BreadcrumbItem to='/openshiftstreams'>
         Red Hat OpenShift Streams for Apache Kafka
       </BreadcrumbItem>
-      <BreadcrumbItem to="/openshiftstreams">
+      <BreadcrumbItem to='/openshiftstreams'>
         MK Cluster Instance
       </BreadcrumbItem>
-      <BreadcrumbItem to="#" isActive>
+      <BreadcrumbItem to='#' isActive>
         Create topic
       </BreadcrumbItem>
     </Breadcrumb>
@@ -63,30 +70,24 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     setAlertVisible(true);
   };
 
-  const handleSwitchChange = (isSwitchChecked) => {
-    setIsSwitchChecked(isSwitchChecked);
-  };
-
   const closeWizard = () => {
     setIsCreateTopic(false);
   };
 
-  const saveTopic = () => {
+  const saveTopic = async () => {
     //Object may change based on schema
-    const topic = {
+    const topic: NewTopic = {
       name: topicNameInput,
-      partitions: partitionTouchspinValue,
+      numPartitions: partitionTouchspinValue,
       replicationFactor: replicationFactorTouchspinValue,
-      minInSyncReplicaTouchspinValue: minInSyncReplicaTouchspinValue,
-      messageRetention: msgRetentionValue,
     };
-    //call controller/model method to save Topic
+    await addTopic(topic);
     setAlertVisible(true);
   };
 
   const steps = [
     {
-      name: "Topic name",
+      name: 'Topic name',
       component: (
         <StepTopicName
           topicNameInput={topicNameInput}
@@ -95,7 +96,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       ),
     },
     {
-      name: "Partitions",
+      name: 'Partitions',
       component: (
         <StepPartitions
           partitionTouchspinValue={partitionTouchspinValue}
@@ -104,13 +105,13 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       ),
     },
     {
-      name: "Message retention",
+      name: 'Message retention',
       component: (
         <StepMessageRetention setMsgRetentionValue={setMsgRetentionValue} />
       ),
     },
     {
-      name: "Replicas",
+      name: 'Replicas',
       component: (
         <StepReplicas
           setReplicationFactorTouchspinValue={
@@ -121,15 +122,15 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
           minInSyncReplicaTouchspinValue={minInSyncReplicaTouchspinValue}
         />
       ),
-      nextButtonText: "Finish",
+      nextButtonText: 'Finish',
     },
   ];
 
-  const title = "Create topics wizard";
+  const title = 'Create topics wizard';
 
   return (
     <>
-      <section className="pf-c-page__main-breadcrumb">
+      <section className='pf-c-page__main-breadcrumb'>
         {mainBreadcrumbs}
       </section>
       <PageSection variant={PageSectionVariants.light}>
@@ -137,11 +138,11 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
           {alertVisible ? (
             <Alert
               isLiveRegion
-              variant="success"
-              title="OpenShift Streams topic created"
+              variant='success'
+              title='OpenShift Streams topic created'
               actionClose={
                 <AlertActionCloseButton
-                  aria-label="Close success alert"
+                  aria-label='Close success alert'
                   onClose={handleAlertClose}
                 />
               }
@@ -153,16 +154,16 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
           )}
         </AlertGroup>
 
-        <Title headingLevel="h1" size="lg">
+        <Title headingLevel='h1' size='lg'>
           Create topic
         </Title>
         <Switch
-          id="simple-switch"
-          label="Show all available options"
-          labelOff="Show all available options"
+          id='simple-switch'
+          label='Show all available options'
+          labelOff='Show all available options'
           isChecked={isSwitchChecked}
-          onChange={handleSwitchChange}
-          className="create-topic-wizard"
+          onChange={setIsSwitchChecked}
+          className='create-topic-wizard'
         />
       </PageSection>
       <Divider />
@@ -178,7 +179,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       ) : (
         <PageSection
           variant={PageSectionVariants.light}
-          padding={{ default: "noPadding" }}
+          padding={{ default: 'noPadding' }}
         >
           <Wizard
             navAriaLabel={`${title} steps`}

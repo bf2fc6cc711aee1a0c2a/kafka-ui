@@ -12,7 +12,7 @@ import {
   ToolbarContent,
   ToolbarItem,
 } from '@patternfly/react-core';
-
+import { useHistory } from 'react-router-dom';
 import {
   Table,
   TableBody,
@@ -39,6 +39,7 @@ export const TopicsList: React.FunctionComponent = () => {
 
   const { model } = useTopicsModel();
 
+  const history = useHistory();
   const onSetPage = (_event, pageNumber: number) => {
     setPage(pageNumber);
     setOffset(page * perPage);
@@ -72,7 +73,14 @@ export const TopicsList: React.FunctionComponent = () => {
               <SearchTopics />
             </ToolbarItem>
             <ToolbarItem>
-              <Button className='topics-per-page'>Create topic</Button>
+              <Button
+                className='topics-per-page'
+                onClick={() => {
+                  history.push('/topics/create');
+                }}
+              >
+                Create topic
+              </Button>
             </ToolbarItem>
             <ToolbarItem variant='pagination'>
               <Pagination

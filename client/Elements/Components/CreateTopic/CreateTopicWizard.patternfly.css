@@ -7,15 +7,15 @@
 }
 
 .pf-c-form__group-control > * {
-  margin-bottom: 16px;
+  margin-bottom: var(--pf-global--spacer--md);
 }
 
 .form-in-wizard {
-  padding-top: 16px;
+  padding-top: var(--pf-global--spacer--md);
 }
 
 .radio-description {
-  padding-left: 23px;
+  padding-left: var(--pf-global--spacer--lg);
 }
 
 .radio-step-3 {
@@ -23,7 +23,7 @@
 }
 
 .create-topic-wizard {
-  margin-top: 16px;
+  margin-top: var(--pf-global--spacer--md);
 }
 
 .pf-c-form__group-control > * {
@@ -31,15 +31,15 @@
 }
 
 .topics-wizard-content .pf-c-form {
-  margin-top: 24px;
+  margin-top: var(--pf-global--spacer--lg);
   margin-bottom: 64px;
 }
 
 .form-group-radio .pf-c-form__group-control > * {
-  margin-bottom: 16px;
+  margin-bottom: var(--pf-global--spacer--md);
 }
 
 .minimum-insync-replicas {
-  margin-top: 16px;
-  margin-bottom: 4px !important;
+  margin-top: var(--pf-global--spacer--md);
+  margin-bottom: var(--pf-global--spacer--xs) !important;
 }

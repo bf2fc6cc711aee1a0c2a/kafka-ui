@@ -2,8 +2,8 @@
  * Copyright Strimzi authors.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
-import React from "react";
-import "@patternfly/react-core/dist/styles/base.css";
+import React from 'react';
+import '@patternfly/react-core/dist/styles/base.css';
 import {
   Form,
   FormGroup,
@@ -11,8 +11,8 @@ import {
   Text,
   TextVariants,
   TextInput,
-} from "@patternfly/react-core";
-import "./CreateTopicWizard.patternfly.css";
+} from '@patternfly/react-core';
+import './CreateTopicWizard.patternfly.css';
 interface IStepTopicName {
   topicNameInput: string;
   setTopicNameInput: (value: string) => void;
@@ -27,7 +27,7 @@ export const StepTopicName: React.FC<IStepTopicName> = ({
   };
   return (
     <>
-      <TextContent className="topics-wizard-content">
+      <TextContent className='topics-wizard-content'>
         <Text component={TextVariants.h2}>Topic name</Text>
         <Text component={TextVariants.p}>
           This is the unique name used to recognize your topic.
@@ -38,19 +38,19 @@ export const StepTopicName: React.FC<IStepTopicName> = ({
         </Text>
         <Form>
           <FormGroup
-            label="Topic name"
-            fieldId="simple-form-name"
+            label='Topic name'
+            fieldId='simple-form-name'
             // helperText="Please enter your topic name"
           >
             <TextInput
               isRequired
-              type="text"
-              id="simple-form-name"
-              name="simple-form-name"
-              aria-describedby="simple-form-name-helper"
+              type='text'
+              id='simple-form-name'
+              name='simple-form-name'
+              aria-describedby='simple-form-name-helper'
               value={topicNameInput}
               onChange={handleTopicNameChange}
-              placeholder="Enter topic name"
+              placeholder='Enter topic name'
             />
           </FormGroup>
         </Form>
