@@ -1,0 +1,45 @@
+/*
+ * Copyright Strimzi authors.
+ * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
+ */
+.topics-wizard-content {
+  max-width: 500px;
+}
+
+.pf-c-form__group-control > * {
+  margin-bottom: var(--pf-global--spacer--md);
+}
+
+.form-in-wizard {
+  padding-top: var(--pf-global--spacer--md);
+}
+
+.radio-description {
+  padding-left: var(--pf-global--spacer--lg);
+}
+
+.radio-step-3 {
+  margin-top: -22px;
+}
+
+.create-topic-wizard {
+  margin-top: var(--pf-global--spacer--md);
+}
+
+.pf-c-form__group-control > * {
+  margin-bottom: 0;
+}
+
+.topics-wizard-content .pf-c-form {
+  margin-top: var(--pf-global--spacer--lg);
+  margin-bottom: 64px;
+}
+
+.form-group-radio .pf-c-form__group-control > * {
+  margin-bottom: var(--pf-global--spacer--md);
+}
+
+.minimum-insync-replicas {
+  margin-top: var(--pf-global--spacer--md);
+  margin-bottom: var(--pf-global--spacer--xs) !important;
+}

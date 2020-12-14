@@ -28,8 +28,8 @@ export const returnExpress: (
   } else {
     // Needed to enable the graphql playground
     helmet({
-      contentSecurityPolicy: false
-    })
+      contentSecurityPolicy: false,
+    });
   }
 
   // add pino-http middleware

@@ -19,3 +19,14 @@ export const GET_TOPICS = gql`
     }
   }
 `;
+
+export const CREATE_TOPIC = gql`
+  mutation CreateTopic($topic: NewTopic!) {
+    createTopic(input: $topic) {
+      name
+      partitions {
+        partition
+      }
+    }
+  }
+`;
