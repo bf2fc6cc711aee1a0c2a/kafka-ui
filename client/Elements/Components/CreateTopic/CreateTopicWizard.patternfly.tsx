@@ -36,7 +36,8 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
 }) => {
   const [alertVisible, setAlertVisible] = useState(false);
   const [isSwitchChecked, setIsSwitchChecked] = useState(false);
-  const [setMsgRetentionValue] = useState(1);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [msgRetentionValue, setMsgRetentionValue] = useState(1);
   const [topicNameInput, setTopicNameInput] = useState('');
   const [partitionTouchspinValue, setPartitionTouchspinValue] = useState(1);
   const [

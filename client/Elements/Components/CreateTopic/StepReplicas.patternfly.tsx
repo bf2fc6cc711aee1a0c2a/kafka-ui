@@ -28,28 +28,28 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
   replicationFactorTouchspinValue,
   minInSyncReplicaTouchspinValue,
 }) => {
-  const [radio1Step4, setRadio1Step4] = useState(false);
-  const [radio2Step4, setRadio2Step4] = useState(false);
-  const [radio3Step4, setRadio3Step4] = useState(false);
+  const [radioBtnRepFactorOne, setRadioBtnRepFactorOne] = useState(false);
+  const [radioBtnRepFactorTwo, setRadioBtnRepFactorTwo] = useState(false);
+  const [radioBtnRepFactorCustom, setRadioBtnRepFactorCustom] = useState(false);
 
   const handleChangeStep4 = (checked, event) => {
-    setRadio1Step4(false);
-    setRadio2Step4(false);
-    setRadio3Step4(false);
+    setRadioBtnRepFactorOne(false);
+    setRadioBtnRepFactorTwo(false);
+    setRadioBtnRepFactorCustom(false);
 
     const target = event.target;
     const name = target.name;
 
     if (name === 'radio4') {
-      setRadio1Step4(true);
+      setRadioBtnRepFactorOne(true);
       setMinInSyncReplicaTouchspinValue(1);
       setReplicationFactorTouchspinValue(1);
     } else if (name === 'radio5') {
-      setRadio2Step4(true);
+      setRadioBtnRepFactorTwo(true);
       setMinInSyncReplicaTouchspinValue(2);
       setReplicationFactorTouchspinValue(2);
     } else if (name === 'radio6') {
-      setRadio3Step4(true);
+      setRadioBtnRepFactorCustom(true);
       setMinInSyncReplicaTouchspinValue(minInSyncReplicaTouchspinValue);
       setReplicationFactorTouchspinValue(replicationFactorTouchspinValue);
     }
@@ -93,7 +93,7 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
             className='form-group-radio'
           >
             <Radio
-              isChecked={radio1Step4}
+              isChecked={radioBtnRepFactorOne}
               name='radio4'
               onChange={handleChangeStep4}
               label='Replication factor: 1'
@@ -102,7 +102,7 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
               description='Minimum in-sync replicas: 1'
             />
             <Radio
-              isChecked={radio2Step4}
+              isChecked={radioBtnRepFactorTwo}
               name='radio5'
               onChange={handleChangeStep4}
               label='Replication factor: 2'
@@ -111,7 +111,7 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
               description='Minimum in-sync replicas: 2'
             />
             <Radio
-              isChecked={radio3Step4}
+              isChecked={radioBtnRepFactorCustom}
               name='radio6'
               onChange={handleChangeStep4}
               label='Replication factor'
