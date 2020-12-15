@@ -43,3 +43,16 @@
   margin-top: var(--pf-global--spacer--md);
   margin-bottom: var(--pf-global--spacer--xs) !important;
 }
+
+.pf-c-jump-links__label {
+  text-transform: uppercase;
+}
+
+.pf-c-touchspin {
+  display: block;
+}
+
+.pf-c-dropdown,
+.pf-c-dropdown__toggle {
+  width: 100%;
+}
