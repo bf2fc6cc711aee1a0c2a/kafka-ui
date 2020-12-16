@@ -17,6 +17,7 @@ const modules = {
   client: false,
   config: false,
   log: false,
+  health: false,
   mockapi: false,
 };
 
@@ -33,6 +34,11 @@ const logModuleConfig: () => serverConfigType = () =>
 const configModuleConfig: () => serverConfigType = () =>
   merge({}, defaultTestConfig(), {
     modules: { ...modules, config: true },
+  });
+
+const healthModuleConfig: () => serverConfigType = () =>
+  merge({}, defaultTestConfig(), {
+    modules: { ...modules, health: true },
   });
 
 const configModuleWithConfigOverrides: () => serverConfigType = () =>
@@ -100,6 +106,8 @@ export const getConfigForName: (name: string) => serverConfigType = (name) => {
       return logModuleConfig();
     case 'config_only':
       return configModuleConfig();
+    case 'health_only':
+      return healthModuleConfig();
     case 'config_only_with_config_overrides':
       return configModuleWithConfigOverrides();
     case 'client_only':

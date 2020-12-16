@@ -26,6 +26,7 @@ module.exports = {
     client: false,
     config: true,
     log: true,
+    health: true,
     mockapi: false,
   },
   proxy: {
