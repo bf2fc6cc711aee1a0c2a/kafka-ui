@@ -9,11 +9,15 @@ export const proxyErrorHandler: (
   req: strimziUIRequestType,
   res: strimziUIResponseType
 ) => void = (err, req, res) => {
-  res.locals.strimziuicontext.logger.debug(
-    { err },
-    `Error occurred whilst proxying request '${req.url}'. ${err.message}`
-  );
-  res.sendStatus(500);
+  if (res !== undefined) {
+    res.locals.strimziuicontext.logger.debug(
+      { err },
+      `Error occurred whilst proxying request '${req.url}'. ${err.message}`
+    );
+    res.sendStatus(500);
+  } else {
+    throw err;
+  }
 };
 
 export const proxyStartHandler: (
