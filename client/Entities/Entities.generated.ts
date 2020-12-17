@@ -20,6 +20,7 @@ export type Scalars = {
 export type Query = {
   /**  search: can contain any form of Kafka topic name  */
   topicList?: Maybe<TopicList>;
+  consumersList?: Maybe<ConsumersList>;
   topic: Topic;
 };
 
@@ -51,6 +52,13 @@ export type Topic = {
   name?: Maybe<Scalars['String']>;
   partitions: Array<Partition>;
   config?: Maybe<Array<Maybe<ConfigEntry>>>;
+};
+export type Consumers = {
+  /** ID */
+  id?: Maybe<Scalars['String']>;
+  members?: Maybe<Scalars['Int']>;
+  partitions?: Maybe<Scalars['Int']>;
+  state?: Maybe<Scalars['String']>;
 };
 
 /** embedded in Topic */
@@ -89,6 +97,12 @@ export enum SortDirectionEnum {
 
 export type TopicList = {
   topics: Array<Maybe<Topic>>;
+  offset?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+  count?: Maybe<Scalars['Int']>;
+};
+export type ConsumersList = {
+  items: Array<Maybe<Consumers>>;
   offset?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
   count?: Maybe<Scalars['Int']>;
