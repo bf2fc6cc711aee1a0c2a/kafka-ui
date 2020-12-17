@@ -89,9 +89,7 @@ export const ApiModule: UIServerModule = {
         changeOrigin: true,
         secure: cert ? true : false,
       };
-      console.log(proxyConfig);
-      const cfg = { ...proxyConfig, target };
-      backendProxy.web(req, res, cfg);
+      backendProxy.web(req, res, proxyConfig);
     };
 
     // add proxy event handlers
