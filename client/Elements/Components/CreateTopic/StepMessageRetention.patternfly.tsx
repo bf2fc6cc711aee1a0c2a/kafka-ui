@@ -28,12 +28,12 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
   setMsgRetentionValue,
 }) => {
   enum RetentionOption {
-    DAY = "days",
-    WEEK = "weeks",
-    MONTH = "months",
+    DAY = 1,
+    WEEK = 7,
+    MONTH = 30,
     CUSTOM = "custom",
   }
-  const [currentPeriod, setCurrentPeriod] = React.useState<string>(
+  const [currentPeriod, setCurrentPeriod] = React.useState<string | number>(
     RetentionOption.DAY
   );
   const [msgTouchspinValue, setMsgTouchspinValue] = useState(7);
@@ -43,11 +43,11 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
 
   useEffect(() => {
     if (currentPeriod === RetentionOption.DAY) {
-      setMsgRetentionValue(1);
+      setMsgRetentionValue(RetentionOption.DAY);
     } else if (currentPeriod === RetentionOption.WEEK) {
-      setMsgRetentionValue(7);
+      setMsgRetentionValue(RetentionOption.WEEK);
     } else if (currentPeriod === RetentionOption.MONTH) {
-      setMsgRetentionValue(30);
+      setMsgRetentionValue(RetentionOption.MONTH);
     } else if (currentPeriod === RetentionOption.CUSTOM) {
       setMsgRetentionValue(retentionFactor * msgTouchspinValue);
     }
@@ -74,11 +74,11 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
 
   const onMsgSelect = (event, selection) => {
     if (selection === "days") {
-      setRetentionFactor(1);
+      setRetentionFactor(RetentionOption.DAY);
     } else if (selection === "weeks") {
-      setRetentionFactor(7);
+      setRetentionFactor(RetentionOption.WEEK);
     } else if (selection === "months") {
-      setRetentionFactor(30);
+      setRetentionFactor(RetentionOption.MONTH);
     }
     setSelected(selection);
     setIsMsgSelectOpen(false);

@@ -2,8 +2,8 @@
  * Copyright Strimzi authors.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
-import React, { useState } from 'react';
-import '@patternfly/react-core/dist/styles/base.css';
+import React, { useState } from "react";
+import "@patternfly/react-core/dist/styles/base.css";
 import {
   Form,
   FormGroup,
@@ -12,8 +12,8 @@ import {
   Text,
   TextVariants,
   Touchspin,
-} from '@patternfly/react-core';
-import './CreateTopicWizard.patternfly.css';
+} from "@patternfly/react-core";
+import "./CreateTopicWizard.patternfly.css";
 
 interface IStepReplicas {
   setReplicationFactorTouchspinValue: (value: number) => void;
@@ -28,37 +28,38 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
   replicationFactorTouchspinValue,
   minInSyncReplicaTouchspinValue,
 }) => {
-  const [radioBtnRepFactorOne, setRadioBtnRepFactorOne] = useState(false);
-  const [radioBtnRepFactorTwo, setRadioBtnRepFactorTwo] = useState(false);
-  const [radioBtnRepFactorCustom, setRadioBtnRepFactorCustom] = useState(false);
-
-  const handleChangeStep4 = (checked, event) => {
-    setRadioBtnRepFactorOne(false);
-    setRadioBtnRepFactorTwo(false);
-    setRadioBtnRepFactorCustom(false);
-
+  enum ReplicationOption {
+    ONE = 1,
+    TWO = 2,
+    CUSTOM = "custom",
+  }
+  const [
+    currentReplicationFactor,
+    setCurrentReplicationFactor,
+  ] = React.useState<string | number>(ReplicationOption.ONE);
+  const handleChangeReplicationFactor = (checked, event) => {
     const target = event.target;
     const name = target.name;
 
-    if (name === 'radio4') {
-      setRadioBtnRepFactorOne(true);
-      setMinInSyncReplicaTouchspinValue(1);
-      setReplicationFactorTouchspinValue(1);
-    } else if (name === 'radio5') {
-      setRadioBtnRepFactorTwo(true);
-      setMinInSyncReplicaTouchspinValue(2);
-      setReplicationFactorTouchspinValue(2);
-    } else if (name === 'radio6') {
-      setRadioBtnRepFactorCustom(true);
+    if (name === "radio4") {
+      setCurrentReplicationFactor(ReplicationOption.ONE);
+      setMinInSyncReplicaTouchspinValue(ReplicationOption.ONE);
+      setReplicationFactorTouchspinValue(ReplicationOption.ONE);
+    } else if (name === "radio5") {
+      setCurrentReplicationFactor(ReplicationOption.TWO);
+      setMinInSyncReplicaTouchspinValue(ReplicationOption.TWO);
+      setReplicationFactorTouchspinValue(ReplicationOption.TWO);
+    } else if (name === "radio6") {
+      setCurrentReplicationFactor(ReplicationOption.CUSTOM);
       setMinInSyncReplicaTouchspinValue(minInSyncReplicaTouchspinValue);
       setReplicationFactorTouchspinValue(replicationFactorTouchspinValue);
     }
   };
 
-  const handleOnPlusReplicationFactorFactor = () => {
+  const handleOnPlusReplicationFactor = () => {
     setReplicationFactorTouchspinValue(replicationFactorTouchspinValue + 1);
   };
-  const handleOnMinusReplicationFactorFactor = () => {
+  const handleOnMinusReplicationFactor = () => {
     setReplicationFactorTouchspinValue(replicationFactorTouchspinValue - 1);
   };
   const handleReplicationFactorChange = (event) => {
@@ -77,7 +78,7 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
 
   return (
     <>
-      <TextContent className='topics-wizard-content'>
+      <TextContent className="topics-wizard-content">
         <Text component={TextVariants.h2}>Replicas</Text>
         <Text component={TextVariants.p}>
           This is how many copies of a topic will be made for high availability.
@@ -88,46 +89,46 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
         </Text>
         <Form>
           <FormGroup
-            fieldId='create-wizard-replica-form-group'
-            label='Replicas'
-            className='form-group-radio'
+            fieldId="create-wizard-replica-form-group"
+            label="Replicas"
+            className="form-group-radio"
           >
             <Radio
-              isChecked={radioBtnRepFactorOne}
-              name='radio4'
-              onChange={handleChangeStep4}
-              label='Replication factor: 1'
-              id='radio-controlled-4'
-              value='radio4'
-              description='Minimum in-sync replicas: 1'
+              isChecked={currentReplicationFactor === ReplicationOption.ONE}
+              name="radio4"
+              onChange={handleChangeReplicationFactor}
+              label="Replication factor: 1"
+              id="radio-controlled-4"
+              value="radio4"
+              description="Minimum in-sync replicas: 1"
             />
             <Radio
-              isChecked={radioBtnRepFactorTwo}
-              name='radio5'
-              onChange={handleChangeStep4}
-              label='Replication factor: 2'
-              id='radio-controlled-5'
-              value='radio5'
-              description='Minimum in-sync replicas: 2'
+              isChecked={currentReplicationFactor === ReplicationOption.TWO}
+              name="radio5"
+              onChange={handleChangeReplicationFactor}
+              label="Replication factor: 2"
+              id="radio-controlled-5"
+              value="radio5"
+              description="Minimum in-sync replicas: 2"
             />
             <Radio
-              isChecked={radioBtnRepFactorCustom}
-              name='radio6'
-              onChange={handleChangeStep4}
-              label='Replication factor'
-              id='radio-controlled-6'
-              value='radio6'
+              isChecked={currentReplicationFactor === ReplicationOption.CUSTOM}
+              name="radio6"
+              onChange={handleChangeReplicationFactor}
+              label="Replication factor"
+              id="radio-controlled-6"
+              value="radio6"
             />
-            <div className='radio-description'>
+            <div className="radio-description">
               <Touchspin
                 value={replicationFactorTouchspinValue}
-                onMinus={handleOnMinusReplicationFactorFactor}
-                onPlus={handleOnPlusReplicationFactorFactor}
+                onMinus={handleOnMinusReplicationFactor}
+                onPlus={handleOnPlusReplicationFactor}
                 onChange={handleReplicationFactorChange}
               />
               <Text
                 component={TextVariants.small}
-                className='minimum-in-sync-replicas'
+                className="minimum-in-sync-replicas"
               >
                 Minimum in-sync replicas
               </Text>
