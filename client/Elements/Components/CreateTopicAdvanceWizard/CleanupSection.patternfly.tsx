@@ -7,25 +7,16 @@ import React from 'react';
 import '@patternfly/react-core/dist/styles/base.css';
 import {
   Checkbox,
-  Flex,
-  FlexItem,
   Form,
   TextContent,
   TextVariants,
   Touchspin,
   Text,
 } from '@patternfly/react-core';
-import {
-  DropdownWithToggle,
-  IDropdownOption,
-} from '../Common/DropdownWithToggle.patternfly';
-import { ICleanupData } from './CreateTopicAdvanceWizard.patternfly';
 import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWithPopover.patternfly';
-
-export interface ICleanupSectionProps {
-  cleanupData: ICleanupData;
-  setCleanupData: React.Dispatch<React.SetStateAction<ICleanupData>>;
-}
+import { kebabToCamel } from './utils';
+import { TopicContext } from './TopicContext';
+import { SizeTimeFormGroup } from '../Common/SizeTimeFormGroup/SizeTimeFormGroup.patternfly';
 
 const deleteRetentionLabelHead = 'Delete retention';
 const deleteRetentionLabelBody =
@@ -55,58 +46,39 @@ const preallocateLabelHead = 'Preallocate log segment files';
 const preallocateLabelBody =
   'Determines whether to preallocate log segment files. (preallocate)';
 
-const timeUnits: IDropdownOption[] = [
-  { key: 'millisecond', value: 'millisecond', isDisabled: false },
-  { key: 'second', value: 'second', isDisabled: false },
-  { key: 'day', value: 'day', isDisabled: false },
-  { key: 'month', value: 'month', isDisabled: false },
-  { key: 'year', value: 'year', isDisabled: false },
-];
+export const CleanupSection: React.FC = () => {
 
-export const CleanupSection: React.FC<ICleanupSectionProps> = ({
-  cleanupData,
-  setCleanupData,
-}) => {
+  const { store, updateStore } = React.useContext(TopicContext);
+
   const handleTouchSpinInputChange = (
     event: React.FormEvent<HTMLInputElement>
   ) => {
-    const { name: fieldName, value } = event.currentTarget;
-    setCleanupData((formData) => ({
-      ...formData,
-      [fieldName]: Number(value),
-    }));
+    const { name, value } = event.currentTarget;
+    const fieldName = kebabToCamel(name);
+    updateStore(fieldName, Number(value));
   };
 
   const handleTouchSpinPlus = (event) => {
-    const { name: fieldName } = event.currentTarget;
-    setCleanupData((formData) => ({
-      ...formData,
-      [fieldName]: formData[fieldName] + 1,
-    }));
+    const { name } = event.currentTarget;
+    const fieldName = kebabToCamel(name);
+    updateStore(fieldName, store[fieldName] + 1);
   };
 
   const handleTouchSpinMinus = (event) => {
-    const { name: fieldName } = event.currentTarget;
-    setCleanupData((formData) => ({
-      ...formData,
-      [fieldName]: formData[fieldName] - 1,
-    }));
+    const { name } = event.currentTarget;
+    const fieldName = kebabToCamel(name);
+    updateStore(fieldName, store[fieldName] - 1);
   };
 
   const onDropdownChange = (value: string, event) => {
     const { name: fieldName } = event.target;
-    setCleanupData((formData) => ({
-      ...formData,
-      [fieldName]: value,
-    }));
+    updateStore(kebabToCamel(fieldName), value);
   };
 
   const handleCheckboxSelect = (checked: boolean, event) => {
-    const { name: fieldName } = event.currentTarget;
-    setCleanupData((formData) => ({
-      ...formData,
-      [fieldName]: checked,
-    }));
+    const { name } = event.currentTarget;
+    const fieldName = kebabToCamel(name);
+    updateStore(fieldName, checked);
   };
 
   return (
@@ -128,30 +100,22 @@ export const CleanupSection: React.FC<ICleanupSectionProps> = ({
           labelBody={deleteRetentionLabelBody}
           buttonAriaLabel='More info for delete retention field'
         >
-          <Flex>
-            <FlexItem grow={{ default: 'grow' }}>
-              <Touchspin
-                inputName='delete-retention'
-                onChange={handleTouchSpinInputChange}
-                onPlus={handleTouchSpinPlus}
-                onMinus={handleTouchSpinMinus}
-                value={cleanupData['delete-retention']}
-                plusBtnProps={{ name: 'delete-retention' }}
-                minusBtnProps={{ name: 'delete-retention' }}
-              />
-            </FlexItem>
-            <FlexItem>
-              <DropdownWithToggle
-                id='delete-retention-unit'
-                toggleId='delete-retention-dropdowntoggle'
-                ariaLabel='select unit from dropdown'
-                onSelectOption={onDropdownChange}
-                items={timeUnits}
-                name='delete-retention-unit'
-                value={cleanupData['delete-retention-unit']}
-              />
-            </FlexItem>
-          </Flex>
+          <SizeTimeFormGroup
+            inputName='delete-retention-time'
+            onChange={handleTouchSpinInputChange}
+            onPlus={handleTouchSpinPlus}
+            onMinus={handleTouchSpinMinus}
+            value={store.deleteRetentionTime}
+            plusBtnProps={{ name: 'delete-retention-time' }}
+            minusBtnProps={{ name: 'delete-retention-time' }}
+            id='delete-retention-unit'
+            toggleId='delete-retention-dropdowntoggle'
+            ariaLabel='select unit from dropdown'
+            onSelectOption={onDropdownChange}
+            type='time'
+            name='delete-retention-unit'
+            dropdownValue={store.deleteRetentionUnit}
+          />
         </FormGroupWithPopover>
         <FormGroupWithPopover
           fieldId='dirty-ratio'
@@ -165,7 +129,7 @@ export const CleanupSection: React.FC<ICleanupSectionProps> = ({
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
             onMinus={handleTouchSpinMinus}
-            value={cleanupData['min-ratio']}
+            value={store.minRatio}
             plusBtnProps={{ name: 'min-ratio' }}
             minusBtnProps={{ name: 'min-ratio' }}
           />
@@ -177,30 +141,22 @@ export const CleanupSection: React.FC<ICleanupSectionProps> = ({
           labelBody={minLagLabelBody}
           buttonAriaLabel='More info for minimum compaction log time field'
         >
-          <Flex>
-            <FlexItem grow={{ default: 'grow' }}>
-              <Touchspin
-                inputName='min-lag-time'
-                onChange={handleTouchSpinInputChange}
-                onPlus={handleTouchSpinPlus}
-                onMinus={handleTouchSpinMinus}
-                value={cleanupData['min-lag-time']}
-                plusBtnProps={{ name: 'min-lag-time' }}
-                minusBtnProps={{ name: 'min-lag-time' }}
-              />
-            </FlexItem>
-            <FlexItem>
-              <DropdownWithToggle
-                id='min-lag-unit'
-                toggleId='min-lag-unit-dropdowntoggle'
-                ariaLabel='select unit from dropdown'
-                onSelectOption={onDropdownChange}
-                items={timeUnits}
-                name='min-lag-unit'
-                value={cleanupData['min-lag-unit']}
-              />
-            </FlexItem>
-          </Flex>
+          <SizeTimeFormGroup
+            inputName='min-lag-time'
+            onChange={handleTouchSpinInputChange}
+            onPlus={handleTouchSpinPlus}
+            onMinus={handleTouchSpinMinus}
+            value={store.minLagTime}
+            plusBtnProps={{ name: 'min-lag-time' }}
+            minusBtnProps={{ name: 'min-lag-time' }}
+            id='min-lag-unit'
+            toggleId='min-lag-unit-dropdowntoggle'
+            ariaLabel='select unit from dropdown'
+            onSelectOption={onDropdownChange}
+            type="time"
+            name='min-lag-unit'
+            dropdownValue={store.minLagUnit}
+          />
         </FormGroupWithPopover>
         <FormGroupWithPopover
           fieldId='segment-time'
@@ -209,30 +165,22 @@ export const CleanupSection: React.FC<ICleanupSectionProps> = ({
           labelBody={segementTimeLabelBody}
           buttonAriaLabel='More info for segment time field'
         >
-          <Flex>
-            <FlexItem grow={{ default: 'grow' }}>
-              <Touchspin
-                inputName='segment-time'
-                onChange={handleTouchSpinInputChange}
-                onPlus={handleTouchSpinPlus}
-                onMinus={handleTouchSpinMinus}
-                value={cleanupData['segment-time']}
-                plusBtnProps={{ name: 'segment-time' }}
-                minusBtnProps={{ name: 'segment-time' }}
-              />
-            </FlexItem>
-            <FlexItem>
-              <DropdownWithToggle
-                id='segment-time-unit'
-                toggleId='segment-time-unit-dropdowntoggle'
-                ariaLabel='select unit from dropdown'
-                onSelectOption={onDropdownChange}
-                items={timeUnits}
-                name='segment-time-unit'
-                value={cleanupData['segment-time-unit']}
-              />
-            </FlexItem>
-          </Flex>
+          <SizeTimeFormGroup
+            inputName='segment-time'
+            onChange={handleTouchSpinInputChange}
+            onPlus={handleTouchSpinPlus}
+            onMinus={handleTouchSpinMinus}
+            value={store.segmentTime}
+            plusBtnProps={{ name: 'segment-time' }}
+            minusBtnProps={{ name: 'segment-time' }}
+            id='segment-time-unit'
+            toggleId='segment-time-unit-dropdowntoggle'
+            ariaLabel='select unit from dropdown'
+            onSelectOption={onDropdownChange}
+            type="time"
+            name='segment-time-unit'
+            dropdownValue={store.segmentTimeUnit}
+          />
         </FormGroupWithPopover>
         <FormGroupWithPopover
           fieldId='jitter'
@@ -241,30 +189,22 @@ export const CleanupSection: React.FC<ICleanupSectionProps> = ({
           labelBody={jitterTimeLabelBody}
           buttonAriaLabel='More info for segment jitter time field'
         >
-          <Flex>
-            <FlexItem grow={{ default: 'grow' }}>
-              <Touchspin
-                inputName='jitter-time'
-                onChange={handleTouchSpinInputChange}
-                onPlus={handleTouchSpinPlus}
-                onMinus={handleTouchSpinMinus}
-                value={cleanupData['jitter-time']}
-                plusBtnProps={{ name: 'jitter-time' }}
-                minusBtnProps={{ name: 'jitter-time' }}
-              />
-            </FlexItem>
-            <FlexItem>
-              <DropdownWithToggle
-                id='jitter-time-unit'
-                toggleId='jitter-time-unit-dropdowntoggle'
-                ariaLabel='select unit from dropdown'
-                onSelectOption={onDropdownChange}
-                items={timeUnits}
-                name='jitter-time-unit'
-                value={cleanupData['jitter-time-unit']}
-              />
-            </FlexItem>
-          </Flex>
+          <SizeTimeFormGroup
+            inputName='jitter-time'
+            onChange={handleTouchSpinInputChange}
+            onPlus={handleTouchSpinPlus}
+            onMinus={handleTouchSpinMinus}
+            value={store.jitterTime}
+            plusBtnProps={{ name: 'jitter-time' }}
+            minusBtnProps={{ name: 'jitter-time' }}
+            id='jitter-time-unit'
+            toggleId='jitter-time-unit-dropdowntoggle'
+            ariaLabel='select unit from dropdown'
+            onSelectOption={onDropdownChange}
+            type="time"
+            name='jitter-time-unit'
+            dropdownValue={store.jitterTimeUnit}
+          />
         </FormGroupWithPopover>
         <FormGroupWithPopover
           fieldId='delete'
@@ -273,30 +213,22 @@ export const CleanupSection: React.FC<ICleanupSectionProps> = ({
           labelBody={deleteDelayLabelBody}
           buttonAriaLabel='More info for file delete delay field'
         >
-          <Flex>
-            <FlexItem grow={{ default: 'grow' }}>
-              <Touchspin
-                inputName='delete-delay'
-                onChange={handleTouchSpinInputChange}
-                onPlus={handleTouchSpinPlus}
-                onMinus={handleTouchSpinMinus}
-                value={cleanupData['delete-delay']}
-                plusBtnProps={{ name: 'delete-delay' }}
-                minusBtnProps={{ name: 'delete-delay' }}
-              />
-            </FlexItem>
-            <FlexItem>
-              <DropdownWithToggle
-                id='delete-delay-unit'
-                toggleId='delete-delay-unit-dropdowntoggle'
-                ariaLabel='select unit from dropdown'
-                onSelectOption={onDropdownChange}
-                items={timeUnits}
-                name='delete-delay-unit'
-                value={cleanupData['delete-delay-unit']}
-              />
-            </FlexItem>
-          </Flex>
+          <SizeTimeFormGroup
+            inputName='delete-delay'
+            onChange={handleTouchSpinInputChange}
+            onPlus={handleTouchSpinPlus}
+            onMinus={handleTouchSpinMinus}
+            value={store.deleteDelay}
+            plusBtnProps={{ name: 'delete-delay' }}
+            minusBtnProps={{ name: 'delete-delay' }}
+            id='delete-delay-unit'
+            toggleId='delete-delay-unit-dropdowntoggle'
+            ariaLabel='select unit from dropdown'
+            onSelectOption={onDropdownChange}
+            type="time"
+            name='delete-delay-unit'
+            dropdownValue={store.deleteDelayUnit}
+          />
         </FormGroupWithPopover>
         <FormGroupWithPopover
           fieldId='log-preallocation'
@@ -306,7 +238,7 @@ export const CleanupSection: React.FC<ICleanupSectionProps> = ({
           buttonAriaLabel='More info for preallocation field'
         >
           <Checkbox
-            isChecked={cleanupData['log-preallocation']}
+            isChecked={store.logPreallocation}
             label='Allow preallocation of log segment files'
             aria-label='log segment files pre allocation'
             id='log-preallocation'

@@ -15,12 +15,8 @@ import {
 import '@patternfly/react-core/dist/styles/base.css';
 import React from 'react';
 import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWithPopover.patternfly';
-import { IReplicationData } from './CreateTopicAdvanceWizard.patternfly';
-
-export interface IReplicationSectionProps {
-  replicationData: IReplicationData;
-  setReplicationData: React.Dispatch<React.SetStateAction<IReplicationData>>;
-}
+import { TopicContext } from './TopicContext';
+import { kebabToCamel } from './utils';
 
 const leaderElectionLabelHead = 'Unclean leader election';
 const leaderElectionLabelBody =
@@ -34,27 +30,21 @@ const leaderReplicaLabelHead = 'Leader replication throttled replicas';
 const leaderReplicaLabelBody =
   'A list of the replicas for which replication should be throttled on the leader side. Can be used to limit the network bandwidth consumed by replication. (leader.replication.throttled.replicas)';
 
-export const ReplicationSection: React.FC<IReplicationSectionProps> = ({
-  replicationData,
-  setReplicationData,
-}) => {
+export const ReplicationSection: React.FC = () => {
+
+  const { store, updateStore } = React.useContext(TopicContext); 
+
   const handleTextInputChange = (
     value: string,
     event: React.FormEvent<HTMLInputElement>
   ) => {
     const { name: fieldName } = event.currentTarget;
-    setReplicationData((formData) => ({
-      ...formData,
-      [fieldName]: value,
-    }));
+    updateStore(kebabToCamel(fieldName), value);
   };
 
   const handleCheckboxSelect = (checked: boolean, event) => {
     const { name: fieldName } = event.currentTarget;
-    setReplicationData((formData) => ({
-      ...formData,
-      [fieldName]: checked,
-    }));
+    updateStore(kebabToCamel(fieldName), checked);
   };
 
   return (
@@ -77,7 +67,7 @@ export const ReplicationSection: React.FC<IReplicationSectionProps> = ({
           buttonAriaLabel='More info for leader election field'
         >
           <Checkbox
-            isChecked={replicationData['unclean-leader-election']}
+            isChecked={store.uncleanLeaderElection}
             label='Allow unclean leader election'
             aria-label='uncontrolled checkbox example'
             id='leader-election'
@@ -98,7 +88,7 @@ export const ReplicationSection: React.FC<IReplicationSectionProps> = ({
               type='text'
               aria-label='Text'
               onChange={handleTextInputChange}
-              value={replicationData['follower-replicas']}
+              value={store.followerReplicas}
             />
           </InputGroup>
         </FormGroupWithPopover>
@@ -115,7 +105,7 @@ export const ReplicationSection: React.FC<IReplicationSectionProps> = ({
               type='text'
               aria-label='Text'
               onChange={handleTextInputChange}
-              value={replicationData['leader-replicas']}
+              value={store.leaderReplicas}
             />
           </InputGroup>
         </FormGroupWithPopover>

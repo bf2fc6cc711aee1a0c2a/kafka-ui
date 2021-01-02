@@ -8,18 +8,17 @@ import {
   TextVariants,
   Text,
   TextContent,
-  Form,
-  Flex,
-  FlexItem,
-  Touchspin,
+  Form
 } from '@patternfly/react-core';
 import React from 'react';
 import {
   DropdownWithToggle,
   IDropdownOption,
 } from '../Common/DropdownWithToggle.patternfly';
-import { IMessagesData } from './CreateTopicAdvanceWizard.patternfly';
 import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWithPopover.patternfly';
+import { kebabToCamel } from './utils';
+import { TopicContext } from './TopicContext';
+import { SizeTimeFormGroup } from '../Common/SizeTimeFormGroup/SizeTimeFormGroup.patternfly';
 
 const maxMessageSizeLabelHead = 'Maximum message size';
 const maxMessageSizeLabelBody =
@@ -37,18 +36,6 @@ const compressionTypeLabelHead = 'Compression type';
 const compressionTypeLabelBody =
   'Determines the final compression for the topic, or whether to retain the compression set by the producer. (compression.type)';
 
-export interface IMessageSectionProps {
-  messagesFormData: IMessagesData;
-  setMessagesFormData: React.Dispatch<React.SetStateAction<IMessagesData>>;
-}
-
-const memoryUnits: IDropdownOption[] = [
-  { key: 'bytes', value: 'bytes', isDisabled: false },
-  { key: 'kilobytes', value: 'kilobytes', isDisabled: false },
-  { key: 'megabytes', value: 'megabytes', isDisabled: false },
-  { key: 'gigabytes', value: 'gigabytes', isDisabled: false },
-  { key: 'terabytes', value: 'terabytes', isDisabled: false },
-];
 
 const timeStampOptions: IDropdownOption[] = [
   { key: 'create-time', value: 'CreateTime', isDisabled: false },
@@ -64,50 +51,32 @@ const messageCompressionTypes: IDropdownOption[] = [
   { key: 'Uncompressed', value: 'Uncompressed', isDisabled: false },
 ];
 
-const timeUnits: IDropdownOption[] = [
-  { key: 'millisecond', value: 'millisecond', isDisabled: false },
-  { key: 'second', value: 'second', isDisabled: false },
-  { key: 'day', value: 'day', isDisabled: false },
-  { key: 'month', value: 'month', isDisabled: false },
-  { key: 'year', value: 'year', isDisabled: false },
-];
+const MessageSection: React.FC = () => {
 
-const MessageSection: React.FC<IMessageSectionProps> = ({
-  messagesFormData,
-  setMessagesFormData,
-}) => {
+  const { store, updateStore } = React.useContext(TopicContext);
+
   const handleTouchSpinInputChange = (
     event: React.FormEvent<HTMLInputElement>
   ) => {
     const { name: fieldName, value } = event.currentTarget;
-    setMessagesFormData((formData) => ({
-      ...formData,
-      [fieldName]: Number(value),
-    }));
+    updateStore(kebabToCamel(fieldName), value);
   };
 
   const handleTouchSpinPlus = (event) => {
-    const { name: fieldName } = event.currentTarget;
-    setMessagesFormData((formData) => ({
-      ...formData,
-      [fieldName]: formData[fieldName] + 1,
-    }));
+    const { name } = event.currentTarget;
+    const fieldName = kebabToCamel(name);
+    updateStore(fieldName, store[fieldName] + 1);
   };
 
   const handleTouchSpinMinus = (event) => {
-    const { name: fieldName } = event.currentTarget;
-    setMessagesFormData((formData) => ({
-      ...formData,
-      [fieldName]: formData[fieldName] - 1,
-    }));
+    const { name } = event.currentTarget;
+    const fieldName = kebabToCamel(name);
+    updateStore(fieldName, store[fieldName] - 1);
   };
 
   const onDropdownChange = (value: string, event) => {
     const { name: fieldName } = event.target;
-    setMessagesFormData((formData) => ({
-      ...formData,
-      [fieldName]: value,
-    }));
+    updateStore(kebabToCamel(fieldName), value);
   };
 
   return (
@@ -129,30 +98,22 @@ const MessageSection: React.FC<IMessageSectionProps> = ({
           labelBody={maxMessageSizeLabelBody}
           buttonAriaLabel='More info for maximum message size field'
         >
-          <Flex>
-            <FlexItem grow={{ default: 'grow' }}>
-              <Touchspin
-                inputName='max-message-size'
-                onChange={handleTouchSpinInputChange}
-                onPlus={handleTouchSpinPlus}
-                onMinus={handleTouchSpinMinus}
-                value={messagesFormData['max-message-size']}
-                plusBtnProps={{ name: 'max-message-size' }}
-                minusBtnProps={{ name: 'max-message-size' }}
-              />
-            </FlexItem>
-            <FlexItem>
-              <DropdownWithToggle
-                id='msg-section-units-dropdown'
-                toggleId='msg-section-units-dropdowntoggle'
-                ariaLabel='select unit from dropdown'
-                onSelectOption={onDropdownChange}
-                items={memoryUnits}
-                name='unit'
-                value={messagesFormData['unit']}
-              />
-            </FlexItem>
-          </Flex>
+          <SizeTimeFormGroup
+            inputName='max-message-size'
+            onChange={handleTouchSpinInputChange}
+            onPlus={handleTouchSpinPlus}
+            onMinus={handleTouchSpinMinus}
+            value={store.maxMessageSize}
+            plusBtnProps={{ name: 'max-message-size' }}
+            minusBtnProps={{ name: 'max-message-size' }}
+            id='msg-section-units-dropdown'
+            toggleId='msg-section-units-dropdowntoggle'
+            ariaLabel='select unit from dropdown'
+            onSelectOption={onDropdownChange}
+            type="memory"
+            name='message-size-unit'
+            dropdownValue={store.messageSizeUnit}
+          />
         </FormGroupWithPopover>
         <FormGroupWithPopover
           fieldId='timestamp'
@@ -165,10 +126,10 @@ const MessageSection: React.FC<IMessageSectionProps> = ({
             id='msg-section-timestamp-dropdown'
             toggleId='msg-section-timestamp-dropdowntoggle'
             ariaLabel='select timestamp type from dropdown'
-            name='timestamp'
+            name='timestamp-type'
             onSelectOption={onDropdownChange}
             items={timeStampOptions}
-            value={messagesFormData['timestamp']}
+            value={store.timestampType}
           />
         </FormGroupWithPopover>
         <FormGroupWithPopover
@@ -178,30 +139,23 @@ const MessageSection: React.FC<IMessageSectionProps> = ({
           labelBody={messageTimestampDiffLabelBody}
           buttonAriaLabel='More info for maximum message timestamp difference field'
         >
-          <Flex>
-            <FlexItem grow={{ default: 'grow' }}>
-              <Touchspin
-                inputName='max-timestamp-diff'
-                onChange={handleTouchSpinInputChange}
-                onPlus={handleTouchSpinPlus}
-                onMinus={handleTouchSpinMinus}
-                value={messagesFormData['max-timestamp-diff']}
-                plusBtnProps={{ name: 'max-timestamp-diff' }}
-                minusBtnProps={{ name: 'max-timestamp-diff' }}
-              />
-            </FlexItem>
-            <FlexItem>
-              <DropdownWithToggle
-                id='msg-section-timestamp-diff-units-dropdown'
-                toggleId='msg-section-timestamp-diff-units-dropdowntoggle'
-                ariaLabel='select unit from dropdown'
-                onSelectOption={onDropdownChange}
-                items={timeUnits}
-                name='timestamp-diff-unit'
-                value={messagesFormData['timestamp-diff-unit']}
-              />
-            </FlexItem>
-          </Flex>
+          <SizeTimeFormGroup
+            inputName='max-timestamp-diff'
+            onChange={handleTouchSpinInputChange}
+            onPlus={handleTouchSpinPlus}
+            onMinus={handleTouchSpinMinus}
+            value={store.maxTimestampDiff}
+            plusBtnProps={{ name: 'max-timestamp-diff' }}
+            minusBtnProps={{ name: 'max-timestamp-diff' }}
+            id='msg-section-timestamp-diff-units-dropdown'
+            toggleId='msg-section-timestamp-diff-units-dropdowntoggle'
+            ariaLabel='select unit from dropdown'
+            onSelectOption={onDropdownChange}
+            type="time"
+            name='timestamp-diff-unit'
+            dropdownValue={store.timestampDiffUnit}
+          />
+
         </FormGroupWithPopover>
         <FormGroupWithPopover
           fieldId='compression-type'
@@ -217,7 +171,7 @@ const MessageSection: React.FC<IMessageSectionProps> = ({
             name='compression-type'
             onSelectOption={onDropdownChange}
             items={messageCompressionTypes}
-            value={messagesFormData['compression-type']}
+            value={store.compressionType}
           />
         </FormGroupWithPopover>
       </Form>

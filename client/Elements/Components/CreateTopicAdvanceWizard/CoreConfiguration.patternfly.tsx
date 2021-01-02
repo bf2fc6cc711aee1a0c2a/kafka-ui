@@ -5,8 +5,6 @@
 
 import '@patternfly/react-core/dist/styles/base.css';
 import {
-  Flex,
-  FlexItem,
   Form,
   Text,
   TextContent,
@@ -16,25 +14,10 @@ import {
   Touchspin,
 } from '@patternfly/react-core';
 import React from 'react';
-import {
-  DropdownWithToggle,
-  IDropdownOption,
-} from '../Common/DropdownWithToggle.patternfly';
-import { ICoreConfigData } from './CreateTopicAdvanceWizard.patternfly';
 import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWithPopover.patternfly';
-
-interface ICoreConfigurationProps {
-  coreConfigData: ICoreConfigData;
-  setCoreConfigData: React.Dispatch<React.SetStateAction<ICoreConfigData>>;
-}
-
-const timeUnits: IDropdownOption[] = [
-  { key: 'millisecond', value: 'millisecond', isDisabled: false },
-  { key: 'second', value: 'second', isDisabled: false },
-  { key: 'day', value: 'day', isDisabled: false },
-  { key: 'month', value: 'month', isDisabled: false },
-  { key: 'year', value: 'year', isDisabled: false },
-];
+import { kebabToCamel } from './utils';
+import { TopicContext } from './TopicContext';
+import { SizeTimeFormGroup } from '../Common/SizeTimeFormGroup/SizeTimeFormGroup.patternfly';
 
 const topicNameLabelHead = 'Topic name';
 const topicNameLabelBody =
@@ -56,50 +39,40 @@ const retentionTimeLabelHead = 'Retention time';
 const retentionTimeLabelBody =
   'The length of time that messages are retained before they are deleted. If your messages are not read by a consumer within this time, they will be missed. (retention.ms)';
 
-const CoreConfiguration: React.FC<ICoreConfigurationProps> = ({
-  coreConfigData,
-  setCoreConfigData,
-}) => {
+const CoreConfiguration: React.FC = () => {
+
+  const { store, updateStore } = React.useContext(TopicContext);
+
   const handleTextInputChange = (
     value: string,
     event: React.FormEvent<HTMLInputElement>
   ) => {
     const { name: fieldName } = event.currentTarget;
-    setCoreConfigData((formData) => ({
-      ...formData,
-      [fieldName]: value,
-    }));
+    updateStore(kebabToCamel(fieldName), value);
   };
 
   const handleTouchSpinInputChange = (
     event: React.FormEvent<HTMLInputElement>
   ) => {
     const { name: fieldName, value } = event.currentTarget;
-    setCoreConfigData((formData) => ({
-      ...formData,
-      [fieldName]: Number(value),
-    }));
+    updateStore(kebabToCamel(fieldName), Number(value));
   };
 
   const handleTouchSpinPlus = (event) => {
-    const { name: fieldName } = event.currentTarget;
-    setCoreConfigData((formData) => ({
-      ...formData,
-      [fieldName]: formData[fieldName] + 1,
-    }));
+    const { name } = event.currentTarget;
+    const fieldName = kebabToCamel(name);
+    updateStore(fieldName, store[fieldName] + 1);
   };
 
   const handleTouchSpinMinus = (event) => {
-    const { name: fieldName } = event.currentTarget;
-    setCoreConfigData((formData) => ({
-      ...formData,
-      [fieldName]: formData[fieldName] - 1,
-    }));
+    const { name } = event.currentTarget;
+    const fieldName = kebabToCamel(name);
+    updateStore(fieldName, store[fieldName] - 1);
   };
 
   const onDropdownChange = (value: string, event) => {
     const { name: fieldName } = event.target;
-    setCoreConfigData((formData) => ({ ...formData, [fieldName]: value }));
+    updateStore(kebabToCamel(fieldName), value);
   };
 
   return (
@@ -131,7 +104,7 @@ const CoreConfiguration: React.FC<ICoreConfigurationProps> = ({
             type='text'
             id='create-topic-name'
             name='topic-name'
-            value={coreConfigData['topic-name']}
+            value={store.topicName}
             onChange={handleTextInputChange}
             label='Topic name'
             placeholder='Test topic name'
@@ -150,7 +123,7 @@ const CoreConfiguration: React.FC<ICoreConfigurationProps> = ({
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
             onMinus={handleTouchSpinMinus}
-            value={coreConfigData.partitions}
+            value={store.partitions}
             plusBtnProps={{ name: 'partitions' }}
             minusBtnProps={{ name: 'partitions' }}
           />
@@ -167,7 +140,7 @@ const CoreConfiguration: React.FC<ICoreConfigurationProps> = ({
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
             onMinus={handleTouchSpinMinus}
-            value={coreConfigData.replicas}
+            value={store.replicas}
             plusBtnProps={{ name: 'replicas' }}
             minusBtnProps={{ name: 'replicas' }}
           />
@@ -181,13 +154,13 @@ const CoreConfiguration: React.FC<ICoreConfigurationProps> = ({
         >
           <Touchspin
             id='insyncreplicas'
-            inputName='min-in-sync'
+            inputName='min-in-sync-replicas'
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
             onMinus={handleTouchSpinMinus}
-            value={coreConfigData['min-in-sync']}
-            plusBtnProps={{ name: 'min-in-sync' }}
-            minusBtnProps={{ name: 'min-in-sync' }}
+            value={store.minInSyncReplicas}
+            plusBtnProps={{ name: 'min-in-sync-replicas' }}
+            minusBtnProps={{ name: 'min-in-sync-replicas' }}
           />
         </FormGroupWithPopover>
         <FormGroupWithPopover
@@ -197,31 +170,22 @@ const CoreConfiguration: React.FC<ICoreConfigurationProps> = ({
           labelBody={retentionTimeLabelBody}
           buttonAriaLabel='More info for retention time field'
         >
-          <Flex>
-            <FlexItem grow={{ default: 'grow' }}>
-              <Touchspin
-                id='retention'
-                inputName='retention-time'
-                onChange={handleTouchSpinInputChange}
-                onPlus={handleTouchSpinPlus}
-                onMinus={handleTouchSpinMinus}
-                value={coreConfigData['retention-time']}
-                plusBtnProps={{ name: 'retention-time' }}
-                minusBtnProps={{ name: 'retention-time' }}
-              />
-            </FlexItem>
-            <FlexItem>
-              <DropdownWithToggle
-                id='core-config-retention-time-duration'
-                toggleId='core-config-retention-dropdowntoggle'
-                name='retention-time-duration'
-                value={coreConfigData['retention-time-duration']}
-                ariaLabel='select duration from dropdown'
-                onSelectOption={onDropdownChange}
-                items={timeUnits}
-              />
-            </FlexItem>
-          </Flex>
+          <SizeTimeFormGroup
+            inputName='retention-time'
+            onChange={handleTouchSpinInputChange}
+            onPlus={handleTouchSpinPlus}
+            onMinus={handleTouchSpinMinus}
+            value={store.retentionTime}
+            plusBtnProps={{ name: 'retention-time' }}
+            minusBtnProps={{ name: 'retention-time' }}
+            id='core-config-retention-time-unit'
+            toggleId='core-config-retention-dropdowntoggle'
+            name='retention-time-unit'
+            dropdownValue={store.retentionTimeUnit}
+            ariaLabel='select unit from dropdown'
+            onSelectOption={onDropdownChange}
+            type="time"
+          />
         </FormGroupWithPopover>
       </Form>
     </>

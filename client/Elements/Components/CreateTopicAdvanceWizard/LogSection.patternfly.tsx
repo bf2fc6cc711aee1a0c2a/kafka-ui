@@ -8,26 +8,17 @@ import {
   TextVariants,
   Text,
   TextContent,
-  Form,
-  Flex,
-  FlexItem,
-  Touchspin,
+  Form
 } from '@patternfly/react-core';
 import React from 'react';
 import {
   DropdownWithToggle,
   IDropdownOption,
 } from '../Common/DropdownWithToggle.patternfly';
-import { ILogFormData } from './CreateTopicAdvanceWizard.patternfly';
 import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWithPopover.patternfly';
-
-const memoryUnits: IDropdownOption[] = [
-  { key: 'bytes', value: 'bytes', isDisabled: false },
-  { key: 'kilobytes', value: 'kilobytes', isDisabled: false },
-  { key: 'megabytes', value: 'megabytes', isDisabled: false },
-  { key: 'gigabytes', value: 'gigabytes', isDisabled: false },
-  { key: 'terabytes', value: 'terabytes', isDisabled: false },
-];
+import { kebabToCamel } from './utils';
+import { SizeTimeFormGroup } from '../Common/SizeTimeFormGroup/SizeTimeFormGroup.patternfly';
+import { TopicContext } from './TopicContext';
 
 const clearOptions: IDropdownOption[] = [
   { key: 'compact', value: 'compact', isDisabled: false },
@@ -35,11 +26,6 @@ const clearOptions: IDropdownOption[] = [
   { key: 'compact-delete', value: 'compact, delete', isDisabled: false },
   { key: 'delete-compact', value: 'delete, compact', isDisabled: false },
 ];
-
-export interface ILogSectionProps {
-  logFormData: ILogFormData;
-  setLogFormData: React.Dispatch<React.SetStateAction<ILogFormData>>;
-}
 
 const cleanupPolicyLabelHead = 'Cleanup policy';
 const cleanupPolicyLabelBody =
@@ -53,42 +39,32 @@ const logSegmentLabelHead = 'Log segment size';
 const logSegmentLabelBody =
   'The size of the log segment files. Log processing such as deletion and compaction operates on log segments, so a larger setting gives fewer files but less frequent log processing. (segment.bytes)';
 
-const LogSection: React.FC<ILogSectionProps> = ({
-  logFormData,
-  setLogFormData,
-}) => {
+const LogSection: React.FC = () => {
+
+  const { store, updateStore } = React.useContext(TopicContext);
+  
   const onDropdownChange = (value: string, event) => {
     const { name: fieldName } = event.target;
-    setLogFormData((formData) => ({
-      ...formData,
-      [fieldName]: value,
-    }));
+    updateStore(kebabToCamel(fieldName), value);
   };
 
   const handleTouchSpinInputChange = (
     event: React.FormEvent<HTMLInputElement>
   ) => {
     const { name: fieldName, value } = event.currentTarget;
-    setLogFormData((formData) => ({
-      ...formData,
-      [fieldName]: Number(value),
-    }));
+    updateStore(kebabToCamel(fieldName), Number(value));
   };
 
   const handleTouchSpinPlus = (event) => {
-    const { name: fieldName } = event.currentTarget;
-    setLogFormData((formData) => ({
-      ...formData,
-      [fieldName]: formData[fieldName] + 1,
-    }));
+    const { name } = event.currentTarget;
+    const fieldName = kebabToCamel(name);
+    updateStore(fieldName, store[fieldName] + 1);
   };
 
   const handleTouchSpinMinus = (event) => {
-    const { name: fieldName } = event.currentTarget;
-    setLogFormData((formData) => ({
-      ...formData,
-      [fieldName]: formData[fieldName] - 1,
-    }));
+    const { name } = event.currentTarget;
+    const fieldName = kebabToCamel(name);
+    updateStore(fieldName, store[fieldName] - 1);
   };
 
   return (
@@ -119,7 +95,7 @@ const LogSection: React.FC<ILogSectionProps> = ({
             onSelectOption={onDropdownChange}
             items={clearOptions}
             name='cleanup-policy'
-            value={logFormData['cleanup-policy']}
+            value={store.cleanupPolicy}
           />
         </FormGroupWithPopover>
         <FormGroupWithPopover
@@ -129,30 +105,22 @@ const LogSection: React.FC<ILogSectionProps> = ({
           labelBody={retentionBytesLabelBody}
           buttonAriaLabel='More info for retention bytes field'
         >
-          <Flex>
-            <FlexItem grow={{ default: 'grow' }}>
-              <Touchspin
-                inputName='retention-bytes'
-                onChange={handleTouchSpinInputChange}
-                onPlus={handleTouchSpinPlus}
-                onMinus={handleTouchSpinMinus}
-                value={logFormData['retention-bytes']}
-                plusBtnProps={{ name: 'retention-bytes' }}
-                minusBtnProps={{ name: 'retention-bytes' }}
-              />
-            </FlexItem>
-            <FlexItem>
-              <DropdownWithToggle
-                id='log-section-retention-unit-dropdown'
-                toggleId='log-section-retention-unit-dropdowntoggle'
-                ariaLabel='select unit from dropdown'
-                onSelectOption={onDropdownChange}
-                items={memoryUnits}
-                name='retention-unit'
-                value={logFormData['retention-unit']}
-              />
-            </FlexItem>
-          </Flex>
+          <SizeTimeFormGroup
+            inputName='retention-bytes'
+            onChange={handleTouchSpinInputChange}
+            onPlus={handleTouchSpinPlus}
+            onMinus={handleTouchSpinMinus}
+            value={store.retentionBytes}
+            plusBtnProps={{ name: 'retention-bytes' }}
+            minusBtnProps={{ name: 'retention-bytes' }}
+            id='log-section-retention-unit-dropdown'
+            toggleId='log-section-retention-unit-dropdowntoggle'
+            ariaLabel='select unit from dropdown'
+            onSelectOption={onDropdownChange}
+            type="memory"
+            name='retention-unit'
+            dropdownValue={store.retentionUnit}
+          />
         </FormGroupWithPopover>
 
         <FormGroupWithPopover
@@ -162,30 +130,22 @@ const LogSection: React.FC<ILogSectionProps> = ({
           labelBody={logSegmentLabelBody}
           buttonAriaLabel='More info for log segment types field'
         >
-          <Flex>
-            <FlexItem grow={{ default: 'grow' }}>
-              <Touchspin
-                inputName='segment-type'
-                onChange={handleTouchSpinInputChange}
-                onPlus={handleTouchSpinPlus}
-                onMinus={handleTouchSpinMinus}
-                value={logFormData['segment-type']}
-                plusBtnProps={{ name: 'segment-type' }}
-                minusBtnProps={{ name: 'segment-type' }}
-              />
-            </FlexItem>
-            <FlexItem>
-              <DropdownWithToggle
-                id='log-section-segment-unit-dropdown'
-                toggleId='log-section-segment-unit-dropdowntoggle'
-                ariaLabel='select unit from dropdown'
-                onSelectOption={onDropdownChange}
-                items={memoryUnits}
-                name='segment-unit'
-                value={logFormData['segment-unit']}
-              />
-            </FlexItem>
-          </Flex>
+          <SizeTimeFormGroup
+            inputName='segment-size'
+            onChange={handleTouchSpinInputChange}
+            onPlus={handleTouchSpinPlus}
+            onMinus={handleTouchSpinMinus}
+            value={store.segmentSize}
+            plusBtnProps={{ name: 'segment-size' }}
+            minusBtnProps={{ name: 'segment-size' }}
+            id='log-section-segment-unit-dropdown'
+            toggleId='log-section-segment-unit-dropdowntoggle'
+            ariaLabel='select unit from dropdown'
+            onSelectOption={onDropdownChange}
+            type="memory"
+            name='segment-unit'
+            dropdownValue={store.segmentUnit}
+          />
         </FormGroupWithPopover>
       </Form>
     </>
