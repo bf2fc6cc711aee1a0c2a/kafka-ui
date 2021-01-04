@@ -2,8 +2,8 @@
  * Copyright Strimzi authors.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
-import React, { useEffect, useState } from "react";
-import "@patternfly/react-core/dist/styles/base.css";
+import React, { useEffect, useState } from 'react';
+import '@patternfly/react-core/dist/styles/base.css';
 import {
   Flex,
   FlexItem,
@@ -17,8 +17,8 @@ import {
   Text,
   TextVariants,
   Touchspin,
-} from "@patternfly/react-core";
-import "./CreateTopicWizard.patternfly.css";
+} from '@patternfly/react-core';
+import './CreateTopicWizard.patternfly.css';
 
 interface IStepMessageRetention {
   setMsgRetentionValue: (value: number) => void;
@@ -31,7 +31,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
     DAY = 1,
     WEEK = 7,
     MONTH = 30,
-    CUSTOM = "custom",
+    CUSTOM = 'custom',
   }
   const [currentPeriod, setCurrentPeriod] = React.useState<string | number>(
     RetentionOption.DAY
@@ -51,19 +51,20 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
     } else if (currentPeriod === RetentionOption.CUSTOM) {
       setMsgRetentionValue(retentionFactor * msgTouchspinValue);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPeriod, msgTouchspinValue, retentionFactor]);
 
   const handleMessageRetention = (checked, event) => {
     const target = event.target;
     const name = target.name;
 
-    if (name === "radio1") {
+    if (name === 'radio1') {
       setCurrentPeriod(RetentionOption.DAY);
-    } else if (name === "radio2") {
+    } else if (name === 'radio2') {
       setCurrentPeriod(RetentionOption.WEEK);
-    } else if (name === "radio3") {
+    } else if (name === 'radio3') {
       setCurrentPeriod(RetentionOption.MONTH);
-    } else if (name === "radio4") {
+    } else if (name === 'radio4') {
       setCurrentPeriod(RetentionOption.CUSTOM);
     }
   };
@@ -73,11 +74,11 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
   };
 
   const onMsgSelect = (event, selection) => {
-    if (selection === "days") {
+    if (selection === 'days') {
       setRetentionFactor(RetentionOption.DAY);
-    } else if (selection === "weeks") {
+    } else if (selection === 'weeks') {
       setRetentionFactor(RetentionOption.WEEK);
-    } else if (selection === "months") {
+    } else if (selection === 'months') {
       setRetentionFactor(RetentionOption.MONTH);
     }
     setSelected(selection);
@@ -98,7 +99,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
 
   return (
     <>
-      <TextContent className="topics-wizard-content">
+      <TextContent className='topics-wizard-content'>
         <Text component={TextVariants.h2}>Message retention</Text>
         <Text component={TextVariants.p}>
           This is how long messages are retained before they are deleted.
@@ -108,45 +109,45 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
           will be missed.
         </Text>
       </TextContent>
-      <Form className="form-in-wizard">
+      <Form className='form-in-wizard'>
         <FormGroup
-          fieldId="form-group-in-wizard"
-          label="Message retention"
-          className="form-group-radio"
+          fieldId='form-group-in-wizard'
+          label='Message retention'
+          className='form-group-radio'
         >
           <Radio
             isChecked={currentPeriod === RetentionOption.DAY}
-            name="radio1"
+            name='radio1'
             onChange={handleMessageRetention}
-            label="A day"
-            id="radio-controlled-1"
-            value="day"
+            label='A day'
+            id='radio-controlled-1'
+            value='day'
           />
           <Radio
             isChecked={currentPeriod === RetentionOption.WEEK}
-            name="radio2"
+            name='radio2'
             onChange={handleMessageRetention}
-            label="A week"
-            id="radio-controlled-2"
-            value="week"
+            label='A week'
+            id='radio-controlled-2'
+            value='week'
           />
           <Radio
             isChecked={currentPeriod === RetentionOption.MONTH}
-            name="radio3"
+            name='radio3'
             onChange={handleMessageRetention}
-            label="A month"
-            id="radio-controlled-3"
-            value="month"
+            label='A month'
+            id='radio-controlled-3'
+            value='month'
           />
           <Radio
             isChecked={currentPeriod === RetentionOption.CUSTOM}
-            name="radio4"
+            name='radio4'
             onChange={handleMessageRetention}
-            label=""
-            id="radio-controlled-4"
-            value="custom"
+            label=''
+            id='radio-controlled-4'
+            value='custom'
           />
-          <div className="radio-description radio-step-3">
+          <div className='radio-description radio-step-3'>
             <Flex>
               <FlexItem>
                 <Touchspin
@@ -159,16 +160,16 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
               <FlexItem>
                 <Select
                   variant={SelectVariant.single}
-                  aria-label="Select Input"
+                  aria-label='Select Input'
                   onToggle={onMsgToggle}
                   onSelect={onMsgSelect}
                   selections={selected}
                   isOpen={isMsgSelectOpen}
                   // aria-labelledby={titleId}
                 >
-                  <SelectOption key={0} value="days" isPlaceholder />
-                  <SelectOption key={1} value="weeks" />
-                  <SelectOption key={2} value="months" />
+                  <SelectOption key={0} value='days' isPlaceholder />
+                  <SelectOption key={1} value='weeks' />
+                  <SelectOption key={2} value='months' />
                 </Select>
               </FlexItem>
             </Flex>
