@@ -15,7 +15,7 @@ import {
 } from '@patternfly/react-core';
 import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWithPopover.patternfly';
 import { kebabToCamel } from './utils';
-import { TopicContext } from './TopicContext';
+import { TopicContext } from 'Contexts/Topic';
 import { SizeTimeFormGroup } from '../Common/SizeTimeFormGroup/SizeTimeFormGroup.patternfly';
 
 const deleteRetentionLabelHead = 'Delete retention';
@@ -47,7 +47,6 @@ const preallocateLabelBody =
   'Determines whether to preallocate log segment files. (preallocate)';
 
 export const CleanupSection: React.FC = () => {
-
   const { store, updateStore } = React.useContext(TopicContext);
 
   const handleTouchSpinInputChange = (
@@ -153,7 +152,7 @@ export const CleanupSection: React.FC = () => {
             toggleId='min-lag-unit-dropdowntoggle'
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
-            type="time"
+            type='time'
             name='min-lag-unit'
             dropdownValue={store.minLagUnit}
           />
@@ -177,7 +176,7 @@ export const CleanupSection: React.FC = () => {
             toggleId='segment-time-unit-dropdowntoggle'
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
-            type="time"
+            type='time'
             name='segment-time-unit'
             dropdownValue={store.segmentTimeUnit}
           />
@@ -201,7 +200,7 @@ export const CleanupSection: React.FC = () => {
             toggleId='jitter-time-unit-dropdowntoggle'
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
-            type="time"
+            type='time'
             name='jitter-time-unit'
             dropdownValue={store.jitterTimeUnit}
           />
@@ -225,7 +224,7 @@ export const CleanupSection: React.FC = () => {
             toggleId='delete-delay-unit-dropdowntoggle'
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
-            type="time"
+            type='time'
             name='delete-delay-unit'
             dropdownValue={store.deleteDelayUnit}
           />

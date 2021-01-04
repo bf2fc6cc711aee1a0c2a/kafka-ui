@@ -3,17 +3,12 @@
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
 
-import {
-  TextContent,
-  Text,
-  Form,
-  TextVariants
-} from '@patternfly/react-core';
+import { TextContent, Text, Form, TextVariants } from '@patternfly/react-core';
 import React from 'react';
 import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWithPopover.patternfly';
 import { kebabToCamel } from './utils';
 import { SizeTimeFormGroup } from '../Common/SizeTimeFormGroup/SizeTimeFormGroup.patternfly';
-import { TopicContext } from './TopicContext';
+import { TopicContext } from 'Contexts/Topic';
 
 const intervalMessagesLabelHead = 'Flush interval messages';
 const intervalMessagesLabelBody =
@@ -24,9 +19,8 @@ const intervalTimeLabelBody =
   'Determines the interval in time between flushing data to the log. Replication is a better way to ensure data is not lost when failures occur. (flush.ms)';
 
 export const FlushSection: React.FC = () => {
-
   const { store, updateStore } = React.useContext(TopicContext);
-  
+
   const handleTouchSpinInputChange = (
     event: React.FormEvent<HTMLInputElement>
   ) => {
@@ -82,9 +76,9 @@ export const FlushSection: React.FC = () => {
             name='interval-messages-unit'
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
-            type="time"
+            type='time'
             dropdownValue={store.intervalMessagesUnit}
-          />         
+          />
         </FormGroupWithPopover>
         <FormGroupWithPopover
           fieldId='flush'
@@ -107,7 +101,7 @@ export const FlushSection: React.FC = () => {
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
             dropdownValue={store.intervalTimeUnit}
-            type="time"
+            type='time'
           />
         </FormGroupWithPopover>
       </Form>

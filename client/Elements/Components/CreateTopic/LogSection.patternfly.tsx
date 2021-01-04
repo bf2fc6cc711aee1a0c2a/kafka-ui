@@ -4,12 +4,7 @@
  */
 
 import '@patternfly/react-core/dist/styles/base.css';
-import {
-  TextVariants,
-  Text,
-  TextContent,
-  Form
-} from '@patternfly/react-core';
+import { TextVariants, Text, TextContent, Form } from '@patternfly/react-core';
 import React from 'react';
 import {
   DropdownWithToggle,
@@ -18,7 +13,7 @@ import {
 import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWithPopover.patternfly';
 import { kebabToCamel } from './utils';
 import { SizeTimeFormGroup } from '../Common/SizeTimeFormGroup/SizeTimeFormGroup.patternfly';
-import { TopicContext } from './TopicContext';
+import { TopicContext } from 'Contexts/Topic';
 
 const clearOptions: IDropdownOption[] = [
   { key: 'compact', value: 'compact', isDisabled: false },
@@ -40,9 +35,8 @@ const logSegmentLabelBody =
   'The size of the log segment files. Log processing such as deletion and compaction operates on log segments, so a larger setting gives fewer files but less frequent log processing. (segment.bytes)';
 
 const LogSection: React.FC = () => {
-
   const { store, updateStore } = React.useContext(TopicContext);
-  
+
   const onDropdownChange = (value: string, event) => {
     const { name: fieldName } = event.target;
     updateStore(kebabToCamel(fieldName), value);
@@ -117,7 +111,7 @@ const LogSection: React.FC = () => {
             toggleId='log-section-retention-unit-dropdowntoggle'
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
-            type="memory"
+            type='memory'
             name='retention-unit'
             dropdownValue={store.retentionUnit}
           />
@@ -142,7 +136,7 @@ const LogSection: React.FC = () => {
             toggleId='log-section-segment-unit-dropdowntoggle'
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
-            type="memory"
+            type='memory'
             name='segment-unit'
             dropdownValue={store.segmentUnit}
           />

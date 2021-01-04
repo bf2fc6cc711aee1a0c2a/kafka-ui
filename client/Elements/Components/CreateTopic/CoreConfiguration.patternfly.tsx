@@ -16,7 +16,7 @@ import {
 import React from 'react';
 import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWithPopover.patternfly';
 import { kebabToCamel } from './utils';
-import { TopicContext } from './TopicContext';
+import { TopicContext } from 'Contexts/Topic';
 import { SizeTimeFormGroup } from '../Common/SizeTimeFormGroup/SizeTimeFormGroup.patternfly';
 
 const topicNameLabelHead = 'Topic name';
@@ -40,7 +40,6 @@ const retentionTimeLabelBody =
   'The length of time that messages are retained before they are deleted. If your messages are not read by a consumer within this time, they will be missed. (retention.ms)';
 
 const CoreConfiguration: React.FC = () => {
-
   const { store, updateStore } = React.useContext(TopicContext);
 
   const handleTextInputChange = (
@@ -184,7 +183,7 @@ const CoreConfiguration: React.FC = () => {
             dropdownValue={store.retentionTimeUnit}
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
-            type="time"
+            type='time'
           />
         </FormGroupWithPopover>
       </Form>

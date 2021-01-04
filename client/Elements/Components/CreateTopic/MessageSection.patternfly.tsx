@@ -4,12 +4,7 @@
  */
 
 import '@patternfly/react-core/dist/styles/base.css';
-import {
-  TextVariants,
-  Text,
-  TextContent,
-  Form
-} from '@patternfly/react-core';
+import { TextVariants, Text, TextContent, Form } from '@patternfly/react-core';
 import React from 'react';
 import {
   DropdownWithToggle,
@@ -17,7 +12,7 @@ import {
 } from '../Common/DropdownWithToggle.patternfly';
 import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWithPopover.patternfly';
 import { kebabToCamel } from './utils';
-import { TopicContext } from './TopicContext';
+import { TopicContext } from 'Contexts/Topic';
 import { SizeTimeFormGroup } from '../Common/SizeTimeFormGroup/SizeTimeFormGroup.patternfly';
 
 const maxMessageSizeLabelHead = 'Maximum message size';
@@ -36,7 +31,6 @@ const compressionTypeLabelHead = 'Compression type';
 const compressionTypeLabelBody =
   'Determines the final compression for the topic, or whether to retain the compression set by the producer. (compression.type)';
 
-
 const timeStampOptions: IDropdownOption[] = [
   { key: 'create-time', value: 'CreateTime', isDisabled: false },
   { key: 'log-append-time', value: 'LogAppendTime', isDisabled: false },
@@ -52,7 +46,6 @@ const messageCompressionTypes: IDropdownOption[] = [
 ];
 
 const MessageSection: React.FC = () => {
-
   const { store, updateStore } = React.useContext(TopicContext);
 
   const handleTouchSpinInputChange = (
@@ -110,7 +103,7 @@ const MessageSection: React.FC = () => {
             toggleId='msg-section-units-dropdowntoggle'
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
-            type="memory"
+            type='memory'
             name='message-size-unit'
             dropdownValue={store.messageSizeUnit}
           />
@@ -151,11 +144,10 @@ const MessageSection: React.FC = () => {
             toggleId='msg-section-timestamp-diff-units-dropdowntoggle'
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
-            type="time"
+            type='time'
             name='timestamp-diff-unit'
             dropdownValue={store.timestampDiffUnit}
           />
-
         </FormGroupWithPopover>
         <FormGroupWithPopover
           fieldId='compression-type'

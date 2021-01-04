@@ -15,7 +15,7 @@ import {
 import '@patternfly/react-core/dist/styles/base.css';
 import React from 'react';
 import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWithPopover.patternfly';
-import { TopicContext } from './TopicContext';
+import { TopicContext } from 'Contexts/Topic';
 import { kebabToCamel } from './utils';
 
 const leaderElectionLabelHead = 'Unclean leader election';
@@ -31,8 +31,7 @@ const leaderReplicaLabelBody =
   'A list of the replicas for which replication should be throttled on the leader side. Can be used to limit the network bandwidth consumed by replication. (leader.replication.throttled.replicas)';
 
 export const ReplicationSection: React.FC = () => {
-
-  const { store, updateStore } = React.useContext(TopicContext); 
+  const { store, updateStore } = React.useContext(TopicContext);
 
   const handleTextInputChange = (
     value: string,

@@ -3,17 +3,12 @@
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
 
-import {
-  TextContent,
-  Text,
-  Form,
-  TextVariants
-} from '@patternfly/react-core';
+import { TextContent, Text, Form, TextVariants } from '@patternfly/react-core';
 import React from 'react';
 import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWithPopover.patternfly';
 import { kebabToCamel } from './utils';
 import { SizeTimeFormGroup } from '../Common/SizeTimeFormGroup/SizeTimeFormGroup.patternfly';
-import { TopicContext } from './TopicContext';
+import { TopicContext } from 'Contexts/Topic';
 
 const indexIntervalLabelHead = 'Index interval size';
 const indexIntervalLabelBody =
@@ -23,7 +18,6 @@ const segementIntervalLabelBody =
   'The size of the index that maps offsets to file positions. (segment.index.bytes)';
 
 export const IndexSection: React.FC = () => {
-
   const { store, updateStore } = React.useContext(TopicContext);
 
   const handleTouchSpinInputChange = (
@@ -82,7 +76,7 @@ export const IndexSection: React.FC = () => {
             name='index-interval-unit'
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
-            type="memory"
+            type='memory'
             dropdownValue={store.indexIntervalUnit}
           />
         </FormGroupWithPopover>
@@ -106,7 +100,7 @@ export const IndexSection: React.FC = () => {
             name='segment-index-unit'
             ariaLabel='select duration from dropdown'
             onSelectOption={onDropdownChange}
-            type="memory"
+            type='memory'
             dropdownValue={store.segmentIndexUnit}
           />
         </FormGroupWithPopover>
