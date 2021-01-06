@@ -14,6 +14,7 @@ import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWi
 import { kebabToCamel } from './utils';
 import { SizeTimeFormGroup } from '../Common/SizeTimeFormGroup/SizeTimeFormGroup.patternfly';
 import { TopicContext } from 'Contexts/Topic';
+import { useTranslation } from 'react-i18next';
 
 const clearOptions: IDropdownOption[] = [
   { key: 'compact', value: 'compact', isDisabled: false },
@@ -22,20 +23,10 @@ const clearOptions: IDropdownOption[] = [
   { key: 'delete-compact', value: 'delete, compact', isDisabled: false },
 ];
 
-const cleanupPolicyLabelHead = 'Cleanup policy';
-const cleanupPolicyLabelBody =
-  'Determines what happens to log segments beyond the retention window. (cleanup.policy)';
-
-const retentionBytesLabelHead = 'Retention size';
-const retentionBytesLabelBody =
-  "The maximum total size of a partition's log segments before old log segments are deleted to free up space. (retention.bytes)";
-
-const logSegmentLabelHead = 'Log segment size';
-const logSegmentLabelBody =
-  'The size of the log segment files. Log processing such as deletion and compaction operates on log segments, so a larger setting gives fewer files but less frequent log processing. (segment.bytes)';
-
 const LogSection: React.FC = () => {
   const { store, updateStore } = React.useContext(TopicContext);
+
+  const { t } = useTranslation();
 
   const onDropdownChange = (value: string, event) => {
     const { name: fieldName } = event.target;
@@ -78,8 +69,8 @@ const LogSection: React.FC = () => {
         <FormGroupWithPopover
           fieldId='cleanup-policy'
           fieldLabel='Cleanup policy'
-          labelHead={cleanupPolicyLabelHead}
-          labelBody={cleanupPolicyLabelBody}
+          labelHead={t('createTopic.cleanupPolicyLabelHead')}
+          labelBody={t('createTopic.cleanupPolicyLabelBody')}
           buttonAriaLabel='More info for cleanup policy field'
         >
           <DropdownWithToggle
@@ -95,8 +86,8 @@ const LogSection: React.FC = () => {
         <FormGroupWithPopover
           fieldId='retention-bytes'
           fieldLabel='Retention bytes'
-          labelHead={retentionBytesLabelHead}
-          labelBody={retentionBytesLabelBody}
+          labelHead={t('createTopic.retentionBytesLabelHead')}
+          labelBody={t('createTopic.retentionBytesLabelBody')}
           buttonAriaLabel='More info for retention bytes field'
         >
           <SizeTimeFormGroup
@@ -120,8 +111,8 @@ const LogSection: React.FC = () => {
         <FormGroupWithPopover
           fieldId='log-type'
           fieldLabel='Log segment types'
-          labelHead={logSegmentLabelHead}
-          labelBody={logSegmentLabelBody}
+          labelHead={t('createTopic.logSegmentLabelHead')}
+          labelBody={t('createTopic.logSegmentLabelBody')}
           buttonAriaLabel='More info for log segment types field'
         >
           <SizeTimeFormGroup

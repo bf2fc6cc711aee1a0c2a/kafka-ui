@@ -14,22 +14,7 @@ import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWi
 import { kebabToCamel } from './utils';
 import { TopicContext } from 'Contexts/Topic';
 import { SizeTimeFormGroup } from '../Common/SizeTimeFormGroup/SizeTimeFormGroup.patternfly';
-
-const maxMessageSizeLabelHead = 'Maximum message size';
-const maxMessageSizeLabelBody =
-  'The maximum record batch size. (max.message.bytes)';
-
-const messageTimestampLabelHead = 'Message timestamp type';
-const messageTimestampLabelBody =
-  'Determines if the timestamp is made when the message is created or when the message is appended to the log. (message.timestamp.type)';
-
-const messageTimestampDiffLabelHead = 'Maximum message timestamp difference';
-const messageTimestampDiffLabelBody =
-  'The maximum difference allowed between the timestamp of the message leaving the producer and arriving at the broker. (message.timestamp.difference.max.ms)';
-
-const compressionTypeLabelHead = 'Compression type';
-const compressionTypeLabelBody =
-  'Determines the final compression for the topic, or whether to retain the compression set by the producer. (compression.type)';
+import { useTranslation } from 'react-i18next';
 
 const timeStampOptions: IDropdownOption[] = [
   { key: 'create-time', value: 'CreateTime', isDisabled: false },
@@ -47,6 +32,8 @@ const messageCompressionTypes: IDropdownOption[] = [
 
 const MessageSection: React.FC = () => {
   const { store, updateStore } = React.useContext(TopicContext);
+
+  const { t } = useTranslation();
 
   const handleTouchSpinInputChange = (
     event: React.FormEvent<HTMLInputElement>
@@ -87,8 +74,8 @@ const MessageSection: React.FC = () => {
         <FormGroupWithPopover
           fieldId='maxsize'
           fieldLabel='Maximum message size'
-          labelHead={maxMessageSizeLabelHead}
-          labelBody={maxMessageSizeLabelBody}
+          labelHead={t('createTopic.maxMessageSizeLabelHead')}
+          labelBody={t('createTopic.maxMessageSizeLabelBody')}
           buttonAriaLabel='More info for maximum message size field'
         >
           <SizeTimeFormGroup
@@ -111,8 +98,8 @@ const MessageSection: React.FC = () => {
         <FormGroupWithPopover
           fieldId='timestamp'
           fieldLabel='Message timestamp type'
-          labelHead={messageTimestampLabelHead}
-          labelBody={messageTimestampLabelBody}
+          labelHead={t('createTopic.messageTimestampLabelHead')}
+          labelBody={t('createTopic.messageTimestampLabelBody')}
           buttonAriaLabel='More info for message timestamp field'
         >
           <DropdownWithToggle
@@ -128,8 +115,8 @@ const MessageSection: React.FC = () => {
         <FormGroupWithPopover
           fieldId='max-difference'
           fieldLabel='Message timestamp difference'
-          labelHead={messageTimestampDiffLabelHead}
-          labelBody={messageTimestampDiffLabelBody}
+          labelHead={t('createTopic.messageTimestampDiffLabelHead')}
+          labelBody={t('createTopic.messageTimestampDiffLabelBody')}
           buttonAriaLabel='More info for maximum message timestamp difference field'
         >
           <SizeTimeFormGroup
@@ -152,8 +139,8 @@ const MessageSection: React.FC = () => {
         <FormGroupWithPopover
           fieldId='compression-type'
           fieldLabel='Compression type'
-          labelHead={compressionTypeLabelHead}
-          labelBody={compressionTypeLabelBody}
+          labelHead={t('createTopic.compressionTypeLabelHead')}
+          labelBody={t('createTopic.compressionTypeLabelBody')}
           buttonAriaLabel='More info for comprssion type field'
         >
           <DropdownWithToggle

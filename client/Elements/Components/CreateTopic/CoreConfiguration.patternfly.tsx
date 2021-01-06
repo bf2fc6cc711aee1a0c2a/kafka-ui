@@ -18,29 +18,12 @@ import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWi
 import { kebabToCamel } from './utils';
 import { TopicContext } from 'Contexts/Topic';
 import { SizeTimeFormGroup } from '../Common/SizeTimeFormGroup/SizeTimeFormGroup.patternfly';
-
-const topicNameLabelHead = 'Topic name';
-const topicNameLabelBody =
-  "This is the unique identifier for this topic within this cluster. You'll need this to set up your producers and consumers, so make it something memorable.";
-
-const partitionsLabelHead = 'Partitions';
-const partitionsLabelBody =
-  'A partition is an ordered list of messages. One or more partitions make up a topic.';
-
-const replicasLabelHead = 'Replicas';
-const replicasLabelBody =
-  'In order to improve availability, each topic can be replicated onto multiple brokers. If a following replica is keeping up with the partition leader, its replica is in-sync. Any follower with an in-sync replica can become the leader without losing any messages.';
-
-const inSyncReplicasLabelHead = 'Minimum in-sync replicas';
-const inSyncReplicasLabelBody =
-  'Determines the reliability guarantee achievable for this topic. The minimum number of replicas that must acknowledge a write to satisfy a producer that requests acknowledgements from all replicas. (min.insync.replicas)';
-
-const retentionTimeLabelHead = 'Retention time';
-const retentionTimeLabelBody =
-  'The length of time that messages are retained before they are deleted. If your messages are not read by a consumer within this time, they will be missed. (retention.ms)';
+import { useTranslation } from 'react-i18next';
 
 const CoreConfiguration: React.FC = () => {
   const { store, updateStore } = React.useContext(TopicContext);
+
+  const { t } = useTranslation();
 
   const handleTextInputChange = (
     value: string,
@@ -92,10 +75,10 @@ const CoreConfiguration: React.FC = () => {
       </TextContent>
       <Form>
         <FormGroupWithPopover
-          labelHead={topicNameLabelHead}
+          labelHead={t('createTopic.topicNameLabelHead')}
           fieldId='create-topic-name'
           fieldLabel='Topic name'
-          labelBody={topicNameLabelBody}
+          labelBody={t('createTopic.topicNameLabelBody')}
           buttonAriaLabel='More info for topic name field'
         >
           <TextInput
@@ -112,8 +95,8 @@ const CoreConfiguration: React.FC = () => {
         <FormGroupWithPopover
           fieldId='create-topic-partitions'
           fieldLabel='Partitions'
-          labelHead={partitionsLabelHead}
-          labelBody={partitionsLabelBody}
+          labelHead={t('createTopic.partitionsLabelHead')}
+          labelBody={t('createTopic.partitionsLabelBody')}
           buttonAriaLabel='More info for partitions field'
         >
           <Touchspin
@@ -130,8 +113,8 @@ const CoreConfiguration: React.FC = () => {
         <FormGroupWithPopover
           fieldId='replicas'
           fieldLabel='Replicas'
-          labelHead={replicasLabelHead}
-          labelBody={replicasLabelBody}
+          labelHead={t('createTopic.replicasLabelHead')}
+          labelBody={t('createTopic.replicasLabelBody')}
           buttonAriaLabel='More info for replicas field'
         >
           <Touchspin
@@ -147,8 +130,8 @@ const CoreConfiguration: React.FC = () => {
         <FormGroupWithPopover
           fieldId='insyncreplicas'
           fieldLabel='Minimum in-sync replicas'
-          labelHead={inSyncReplicasLabelHead}
-          labelBody={inSyncReplicasLabelBody}
+          labelHead={t('createTopic.inSyncReplicasLabelHead')}
+          labelBody={t('createTopic.inSyncReplicasLabelBody')}
           buttonAriaLabel='More info for minimum in-sync replicas field'
         >
           <Touchspin
@@ -165,8 +148,8 @@ const CoreConfiguration: React.FC = () => {
         <FormGroupWithPopover
           fieldId='retention'
           fieldLabel='Retention time'
-          labelHead={retentionTimeLabelHead}
-          labelBody={retentionTimeLabelBody}
+          labelHead={t('createTopic.retentionTimeLabelHead')}
+          labelBody={t('createTopic.retentionTimeLabelBody')}
           buttonAriaLabel='More info for retention time field'
         >
           <SizeTimeFormGroup

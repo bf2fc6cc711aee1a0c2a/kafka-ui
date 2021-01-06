@@ -9,16 +9,12 @@ import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWi
 import { kebabToCamel } from './utils';
 import { SizeTimeFormGroup } from '../Common/SizeTimeFormGroup/SizeTimeFormGroup.patternfly';
 import { TopicContext } from 'Contexts/Topic';
-
-const indexIntervalLabelHead = 'Index interval size';
-const indexIntervalLabelBody =
-  'Determines the granularity of the offset index. (index.interval.bytes)';
-const segementIntervalLabelHead = 'Segment index size';
-const segementIntervalLabelBody =
-  'The size of the index that maps offsets to file positions. (segment.index.bytes)';
+import { useTranslation } from 'react-i18next';
 
 export const IndexSection: React.FC = () => {
   const { store, updateStore } = React.useContext(TopicContext);
+
+  const { t } = useTranslation();
 
   const handleTouchSpinInputChange = (
     event: React.FormEvent<HTMLInputElement>
@@ -59,8 +55,8 @@ export const IndexSection: React.FC = () => {
         <FormGroupWithPopover
           fieldId='interval-bytes'
           fieldLabel='Index interval bytes'
-          labelHead={indexIntervalLabelHead}
-          labelBody={indexIntervalLabelBody}
+          labelHead={t('createTopic.indexIntervalLabelHead')}
+          labelBody={t('createTopic.indexIntervalLabelBody')}
           buttonAriaLabel='More info for index interval bytes field'
         >
           <SizeTimeFormGroup
@@ -83,8 +79,8 @@ export const IndexSection: React.FC = () => {
         <FormGroupWithPopover
           fieldId='int-bytes'
           fieldLabel='Segment interval bytes'
-          labelHead={segementIntervalLabelHead}
-          labelBody={segementIntervalLabelBody}
+          labelHead={t('createTopic.segementIntervalLabelHead')}
+          labelBody={t('createTopic.segementIntervalLabelBody')}
           buttonAriaLabel='More info for segment interval bytes field'
         >
           <SizeTimeFormGroup

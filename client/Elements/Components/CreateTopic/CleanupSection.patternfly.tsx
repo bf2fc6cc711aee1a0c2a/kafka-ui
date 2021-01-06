@@ -17,37 +17,12 @@ import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWi
 import { kebabToCamel } from './utils';
 import { TopicContext } from 'Contexts/Topic';
 import { SizeTimeFormGroup } from '../Common/SizeTimeFormGroup/SizeTimeFormGroup.patternfly';
-
-const deleteRetentionLabelHead = 'Delete retention';
-const deleteRetentionLabelBody =
-  'Determines the time for which tombstone markers are retained if the topic is compacted. (delete.retention.ms)';
-
-const minRatioLabelHead = 'Minimum cleanable dirty ratio';
-const minRatioLabelBody =
-  'Determines the frequency of compacting the log in terms of the proportion of duplicated keys allowed. Applies only to compacted topics. (min.cleanable.dirty.ratio)';
-
-const minLagLabelHead = 'Minimum compaction lag time';
-const minLagLabelBody =
-  'The minimum time a message will remain uncompacted. Applies only to compacted topics. (min.compaction.lag.ms)';
-
-const segementTimeLabelHead = 'Segment time';
-const segementTimeLabelBody =
-  'The period of time after which the current log segment is rolled even if it is not full. This permits log processing such as deletion and compaction to proceed for quiet topics. (segment.ms)';
-
-const jitterTimeLabelHead = 'Segment jitter time';
-const jitterTimeLabelBody =
-  'Controls a random delay to add to log segment rolling with the aim of preventing bursts of log segment rolling activity. (segment.jitter.ms)';
-
-const deleteDelayLabelHead = 'File delete delay';
-const deleteDelayLabelBody =
-  'The delay before deleting a file from the filesystem. (file.delete.delay.ms)';
-
-const preallocateLabelHead = 'Preallocate log segment files';
-const preallocateLabelBody =
-  'Determines whether to preallocate log segment files. (preallocate)';
+import { useTranslation } from 'react-i18next';
 
 export const CleanupSection: React.FC = () => {
   const { store, updateStore } = React.useContext(TopicContext);
+
+  const { t } = useTranslation();
 
   const handleTouchSpinInputChange = (
     event: React.FormEvent<HTMLInputElement>
@@ -95,8 +70,8 @@ export const CleanupSection: React.FC = () => {
         <FormGroupWithPopover
           fieldId='delete-retention'
           fieldLabel='Delete retention'
-          labelHead={deleteRetentionLabelHead}
-          labelBody={deleteRetentionLabelBody}
+          labelHead={t('createTopic.deleteRetentionLabelHead')}
+          labelBody={t('createTopic.deleteRetentionLabelBody')}
           buttonAriaLabel='More info for delete retention field'
         >
           <SizeTimeFormGroup
@@ -119,8 +94,8 @@ export const CleanupSection: React.FC = () => {
         <FormGroupWithPopover
           fieldId='dirty-ratio'
           fieldLabel='Minimum cleanable dirty ratio'
-          labelHead={minRatioLabelHead}
-          labelBody={minRatioLabelBody}
+          labelHead={t('createTopic.minRatioLabelHead')}
+          labelBody={t('createTopic.minRatioLabelBody')}
           buttonAriaLabel='More info for minimum cleanable ratio field'
         >
           <Touchspin
@@ -136,8 +111,8 @@ export const CleanupSection: React.FC = () => {
         <FormGroupWithPopover
           fieldId='compaction'
           fieldLabel='Minimum compaction lag time'
-          labelHead={minLagLabelHead}
-          labelBody={minLagLabelBody}
+          labelHead={t('createTopic.minLagLabelHead')}
+          labelBody={t('createTopic.minLagLabelBody')}
           buttonAriaLabel='More info for minimum compaction log time field'
         >
           <SizeTimeFormGroup
@@ -160,8 +135,8 @@ export const CleanupSection: React.FC = () => {
         <FormGroupWithPopover
           fieldId='segment-time'
           fieldLabel='Segment time'
-          labelHead={segementTimeLabelHead}
-          labelBody={segementTimeLabelBody}
+          labelHead={t('createTopic.segementTimeLabelHead')}
+          labelBody={t('createTopic.segementTimeLabelBody')}
           buttonAriaLabel='More info for segment time field'
         >
           <SizeTimeFormGroup
@@ -184,8 +159,8 @@ export const CleanupSection: React.FC = () => {
         <FormGroupWithPopover
           fieldId='jitter'
           fieldLabel='Segment jitter time'
-          labelHead={jitterTimeLabelHead}
-          labelBody={jitterTimeLabelBody}
+          labelHead={t('createTopic.jitterTimeLabelHead')}
+          labelBody={t('createTopic.jitterTimeLabelBody')}
           buttonAriaLabel='More info for segment jitter time field'
         >
           <SizeTimeFormGroup
@@ -208,8 +183,8 @@ export const CleanupSection: React.FC = () => {
         <FormGroupWithPopover
           fieldId='delete'
           fieldLabel='File delete delay'
-          labelHead={deleteDelayLabelHead}
-          labelBody={deleteDelayLabelBody}
+          labelHead={t('createTopic.deleteDelayLabelHead')}
+          labelBody={t('createTopic.deleteDelayLabelBody')}
           buttonAriaLabel='More info for file delete delay field'
         >
           <SizeTimeFormGroup
@@ -232,8 +207,8 @@ export const CleanupSection: React.FC = () => {
         <FormGroupWithPopover
           fieldId='log-preallocation'
           fieldLabel='Preallocate log segment files'
-          labelHead={preallocateLabelHead}
-          labelBody={preallocateLabelBody}
+          labelHead={t('createTopic.preallocateLabelHead')}
+          labelBody={t('createTopic.preallocateLabelBody')}
           buttonAriaLabel='More info for preallocation field'
         >
           <Checkbox

@@ -17,21 +17,12 @@ import React from 'react';
 import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWithPopover.patternfly';
 import { TopicContext } from 'Contexts/Topic';
 import { kebabToCamel } from './utils';
-
-const leaderElectionLabelHead = 'Unclean leader election';
-const leaderElectionLabelBody =
-  'Allows a replica which is not in-sync to become the leader of the partition. This is only done as a last resort and can lead to data loss. (unclean.leader.election.enable)';
-
-const followerReplicaLabelHead = 'Follower replication throttled replicas';
-const followerReplicaLabelBody =
-  'A list of the replicas for which replication should be throttled on the follower side. Can be used to limit the network bandwidth consumed by replication. (follower.replication.throttled.replicas)';
-
-const leaderReplicaLabelHead = 'Leader replication throttled replicas';
-const leaderReplicaLabelBody =
-  'A list of the replicas for which replication should be throttled on the leader side. Can be used to limit the network bandwidth consumed by replication. (leader.replication.throttled.replicas)';
+import { useTranslation } from 'react-i18next';
 
 export const ReplicationSection: React.FC = () => {
   const { store, updateStore } = React.useContext(TopicContext);
+
+  const { t } = useTranslation();
 
   const handleTextInputChange = (
     value: string,
@@ -61,8 +52,8 @@ export const ReplicationSection: React.FC = () => {
         <FormGroupWithPopover
           fieldId='unclean-leader-election'
           fieldLabel='Unclean leader election'
-          labelHead={leaderElectionLabelHead}
-          labelBody={leaderElectionLabelBody}
+          labelHead={t('createTopic.leaderElectionLabelHead')}
+          labelBody={t('createTopic.leaderElectionLabelBody')}
           buttonAriaLabel='More info for leader election field'
         >
           <Checkbox
@@ -77,8 +68,8 @@ export const ReplicationSection: React.FC = () => {
         <FormGroupWithPopover
           fieldId='follower-replicas'
           fieldLabel='Follower replication throttled replicas'
-          labelHead={followerReplicaLabelHead}
-          labelBody={followerReplicaLabelBody}
+          labelHead={t('createTopic.followerReplicaLabelHead')}
+          labelBody={t('createTopic.followerReplicaLabelBody')}
           buttonAriaLabel='More info for follower throttled replicas field'
         >
           <InputGroup>
@@ -94,8 +85,8 @@ export const ReplicationSection: React.FC = () => {
         <FormGroupWithPopover
           fieldId='leader-replicas'
           fieldLabel='Leader replication throttled replicas'
-          labelHead={leaderReplicaLabelHead}
-          labelBody={leaderReplicaLabelBody}
+          labelHead={t('createTopic.leaderReplicaLabelHead')}
+          labelBody={t('createTopic.leaderReplicaLabelBody')}
           buttonAriaLabel='More info for leader throttled replicas field'
         >
           <InputGroup>

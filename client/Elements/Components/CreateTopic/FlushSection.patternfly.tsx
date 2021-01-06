@@ -9,17 +9,12 @@ import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWi
 import { kebabToCamel } from './utils';
 import { SizeTimeFormGroup } from '../Common/SizeTimeFormGroup/SizeTimeFormGroup.patternfly';
 import { TopicContext } from 'Contexts/Topic';
-
-const intervalMessagesLabelHead = 'Flush interval messages';
-const intervalMessagesLabelBody =
-  'Determines the number of messages between flushing data to the log. Replication is a better way to ensure data is not lost when failures occur. (flush.messages)';
-
-const intervalTimeLabelHead = 'Flush interval time';
-const intervalTimeLabelBody =
-  'Determines the interval in time between flushing data to the log. Replication is a better way to ensure data is not lost when failures occur. (flush.ms)';
+import { useTranslation } from 'react-i18next';
 
 export const FlushSection: React.FC = () => {
   const { store, updateStore } = React.useContext(TopicContext);
+
+  const { t } = useTranslation();
 
   const handleTouchSpinInputChange = (
     event: React.FormEvent<HTMLInputElement>
@@ -59,8 +54,8 @@ export const FlushSection: React.FC = () => {
         <FormGroupWithPopover
           fieldId='interval-messages'
           fieldLabel='Flush interval messages'
-          labelHead={intervalMessagesLabelHead}
-          labelBody={intervalMessagesLabelBody}
+          labelHead={'createTopic.intervalMessagesLabelHead'}
+          labelBody={'createTopic.intervalMessagesLabelBody'}
           buttonAriaLabel='More info for flush interval messages field'
         >
           <SizeTimeFormGroup
@@ -83,8 +78,8 @@ export const FlushSection: React.FC = () => {
         <FormGroupWithPopover
           fieldId='flush'
           fieldLabel='Flush interval time'
-          labelHead={intervalTimeLabelHead}
-          labelBody={intervalTimeLabelBody}
+          labelHead={t('createTopic.intervalTimeLabelHead')}
+          labelBody={t('createTopic.intervalTimeLabelBody')}
           buttonAriaLabel='More info for flush interval time field'
         >
           <SizeTimeFormGroup
