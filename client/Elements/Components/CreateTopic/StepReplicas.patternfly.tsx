@@ -15,7 +15,7 @@ import {
 } from '@patternfly/react-core';
 import './CreateTopicWizard.patternfly.css';
 
-interface IStepReplicas {
+export interface IStepReplicas {
   setReplicationFactorTouchspinValue: (value: number) => void;
   setMinInSyncReplicaTouchspinValue: (value: number) => void;
   replicationFactorTouchspinValue: number;
