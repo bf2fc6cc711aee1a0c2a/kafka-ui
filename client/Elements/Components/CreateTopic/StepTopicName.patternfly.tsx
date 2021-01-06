@@ -13,7 +13,7 @@ import {
   TextInput,
 } from '@patternfly/react-core';
 import './CreateTopicWizard.patternfly.css';
-interface IStepTopicName {
+export interface IStepTopicName {
   topicNameInput: string;
   setTopicNameInput: (value: string) => void;
 }
