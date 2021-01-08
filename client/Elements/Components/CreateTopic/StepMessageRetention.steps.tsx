@@ -8,23 +8,62 @@ import {
   IStepMessageRetention,
 } from './StepMessageRetention.patternfly';
 import React, { ReactElement } from 'react';
-
-let renderResult: RenderResult;
-let component: ReactElement;
+import userEvent from '@testing-library/user-event';
 
 const messageRetentionProps: IStepMessageRetention = {
   setMsgRetentionValue: jest.fn(),
 };
 
+const setup = () => {
+  const component: ReactElement = (
+    <StepMessageRetention {...messageRetentionProps} />
+  );
+  const renderResult: RenderResult = render(component);
+  return renderResult;
+};
+
 describe('Step Message Retention', () => {
   it('should render Message Retention step component', () => {
-    component = <StepMessageRetention {...messageRetentionProps} />;
-    renderResult = render(component);
-    const { getByText } = renderResult;
+    const { getByText } = setup();
     expect(
       getByText(
         'This is how long messages are retained before they are deleted.'
       )
     ).toBeInTheDocument();
+    expect(
+      getByText(
+        'If your messages are not read by a consumer within this time, they will be missed.'
+      )
+    ).toBeInTheDocument();
+  });
+
+  it('should handle plus and minus actions', () => {
+    const renderResult = setup();
+    const { setMsgRetentionValue } = messageRetentionProps;
+    const { getByRole } = renderResult;
+    userEvent.click(getByRole('button', { name: /Plus/i }));
+    expect(setMsgRetentionValue).toHaveBeenCalled();
+    expect(setMsgRetentionValue).toBeCalledTimes(1);
+    userEvent.click(getByRole('button', { name: /Minus/i }));
+    expect(setMsgRetentionValue).toHaveBeenCalled();
+    expect(setMsgRetentionValue).toBeCalledTimes(2);
+  });
+
+  it('should handle message retention radio clicks ', () => {
+    const { getByLabelText } = setup();
+    const { setMsgRetentionValue } = messageRetentionProps;
+    userEvent.click(getByLabelText('A day'));
+    expect(setMsgRetentionValue).toHaveBeenCalled();
+    expect(setMsgRetentionValue).toBeCalledTimes(1);
+    userEvent.click(getByLabelText('A week'));
+    expect(setMsgRetentionValue).toHaveBeenCalled();
+    expect(setMsgRetentionValue).toBeCalledTimes(2);
+    userEvent.click(getByLabelText('A month'));
+    expect(setMsgRetentionValue).toHaveBeenCalled();
+    expect(setMsgRetentionValue).toBeCalledTimes(3);
+    //WIP: Tests for custom radio buttons
+    // userEvent.click(getByLabelText(''));
+    // expect(setMsgRetentionValue).toHaveBeenCalled();
+    // expect(setMsgRetentionValue).toBeCalledTimes(4);
   });
 });
