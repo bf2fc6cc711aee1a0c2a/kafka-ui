@@ -13,6 +13,7 @@ const replicasProps: IStepReplicas = {
   minInSyncReplicaTouchspinValue: 1,
   replicationFactorTouchspinValue: 1,
 };
+
 const setup = () => {
   const component: ReactElement = <StepReplicas {...replicasProps} />;
   const renderResult: RenderResult = render(component);
@@ -51,6 +52,26 @@ describe('Step Replicas', () => {
     expect(setReplicationFactorTouchspinValue).toHaveBeenCalled();
     expect(setReplicationFactorTouchspinValue).toBeCalledTimes(1);
     userEvent.click(getAllByRole('button', { name: /Minus/i })[0]);
+    expect(setReplicationFactorTouchspinValue).toHaveBeenCalled();
+    expect(setReplicationFactorTouchspinValue).toBeCalledTimes(2);
+  });
+
+  it('should handle replicas radio clicks ', () => {
+    const { getByLabelText } = setup();
+    const {
+      setMinInSyncReplicaTouchspinValue,
+      setReplicationFactorTouchspinValue,
+    } = replicasProps;
+
+    userEvent.click(getByLabelText('Replication factor: 1'));
+    expect(setMinInSyncReplicaTouchspinValue).toHaveBeenCalled();
+    expect(setMinInSyncReplicaTouchspinValue).toBeCalledTimes(1);
+    expect(setReplicationFactorTouchspinValue).toHaveBeenCalled();
+    expect(setReplicationFactorTouchspinValue).toBeCalledTimes(1);
+
+    userEvent.click(getByLabelText('Replication factor: 2'));
+    expect(setMinInSyncReplicaTouchspinValue).toHaveBeenCalled();
+    expect(setMinInSyncReplicaTouchspinValue).toBeCalledTimes(2);
     expect(setReplicationFactorTouchspinValue).toHaveBeenCalled();
     expect(setReplicationFactorTouchspinValue).toBeCalledTimes(2);
   });

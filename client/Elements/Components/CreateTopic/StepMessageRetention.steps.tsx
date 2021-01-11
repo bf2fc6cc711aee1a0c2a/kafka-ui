@@ -61,9 +61,5 @@ describe('Step Message Retention', () => {
     userEvent.click(getByLabelText('A month'));
     expect(setMsgRetentionValue).toHaveBeenCalled();
     expect(setMsgRetentionValue).toBeCalledTimes(3);
-    //WIP: Tests for custom radio buttons
-    // userEvent.click(getByLabelText(''));
-    // expect(setMsgRetentionValue).toHaveBeenCalled();
-    // expect(setMsgRetentionValue).toBeCalledTimes(4);
   });
 });
