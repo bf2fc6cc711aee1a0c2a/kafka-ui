@@ -85,6 +85,8 @@ export type serverConfigType = {
   port: number;
   /** Configuration for a creation/management of a session */
   session: sessionConfigType;
+  /** Base path at which the api is served */
+  basePath: string
 };
 
 /** Re-export the pino Logger type */

@@ -20,7 +20,7 @@ export const returnExpress: (
   const logger = generateLogger('core');
   const app = express();
 
-  const { session } = getConfig();
+  const { session, basePath } = getConfig();
 
   // add helmet middleware
   if (process.env.NODE_ENV === 'production') {
@@ -61,8 +61,9 @@ export const returnExpress: (
         authFunction(config.authentication),
         config
       );
-      logger.info(`Mounted module '${moduleName}' on '${mountPoint}'`);
-      return { ...acc, [moduleName]: { mountPoint, routerForModule } };
+      const mountPointWithBasePath = basePath ? `${basePath}${mountPoint}` : mountPoint;
+      logger.info(`Mounted module '${moduleName}' on '${mountPointWithBasePath}'`);
+      return { ...acc, [moduleName]: { mountPoint: mountPointWithBasePath, routerForModule } };
     },
     {}
   );
