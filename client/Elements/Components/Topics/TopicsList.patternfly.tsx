@@ -9,6 +9,10 @@ import {
   Divider,
   Pagination,
   Toolbar,
+  EmptyState,
+  EmptyStateIcon,
+  EmptyStateBody,
+  Title,
   ToolbarContent,
   ToolbarItem,
 } from '@patternfly/react-core';
@@ -19,6 +23,7 @@ import {
   TableHeader,
   TableVariant,
 } from '@patternfly/react-table';
+import SpaceShuttleIcon from '@patternfly/react-icons/dist/js/icons/space-shuttle-icon';
 import { SearchTopics } from './SearchTopics.patternfly';
 import { useTopicsModel } from '../../../Panels/Topics/Model';
 
@@ -95,20 +100,43 @@ export const TopicsList: React.FunctionComponent = () => {
           </ToolbarContent>
         </Toolbar>
         <Divider />
-        <Table
-          aria-label='Compact Table'
-          variant={TableVariant.compact}
-          cells={tableColumns}
-          rows={
-            page != 1
-              ? rowData.slice(offset, offset + perPage)
-              : rowData.slice(0, perPage)
-          }
-          actions={actions}
-        >
-          <TableHeader />
-          <TableBody />
-        </Table>
+        {rowData.length > 0 ? (
+          <Table
+            aria-label='Compact Table'
+            variant={TableVariant.compact}
+            cells={tableColumns}
+            rows={
+              page != 1
+                ? rowData.slice(offset, offset + perPage)
+                : rowData.slice(0, perPage)
+            }
+            actions={actions}
+          >
+            <TableHeader />
+            <TableBody />
+          </Table>
+        ) : (
+          <EmptyState>
+            <EmptyStateIcon icon={SpaceShuttleIcon} />
+            <Title headingLevel='h5' size='lg'>
+              No Topics
+            </Title>
+            <EmptyStateBody>
+              You don&apos;t currently have any topics. Create a topic by
+              clicking the button {<br />}below or create topics using the
+              {<Button variant='link'>Openshift console</Button>}
+            </EmptyStateBody>
+            <Button
+              variant='primary'
+              className='topics-empty-page'
+              onClick={() => {
+                history.push('/topics/create');
+              }}
+            >
+              Create Topic
+            </Button>
+          </EmptyState>
+        )}
         <Pagination
           itemCount={rowData.length}
           perPage={perPage}
