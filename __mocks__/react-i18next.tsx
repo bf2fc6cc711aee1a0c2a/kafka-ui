@@ -2,7 +2,10 @@
  * Copyright Strimzi authors.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
-import { translate, translateWithFormatting } from 'utils/test/i18n';
+import {
+  translate,
+  translateWithFormatting,
+} from '../utils/test/i18n/i18n.util';
 import { TFunction } from 'i18next';
 import React, { FunctionComponent } from 'react';
 import { UseTranslationResponse } from 'react-i18next';
