@@ -11,7 +11,7 @@ import {
   Touchspin,
 } from '@patternfly/react-core';
 import './CreateTopicWizard.patternfly.css';
-interface IStepPartitions {
+export interface IStepPartitions {
   setPartitionTouchspinValue: (value: number) => void;
   partitionTouchspinValue: number;
 }

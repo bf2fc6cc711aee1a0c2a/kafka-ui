@@ -13,7 +13,7 @@ import {
   TextInput,
 } from '@patternfly/react-core';
 import './CreateTopicWizard.patternfly.css';
-interface IStepTopicName {
+export interface IStepTopicName {
   topicNameInput: string;
   setTopicNameInput: (value: string) => void;
 }
@@ -39,15 +39,15 @@ export const StepTopicName: React.FC<IStepTopicName> = ({
         <Form>
           <FormGroup
             label='Topic name'
-            fieldId='simple-form-name'
+            fieldId='step-topic-name-form'
             // helperText="Please enter your topic name"
           >
             <TextInput
               isRequired
               type='text'
-              id='simple-form-name'
-              name='simple-form-name'
-              aria-describedby='simple-form-name-helper'
+              id='step-topic-name-input'
+              name='step-topic-name'
+              aria-describedby='step-topic-name-helper'
               value={topicNameInput}
               onChange={handleTopicNameChange}
               placeholder='Enter topic name'

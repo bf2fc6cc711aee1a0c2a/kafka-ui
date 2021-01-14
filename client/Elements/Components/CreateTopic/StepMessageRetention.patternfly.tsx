@@ -20,7 +20,7 @@ import {
 } from '@patternfly/react-core';
 import './CreateTopicWizard.patternfly.css';
 
-interface IStepMessageRetention {
+export interface IStepMessageRetention {
   setMsgRetentionValue: (value: number) => void;
 }
 
