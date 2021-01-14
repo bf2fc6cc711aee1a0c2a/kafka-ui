@@ -2,7 +2,7 @@
  * Copyright Strimzi authors.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
-import React, { useState } from 'react';
+import React from 'react';
 import '@patternfly/react-core/dist/styles/base.css';
 import {
   Form,
@@ -28,37 +28,38 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
   replicationFactorTouchspinValue,
   minInSyncReplicaTouchspinValue,
 }) => {
-  const [radioBtnRepFactorOne, setRadioBtnRepFactorOne] = useState(false);
-  const [radioBtnRepFactorTwo, setRadioBtnRepFactorTwo] = useState(false);
-  const [radioBtnRepFactorCustom, setRadioBtnRepFactorCustom] = useState(false);
-
-  const handleChangeStep4 = (checked, event) => {
-    setRadioBtnRepFactorOne(false);
-    setRadioBtnRepFactorTwo(false);
-    setRadioBtnRepFactorCustom(false);
-
+  enum ReplicationOption {
+    ONE = 1,
+    TWO = 2,
+    CUSTOM = 'custom',
+  }
+  const [
+    currentReplicationFactor,
+    setCurrentReplicationFactor,
+  ] = React.useState<string | number>(ReplicationOption.ONE);
+  const handleChangeReplicationFactor = (checked, event) => {
     const target = event.target;
     const name = target.name;
 
     if (name === 'radio4') {
-      setRadioBtnRepFactorOne(true);
-      setMinInSyncReplicaTouchspinValue(1);
-      setReplicationFactorTouchspinValue(1);
+      setCurrentReplicationFactor(ReplicationOption.ONE);
+      setMinInSyncReplicaTouchspinValue(ReplicationOption.ONE);
+      setReplicationFactorTouchspinValue(ReplicationOption.ONE);
     } else if (name === 'radio5') {
-      setRadioBtnRepFactorTwo(true);
-      setMinInSyncReplicaTouchspinValue(2);
-      setReplicationFactorTouchspinValue(2);
+      setCurrentReplicationFactor(ReplicationOption.TWO);
+      setMinInSyncReplicaTouchspinValue(ReplicationOption.TWO);
+      setReplicationFactorTouchspinValue(ReplicationOption.TWO);
     } else if (name === 'radio6') {
-      setRadioBtnRepFactorCustom(true);
+      setCurrentReplicationFactor(ReplicationOption.CUSTOM);
       setMinInSyncReplicaTouchspinValue(minInSyncReplicaTouchspinValue);
       setReplicationFactorTouchspinValue(replicationFactorTouchspinValue);
     }
   };
 
-  const handleOnPlusReplicationFactorFactor = () => {
+  const handleOnPlusReplicationFactor = () => {
     setReplicationFactorTouchspinValue(replicationFactorTouchspinValue + 1);
   };
-  const handleOnMinusReplicationFactorFactor = () => {
+  const handleOnMinusReplicationFactor = () => {
     setReplicationFactorTouchspinValue(replicationFactorTouchspinValue - 1);
   };
   const handleReplicationFactorChange = (event) => {
@@ -93,27 +94,27 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
             className='form-group-radio'
           >
             <Radio
-              isChecked={radioBtnRepFactorOne}
+              isChecked={currentReplicationFactor === ReplicationOption.ONE}
               name='radio4'
-              onChange={handleChangeStep4}
+              onChange={handleChangeReplicationFactor}
               label='Replication factor: 1'
               id='radio-controlled-4'
               value='radio4'
               description='Minimum in-sync replicas: 1'
             />
             <Radio
-              isChecked={radioBtnRepFactorTwo}
+              isChecked={currentReplicationFactor === ReplicationOption.TWO}
               name='radio5'
-              onChange={handleChangeStep4}
+              onChange={handleChangeReplicationFactor}
               label='Replication factor: 2'
               id='radio-controlled-5'
               value='radio5'
               description='Minimum in-sync replicas: 2'
             />
             <Radio
-              isChecked={radioBtnRepFactorCustom}
+              isChecked={currentReplicationFactor === ReplicationOption.CUSTOM}
               name='radio6'
-              onChange={handleChangeStep4}
+              onChange={handleChangeReplicationFactor}
               label='Replication factor'
               id='radio-controlled-6'
               value='radio6'
@@ -121,8 +122,8 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
             <div className='radio-description'>
               <Touchspin
                 value={replicationFactorTouchspinValue}
-                onMinus={handleOnMinusReplicationFactorFactor}
-                onPlus={handleOnPlusReplicationFactorFactor}
+                onMinus={handleOnMinusReplicationFactor}
+                onPlus={handleOnPlusReplicationFactor}
                 onChange={handleReplicationFactorChange}
               />
               <Text

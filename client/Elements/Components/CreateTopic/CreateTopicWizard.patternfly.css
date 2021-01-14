@@ -6,7 +6,7 @@
   max-width: 500px;
 }
 
-.pf-c-form__group-control > * {
+.create-topic-wizard .pf-c-form__group-control > * {
   margin-bottom: var(--pf-global--spacer--md);
 }
 
@@ -19,23 +19,19 @@
 }
 
 .radio-step-3 {
-  margin-top: -22px;
+  margin-top: var(--pf-global--spacer--lg);
 }
 
 .create-topic-wizard {
   margin-top: var(--pf-global--spacer--md);
 }
 
-.pf-c-form__group-control > * {
-  margin-bottom: 0;
-}
-
 .topics-wizard-content .pf-c-form {
   margin-top: var(--pf-global--spacer--lg);
-  margin-bottom: 64px;
+  margin-bottom: var(--pf-global--spacer--3xl);
 }
 
-.form-group-radio .pf-c-form__group-control > * {
+.create-topic-wizard .form-group-radio .pf-c-form__group-control > * {
   margin-bottom: var(--pf-global--spacer--md);
 }
 

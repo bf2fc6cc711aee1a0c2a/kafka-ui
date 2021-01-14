@@ -2,7 +2,7 @@
  * Copyright Strimzi authors.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '@patternfly/react-core/dist/styles/base.css';
 import {
   Flex,
@@ -27,35 +27,45 @@ interface IStepMessageRetention {
 export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
   setMsgRetentionValue,
 }) => {
-  const [radioBtnDay, setRadioBtnDay] = useState(false);
-  const [radioBtnWeek, setRadioBtnWeek] = useState(false);
-  const [radioBtnMonth, setRadioBtnMonth] = useState(false);
-  const [radioBtnCustomTime, setRadioBtnCustomTime] = useState(false);
+  enum RetentionOption {
+    DAY = 1,
+    WEEK = 7,
+    MONTH = 30,
+    CUSTOM = 'custom',
+  }
+  const [currentPeriod, setCurrentPeriod] = React.useState<string | number>(
+    RetentionOption.DAY
+  );
   const [msgTouchspinValue, setMsgTouchspinValue] = useState(7);
   const [isMsgSelectOpen, setIsMsgSelectOpen] = useState(false);
   const [selected, setSelected] = useState(false);
-  let retentionFactor = 1;
-  const handleChangeStep3 = (checked, event) => {
-    setRadioBtnDay(false);
-    setRadioBtnWeek(false);
-    setRadioBtnMonth(false);
-    setRadioBtnCustomTime(false);
+  const [retentionFactor, setRetentionFactor] = useState(1);
 
+  useEffect(() => {
+    if (currentPeriod === RetentionOption.DAY) {
+      setMsgRetentionValue(RetentionOption.DAY);
+    } else if (currentPeriod === RetentionOption.WEEK) {
+      setMsgRetentionValue(RetentionOption.WEEK);
+    } else if (currentPeriod === RetentionOption.MONTH) {
+      setMsgRetentionValue(RetentionOption.MONTH);
+    } else if (currentPeriod === RetentionOption.CUSTOM) {
+      setMsgRetentionValue(retentionFactor * msgTouchspinValue);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPeriod, msgTouchspinValue, retentionFactor]);
+
+  const handleMessageRetention = (checked, event) => {
     const target = event.target;
     const name = target.name;
 
     if (name === 'radio1') {
-      setRadioBtnDay(true);
-      setMsgRetentionValue(1); //A day
+      setCurrentPeriod(RetentionOption.DAY);
     } else if (name === 'radio2') {
-      setRadioBtnWeek(true);
-      setMsgRetentionValue(7); //A week
+      setCurrentPeriod(RetentionOption.WEEK);
     } else if (name === 'radio3') {
-      setRadioBtnMonth(true);
-      setMsgRetentionValue(30); //A month
+      setCurrentPeriod(RetentionOption.MONTH);
     } else if (name === 'radio4') {
-      setRadioBtnCustomTime(true);
-      setMsgRetentionValue(retentionFactor * msgTouchspinValue);
+      setCurrentPeriod(RetentionOption.CUSTOM);
     }
   };
 
@@ -65,30 +75,26 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
 
   const onMsgSelect = (event, selection) => {
     if (selection === 'days') {
-      retentionFactor = 1;
+      setRetentionFactor(RetentionOption.DAY);
     } else if (selection === 'weeks') {
-      retentionFactor = 7;
+      setRetentionFactor(RetentionOption.WEEK);
     } else if (selection === 'months') {
-      retentionFactor = 30;
+      setRetentionFactor(RetentionOption.MONTH);
     }
-    setMsgRetentionValue(retentionFactor * msgTouchspinValue);
     setSelected(selection);
     setIsMsgSelectOpen(false);
   };
 
   const handlePlusClick = () => {
     setMsgTouchspinValue(msgTouchspinValue + 1);
-    setMsgRetentionValue(msgTouchspinValue + 1);
   };
 
   const handleMinusClick = () => {
     setMsgTouchspinValue(msgTouchspinValue - 1);
-    setMsgRetentionValue(msgTouchspinValue - 1);
   };
 
   const handleMsgTouchSpinChange = (event) => {
     setMsgTouchspinValue(Number(event.target.value));
-    setMsgRetentionValue(Number(event.target.value));
   };
 
   return (
@@ -110,33 +116,33 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
           className='form-group-radio'
         >
           <Radio
-            isChecked={radioBtnDay}
+            isChecked={currentPeriod === RetentionOption.DAY}
             name='radio1'
-            onChange={handleChangeStep3}
+            onChange={handleMessageRetention}
             label='A day'
             id='radio-controlled-1'
             value='day'
           />
           <Radio
-            isChecked={radioBtnWeek}
+            isChecked={currentPeriod === RetentionOption.WEEK}
             name='radio2'
-            onChange={handleChangeStep3}
+            onChange={handleMessageRetention}
             label='A week'
             id='radio-controlled-2'
             value='week'
           />
           <Radio
-            isChecked={radioBtnMonth}
+            isChecked={currentPeriod === RetentionOption.MONTH}
             name='radio3'
-            onChange={handleChangeStep3}
+            onChange={handleMessageRetention}
             label='A month'
             id='radio-controlled-3'
             value='month'
           />
           <Radio
-            isChecked={radioBtnCustomTime}
+            isChecked={currentPeriod === RetentionOption.CUSTOM}
             name='radio4'
-            onChange={handleChangeStep3}
+            onChange={handleMessageRetention}
             label=''
             id='radio-controlled-4'
             value='custom'
