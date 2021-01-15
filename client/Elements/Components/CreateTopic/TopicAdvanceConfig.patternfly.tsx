@@ -14,6 +14,7 @@ import {
   JumpLinksItem,
   ActionGroup,
   Button,
+  Divider,
 } from '@patternfly/react-core';
 import '../CreateTopic/CreateTopicWizard.patternfly.css';
 
@@ -26,7 +27,17 @@ import { FlushSection } from './FlushSection.patternfly';
 import { CleanupSection } from './CleanupSection.patternfly';
 import { TopicContextProvider } from 'Contexts/Topic';
 
-export const TopicAdvanceConfig: React.FunctionComponent = () => {
+interface ITopicAdvanceConfig {
+  isCreate: boolean;
+  saveTopic: () => void;
+}
+
+export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = ({
+  isCreate,
+  saveTopic,
+}) => {
+  const actionText = isCreate === true ? 'Create Topic' : 'Save';
+
   return (
     <>
       <Grid hasGutter>
@@ -84,9 +95,13 @@ export const TopicAdvanceConfig: React.FunctionComponent = () => {
                   <FlushSection />
 
                   <ActionGroup>
-                    <Button variant='primary'>Create topic</Button>
+                    <Button onClick={saveTopic} variant='primary'>
+                      {actionText}
+                    </Button>
                     <Button variant='link'>Cancel</Button>
                   </ActionGroup>
+                  <Divider />
+                  {isCreate ? <></> : <>Delete Component</>}
                 </PageSection>
               </TopicContextProvider>
             </PageGroup>

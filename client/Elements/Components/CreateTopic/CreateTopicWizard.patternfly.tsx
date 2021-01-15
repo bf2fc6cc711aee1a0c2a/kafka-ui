@@ -173,7 +173,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
         <>
           <Divider />
           <PageSection variant={PageSectionVariants.light}>
-            <TopicAdvanceConfig />
+            <TopicAdvanceConfig isCreate={true} saveTopic={saveTopic} />
           </PageSection>
         </>
       ) : (

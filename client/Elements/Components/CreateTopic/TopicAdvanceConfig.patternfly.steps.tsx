@@ -12,7 +12,7 @@ let renderResult: RenderResult;
 let component: ReactElement;
 
 Given('the create topic advanced wizard component', () => {
-  component = <TopicAdvanceConfig />;
+  component = <TopicAdvanceConfig isCreate={true} saveTopic={jest.fn()} />;
 });
 
 When('it is rendered', () => {
