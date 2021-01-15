@@ -24,4 +24,4 @@ Then('it should display the expected text', () => {
   expect(getByText('JUMP TO SECTION')).toBeInTheDocument();
 });
 
-Fusion('CreateTopicAdavanced.feature');
+Fusion('TopicAdvanced.feature');
