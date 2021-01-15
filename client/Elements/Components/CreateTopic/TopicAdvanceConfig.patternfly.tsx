@@ -26,7 +26,7 @@ import { FlushSection } from './FlushSection.patternfly';
 import { CleanupSection } from './CleanupSection.patternfly';
 import { TopicContextProvider } from 'Contexts/Topic';
 
-export const CreateTopicAdvanceWizard: React.FunctionComponent = () => {
+export const TopicAdvanceConfig: React.FunctionComponent = () => {
   return (
     <>
       <Grid hasGutter>

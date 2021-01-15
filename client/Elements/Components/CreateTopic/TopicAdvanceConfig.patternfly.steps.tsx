@@ -6,13 +6,13 @@
 import React, { ReactElement } from 'react';
 import { render, RenderResult } from '@testing-library/react';
 import { Given, When, Then, Fusion } from 'jest-cucumber-fusion';
-import { CreateTopicAdvanceWizard } from './CreateTopicAdvanceWizard.patternfly';
+import { TopicAdvanceConfig } from './TopicAdvanceConfig.patternfly';
 
 let renderResult: RenderResult;
 let component: ReactElement;
 
 Given('the create topic advanced wizard component', () => {
-  component = <CreateTopicAdvanceWizard />;
+  component = <TopicAdvanceConfig />;
 });
 
 When('it is rendered', () => {
