@@ -20,7 +20,7 @@ export const EmptySearch: React.FunctionComponent = () => {
       </Title>
       <EmptyStateBody>
         No result match the filter criteria. Remove filter or clear all filters
-        to show resilts
+        to show results
       </EmptyStateBody>
     </EmptyState>
   );

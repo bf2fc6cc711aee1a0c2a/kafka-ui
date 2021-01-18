@@ -117,18 +117,19 @@ export const TopicsList: React.FunctionComponent = () => {
             <TableHeader />
             <TableBody />
           </Table>
-          <Pagination
-            itemCount={rowData.length}
-            perPage={perPage}
-            page={page}
-            onSetPage={onSetPage}
-            widgetId='pagination-options-menu-top'
-            onPerPageSelect={onPerPageSelect}
-            offset={0}
-          />
         </Card>
       )}
-      {rowData.length < 1 && search.length > 1 ? <EmptySearch /> : null}
+      {rowData.length < 1 && search.length > 1 && <EmptySearch />}
+
+      <Pagination
+        itemCount={rowData.length}
+        perPage={perPage}
+        page={page}
+        onSetPage={onSetPage}
+        widgetId='pagination-options-menu-top'
+        onPerPageSelect={onPerPageSelect}
+        offset={0}
+      />
     </>
   );
 };
