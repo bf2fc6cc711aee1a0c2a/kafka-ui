@@ -12,11 +12,7 @@ describe('<EmptySearch />', () => {
     const { getByText } = render(<EmptySearch />);
 
     const titleNode = getByText('No results found');
-    const bodyNode = getByText(
-      ' No result match the filter criteria. Remove filter or clear all filtrs to show results'
-    );
 
     expect(titleNode).toBeInTheDocument();
-    expect(bodyNode).toBeInTheDocument();
   });
 });
