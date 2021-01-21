@@ -62,7 +62,7 @@ export const CleanupSection: React.FC = () => {
           Cleanup
         </Text>
         <Text component={TextVariants.p}>
-          These details control the cleanup processing of the log.
+          {t('createTopic.cleanupSectionInfo')}
         </Text>
       </TextContent>
 

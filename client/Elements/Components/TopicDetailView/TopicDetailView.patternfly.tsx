@@ -25,10 +25,16 @@ import { useTranslation } from 'react-i18next';
 export type TopicViewDetailProps = {
   /** Topic details */
   topic: AdvancedTopic;
+  /** Method to delete topic */
+  deleteTopic: () => void;
+  /** Method to update topic */
+  updateTopic: () => void;
 };
 
 export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
   topic,
+  deleteTopic,
+  updateTopic,
 }) => {
   const { t } = useTranslation();
 
@@ -39,7 +45,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
           <JumpLinks
             isVertical
             label='JUMP TO SECTION'
-            scrollableSelector='#advanced-create-topic'
+            scrollableSelector='#topic-detail-view'
             style={{ position: 'absolute' }}
           >
             <JumpLinksItem key={0} href='#core-configuration'>
@@ -68,12 +74,8 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             </JumpLinksItem>
           </JumpLinks>
         </GridItem>
-        <GridItem span={10} className='grid-item-padding'>
-          <PageGroup
-            hasOverflowScroll
-            id='advanced-create-topic'
-            className='topics-wizard-content'
-          >
+        <GridItem span={8} className='grid-item-padding'>
+          <PageGroup hasOverflowScroll id='topic-detail-view'>
             <PageSection>
               <TextContent>
                 <Text
@@ -84,8 +86,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   Core configuration
                 </Text>
                 <Text component={TextVariants.p}>
-                  We recommend you fill out and evaluate these details at a
-                  minimum before deploying your topic.
+                  {t('createTopic.coreConfigInfo')}
                 </Text>
               </TextContent>
 
@@ -135,8 +136,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   Messages
                 </Text>
                 <Text component={TextVariants.p}>
-                  These details control how your messages will be handled in the
-                  Kafka instance.
+                  {t('createTopic.messageSectionInfo')}
                 </Text>
               </TextContent>
 
@@ -179,9 +179,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   Log
                 </Text>
                 <Text component={TextVariants.p}>
-                  Messages are continually appended to the partition’s log. This
-                  is when they are assigned their offset. These details define
-                  how your log is handled.
+                  {t('createTopic.logSectionInfo')}
                 </Text>
               </TextContent>
 
@@ -220,9 +218,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   Replication
                 </Text>
                 <Text component={TextVariants.p}>
-                  These details control the behavior of your replicas. Each of
-                  these parameters has an impact on every replica created in
-                  this topic.
+                  {t('createTopic.replicationSectionInfo')}
                 </Text>
               </TextContent>
 
@@ -255,7 +251,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   Cleanup
                 </Text>
                 <Text component={TextVariants.p}>
-                  These details control the cleanup processing of the log.
+                  {t('createTopic.cleanupSectionInfo')}
                 </Text>
               </TextContent>
 
@@ -316,7 +312,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   Index
                 </Text>
                 <Text component={TextVariants.p}>
-                  These details control the indexing of the log.
+                  {t('createTopic.indexSectionInfo')}
                 </Text>
               </TextContent>
 
@@ -343,8 +339,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   Flush
                 </Text>
                 <Text component={TextVariants.p}>
-                  These details control the frequency of the flushing of the
-                  log.
+                  {t('createTopic.flushSectionInfo')}
                 </Text>
               </TextContent>
 
@@ -371,17 +366,24 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   Delete topic (irreversible)
                 </Text>
                 <Text component={TextVariants.p}>
-                  This permanently removes this topic from this instance of
-                  Strimzi. Applications will no longer have access to this
-                  topic.
+                  {t('createTopic.deleteTopicInfo')}
                 </Text>
               </TextContent>
 
-              <Button variant='danger' className='section-margin'>
+              <Button
+                variant='danger'
+                className='section-margin'
+                onClick={deleteTopic}
+              >
                 Delete topic
               </Button>
             </PageSection>
           </PageGroup>
+        </GridItem>
+        <GridItem span={2} className='grid-item-padding'>
+          <Button variant='primary' onClick={updateTopic}>
+            Edit properties
+          </Button>
         </GridItem>
       </Grid>
     </>

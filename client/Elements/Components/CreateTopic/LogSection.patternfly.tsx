@@ -59,9 +59,7 @@ const LogSection: React.FC = () => {
           Log
         </Text>
         <Text component={TextVariants.p}>
-          Messages are continually appended to the partition’s log. This is when
-          they are assigned their offset. These details define how your log is
-          handled.
+          {t('createTopic.logSectionInfo')}
         </Text>
       </TextContent>
 
