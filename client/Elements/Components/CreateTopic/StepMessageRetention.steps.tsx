@@ -43,10 +43,10 @@ describe('Step Message Retention', () => {
     const { getByRole } = renderResult;
     userEvent.click(getByRole('button', { name: /Plus/i }));
     expect(setMsgRetentionValue).toHaveBeenCalled();
-    expect(setMsgRetentionValue).toBeCalledTimes(1);
+    expect(setMsgRetentionValue).toBeCalledTimes(2);
     userEvent.click(getByRole('button', { name: /Minus/i }));
     expect(setMsgRetentionValue).toHaveBeenCalled();
-    expect(setMsgRetentionValue).toBeCalledTimes(2);
+    expect(setMsgRetentionValue).toBeCalledTimes(3);
   });
 
   it('should handle message retention radio clicks ', () => {
