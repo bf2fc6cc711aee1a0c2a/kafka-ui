@@ -69,7 +69,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <JumpLinksItem key={6} href='#flush'>
               Flush
             </JumpLinksItem>
-            <JumpLinksItem key={6} href='#delete'>
+            <JumpLinksItem key={7} href='#delete'>
               Delete
             </JumpLinksItem>
           </JumpLinks>
