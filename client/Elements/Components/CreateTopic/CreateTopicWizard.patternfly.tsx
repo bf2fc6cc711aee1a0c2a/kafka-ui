@@ -26,7 +26,7 @@ import './CreateTopicWizard.patternfly.css';
 import { CREATE_TOPIC } from 'Queries/Topics';
 import { useMutation } from '@apollo/client';
 import { NewTopic } from 'Entities/Entities.generated';
-import { CreateTopicAdvanceWizard } from './CreateTopicAdvanceWizard.patternfly';
+import { TopicAdvanceConfig } from './TopicAdvanceConfig.patternfly';
 
 interface ICreateTopicWizard {
   setIsCreateTopic: (value: boolean) => void;
@@ -173,7 +173,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
         <>
           <Divider />
           <PageSection variant={PageSectionVariants.light}>
-            <CreateTopicAdvanceWizard />
+            <TopicAdvanceConfig isCreate={true} saveTopic={saveTopic} />
           </PageSection>
         </>
       ) : (

@@ -6,13 +6,13 @@
 import React, { ReactElement } from 'react';
 import { render, RenderResult } from '@testing-library/react';
 import { Given, When, Then, Fusion } from 'jest-cucumber-fusion';
-import { CreateTopicAdvanceWizard } from './CreateTopicAdvanceWizard.patternfly';
+import { TopicAdvanceConfig } from './TopicAdvanceConfig.patternfly';
 
 let renderResult: RenderResult;
 let component: ReactElement;
 
 Given('the create topic advanced wizard component', () => {
-  component = <CreateTopicAdvanceWizard />;
+  component = <TopicAdvanceConfig isCreate={true} saveTopic={jest.fn()} />;
 });
 
 When('it is rendered', () => {
@@ -24,4 +24,4 @@ Then('it should display the expected text', () => {
   expect(getByText('JUMP TO SECTION')).toBeInTheDocument();
 });
 
-Fusion('CreateTopicAdavanced.feature');
+Fusion('TopicAdvanced.feature');
