@@ -47,7 +47,7 @@ export const IndexSection: React.FC = () => {
           Index
         </Text>
         <Text component={TextVariants.p}>
-          These details control the indexing of the log.
+          {t('createTopic.indexSectionInfo')}
         </Text>
       </TextContent>
 

@@ -47,7 +47,7 @@ export const FlushSection: React.FC = () => {
           Flush
         </Text>
         <Text component={TextVariants.p}>
-          These details control the frequency of the flushing of the log.
+          {t('createTopic.flushSectionInfo')}
         </Text>
       </TextContent>
       <Form>

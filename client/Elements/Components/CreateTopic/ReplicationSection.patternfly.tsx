@@ -44,8 +44,7 @@ export const ReplicationSection: React.FC = () => {
           Replication
         </Text>
         <Text component={TextVariants.p}>
-          These details control the behavior of your replicas. Each of these
-          parameters has an impact on every replica created in this topic.
+          {t('createTopic.replicationSectionInfo')}
         </Text>
       </TextContent>
       <Form>

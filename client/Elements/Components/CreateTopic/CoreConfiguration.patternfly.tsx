@@ -69,8 +69,7 @@ const CoreConfiguration: React.FC = () => {
           Core configuration
         </Title>
         <Text component={TextVariants.p}>
-          We recommend you fill out and evaluate these details at a minimum
-          before deploying your topic.
+          {t('createTopic.coreConfigInfo')}
         </Text>
       </TextContent>
       <Form>

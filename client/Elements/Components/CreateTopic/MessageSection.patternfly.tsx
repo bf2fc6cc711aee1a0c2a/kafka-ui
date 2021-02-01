@@ -66,8 +66,7 @@ const MessageSection: React.FC = () => {
           Messages
         </Text>
         <Text component={TextVariants.p}>
-          These details control how your messages will be handled in the Kafka
-          instance.
+          {t('createTopic.messageSectionInfo')}
         </Text>
       </TextContent>
       <Form>

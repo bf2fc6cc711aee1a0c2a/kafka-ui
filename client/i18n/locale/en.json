@@ -59,6 +59,14 @@
     "intervalMessagesLabelHead": "Flush interval messages",
     "intervalMessagesLabelBody": "Determines the number of messages between flushing data to the log. Replication is a better way to ensure data is not lost when failures occur. (flush.messages)",
     "intervalTimeLabelHead": "Flush interval time",
-    "intervalTimeLabelBody": "Determines the interval in time between flushing data to the log. Replication is a better way to ensure data is not lost when failures occur. (flush.ms)"
+    "intervalTimeLabelBody": "Determines the interval in time between flushing data to the log. Replication is a better way to ensure data is not lost when failures occur. (flush.ms)",
+    "coreConfigInfo": "We recommend you fill out and evaluate these details at a minimum before deploying your topic.",
+    "messageSectionInfo": "These details control how your messages will be handled in the Kafka instance.",
+    "logSectionInfo": "Messages are continually appended to the partition’s log. This is when they are assigned their offset. These details define how your log is handled.",
+    "replicationSectionInfo": "These details control the behavior of your replicas. Each of these parameters has an impact on every replica created in this topic.",
+    "cleanupSectionInfo": "These details control the cleanup processing of the log.",
+    "indexSectionInfo": "These details control the indexing of the log.",
+    "flushSectionInfo": "These details control the frequency of the flushing of the log.",
+    "deleteTopicInfo": "This permanently removes this topic from this instance of Strimzi. Applications will no longer have access to this topic."
   }
 }
