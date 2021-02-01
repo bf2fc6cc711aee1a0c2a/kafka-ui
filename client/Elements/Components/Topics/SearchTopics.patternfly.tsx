@@ -2,13 +2,18 @@
  * Copyright Strimzi authors.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
-import React, { useState } from 'react';
+import React from 'react';
 import { InputGroup, SearchInput } from '@patternfly/react-core';
 import { useTopicsModel } from '../../../Panels/Topics/Model';
 
-const SearchTopics: React.FunctionComponent = () => {
-  const [search, setSearch] = useState('');
-
+export interface ISearchTopicsProps {
+  setSearch: (value: string) => void;
+  search: string;
+}
+const SearchTopics: React.FunctionComponent<ISearchTopicsProps> = ({
+  search,
+  setSearch,
+}) => {
   const { updateTopicsFilter } = useTopicsModel();
   const onChangeInput = (value: string) => {
     setSearch(value);
