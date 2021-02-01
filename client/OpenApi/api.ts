@@ -48,19 +48,6 @@ export interface ConfigEntry {
   value?: string;
 }
 /**
- * Kafka server / broker.
- * @export
- * @interface Node
- */
-export interface Node {
-  /**
-   * Uniquie id for the kafka node.
-   * @type {number}
-   * @memberof Node
-   */
-  id: number;
-}
-/**
  * Kafka topic partition
  * @export
  * @interface Partition
@@ -74,22 +61,22 @@ export interface Partition {
   id: number;
   /**
    * List of replicas for the partition
-   * @type {Array<Node>}
+   * @type {Array<object>}
    * @memberof Partition
    */
-  replicas?: Array<Node>;
+  replicas?: Array<object>;
   /**
    * List isync-replicas for this partition.
-   * @type {Array<Node>}
+   * @type {Array<object>}
    * @memberof Partition
    */
-  isr?: Array<Node>;
+  isr?: Array<object>;
   /**
-   *
-   * @type {Node}
+   * Kafka server / broker.
+   * @type {object}
    * @memberof Partition
    */
-  leader?: Node;
+  leader?: object;
 }
 /**
  * Kafka Topic (A feed where records are stored and published)
@@ -110,12 +97,6 @@ export interface Topic {
    */
   config?: Array<ConfigEntry>;
   /**
-   * Uniquie ID for the topic.
-   * @type {number}
-   * @memberof Topic
-   */
-  id?: number;
-  /**
    * Partitions for this topic.
    * @type {Array<Partition>}
    * @memberof Topic
@@ -128,12 +109,6 @@ export interface Topic {
  * @interface TopicSettings
  */
 export interface TopicSettings {
-  /**
-   * The name of the topic.
-   * @type {string}
-   * @memberof TopicSettings
-   */
-  name?: string;
   /**
    * Number of partitions for this topic.
    * @type {number}
@@ -264,24 +239,24 @@ export const DefaultApiAxiosParamCreator = function (
     /**
      * Deletes the topic with the specified id.
      * @summary Deletes a  topic
-     * @param {number} topicId Topic id to delete
+     * @param {string} topicName The topic name to retrieve.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     deleteTopic: async (
-      topicId: number,
+      topicName: string,
       options: any = {}
     ): Promise<RequestArgs> => {
-      // verify required parameter 'topicId' is not null or undefined
-      if (topicId === null || topicId === undefined) {
+      // verify required parameter 'topicName' is not null or undefined
+      if (topicName === null || topicName === undefined) {
         throw new RequiredError(
-          'topicId',
-          'Required parameter topicId was null or undefined when calling deleteTopic.'
+          'topicName',
+          'Required parameter topicName was null or undefined when calling deleteTopic.'
         );
       }
-      const localVarPath = `/topics/{topicId}`.replace(
-        `{${'topicId'}}`,
-        encodeURIComponent(String(topicId))
+      const localVarPath = `/topics/{topicName}`.replace(
+        `{${'topicName'}}`,
+        encodeURIComponent(String(topicName))
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -323,24 +298,24 @@ export const DefaultApiAxiosParamCreator = function (
     /**
      * Topic
      * @summary Topic associated with the topic id
-     * @param {string} topicId The id of the topic
+     * @param {string} topicName The topic name to retrieve.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getTopic: async (
-      topicId: string,
+      topicName: string,
       options: any = {}
     ): Promise<RequestArgs> => {
-      // verify required parameter 'topicId' is not null or undefined
-      if (topicId === null || topicId === undefined) {
+      // verify required parameter 'topicName' is not null or undefined
+      if (topicName === null || topicName === undefined) {
         throw new RequiredError(
-          'topicId',
-          'Required parameter topicId was null or undefined when calling getTopic.'
+          'topicName',
+          'Required parameter topicName was null or undefined when calling getTopic.'
         );
       }
-      const localVarPath = `/topics/{topicId}`.replace(
-        `{${'topicId'}}`,
-        encodeURIComponent(String(topicId))
+      const localVarPath = `/topics/{topicName}`.replace(
+        `{${'topicName'}}`,
+        encodeURIComponent(String(topicName))
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -447,21 +422,21 @@ export const DefaultApiAxiosParamCreator = function (
     /**
      * updates the topic with the new data.
      * @summary Updates the topic with the specified id.
-     * @param {number} topicId topic id to update
+     * @param {string} topicName The topic name which is it\&#39;s unique id.
      * @param {TopicSettings} topicSettings
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     updateTopic: async (
-      topicId: number,
+      topicName: string,
       topicSettings: TopicSettings,
       options: any = {}
     ): Promise<RequestArgs> => {
-      // verify required parameter 'topicId' is not null or undefined
-      if (topicId === null || topicId === undefined) {
+      // verify required parameter 'topicName' is not null or undefined
+      if (topicName === null || topicName === undefined) {
         throw new RequiredError(
-          'topicId',
-          'Required parameter topicId was null or undefined when calling updateTopic.'
+          'topicName',
+          'Required parameter topicName was null or undefined when calling updateTopic.'
         );
       }
       // verify required parameter 'topicSettings' is not null or undefined
@@ -471,9 +446,9 @@ export const DefaultApiAxiosParamCreator = function (
           'Required parameter topicSettings was null or undefined when calling updateTopic.'
         );
       }
-      const localVarPath = `/topics/{topicId}`.replace(
-        `{${'topicId'}}`,
-        encodeURIComponent(String(topicId))
+      const localVarPath = `/topics/{topicName}`.replace(
+        `{${'topicName'}}`,
+        encodeURIComponent(String(topicName))
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -563,19 +538,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     /**
      * Deletes the topic with the specified id.
      * @summary Deletes a  topic
-     * @param {number} topicId Topic id to delete
+     * @param {string} topicName The topic name to retrieve.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async deleteTopic(
-      topicId: number,
+      topicName: string,
       options?: any
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
       const localVarAxiosArgs = await DefaultApiAxiosParamCreator(
         configuration
-      ).deleteTopic(topicId, options);
+      ).deleteTopic(topicName, options);
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
@@ -590,19 +565,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     /**
      * Topic
      * @summary Topic associated with the topic id
-     * @param {string} topicId The id of the topic
+     * @param {string} topicName The topic name to retrieve.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getTopic(
-      topicId: string,
+      topicName: string,
       options?: any
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Topic>
     > {
       const localVarAxiosArgs = await DefaultApiAxiosParamCreator(
         configuration
-      ).getTopic(topicId, options);
+      ).getTopic(topicName, options);
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
@@ -648,21 +623,21 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     /**
      * updates the topic with the new data.
      * @summary Updates the topic with the specified id.
-     * @param {number} topicId topic id to update
+     * @param {string} topicName The topic name which is it\&#39;s unique id.
      * @param {TopicSettings} topicSettings
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async updateTopic(
-      topicId: number,
+      topicName: string,
       topicSettings: TopicSettings,
       options?: any
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Topic>
     > {
       const localVarAxiosArgs = await DefaultApiAxiosParamCreator(
         configuration
-      ).updateTopic(topicId, topicSettings, options);
+      ).updateTopic(topicName, topicSettings, options);
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
@@ -705,25 +680,25 @@ export const DefaultApiFactory = function (
     /**
      * Deletes the topic with the specified id.
      * @summary Deletes a  topic
-     * @param {number} topicId Topic id to delete
+     * @param {string} topicName The topic name to retrieve.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    deleteTopic(topicId: number, options?: any): AxiosPromise<void> {
+    deleteTopic(topicName: string, options?: any): AxiosPromise<void> {
       return DefaultApiFp(configuration)
-        .deleteTopic(topicId, options)
+        .deleteTopic(topicName, options)
         .then((request) => request(axios, basePath));
     },
     /**
      * Topic
      * @summary Topic associated with the topic id
-     * @param {string} topicId The id of the topic
+     * @param {string} topicName The topic name to retrieve.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getTopic(topicId: string, options?: any): AxiosPromise<Topic> {
+    getTopic(topicName: string, options?: any): AxiosPromise<Topic> {
       return DefaultApiFp(configuration)
-        .getTopic(topicId, options)
+        .getTopic(topicName, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -748,18 +723,18 @@ export const DefaultApiFactory = function (
     /**
      * updates the topic with the new data.
      * @summary Updates the topic with the specified id.
-     * @param {number} topicId topic id to update
+     * @param {string} topicName The topic name which is it\&#39;s unique id.
      * @param {TopicSettings} topicSettings
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     updateTopic(
-      topicId: number,
+      topicName: string,
       topicSettings: TopicSettings,
       options?: any
-    ): AxiosPromise<void> {
+    ): AxiosPromise<Topic> {
       return DefaultApiFp(configuration)
-        .updateTopic(topicId, topicSettings, options)
+        .updateTopic(topicName, topicSettings, options)
         .then((request) => request(axios, basePath));
     },
   };
@@ -784,22 +759,22 @@ export interface DefaultApiInterface {
   /**
    * Deletes the topic with the specified id.
    * @summary Deletes a  topic
-   * @param {number} topicId Topic id to delete
+   * @param {string} topicName The topic name to retrieve.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
-  deleteTopic(topicId: number, options?: any): AxiosPromise<void>;
+  deleteTopic(topicName: string, options?: any): AxiosPromise<void>;
 
   /**
    * Topic
    * @summary Topic associated with the topic id
-   * @param {string} topicId The id of the topic
+   * @param {string} topicName The topic name to retrieve.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
-  getTopic(topicId: string, options?: any): AxiosPromise<Topic>;
+  getTopic(topicName: string, options?: any): AxiosPromise<Topic>;
 
   /**
    * Returns a list of all of the available topics, or the list of topics that meet the users URL Query Parameters.
@@ -821,17 +796,17 @@ export interface DefaultApiInterface {
   /**
    * updates the topic with the new data.
    * @summary Updates the topic with the specified id.
-   * @param {number} topicId topic id to update
+   * @param {string} topicName The topic name which is it\&#39;s unique id.
    * @param {TopicSettings} topicSettings
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
   updateTopic(
-    topicId: number,
+    topicName: string,
     topicSettings: TopicSettings,
     options?: any
-  ): AxiosPromise<void>;
+  ): AxiosPromise<Topic>;
 }
 
 /**
@@ -858,28 +833,28 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   /**
    * Deletes the topic with the specified id.
    * @summary Deletes a  topic
-   * @param {number} topicId Topic id to delete
+   * @param {string} topicName The topic name to retrieve.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public deleteTopic(topicId: number, options?: any) {
+  public deleteTopic(topicName: string, options?: any) {
     return DefaultApiFp(this.configuration)
-      .deleteTopic(topicId, options)
+      .deleteTopic(topicName, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
   /**
    * Topic
    * @summary Topic associated with the topic id
-   * @param {string} topicId The id of the topic
+   * @param {string} topicName The topic name to retrieve.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getTopic(topicId: string, options?: any) {
+  public getTopic(topicName: string, options?: any) {
     return DefaultApiFp(this.configuration)
-      .getTopic(topicId, options)
+      .getTopic(topicName, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -907,19 +882,19 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   /**
    * updates the topic with the new data.
    * @summary Updates the topic with the specified id.
-   * @param {number} topicId topic id to update
+   * @param {string} topicName The topic name which is it\&#39;s unique id.
    * @param {TopicSettings} topicSettings
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
   public updateTopic(
-    topicId: number,
+    topicName: string,
     topicSettings: TopicSettings,
     options?: any
   ) {
     return DefaultApiFp(this.configuration)
-      .updateTopic(topicId, topicSettings, options)
+      .updateTopic(topicName, topicSettings, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
