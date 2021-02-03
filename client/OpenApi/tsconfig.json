@@ -6,7 +6,12 @@
     "noImplicitAny": true,
     "outDir": "dist",
     "rootDir": ".",
-    "typeRoots": ["node_modules/@types"]
+    "typeRoots": [
+      "node_modules/@types"
+    ]
   },
-  "exclude": ["dist", "node_modules"]
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
 }
