@@ -1,5 +1,3 @@
-# Copyright Strimzi authors.
-# License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
 ---
 openapi: 3.0.0
 info:
@@ -9,51 +7,57 @@ info:
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://api.openshift.com
+  description: Main (production) server
+- url: https://api.stage.openshift.com
+  description: Staging server
+- url: http://localhost/8001
+  description: localhost
 paths:
   /topics:
     get:
       parameters:
-        - name: limit
-          description: Maximum number of topics to return
-          schema:
-            format: int32
-            type: integer
-          in: query
-          required: false
-        - name: filter
-          description: Filter to apply when returning the list of topics
-          schema:
-            type: string
-          in: query
-        - name: offset
-          description: The page offset when returning  the limit of requested topics.
-          schema:
-            format: int32
-            type: integer
-          in: query
+      - name: limit
+        description: Maximum number of topics to return
+        schema:
+          format: int32
+          type: integer
+        in: query
+        required: false
+      - name: filter
+        description: Filter to apply when returning the list of topics
+        schema:
+          type: string
+        in: query
+      - name: offset
+        description: The page offset when returning  the limit of requested topics.
+        schema:
+          format: int32
+          type: integer
+        in: query
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TopicsList'
           description: List of topics matching the users query paramters.
-        '400':
+        "400":
           content:
             application/json: {}
           description: Unable to retreive topics.
-        '401':
+        "401":
           content:
             application/json: {}
-          description: 'Unauthorized, unable to retrive topics.'
-        '500':
+          description: "Unauthorized, unable to retrive topics."
+        "500":
           description: Internal server error.
-        '409':
-          description: Entry already exisits
+        "503":
+          description: Unable to connect to the Kafka cluster.
       operationId: getTopicsList
       summary: List of topics
-      description:
-        "Returns a list of all of the available topics, or the list of\
+      description: "Returns a list of all of the available topics, or the list of\
         \ topics that meet the users URL Query Parameters."
     post:
       requestBody:
@@ -61,80 +65,88 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TopicSettings'
+              $ref: '#/components/schemas/NewTopicInput'
             examples:
-              NewTopic:
+              NewTopicInput:
                 value:
                   name: Pets
                   numPartitions: 2
                   replicationFactor: 4
                   config:
-                    - key: min.insync.replicas
-                      value: '1'
-                    - key: max.message.bytes
-                      value: '1050000'
+                  - key: min.insync.replicas
+                    value: "1"
+                  - key: max.message.bytes
+                    value: "1050000"
         required: true
       responses:
-        '201':
+        "201":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Topic'
           description: Topic created successfully.
-        '400':
+        "400":
           description: Unable to create topic.
-        '401':
-          description: 'Unauthorized, Unable to create topic.'
-        '500':
+        "401":
+          description: "Unauthorized, Unable to create topic."
+        "409":
+          description: Entry already exisits
+        "500":
           description: Internal server error.
+        "503":
+          description: Unable to connect to the Kafka cluster.
       operationId: createTopic
       summary: Creates a new topic
       description: Creates a new topic for Kafka.
   /topics/{topicName}:
     get:
       parameters:
-        - name: topicName
-          description: The topic name to retrieve.
-          schema:
-            type: string
-          in: path
-          required: true
+      - name: topicName
+        description: The topic name to retrieve.
+        schema:
+          type: string
+        in: path
+        required: true
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Topic'
           description: Kakfa topic details.
-        '404':
+        "401":
+          description: "Unauthorized, unable to retrieve topics."
+        "404":
           description: Topic not found.
-        '401':
-          description: 'Unauthorized, unable to retrieve topics.'
-        '500':
+        "500":
           description: Internal server error.
+        "503":
+          description: Unable to connect to the Kafka cluster.
       operationId: getTopic
-      summary: Topic associated with the topic id
+      summary: Retrieves the topic with the specified name.
       description: Topic
     delete:
       parameters:
-        - name: topicName
-          description: The topic name to retrieve.
-          schema:
-            type: string
-          in: path
-          required: true
+      - name: topicName
+        description: The topic name to retrieve.
+        schema:
+          type: string
+        in: path
+        required: true
       responses:
-        '200':
+        "200":
           description: Topic deleted successfully.
-        '401':
-          description: 'Unathorized, unable to delete topic.'
-        '404':
+        "401":
+          description: "Unathorized, unable to delete topic."
+        "404":
           description: Topic not found.
-        '500':
+        "500":
           description: Internal server error.
+        "503":
+          description: Unable to connect to the Kafka cluster.
       operationId: deleteTopic
       summary: Deletes a  topic
-      description: Deletes the topic with the specified id.
+      description: Deletes the topic with the specified name.
     patch:
       requestBody:
         content:
@@ -143,41 +155,43 @@ paths:
               $ref: '#/components/schemas/TopicSettings'
         required: true
       parameters:
-        - name: topicName
-          description: The topic name which is it's unique id.
-          schema:
-            type: string
-          in: path
-          required: true
+      - name: topicName
+        description: The topic name which is its unique id.
+        schema:
+          type: string
+        in: path
+        required: true
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Topic'
           description: Topic updated successfully.
-        '400':
+        "400":
           description: Unable to update topic.
-        '401':
-          description: 'Unauthroized, unable to update topic.'
-        '404':
+        "401":
+          description: "Unauthroized, unable to update topic."
+        "404":
           description: Topic not found.
-        '500':
-          description: Internal server request.
+        "500":
+          description: Internal server error.
+        "503":
+          description: Unable to connect to the Kafka cluster.
       operationId: updateTopic
-      summary: Updates the topic with the specified id.
+      summary: Updates the topic with the specified name.
       description: updates the topic with the new data.
     parameters:
-      - name: topicName
-        description: The topic name which is it's unique id.
-        schema:
-          type: string
-        in: path
-        required: true
+    - name: topicName
+      description: The topic name which is its unique id.
+      schema:
+        type: string
+      in: path
+      required: true
 components:
   schemas:
     Topic:
-      title: Root Type for NewTopic
+      title: Root Type for NewTopicInput
       description: Kafka Topic (A feed where records are stored and published)
       type: object
       properties:
@@ -197,33 +211,33 @@ components:
       example:
         name: Pets
         config:
-          - key: min.insync.replicas
-            value: '1'
-          - key: max.message.bytes
-            value: '1050000'
+        - key: min.insync.replicas
+          value: "1"
+        - key: max.message.bytes
+          value: "1050000"
         partitions:
-          - id: 28
-            replicas:
-              - id: 35
-              - id: 5
-            isr:
-              - id: 44
-              - id: 83
-            leader:
-              id: 22
-          - id: 68
-            replicas:
-              - id: 81
-              - id: 22
-            isr:
-              - id: 75
-              - id: 65
-            leader:
-              id: 58
+        - id: 28
+          replicas:
+          - id: 35
+          - id: 5
+          isr:
+          - id: 44
+          - id: 83
+          leader:
+            id: 22
+        - id: 68
+          replicas:
+          - id: 81
+          - id: 22
+          isr:
+          - id: 75
+          - id: 65
+          leader:
+            id: 58
     Partition:
       description: Kafka topic partition
       required:
-        - id
+      - id
       type: object
       properties:
         id:
@@ -245,22 +259,20 @@ components:
       example:
         id: 87
         replicas:
-          - id: 28
-          - id: 18
+        - id: 28
+        - id: 18
         isr:
-          - id: 22
-          - id: 66
+        - id: 22
+        - id: 66
         leader:
           id: 62
     ConfigEntry:
-      description:
-        Key value pair indicating possible configuration options for a
+      description: Key value pair indicating possible configuration options for a
         topic.
       type: object
       properties:
         key:
-          description:
-            The key indicating what configuration entry you would like
+          description: The key indicating what configuration entry you would like
             to set for the topic.
           type: string
         value:
@@ -268,14 +280,14 @@ components:
           type: string
       example:
         key: min.insync.replicas
-        value: '1'
+        value: "1"
     TopicsList:
       description: A list of topics.
       required:
-        - topics
-        - offset
-        - limit
-        - count
+      - topics
+      - offset
+      - limit
+      - count
       type: object
       properties:
         topics:
@@ -294,36 +306,36 @@ components:
           type: integer
       example:
         topics:
-          - name: Pets
-            config:
-              - key: min.insync.replicas
-                value: '1'
-              - key: max.message.bytes
-                value: '1050000'
-            partitions:
-              - id: 28
-                replicas:
-                  - id: 35
-                  - id: 5
-                isr:
-                  - id: 44
-                  - id: 83
-                leader:
-                  id: 22
-              - id: 68
-                replicas:
-                  - id: 81
-                  - id: 22
-                isr:
-                  - id: 75
-                  - id: 65
-                leader:
-                  id: 58
+        - name: Pets
+          config:
+          - key: min.insync.replicas
+            value: "1"
+          - key: max.message.bytes
+            value: "1050000"
+          partitions:
+          - id: 28
+            replicas:
+            - id: 35
+            - id: 5
+            isr:
+            - id: 44
+            - id: 83
+            leader:
+              id: 22
+          - id: 68
+            replicas:
+            - id: 81
+            - id: 22
+            isr:
+            - id: 75
+            - id: 65
+            leader:
+              id: 58
         offset: 25
         limit: 90
         count: 94
     TopicSettings:
-      title: Root Type for NewTopic
+      title: Root Type for NewTopicInput
       description: Kafka Topic (A feed where records are stored and published)
       type: object
       properties:
@@ -342,10 +354,33 @@ components:
         numPartitions: 2
         replicationFactor: 1
         config:
-          - key: min.insync.replicas
-            value: '1'
-          - key: max.message.bytes
-            value: '1050000'
+        - key: min.insync.replicas
+          value: "1"
+        - key: max.message.bytes
+          value: "1050000"
     Node:
       description: Kafka server / broker.
       type: object
+    NewTopicInput:
+      description: Input object to create a new topic.
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          description: "The topic name, this value must be unique."
+          type: string
+        settings:
+          $ref: '#/components/schemas/TopicSettings'
+          description: "The settings that are applicable to this topic.  This includes\
+            \ partitions, configuration information, and number of replicas."
+      example:
+        name: Pets
+        settings:
+          numPartitions: 3
+          replicationFactor: 4
+          config:
+          - key: min.insync.replicas
+            value: "1"
+          - key: max.message.bytes
+            value: "1050000"
