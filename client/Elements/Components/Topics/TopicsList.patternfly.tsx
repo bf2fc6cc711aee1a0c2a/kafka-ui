@@ -13,7 +13,6 @@ import {
   ToolbarContent,
   ToolbarItem,
 } from '@patternfly/react-core';
-import { useHistory } from 'react-router-dom';
 import {
   Table,
   TableBody,
@@ -35,13 +34,18 @@ export interface ITopicProps {
   rows: ITopic[];
 }
 
-export const TopicsList: React.FunctionComponent = () => {
+export interface ITopicList {
+  onCreateTopic: () => void;
+}
+
+export const TopicsList: React.FunctionComponent<ITopicList> = ({
+  onCreateTopic,
+}) => {
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(10);
   const [offset, setOffset] = useState(0);
   const [search, setSearch] = useState('');
   const { model } = useTopicsModel();
-  const history = useHistory();
   const onSetPage = (_event, pageNumber: number) => {
     setPage(pageNumber);
     setOffset(page * perPage);
@@ -83,7 +87,7 @@ export const TopicsList: React.FunctionComponent = () => {
                 <Button
                   className='topics-per-page'
                   onClick={() => {
-                    history.push('/topics/create');
+                    onCreateTopic();
                   }}
                 >
                   Create topic

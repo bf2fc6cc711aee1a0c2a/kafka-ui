@@ -4,7 +4,6 @@
  */
 import React, { FunctionComponent } from 'react';
 import './style.scss';
-import { TopicsList } from '../../Elements/Components/Topics/TopicsList.patternfly';
 import { LoggingProvider } from '../../Contexts/Logging';
 import {
   ConfigFeatureFlagProvider,
@@ -14,21 +13,22 @@ import { ApolloProvider } from '@apollo/client';
 import { getApolloClient } from '../../Bootstrap/GraphQLClient/GraphQLClient';
 import { PageSection, PageSectionVariants } from '@patternfly/react-core';
 import { setContext } from '@apollo/client/link/context';
+import { CreateTopicWizard } from '../../Elements/Components/CreateTopic/CreateTopicWizard.patternfly';
 
-export type FederatedTopicsProps = {
+export type FederatedCreateTopicProps = {
   getApiOpenshiftComToken: () => Promise<string>;
   getToken: () => Promise<string>;
   id: string;
   apiBasePath: string;
-  onCreateTopic: () => void;
+  onCloseCreateTopic: () => void;
 };
 
-const FederatedTopics: FunctionComponent<FederatedTopicsProps> = ({
+const FederatedCreateTopic: FunctionComponent<FederatedCreateTopicProps> = ({
   id,
   getApiOpenshiftComToken,
   getToken,
   apiBasePath,
-  onCreateTopic,
+  onCloseCreateTopic,
 }) => {
   const authLink = setContext(async () => {
     return {
@@ -39,6 +39,12 @@ const FederatedTopics: FunctionComponent<FederatedTopicsProps> = ({
       },
     };
   });
+
+  const setIsCreateTopic = (b: boolean) => {
+    if (!b) {
+      onCloseCreateTopic();
+    }
+  };
 
   return (
     <ApolloProvider
@@ -51,7 +57,7 @@ const FederatedTopics: FunctionComponent<FederatedTopicsProps> = ({
         <LoggingProvider>
           <FeatureFlag flag={'client.Pages.PlaceholderHome'}>
             <PageSection variant={PageSectionVariants.light}>
-              <TopicsList onCreateTopic={onCreateTopic} />
+              <CreateTopicWizard setIsCreateTopic={setIsCreateTopic} />
             </PageSection>
           </FeatureFlag>
         </LoggingProvider>
@@ -60,6 +66,6 @@ const FederatedTopics: FunctionComponent<FederatedTopicsProps> = ({
   );
 };
 
-export { FederatedTopics };
+export { FederatedCreateTopic };
 
-export default FederatedTopics;
+export default FederatedCreateTopic;

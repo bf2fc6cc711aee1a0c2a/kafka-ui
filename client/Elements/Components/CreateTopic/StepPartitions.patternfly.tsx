@@ -3,12 +3,11 @@
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
 import React from 'react';
-import '@patternfly/react-core/dist/styles/base.css';
 import {
   TextContent,
   Text,
   TextVariants,
-  Touchspin,
+  NumberInput,
 } from '@patternfly/react-core';
 import './CreateTopicWizard.patternfly.css';
 export interface IStepPartitions {
@@ -31,26 +30,24 @@ export const StepPartitions: React.FC<IStepPartitions> = ({
   };
 
   return (
-    <>
-      <TextContent className='topics-wizard-content'>
-        <Text component={TextVariants.h2}>Partitions</Text>
-        <Text component={TextVariants.p}>
-          One or more partitions make up a topic. A partition is an ordered list
-          of messages.
-        </Text>
-        <Text component={TextVariants.small}>
-          Partitions are distributed across the brokers in order to increase the
-          scalability of your topic. You can also use them to distribute
-          messages across the members of a consumer group.
-        </Text>
-        <Touchspin
-          onPlus={handleOnPlus}
-          onMinus={handleOnMinus}
-          value={partitionTouchspinValue}
-          inputName='input'
-          onChange={handlePartitionTouchspinChange}
-        />
-      </TextContent>
-    </>
+    <TextContent className='topics-wizard-content'>
+      <Text component={TextVariants.h2}>Partitions</Text>
+      <Text component={TextVariants.p}>
+        One or more partitions make up a topic. A partition is an ordered list
+        of messages.
+      </Text>
+      <Text component={TextVariants.small}>
+        Partitions are distributed across the brokers in order to increase the
+        scalability of your topic. You can also use them to distribute messages
+        across the members of a consumer group.
+      </Text>
+      <NumberInput
+        onPlus={handleOnPlus}
+        onMinus={handleOnMinus}
+        value={partitionTouchspinValue}
+        inputName='input'
+        onChange={handlePartitionTouchspinChange}
+      />
+    </TextContent>
   );
 };
