@@ -4,11 +4,10 @@
  */
 
 import React, { useState } from 'react';
-import '@patternfly/react-core/dist/styles/base.css';
 import {
-  AlertGroup,
-  AlertActionCloseButton,
   Alert,
+  AlertActionCloseButton,
+  AlertGroup,
   Breadcrumb,
   BreadcrumbItem,
   Divider,
@@ -29,7 +28,7 @@ import { NewTopic } from 'Entities/Entities.generated';
 import { TopicAdvanceConfig } from './TopicAdvanceConfig.patternfly';
 
 interface ICreateTopicWizard {
-  setIsCreateTopic: (value: boolean) => void;
+  setIsCreateTopic?: (value: boolean) => void;
 }
 
 export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
@@ -73,7 +72,9 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   };
 
   const closeWizard = () => {
-    setIsCreateTopic(false);
+    if (setIsCreateTopic) {
+      setIsCreateTopic(false);
+    }
   };
 
   const saveTopic = async () => {
@@ -85,6 +86,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     };
     await addTopic(topic);
     setAlertVisible(true);
+    closeWizard();
   };
 
   const steps = [

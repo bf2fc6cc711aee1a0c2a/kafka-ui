@@ -7,11 +7,11 @@ import '@patternfly/react-core/dist/styles/base.css';
 import {
   Form,
   FormGroup,
+  NumberInput,
   Radio,
-  TextContent,
   Text,
+  TextContent,
   TextVariants,
-  Touchspin,
 } from '@patternfly/react-core';
 import './CreateTopicWizard.patternfly.css';
 
@@ -33,6 +33,7 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
     TWO = 2,
     CUSTOM = 'custom',
   }
+
   const [
     currentReplicationFactor,
     setCurrentReplicationFactor,
@@ -120,7 +121,7 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
               value='radio6'
             />
             <div className='radio-description'>
-              <Touchspin
+              <NumberInput
                 value={replicationFactorTouchspinValue}
                 onMinus={handleOnMinusReplicationFactor}
                 onPlus={handleOnPlusReplicationFactor}
@@ -132,7 +133,7 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
               >
                 Minimum in-sync replicas
               </Text>
-              <Touchspin
+              <NumberInput
                 value={minInSyncReplicaTouchspinValue}
                 onMinus={handleOnMinusMinInSyncReplicaFactor}
                 onPlus={handleOnPlusMinInSyncReplicaFactor}

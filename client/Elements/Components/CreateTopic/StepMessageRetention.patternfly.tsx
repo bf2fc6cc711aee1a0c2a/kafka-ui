@@ -9,14 +9,14 @@ import {
   FlexItem,
   Form,
   FormGroup,
+  NumberInput,
   Radio,
   Select,
   SelectOption,
   SelectVariant,
-  TextContent,
   Text,
+  TextContent,
   TextVariants,
-  Touchspin,
 } from '@patternfly/react-core';
 import './CreateTopicWizard.patternfly.css';
 
@@ -33,6 +33,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
     MONTH = 30,
     CUSTOM = 'custom',
   }
+
   const [currentPeriod, setCurrentPeriod] = React.useState<string | number>(
     RetentionOption.DAY
   );
@@ -150,7 +151,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
           <div className='radio-description radio-step-3'>
             <Flex>
               <FlexItem>
-                <Touchspin
+                <NumberInput
                   onMinus={handleMinusClick}
                   onPlus={handlePlusClick}
                   value={msgTouchspinValue}

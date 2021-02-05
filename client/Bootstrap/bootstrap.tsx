@@ -15,7 +15,7 @@ import { LoggingProvider } from '../Contexts/Logging';
 import { Topics } from '../Panels/Topics';
 import { Switch, Route, HashRouter as Router } from 'react-router-dom';
 import { Home } from '../Panels/Home';
-import { CreateTopicWizard } from 'Elements/Components/CreateTopic/CreateTopicWizard.patternfly';
+import CreateTopic from '../Panels/Topics/CreateView.patternfly';
 
 init(); //Bootstrap i18next support
 ReactDOM.render(
@@ -27,11 +27,7 @@ ReactDOM.render(
             <Switch>
               <Route path='/' component={Home} exact />
               <Route path='/topics' component={Topics} exact />
-              <Route
-                path='/topics/create'
-                component={CreateTopicWizard}
-                exact
-              />
+              <Route path='/topics/create' component={CreateTopic} exact />
             </Switch>
           </Router>
         </FeatureFlag>
