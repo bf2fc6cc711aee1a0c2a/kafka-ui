@@ -71,14 +71,17 @@ export const handlers = {
     }
   },
 
-  updateTopic: async (c, req, res) => {
-    let updatedTopic = topics.find((topic)=>{
-      
-      return topic.name === req.params.topicName})
-    if (updatedTopic === undefined) {
-      res.status(404).json({status: 404, err: "Topic not found."})
+  updateTopic: async (c, req:Request, res) => {
+    let topicUpdated = false;
+    topics.forEach((topic, index:number, topics: Topic[])=>{
+      if (topic.name === req.params.topicName) {
+        topics[index] = req.body
+      } 
+      })
+    if (topicUpdated) {
+      res.status(200).json({status: 200, msg: "Updated topic"});
     } else {
-      res.status(200).json(currentTopic);
+      res.status(404).json({status: 404, err: "Topic not found."});
     }
   },
   
