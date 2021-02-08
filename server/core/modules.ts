@@ -7,4 +7,5 @@ export * from 'client/index';
 export * from 'config/index';
 export * from 'log/index';
 export * from 'mockapi/index';
+export * from 'mockopenapi/index';
 export * from 'health/index';

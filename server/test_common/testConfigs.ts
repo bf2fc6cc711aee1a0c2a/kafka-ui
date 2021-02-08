@@ -18,12 +18,18 @@ const modules = {
   config: false,
   log: false,
   health: false,
+  mockopenapi: false,
   mockapi: false,
 };
 
 const mockapiModuleConfig: () => serverConfigType = () =>
   merge({}, defaultTestConfig(), {
     modules: { ...modules, mockapi: true },
+  });
+
+const mockopenapiModuleConfig: () => serverConfigType = () =>
+  merge({}, defaultTestConfig(), {
+    modules: { ...modules, mockopenapi: true },
   });
 
 const logModuleConfig: () => serverConfigType = () =>
@@ -102,6 +108,8 @@ export const getConfigForName: (name: string) => serverConfigType = (name) => {
       return defaultTestConfig();
     case 'mockapi_only':
       return mockapiModuleConfig();
+    case 'mockopenapi_only':
+      return mockopenapiModuleConfig();
     case 'log_only':
       return logModuleConfig();
     case 'config_only':
