@@ -21,15 +21,15 @@ import {
   TableBody,
   TableVariant,
 } from '@patternfly/react-table';
-import { mockConsumerGroupDetail } from './ConsumerGroupDetail';
-import { ITopicConsumer } from './SearchTopicsConsumerList.patternfly';
+import { mockConsumerGroupDetailByTopics } from './ConsumerGroupDetailByTopics';
+import { IConsumerGroupByTopic } from './SearchConsumerGroupsByTopics.patternfly';
 
 export interface ISearchTopicsConsumerListProps {
   isExpanded: (value: boolean) => void;
-  consumerGroupDetail: ITopicConsumer[];
+  consumerGroupDetail: IConsumerGroupByTopic | undefined;
 }
 
-export const TopicConsumerDetail: React.FunctionComponent<ISearchTopicsConsumerListProps> = ({
+export const ConsumerGroupsByTopicDrawer: React.FunctionComponent<ISearchTopicsConsumerListProps> = ({
   isExpanded,
   consumerGroupDetail,
 }) => {
@@ -45,7 +45,7 @@ export const TopicConsumerDetail: React.FunctionComponent<ISearchTopicsConsumerL
     },
   ];
 
-  const rows = mockConsumerGroupDetail.map((consumergroup) => [
+  const rows = mockConsumerGroupDetailByTopics.map((consumergroup) => [
     consumergroup.partition,
     consumergroup.id,
     consumergroup.currentOffset,
@@ -61,10 +61,12 @@ export const TopicConsumerDetail: React.FunctionComponent<ISearchTopicsConsumerL
   return (
     <DrawerPanelContent widths={{ default: 'width_50' }}>
       <DrawerHead>
-        <span tabIndex={0}>
-          <TextContent className='pf-drawer-top'>
-            <Text component={TextVariants.small}>Consumer group ID</Text>
-            <Text component={TextVariants.h3}>{consumerGroupDetail[0].id}</Text>
+        <span>
+          <TextContent>
+            <Text>Consumer group ID</Text>
+            <Text component={TextVariants.h1}>
+              {consumerGroupDetail && consumerGroupDetail.id}
+            </Text>
           </TextContent>
         </span>
         <DrawerActions>
@@ -75,21 +77,23 @@ export const TopicConsumerDetail: React.FunctionComponent<ISearchTopicsConsumerL
         <TextContent>
           <Flex>
             <FlexItem>
-              <Text component={TextVariants.small}>Active members</Text>
-              <Text component={TextVariants.h3}>
-                {consumerGroupDetail[0].members}
+              <Text component={TextVariants.h4} size={50}>
+                Active members
+              </Text>
+              <Text component={TextVariants.h2}>
+                {consumerGroupDetail && consumerGroupDetail.members}
               </Text>
             </FlexItem>
             <FlexItem>
-              <Text component={TextVariants.small}>Unconsumed partitions</Text>
-              <Text component={TextVariants.h3}>
-                {consumerGroupDetail[0].partitions}
+              <Text component={TextVariants.h4}>Unconsumed partitions</Text>
+              <Text component={TextVariants.h2}>
+                {consumerGroupDetail && consumerGroupDetail.partitions}
               </Text>
             </FlexItem>
             <FlexItem>
-              <Text component={TextVariants.small}>State</Text>
-              <Text component={TextVariants.h3}>
-                {consumerGroupDetail[0].state}
+              <Text component={TextVariants.h4}>State</Text>
+              <Text component={TextVariants.h2}>
+                {consumerGroupDetail && consumerGroupDetail.state}
               </Text>
             </FlexItem>
           </Flex>

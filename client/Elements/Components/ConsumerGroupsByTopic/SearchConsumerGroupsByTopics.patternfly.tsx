@@ -2,10 +2,7 @@
  * Copyright Strimzi authors.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
-/*
- * Copyright Strimzi authors.
- * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
- */
+
 import React, { useState } from 'react';
 import {
   InputGroup,
@@ -14,53 +11,54 @@ import {
   ButtonVariant,
 } from '@patternfly/react-core';
 import SearchIcon from '@patternfly/react-icons/dist/js/icons/search-icon';
-import { TopicConsumerData } from './TopicConsumerData';
+import { ConsumerGroupDataByTopics } from './ConsumerDataByTopics';
 
-export interface ITopicConsumer {
+export interface IConsumerGroupByTopic {
   id: string;
   members: number;
   partitions: number;
   state: string;
 }
-export interface ISearchTopicsConsumerListProps {
-  tableData: (value: ITopicConsumer[]) => void;
+export interface ISearchConsumerGroupsByTopicsProps {
+  setTableData: (value: IConsumerGroupByTopic[]) => void;
 }
-export const SearchTopicsConsumerList: React.FunctionComponent<ISearchTopicsConsumerListProps> = ({
-  tableData,
+export const SearchConsumerGroupsByTopics: React.FunctionComponent<ISearchConsumerGroupsByTopicsProps> = ({
+  setTableData,
 }) => {
-  const [search, setSearch] = useState('');
+  const [searchText, setSearchText] = useState('');
 
   const onChangeInput = (value: string) => {
-    setSearch(value);
+    setSearchText(value);
   };
 
   const onConfirm = () => {
-    tableData(
-      TopicConsumerData.filter(
-        (row) => row.id.toLowerCase().indexOf(search.toLowerCase()) > -1
+    setTableData(
+      ConsumerGroupDataByTopics.filter(
+        (row) => row.id.toLowerCase().indexOf(searchText.toLowerCase()) > -1
       )
     );
   };
   const onClear = () => {
-    setSearch('');
-    tableData(TopicConsumerData);
+    setSearchText('');
+    setTableData(ConsumerGroupDataByTopics);
   };
   return (
     <InputGroup>
       <SearchInput
         name='searchName'
-        id='searchTopicsInput'
-        type='search'
-        aria-label='search input '
+        id='searchText-consumer-groups-by-topic-input'
+        type='searchText'
+        aria-label='searchText input'
         placeholder='Search'
-        value={search}
+        value={searchText}
         onChange={onChangeInput}
         onClear={onClear}
       />
       <Button
         variant={ButtonVariant.control}
-        aria-label='search button for search input'
+        aria-label='searchText button for searchText input'
         onClick={onConfirm}
+        id='searchText-consumer-groups-by-topic-button'
       >
         <SearchIcon />
       </Button>

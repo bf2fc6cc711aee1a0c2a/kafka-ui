@@ -2,7 +2,7 @@
  * Copyright Strimzi authors.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
-export const mockConsumerGroupDetail = [
+export const mockConsumerGroupDetailByTopics = [
   {
     partition: 0,
     id: 'consumer-1 consumer-1-02207915-3ab4-43cb547-4567c6fe87e1',
