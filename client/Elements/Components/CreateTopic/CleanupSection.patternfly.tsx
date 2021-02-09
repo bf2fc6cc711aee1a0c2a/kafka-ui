@@ -10,7 +10,7 @@ import {
   Form,
   TextContent,
   TextVariants,
-  Touchspin,
+  NumberInput,
   Text,
 } from '@patternfly/react-core';
 import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWithPopover.patternfly';
@@ -98,7 +98,7 @@ export const CleanupSection: React.FC = () => {
           labelBody={t('createTopic.minRatioLabelBody')}
           buttonAriaLabel='More info for minimum cleanable ratio field'
         >
-          <Touchspin
+          <NumberInput
             inputName='min-ratio'
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}

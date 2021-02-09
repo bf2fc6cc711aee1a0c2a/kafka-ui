@@ -3,11 +3,19 @@
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
 
-import { Flex, FlexItem, Touchspin, TouchspinProps } from '@patternfly/react-core';
+import {
+  Flex,
+  FlexItem,
+  NumberInput,
+  NumberInputProps,
+} from '@patternfly/react-core';
 import React from 'react';
-import { DropdownWithToggle, IDropdownOption } from '../DropdownWithToggle.patternfly';
+import {
+  DropdownWithToggle,
+  IDropdownOption,
+} from '../DropdownWithToggle.patternfly';
 
-export interface SizeTimeFormGroup extends TouchspinProps, TouchspinProps {
+export interface SizeTimeFormGroup extends NumberInputProps {
   /** id of dropdown element */
   id: string;
   /** id of dropdown toggle button */
@@ -38,9 +46,8 @@ export const SizeTimeFormGroup: React.FC<SizeTimeFormGroup> = ({
   value,
   plusBtnProps,
   minusBtnProps,
-  type
+  type,
 }) => {
-
   const timeUnits: IDropdownOption[] = [
     { key: 'millisecond', value: 'millisecond', isDisabled: false },
     { key: 'second', value: 'second', isDisabled: false },
@@ -58,17 +65,20 @@ export const SizeTimeFormGroup: React.FC<SizeTimeFormGroup> = ({
   ];
 
   const getItemsForType = (type: string) => {
-    switch(type){
-    case "time": return timeUnits;
-    case "memory": return memoryUnits;
-    default: return [];
+    switch (type) {
+      case 'time':
+        return timeUnits;
+      case 'memory':
+        return memoryUnits;
+      default:
+        return [];
     }
   };
 
   return (
     <Flex>
       <FlexItem grow={{ default: 'grow' }}>
-        <Touchspin
+        <NumberInput
           inputName={inputName}
           onChange={onChange}
           onPlus={onPlus}
