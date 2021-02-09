@@ -11,7 +11,7 @@ import {
   TextInput,
   TextVariants,
   Title,
-  Touchspin,
+  NumberInput,
 } from '@patternfly/react-core';
 import React from 'react';
 import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWithPopover.patternfly';
@@ -98,7 +98,7 @@ const CoreConfiguration: React.FC = () => {
           labelBody={t('createTopic.partitionsLabelBody')}
           buttonAriaLabel='More info for partitions field'
         >
-          <Touchspin
+          <NumberInput
             id='create-topic-partitions'
             inputName='partitions'
             onChange={handleTouchSpinInputChange}
@@ -116,7 +116,7 @@ const CoreConfiguration: React.FC = () => {
           labelBody={t('createTopic.replicasLabelBody')}
           buttonAriaLabel='More info for replicas field'
         >
-          <Touchspin
+          <NumberInput
             inputName='replicas'
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
@@ -133,7 +133,7 @@ const CoreConfiguration: React.FC = () => {
           labelBody={t('createTopic.inSyncReplicasLabelBody')}
           buttonAriaLabel='More info for minimum in-sync replicas field'
         >
-          <Touchspin
+          <NumberInput
             id='insyncreplicas'
             inputName='min-in-sync-replicas'
             onChange={handleTouchSpinInputChange}
