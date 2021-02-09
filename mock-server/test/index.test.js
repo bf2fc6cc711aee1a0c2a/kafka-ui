@@ -1,3 +1,7 @@
+/*
+ * Copyright Strimzi authors.
+ * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
+ */
 const { spawn } = require('child_process');
 const waitOn = require('wait-on');
 const axios = require('axios');
@@ -9,7 +13,10 @@ describe('express api key auth example', () => {
   let client;
 
   beforeAll(async () => {
-    client = axios.create({ baseURL: 'http://localhost:9000', validateStatus: () => true });
+    client = axios.create({
+      baseURL: 'http://localhost:9000',
+      validateStatus: () => true,
+    });
     start = spawn('npm', ['start'], { cwd: __dirname, detached: true });
     await waitOn({ resources: ['tcp:localhost:9000'] });
   });

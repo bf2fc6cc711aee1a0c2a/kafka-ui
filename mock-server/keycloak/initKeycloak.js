@@ -1,3 +1,7 @@
+/*
+ * Copyright Strimzi authors.
+ * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
+ */
 /**
  * This script helps set up a local keycloak environment
  * It assumes keycloak is already running and available at
@@ -11,26 +15,26 @@
  * * Assigns the client and realm roles to the users
  */
 
-const axios = require("axios");
-const realmToImport = require("./realm-export.json");
-const { writeFileSync } = require("fs");
+const axios = require('axios');
+const realmToImport = require('./realm-export.json');
+const { writeFileSync } = require('fs');
 
 // the keycloak server we're working against
-const KEYCLOAK_URL = process.env.KEYCLOAK_URL || "http://localhost:8080/auth";
+const KEYCLOAK_URL = process.env.KEYCLOAK_URL || 'http://localhost:8080/auth';
 
 // name of the realm
-const APP_REALM = process.env.KEYCLOAK_REALM || "sso-external";
+const APP_REALM = process.env.KEYCLOAK_REALM || 'sso-external';
 
 // name of the admin realm
-const ADMIN_REALM = "master";
+const ADMIN_REALM = 'master';
 
-const RESOURCE = "admin-cli";
-const ADMIN_USERNAME = process.env.KEYCLOAK_ADMIN_USERNAME || "admin";
-const ADMIN_PASSWORD = process.env.KEYCLOAK_ADMIN_PASSWORD || "admin";
-let token = "";
+const RESOURCE = 'admin-cli';
+const ADMIN_USERNAME = process.env.KEYCLOAK_ADMIN_USERNAME || 'admin';
+const ADMIN_PASSWORD = process.env.KEYCLOAK_ADMIN_PASSWORD || 'admin';
+let token = '';
 
 // The keycloak client used by the sample app
-const PUBLIC_CLIENT_NAME = "rhoas-cli-prod";
+const PUBLIC_CLIENT_NAME = 'rhoas-cli-prod';
 let PUBLIC_CLIENT;
 
 // The client roles you want created for the BEARER_CLIENT_NAME client
@@ -47,17 +51,17 @@ const writeConfig = false;
 // at the bottom of the file
 async function prepareKeycloak() {
   try {
-    console.log("Authenticating with keycloak server");
+    console.log('Authenticating with keycloak server');
     token = await authenticateKeycloak();
 
     // Always do a hard reset first just to keep things tidy
-    console.log("Going to reset keycloak");
+    console.log('Going to reset keycloak');
     await resetKeycloakConfiguration();
 
-    console.log("Importing sample realm into keycloak");
+    console.log('Importing sample realm into keycloak');
     await importRealm();
 
-    console.log("Fetching available clients from keycloak");
+    console.log('Fetching available clients from keycloak');
     const clients = await getClients();
 
     // Get the public client object from keycloak
@@ -66,12 +70,12 @@ async function prepareKeycloak() {
       (client) => client.clientId === PUBLIC_CLIENT_NAME
     );
 
-    console.log("creating client roles");
+    console.log('creating client roles');
     for (let roleName of clientRoleNames) {
       await createClientRole(PUBLIC_CLIENT, roleName);
     }
 
-    console.log("creating realm roles");
+    console.log('creating realm roles');
     for (let roleName of realmRoleNames) {
       await createRealmRole(roleName);
     }
@@ -91,7 +95,7 @@ async function prepareKeycloak() {
     }
     console.log();
     console.log(
-      "Your keycloak server is set up for local usage and development"
+      'Your keycloak server is set up for local usage and development'
     );
   } catch (e) {
     console.error(e);
@@ -101,40 +105,40 @@ async function prepareKeycloak() {
 
 async function getClientInstallation(
   client,
-  installationType = "keycloak-oidc-keycloak-json"
+  installationType = 'keycloak-oidc-keycloak-json'
 ) {
   if (client) {
     const res = await axios({
-      method: "GET",
+      method: 'GET',
       url: `${KEYCLOAK_URL}/admin/realms/${APP_REALM}/clients/${client.id}/installation/providers/${installationType}`,
       headers: { Authorization: token },
     });
     return res.data;
   }
-  throw new Error("client is undefined");
+  throw new Error('client is undefined');
 }
 
 async function authenticateKeycloak() {
   const res = await axios({
-    method: "POST",
+    method: 'POST',
     url: `${KEYCLOAK_URL}/realms/${ADMIN_REALM}/protocol/openid-connect/token`,
     data: `client_id=${RESOURCE}&username=${ADMIN_USERNAME}&password=${ADMIN_PASSWORD}&grant_type=password`,
   });
-  return `Bearer ${res.data["access_token"]}`;
+  return `Bearer ${res.data['access_token']}`;
 }
 
 async function importRealm() {
   return await axios({
-    method: "POST",
+    method: 'POST',
     url: `${KEYCLOAK_URL}/admin/realms`,
     data: realmToImport,
-    headers: { Authorization: token, "Content-Type": "application/json" },
+    headers: { Authorization: token, 'Content-Type': 'application/json' },
   });
 }
 
 async function getRealmRoles() {
   const res = await axios({
-    method: "GET",
+    method: 'GET',
     url: `${KEYCLOAK_URL}/admin/realms/${APP_REALM}/roles`,
     headers: { Authorization: token },
   });
@@ -144,7 +148,7 @@ async function getRealmRoles() {
 async function createClientRole(client, roleName) {
   try {
     return await axios({
-      method: "POST",
+      method: 'POST',
       url: `${KEYCLOAK_URL}/admin/realms/${APP_REALM}/clients/${client.id}/roles`,
       headers: { Authorization: token },
       data: {
@@ -167,7 +171,7 @@ async function createClientRole(client, roleName) {
 async function createRealmRole(roleName) {
   try {
     return await axios({
-      method: "POST",
+      method: 'POST',
       url: `${KEYCLOAK_URL}/admin/realms/${APP_REALM}/roles`,
       headers: { Authorization: token },
       data: {
@@ -189,7 +193,7 @@ async function createRealmRole(roleName) {
 
 async function getClients() {
   const res = await axios({
-    method: "GET",
+    method: 'GET',
     url: `${KEYCLOAK_URL}/admin/realms/${APP_REALM}/clients`,
     headers: { Authorization: token },
   });
@@ -198,7 +202,7 @@ async function getClients() {
 
 async function getClientRoles(client) {
   const res = await axios({
-    method: "GET",
+    method: 'GET',
     url: `${KEYCLOAK_URL}/admin/realms/${APP_REALM}/clients/${client.id}/roles`,
     headers: { Authorization: token },
   });
@@ -207,20 +211,20 @@ async function getClientRoles(client) {
 
 async function assignRealmRoleToUser(userIdUrl, role) {
   const res = await axios({
-    method: "POST",
+    method: 'POST',
     url: `${userIdUrl}/role-mappings/realm`,
     data: [role],
-    headers: { Authorization: token, "Content-Type": "application/json" },
+    headers: { Authorization: token, 'Content-Type': 'application/json' },
   });
   return res.data;
 }
 
 async function assignClientRoleToUser(userIdUrl, client, role) {
   const res = await axios({
-    method: "POST",
+    method: 'POST',
     url: `${userIdUrl}/role-mappings/clients/${client.id}`,
     data: [role],
-    headers: { Authorization: token, "Content-Type": "application/json" },
+    headers: { Authorization: token, 'Content-Type': 'application/json' },
   });
   return res.data;
 }
@@ -228,7 +232,7 @@ async function assignClientRoleToUser(userIdUrl, client, role) {
 async function resetKeycloakConfiguration() {
   try {
     await axios({
-      method: "DELETE",
+      method: 'DELETE',
       url: `${KEYCLOAK_URL}/admin/realms/${APP_REALM}`,
       headers: { Authorization: token },
     });

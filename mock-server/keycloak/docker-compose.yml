@@ -1,9 +1,11 @@
+# Copyright Strimzi authors.
+# License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
 version: '2'
 services:
   keycloak:
     image: quay.io/keycloak/keycloak:9.0.3
     ports:
-      - "8080:8080"
+      - '8080:8080'
     environment:
       DB_VENDOR: h2
       KEYCLOAK_USER: admin
