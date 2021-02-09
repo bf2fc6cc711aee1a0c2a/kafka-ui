@@ -1,10 +1,21 @@
+/*
+ * Copyright Strimzi authors.
+ * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
+ */
 var topics = require('../_data_/topics.json')
+
+const disableCORS = (res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+}
 
 module.exports = {
   createTopic: async (c, req, res) => {
     const topicBody = c.request.body;
 
     if (!topicBody) {
+      disableCORS(res);
       return res.status(400).json({ err: 'Bad request' })
     }
 
@@ -24,15 +35,17 @@ module.exports = {
   },
 
   getTopicsList: async (c, req, res) => {
+    disableCORS(res);
     return res.status(200).json({
       limit: parseInt(req.query.limit, 10) || 100,
       offset: 0,
-      count: topics?.length,
+      count: topics ? topics.length : 0,
       topics: topics
     });
   },
 
   getTopic: async (c, req, res) => {
+    disableCORS(res);
     const topic = getTopic(c.request.params.topicName)
     if (!topic) {
       return res.status(404).json({ err: "not found" })
@@ -41,6 +54,7 @@ module.exports = {
   },
 
   deleteTopic: async (c, _, res) => {
+    disableCORS(res);
     const topicName = c.request.params.topicName;
 
     const topic = getTopic(topicName)
@@ -53,6 +67,7 @@ module.exports = {
   },
 
   updateTopic: async (c, _, res) => {
+    disableCORS(res);
     const topicName = c.request.params.topicName;
     const topicBody = c.request.body;
 
@@ -72,7 +87,7 @@ module.exports = {
       return res.status(404).json({ err: "not found" })
     }
 
-    if (topicBody?.settings?.config) {
+    if (topicBody && topic.settings ** topic.settings.config) {
       topic.config = topicBody.settings.config;
     }
 
@@ -81,11 +96,14 @@ module.exports = {
 
   // Handling auth
   notFound: async (c, req, res) => {
+    disableCORS(res);
     debug(res)
     return res.status(404).json({ err: "not found" })
   },
-  unauthorizedHandler: async (c, req, res) =>
-    res.status(401).json({ err: "unauthorized" }),
+  unauthorizedHandler: async (c, req, res) => {
+    disableCORS(res);
+    return res.status(401).json({ err: "unauthorized" });
+  }
 };
 
 function getTopic(name) {
