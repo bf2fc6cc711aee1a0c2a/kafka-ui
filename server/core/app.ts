@@ -61,9 +61,16 @@ export const returnExpress: (
         authFunction(config.authentication),
         config
       );
-      const mountPointWithBasePath = basePath ? `${basePath}${mountPoint}` : mountPoint;
-      logger.info(`Mounted module '${moduleName}' on '${mountPointWithBasePath}'`);
-      return { ...acc, [moduleName]: { mountPoint: mountPointWithBasePath, routerForModule } };
+      const mountPointWithBasePath = basePath
+        ? `${basePath}${mountPoint}`
+        : mountPoint;
+      logger.info(
+        `Mounted module '${moduleName}' on '${mountPointWithBasePath}'`
+      );
+      return {
+        ...acc,
+        [moduleName]: { mountPoint: mountPointWithBasePath, routerForModule },
+      };
     },
     {}
   );

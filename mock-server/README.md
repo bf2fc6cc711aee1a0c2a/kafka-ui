@@ -23,10 +23,8 @@ yarn refresh
 
 docker build -t mas-mocking-api
 
- 
- ## Calling API
+## Calling API
 
 ```
 yarn api
 ```
- 

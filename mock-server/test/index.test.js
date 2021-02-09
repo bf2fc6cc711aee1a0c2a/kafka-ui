@@ -13,7 +13,10 @@ describe('express api key auth example', () => {
   let client;
 
   beforeAll(async () => {
-    client = axios.create({ baseURL: 'http://localhost:9000', validateStatus: () => true });
+    client = axios.create({
+      baseURL: 'http://localhost:9000',
+      validateStatus: () => true,
+    });
     start = spawn('npm', ['start'], { cwd: __dirname, detached: true });
     await waitOn({ resources: ['tcp:localhost:9000'] });
   });
