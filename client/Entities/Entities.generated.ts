@@ -89,7 +89,7 @@ export enum SortDirectionEnum {
 }
 
 export type TopicList = {
-  items: Array<Maybe<Topic>>;
+  topics: Array<Maybe<Topic>>;
   offset?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
   count?: Maybe<Scalars['Int']>;

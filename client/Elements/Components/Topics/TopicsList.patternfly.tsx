@@ -2,7 +2,7 @@
  * Copyright Strimzi authors.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Button,
   Card,
@@ -12,17 +12,17 @@ import {
   Title,
   ToolbarContent,
   ToolbarItem,
-} from '@patternfly/react-core';
+} from "@patternfly/react-core";
 import {
   Table,
   TableBody,
   TableHeader,
   TableVariant,
-} from '@patternfly/react-table';
-import { SearchTopics } from './SearchTopics.patternfly';
-import { EmptyTopics } from './EmptyTopics.patternfly';
-import { EmptySearch } from './EmptySearch.patternfly';
-import { useTopicsModel } from '../../../Panels/Topics/Model';
+} from "@patternfly/react-table";
+import { SearchTopics } from "./SearchTopics.patternfly";
+import { EmptyTopics } from "./EmptyTopics.patternfly";
+import { EmptySearch } from "./EmptySearch.patternfly";
+import { useTopicsModel } from "../../../Panels/Topics/Model";
 
 export interface ITopic {
   name: string;
@@ -44,7 +44,7 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(10);
   const [offset, setOffset] = useState(0);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const { model } = useTopicsModel();
   const onSetPage = (_event, pageNumber: number) => {
     setPage(pageNumber);
@@ -56,22 +56,22 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
   };
 
   const tableColumns = [
-    { title: 'Name' },
-    { title: 'Replicas' },
-    { title: 'Partitions' },
+    { title: "Name" },
+    { title: "Replicas" },
+    { title: "Partitions" },
   ];
-  const rowData = model.topicList.items.map((topic) => [
+  const rowData = model.topics.map((topic) => [
     topic?.name,
     topic?.partitions
       ?.map((p) => p.replicas.length)
       .reduce((previousValue, currentValue) => previousValue + currentValue),
     topic?.partitions?.length,
   ]);
-
-  const actions = [{ title: 'Edit' }, { title: 'Delete' }];
+  console.log("rowData", rowData, "model", model);
+  const actions = [{ title: "Edit" }, { title: "Delete" }];
   return (
     <>
-      <Title headingLevel='h2' size='lg'>
+      <Title headingLevel="h2" size="lg">
         Topics
       </Title>
       {rowData.length < 1 && search.length < 1 ? (
@@ -85,7 +85,7 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
               </ToolbarItem>
               <ToolbarItem>
                 <Button
-                  className='topics-per-page'
+                  className="topics-per-page"
                   onClick={() => {
                     onCreateTopic();
                   }}
@@ -93,13 +93,13 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
                   Create topic
                 </Button>
               </ToolbarItem>
-              <ToolbarItem variant='pagination'>
+              <ToolbarItem variant="pagination">
                 <Pagination
                   itemCount={rowData.length}
                   perPage={perPage}
                   page={page}
                   onSetPage={onSetPage}
-                  widgetId='pagination-options-menu-top'
+                  widgetId="pagination-options-menu-top"
                   onPerPageSelect={onPerPageSelect}
                 />
               </ToolbarItem>
@@ -108,7 +108,7 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
           <Divider />
 
           <Table
-            aria-label='Compact Table'
+            aria-label="Compact Table"
             variant={TableVariant.compact}
             cells={tableColumns}
             rows={
@@ -130,7 +130,7 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
           perPage={perPage}
           page={page}
           onSetPage={onSetPage}
-          widgetId='pagination-options-menu-top'
+          widgetId="pagination-options-menu-top"
           onPerPageSelect={onPerPageSelect}
           offset={0}
         />

@@ -12,13 +12,13 @@ const Topics: FunctionComponent = ({ children }) => {
   const { model, updateTopicsFilter } = useTopicsModel();
 
   let topics: JSX.Element;
-  if (model.loading) {
-    topics = <p>Loading...</p>;
-  } else {
-    topics = (
-      <p>{`Topics retrieved: ${JSON.stringify(model.topicList.items)}`}</p>
-    );
-  }
+  // if (model.loading) {
+  //   topics = <p>Loading...</p>;
+  // } else {
+  topics = (
+    <p>{`Topics retrieved: ${JSON.stringify(model.topics)}`}</p>
+  );
+  // }
 
   return (
     <div className='topics'>
