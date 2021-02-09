@@ -1,7 +1,3 @@
-/*
- * Copyright Strimzi authors.
- * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
- */
 /* tslint:disable */
 /* eslint-disable */
 /**
@@ -181,7 +177,7 @@ export interface TopicsList {
 export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Creates a new topic for Kafka.
+         * Creates a new topic in Kafka.
          * @summary Creates a new topic
          * @param {NewTopicInput} newTopicInput Topic to create.
          * @param {*} [options] Override http request option.
@@ -436,7 +432,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 export const DefaultApiFp = function(configuration?: Configuration) {
     return {
         /**
-         * Creates a new topic for Kafka.
+         * Creates a new topic in Kafka.
          * @summary Creates a new topic
          * @param {NewTopicInput} newTopicInput Topic to create.
          * @param {*} [options] Override http request option.
@@ -518,7 +514,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
 export const DefaultApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     return {
         /**
-         * Creates a new topic for Kafka.
+         * Creates a new topic in Kafka.
          * @summary Creates a new topic
          * @param {NewTopicInput} newTopicInput Topic to create.
          * @param {*} [options] Override http request option.
@@ -580,7 +576,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
  */
 export interface DefaultApiInterface {
     /**
-     * Creates a new topic for Kafka.
+     * Creates a new topic in Kafka.
      * @summary Creates a new topic
      * @param {NewTopicInput} newTopicInput Topic to create.
      * @param {*} [options] Override http request option.
@@ -642,7 +638,7 @@ export interface DefaultApiInterface {
  */
 export class DefaultApi extends BaseAPI implements DefaultApiInterface {
     /**
-     * Creates a new topic for Kafka.
+     * Creates a new topic in Kafka.
      * @summary Creates a new topic
      * @param {NewTopicInput} newTopicInput Topic to create.
      * @param {*} [options] Override http request option.

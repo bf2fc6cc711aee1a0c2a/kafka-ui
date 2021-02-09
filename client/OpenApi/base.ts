@@ -1,7 +1,3 @@
-/*
- * Copyright Strimzi authors.
- * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
- */
 /* tslint:disable */
 /* eslint-disable */
 /**
@@ -22,7 +18,7 @@ import { Configuration } from "./configuration";
 // @ts-ignore
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 
-export const BASE_PATH = "https://api.openshift.com".replace(/\/+$/, "");
+export const BASE_PATH = "https://api.openshift.com/api/managed-services-strimzi-ui/v1/api".replace(/\/+$/, "");
 
 /**
  *
