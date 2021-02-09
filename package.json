@@ -8,7 +8,8 @@
   "scripts": {
     "api:generate": "openapi-generator-cli generate -i openapi/strimzi-admin.yaml -g typescript-axios -o client/OpenApi --additional-properties=ngVersion=6.1.7,npmName=restClient,supportsES6=true,npmVersion=6.9.0,withInterfaces=true",
     "clean": "rm -rf dist/ && rm -rf js/ && rm -rf .out/ && rm -rf generated/ && rm -rf coverage/ && npx jest --clear-cache",
-    "start": "VL=patternfly npm-run-all --parallel --race start:client start:server start:mockadminserver",
+    "start:restmockserver": "node mock-server/src/index.js",
+    "start": "VL=patternfly npm-run-all --parallel --race start:client start:server start:mockadminserver start:restmockserver",
     "start:builtserver": "configPath=utils/dev_config/server.e2e.config.js node dist/server/main.js",
     "start:client": "webpack serve --config build/webpack.client.dev.js",
     "start:server": "configPath=utils/dev_config/server.dev.config.js npm run server",
@@ -88,7 +89,8 @@
     "terser-webpack-plugin": "^3.0.7",
     "typescript": "^4.0.3",
     "uuid": "^8.3.1",
-    "ws": "^7.3.1"
+    "ws": "^7.3.1",
+    "cors": "^2.8.5"
   },
   "devDependencies": {
     "@graphql-cli/codegen": "1.17.14",
@@ -172,6 +174,9 @@
     "webpack-bundle-analyzer": "^3.9.0",
     "webpack-cli": "^4.1.0",
     "webpack-dev-server": "^3.11.0",
-    "webpack-node-externals": "^2.5.2"
+    "webpack-node-externals": "^2.5.2",
+    "axios": "^0.18.1",
+    "openapi-editor": "^0.2.0",
+    "wait-on": "^3.2.0"
   }
 }

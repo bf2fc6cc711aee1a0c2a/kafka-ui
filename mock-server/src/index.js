@@ -11,6 +11,7 @@ var cors = require('cors');
 
 const api = express();
 api.use(express.json());
+api.use(cors());
 
 // define api
 const kafkaAPI = new OpenAPIBackend({
