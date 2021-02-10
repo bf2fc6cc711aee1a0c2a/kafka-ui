@@ -3,7 +3,7 @@
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
 /* eslint-disable */
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
@@ -24,18 +24,18 @@ export type Query = {
 };
 
 export type QueryTopicListArgs = {
-  search?: Maybe<Scalars['String']>;
+  search?: Maybe<Scalars["String"]>;
   page?: Maybe<PageRequest>;
   orderBy?: Maybe<OrderByInput>;
 };
 
 export type QueryTopicArgs = {
-  name: Scalars['String'];
+  name: Scalars["String"];
 };
 
 export type Mutation = {
   createTopic: Topic;
-  deleteTopics?: Maybe<Array<Maybe<Scalars['String']>>>;
+  deleteTopics?: Maybe<Array<Maybe<Scalars["String"]>>>;
 };
 
 export type MutationCreateTopicArgs = {
@@ -43,13 +43,12 @@ export type MutationCreateTopicArgs = {
 };
 
 export type MutationDeleteTopicsArgs = {
-  names?: Maybe<Array<Maybe<Scalars['String']>>>;
+  names?: Maybe<Array<Maybe<Scalars["String"]>>>;
 };
 
 export type Topic = {
   /** ID */
-  name?: Maybe<Scalars['String']>;
-  isInternal?: Maybe<Scalars['Boolean']>;
+  name?: Maybe<Scalars["String"]>;
   partitions: Array<Partition>;
   config?: Maybe<Array<Maybe<ConfigEntry>>>;
 };
@@ -57,7 +56,7 @@ export type Topic = {
 /** embedded in Topic */
 export type Partition = {
   /** ID */
-  partition?: Maybe<Scalars['Int']>;
+  partition?: Maybe<Scalars["Int"]>;
   replicas: Array<Node>;
   /** InSyncReplicas */
   isr?: Maybe<Array<Maybe<Node>>>;
@@ -65,44 +64,46 @@ export type Partition = {
 };
 
 export type Node = {
-  id: Scalars['Int'];
+  id: Scalars["Int"];
 };
 
 export type ConfigEntry = {
-  key: Scalars['String'];
-  value: Scalars['String'];
+  key: Scalars["String"];
+  value: Scalars["String"];
 };
 
 export type OrderByInput = {
-  field: Scalars['String'];
+  field: Scalars["String"];
   order?: Maybe<SortDirectionEnum>;
 };
 
 export type PageRequest = {
-  limit?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
 };
 
 export enum SortDirectionEnum {
-  Desc = 'DESC',
-  Asc = 'ASC',
+  Desc = "DESC",
+  Asc = "ASC",
 }
 
 export type TopicList = {
   topics: Array<Maybe<Topic>>;
-  offset?: Maybe<Scalars['Int']>;
-  limit?: Maybe<Scalars['Int']>;
-  count?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars["Int"]>;
+  limit?: Maybe<Scalars["Int"]>;
+  count?: Maybe<Scalars["Int"]>;
 };
 
+export type TopicListResponse = { data: TopicList };
+
 export type NewTopicConfigEntry = {
-  key?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['String']>;
+  key?: Maybe<Scalars["String"]>;
+  value?: Maybe<Scalars["String"]>;
 };
 
 export type NewTopic = {
-  name: Scalars['String'];
-  numPartitions: Scalars['Int'];
-  replicationFactor: Scalars['Int'];
+  name: Scalars["String"];
+  numPartitions: Scalars["Int"];
+  replicationFactor: Scalars["Int"];
   config?: Maybe<Array<Maybe<NewTopicConfigEntry>>>;
 };

@@ -67,7 +67,7 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
       .reduce((previousValue, currentValue) => previousValue + currentValue),
     topic?.partitions?.length,
   ]);
-  console.log("rowData", rowData, "model", model);
+  
   const actions = [{ title: "Edit" }, { title: "Delete" }];
   return (
     <>

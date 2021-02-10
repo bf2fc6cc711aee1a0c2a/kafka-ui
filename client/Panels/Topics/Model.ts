@@ -4,8 +4,13 @@
  */
 import { useCallback, useState } from "react";
 import debounce from "lodash.debounce";
-import { TopicList } from "../../Entities/Entities.generated";
+import {
+  Query,
+  TopicList,
+  TopicListResponse,
+} from "../../Entities/Entities.generated";
 import { DefaultApi } from "../../OpenApi/api";
+import { useAsync } from "react-async";
 
 const onChangeEvent = (value: string, callWithValue: (value: string) => void) =>
   callWithValue(value);
@@ -17,28 +22,23 @@ export const useTopicsModel = () => {
     []
   );
 
-  const model = {
-    topics: [],
-  } as TopicList;
   const topicListObj = new DefaultApi();
-  topicListObj.getTopicsList().then((data) => {
-    console.log("topic data", data);
-    const model = {
-      filter,
-      topicList:
-        data?.data ||
-        ({
-          topics: [],
-        } as TopicList),
-    };
-  });
-  // const { data, loading, error } = useQuery<Query>(GET_TOPICS, {
-  //   variables: { filter },
+
+  const { isLoading, error, data } = useAsync<any>(
+    topicListObj.getTopicsList()
+  );
+  const model = data || { topics: [] };
+  // let model = { };
+
+  // await topicListObj.getTopicsList().then((data) => {
+  //   console.log("data", data);
+  //   model=data.data
   // });
 
+  console.log("data", data, "model", model);
   return {
     model,
-    updateTopicsFilter: (evt) =>
-      onChangeEvent(evt, debouncedUpdateTopicsFilter),
+    isLoading,
+    error
   };
 };
