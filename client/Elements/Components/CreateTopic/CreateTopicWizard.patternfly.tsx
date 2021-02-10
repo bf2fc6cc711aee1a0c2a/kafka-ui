@@ -86,8 +86,8 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
         replicationFactor: replicationFactorTouchspinValue,
       }
     };
-    const topicListObj = new DefaultApi();
-    topicListObj.createTopic(topic).then(res => {
+
+    new DefaultApi().createTopic(topic).then(res => {
       if(res.status === 200){
         setAlertVisible(true);
       }
