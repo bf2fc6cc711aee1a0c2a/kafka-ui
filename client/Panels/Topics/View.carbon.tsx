@@ -3,20 +3,20 @@
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
 import React, { FunctionComponent } from "react";
-import { useTopicsModel } from "./Model";
+// import { useTopicsModel } from "./Model";
 
 /**
  * Placeholder Topics panel FC.
  */
 const Topics: FunctionComponent = ({ children }) => {
-  const { model, isLoading, error } = useTopicsModel();
+  // const { model } = useTopicsModel();
 
-  let topics: JSX.Element;
-  if (isLoading) {
-    topics = <p>Loading...</p>;
-  } else {
-    topics = <p>{`Topics retrieved: ${JSON.stringify(model.topics)}`}</p>;
-  }
+  // let topics: JSX.Element;
+  // if (isLoading) {
+  //   topics = <p>Loading...</p>;
+  // } else {
+  // topics = <p>{`Topics retrieved: ${JSON.stringify(model.topics)}`}</p>;
+  // }
 
   return (
     <div className="topics">
@@ -24,7 +24,7 @@ const Topics: FunctionComponent = ({ children }) => {
         placeholder="filter"
         // onChange={(evt) => updateTopicsFilter(evt.target.value)}
       />
-      {topics}
+      {/* {topics} */}
       {children}
     </div>
   );
