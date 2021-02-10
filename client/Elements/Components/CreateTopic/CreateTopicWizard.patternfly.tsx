@@ -16,16 +16,16 @@ import {
   Switch,
   Title,
   Wizard,
+  WizardStep,
 } from '@patternfly/react-core';
 import { StepTopicName } from './StepTopicName.patternfly';
 import { StepPartitions } from './StepPartitions.patternfly';
 import { StepMessageRetention } from './StepMessageRetention.patternfly';
 import { StepReplicas } from './StepReplicas.patternfly';
 import './CreateTopicWizard.patternfly.css';
-import { CREATE_TOPIC } from 'Queries/Topics';
-import { useMutation } from '@apollo/client';
-import { NewTopic } from 'Entities/Entities.generated';
 import { TopicAdvanceConfig } from './TopicAdvanceConfig.patternfly';
+import { DefaultApi, NewTopicInput } from 'OpenApi/api';
+import { useHistory } from 'react-router';
 
 interface ICreateTopicWizard {
   setIsCreateTopic?: (value: boolean) => void;
@@ -34,6 +34,9 @@ interface ICreateTopicWizard {
 export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   setIsCreateTopic,
 }) => {
+
+  const history = useHistory();
+  
   const [alertVisible, setAlertVisible] = useState(false);
   const [isSwitchChecked, setIsSwitchChecked] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -49,10 +52,6 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     setMinInSyncReplicaTouchspinValue,
   ] = useState(1);
 
-  const [createTopic] = useMutation(CREATE_TOPIC);
-  const addTopic = async (newTopic: NewTopic) => {
-    await createTopic({ variables: { topic: newTopic } });
-  };
   const mainBreadcrumbs = (
     <Breadcrumb>
       <BreadcrumbItem to='/openshiftstreams'>
@@ -75,23 +74,31 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     if (setIsCreateTopic) {
       setIsCreateTopic(false);
     }
+    history.goBack();
   };
 
-  const saveTopic = async () => {
+  const saveTopic = () => {
     //Object may change based on schema
-    const topic: NewTopic = {
+    const topic: NewTopicInput = {
       name: topicNameInput,
-      numPartitions: partitionTouchspinValue,
-      replicationFactor: replicationFactorTouchspinValue,
+      settings: {
+        numPartitions: partitionTouchspinValue,
+        replicationFactor: replicationFactorTouchspinValue,
+      }
     };
-    await addTopic(topic);
-    setAlertVisible(true);
-    closeWizard();
+    const topicListObj = new DefaultApi();
+    topicListObj.createTopic(topic).then(res => {
+      if(res.status === 200){
+        setAlertVisible(true);
+      }
+      closeWizard();
+    })
   };
 
-  const steps = [
+  const steps: WizardStep[] = [
     {
       name: 'Topic name',
+      enableNext: topicNameInput.trim() !== '',
       component: (
         <StepTopicName
           topicNameInput={topicNameInput}
@@ -101,6 +108,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     },
     {
       name: 'Partitions',
+      canJumpTo: topicNameInput.trim() !== '',
       component: (
         <StepPartitions
           partitionTouchspinValue={partitionTouchspinValue}
@@ -110,12 +118,14 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     },
     {
       name: 'Message retention',
+      canJumpTo: topicNameInput.trim() !== '',
       component: (
         <StepMessageRetention setMsgRetentionValue={setMsgRetentionValue} />
       ),
     },
     {
       name: 'Replicas',
+      canJumpTo: topicNameInput.trim() !== '',
       component: (
         <StepReplicas
           setReplicationFactorTouchspinValue={
