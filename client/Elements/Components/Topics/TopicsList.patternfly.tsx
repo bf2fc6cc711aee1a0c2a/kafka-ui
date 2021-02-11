@@ -24,6 +24,7 @@ import { EmptyTopics } from "./EmptyTopics.patternfly";
 import { EmptySearch } from "./EmptySearch.patternfly";
 import { useTopicsModel } from "../../../Panels/Topics/Model";
 import { TopicList } from "Entities/Entities.generated";
+import { DeleteTopics } from "./DeleteTopicsModal.patternfly";
 
 export interface ITopic {
   name: string;
@@ -48,6 +49,7 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
   const [search, setSearch] = useState("");
   const [topics, setTopics] = useState<TopicList>();
   const [filteredTopics, setFilteredTopics] = useState<TopicList>();
+  const [deleteModal, setDeleteModal] = useState(false);
 
   const fetchTopic = async () => {
     const { model } = await useTopicsModel();
@@ -107,13 +109,26 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
   const onClear = () => {
     setFilteredTopics(topics);
   };
+  const onDelete = () => {
+    setDeleteModal(true);
+  };
 
-  const actions = [{ title: "Edit" }, { title: "Delete" }];
+  const actions = [
+    { title: "Delete", onClick: () => onDelete() },
+    { title: "Edit" },
+  ];
+
   return (
     <>
       <Title headingLevel="h2" size="lg">
         Topics
       </Title>
+      {deleteModal && (
+        <DeleteTopics
+          setDeleteModal={setDeleteModal}
+          deleteModal={deleteModal}
+        />
+      )}
       {rowData.length < 1 && search.length < 1 ? (
         <EmptyTopics onCreateTopic={onCreateTopic}/>
       ) : (
