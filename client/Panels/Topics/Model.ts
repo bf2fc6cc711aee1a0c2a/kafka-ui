@@ -13,3 +13,32 @@ export const useTopicsModel = async () => {
     model,
   };
 };
+
+// TODO: move to a suitable file
+const convertTopicResponse = (topic) => {
+  let storeObj = {};
+
+  topic.config.forEach(config => {
+    storeObj[config.key] = config.value;
+  });
+
+  delete topic.config;
+
+  topic.numPartitions = topic?.partitions?.length;
+
+  topic.replicationFactor = topic?.partitions
+    ?.map((p) => p.replicas.length)
+    .reduce((previousValue, currentValue) => previousValue + currentValue),
+
+  delete topic.partitions;
+
+  topic = {...topic, ...storeObj};
+
+  return topic;
+}
+
+export const useTopicDetail = async (topicName: string) => {
+  const { data } = await new DefaultApi().getTopic(topicName);
+
+  return convertTopicResponse(data);
+}

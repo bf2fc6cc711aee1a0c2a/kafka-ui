@@ -6,6 +6,8 @@
 import { Popover, TextContent, Text } from '@patternfly/react-core';
 import React from 'react';
 import { HelpIcon } from '@patternfly/react-icons';
+import bytes from "bytes";
+import humanizeDuration from "humanize-duration";
 
 import './TextWithLabelPopover.patternfly.css';
 
@@ -13,7 +15,7 @@ export interface TextWithLabelPopoverProps {
   /** Field label */
   fieldLabel: string;
   /** Field value */
-  fieldValue: string | number | boolean;
+  fieldValue?: string;
   /** Header text for popover label */
   popoverHeader: string;
   /** Body text for popover label */
@@ -34,14 +36,20 @@ export const TextWithLabelPopover: React.FC<TextWithLabelPopoverProps> = ({
 }) => {
   const preventButtonSubmit = (event) => event.preventDefault();
 
-  let displayText: string;
+  let displayText: string = "-";
 
-  if (typeof fieldValue === 'boolean') {
-    if (fieldValue) displayText = 'Enabled';
-    else displayText = 'Disabled';
-  } else {
-    if (unit) displayText = `${fieldValue} ${unit}`;
-    else displayText = fieldValue.toString();
+  if (fieldValue) {
+    if (unit) {
+      if (unit === "ms") {
+        displayText = humanizeDuration(Number(fieldValue))
+      }
+      if (unit === "bytes") {
+        displayText = bytes(Number(fieldValue));
+      }
+    }
+    else {
+      displayText = fieldValue
+    }
   }
 
   return (
