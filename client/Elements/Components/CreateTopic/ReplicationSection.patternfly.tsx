@@ -12,7 +12,6 @@ import {
   TextInput,
   TextVariants,
 } from '@patternfly/react-core';
-import '@patternfly/react-core/dist/styles/base.css';
 import React from 'react';
 import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWithPopover.patternfly';
 import { TopicContext } from 'Contexts/Topic';
