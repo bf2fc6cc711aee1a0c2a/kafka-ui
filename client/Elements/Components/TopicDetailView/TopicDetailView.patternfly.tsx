@@ -3,7 +3,7 @@
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
 
-import React from 'react';
+import React, { useState } from "react";
 import {
   Grid,
   GridItem,
@@ -15,12 +15,12 @@ import {
   Text,
   TextVariants,
   Button,
-  Divider,
-} from '@patternfly/react-core';
-import './TopicDetailView.patternfly.css';
-import { TextWithLabelPopover } from '../Common/TextWithLabelPopover/TextWithLabelPopover.patternfly';
-import { AdvancedTopic2 } from 'Contexts/Topic';
-import { useTranslation } from 'react-i18next';
+} from "@patternfly/react-core";
+import "./TopicDetailView.patternfly.css";
+import { DeleteTopics } from "..//..//Components/Topics/DeleteTopicsModal.patternfly";
+import { TextWithLabelPopover } from "../Common/TextWithLabelPopover/TextWithLabelPopover.patternfly";
+import { AdvancedTopic } from "Contexts/Topic";
+import { useTranslation } from "react-i18next";
 
 export type TopicViewDetailProps = {
   /** Topic details */
@@ -38,6 +38,10 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  const [deleteModal, setDeleteModal] = useState(false);
+  const onDelete = () => {
+    setDeleteModal(true);
+  };
   return (
     <Grid hasGutter>
       <GridItem span={2} className='grid-item-padding'>
@@ -203,6 +207,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             {/* <TextWithLabelPopover
                   btnAriaLabel='topic detail log segment types'
                   fieldLabel='Log segment types'
+
                   fieldValue={topic.}
                   popoverBody={t('createTopic.compressionTypeLabelBody')}
                   popoverHeader={t('createTopic.compressionTypeLabelHead')}
