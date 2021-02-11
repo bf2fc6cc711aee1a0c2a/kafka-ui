@@ -14,17 +14,20 @@ import {
   ActionGroup,
   Button,
   Divider,
-} from '@patternfly/react-core';
-import '../CreateTopic/CreateTopicWizard.patternfly.css';
+  TextContent,
+  TextVariants,
+  Text,
+} from "@patternfly/react-core";
+import "../CreateTopic/CreateTopicWizard.patternfly.css";
 
-import { MessageSection } from './MessageSection.patternfly';
-import { CoreConfiguration } from './CoreConfiguration.patternfly';
-import { LogSection } from './LogSection.patternfly';
-import { ReplicationSection } from './ReplicationSection.patternfly';
-import { IndexSection } from './IndexSection.patternfly';
-import { FlushSection } from './FlushSection.patternfly';
-import { CleanupSection } from './CleanupSection.patternfly';
-import { TopicContextProvider } from 'Contexts/Topic';
+import { MessageSection } from "./MessageSection.patternfly";
+import { CoreConfiguration } from "./CoreConfiguration.patternfly";
+import { LogSection } from "./LogSection.patternfly";
+import { ReplicationSection } from "./ReplicationSection.patternfly";
+import { IndexSection } from "./IndexSection.patternfly";
+import { FlushSection } from "./FlushSection.patternfly";
+import { CleanupSection } from "./CleanupSection.patternfly";
+import { TopicContextProvider } from "Contexts/Topic";
 
 interface ITopicAdvanceConfig {
   isCreate: boolean;
@@ -35,47 +38,54 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
   isCreate,
   saveTopic,
 }) => {
-  const actionText = isCreate === true ? 'Create Topic' : 'Save';
+  const actionText = isCreate === true ? "Create Topic" : "Save";
 
   return (
     <>
       <Grid hasGutter>
-        <GridItem span={2} style={{ padding: '30px 30px' }}>
+        <GridItem span={2} style={{ padding: "30px 30px" }}>
           <JumpLinks
             isVertical
-            label='JUMP TO SECTION'
-            scrollableSelector='#advanced-create-topic'
-            style={{ position: 'absolute' }}
+            label="JUMP TO SECTION"
+            scrollableSelector="#advanced-create-topic"
+            style={{ position: "absolute" }}
           >
-            <JumpLinksItem key={0} href='#core-configuration'>
+            <JumpLinksItem key={0} href="#core-configuration">
               Core configuration
             </JumpLinksItem>
-            <JumpLinksItem key={1} href='#messages'>
+            <JumpLinksItem key={1} href="#messages">
               Messages
             </JumpLinksItem>
-            <JumpLinksItem key={2} href='#log'>
+            <JumpLinksItem key={2} href="#log">
               Log
             </JumpLinksItem>
-            <JumpLinksItem key={3} href='#replication'>
+            <JumpLinksItem key={3} href="#replication">
               Replication
             </JumpLinksItem>
-            <JumpLinksItem key={4} href='#cleanup'>
+            <JumpLinksItem key={4} href="#cleanup">
               Cleanup
             </JumpLinksItem>
-            <JumpLinksItem key={5} href='#index'>
+            <JumpLinksItem key={5} href="#index">
               Index
             </JumpLinksItem>
-            <JumpLinksItem key={6} href='#flush'>
+            <JumpLinksItem key={6} href="#flush">
               Flush
             </JumpLinksItem>
+            {isCreate ? (
+              <></>
+            ) : (
+              <JumpLinksItem key={7} href="#delete">
+                Delete
+              </JumpLinksItem>
+            )}
           </JumpLinks>
         </GridItem>
-        <GridItem span={10} style={{ padding: '30px 30px' }}>
+        <GridItem span={10} style={{ padding: "30px 30px" }}>
           <div>
             <PageGroup
               hasOverflowScroll
-              id='advanced-create-topic'
-              className='topics-wizard-content'
+              id="advanced-create-topic"
+              className="topics-wizard-content"
             >
               <TopicContextProvider>
                 <PageSection>
@@ -94,13 +104,40 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                   <FlushSection />
 
                   <ActionGroup>
-                    <Button onClick={saveTopic} variant='primary'>
+                    <Button onClick={saveTopic} variant="primary">
                       {actionText}
                     </Button>
-                    <Button variant='link'>Cancel</Button>
+                    <Button variant="link">Cancel</Button>
                   </ActionGroup>
-                  <Divider />
-                  {isCreate ? <></> : <>Delete Component</>}
+
+                  {isCreate ? (
+                    <></>
+                  ) : (
+                    <>
+                      <br />
+                      <Divider />
+                      <br />
+                      <br />
+                      <TextContent className="section-margin">
+                        <Text
+                          component={TextVariants.h2}
+                          tabIndex={-1}
+                          id="delete"
+                        >
+                          Delete topic (irreversible)
+                        </Text>
+                        <Text component={TextVariants.p}>
+                          This permanently removes this topic from this instance
+                          of Strimzi. Applications will no longer have access to
+                          this topic.
+                        </Text>
+                      </TextContent>
+                      <br />
+                      <Button variant="danger" className="section-margin">
+                        Delete topic
+                      </Button>
+                    </>
+                  )}
                 </PageSection>
               </TopicContextProvider>
             </PageGroup>
