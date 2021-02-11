@@ -3,10 +3,18 @@
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
 
-.grid-item-padding {
+.breadcrumb-padding, .grid-item-padding {
   padding: 30px;
 }
 
+.header-padding {
+  padding-left: 30px;
+}
+
 .section-margin {
-  margin-top: 1rem;
+  margin-top: 2rem;
+}
+
+.section-info {
+  margin-bottom: 1rem;
 }

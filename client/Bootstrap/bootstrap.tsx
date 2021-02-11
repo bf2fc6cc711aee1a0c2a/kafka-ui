@@ -16,6 +16,7 @@ import { Topics } from '../Panels/Topics';
 import { Switch, Route, HashRouter as Router } from 'react-router-dom';
 import { Home } from '../Panels/Home';
 import CreateTopic from '../Panels/Topics/CreateView.patternfly';
+import TopicDetail from 'Panels/Topics/DetailView.patternfly';
 
 init(); //Bootstrap i18next support
 ReactDOM.render(
@@ -27,6 +28,7 @@ ReactDOM.render(
             <Switch>
               <Route path='/' component={Home} exact />
               <Route path='/topics' component={Topics} exact />
+              <Route path='/topic/:topicName' component={TopicDetail} exact />
               <Route path='/topics/create' component={CreateTopic} exact />
             </Switch>
           </Router>

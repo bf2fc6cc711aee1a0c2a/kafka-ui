@@ -68,6 +68,91 @@
       {
         "key": "max.message.bytes",
         "value": "1050000"
+      },
+      {
+        "key": "retention.ms",
+        "value": "7000000"
+      },
+      {
+        "key": "message.timestamp.type",
+        "value": "CreateTime"
+      },
+      {
+        "key": "message.timestamp.difference.max.ms",
+        "value": "10589700"
+      },
+      {
+        "key": "compression.type",
+        "value": "snappy"
+      },
+      {
+        "key": "log.cleanup.policy",
+        "value": "compact"
+      },
+      {
+        "key": "log.retention.bytes",
+        "value": "-1"
+      },
+      {
+        "key": "log.segment.bytes",
+        "value": "10737"
+      },
+      {
+        "key": "unclean.leader.election.enable",
+        "value": "false"
+      },
+      {
+        "key": "follower.replication.throttled.replicas",
+        "value": ""
+      },
+      {
+        "key": "leader.replication.throttled.replicas",
+        "value": ""
+      },
+      {
+        "key": "delete.retention.ms",
+        "value": "86400000"
+      },
+      {
+        "key": "min.cleanable.dirty.ratio",
+        "value": "0.5"
+      },
+      {
+        "key": "min.compaction.lag.ms",
+        "value": "0.5"
+      },
+      {
+        "key": "segment.ms",
+        "value": "604800000"
+      },
+      {
+        "key": "segment.jitter.ms",
+        "value": "0"
+      },
+      {
+        "key": "file.delete.delay.ms",
+        "value": "60000"
+      },
+      {
+        "key": "preallocate",
+        "value": "false"
+      },
+      {
+        "key": "index.interval.bytes",
+        "value": "4096"
+      },
+      {
+        "key": "segment.index.bytes",
+        "value": "10485760"
+      },
+
+      {
+        "key": "flush.ms",
+        "value": "9223372036854775807"
+      },
+      {
+        "key": "flush.messages",
+        "value": "9223372036854775807"
       }
     ],
     "partitions": [
