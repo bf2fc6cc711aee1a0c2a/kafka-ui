@@ -47,10 +47,14 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
   const [offset, setOffset] = useState(0);
   const [search, setSearch] = useState("");
   const [topics, setTopics] = useState<TopicList>();
+  const [filteredTopics, setFilteredTopics] = useState<TopicList>();
 
   const fetchTopic = async () => {
     const { model } = await useTopicsModel();
-    if (model.data) setTopics(model.data as TopicList);
+    if (model.data) {
+      setTopics(model.data as TopicList);
+      setFilteredTopics(model.data as TopicList);
+    }
   };
 
   useEffect(() => {
@@ -72,13 +76,37 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
     { title: "Partitions" },
   ];
   const rowData =
-    topics?.topics.map((topic) => [
+    filteredTopics?.topics.map((topic) => [
       topic?.name,
       topic?.partitions
         ?.map((p) => p.replicas.length)
         .reduce((previousValue, currentValue) => previousValue + currentValue),
       topic?.partitions?.length,
     ]) || [];
+
+  useEffect(() => {
+    if (
+      search &&
+      search.trim() != "" &&
+      topics?.topics &&
+      topics.topics.length > 0
+    ) {
+      const filterSearch = topics?.topics.filter(
+        (topicsFiltered) =>
+          topicsFiltered?.name && topicsFiltered.name.includes(search)
+      );
+      setFilteredTopics((prevState) => ({
+        ...prevState,
+        topics: filterSearch,
+      }));
+    } else {
+      setFilteredTopics(topics);
+    }
+  }, [search]);
+
+  const onClear = () => {
+    setFilteredTopics(topics);
+  };
 
   const actions = [{ title: "Edit" }, { title: "Delete" }];
   return (
@@ -93,7 +121,11 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
           <Toolbar>
             <ToolbarContent>
               <ToolbarItem>
-                <SearchTopics search={search} setSearch={setSearch} />
+                <SearchTopics
+                  onClear={onClear}
+                  search={search}
+                  setSearch={setSearch}
+                />
               </ToolbarItem>
               <ToolbarItem>
                 <Button
