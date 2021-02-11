@@ -35,8 +35,6 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   setIsCreateTopic,
 }) => {
 
-  const history = useHistory();
-  
   const [alertVisible, setAlertVisible] = useState(false);
   const [isSwitchChecked, setIsSwitchChecked] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -74,7 +72,6 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     if (setIsCreateTopic) {
       setIsCreateTopic(false);
     }
-    history.goBack();
   };
 
   const saveTopic = () => {

@@ -117,7 +117,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
         Topics
       </Title>
       {rowData.length < 1 && search.length < 1 ? (
-        <EmptyTopics />
+        <EmptyTopics onCreateTopic={onCreateTopic}/>
       ) : (
         <Card>
           <Toolbar>

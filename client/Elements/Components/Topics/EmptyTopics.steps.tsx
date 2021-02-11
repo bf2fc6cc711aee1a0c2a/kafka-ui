@@ -12,7 +12,7 @@ describe('<EmptyTopics />', () => {
   it('should render an empty state if filters return no result', () => {
     const { getByText } = render(
       <MemoryRouter>
-        <EmptyTopics />
+        <EmptyTopics onCreateTopic={() => {}} />
       </MemoryRouter>
     );
 
