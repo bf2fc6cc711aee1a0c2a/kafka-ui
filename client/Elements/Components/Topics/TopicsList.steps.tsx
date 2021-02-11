@@ -5,11 +5,11 @@
 
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import { TopicsListComponent } from './TopicsList.patternfly';
+import { TopicsList } from './TopicsList.patternfly';
 
 describe('<TopicsList />', () => {
   it('should render a list of topics', () => {
-    const { getByText } = render(<TopicsListComponent />);
+    const { getByText } = render(<TopicsList />);
 
     const titleNode = getByText('Topics');
 

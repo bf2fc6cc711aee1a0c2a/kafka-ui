@@ -2,10 +2,8 @@
  * Copyright Strimzi authors.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
-
-import React from 'react';
-import { InputGroup, SearchInput } from '@patternfly/react-core';
-
+import React from "react";
+import { InputGroup, SearchInput } from "@patternfly/react-core";
 
 export interface ISearchTopicsProps {
   setSearch: (value: string) => void;
@@ -17,7 +15,6 @@ const SearchTopics: React.FunctionComponent<ISearchTopicsProps> = ({
   setSearch,
   onClear,
 }) => {
-
   const onChangeInput = (value: string) => {
     setSearch(value);
   };

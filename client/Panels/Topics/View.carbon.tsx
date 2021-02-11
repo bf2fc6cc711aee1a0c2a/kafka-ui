@@ -2,7 +2,7 @@
  * Copyright Strimzi authors.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent } from "react";
 // import { useTopicsModel } from "./Model";
 
 /**
@@ -19,9 +19,9 @@ const Topics: FunctionComponent = ({ children }) => {
   // }
 
   return (
-    <div className='topics'>
+    <div className="topics">
       <input
-        placeholder='filter'
+        placeholder="filter"
         // onChange={(evt) => updateTopicsFilter(evt.target.value)}
       />
       {/* {topics} */}
