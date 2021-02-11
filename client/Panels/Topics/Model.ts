@@ -3,7 +3,8 @@
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
 
-import { DefaultApi } from "../../OpenApi/api";
+import { AdvancedTopic2 } from 'Contexts/Topic';
+import { DefaultApi } from 'OpenApi/api';
 
 export const useTopicsModel = async () => {
   const topicListObj = new DefaultApi();
@@ -15,7 +16,7 @@ export const useTopicsModel = async () => {
 };
 
 // TODO: move to a suitable file
-const convertTopicResponse = (topic) => {
+const convertTopicResponse = (topic): AdvancedTopic2 => {
   let storeObj = {};
 
   topic.config.forEach(config => {
@@ -37,7 +38,7 @@ const convertTopicResponse = (topic) => {
   return topic;
 }
 
-export const useTopicDetail = async (topicName: string) => {
+export const useTopicDetail = async (topicName: string): Promise<AdvancedTopic2> => {
   const { data } = await new DefaultApi().getTopic(topicName);
 
   return convertTopicResponse(data);

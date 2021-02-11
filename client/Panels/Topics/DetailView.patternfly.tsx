@@ -4,7 +4,6 @@
  */
 
 import React, { FunctionComponent } from 'react';
-import '@patternfly/react-core/dist/styles/base.css';
 import { TopicDetailGroup } from 'Groups/Topics/TopicDetail/TopicDetail.patternfly';
 
 const TopicDetail: FunctionComponent = () => {

@@ -7,14 +7,18 @@ import { Breadcrumb, BreadcrumbItem, TextContent, Text, TextVariants } from '@pa
 import React from 'react';
 import './TopicDetailView.patternfly.css';
 
-export const TopicDetailHead: React.FC<any> = ({
+export type TopicDetailHeadProps = {
+  topicName: string;
+}
+
+export const TopicDetailHead: React.FC<TopicDetailHeadProps> = ({
   topicName
 }) => {
   return (
     <>
     <Breadcrumb className='breadcrumb-padding'>
-      <BreadcrumbItem to="#">Topics</BreadcrumbItem>
-      <BreadcrumbItem to="#">{topicName}</BreadcrumbItem>
+      <BreadcrumbItem to='#'>Topics</BreadcrumbItem>
+      <BreadcrumbItem to='#'>{topicName}</BreadcrumbItem>
     </Breadcrumb>
     <TextContent className='header-padding'>
       <Text component={TextVariants.h1}>{topicName}</Text>
