@@ -3,7 +3,6 @@
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
 import React, { useEffect, useState } from 'react';
-import '@patternfly/react-core/dist/styles/base.css';
 import {
   Flex,
   FlexItem,
@@ -121,6 +120,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
             name='radio1'
             onChange={handleMessageRetention}
             label='A day'
+            aria-label='A day'
             id='radio-controlled-1'
             value='day'
           />
@@ -129,6 +129,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
             name='radio2'
             onChange={handleMessageRetention}
             label='A week'
+            aria-label='A week'
             id='radio-controlled-2'
             value='week'
           />
@@ -137,6 +138,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
             name='radio3'
             onChange={handleMessageRetention}
             label='A month'
+            aria-label='A month'
             id='radio-controlled-3'
             value='month'
           />
@@ -145,6 +147,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
             name='radio4'
             onChange={handleMessageRetention}
             label=''
+            aria-label="custom input"
             id='radio-controlled-4'
             value='custom'
           />
