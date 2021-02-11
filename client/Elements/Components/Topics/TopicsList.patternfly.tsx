@@ -129,6 +129,7 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
               </ToolbarItem>
               <ToolbarItem>
                 <Button
+                  id="topic-list-create-topic-button"
                   className="topics-per-page"
                   onClick={() => {
                     onCreateTopic();
@@ -143,7 +144,7 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
                   perPage={perPage}
                   page={page}
                   onSetPage={onSetPage}
-                  widgetId="pagination-options-menu-top"
+                  widgetId="topic-list-pagination-top"
                   onPerPageSelect={onPerPageSelect}
                 />
               </ToolbarItem>
@@ -174,7 +175,7 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
           perPage={perPage}
           page={page}
           onSetPage={onSetPage}
-          widgetId="pagination-options-menu-top"
+          widgetId="topic-list-pagination-bottom"
           onPerPageSelect={onPerPageSelect}
           offset={0}
         />

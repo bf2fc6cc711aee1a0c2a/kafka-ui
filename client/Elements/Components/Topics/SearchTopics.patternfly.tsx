@@ -27,7 +27,7 @@ const SearchTopics: React.FunctionComponent<ISearchTopicsProps> = ({
     <InputGroup>
       <SearchInput
         name="searchName"
-        id="searchTopicsInput"
+        id="search-topics-input"
         type="search"
         aria-label="search input "
         placeholder="Search"
