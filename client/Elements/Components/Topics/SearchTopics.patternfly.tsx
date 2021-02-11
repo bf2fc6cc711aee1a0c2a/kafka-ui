@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import { InputGroup, SearchInput } from '@patternfly/react-core';
-import { useTopicsModel } from '../../../Panels/Topics/Model';
+import { fetchTopics } from '../../../Panels/Topics/Model';
 
 export interface ISearchTopicsProps {
   setSearch: (value: string) => void;
@@ -14,7 +14,7 @@ const SearchTopics: React.FunctionComponent<ISearchTopicsProps> = ({
   search,
   setSearch,
 }) => {
-  const { updateTopicsFilter } = useTopicsModel();
+  const { updateTopicsFilter } = fetchTopics();
   const onChangeInput = (value: string) => {
     setSearch(value);
     updateTopicsFilter(search);

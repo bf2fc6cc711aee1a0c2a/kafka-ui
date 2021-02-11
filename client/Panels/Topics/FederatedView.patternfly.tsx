@@ -4,7 +4,7 @@
  */
 import React, { FunctionComponent } from 'react';
 import './style.scss';
-import { TopicsList } from '../../Elements/Components/Topics/TopicsList.patternfly';
+import { TopicsListComponent } from '../../Elements/Components/Topics/TopicsList.patternfly';
 import { LoggingProvider } from '../../Contexts/Logging';
 import {
   ConfigFeatureFlagProvider,
@@ -51,7 +51,7 @@ const FederatedTopics: FunctionComponent<FederatedTopicsProps> = ({
         <LoggingProvider>
           <FeatureFlag flag={'client.Pages.PlaceholderHome'}>
             <PageSection variant={PageSectionVariants.light}>
-              <TopicsList onCreateTopic={onCreateTopic} />
+              <TopicsListComponent onCreateTopic={onCreateTopic} />
             </PageSection>
           </FeatureFlag>
         </LoggingProvider>
