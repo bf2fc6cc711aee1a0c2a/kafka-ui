@@ -18,8 +18,8 @@ import {
 import "../CreateTopic/CreateTopicWizard.patternfly.css";
 import { TopicAdvanceConfig } from "../CreateTopic//TopicAdvanceConfig.patternfly";
 import { useParams } from "react-router";
-import { getTopicModel } from "Panels/Topics/Model";
-import { Topic } from "OpenApi/api";
+import { getTopicModel, updateTopicModel } from "Panels/Topics/Model";
+import { Topic, TopicSettings } from "OpenApi/api";
 import { AdvancedTopic, TopicContext } from "Contexts/Topic";
 
 export const UpdateTopic: React.FC = () => {
@@ -63,6 +63,22 @@ export const UpdateTopic: React.FC = () => {
   };
 
   const saveTopic = async () => {
+    const topicSettings: TopicSettings = {
+      numPartitions: store.partitions,
+      replicationFactor: store.replicas,
+      config: [
+        {
+          key: "min.insync.replicas",
+          value: store.minInSyncReplicas.toString(),
+        },
+      ],
+    };
+    
+    const updateResponse = await updateTopicModel(
+      store.topicName,
+      topicSettings
+    );
+    console.log("updateResponse", updateResponse);
     setAlertVisible(true);
   };
 
