@@ -63,13 +63,13 @@ describe('Step Replicas', () => {
       setReplicationFactorTouchspinValue,
     } = replicasProps;
 
-    userEvent.click(getByLabelText('Replication factor: 1'));
+    userEvent.click(getByLabelText('Replication factor: 2'));
     expect(setMinInSyncReplicaTouchspinValue).toHaveBeenCalled();
     expect(setMinInSyncReplicaTouchspinValue).toBeCalledTimes(1);
     expect(setReplicationFactorTouchspinValue).toHaveBeenCalled();
     expect(setReplicationFactorTouchspinValue).toBeCalledTimes(1);
 
-    userEvent.click(getByLabelText('Replication factor: 2'));
+    userEvent.click(getByLabelText('Replication factor: 1'));
     expect(setMinInSyncReplicaTouchspinValue).toHaveBeenCalled();
     expect(setMinInSyncReplicaTouchspinValue).toBeCalledTimes(2);
     expect(setReplicationFactorTouchspinValue).toHaveBeenCalled();
