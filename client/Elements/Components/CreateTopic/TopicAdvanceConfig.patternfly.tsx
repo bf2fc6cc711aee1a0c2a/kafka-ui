@@ -87,7 +87,6 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               id='advanced-create-topic'
               className='topics-wizard-content'
             >
-              <TopicContextProvider>
                 <PageSection>
                   <CoreConfiguration />
 
@@ -139,7 +138,6 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                     </>
                   )}
                 </PageSection>
-              </TopicContextProvider>
             </PageGroup>
           </div>
         </GridItem>
