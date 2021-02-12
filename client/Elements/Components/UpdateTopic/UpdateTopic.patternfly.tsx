@@ -18,7 +18,7 @@ import {
 import "../CreateTopic/CreateTopicWizard.patternfly.css";
 import { TopicAdvanceConfig } from "../CreateTopic//TopicAdvanceConfig.patternfly";
 import { useParams } from "react-router";
-import { getTopicModel, updateTopicModel } from "Panels/Topics/Model";
+import { getTopic, updateTopicModel } from "Services/index";
 import { Topic, TopicSettings } from "OpenApi/api";
 import { AdvancedTopic, TopicContext } from "Contexts/Topic";
 
@@ -28,8 +28,8 @@ export const UpdateTopic: React.FC = () => {
   const { name } = useParams<any>();
 
   const fetchTopic = async (topicName) => {
-    const { model } = await getTopicModel(topicName);
-    if (model.data) saveToStore(model.data);
+    const topic = await getTopic(topicName);
+    if (topic) saveToStore(topic);
   };
 
   useEffect(() => {
@@ -73,7 +73,7 @@ export const UpdateTopic: React.FC = () => {
         },
       ],
     };
-    
+
     const updateResponse = await updateTopicModel(
       store.topicName,
       topicSettings
