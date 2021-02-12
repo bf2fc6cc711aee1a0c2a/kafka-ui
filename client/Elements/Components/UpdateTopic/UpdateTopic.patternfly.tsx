@@ -3,7 +3,7 @@
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   Alert,
   AlertActionCloseButton,
@@ -14,13 +14,13 @@ import {
   PageSection,
   PageSectionVariants,
   Title,
-} from "@patternfly/react-core";
-import "../CreateTopic/CreateTopicWizard.patternfly.css";
-import { TopicAdvanceConfig } from "../CreateTopic//TopicAdvanceConfig.patternfly";
-import { useParams } from "react-router";
-import { getTopic, updateTopicModel } from "Services/index";
-import { Topic, TopicSettings } from "OpenApi/api";
-import { AdvancedTopic, TopicContext } from "Contexts/Topic";
+} from '@patternfly/react-core';
+import '../CreateTopic/CreateTopicWizard.patternfly.css';
+import { TopicAdvanceConfig } from '../CreateTopic//TopicAdvanceConfig.patternfly';
+import { useParams } from 'react-router';
+import { getTopic, updateTopicModel } from 'Services/index';
+import { Topic, TopicSettings } from 'OpenApi/api';
+import { AdvancedTopic, TopicContext } from 'Contexts/Topic';
 
 export const UpdateTopic: React.FC = () => {
   const { store, setStore } = React.useContext(TopicContext);
@@ -39,9 +39,9 @@ export const UpdateTopic: React.FC = () => {
   const saveToStore = (topic: Topic) => {
     const advanceConfig: AdvancedTopic = store;
     advanceConfig.partitions = topic?.partitions?.length || 0;
-    advanceConfig.topicName = topic.name || "";
+    advanceConfig.topicName = topic.name || '';
     topic.config?.forEach((configItem) => {
-      advanceConfig[configItem.key || ""] = configItem.value || "";
+      advanceConfig[configItem.key || ''] = configItem.value || '';
     });
     setStore({
       ...store,
@@ -51,8 +51,8 @@ export const UpdateTopic: React.FC = () => {
 
   const mainBreadcrumbs = (
     <Breadcrumb>
-      <BreadcrumbItem to="/#/topics">Topics</BreadcrumbItem>
-      <BreadcrumbItem to="#" isActive>
+      <BreadcrumbItem to='/#/topics'>Topics</BreadcrumbItem>
+      <BreadcrumbItem to='#' isActive>
         {name}
       </BreadcrumbItem>
     </Breadcrumb>
@@ -68,7 +68,7 @@ export const UpdateTopic: React.FC = () => {
       replicationFactor: store.replicas,
       config: [
         {
-          key: "min.insync.replicas",
+          key: 'min.insync.replicas',
           value: store.minInSyncReplicas.toString(),
         },
       ],
@@ -78,20 +78,20 @@ export const UpdateTopic: React.FC = () => {
       store.topicName,
       topicSettings
     );
-    console.log("updateResponse", updateResponse);
+    console.log('updateResponse', updateResponse);
     setAlertVisible(true);
   };
 
   return (
     <>
       <section
-        className="pf-c-page__main-breadcrumb"
-        style={{ padding: "20px 20px" }}
+        className='pf-c-page__main-breadcrumb'
+        style={{ padding: '20px 20px' }}
       >
         {mainBreadcrumbs}
         <br />
         <br />
-        <Title headingLevel="h1" size="xl">
+        <Title headingLevel='h1' size='xl'>
           {name}
         </Title>
       </section>
@@ -100,11 +100,11 @@ export const UpdateTopic: React.FC = () => {
           {alertVisible ? (
             <Alert
               isLiveRegion
-              variant="success"
-              title="OpenShift Streams topic updated"
+              variant='success'
+              title='OpenShift Streams topic updated'
               actionClose={
                 <AlertActionCloseButton
-                  aria-label="Close success alert"
+                  aria-label='Close success alert'
                   onClose={handleAlertClose}
                 />
               }
