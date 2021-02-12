@@ -23,7 +23,7 @@ import { Topic, TopicSettings } from 'OpenApi/api';
 import { AdvancedTopic, TopicContext } from 'Contexts/Topic';
 
 export const UpdateTopic: React.FC = () => {
-  const { store, setStore } = React.useContext(TopicContext);
+  const { store, updateBulkStore } = React.useContext(TopicContext);
   const [alertVisible, setAlertVisible] = useState(false);
   const { name } = useParams<any>();
 
@@ -43,10 +43,7 @@ export const UpdateTopic: React.FC = () => {
     topic.config?.forEach((configItem) => {
       advanceConfig[configItem.key || ''] = configItem.value || '';
     });
-    setStore({
-      ...store,
-      ...advanceConfig,
-    });
+    updateBulkStore(advanceConfig);
   };
 
   const mainBreadcrumbs = (

@@ -175,7 +175,7 @@ export interface TopicContextProp {
   store: AdvancedTopic;
   /** Method to update store data */
   updateStore: (name: string, value: string | boolean | number) => void;
-  setStore: (config: AdvancedTopic) => void;
+  updateBulkStore: (advanceConfig: AdvancedTopic) => void;
 }
 
 export interface ITopicProviderProps {
