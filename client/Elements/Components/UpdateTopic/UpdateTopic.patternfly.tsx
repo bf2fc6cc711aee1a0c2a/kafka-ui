@@ -19,13 +19,11 @@ import "../CreateTopic/CreateTopicWizard.patternfly.css";
 import { TopicAdvanceConfig } from "../CreateTopic//TopicAdvanceConfig.patternfly";
 import { useParams } from "react-router";
 import { getTopicModel } from "Panels/Topics/Model";
-import { TopicList } from "Entities/Entities.generated";
 import { Topic } from "OpenApi/api";
-import { TopicContext } from "Contexts/Topic";
+import { AdvancedTopic, TopicContext } from "Contexts/Topic";
 
 export const UpdateTopic: React.FC = () => {
-  const { store, updateStore } = React.useContext(TopicContext);
-  const [topics, setTopics] = useState<TopicList>();
+  const { store, setStore } = React.useContext(TopicContext);
   const [alertVisible, setAlertVisible] = useState(false);
   const { name } = useParams<any>();
 
@@ -38,13 +36,16 @@ export const UpdateTopic: React.FC = () => {
     fetchTopic(name);
   }, []);
 
-  console.log("topics", store);
-
   const saveToStore = (topic: Topic) => {
-    updateStore("topicName", topic.name || "");
-    updateStore("partitions", topic.partitions?.length || "");
+    const advanceConfig: AdvancedTopic = store;
+    advanceConfig.partitions = topic?.partitions?.length || 0;
+    advanceConfig.topicName = topic.name || "";
     topic.config?.forEach((configItem) => {
-      updateStore(configItem.key || "", configItem.value || "");
+      advanceConfig[configItem.key || ""] = configItem.value || "";
+    });
+    setStore({
+      ...store,
+      ...advanceConfig,
     });
   };
 
