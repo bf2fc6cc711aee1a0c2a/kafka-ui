@@ -15,14 +15,15 @@ const config = {
   },
   coverageReporters: ['json', 'text', 'lcov', 'json-summary'],
   moduleDirectories: ['node_modules', '<rootDir>'],
-  coverageThreshold: {
-    global: {
-      branches: 40,
-      functions: 40,
-      lines: 40,
-      statements: 40,
-    },
-  },
+  // TODO: Enable when we refactor and remove code that's not needed.
+  // coverageThreshold: {
+  //   global: {
+  //     branches: 40,
+  //     functions: 40,
+  //     lines: 40,
+  //     statements: 40,
+  //   },
+  //},
 };
 
 module.exports = config;

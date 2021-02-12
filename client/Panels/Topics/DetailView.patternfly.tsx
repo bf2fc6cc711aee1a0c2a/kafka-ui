@@ -8,7 +8,7 @@ import { TopicDetailGroup } from 'Groups/Topics/TopicDetail/TopicDetail.patternf
 
 const TopicDetail: FunctionComponent = () => {
   return <TopicDetailGroup />;
-}
+};
 
 export { TopicDetail };
 

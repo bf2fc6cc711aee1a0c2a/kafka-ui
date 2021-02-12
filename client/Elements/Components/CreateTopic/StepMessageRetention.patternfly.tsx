@@ -147,7 +147,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
             name='radio4'
             onChange={handleMessageRetention}
             label=''
-            aria-label="custom input"
+            aria-label='custom input'
             id='radio-controlled-4'
             value='custom'
           />

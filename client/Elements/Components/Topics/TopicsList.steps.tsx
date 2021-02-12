@@ -9,7 +9,13 @@ import { TopicsList } from './TopicsList.patternfly';
 
 describe('<TopicsList />', () => {
   it('should render a list of topics', () => {
-    const { getByText } = render(<TopicsList />);
+    const { getByText } = render(
+      <TopicsList
+        onCreateTopic={() => {
+          return;
+        }}
+      />
+    );
 
     const titleNode = getByText('Topics');
 

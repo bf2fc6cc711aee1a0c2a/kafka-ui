@@ -15,6 +15,8 @@ const customRules = {
   indent: ['error', 2],
   // all lines to have semicolons to end statements
   semi: ['error', 'always'],
+  'react-hooks/exhaustive-deps': 'off',
+  '@typescript-eslint/no-explicit-any': 'off',
 };
 
 // https://eslint.org/docs/user-guide/configuring
