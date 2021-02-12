@@ -151,7 +151,7 @@ export interface AdvancedTopic2 {
   /** unit for delete delay */
   deleteDelayUnit?: string;
   /** determines whether to preallocate log segment files */
-  'preallocate'?: string;
+  preallocate?: string;
   /** the granularity of the offset index */
   'index.interval.bytes'?: string;
   /** unit for index interval size */

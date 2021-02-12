@@ -25,7 +25,6 @@ import { StepReplicas } from './StepReplicas.patternfly';
 import './CreateTopicWizard.patternfly.css';
 import { TopicAdvanceConfig } from './TopicAdvanceConfig.patternfly';
 import { DefaultApi, NewTopicInput } from 'OpenApi/api';
-import { useHistory } from 'react-router';
 
 interface ICreateTopicWizard {
   setIsCreateTopic?: (value: boolean) => void;
@@ -34,7 +33,6 @@ interface ICreateTopicWizard {
 export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   setIsCreateTopic,
 }) => {
-
   const [alertVisible, setAlertVisible] = useState(false);
   const [isSwitchChecked, setIsSwitchChecked] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -81,15 +79,15 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       settings: {
         numPartitions: partitionTouchspinValue,
         replicationFactor: replicationFactorTouchspinValue,
-      }
+      },
     };
 
-    new DefaultApi().createTopic(topic).then(res => {
-      if(res.status === 200){
+    new DefaultApi().createTopic(topic).then((res) => {
+      if (res.status === 200) {
         setAlertVisible(true);
       }
       closeWizard();
-    })
+    });
   };
 
   const steps: WizardStep[] = [

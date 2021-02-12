@@ -36,19 +36,18 @@ export const TextWithLabelPopover: React.FC<TextWithLabelPopoverProps> = ({
 }) => {
   const preventButtonSubmit = (event) => event.preventDefault();
 
-  let displayText: string = '-';
+  let displayText = '-';
 
   if (fieldValue) {
     if (unit) {
       if (unit === 'ms') {
-        displayText = humanizeDuration(Number(fieldValue))
+        displayText = humanizeDuration(Number(fieldValue));
       }
       if (unit === 'bytes') {
         displayText = bytes(Number(fieldValue));
       }
-    }
-    else {
-      displayText = fieldValue
+    } else {
+      displayText = fieldValue;
     }
   }
 

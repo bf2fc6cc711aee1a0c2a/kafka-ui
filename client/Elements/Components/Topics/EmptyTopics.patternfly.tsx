@@ -11,13 +11,14 @@ import {
   Title,
 } from '@patternfly/react-core';
 import PlusIcon from '@patternfly/react-icons/dist/js/icons/plus-circle-icon';
-import { useHistory } from 'react-router-dom';
 
 export interface IEmptyTopic {
-    onCreateTopic: () => void;
+  onCreateTopic?: () => void;
 }
 
-export const EmptyTopics: React.FunctionComponent<IEmptyTopic> = ({onCreateTopic}) => {
+export const EmptyTopics: React.FunctionComponent<IEmptyTopic> = ({
+  onCreateTopic,
+}) => {
   return (
     <EmptyState>
       <EmptyStateIcon icon={PlusIcon} />

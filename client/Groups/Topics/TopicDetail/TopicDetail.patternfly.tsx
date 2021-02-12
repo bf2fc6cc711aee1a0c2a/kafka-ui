@@ -9,11 +9,11 @@ import { TopicDetailView } from 'Elements/Components/TopicDetailView/TopicDetail
 import { AdvancedTopic2 } from 'Contexts/Topic';
 import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import { useHistory, useParams } from 'react-router';
-import { useTopicDetail } from 'Panels/Topics/Model';
+import { getTopicDetail } from 'Services';
 
 export type TopicDetailRouteParams = {
   topicName: string;
-}
+};
 
 // TODO: Remove this mock, fetch it from server.
 const topic: AdvancedTopic2 = {
@@ -60,15 +60,14 @@ const topic: AdvancedTopic2 = {
 };
 
 export const TopicDetailGroup: React.FC = () => {
-
   const [topicDetail, setTopicDetail] = useState<AdvancedTopic2>(topic);
   const { topicName } = useParams<TopicDetailRouteParams>();
   const history = useHistory();
 
   const fetchTopicDetail = async (topicName: string) => {
-    const response = await useTopicDetail(topicName);
+    const response = await getTopicDetail(topicName);
     setTopicDetail(response);
-  }
+  };
 
   // Make the get request
   useEffect(() => {
@@ -77,19 +76,32 @@ export const TopicDetailGroup: React.FC = () => {
 
   const updateTopic = () => {
     history.push(`/topics/update/${topicName}`);
-  }
+  };
 
   return (
     <>
-      <TopicDetailHead topicName={topicName}/>
-      <Tabs activeKey={1} onSelect={() => { }} isBox={false} className='tab-padding'>
+      <TopicDetailHead topicName={topicName} />
+      <Tabs
+        activeKey={1}
+        onSelect={() => {
+          return;
+        }}
+        isBox={false}
+        className='tab-padding'
+      >
         <Tab eventKey={0} title={<TabTitleText>Consumer Groups</TabTitleText>}>
           Consumer Group Component
         </Tab>
         <Tab eventKey={1} title={<TabTitleText>Properties</TabTitleText>}>
-          <TopicDetailView topic={topicDetail} deleteTopic={() => {}} updateTopic={updateTopic} />
+          <TopicDetailView
+            topic={topicDetail}
+            deleteTopic={() => {
+              return;
+            }}
+            updateTopic={updateTopic}
+          />
         </Tab>
       </Tabs>
     </>
   );
-}
+};

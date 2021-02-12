@@ -3,7 +3,7 @@
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
 
-import React, { useState } from "react";
+import React from 'react';
 import {
   Grid,
   GridItem,
@@ -15,12 +15,12 @@ import {
   Text,
   TextVariants,
   Button,
-  Divider,
-} from "@patternfly/react-core";
-import "./TopicDetailView.patternfly.css";
-import { TextWithLabelPopover } from "../Common/TextWithLabelPopover/TextWithLabelPopover.patternfly";
-import { AdvancedTopic2 } from "Contexts/Topic";
-import { useTranslation } from "react-i18next";
+  Divider
+} from '@patternfly/react-core';
+import './TopicDetailView.patternfly.css';
+import { TextWithLabelPopover } from '../Common/TextWithLabelPopover/TextWithLabelPopover.patternfly';
+import { AdvancedTopic2 } from 'Contexts/Topic';
+import { useTranslation } from 'react-i18next';
 
 export type TopicViewDetailProps = {
   /** Topic details */
@@ -38,10 +38,11 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const [deleteModal, setDeleteModal] = useState(false);
-  const onDelete = () => {
-    setDeleteModal(true);
-  };
+  // TODO: Add delete modal back to this view.
+  // const [deleteModal, setDeleteModal] = useState(false);
+  // const onDelete = () => {
+  //   setDeleteModal(true);
+  // };
   return (
     <Grid hasGutter>
       <GridItem span={2} className='grid-item-padding'>
@@ -53,28 +54,28 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
         >
           <JumpLinksItem key={0} href='#core-configuration'>
             Core configuration
-            </JumpLinksItem>
+          </JumpLinksItem>
           <JumpLinksItem key={1} href='#messages'>
             Messages
-            </JumpLinksItem>
+          </JumpLinksItem>
           <JumpLinksItem key={2} href='#log'>
             Log
-            </JumpLinksItem>
+          </JumpLinksItem>
           <JumpLinksItem key={3} href='#replication'>
             Replication
-            </JumpLinksItem>
+          </JumpLinksItem>
           <JumpLinksItem key={4} href='#cleanup'>
             Cleanup
-            </JumpLinksItem>
+          </JumpLinksItem>
           <JumpLinksItem key={5} href='#index'>
             Index
-            </JumpLinksItem>
+          </JumpLinksItem>
           <JumpLinksItem key={6} href='#flush'>
             Flush
-            </JumpLinksItem>
+          </JumpLinksItem>
           <JumpLinksItem key={7} href='#delete'>
             Delete
-            </JumpLinksItem>
+          </JumpLinksItem>
         </JumpLinks>
       </GridItem>
       <GridItem span={8} className='grid-item-padding'>
@@ -87,7 +88,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                 id='core-configuration'
               >
                 Core configuration
-                </Text>
+              </Text>
               <Text component={TextVariants.p} className='section-info'>
                 {t('createTopic.coreConfigInfo')}
               </Text>
@@ -137,7 +138,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextContent className='section-margin'>
               <Text component={TextVariants.h2} tabIndex={-1} id='messages'>
                 Messages
-                </Text>
+              </Text>
               <Text component={TextVariants.p} className='section-info'>
                 {t('createTopic.messageSectionInfo')}
               </Text>
@@ -180,7 +181,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextContent className='section-margin'>
               <Text component={TextVariants.h2} tabIndex={-1} id='log'>
                 Log
-                </Text>
+              </Text>
               <Text component={TextVariants.p} className='section-info'>
                 {t('createTopic.logSectionInfo')}
               </Text>
@@ -214,13 +215,9 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                 /> */}
 
             <TextContent className='section-margin'>
-              <Text
-                component={TextVariants.h2}
-                tabIndex={-1}
-                id='replication'
-              >
+              <Text component={TextVariants.h2} tabIndex={-1} id='replication'>
                 Replication
-                </Text>
+              </Text>
               <Text component={TextVariants.p} className='section-info'>
                 {t('createTopic.replicationSectionInfo')}
               </Text>
@@ -253,7 +250,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextContent className='section-margin'>
               <Text component={TextVariants.h2} tabIndex={-1} id='cleanup'>
                 Cleanup
-                </Text>
+              </Text>
               <Text component={TextVariants.p} className='section-info'>
                 {t('createTopic.cleanupSectionInfo')}
               </Text>
@@ -314,7 +311,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextContent className='section-margin'>
               <Text component={TextVariants.h2} tabIndex={-1} id='index'>
                 Index
-                </Text>
+              </Text>
               <Text component={TextVariants.p} className='section-info'>
                 {t('createTopic.indexSectionInfo')}
               </Text>
@@ -341,7 +338,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextContent className='section-margin'>
               <Text component={TextVariants.h2} tabIndex={-1} id='flush'>
                 Flush
-                </Text>
+              </Text>
               <Text component={TextVariants.p} className='section-info'>
                 {t('createTopic.flushSectionInfo')}
               </Text>
@@ -370,7 +367,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextContent className='section-margin'>
               <Text component={TextVariants.h2} tabIndex={-1} id='delete'>
                 Delete topic (irreversible)
-                </Text>
+              </Text>
               <Text component={TextVariants.p} className='section-info'>
                 {t('createTopic.deleteTopicInfo')}
               </Text>
@@ -382,14 +379,14 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
               onClick={deleteTopic}
             >
               Delete topic
-              </Button>
+            </Button>
           </PageSection>
         </PageGroup>
       </GridItem>
       <GridItem span={2} className='grid-item-padding'>
         <Button variant='primary' onClick={updateTopic}>
           Edit properties
-          </Button>
+        </Button>
       </GridItem>
     </Grid>
   );
