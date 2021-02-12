@@ -14,6 +14,9 @@ import {
   ActionGroup,
   Button,
   Divider,
+  TextContent,
+  TextVariants,
+  Text,
 } from '@patternfly/react-core';
 import '../CreateTopic/CreateTopicWizard.patternfly.css';
 
@@ -68,6 +71,13 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
             <JumpLinksItem key={6} href='#flush'>
               Flush
             </JumpLinksItem>
+            {isCreate ? (
+              <></>
+            ) : (
+              <JumpLinksItem key={7} href='#delete'>
+                Delete
+              </JumpLinksItem>
+            )}
           </JumpLinks>
         </GridItem>
         <GridItem span={10} style={{ padding: '30px 30px' }}>
@@ -99,8 +109,35 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                     </Button>
                     <Button variant='link'>Cancel</Button>
                   </ActionGroup>
-                  <Divider />
-                  {isCreate ? <></> : <>Delete Component</>}
+
+                  {isCreate ? (
+                    <></>
+                  ) : (
+                    <>
+                      <br />
+                      <Divider />
+                      <br />
+                      <br />
+                      <TextContent className='section-margin'>
+                        <Text
+                          component={TextVariants.h2}
+                          tabIndex={-1}
+                          id='delete'
+                        >
+                          Delete topic (irreversible)
+                        </Text>
+                        <Text component={TextVariants.p}>
+                          This permanently removes this topic from this instance
+                          of Strimzi. Applications will no longer have access to
+                          this topic.
+                        </Text>
+                      </TextContent>
+                      <br />
+                      <Button variant='danger' className='section-margin'>
+                        Delete topic
+                      </Button>
+                    </>
+                  )}
                 </PageSection>
               </TopicContextProvider>
             </PageGroup>

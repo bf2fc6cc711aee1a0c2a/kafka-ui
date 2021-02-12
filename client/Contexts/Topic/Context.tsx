@@ -66,8 +66,15 @@ export const TopicContextProvider: React.FC<ITopicProviderProps> = ({
     });
   };
 
+  const updateBulkStore = (advanceConfig: AdvancedTopic) => {
+    setStore({
+      ...store,
+      ...advanceConfig,
+    });
+  };
+
   return (
-    <TopicContext.Provider value={{ store, updateStore }}>
+    <TopicContext.Provider value={{ store, updateStore, updateBulkStore }}>
       {children}
     </TopicContext.Provider>
   );

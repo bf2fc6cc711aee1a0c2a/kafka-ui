@@ -5,7 +5,7 @@
 import { TopicList } from '../../Entities/Entities.generated';
 
 /** the shape of the object returned by the useTopicsModel hook */
-export type useTopicsModelType = {
+export type fetchTopicsModelType = {
   model: {
     filter: string | undefined;
     topics: TopicList;

@@ -15,7 +15,7 @@ import {
   Text,
   TextVariants,
   Button,
-  Divider
+  Divider,
 } from '@patternfly/react-core';
 import './TopicDetailView.patternfly.css';
 import { TextWithLabelPopover } from '../Common/TextWithLabelPopover/TextWithLabelPopover.patternfly';
