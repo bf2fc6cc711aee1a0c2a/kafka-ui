@@ -15,11 +15,11 @@ import {
   Text,
   TextVariants,
   Button,
+  Divider,
 } from "@patternfly/react-core";
 import "./TopicDetailView.patternfly.css";
-import { DeleteTopics } from "..//..//Components/Topics/DeleteTopicsModal.patternfly";
 import { TextWithLabelPopover } from "../Common/TextWithLabelPopover/TextWithLabelPopover.patternfly";
-import { AdvancedTopic } from "Contexts/Topic";
+import { AdvancedTopic2 } from "Contexts/Topic";
 import { useTranslation } from "react-i18next";
 
 export type TopicViewDetailProps = {
