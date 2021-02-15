@@ -27,7 +27,6 @@ import { ReplicationSection } from './ReplicationSection.patternfly';
 import { IndexSection } from './IndexSection.patternfly';
 import { FlushSection } from './FlushSection.patternfly';
 import { CleanupSection } from './CleanupSection.patternfly';
-import { TopicContextProvider } from 'Contexts/Topic';
 
 interface ITopicAdvanceConfig {
   isCreate: boolean;
@@ -87,57 +86,57 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               id='advanced-create-topic'
               className='topics-wizard-content'
             >
-                <PageSection>
-                  <CoreConfiguration />
+              <PageSection>
+                <CoreConfiguration />
 
-                  <MessageSection />
+                <MessageSection />
 
-                  <LogSection />
+                <LogSection />
 
-                  <ReplicationSection />
+                <ReplicationSection />
 
-                  <CleanupSection />
+                <CleanupSection />
 
-                  <IndexSection />
+                <IndexSection />
 
-                  <FlushSection />
+                <FlushSection />
 
-                  <ActionGroup>
-                    <Button onClick={saveTopic} variant='primary'>
-                      {actionText}
+                <ActionGroup>
+                  <Button onClick={saveTopic} variant='primary'>
+                    {actionText}
+                  </Button>
+                  <Button variant='link'>Cancel</Button>
+                </ActionGroup>
+
+                {isCreate ? (
+                  <></>
+                ) : (
+                  <>
+                    <br />
+                    <Divider />
+                    <br />
+                    <br />
+                    <TextContent className='section-margin'>
+                      <Text
+                        component={TextVariants.h2}
+                        tabIndex={-1}
+                        id='delete'
+                      >
+                        Delete topic (irreversible)
+                      </Text>
+                      <Text component={TextVariants.p}>
+                        This permanently removes this topic from this instance
+                        of Strimzi. Applications will no longer have access to
+                        this topic.
+                      </Text>
+                    </TextContent>
+                    <br />
+                    <Button variant='danger' className='section-margin'>
+                      Delete topic
                     </Button>
-                    <Button variant='link'>Cancel</Button>
-                  </ActionGroup>
-
-                  {isCreate ? (
-                    <></>
-                  ) : (
-                    <>
-                      <br />
-                      <Divider />
-                      <br />
-                      <br />
-                      <TextContent className='section-margin'>
-                        <Text
-                          component={TextVariants.h2}
-                          tabIndex={-1}
-                          id='delete'
-                        >
-                          Delete topic (irreversible)
-                        </Text>
-                        <Text component={TextVariants.p}>
-                          This permanently removes this topic from this instance
-                          of Strimzi. Applications will no longer have access to
-                          this topic.
-                        </Text>
-                      </TextContent>
-                      <br />
-                      <Button variant='danger' className='section-margin'>
-                        Delete topic
-                      </Button>
-                    </>
-                  )}
-                </PageSection>
+                  </>
+                )}
+              </PageSection>
             </PageGroup>
           </div>
         </GridItem>
