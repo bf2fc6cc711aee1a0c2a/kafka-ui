@@ -22,7 +22,7 @@ export const OpenShiftStreams: React.FunctionComponent = () => {
   const handleTabClick = (event, tabIndex) => {
     setActiveTabKey(tabIndex);
   };
-  const onCreate = () => {};
+
   const mainBreadcrumbs = (
     <Breadcrumb>
       <BreadcrumbItem to="#">OpenShift Streams</BreadcrumbItem>
