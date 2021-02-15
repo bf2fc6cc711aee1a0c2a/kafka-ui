@@ -5,8 +5,10 @@ import {
   Divider,
   Pagination,
   Toolbar,
+  Page,
   ToolbarContent,
   ToolbarItem,
+  PageSection,
 } from '@patternfly/react-core';
 import {
   Table,
@@ -156,6 +158,8 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
 
   return (
     <>
+     <Page>
+       <PageSection>
       {deleteModal && (
         <DeleteTopics
           topicName={topicName}
@@ -215,22 +219,25 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
             <TableHeader />
             <TableBody />
           </Table>
-        </Card>
+          </Card>
       )}
-      {rowData.length < 1 && search.length > 1 && <EmptySearch />}
+      {rowData.length < 1 && search.length > 1 && <EmptySearch/>}
       {rowData.length > 1 && (
         <Card>
-          <Pagination
-            itemCount={rowData.length}
-            perPage={perPage}
-            page={page}
-            onSetPage={onSetPage}
-            widgetId='topic-list-pagination-bottom'
-            onPerPageSelect={onPerPageSelect}
-            offset={0}
-          />
+        <Pagination
+          itemCount={rowData.length}
+          perPage={perPage}
+          page={page}
+          onSetPage={onSetPage}
+          widgetId='topic-list-pagination-bottom'
+          onPerPageSelect={onPerPageSelect}
+          offset={0}
+        />
         </Card>
       )}
+       
+      </PageSection>
+      </Page>
     </>
   );
 };
