@@ -18,10 +18,11 @@ import CodeBranchIcon from "@patternfly/react-icons/dist/js/icons/code-branch-ic
 
 export const OpenShiftStreams: React.FunctionComponent = () => {
   const [activeTabKey, setActiveTabKey] = useState(1);
-  const onCreateTopic = () => {};
+  const [, setOnCreateTopic] = useState(false);
   const handleTabClick = (event, tabIndex) => {
     setActiveTabKey(tabIndex);
   };
+  const onCreate = () => {};
   const mainBreadcrumbs = (
     <Breadcrumb>
       <BreadcrumbItem to="#">OpenShift Streams</BreadcrumbItem>
@@ -54,7 +55,6 @@ export const OpenShiftStreams: React.FunctionComponent = () => {
         </PageSection>
         <br />
         <PageSection
-          className="tabs-padding"
           variant={PageSectionVariants.light}
           padding={{ default: "noPadding" }}
         >
@@ -74,7 +74,7 @@ export const OpenShiftStreams: React.FunctionComponent = () => {
               id="topics-tab-section"
               aria-label="Topics Tab"
             >
-              <TopicsList onCreateTopic={onCreateTopic} />
+              <TopicsList onCreateTopic={() => setOnCreateTopic} />
             </Tab>
             <Tab
               title={<TabTitleText>Consumer Groups</TabTitleText>}
