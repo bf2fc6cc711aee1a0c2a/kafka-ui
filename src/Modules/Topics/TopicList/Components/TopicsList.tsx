@@ -8,8 +8,10 @@ import {
   PaginationVariant,
   Title,
   Toolbar,
+  Page,
   ToolbarContent,
   ToolbarItem,
+  PageSection,
 } from '@patternfly/react-core';
 import {
   Table,
@@ -173,9 +175,8 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
 
   return (
     <>
-      <Title headingLevel='h2' size='lg'>
-        Topics
-      </Title>
+     <Page>
+       <PageSection>
       {deleteModal && (
         <DeleteTopics
           topicName={topicName}
@@ -234,11 +235,12 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
             <TableHeader />
             <TableBody />
           </Table>
-        </Card>
+          </Card>
       )}
       <Divider />
       {rowData.length < 1 && search.length > 1 && <EmptySearch />}
       {rowData.length > 1 && (
+        <Card>
         <Pagination
           itemCount={rowData.length}
           perPage={perPage}
@@ -249,7 +251,11 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
           offset={0}
           variant={PaginationVariant.bottom}
         />
+        </Card>
       )}
+       
+      </PageSection>
+      </Page>
     </>
   );
 };
