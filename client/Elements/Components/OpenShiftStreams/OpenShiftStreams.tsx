@@ -1,3 +1,7 @@
+/*
+ * Copyright Strimzi authors.
+ * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
+ */
 import React, { useState } from "react";
 import {
   Breadcrumb,
@@ -33,68 +37,66 @@ export const OpenShiftStreams: React.FunctionComponent = () => {
   );
 
   return (
-    <>
-      <PageSection
-        className="page-section-padding"
-        variant={PageSectionVariants.light}
-      >
-        <section>{mainBreadcrumbs}</section>
-        <PageSection variant={PageSectionVariants.light}>
-          <Flex>
-            <FlexItem align={{ default: "alignRight" }}>
-              <Button
-                variant="link"
-                icon={<CodeBranchIcon />}
-                iconPosition="right"
-              >
-                Connect to this cluster
-              </Button>
-            </FlexItem>
-          </Flex>
-          <Title headingLevel="h1">MK Cluster Instance</Title>
-        </PageSection>
-        <br />
-        <PageSection
-          variant={PageSectionVariants.light}
-          padding={{ default: "noPadding" }}
-        >
-          <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
-            <Tab
-              title={<TabTitleText>Home</TabTitleText>}
-              eventKey={0}
-              id="home-tab-section"
-              aria-label="Home Tab"
-              hidden
+    <PageSection
+      className="page-section-padding"
+      variant={PageSectionVariants.light}
+    >
+      <section>{mainBreadcrumbs}</section>
+      <PageSection variant={PageSectionVariants.light}>
+        <Flex>
+          <FlexItem align={{ default: "alignRight" }}>
+            <Button
+              variant="link"
+              icon={<CodeBranchIcon />}
+              iconPosition="right"
             >
-              <Title headingLevel="h4">Home </Title>
-            </Tab>
-            <Tab
-              title={<TabTitleText>Topics</TabTitleText>}
-              eventKey={1}
-              id="topics-tab-section"
-              aria-label="Topics Tab"
-            >
-              <TopicsList onCreateTopic={() => setOnCreateTopic} />
-            </Tab>
-            <Tab
-              title={<TabTitleText>Consumer Groups</TabTitleText>}
-              eventKey={2}
-              id="consumer-groups-tab-section"
-              aria-label="Consumer Groups Tab"
-            >
-              <Title headingLevel="h4"> Consumer Groups</Title>
-            </Tab>
-            <Tab
-              title={<TabTitleText>Metrics</TabTitleText>}
-              eventKey={3}
-              id="metrics-tab-section"
-              aria-label="Metrics Tab"
-            >
-              <Title headingLevel="h4">Metrics </Title>
-            </Tab>
-          </Tabs>
-        </PageSection>
+              Connect to this cluster
+            </Button>
+          </FlexItem>
+        </Flex>
+        <Title headingLevel="h1">MK Cluster Instance</Title>
       </PageSection>
-    </>
+      <br />
+      <PageSection
+        variant={PageSectionVariants.light}
+        padding={{ default: "noPadding" }}
+      >
+        <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
+          <Tab
+            title={<TabTitleText>Home</TabTitleText>}
+            eventKey={0}
+            id="home-tab-section"
+            aria-label="Home Tab"
+            hidden
+          >
+            <Title headingLevel="h4">Home </Title>
+          </Tab>
+          <Tab
+            title={<TabTitleText>Topics</TabTitleText>}
+            eventKey={1}
+            id="topics-tab-section"
+            aria-label="Topics Tab"
+          >
+            <TopicsList onCreateTopic={() => setOnCreateTopic} />
+          </Tab>
+          <Tab
+            title={<TabTitleText>Consumer Groups</TabTitleText>}
+            eventKey={2}
+            id="consumer-groups-tab-section"
+            aria-label="Consumer Groups Tab"
+          >
+            <Title headingLevel="h4"> Consumer Groups</Title>
+          </Tab>
+          <Tab
+            title={<TabTitleText>Metrics</TabTitleText>}
+            eventKey={3}
+            id="metrics-tab-section"
+            aria-label="Metrics Tab"
+          >
+            <Title headingLevel="h4">Metrics </Title>
+          </Tab>
+        </Tabs>
+      </PageSection>
+    </PageSection>
   );
 };
