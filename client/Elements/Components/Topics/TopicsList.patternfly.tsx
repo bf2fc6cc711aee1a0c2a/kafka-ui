@@ -61,7 +61,7 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
 
   useEffect(() => {
     fetchTopic();
-  },[]);
+  }, []);
 
   const onSetPage = (_event, pageNumber: number) => {
     setPage(pageNumber);
@@ -79,7 +79,7 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
   ];
   const rowData =
     filteredTopics?.topics.map((topic) => [
-      topic?.name,
+      { title: <a href={'#/topic/' + topic?.name}>{topic?.name}</a> },
       topic?.partitions
         ?.map((p) => p.replicas.length)
         .reduce((previousValue, currentValue) => previousValue + currentValue),
@@ -105,7 +105,7 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
       setFilteredTopics(topics);
     }
   }, [search]);
- 
+
   const onClear = () => {
     setFilteredTopics(topics);
   };
