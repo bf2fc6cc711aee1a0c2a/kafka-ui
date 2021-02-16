@@ -2,7 +2,7 @@
  * Copyright Strimzi authors.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Card,
   Divider,
@@ -11,24 +11,23 @@ import {
   Toolbar,
   ToolbarContent,
   ToolbarItem,
-} from '@patternfly/react-core';
+} from "@patternfly/react-core";
 import {
   Table,
   TableBody,
   TableHeader,
   TableVariant,
-} from '@patternfly/react-table';
-import { SearchConsumers } from './SearchConsumers.patternfly';
-import ExclamationCircleIcon from '@patternfly/react-icons/dist/js/icons/exclamation-circle-icon';
-import CheckCircleIcon from '@patternfly/react-icons/dist/js/icons/check-circle-icon';
-import { useConsumersModel } from '../../../Panels/ConsumerGroups/Model';
-
+} from "@patternfly/react-table";
+import { SearchConsumers } from "./SearchConsumers.patternfly";
+import { ExclamationCircleIcon } from "@patternfly/react-icons/dist/js/icons/exclamation-circle-icon";
+import { CheckCircleIcon } from "@patternfly/react-icons/dist/js/icons/check-circle-icon";
+import { consumerGroupData } from "./ConsumerGroupData";
+import { EmptySearch } from "..//..//Components/Topics/EmptySearch.patternfly";
 export const ConsumerGroupsList: React.FunctionComponent = () => {
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(10);
   const [offset, setOffset] = useState(0);
-
-  const { model } = useConsumersModel();
+  const [tableData, setTableData] = useState(consumerGroupData);
 
   const onSetPage = (_event, pageNumber: number) => {
     setPage(pageNumber);
@@ -40,29 +39,33 @@ export const ConsumerGroupsList: React.FunctionComponent = () => {
   };
 
   const tableColumns = [
-    { title: 'Consumer Group ID' },
-    { title: 'Active Members' },
-    { title: 'Unconsumed Partitions' },
-    { title: 'State' },
+    { title: "Consumer Group ID" },
+    { title: "Active Members" },
+    { title: "Unconsumed Partitions" },
+    { title: "State" },
   ];
 
-  const rowData = model.consumersList.items.map((consumer) => [
-    consumer?.id,
-    consumer?.members,
-    consumer?.partitions,
-    <Label
-      key={consumer?.state}
-      color={consumer?.state === 'Stable' ? 'green' : 'red'}
-      icon={
-        consumer?.state === 'Stable' ? (
-          <CheckCircleIcon key={consumer?.state} />
-        ) : (
-          <ExclamationCircleIcon key={consumer?.state} />
-        )
-      }
-    >
-      {consumer?.state}
-    </Label>,
+  //const rowData = model.consumersList.items.map((consumer) => [
+  const rowData = tableData.map((consumer) => [
+    consumer.id,
+    consumer.members,
+    consumer.partitions,
+    {
+      title: (
+        <Label
+          color={consumer.state === "Stable" ? "green" : "red"}
+          icon={
+            consumer.state === "Stable" ? (
+              <CheckCircleIcon />
+            ) : (
+              <ExclamationCircleIcon />
+            )
+          }
+        >
+          {consumer.state}
+        </Label>
+      ),
+    },
   ]);
 
   return (
@@ -71,15 +74,15 @@ export const ConsumerGroupsList: React.FunctionComponent = () => {
         <Toolbar>
           <ToolbarContent>
             <ToolbarItem>
-              <SearchConsumers />
+              <SearchConsumers setTableData={setTableData} />
             </ToolbarItem>
-            <ToolbarItem variant='pagination'>
+            <ToolbarItem variant="pagination">
               <Pagination
                 itemCount={rowData.length}
                 perPage={perPage}
                 page={page}
                 onSetPage={onSetPage}
-                widgetId='pagination-options-menu-top'
+                widgetId="consumer-group-pagination-top"
                 onPerPageSelect={onPerPageSelect}
               />
             </ToolbarItem>
@@ -87,7 +90,7 @@ export const ConsumerGroupsList: React.FunctionComponent = () => {
         </Toolbar>
         <Divider />
         <Table
-          aria-label='Compact Table'
+          aria-label="Compact Table"
           variant={TableVariant.compact}
           cells={tableColumns}
           rows={
@@ -99,15 +102,19 @@ export const ConsumerGroupsList: React.FunctionComponent = () => {
           <TableHeader />
           <TableBody />
         </Table>
-        <Pagination
-          itemCount={rowData.length}
-          perPage={perPage}
-          page={page}
-          onSetPage={onSetPage}
-          widgetId='pagination-options-menu-top'
-          onPerPageSelect={onPerPageSelect}
-          offset={0}
-        />
+        {rowData.length < 1 ? (
+          <EmptySearch />
+        ) : (
+          <Pagination
+            itemCount={rowData.length}
+            perPage={perPage}
+            page={page}
+            onSetPage={onSetPage}
+            widgetId="consumer-group-pagination-bottom"
+            onPerPageSelect={onPerPageSelect}
+            offset={0}
+          />
+        )}
       </Card>
       <Divider />
     </>
