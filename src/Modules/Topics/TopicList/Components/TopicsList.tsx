@@ -174,7 +174,6 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   }
 
   return (
-    <>
      <Page>
        <PageSection>
       {deleteModal && (
@@ -240,8 +239,8 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
       <Divider />
       {rowData.length < 1 && search.length > 1 && <EmptySearch />}
       {rowData.length > 1 && (
-        <Card>
-        <Pagination
+          <Card>
+          <Pagination
           itemCount={rowData.length}
           perPage={perPage}
           page={page}
@@ -253,9 +252,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
         />
         </Card>
       )}
-       
-      </PageSection>
-      </Page>
-    </>
+        </PageSection>
+        </Page>      
   );
 };
