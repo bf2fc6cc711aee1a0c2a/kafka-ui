@@ -53,6 +53,7 @@ export type Topic = {
   config?: Maybe<Array<Maybe<ConfigEntry>>>;
 };
 
+
 /** embedded in Topic */
 export type Partition = {
   /** ID */
