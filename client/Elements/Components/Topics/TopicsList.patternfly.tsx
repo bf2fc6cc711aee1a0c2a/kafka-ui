@@ -79,7 +79,7 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
   ];
   const rowData =
     filteredTopics?.topics.map((topic) => [
-      topic?.name,
+      { title: <a href={`#/topic/${topic?.name}`}>{topic?.name}</a> },
       topic?.partitions
         ?.map((p) => p.replicas.length)
         .reduce((previousValue, currentValue) => previousValue + currentValue),

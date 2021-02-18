@@ -23,8 +23,8 @@ export const TopicDetailHead: React.FC<TopicDetailHeadProps> = ({
   return (
     <>
       <Breadcrumb className='breadcrumb-padding'>
-        <BreadcrumbItem to='#'>Topics</BreadcrumbItem>
-        <BreadcrumbItem to='#'>{topicName}</BreadcrumbItem>
+        <BreadcrumbItem to='#/topics'>Topics</BreadcrumbItem>
+        <BreadcrumbItem to={`#/topic/${topicName}`}>{topicName}</BreadcrumbItem>
       </Breadcrumb>
       <TextContent className='header-padding'>
         <Text component={TextVariants.h1}>{topicName}</Text>
