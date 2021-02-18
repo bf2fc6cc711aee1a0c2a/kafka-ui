@@ -6,14 +6,9 @@ import React, { FunctionComponent } from 'react';
 import './style.scss';
 import '@patternfly/react-core/dist/styles/base.css';
 import { UpdateTopic } from 'Elements/Components/UpdateTopic/UpdateTopic.patternfly';
-import { TopicContextProvider } from 'Contexts/Topic';
 
 const UpdateTopicView: FunctionComponent = () => {
-  return (
-    <TopicContextProvider>
-      <UpdateTopic />
-    </TopicContextProvider>
-  );
+  return <UpdateTopic />;
 };
 
 export { UpdateTopicView };

@@ -18,27 +18,30 @@ import { Home } from '../Panels/Home';
 import CreateTopic from '../Panels/Topics/CreateView.patternfly';
 import TopicDetail from 'Panels/Topics/DetailView.patternfly';
 import UpdateTopicView from '../Panels/Topics/UpdateView.patternfly';
+import { TopicContextProvider } from 'Contexts/Topic';
 
 init(); //Bootstrap i18next support
 ReactDOM.render(
   <ApolloProvider client={apolloClient}>
     <ConfigFeatureFlagProvider>
       <LoggingProvider>
-        <FeatureFlag flag={'client.Pages.PlaceholderHome'}>
-          <Router>
-            <Switch>
-              <Route path='/' component={Home} exact />
-              <Route path='/topics' component={Topics} exact />
-              <Route path='/topic/:topicName' component={TopicDetail} exact />
-              <Route path='/topics/create' component={CreateTopic} exact />
-              <Route
-                path='/topics/update/:name'
-                component={UpdateTopicView}
-                exact
-              />
-            </Switch>
-          </Router>
-        </FeatureFlag>
+        <TopicContextProvider>
+          <FeatureFlag flag={'client.Pages.PlaceholderHome'}>
+            <Router>
+              <Switch>
+                <Route path='/' component={Home} exact />
+                <Route path='/topics' component={Topics} exact />
+                <Route path='/topic/:topicName' component={TopicDetail} exact />
+                <Route path='/topics/create' component={CreateTopic} exact />
+                <Route
+                  path='/topics/update/:name'
+                  component={UpdateTopicView}
+                  exact
+                />
+              </Switch>
+            </Router>
+          </FeatureFlag>
+        </TopicContextProvider>
       </LoggingProvider>
     </ConfigFeatureFlagProvider>
   </ApolloProvider>,

@@ -61,7 +61,7 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
 
   useEffect(() => {
     fetchTopic();
-  },[]);
+  }, []);
 
   const onSetPage = (_event, pageNumber: number) => {
     setPage(pageNumber);
@@ -105,7 +105,7 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
       setFilteredTopics(topics);
     }
   }, [search]);
- 
+
   const onClear = () => {
     setFilteredTopics(topics);
   };
