@@ -33,8 +33,7 @@ import ExclamationCircleIcon from "@patternfly/react-icons/dist/js/icons/exclama
 import CheckCircleIcon from "@patternfly/react-icons/dist/js/icons/check-circle-icon";
 import { EmptySearch } from "../Topics/EmptySearch.patternfly";
 
-export const ConsumerGroupByTopicList: React.FunctionComponent = ({
-}) => {
+export const ConsumerGroupByTopicList: React.FunctionComponent = () => {
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(10);
   const [offset, setOffset] = useState(0);
