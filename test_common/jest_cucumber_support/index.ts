@@ -4,4 +4,3 @@
  */
 /* eslint-disable */
 import { common_stepdefs } from './commonStepdefs';
-import * as commonServerStepDefinitions from '../../server/test_common/commonServerSteps';
