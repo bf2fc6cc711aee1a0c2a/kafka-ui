@@ -2,9 +2,9 @@
  * Copyright Strimzi authors.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
-import React, { useState, useEffect } from "react";
-import { InputGroup, SearchInput } from "@patternfly/react-core";
-import { consumerGroupData } from "./ConsumerGroupData";
+import React, { useState, useEffect } from 'react';
+import { InputGroup, SearchInput } from '@patternfly/react-core';
+import { consumerGroupData } from './ConsumerGroupData';
 
 export interface IConsumerGroupData {
   id: string;
@@ -20,10 +20,10 @@ export interface ISearchConsumerGroupProps {
 const SearchConsumers: React.FunctionComponent<ISearchConsumerGroupProps> = ({
   setTableData,
 }) => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
-    if (search && search.trim() != "") {
+    if (search && search.trim() != '') {
       const filterSearch = consumerGroupData.filter((consumersFiltered) =>
         consumersFiltered?.id.includes(search)
       );
@@ -43,17 +43,17 @@ const SearchConsumers: React.FunctionComponent<ISearchConsumerGroupProps> = ({
     );
   };
   const onClear = () => {
-    setSearch("");
+    setSearch('');
     setTableData(consumerGroupData);
   };
   return (
     <InputGroup>
       <SearchInput
-        name="searchName"
-        id="search-consumers-input"
-        type="search"
-        aria-label="search input "
-        placeholder="Search"
+        name='searchName'
+        id='search-consumers-input'
+        type='search'
+        aria-label='search input '
+        placeholder='Search'
         value={search}
         onChange={onChangeInput}
         onClear={onClear}

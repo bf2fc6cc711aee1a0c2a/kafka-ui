@@ -82,7 +82,6 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       },
     };
 
-    debugger;
     new DefaultApi().createTopic(topic).then((res) => {
       if (res.status === 200) {
         setAlertVisible(true);

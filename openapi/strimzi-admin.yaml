@@ -59,7 +59,7 @@ paths:
       operationId: getTopicsList
       summary: List of topics
       security:
-        - Bearer: [ ]
+        - Bearer: []
       description: >-
         Returns a list of all of the available topics, or the list of topics that meet the users URL
         Query Parameters.
@@ -102,7 +102,7 @@ paths:
       operationId: createTopic
       summary: Creates a new topic
       security:
-        - Bearer: [ ]
+        - Bearer: []
       description: Creates a new topic in Kafka.
   '/topics/{topicName}':
     get:
@@ -131,7 +131,7 @@ paths:
       operationId: getTopic
       summary: Retrieves the topic with the specified name.
       security:
-        - Bearer: [ ]
+        - Bearer: []
       description: Topic
     delete:
       parameters:
@@ -155,7 +155,7 @@ paths:
       operationId: deleteTopic
       summary: Deletes a  topic
       security:
-        - Bearer: [ ]
+        - Bearer: []
       description: Deletes the topic with the specified name.
     patch:
       requestBody:
@@ -191,7 +191,7 @@ paths:
       operationId: updateTopic
       summary: Updates the topic with the specified name.
       security:
-        - Bearer: [ ]
+        - Bearer: []
       description: updates the topic with the new data.
     parameters:
       - name: topicName

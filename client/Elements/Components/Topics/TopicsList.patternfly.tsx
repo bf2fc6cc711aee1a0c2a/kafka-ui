@@ -8,8 +8,8 @@ import {
   Card,
   Divider,
   Pagination,
-  Toolbar,
   Title,
+  Toolbar,
   ToolbarContent,
   ToolbarItem,
 } from '@patternfly/react-core';
@@ -26,7 +26,7 @@ import { getTopics } from 'Services/TopicServices';
 import { DeleteTopics } from './DeleteTopicsModal.patternfly';
 import { useHistory } from 'react-router';
 import { ConfigContext } from '../../../Contexts';
-import {TopicsList} from "../../../OpenApi";
+import { TopicsList } from '../../../OpenApi';
 
 export interface ITopic {
   name: string;
@@ -54,11 +54,10 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   const [deleteModal, setDeleteModal] = useState(false);
   const history = useHistory();
 
-  const config = useContext(ConfigContext)
+  const config = useContext(ConfigContext);
 
   const fetchTopic = async () => {
     const topicsList = await getTopics(config);
-    debugger;
     if (topicsList) {
       setTopics(topicsList);
       setFilteredTopics(topicsList);
@@ -113,10 +112,14 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
         (topicsFiltered) =>
           topicsFiltered?.name && topicsFiltered.name.includes(search)
       );
-      setFilteredTopics((prevState) => (prevState ? {
-        ...prevState,
-        items: filterSearch,
-      } : undefined) );
+      setFilteredTopics((prevState) =>
+        prevState
+          ? {
+              ...prevState,
+              items: filterSearch,
+            }
+          : undefined
+      );
     } else {
       setFilteredTopics(topics);
     }

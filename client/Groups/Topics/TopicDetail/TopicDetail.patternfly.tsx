@@ -64,7 +64,7 @@ export const TopicDetailGroup: React.FC = () => {
   const [topicDetail, setTopicDetail] = useState<AdvancedTopic2>(topic);
   const { topicName } = useParams<TopicDetailRouteParams>();
   const history = useHistory();
-  const config = useContext(ConfigContext)
+  const config = useContext(ConfigContext);
 
   const fetchTopicDetail = async (topicName: string) => {
     const response = await getTopicDetail(topicName, config);

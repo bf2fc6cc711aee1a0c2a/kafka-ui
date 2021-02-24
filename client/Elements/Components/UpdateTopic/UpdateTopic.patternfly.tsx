@@ -21,14 +21,14 @@ import { useParams } from 'react-router';
 import { getTopic, updateTopicModel } from 'Services/index';
 import { Topic, TopicSettings } from 'OpenApi/api';
 import { AdvancedTopic, TopicContext } from 'Contexts/Topic';
-import { ConfigContext } from 'Contexts'
+import { ConfigContext } from 'Contexts';
 
 export const UpdateTopic: React.FC = () => {
   const { store, updateBulkStore } = React.useContext(TopicContext);
   const [alertVisible, setAlertVisible] = useState(false);
   const { name } = useParams<any>();
 
-  const config = useContext(ConfigContext)
+  const config = useContext(ConfigContext);
 
   const fetchTopic = async (topicName) => {
     const topic = await getTopic(topicName, config);

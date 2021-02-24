@@ -4,9 +4,8 @@
  */
 import React, { FunctionComponent } from 'react';
 
-
-const Home: FunctionComponent = ({ children }) => {
-  return (<div></div>)
+const Home: FunctionComponent = () => {
+  return <div></div>;
   // const { client, featureFlags, isComplete } = useConfigFeatureFlag();
   // const version = get(client, 'about.version', '');
   // // use the feature flag from context - could also use the `FeatureFlag` component - this just shows alternative usage

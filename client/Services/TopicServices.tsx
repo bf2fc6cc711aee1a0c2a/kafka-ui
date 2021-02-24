@@ -6,28 +6,35 @@ import { AxiosResponse } from 'axios';
 import { AdvancedTopic2 } from 'Contexts/Topic';
 import { DefaultApi, Topic, TopicSettings, TopicsList } from 'OpenApi/api';
 import { Configuration } from 'OpenApi';
-import {IConfiguration} from "../Contexts";
+import { IConfiguration } from '../Contexts';
 
-
-export const getTopics = async (config:IConfiguration | undefined): Promise<TopicsList> => {
+export const getTopics = async (
+  config: IConfiguration | undefined
+): Promise<TopicsList> => {
   const accessToken = await config?.getToken();
 
-  const api = new DefaultApi(new Configuration({
-    accessToken, basePath: config?.basePath
-  }));
+  const api = new DefaultApi(
+    new Configuration({
+      accessToken,
+      basePath: config?.basePath,
+    })
+  );
   const response: AxiosResponse<TopicsList> = await api.getTopicsList();
   return response.data;
 };
 
 export const getTopicDetail = async (
   topicName: string,
-  config:IConfiguration | undefined,
+  config: IConfiguration | undefined
 ): Promise<AdvancedTopic2> => {
   const accessToken = await config?.getToken();
 
-  const api = new DefaultApi(new Configuration({
-    accessToken, basePath: config?.basePath
-  }));
+  const api = new DefaultApi(
+    new Configuration({
+      accessToken,
+      basePath: config?.basePath,
+    })
+  );
   const { data } = await api.getTopic(topicName);
 
   return convertTopicResponse(data);
@@ -56,13 +63,16 @@ const convertTopicResponse = (topic: Topic): AdvancedTopic2 => {
 export const updateTopicModel = async (
   topicName: string,
   topicSettings: TopicSettings,
-  config:IConfiguration | undefined
+  config: IConfiguration | undefined
 ): Promise<Topic> => {
   const accessToken = await config?.getToken();
 
-  const api = new DefaultApi(new Configuration({
-    accessToken, basePath: config?.basePath
-  }));
+  const api = new DefaultApi(
+    new Configuration({
+      accessToken,
+      basePath: config?.basePath,
+    })
+  );
   const response: AxiosResponse<Topic> = await api.updateTopic(
     topicName,
     topicSettings
@@ -70,22 +80,34 @@ export const updateTopicModel = async (
   return response.data;
 };
 
-export const getTopic = async (topicName: string, config:IConfiguration | undefined): Promise<Topic> => {
+export const getTopic = async (
+  topicName: string,
+  config: IConfiguration | undefined
+): Promise<Topic> => {
   const accessToken = await config?.getToken();
 
-  const api = new DefaultApi(new Configuration({
-    accessToken, basePath: config?.basePath
-  }));
+  const api = new DefaultApi(
+    new Configuration({
+      accessToken,
+      basePath: config?.basePath,
+    })
+  );
   const response = await api.getTopic(topicName);
   return response.data;
 };
 
-export const deleteTopic = async (topicName: string, config:IConfiguration | undefined): Promise<void> => {
+export const deleteTopic = async (
+  topicName: string,
+  config: IConfiguration | undefined
+): Promise<void> => {
   const accessToken = await config?.getToken();
 
-  const api = new DefaultApi(new Configuration({
-    accessToken, basePath: config?.basePath
-  }));
-  const response = await api.deleteTopic(topicName);
+  const api = new DefaultApi(
+    new Configuration({
+      accessToken,
+      basePath: config?.basePath,
+    })
+  );
+  await api.deleteTopic(topicName);
   return;
 };

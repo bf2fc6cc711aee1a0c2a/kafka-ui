@@ -5,18 +5,18 @@
 
 import React from 'react';
 import {
-  Grid,
-  GridItem,
-  PageSection,
-  PageGroup,
-  JumpLinks,
-  JumpLinksItem,
   ActionGroup,
   Button,
   Divider,
+  Grid,
+  GridItem,
+  JumpLinks,
+  JumpLinksItem,
+  PageGroup,
+  PageSection,
+  Text,
   TextContent,
   TextVariants,
-  Text,
 } from '@patternfly/react-core';
 import '../CreateTopic/CreateTopicWizard.patternfly.css';
 

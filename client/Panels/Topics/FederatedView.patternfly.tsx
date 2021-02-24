@@ -7,7 +7,6 @@ import './style.scss';
 import { TopicsListComponent } from '../../Elements/Components/Topics/TopicsList.patternfly';
 import { ConfigContext } from '../../Contexts';
 import { PageSection, PageSectionVariants } from '@patternfly/react-core';
-import {Configuration} from "../../OpenApi";
 
 export type FederatedTopicsProps = {
   getToken: () => Promise<string>;
@@ -20,7 +19,6 @@ const FederatedTopics: FunctionComponent<FederatedTopicsProps> = ({
   apiBasePath,
   onCreateTopic,
 }) => {
-
   return (
     <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
       <PageSection variant={PageSectionVariants.light}>
