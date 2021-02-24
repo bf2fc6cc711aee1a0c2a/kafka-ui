@@ -74,7 +74,7 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
     setPerPage(perPage);
   };
   const onTopicClick = (topic: string) => {
-    history.push(`/topics/consumerGroup/${topic}`);
+    history.push(`/topics/consumerGroups/${topic}`);
   };
 
   const tableColumns = [
