@@ -6,7 +6,7 @@ import React, { FunctionComponent } from 'react';
 import { useHistory } from 'react-router';
 import './style.scss';
 import '@patternfly/react-core/dist/styles/base.css';
-import { TopicsListComponent } from '../../Elements/Components/Topics/TopicsList.patternfly';
+import { TopicsListComponent } from '../../Modules/Topics/TopicList/Components/TopicsList.patternfly';
 
 const Topics: FunctionComponent = () => {
   const history = useHistory();
