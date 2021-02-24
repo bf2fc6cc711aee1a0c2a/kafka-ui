@@ -3,7 +3,7 @@
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Label,
   Card,
@@ -16,22 +16,22 @@ import {
   DrawerContent,
   ToolbarItem,
   Title,
-} from "@patternfly/react-core";
+} from '@patternfly/react-core';
 import {
   Table,
   TableBody,
   TableHeader,
   TableVariant,
-} from "@patternfly/react-table";
-import { ConsumerGroupDataByTopics } from "./ConsumerDataByTopics";
-import { ConsumerGroupsByTopicDrawer } from "./ConsumerGroupsByTopicsDrawer.patternfly";
+} from '@patternfly/react-table';
+import { ConsumerGroupDataByTopics } from './ConsumerDataByTopics';
+import { ConsumerGroupsByTopicDrawer } from './ConsumerGroupsByTopicsDrawer.patternfly';
 import {
   SearchConsumerGroupsByTopics,
   IConsumerGroupByTopic,
-} from "./SearchConsumerGroupsByTopics.patternfly";
-import ExclamationCircleIcon from "@patternfly/react-icons/dist/js/icons/exclamation-circle-icon";
-import CheckCircleIcon from "@patternfly/react-icons/dist/js/icons/check-circle-icon";
-import { EmptySearch } from "../Topics/EmptySearch.patternfly";
+} from './SearchConsumerGroupsByTopics.patternfly';
+import ExclamationCircleIcon from '@patternfly/react-icons/dist/js/icons/exclamation-circle-icon';
+import CheckCircleIcon from '@patternfly/react-icons/dist/js/icons/check-circle-icon';
+import { EmptySearch } from '../Topics/EmptySearch.patternfly';
 
 export const ConsumerGroupByTopicList: React.FunctionComponent = () => {
   const [page, setPage] = useState<number>(1);
@@ -70,16 +70,16 @@ export const ConsumerGroupByTopicList: React.FunctionComponent = () => {
   );
 
   const tableColumns = [
-    { title: "Consumer group ID" },
-    { title: "Active members for this topic" },
-    { title: "Unconsumed partitions for this topic" },
-    { title: "State" },
+    { title: 'Consumer group ID' },
+    { title: 'Active members for this topic' },
+    { title: 'Unconsumed partitions for this topic' },
+    { title: 'State' },
   ];
   const rowData = tableData.map((ConsumerGroupByTopic) => [
     {
       title: (
         <Button
-          variant="link"
+          variant='link'
           onClick={() =>
             onClickConsumerGroup(
               ConsumerGroupByTopic.id,
@@ -98,9 +98,9 @@ export const ConsumerGroupByTopicList: React.FunctionComponent = () => {
     {
       title: (
         <Label
-          color={ConsumerGroupByTopic.state === "Stable" ? "green" : "red"}
+          color={ConsumerGroupByTopic.state === 'Stable' ? 'green' : 'red'}
           icon={
-            ConsumerGroupByTopic.state === "Stable" ? (
+            ConsumerGroupByTopic.state === 'Stable' ? (
               <CheckCircleIcon />
             ) : (
               <ExclamationCircleIcon />
@@ -116,7 +116,7 @@ export const ConsumerGroupByTopicList: React.FunctionComponent = () => {
   return (
     <>
       <Card>
-        <Title headingLevel="h4"> </Title>
+        <Title headingLevel='h4'> </Title>
         <Drawer isExpanded={isExpanded}>
           <DrawerContent panelContent={panelContent}>
             <Toolbar>
@@ -125,13 +125,13 @@ export const ConsumerGroupByTopicList: React.FunctionComponent = () => {
                   <SearchConsumerGroupsByTopics setTableData={setTableData} />
                 </ToolbarItem>
 
-                <ToolbarItem variant="pagination">
+                <ToolbarItem variant='pagination'>
                   <Pagination
                     itemCount={rowData.length}
                     perPage={perPage}
                     page={page}
                     onSetPage={onSetPage}
-                    widgetId="pagination-options-menu-top"
+                    widgetId='pagination-options-menu-top'
                     onPerPageSelect={onPerPageSelect}
                   />
                 </ToolbarItem>
@@ -140,7 +140,7 @@ export const ConsumerGroupByTopicList: React.FunctionComponent = () => {
             <Divider />
 
             <Table
-              aria-label="Compact Table"
+              aria-label='Compact Table'
               variant={TableVariant.compact}
               cells={tableColumns}
               rows={
@@ -159,7 +159,7 @@ export const ConsumerGroupByTopicList: React.FunctionComponent = () => {
                 perPage={perPage}
                 page={page}
                 onSetPage={onSetPage}
-                widgetId="pagination-options-menu-top"
+                widgetId='pagination-options-menu-top'
                 onPerPageSelect={onPerPageSelect}
                 offset={0}
               />
