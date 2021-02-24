@@ -2,7 +2,7 @@
  * Copyright Strimzi authors.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Card,
   Divider,
@@ -11,18 +11,18 @@ import {
   Toolbar,
   ToolbarContent,
   ToolbarItem,
-} from "@patternfly/react-core";
+} from '@patternfly/react-core';
 import {
   Table,
   TableBody,
   TableHeader,
   TableVariant,
-} from "@patternfly/react-table";
-import { SearchConsumers } from "./SearchConsumers.patternfly";
-import { ExclamationCircleIcon } from "@patternfly/react-icons/dist/js/icons/exclamation-circle-icon";
-import { CheckCircleIcon } from "@patternfly/react-icons/dist/js/icons/check-circle-icon";
-import { consumerGroupData } from "./ConsumerGroupData";
-import { EmptySearch } from "..//..//Components/Topics/EmptySearch.patternfly";
+} from '@patternfly/react-table';
+import { SearchConsumers } from './SearchConsumers.patternfly';
+import { ExclamationCircleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-circle-icon';
+import { CheckCircleIcon } from '@patternfly/react-icons/dist/js/icons/check-circle-icon';
+import { consumerGroupData } from './ConsumerGroupData';
+import { EmptySearch } from '..//..//Components/Topics/EmptySearch.patternfly';
 export const ConsumerGroupsList: React.FunctionComponent = () => {
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(10);
@@ -39,10 +39,10 @@ export const ConsumerGroupsList: React.FunctionComponent = () => {
   };
 
   const tableColumns = [
-    { title: "Consumer Group ID" },
-    { title: "Active Members" },
-    { title: "Unconsumed Partitions" },
-    { title: "State" },
+    { title: 'Consumer Group ID' },
+    { title: 'Active Members' },
+    { title: 'Unconsumed Partitions' },
+    { title: 'State' },
   ];
 
   //const rowData = model.consumersList.items.map((consumer) => [
@@ -53,9 +53,9 @@ export const ConsumerGroupsList: React.FunctionComponent = () => {
     {
       title: (
         <Label
-          color={consumer.state === "Stable" ? "green" : "red"}
+          color={consumer.state === 'Stable' ? 'green' : 'red'}
           icon={
-            consumer.state === "Stable" ? (
+            consumer.state === 'Stable' ? (
               <CheckCircleIcon />
             ) : (
               <ExclamationCircleIcon />
@@ -76,13 +76,13 @@ export const ConsumerGroupsList: React.FunctionComponent = () => {
             <ToolbarItem>
               <SearchConsumers setTableData={setTableData} />
             </ToolbarItem>
-            <ToolbarItem variant="pagination">
+            <ToolbarItem variant='pagination'>
               <Pagination
                 itemCount={rowData.length}
                 perPage={perPage}
                 page={page}
                 onSetPage={onSetPage}
-                widgetId="consumer-group-pagination-top"
+                widgetId='consumer-group-pagination-top'
                 onPerPageSelect={onPerPageSelect}
               />
             </ToolbarItem>
@@ -90,7 +90,7 @@ export const ConsumerGroupsList: React.FunctionComponent = () => {
         </Toolbar>
         <Divider />
         <Table
-          aria-label="Compact Table"
+          aria-label='Compact Table'
           variant={TableVariant.compact}
           cells={tableColumns}
           rows={
@@ -110,7 +110,7 @@ export const ConsumerGroupsList: React.FunctionComponent = () => {
             perPage={perPage}
             page={page}
             onSetPage={onSetPage}
-            widgetId="consumer-group-pagination-bottom"
+            widgetId='consumer-group-pagination-bottom'
             onPerPageSelect={onPerPageSelect}
             offset={0}
           />

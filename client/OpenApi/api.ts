@@ -1,7 +1,3 @@
-/*
- * Copyright Strimzi authors.
- * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
- */
 /* tslint:disable */
 /* eslint-disable */
 /**
@@ -158,7 +154,7 @@ export interface TopicsList {
    * @type {Array<Topic>}
    * @memberof TopicsList
    */
-  topics: Array<Topic>;
+  items?: Array<Topic>;
   /**
    * The page offset
    * @type {number}
@@ -220,6 +216,16 @@ export const DefaultApiAxiosParamCreator = function (
       };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
+
+      // authentication Bearer required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken =
+          typeof configuration.accessToken === 'function'
+            ? await configuration.accessToken()
+            : await configuration.accessToken;
+        localVarHeaderParameter['Authorization'] = 'Bearer ' + accessToken;
+      }
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
 
@@ -292,6 +298,16 @@ export const DefaultApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      // authentication Bearer required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken =
+          typeof configuration.accessToken === 'function'
+            ? await configuration.accessToken()
+            : await configuration.accessToken;
+        localVarHeaderParameter['Authorization'] = 'Bearer ' + accessToken;
+      }
+
       const queryParameters = new URLSearchParams(localVarUrlObj.search);
       for (const key in localVarQueryParameter) {
         queryParameters.set(key, localVarQueryParameter[key]);
@@ -351,6 +367,16 @@ export const DefaultApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      // authentication Bearer required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken =
+          typeof configuration.accessToken === 'function'
+            ? await configuration.accessToken()
+            : await configuration.accessToken;
+        localVarHeaderParameter['Authorization'] = 'Bearer ' + accessToken;
+      }
+
       const queryParameters = new URLSearchParams(localVarUrlObj.search);
       for (const key in localVarQueryParameter) {
         queryParameters.set(key, localVarQueryParameter[key]);
@@ -403,6 +429,16 @@ export const DefaultApiAxiosParamCreator = function (
       };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
+
+      // authentication Bearer required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken =
+          typeof configuration.accessToken === 'function'
+            ? await configuration.accessToken()
+            : await configuration.accessToken;
+        localVarHeaderParameter['Authorization'] = 'Bearer ' + accessToken;
+      }
 
       if (limit !== undefined) {
         localVarQueryParameter['limit'] = limit;
@@ -483,6 +519,16 @@ export const DefaultApiAxiosParamCreator = function (
       };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
+
+      // authentication Bearer required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken =
+          typeof configuration.accessToken === 'function'
+            ? await configuration.accessToken()
+            : await configuration.accessToken;
+        localVarHeaderParameter['Authorization'] = 'Bearer ' + accessToken;
+      }
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
 

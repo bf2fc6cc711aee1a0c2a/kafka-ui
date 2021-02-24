@@ -35,7 +35,7 @@ module.exports = {
       limit: parseInt(req.query.limit, 10) || 100,
       offset: 0,
       count: topics ? topics.length : 0,
-      topics: topics,
+      items: topics,
     });
   },
 

@@ -2,14 +2,14 @@
  * Copyright Strimzi authors.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Button,
   Card,
   Divider,
   Pagination,
-  Toolbar,
   Title,
+  Toolbar,
   ToolbarContent,
   ToolbarItem,
 } from '@patternfly/react-core';
@@ -23,9 +23,10 @@ import { SearchTopics } from './SearchTopics.patternfly';
 import { EmptyTopics } from './EmptyTopics.patternfly';
 import { EmptySearch } from './EmptySearch.patternfly';
 import { getTopics } from 'Services/TopicServices';
-import { TopicList } from 'Entities/Entities.generated';
 import { DeleteTopics } from './DeleteTopicsModal.patternfly';
 import { useHistory } from 'react-router';
+import { ConfigContext } from '../../../Contexts';
+import { TopicsList } from '../../../OpenApi';
 
 export interface ITopic {
   name: string;
@@ -41,23 +42,25 @@ export interface ITopicList {
   onCreateTopic: () => void;
 }
 
-export const TopicsList: React.FunctionComponent<ITopicList> = ({
+export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   onCreateTopic,
 }) => {
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(10);
   const [offset, setOffset] = useState(0);
   const [search, setSearch] = useState('');
-  const [topics, setTopics] = useState<TopicList>();
-  const [filteredTopics, setFilteredTopics] = useState<TopicList>();
+  const [topics, setTopics] = useState<TopicsList>();
+  const [filteredTopics, setFilteredTopics] = useState<TopicsList>();
   const [deleteModal, setDeleteModal] = useState(false);
   const history = useHistory();
 
+  const config = useContext(ConfigContext);
+
   const fetchTopic = async () => {
-    const topicsList = await getTopics();
+    const topicsList = await getTopics(config);
     if (topicsList) {
-      setTopics(topicsList as TopicList);
-      setFilteredTopics(topicsList as TopicList);
+      setTopics(topicsList);
+      setFilteredTopics(topicsList);
     }
   };
 
@@ -83,7 +86,7 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
     { title: 'Partitions' },
   ];
   const rowData =
-    filteredTopics?.topics.map((topic) => [
+    filteredTopics?.items?.map((topic) => [
       {
         title: (
           <Button
@@ -96,28 +99,27 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
           </Button>
         ),
       },
-
-      topic?.partitions
-        ?.map((p) => p.replicas.length)
-        .reduce((previousValue, currentValue) => previousValue + currentValue),
-      topic?.partitions?.length,
     ]) || [];
 
   useEffect(() => {
     if (
       search &&
       search.trim() != '' &&
-      topics?.topics &&
-      topics.topics.length > 0
+      topics?.items &&
+      topics.items.length > 0
     ) {
-      const filterSearch = topics?.topics.filter(
+      const filterSearch = topics?.items.filter(
         (topicsFiltered) =>
           topicsFiltered?.name && topicsFiltered.name.includes(search)
       );
-      setFilteredTopics((prevState) => ({
-        ...prevState,
-        topics: filterSearch,
-      }));
+      setFilteredTopics((prevState) =>
+        prevState
+          ? {
+              ...prevState,
+              items: filterSearch,
+            }
+          : undefined
+      );
     } else {
       setFilteredTopics(topics);
     }

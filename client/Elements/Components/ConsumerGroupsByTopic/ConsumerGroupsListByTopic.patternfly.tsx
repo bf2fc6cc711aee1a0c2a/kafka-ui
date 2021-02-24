@@ -38,9 +38,10 @@ export const ConsumerGroupByTopicList: React.FunctionComponent = () => {
   const [perPage, setPerPage] = useState<number>(10);
   const [offset, setOffset] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [consumerGroupDetail, setConsumerGroupDetail] = useState<
-    IConsumerGroupByTopic
-  >();
+  const [
+    consumerGroupDetail,
+    setConsumerGroupDetail,
+  ] = useState<IConsumerGroupByTopic>();
   const [tableData, setTableData] = useState(ConsumerGroupDataByTopics);
 
   const onSetPage = (_event, pageNumber: number) => {

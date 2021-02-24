@@ -3,13 +3,14 @@
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { TopicDetailHead } from 'Elements/Components/TopicDetailView/TopicDetailHead.patternfly';
 import { TopicDetailView } from 'Elements/Components/TopicDetailView/TopicDetailView.patternfly';
 import { AdvancedTopic2 } from 'Contexts/Topic';
 import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import { useHistory, useParams } from 'react-router';
 import { getTopicDetail } from 'Services';
+import { ConfigContext } from 'Contexts';
 
 export type TopicDetailRouteParams = {
   topicName: string;
@@ -63,9 +64,10 @@ export const TopicDetailGroup: React.FC = () => {
   const [topicDetail, setTopicDetail] = useState<AdvancedTopic2>(topic);
   const { topicName } = useParams<TopicDetailRouteParams>();
   const history = useHistory();
+  const config = useContext(ConfigContext);
 
   const fetchTopicDetail = async (topicName: string) => {
-    const response = await getTopicDetail(topicName);
+    const response = await getTopicDetail(topicName, config);
     setTopicDetail(response);
   };
 

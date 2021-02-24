@@ -17,7 +17,7 @@ const useTranslation = () => {
 
   const hookResult = [translate, null, true];
   // eslint-disable-next-line id-length
-  (hookResult as UseTranslationResponse).t = trans;
+  (hookResult as UseTranslationResponse<any>).t = trans;
 
   return hookResult;
 };
