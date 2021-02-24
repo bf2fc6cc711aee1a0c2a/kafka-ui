@@ -25,6 +25,7 @@ import { EmptySearch } from './EmptySearch.patternfly';
 import { getTopics } from 'Services/TopicServices';
 import { TopicList } from 'Entities/Entities.generated';
 import { DeleteTopics } from './DeleteTopicsModal.patternfly';
+import { useHistory } from 'react-router';
 
 export interface ITopic {
   name: string;
@@ -50,6 +51,7 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
   const [topics, setTopics] = useState<TopicList>();
   const [filteredTopics, setFilteredTopics] = useState<TopicList>();
   const [deleteModal, setDeleteModal] = useState(false);
+  const history = useHistory();
 
   const fetchTopic = async () => {
     const topicsList = await getTopics();
@@ -71,6 +73,9 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
   const onPerPageSelect = (_event, perPage: number) => {
     setPerPage(perPage);
   };
+  const onTopicClick = (topic: string) => {
+    history.push(`/topics/consumerGroups/${topic}`);
+  };
 
   const tableColumns = [
     { title: 'Name' },
@@ -79,7 +84,19 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
   ];
   const rowData =
     filteredTopics?.topics.map((topic) => [
-      { title: <a href={`#/topic/${topic?.name}`}>{topic?.name}</a> },
+      {
+        title: (
+          <Button
+            variant='link'
+            onClick={() =>
+              onTopicClick((topic && topic.name && topic.name.toString()) || '')
+            }
+          >
+            {topic?.name}
+          </Button>
+        ),
+      },
+
       topic?.partitions
         ?.map((p) => p.replicas.length)
         .reduce((previousValue, currentValue) => previousValue + currentValue),
