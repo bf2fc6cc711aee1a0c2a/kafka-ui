@@ -19,8 +19,8 @@ import CreateTopic from '../Panels/Topics/CreateView.patternfly';
 import TopicDetail from 'Panels/Topics/DetailView.patternfly';
 import UpdateTopicView from '../Panels/Topics/UpdateView.patternfly';
 import { TopicContextProvider } from 'Contexts/Topic';
-import { ConsumerGroupsView } from '..//Panels/ConsumerGroups/ConsumerGroupsView.patternfly';
-import { ConsumerGroupsTopicsView } from '..//Panels/ConsumerGroupsByTopic/ConsumerGroupsByTopic';
+import { ConsumerGroupsView } from '../Panels/ConsumerGroups/ConsumerGroupsView.patternfly';
+import { ConsumerGroupsTopicsView } from '../Panels/ConsumerGroupsByTopic/ConsumerGroupsByTopic';
 init(); //Bootstrap i18next support
 ReactDOM.render(
   <ApolloProvider client={apolloClient}>
