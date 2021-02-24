@@ -45,7 +45,7 @@ ReactDOM.render(
                   exact
                 />
                 <Route
-                  path='/topics/consumerGroup/:topicName'
+                  path='/topics/consumerGroups/:topicName'
                   component={ConsumerGroupsTopicsView}
                   exact
                 />
