@@ -12,7 +12,7 @@ import {
   FlexItem,
 } from '@patternfly/react-core';
 import {deleteTopic} from '../../../Services/TopicServices'
-import {ApiContext} from 'Contexts';
+import {ConfigContext} from 'Contexts';
 
 export interface IDeleteTopics {
   setDeleteModal: (value: boolean) => void;
@@ -28,12 +28,8 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
     setDeleteModal(false);
   };
 
-  const apiContext = useContext(ApiContext)
+  const config = useContext(ConfigContext)
 
-  let config;
-  if (apiContext.getToken) {
-    config = {accessToken: apiContext.getToken};
-  }
   return (
     <Modal
       variant={ModalVariant.small}
@@ -50,7 +46,7 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
       <br />
       <Flex>
         <FlexItem>
-          <Button variant='danger' onClick={()=> {if (topicName) deleteTopic(topicName, config, apiContext.basePath as string)}}>Delete Topic</Button>
+          <Button variant='danger' onClick={()=> {if (topicName) deleteTopic(topicName, config)}}>Delete Topic</Button>
         </FlexItem>
         <FlexItem>
           <Button variant='link' onClick={onClose}>

@@ -1,6 +1,4 @@
 #!/bin/sh
-# Copyright Strimzi authors.
-# License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
 # ref: https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/
 #
 # Usage example: /bin/sh ./git_push.sh wing328 openapi-pestore-perl "minor update" "gitlab.com"

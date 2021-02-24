@@ -5,7 +5,7 @@
 import {init} from '../i18n';
 import ReactDOM from 'react-dom';
 import React from 'react';
-import {ApiContext} from '../Contexts'
+import {ConfigContext} from '../Contexts'
 import {Topics} from '../Panels/Topics';
 import {HashRouter as Router, Route, Switch} from 'react-router-dom';
 import {Home} from '../Panels/Home';
@@ -15,10 +15,11 @@ import UpdateTopicView from '../Panels/Topics/UpdateView.patternfly';
 import {TopicContextProvider} from 'Contexts/Topic';
 import {ConsumerGroupsView} from '../Panels/ConsumerGroups/ConsumerGroupsView.patternfly';
 import {ConsumerGroupsTopicsView} from '../Panels/ConsumerGroupsByTopic/ConsumerGroupsByTopic';
+import {Configuration} from "../OpenApi";
 
 init(); //Bootstrap i18next support
 ReactDOM.render(
-    <ApiContext.Provider value={{basePath: 'http://localhost:8000/api/managed-services-strimzi-ui/v1/api'}}>
+    <ConfigContext.Provider value={{basePath: 'http://localhost:8000/api/managed-services-strimzi-ui/v1/api', getToken: async () => ""}}>
         <TopicContextProvider>
             <Router>
                 <Switch>
@@ -44,6 +45,6 @@ ReactDOM.render(
                 </Switch>
             </Router>
         </TopicContextProvider>
-    </ApiContext.Provider>,
+    </ConfigContext.Provider>,
     document.getElementById('root')
 );

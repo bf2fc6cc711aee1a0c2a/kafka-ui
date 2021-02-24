@@ -4,9 +4,10 @@
  */
 import React, { FunctionComponent } from 'react';
 import './style.scss';
-import { ApiContext } from '../../Contexts';
+import {ConfigContext, IConfiguration} from '../../Contexts';
 import { PageSection, PageSectionVariants } from '@patternfly/react-core';
 import { CreateTopicWizard } from '../../Elements/Components/CreateTopic/CreateTopicWizard.patternfly';
+import {Configuration} from "../../OpenApi";
 
 export type FederatedCreateTopicProps = {
   getToken: () => Promise<string>;
@@ -27,11 +28,11 @@ const FederatedCreateTopic: FunctionComponent<FederatedCreateTopicProps> = ({
   };
 
   return (
-    <ApiContext.Provider value={{ basePath: apiBasePath, getToken: getToken }}>
+    <ConfigContext.Provider value={{ basePath: apiBasePath, getToken } as IConfiguration}>
       <PageSection variant={PageSectionVariants.light}>
         <CreateTopicWizard setIsCreateTopic={setIsCreateTopic} />
       </PageSection>
-    </ApiContext.Provider>
+    </ConfigContext.Provider>
   );
 };
 

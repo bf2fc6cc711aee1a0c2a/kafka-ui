@@ -10,7 +10,7 @@ import { AdvancedTopic2 } from 'Contexts/Topic';
 import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import { useHistory, useParams } from 'react-router';
 import { getTopicDetail } from 'Services';
-import { ApiContext } from 'Contexts';
+import { ConfigContext } from 'Contexts';
 
 export type TopicDetailRouteParams = {
   topicName: string;
@@ -64,15 +64,10 @@ export const TopicDetailGroup: React.FC = () => {
   const [topicDetail, setTopicDetail] = useState<AdvancedTopic2>(topic);
   const { topicName } = useParams<TopicDetailRouteParams>();
   const history = useHistory();
-  const apiContext = useContext(ApiContext)
-
-  let config;
-  if (apiContext.getToken) {
-    config = {accessToken: apiContext.getToken};
-  }
+  const config = useContext(ConfigContext)
 
   const fetchTopicDetail = async (topicName: string) => {
-    const response = await getTopicDetail(topicName, config, apiContext.basePath as string);
+    const response = await getTopicDetail(topicName, config);
     setTopicDetail(response);
   };
 

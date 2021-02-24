@@ -23,10 +23,10 @@ import { SearchTopics } from './SearchTopics.patternfly';
 import { EmptyTopics } from './EmptyTopics.patternfly';
 import { EmptySearch } from './EmptySearch.patternfly';
 import { getTopics } from 'Services/TopicServices';
-import { TopicList } from 'Entities/Entities.generated';
 import { DeleteTopics } from './DeleteTopicsModal.patternfly';
 import { useHistory } from 'react-router';
-import { ApiContext } from '../../../Contexts';
+import { ConfigContext } from '../../../Contexts';
+import {TopicsList} from "../../../OpenApi";
 
 export interface ITopic {
   name: string;
@@ -42,30 +42,26 @@ export interface ITopicList {
   onCreateTopic: () => void;
 }
 
-export const TopicsList: React.FunctionComponent<ITopicList> = ({
+export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   onCreateTopic,
 }) => {
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(10);
   const [offset, setOffset] = useState(0);
   const [search, setSearch] = useState('');
-  const [topics, setTopics] = useState<TopicList>();
-  const [filteredTopics, setFilteredTopics] = useState<TopicList>();
+  const [topics, setTopics] = useState<TopicsList>();
+  const [filteredTopics, setFilteredTopics] = useState<TopicsList>();
   const [deleteModal, setDeleteModal] = useState(false);
   const history = useHistory();
 
-  const apiContext = useContext(ApiContext)
+  const config = useContext(ConfigContext)
 
-  let config;
-  if (apiContext.getToken) {
-    config = {accessToken: apiContext.getToken};
-  }
   const fetchTopic = async () => {
-    const topicsList = await getTopics(config, apiContext.basePath as string);
+    const topicsList = await getTopics(config);
     debugger;
     if (topicsList) {
-      setTopics(topicsList as TopicList);
-      setFilteredTopics(topicsList as TopicList);
+      setTopics(topicsList);
+      setFilteredTopics(topicsList);
     }
   };
 
@@ -91,7 +87,7 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
     { title: 'Partitions' },
   ];
   const rowData =
-    filteredTopics?.topics.map((topic) => [
+    filteredTopics?.items?.map((topic) => [
       {
         title: (
           <Button
@@ -104,13 +100,6 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
           </Button>
         ),
       },
-
-    filteredTopics?.items.map((topic) => [
-      { title: <a href={`#/topic/${topic?.name}`}>{topic?.name}</a> },
-      topic?.partitions
-        ?.map((p) => p.replicas.length)
-        .reduce((previousValue, currentValue) => previousValue + currentValue),
-      topic?.partitions?.length,
     ]) || [];
 
   useEffect(() => {
@@ -124,10 +113,10 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
         (topicsFiltered) =>
           topicsFiltered?.name && topicsFiltered.name.includes(search)
       );
-      setFilteredTopics((prevState) => ({
+      setFilteredTopics((prevState) => (prevState ? {
         ...prevState,
         items: filterSearch,
-      }));
+      } : undefined) );
     } else {
       setFilteredTopics(topics);
     }

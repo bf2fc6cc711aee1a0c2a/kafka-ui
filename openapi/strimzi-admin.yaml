@@ -58,6 +58,8 @@ paths:
           description: Unable to connect to the Kafka cluster.
       operationId: getTopicsList
       summary: List of topics
+      security:
+        - Bearer: [ ]
       description: >-
         Returns a list of all of the available topics, or the list of topics that meet the users URL
         Query Parameters.
@@ -99,6 +101,8 @@ paths:
           description: Unable to connect to the Kafka cluster.
       operationId: createTopic
       summary: Creates a new topic
+      security:
+        - Bearer: [ ]
       description: Creates a new topic in Kafka.
   '/topics/{topicName}':
     get:
@@ -126,6 +130,8 @@ paths:
           description: Unable to connect to the Kafka cluster.
       operationId: getTopic
       summary: Retrieves the topic with the specified name.
+      security:
+        - Bearer: [ ]
       description: Topic
     delete:
       parameters:
@@ -148,6 +154,8 @@ paths:
           description: Unable to connect to the Kafka cluster.
       operationId: deleteTopic
       summary: Deletes a  topic
+      security:
+        - Bearer: [ ]
       description: Deletes the topic with the specified name.
     patch:
       requestBody:
@@ -182,6 +190,8 @@ paths:
           description: Unable to connect to the Kafka cluster.
       operationId: updateTopic
       summary: Updates the topic with the specified name.
+      security:
+        - Bearer: [ ]
       description: updates the topic with the new data.
     parameters:
       - name: topicName
@@ -191,6 +201,11 @@ paths:
         in: path
         required: true
 components:
+  securitySchemes:
+    Bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
   schemas:
     Topic:
       title: Root Type for NewTopicInput
@@ -290,7 +305,7 @@ components:
         - count
       type: object
       properties:
-        topics:
+        items:
           description: List of topics
           type: array
           items:
@@ -305,7 +320,7 @@ components:
           description: Total number of topics
           type: integer
       example:
-        topics:
+        items:
           - name: Pets
             config:
               - key: min.insync.replicas

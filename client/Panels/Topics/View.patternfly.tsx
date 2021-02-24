@@ -6,7 +6,7 @@ import React, { FunctionComponent } from 'react';
 import { useHistory } from 'react-router';
 import './style.scss';
 import '@patternfly/react-core/dist/styles/base.css';
-import { TopicsList } from '../../Elements/Components/Topics/TopicsList.patternfly';
+import { TopicsListComponent } from '../../Elements/Components/Topics/TopicsList.patternfly';
 
 const Topics: FunctionComponent = () => {
   const history = useHistory();
@@ -15,7 +15,7 @@ const Topics: FunctionComponent = () => {
     history.push('/topics/create');
   };
 
-  return <TopicsList onCreateTopic={onCreateTopic} />;
+  return <TopicsListComponent onCreateTopic={onCreateTopic} />;
 };
 
 export { Topics };
