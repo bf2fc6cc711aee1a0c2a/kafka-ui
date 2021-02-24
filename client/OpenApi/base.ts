@@ -21,7 +21,7 @@ import { Configuration } from './configuration';
 // @ts-ignore
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 
-export const BASE_PATH = 'https://api.openshift.com/api/managed-services-strimzi-ui/v1/api'.replace(
+export const BASE_PATH = 'http://admin-route-sknot-kafka.apps.devexpcl.2gan.s1.devshift.org/rest'.replace(
   /\/+$/,
   ''
 );

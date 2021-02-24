@@ -2,7 +2,7 @@
  * Copyright Strimzi authors.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   Modal,
   ModalVariant,
@@ -11,17 +11,29 @@ import {
   Text,
   FlexItem,
 } from '@patternfly/react-core';
+import {deleteTopic} from '../../../Services/TopicServices'
+import {ApiContext} from 'Contexts';
+
 export interface IDeleteTopics {
   setDeleteModal: (value: boolean) => void;
   deleteModal: boolean;
+  topicName?: string;
 }
 export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
   setDeleteModal,
   deleteModal,
+  topicName
 }) => {
   const onClose = () => {
     setDeleteModal(false);
   };
+
+  const apiContext = useContext(ApiContext)
+
+  let config;
+  if (apiContext.getToken) {
+    config = {accessToken: apiContext.getToken};
+  }
   return (
     <Modal
       variant={ModalVariant.small}
@@ -38,7 +50,7 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
       <br />
       <Flex>
         <FlexItem>
-          <Button variant='danger'>Delete Topic</Button>
+          <Button variant='danger' onClick={()=> {if (topicName) deleteTopic(topicName, config, apiContext.basePath as string)}}>Delete Topic</Button>
         </FlexItem>
         <FlexItem>
           <Button variant='link' onClick={onClose}>

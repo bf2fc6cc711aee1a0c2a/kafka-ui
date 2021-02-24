@@ -158,7 +158,7 @@ export interface TopicsList {
    * @type {Array<Topic>}
    * @memberof TopicsList
    */
-  topics: Array<Topic>;
+  items: Array<Topic>;
   /**
    * The page offset
    * @type {number}

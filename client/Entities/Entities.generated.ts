@@ -3,7 +3,6 @@
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
 /* eslint-disable */
-import { gql } from '@apollo/client';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
@@ -89,7 +88,7 @@ export enum SortDirectionEnum {
 }
 
 export type TopicList = {
-  topics: Array<Maybe<Topic>>;
+  items: Array<Maybe<Topic>>;
   offset?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
   count?: Maybe<Scalars['Int']>;

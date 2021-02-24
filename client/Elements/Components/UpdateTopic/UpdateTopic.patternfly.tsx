@@ -3,7 +3,7 @@
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Alert,
   AlertActionCloseButton,
@@ -21,14 +21,22 @@ import { useParams } from 'react-router';
 import { getTopic, updateTopicModel } from 'Services/index';
 import { Topic, TopicSettings } from 'OpenApi/api';
 import { AdvancedTopic, TopicContext } from 'Contexts/Topic';
+import { ApiContext } from 'Contexts'
 
 export const UpdateTopic: React.FC = () => {
   const { store, updateBulkStore } = React.useContext(TopicContext);
   const [alertVisible, setAlertVisible] = useState(false);
   const { name } = useParams<any>();
 
+  const apiContext = useContext(ApiContext)
+
+  let config;
+  if (apiContext.getToken) {
+    config = {accessToken: apiContext.getToken};
+  }
+
   const fetchTopic = async (topicName) => {
-    const topic = await getTopic(topicName);
+    const topic = await getTopic(topicName, config, apiContext.basePath as string);
     if (topic) saveToStore(topic);
   };
 
@@ -73,7 +81,9 @@ export const UpdateTopic: React.FC = () => {
 
     const updateResponse = await updateTopicModel(
       store.topicName,
-      topicSettings
+      topicSettings,
+      config,
+      apiContext.basePath as string
     );
     console.log('updateResponse', updateResponse);
     setAlertVisible(true);

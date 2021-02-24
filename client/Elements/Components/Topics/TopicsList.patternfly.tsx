@@ -2,7 +2,7 @@
  * Copyright Strimzi authors.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Button,
   Card,
@@ -26,6 +26,7 @@ import { getTopics } from 'Services/TopicServices';
 import { TopicList } from 'Entities/Entities.generated';
 import { DeleteTopics } from './DeleteTopicsModal.patternfly';
 import { useHistory } from 'react-router';
+import { ApiContext } from '../../../Contexts';
 
 export interface ITopic {
   name: string;
@@ -53,8 +54,15 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
   const [deleteModal, setDeleteModal] = useState(false);
   const history = useHistory();
 
+  const apiContext = useContext(ApiContext)
+
+  let config;
+  if (apiContext.getToken) {
+    config = {accessToken: apiContext.getToken};
+  }
   const fetchTopic = async () => {
-    const topicsList = await getTopics();
+    const topicsList = await getTopics(config, apiContext.basePath as string);
+    debugger;
     if (topicsList) {
       setTopics(topicsList as TopicList);
       setFilteredTopics(topicsList as TopicList);
@@ -97,6 +105,8 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
         ),
       },
 
+    filteredTopics?.items.map((topic) => [
+      { title: <a href={`#/topic/${topic?.name}`}>{topic?.name}</a> },
       topic?.partitions
         ?.map((p) => p.replicas.length)
         .reduce((previousValue, currentValue) => previousValue + currentValue),
@@ -107,16 +117,16 @@ export const TopicsList: React.FunctionComponent<ITopicList> = ({
     if (
       search &&
       search.trim() != '' &&
-      topics?.topics &&
-      topics.topics.length > 0
+      topics?.items &&
+      topics.items.length > 0
     ) {
-      const filterSearch = topics?.topics.filter(
+      const filterSearch = topics?.items.filter(
         (topicsFiltered) =>
           topicsFiltered?.name && topicsFiltered.name.includes(search)
       );
       setFilteredTopics((prevState) => ({
         ...prevState,
-        topics: filterSearch,
+        items: filterSearch,
       }));
     } else {
       setFilteredTopics(topics);
