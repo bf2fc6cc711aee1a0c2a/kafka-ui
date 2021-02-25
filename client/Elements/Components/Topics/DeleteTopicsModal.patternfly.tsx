@@ -49,7 +49,7 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
           <Button
             variant='danger'
             onClick={() => {
-              if (topicName) deleteTopic(topicName, config);
+              if (topicName) deleteTopic(topicName, config).then(() => onClose());
             }}
           >
             Delete Topic

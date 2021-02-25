@@ -54,6 +54,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   const [topics, setTopics] = useState<TopicsList>();
   const [filteredTopics, setFilteredTopics] = useState<TopicsList>();
   const [deleteModal, setDeleteModal] = useState(false);
+  const [topicName, setTopicName] = useState<string | undefined>();
   const history = useHistory();
 
   const config = useContext(ConfigContext);
@@ -70,7 +71,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   useEffect(() => {
     setLoading(true);
     fetchTopic();
-  }, []);
+  }, [deleteModal]);
 
   const onSetPage = (_event, pageNumber: number) => {
     setPage(pageNumber);
@@ -103,6 +104,8 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
           </Button>
         ),
       },
+      topic.partitions?.map(p => p.replicas? p.replicas.length : 0).reduce(((previousValue, currentValue) => previousValue + currentValue), 0),
+      topic.partitions?.length
     ]) || [];
 
   useEffect(() => {
@@ -132,12 +135,15 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   const onClear = () => {
     setFilteredTopics(topics);
   };
-  const onDelete = () => {
+  const onDelete = (rowId: any) => {
+    if (filteredTopics?.items) {
+      setTopicName(filteredTopics.items[rowId].name);
+    }
     setDeleteModal(true);
   };
 
   const actions = [
-    { title: 'Delete', onClick: () => onDelete() },
+    { title: 'Delete', onClick: (_, rowId) => onDelete(rowId) },
     { title: 'Edit' },
   ];
 
@@ -152,6 +158,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
       </Title>
       {deleteModal && (
         <DeleteTopics
+            topicName={topicName}
           setDeleteModal={setDeleteModal}
           deleteModal={deleteModal}
         />
