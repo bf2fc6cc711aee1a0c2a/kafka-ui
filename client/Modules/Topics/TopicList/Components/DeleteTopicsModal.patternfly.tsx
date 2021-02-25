@@ -11,7 +11,7 @@ import {
   Text,
   FlexItem,
 } from '@patternfly/react-core';
-import { deleteTopic } from '../../../Services/TopicServices';
+import { deleteTopic } from 'Services/TopicServices';
 import { ConfigContext } from 'Contexts';
 
 export interface IDeleteTopics {

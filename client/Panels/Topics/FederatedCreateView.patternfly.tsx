@@ -6,7 +6,6 @@ import React, { FunctionComponent } from 'react';
 import './style.scss';
 import { ConfigContext, IConfiguration } from '../../Contexts';
 import { PageSection, PageSectionVariants } from '@patternfly/react-core';
-import { setContext } from '@apollo/client/link/context';
 import { CreateTopicWizard } from '../../Modules/Topics/CreateTopic/Components/CreateTopicWizard.patternfly';
 
 export type FederatedCreateTopicProps = {
