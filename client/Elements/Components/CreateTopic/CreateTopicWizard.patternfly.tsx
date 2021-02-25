@@ -3,7 +3,7 @@
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
 
-import React, { useState } from 'react';
+import React, {useContext, useState} from 'react';
 import {
   Alert,
   AlertActionCloseButton,
@@ -18,15 +18,17 @@ import {
   Wizard,
   WizardStep,
 } from '@patternfly/react-core';
-import { StepTopicName } from './StepTopicName.patternfly';
-import { StepPartitions } from './StepPartitions.patternfly';
-import { StepMessageRetention } from './StepMessageRetention.patternfly';
-import { StepReplicas } from './StepReplicas.patternfly';
+import {StepTopicName} from './StepTopicName.patternfly';
+import {StepPartitions} from './StepPartitions.patternfly';
+import {StepMessageRetention} from './StepMessageRetention.patternfly';
+import {StepReplicas} from './StepReplicas.patternfly';
 import './CreateTopicWizard.patternfly.css';
-import { TopicAdvanceConfig } from './TopicAdvanceConfig.patternfly';
-import { DefaultApi, NewTopicInput } from 'OpenApi/api';
-import { TopicContext } from 'Contexts/Topic';
-import { convertUnits, formatTopicRequest } from './utils';
+import {TopicAdvanceConfig} from './TopicAdvanceConfig.patternfly';
+import {DefaultApi, NewTopicInput} from 'OpenApi/api';
+import {TopicContext} from 'Contexts/Topic';
+import {convertUnits, formatTopicRequest} from './utils';
+import {ConfigContext} from "../../../Contexts";
+import {Configuration} from "../../../OpenApi";
 
 interface ICreateTopicWizard {
   setIsCreateTopic?: (value: boolean) => void;
@@ -35,6 +37,9 @@ interface ICreateTopicWizard {
 export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   setIsCreateTopic,
 }) => {
+
+  const config = useContext(ConfigContext);
+
   const [alertVisible, setAlertVisible] = useState(false);
   const [isSwitchChecked, setIsSwitchChecked] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -89,7 +94,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       };
 
 
-    new DefaultApi().createTopic(topic).then((res) => {
+    new DefaultApi(new Configuration({basePath: config?.basePath, accessToken: config?.getToken})).createTopic(topic).then((res) => {
       if (res.status === 200) {
         setAlertVisible(true);
       }
