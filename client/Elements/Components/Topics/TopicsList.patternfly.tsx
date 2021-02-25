@@ -27,6 +27,7 @@ import { DeleteTopics } from './DeleteTopicsModal.patternfly';
 import { useHistory } from 'react-router';
 import { ConfigContext } from '../../../Contexts';
 import { TopicsList } from '../../../OpenApi';
+import {Loading} from "../Loading/Loading";
 
 export interface ITopic {
   name: string;
@@ -45,6 +46,7 @@ export interface ITopicList {
 export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   onCreateTopic,
 }) => {
+  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(10);
   const [offset, setOffset] = useState(0);
@@ -62,9 +64,11 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
       setTopics(topicsList);
       setFilteredTopics(topicsList);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
+    setLoading(true);
     fetchTopic();
   }, []);
 
@@ -136,6 +140,10 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
     { title: 'Delete', onClick: () => onDelete() },
     { title: 'Edit' },
   ];
+
+  if (loading) {
+    return (<Loading />)
+  }
 
   return (
     <>
