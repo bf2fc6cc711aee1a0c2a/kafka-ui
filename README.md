@@ -1,12 +1,10 @@
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Twitter Follow](https://img.shields.io/twitter/follow/strimziio.svg?style=social&label=Follow&style=for-the-badge)](https://twitter.com/strimziio)
 
-# Strimzi UI
+# Kafka UI
 
-This repository contains the Strimzi UI and its implementation.
-Strimzi UI provides a way for managing Strimzi and Kafka clusters (+ other components) deployed by it using a graphical user interface.
+Kafka UI provides a way for managing Kafka topics, and clusters using a graphical user interface.
 
-This UI is currently not in a state where it can be used. Is it still early on in it's development but we hope to have something usable very soon! If you're interested in what we're working on, please [view our project board](https://github.com/orgs/strimzi/projects/2). If you're interested in contributing, please [view our contribution guidelines]('./docs/Condribution.md).
 
 ## Getting started
 
@@ -35,18 +33,6 @@ If you run into any issues while working in this repo, please check out [the tro
 - `npm run build` - builds the UI
 - `npm run clean` - deletes the build/generated content directories
 - `npm run lint` - lints the codebase. See [`Linting`](./docs/Linting.md) for the individual linting steps
-- `npm run storybook` - runs [Storybook](./docs/Architecture.md#storybook) for the UI components.
-
-## Implementation documentation
-
-Further details around how this UI is implemented can be found below:
-
-- [Architecture](./docs/Architecture.md)
-- [Build](./docs/Build.md)
-- [Linting](./docs/Linting.md)
-- [Test](./docs/Test.md)
-- [Contribution](./docs/Contribution.md)
-- [Coding Standards](./docs/Coding.md)
 
 ## Troubleshooting
 
