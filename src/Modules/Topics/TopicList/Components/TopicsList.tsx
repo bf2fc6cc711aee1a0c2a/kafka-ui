@@ -28,6 +28,7 @@ import { TopicsList } from '../../../../OpenApi';
 import { Loading } from '../../../../Components/Loading/Loading';
 import { AlertContext } from '../../../../Contexts/Alert';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import './TopicList.css';
 
@@ -65,6 +66,8 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   const [filteredTopics, setFilteredTopics] = useState<TopicsList>();
   const [deleteModal, setDeleteModal] = useState(false);
   const [topicName, setTopicName] = useState<string | undefined>();
+
+  const { t } = useTranslation();
 
   const { addAlert } = useContext(AlertContext);
 
@@ -105,8 +108,8 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   };
 
   const tableColumns = [
-    { title: 'Name' },
-    { title: 'Partitions', transforms: [sortable] },
+    { title: t('common.name') }, 
+    { title: t('common.partitions'), transforms: [sortable] },
     { title: 'Retention Time', transforms: [sortable] },
     { title: 'Retention Size', transforms: [sortable] },
   ];
@@ -239,12 +242,12 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
 
   const actions = [
     {
-      title: 'Delete',
+      title: t('common.delete'),
       ['data-testid']: 'tableTopics-actionDelete',
       onClick: (_, rowId) => onDelete(rowId),
     },
     {
-      title: 'Edit',
+      title: t('common.edit'),
       ['data-testid']: 'tableTopics-actionEdit',
       onClick: (_, rowId) => onEdit(rowId),
     },
@@ -265,46 +268,46 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
         />
       )}
       <Card className='kafka-ui-m-full-height'>
-        {rowData.length < 1 && search.length < 1 ? (
-          <EmptyTopics onCreateTopic={onCreateTopic} />
-        ) : (
-          <>
-            <Toolbar>
-              <ToolbarContent>
-                <ToolbarItem className='pf-c-toolbar-item--search'>
-                  <SearchTopics
-                    onClear={onClear}
-                    search={search}
-                    setSearch={setSearch}
-                  />
-                </ToolbarItem>
-                <ToolbarItem>
-                  <Button
-                    id='topic-list-create-topic-button'
-                    className='topics-per-page'
-                    data-testid='tabTopics-actionCreate'
-                    onClick={() => {
-                      onCreateTopic();
-                    }}
-                  >
-                    Create topic
-                  </Button>
-                </ToolbarItem>
-                <ToolbarItem variant='pagination'>
-                  <Pagination
-                    itemCount={rowData.length}
-                    perPage={perPage}
-                    page={page}
-                    onSetPage={onSetPage}
-                    widgetId='topic-list-pagination-top'
-                    onPerPageSelect={onPerPageSelect}
-                  />
-                </ToolbarItem>
-              </ToolbarContent>
-            </Toolbar>
+      {rowData.length < 1 && search.length < 1 ? (
+        <EmptyTopics onCreateTopic={onCreateTopic} />
+      ) : (
+        <Card>
+          <Toolbar>
+            <ToolbarContent>
+              <ToolbarItem className='pf-c-toolbar-item--search'>
+                <SearchTopics
+                  onClear={onClear}
+                  search={search}
+                  setSearch={setSearch}
+                />
+              </ToolbarItem>
+              <ToolbarItem>
+                <Button
+                  id='topic-list-create-topic-button'
+                  className='topics-per-page'
+                  data-testid='tabTopics-actionCreate'
+                  onClick={() => {
+                    onCreateTopic();
+                  }}
+                >
+                  {t('createTopic.createTopic')}
+                </Button>
+              </ToolbarItem>
+              <ToolbarItem variant='pagination'>
+                <Pagination
+                  itemCount={rowData.length}
+                  perPage={perPage}
+                  page={page}
+                  onSetPage={onSetPage}
+                  widgetId='topic-list-pagination-top'
+                  onPerPageSelect={onPerPageSelect}
+                />
+              </ToolbarItem>
+            </ToolbarContent>
+          </Toolbar>
 
             <Table
-              aria-label='Compact Table'
+            aria-label={t('topicList.topicListTable')}
               variant={TableVariant.compact}
               cells={tableColumns}
               rows={

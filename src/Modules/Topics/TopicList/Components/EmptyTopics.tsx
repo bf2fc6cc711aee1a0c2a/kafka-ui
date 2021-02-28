@@ -8,6 +8,7 @@ import {
   Title,
 } from '@patternfly/react-core';
 import PlusIcon from '@patternfly/react-icons/dist/js/icons/plus-circle-icon';
+import { useTranslation } from 'react-i18next';
 
 export interface IEmptyTopic {
   onCreateTopic?: () => void;
@@ -16,24 +17,27 @@ export interface IEmptyTopic {
 export const EmptyTopics: React.FunctionComponent<IEmptyTopic> = ({
   onCreateTopic,
 }) => {
+
+  const { t } = useTranslation();
+  
   return (
     <Bullseye>
-      <EmptyState>
-        <EmptyStateIcon icon={PlusIcon} />
-        <Title headingLevel='h5' size='lg'>
-          You don&apos;t have any topics yet
-        </Title>
-        <EmptyStateBody>
-          Create a topic by clicking the button below to get started
-        </EmptyStateBody>
-        <Button
-          variant='primary'
-          className='topics-empty-page'
-          onClick={onCreateTopic}
-        >
-          Create Topic
-        </Button>
-      </EmptyState>
+    <EmptyState>
+      <EmptyStateIcon icon={PlusIcon} />
+      <Title headingLevel='h5' size='lg'>
+        {t('topicList.emptyTopicHead')}
+      </Title>
+      <EmptyStateBody>
+        {t('topicList.emptyTopicBody')}
+      </EmptyStateBody>
+      <Button
+        variant='primary'
+        className='topics-empty-page'
+        onClick={onCreateTopic}
+      >
+        {t('createTopic.createTopic')}
+      </Button>
+    </EmptyState>
     </Bullseye>
   );
 };
