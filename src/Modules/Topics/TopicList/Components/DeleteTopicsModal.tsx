@@ -10,6 +10,8 @@ import {
 import { deleteTopic } from '../../../../Services/TopicServices';
 import { ConfigContext } from '../../../../Contexts';
 import { AlertContext } from '../../../../Contexts/Alert/Context';
+import { useTranslation } from 'react-i18next';
+
 export interface IDeleteTopics {
   setDeleteModal: (value: boolean) => void;
   deleteModal: boolean;
@@ -27,6 +29,8 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
   const onClose = () => {
     setDeleteModal(false);
   };
+
+  const { t } = useTranslation();
 
   const onDelete = async () => {
     try {
@@ -49,8 +53,8 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
     <Modal
       variant={ModalVariant.small}
       isOpen={deleteModal}
-      aria-label='Delete topic?'
-      title='Delete topic?'
+      aria-label={t('topicList.deleteModalTitle')}
+      title={t('topicList.deleteModalTitle')}
       titleIconVariant='warning'
       showClose={true}
       aria-describedby='modal-message'
@@ -63,10 +67,10 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
           data-testid='modalDeleteTopic-buttonDelete'
           isDisabled={verificationText.toUpperCase() != 'DELETE'}
         >
-          Delete
+          {t('common.delete')}
         </Button>,
         <Button variant='link' onClick={onClose} key={2}>
-          Cancel
+          {t('common.cancel')}
         </Button>,
       ]}
     >

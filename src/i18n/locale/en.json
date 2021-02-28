@@ -8,12 +8,32 @@
     "customContent": "This is <0>Something</0>"
   },
   "common": {
+    "delete": "Delete",
+    "edit": "Edit",
+    "name": "Name",
+    "replicas": "Replicas",
+    "partitions": "Partitions",
+    "search": "Search",
+    "cancel": "Cancel",
+    "deleteTopic": "Delete Topic",
     "errorBoundaryTitle": "Something went wrong",
     "unexpectedError": "There was a problem processing the request. Please try again.",
     "returnToHome": "Return to home"
   },
+  "topicList": {
+    "topicListTable": "Topic List Table",
+    "topicSearchInput": "Topic search input",
+    "emptyTopicHead": "You don't have any topics yet",
+    "emptyTopicBody": "Create a topic by clicking the button below to get started",
+    "emptySearchHead": "No results found",
+    "emptySearchBody": "No result match the filter criteria. Remove filter or clear all filters to show results",
+    "deleteModalAriaLabel": "Delete topic modal",
+    "deleteModalTitle": "Delete Topic  ?",
+    "deleteModalText": "The Topic will be deleted"
+  },
   "createTopic": {
     "enterName": "Enter topic name",
+    "createTopic": "Create topic",
     "topicNameLabelHead": "Topic name",
     "topicNameLabelBody": "Topic name is the unique identifier for this topic within this cluster. You need this to set up your producers and consumers, so make it something memorable.",
     "partitionsLabelHead": "Partitions",
