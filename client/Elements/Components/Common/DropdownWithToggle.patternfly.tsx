@@ -18,7 +18,7 @@ interface IDropdownWithToggleProps {
 }
 
 export interface IDropdownOption {
-  value: string;
+  value?: string;
   label?: string;
   key?: string;
   isDisabled?: boolean;

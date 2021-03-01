@@ -41,8 +41,8 @@ export const UpdateTopic: React.FC = () => {
 
   const saveToStore = (topic: Topic) => {
     const advanceConfig: AdvancedTopic = store;
-    advanceConfig.partitions = topic?.partitions?.length || 0;
-    advanceConfig.topicName = topic.name || '';
+    advanceConfig.numPartitions = topic?.partitions?.length.toString() || "0";
+    advanceConfig.name = topic.name || '';
     topic.config?.forEach((configItem) => {
       advanceConfig[configItem.key || ''] = configItem.value || '';
     });
@@ -64,18 +64,18 @@ export const UpdateTopic: React.FC = () => {
 
   const saveTopic = async () => {
     const topicSettings: TopicSettings = {
-      numPartitions: store.partitions,
-      replicationFactor: store.replicas,
+      numPartitions: Number(store.numPartitions),
+      replicationFactor: Number(store.replicationFactor),
       config: [
         {
           key: 'min.insync.replicas',
-          value: store.minInSyncReplicas.toString(),
+          value: store['min.insync.replicas'],
         },
       ],
     };
 
     const updateResponse = await updateTopicModel(
-      store.topicName,
+      store.name,
       topicSettings,
       config
     );

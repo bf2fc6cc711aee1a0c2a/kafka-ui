@@ -15,7 +15,7 @@ import {
 import React from 'react';
 import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWithPopover.patternfly';
 import { TopicContext } from 'Contexts/Topic';
-import { kebabToCamel } from './utils';
+import { kebabToDotSeparated } from './utils';
 import { useTranslation } from 'react-i18next';
 
 export const ReplicationSection: React.FC = () => {
@@ -28,12 +28,12 @@ export const ReplicationSection: React.FC = () => {
     event: React.FormEvent<HTMLInputElement>
   ) => {
     const { name: fieldName } = event.currentTarget;
-    updateStore(kebabToCamel(fieldName), value);
+    updateStore(kebabToDotSeparated(fieldName), value);
   };
 
   const handleCheckboxSelect = (checked: boolean, event) => {
     const { name: fieldName } = event.currentTarget;
-    updateStore(kebabToCamel(fieldName), checked);
+    updateStore(kebabToDotSeparated(fieldName), checked);
   };
 
   return (
@@ -55,12 +55,12 @@ export const ReplicationSection: React.FC = () => {
           buttonAriaLabel='More info for leader election field'
         >
           <Checkbox
-            isChecked={store.uncleanLeaderElection}
+            isChecked={Boolean(store['unclean.leader.election.enable'])}
             label='Allow unclean leader election'
             aria-label='uncontrolled checkbox example'
             id='leader-election'
             onChange={handleCheckboxSelect}
-            name='unclean-leader-election'
+            name='unclean-leader-election-enable'
           />
         </FormGroupWithPopover>
         <FormGroupWithPopover
@@ -72,11 +72,11 @@ export const ReplicationSection: React.FC = () => {
         >
           <InputGroup>
             <TextInput
-              name='follower-replicas'
+              name='follower-replication-throttled-replicas'
               type='text'
               aria-label='Text'
               onChange={handleTextInputChange}
-              value={store.followerReplicas}
+              value={store['follower.replication.throttled.replicas']}
             />
           </InputGroup>
         </FormGroupWithPopover>
@@ -89,11 +89,11 @@ export const ReplicationSection: React.FC = () => {
         >
           <InputGroup>
             <TextInput
-              name='leader-replicas'
+              name='leader-replication-throttled-replicas'
               type='text'
               aria-label='Text'
               onChange={handleTextInputChange}
-              value={store.leaderReplicas}
+              value={store['leader.replication.throttled.replicas']}
             />
           </InputGroup>
         </FormGroupWithPopover>

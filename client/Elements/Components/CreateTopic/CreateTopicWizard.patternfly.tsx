@@ -25,6 +25,8 @@ import { StepReplicas } from './StepReplicas.patternfly';
 import './CreateTopicWizard.patternfly.css';
 import { TopicAdvanceConfig } from './TopicAdvanceConfig.patternfly';
 import { DefaultApi, NewTopicInput } from 'OpenApi/api';
+import { TopicContext } from 'Contexts/Topic';
+import { convertUnits, formatTopicRequest } from './utils';
 
 interface ICreateTopicWizard {
   setIsCreateTopic?: (value: boolean) => void;
@@ -47,6 +49,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     minInSyncReplicaTouchspinValue,
     setMinInSyncReplicaTouchspinValue,
   ] = useState(1);
+  const { store } = React.useContext(TopicContext);
 
   const mainBreadcrumbs = (
     <Breadcrumb>
@@ -74,13 +77,19 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
 
   const saveTopic = () => {
     //Object may change based on schema
-    const topic: NewTopicInput = {
-      name: topicNameInput,
-      settings: {
-        numPartitions: partitionTouchspinValue,
-        replicationFactor: replicationFactorTouchspinValue,
-      },
-    };
+
+    let topic: NewTopicInput;
+
+    topic = isSwitchChecked ?
+      formatTopicRequest(convertUnits(store))
+      : {
+        name: topicNameInput,
+        settings: {
+          numPartitions: partitionTouchspinValue,
+          replicationFactor: replicationFactorTouchspinValue,
+        },
+      };
+
 
     new DefaultApi().createTopic(topic).then((res) => {
       if (res.status === 200) {

@@ -6,7 +6,7 @@
 import { TextContent, Text, Form, TextVariants } from '@patternfly/react-core';
 import React from 'react';
 import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWithPopover.patternfly';
-import { kebabToCamel } from './utils';
+import { kebabToDotSeparated } from './utils';
 import { SizeTimeFormGroup } from '../Common/SizeTimeFormGroup/SizeTimeFormGroup.patternfly';
 import { TopicContext } from 'Contexts/Topic';
 import { useTranslation } from 'react-i18next';
@@ -20,24 +20,24 @@ export const IndexSection: React.FC = () => {
     event: React.FormEvent<HTMLInputElement>
   ) => {
     const { name: fieldName, value } = event.currentTarget;
-    updateStore(kebabToCamel(fieldName), value);
+    updateStore(kebabToDotSeparated(fieldName), Number(value));
   };
 
   const handleTouchSpinPlus = (event) => {
     const { name } = event.currentTarget;
-    const fieldName = kebabToCamel(name);
-    updateStore(fieldName, store[fieldName] + 1);
+    const fieldName = kebabToDotSeparated(name);
+    updateStore(fieldName, Number(store[fieldName]) + 1);
   };
 
   const handleTouchSpinMinus = (event) => {
     const { name } = event.currentTarget;
-    const fieldName = kebabToCamel(name);
-    updateStore(fieldName, store[fieldName] - 1);
+    const fieldName = kebabToDotSeparated(name);
+    updateStore(fieldName, Number(store[fieldName]) - 1);
   };
 
   const onDropdownChange = (value: string, event) => {
     const { name: fieldName } = event.target;
-    updateStore(kebabToCamel(fieldName), value);
+    updateStore(kebabToDotSeparated(fieldName), value);
   };
 
   return (
@@ -61,19 +61,19 @@ export const IndexSection: React.FC = () => {
         >
           <SizeTimeFormGroup
             id='index-interval-size'
-            inputName='index-interval-size'
+            inputName='index-interval-bytes'
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
             onMinus={handleTouchSpinMinus}
-            value={store.indexIntervalSize}
-            plusBtnProps={{ name: 'index-interval-size' }}
-            minusBtnProps={{ name: 'index-interval-size' }}
+            value={Number(store['index.interval.bytes'])}
+            plusBtnProps={{ name: 'index-interval-bytes' }}
+            minusBtnProps={{ name: 'index-interval-bytes' }}
             toggleId='index-interval-unit-dropdowntoggle'
-            name='index-interval-unit'
+            name='index-interval-bytes-unit'
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
             type='memory'
-            dropdownValue={store.indexIntervalUnit}
+            dropdownValue={store['index.interval.bytes.unit']}
           />
         </FormGroupWithPopover>
         <FormGroupWithPopover
@@ -85,19 +85,19 @@ export const IndexSection: React.FC = () => {
         >
           <SizeTimeFormGroup
             id='segment-index-size'
-            inputName='segment-index-size'
+            inputName='segment-index-bytes'
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
             onMinus={handleTouchSpinMinus}
-            value={store.segmentIndexSize}
-            plusBtnProps={{ name: 'segment-index-size' }}
-            minusBtnProps={{ name: 'segment-index-size' }}
+            value={Number(store['segment.index.bytes'])}
+            plusBtnProps={{ name: 'segment-index-bytes' }}
+            minusBtnProps={{ name: 'segment-index-bytes' }}
             toggleId='segment-index-unit-dropdowntoggle'
-            name='segment-index-unit'
+            name='segment-index-bytes-unit'
             ariaLabel='select duration from dropdown'
             onSelectOption={onDropdownChange}
             type='memory'
-            dropdownValue={store.segmentIndexUnit}
+            dropdownValue={store['segment.index.bytes.unit']}
           />
         </FormGroupWithPopover>
       </Form>

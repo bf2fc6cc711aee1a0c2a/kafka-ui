@@ -2,8 +2,9 @@
  * Copyright Strimzi authors.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
  */
+
 import { AxiosResponse } from 'axios';
-import { AdvancedTopic2 } from 'Contexts/Topic';
+import { AdvancedTopic } from '../Contexts/Topic';
 import { DefaultApi, Topic, TopicSettings, TopicsList } from 'OpenApi/api';
 import { Configuration } from 'OpenApi';
 import { IConfiguration } from '../Contexts';
@@ -26,7 +27,7 @@ export const getTopics = async (
 export const getTopicDetail = async (
   topicName: string,
   config: IConfiguration | undefined
-): Promise<AdvancedTopic2> => {
+): Promise<AdvancedTopic> => {
   const accessToken = await config?.getToken();
 
   const api = new DefaultApi(
@@ -40,7 +41,7 @@ export const getTopicDetail = async (
   return convertTopicResponse(data);
 };
 
-const convertTopicResponse = (topic: Topic): AdvancedTopic2 => {
+const convertTopicResponse = (topic: Topic): AdvancedTopic => {
   const topicObj: any = {};
 
   topic.config?.forEach((config) => {

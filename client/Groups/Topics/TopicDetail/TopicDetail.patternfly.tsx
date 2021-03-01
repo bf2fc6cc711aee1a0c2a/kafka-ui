@@ -6,7 +6,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { TopicDetailHead } from 'Elements/Components/TopicDetailView/TopicDetailHead.patternfly';
 import { TopicDetailView } from 'Elements/Components/TopicDetailView/TopicDetailView.patternfly';
-import { AdvancedTopic2 } from 'Contexts/Topic';
+import { AdvancedTopic } from 'Contexts/Topic';
 import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import { useHistory, useParams } from 'react-router';
 import { getTopicDetail } from 'Services';
@@ -17,51 +17,51 @@ export type TopicDetailRouteParams = {
 };
 
 // TODO: Remove this mock, fetch it from server.
-const topic: AdvancedTopic2 = {
+const topic: AdvancedTopic = {
   name: 'SampleTopic2345',
   numPartitions: '52',
   replicationFactor: '35',
   'min.insync.replicas': '78',
   'retention.ms': '78',
-  retentionTimeUnit: 'days',
+  'retention.ms.unit': 'days',
   'max.message.bytes': '50',
-  messageSizeUnit: 'bytes',
+  'max.message.bytes.unit': 'bytes',
   'message.timestamp.type': 'CreateTime',
   'message.timestamp.difference.max.ms': '4',
-  timestampDiffUnit: 'milliseconds',
+  'message.timestamp.difference.max.ms.unit': 'milliseconds',
   'compression.type': 'Producer',
   'log.cleanup.policy': 'Delete',
   'log.retention.bytes': '-1',
-  retentionUnit: 'byte',
+  'log.retention.bytes.unit': 'bytes',
   'log.segment.bytes': '78',
-  segmentUnit: 'bytes',
+  'log.segment.bytes.unit': 'bytes',
   'unclean.leader.election.enable': 'false',
   'follower.replication.throttled.replicas': '',
   'leader.replication.throttled.replicas': '',
   'delete.retention.ms': '789',
-  deleteRetentionUnit: 'milliseconds',
+  'delete.retention.ms.unit': 'milliseconds',
   'min.cleanable.dirty.ratio': '4',
   'min.compaction.lag.ms': '58',
-  minLagUnit: 'milliseconds',
+  'min.compaction.lag.ms.unit': 'milliseconds',
   'segment.ms': '6048000',
-  segmentTimeUnit: 'milliseconds',
+  'segment.ms.unit': 'milliseconds',
   'segment.jitter.ms': '0',
-  jitterTimeUnit: 'milliseconds',
+  'segment.jitter.ms.unit': 'milliseconds',
   'file.delete.delay.ms': '6000',
-  deleteDelayUnit: 'milliseconds',
+  'file.delete.delay.ms.unit': 'milliseconds',
   preallocate: 'true',
   'index.interval.bytes': '4096',
-  indexIntervalUnit: 'bytes',
+  'index.interval.bytes.unit': 'bytes',
   'segment.index.bytes': '10847560',
-  segmentIndexUnit: 'bytes',
+  'segment.index.bytes.unit': 'bytes',
   'flush.messages': '783945',
-  intervalMessagesUnit: 'milliseconds',
+  'flush.messages.unit': 'milliseconds',
   'flush.ms': '3894949',
-  intervalTimeUnit: 'milliseconds',
+  'flush.ms.unit': 'milliseconds',
 };
 
 export const TopicDetailGroup: React.FC = () => {
-  const [topicDetail, setTopicDetail] = useState<AdvancedTopic2>(topic);
+  const [topicDetail, setTopicDetail] = useState<AdvancedTopic>(topic);
   const { topicName } = useParams<TopicDetailRouteParams>();
   const history = useHistory();
   const config = useContext(ConfigContext);

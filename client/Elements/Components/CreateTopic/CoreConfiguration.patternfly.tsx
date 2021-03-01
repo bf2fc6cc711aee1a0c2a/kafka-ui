@@ -14,7 +14,7 @@ import {
 } from '@patternfly/react-core';
 import React from 'react';
 import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWithPopover.patternfly';
-import { kebabToCamel } from './utils';
+import { kebabToCamel, kebabToDotSeparated } from './utils';
 import { TopicContext } from 'Contexts/Topic';
 import { SizeTimeFormGroup } from '../Common/SizeTimeFormGroup/SizeTimeFormGroup.patternfly';
 import { useTranslation } from 'react-i18next';
@@ -36,24 +36,43 @@ const CoreConfiguration: React.FC = () => {
     event: React.FormEvent<HTMLInputElement>
   ) => {
     const { name: fieldName, value } = event.currentTarget;
+    updateStore(kebabToDotSeparated(fieldName), Number(value));
+  };
+
+  const handleTouchSpinInputChangeCamelCase = (
+    event: React.FormEvent<HTMLInputElement>
+  ) => {
+    const { name: fieldName, value } = event.currentTarget;
     updateStore(kebabToCamel(fieldName), Number(value));
   };
 
   const handleTouchSpinPlus = (event) => {
     const { name } = event.currentTarget;
+    const fieldName = kebabToDotSeparated(name);
+    updateStore(fieldName, Number(store[fieldName]) + 1);
+  };
+
+  const handleTouchSpinPlusCamelCase = (event) => {
+    const { name } = event.currentTarget;
     const fieldName = kebabToCamel(name);
-    updateStore(fieldName, store[fieldName] + 1);
+    updateStore(fieldName, Number(store[fieldName]) + 1);
   };
 
   const handleTouchSpinMinus = (event) => {
     const { name } = event.currentTarget;
+    const fieldName = kebabToDotSeparated(name);
+    updateStore(fieldName, Number(store[fieldName]) - 1);
+  };
+
+  const handleTouchSpinMinusCamelCase = (event) => {
+    const { name } = event.currentTarget;
     const fieldName = kebabToCamel(name);
-    updateStore(fieldName, store[fieldName] - 1);
+    updateStore(fieldName, Number(store[fieldName]) - 1);
   };
 
   const onDropdownChange = (value: string, event) => {
     const { name: fieldName } = event.target;
-    updateStore(kebabToCamel(fieldName), value);
+    updateStore(kebabToDotSeparated(fieldName), value);
   };
 
   return (
@@ -83,8 +102,8 @@ const CoreConfiguration: React.FC = () => {
             isRequired
             type='text'
             id='create-topic-name'
-            name='topic-name'
-            value={store.topicName}
+            name='name'
+            value={store.name}
             onChange={handleTextInputChange}
             label='Topic name'
             placeholder='Test topic name'
@@ -99,13 +118,13 @@ const CoreConfiguration: React.FC = () => {
         >
           <NumberInput
             id='create-topic-partitions'
-            inputName='partitions'
-            onChange={handleTouchSpinInputChange}
-            onPlus={handleTouchSpinPlus}
-            onMinus={handleTouchSpinMinus}
-            value={store.partitions}
-            plusBtnProps={{ name: 'partitions' }}
-            minusBtnProps={{ name: 'partitions' }}
+            inputName='num-partitions'
+            onChange={handleTouchSpinInputChangeCamelCase}
+            onPlus={handleTouchSpinPlusCamelCase}
+            onMinus={handleTouchSpinMinusCamelCase}
+            value={Number(store.numPartitions)}
+            plusBtnProps={{ name: 'num-partitions' }}
+            minusBtnProps={{ name: 'num-partitions' }}
           />
         </FormGroupWithPopover>
         <FormGroupWithPopover
@@ -117,12 +136,12 @@ const CoreConfiguration: React.FC = () => {
         >
           <NumberInput
             inputName='replicas'
-            onChange={handleTouchSpinInputChange}
-            onPlus={handleTouchSpinPlus}
-            onMinus={handleTouchSpinMinus}
-            value={store.replicas}
-            plusBtnProps={{ name: 'replicas' }}
-            minusBtnProps={{ name: 'replicas' }}
+            onChange={handleTouchSpinInputChangeCamelCase}
+            onPlus={handleTouchSpinPlusCamelCase}
+            onMinus={handleTouchSpinMinusCamelCase}
+            value={Number(store.replicationFactor)}
+            plusBtnProps={{ name: 'replication-factor' }}
+            minusBtnProps={{ name: 'replication-factor' }}
           />
         </FormGroupWithPopover>
         <FormGroupWithPopover
@@ -134,13 +153,13 @@ const CoreConfiguration: React.FC = () => {
         >
           <NumberInput
             id='insyncreplicas'
-            inputName='min-in-sync-replicas'
+            inputName='min-insync-replicas'
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
             onMinus={handleTouchSpinMinus}
-            value={store.minInSyncReplicas}
-            plusBtnProps={{ name: 'min-in-sync-replicas' }}
-            minusBtnProps={{ name: 'min-in-sync-replicas' }}
+            value={Number(store['min.insync.replicas'])}
+            plusBtnProps={{ name: 'min-insync-replicas' }}
+            minusBtnProps={{ name: 'min-insync-replicas' }}
           />
         </FormGroupWithPopover>
         <FormGroupWithPopover
@@ -151,17 +170,17 @@ const CoreConfiguration: React.FC = () => {
           buttonAriaLabel='More info for retention time field'
         >
           <SizeTimeFormGroup
-            inputName='retention-time'
+            inputName='retention-ms'
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
             onMinus={handleTouchSpinMinus}
-            value={store.retentionTime}
-            plusBtnProps={{ name: 'retention-time' }}
-            minusBtnProps={{ name: 'retention-time' }}
+            value={Number(store['retention.ms'])}
+            plusBtnProps={{ name: 'retention-ms' }}
+            minusBtnProps={{ name: 'retention-ms' }}
             id='core-config-retention-time-unit'
             toggleId='core-config-retention-dropdowntoggle'
-            name='retention-time-unit'
-            dropdownValue={store.retentionTimeUnit}
+            name='retention-ms-unit'
+            dropdownValue={store['retention.ms.unit']}
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
             type='time'

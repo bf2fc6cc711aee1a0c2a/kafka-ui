@@ -21,7 +21,7 @@ export interface SizeTimeFormGroup extends NumberInputProps {
   /** id of dropdown toggle button */
   toggleId: string;
   /** id of dropdown element */
-  dropdownValue: string;
+  dropdownValue?: string;
   /** name attribute of dropdown element */
   name: string;
   /** handler method of dropdown */
@@ -49,11 +49,11 @@ export const SizeTimeFormGroup: React.FC<SizeTimeFormGroup> = ({
   type,
 }) => {
   const timeUnits: IDropdownOption[] = [
-    { key: 'millisecond', value: 'millisecond', isDisabled: false },
-    { key: 'second', value: 'second', isDisabled: false },
-    { key: 'day', value: 'day', isDisabled: false },
-    { key: 'month', value: 'month', isDisabled: false },
-    { key: 'year', value: 'year', isDisabled: false },
+    { key: 'milliseconds', value: 'milliseconds', isDisabled: false },
+    { key: 'seconds', value: 'seconds', isDisabled: false },
+    { key: 'days', value: 'days', isDisabled: false },
+    { key: 'months', value: 'months', isDisabled: false },
+    { key: 'years', value: 'years', isDisabled: false },
   ];
 
   const memoryUnits: IDropdownOption[] = [
@@ -96,7 +96,7 @@ export const SizeTimeFormGroup: React.FC<SizeTimeFormGroup> = ({
           onSelectOption={onSelectOption}
           items={getItemsForType(type)}
           name={name}
-          value={dropdownValue}
+          value={dropdownValue || ""}
         />
       </FlexItem>
     </Flex>
