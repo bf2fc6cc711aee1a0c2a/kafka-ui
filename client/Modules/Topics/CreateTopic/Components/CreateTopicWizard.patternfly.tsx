@@ -26,9 +26,9 @@ import './CreateTopicWizard.patternfly.css';
 import { TopicAdvanceConfig } from './TopicAdvanceConfig.patternfly';
 import { DefaultApi, NewTopicInput } from 'OpenApi/api';
 import { TopicContext } from 'Contexts/Topic';
-import { convertUnits, formatTopicRequest } from './utils';
-import { ConfigContext } from '../../../Contexts';
-import { Configuration } from '../../../OpenApi';
+import { convertUnits, formatTopicRequest } from '../utils';
+import { ConfigContext } from 'Contexts';
+import { Configuration } from 'OpenApi';
 
 interface ICreateTopicWizard {
   setIsCreateTopic?: (value: boolean) => void;

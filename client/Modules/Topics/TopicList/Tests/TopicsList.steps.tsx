@@ -10,7 +10,7 @@ import { TopicsListComponent } from '../../TopicList/Components/TopicsList.patte
 import { Topic, TopicsList } from 'OpenApi';
 import { IConfiguration } from 'Contexts';
 
-jest.mock('../../../Services');
+jest.mock('Services');
 import { getTopics } from 'Services';
 
 describe('<TopicsList />', () => {
