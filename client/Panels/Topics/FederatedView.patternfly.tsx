@@ -4,7 +4,7 @@
  */
 import React, { FunctionComponent } from 'react';
 import './style.scss';
-import { TopicsListComponent } from '../../Elements/Components/Topics/TopicsList.patternfly';
+import { TopicsListComponent } from '../../Modules/Topics/TopicList/Components/TopicsList.patternfly';
 import { ConfigContext } from '../../Contexts';
 import { PageSection, PageSectionVariants } from '@patternfly/react-core';
 

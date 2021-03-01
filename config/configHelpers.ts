@@ -51,10 +51,9 @@ export const processConfig = <T extends Literal>(
         publicValue = value;
         privateValue = value;
       } else if (isConfigurationValue) {
-        const {
-          configValue,
-          publicConfigValue,
-        } = value as ProgrammaticValue<T>;
+        const { configValue, publicConfigValue } = value as ProgrammaticValue<
+          T
+        >;
         privateValue =
           typeof configValue === 'function' ? configValue() : configValue;
         publicValue = publicConfigValue;

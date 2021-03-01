@@ -4,7 +4,7 @@
  */
 
 import React, { FunctionComponent } from 'react';
-import { TopicDetailGroup } from 'Groups/Topics/TopicDetail/TopicDetail.patternfly';
+import { TopicDetailGroup } from 'Modules/Topics/TopicDetails/TopicDetailPage.patternfly';
 
 const TopicDetail: FunctionComponent = () => {
   return <TopicDetailGroup />;
