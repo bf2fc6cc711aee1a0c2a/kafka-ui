@@ -27,7 +27,7 @@ import { DeleteTopics } from './DeleteTopicsModal.patternfly';
 import { useHistory } from 'react-router';
 import { ConfigContext } from '../../../Contexts';
 import { TopicsList } from '../../../OpenApi';
-import {Loading} from "../Loading/Loading";
+import { Loading } from '../Loading/Loading';
 
 export interface ITopic {
   name: string;
@@ -104,8 +104,13 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
           </Button>
         ),
       },
-      topic.partitions?.map(p => p.replicas? p.replicas.length : 0).reduce(((previousValue, currentValue) => previousValue + currentValue), 0),
-      topic.partitions?.length
+      topic.partitions
+        ?.map((p) => (p.replicas ? p.replicas.length : 0))
+        .reduce(
+          (previousValue, currentValue) => previousValue + currentValue,
+          0
+        ),
+      topic.partitions?.length,
     ]) || [];
 
   useEffect(() => {
@@ -148,7 +153,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   ];
 
   if (loading) {
-    return (<Loading />)
+    return <Loading />;
   }
 
   return (
@@ -158,7 +163,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
       </Title>
       {deleteModal && (
         <DeleteTopics
-            topicName={topicName}
+          topicName={topicName}
           setDeleteModal={setDeleteModal}
           deleteModal={deleteModal}
         />

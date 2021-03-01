@@ -96,7 +96,7 @@ export const SizeTimeFormGroup: React.FC<SizeTimeFormGroup> = ({
           onSelectOption={onSelectOption}
           items={getItemsForType(type)}
           name={name}
-          value={dropdownValue || ""}
+          value={dropdownValue || ''}
         />
       </FlexItem>
     </Flex>

@@ -82,7 +82,7 @@ const LogSection: React.FC = () => {
             onSelectOption={onDropdownChangeDotSeparated}
             items={clearOptions}
             name='log-cleanup-policy'
-            value={store['log.cleanup.policy'] || ""}
+            value={store['log.cleanup.policy'] || ''}
           />
         </FormGroupWithPopover>
         <FormGroupWithPopover
