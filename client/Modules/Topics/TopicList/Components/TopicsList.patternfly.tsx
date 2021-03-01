@@ -23,7 +23,7 @@ import { DeleteTopics } from './DeleteTopicsModal.patternfly';
 import { useHistory } from 'react-router';
 import { ConfigContext } from 'Contexts';
 import { TopicsList } from 'OpenApi';
-import { Loading } from '../../Loading/Loading';
+import { Loading } from '../../../../Components/Loading/Loading';
 
 export interface ITopic {
   name: string;
