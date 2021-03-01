@@ -78,9 +78,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   const saveTopic = () => {
     //Object may change based on schema
 
-    let topic: NewTopicInput;
-
-    topic = isSwitchChecked ?
+    const topic: NewTopicInput = isSwitchChecked ?
       formatTopicRequest(convertUnits(store))
       : {
         name: topicNameInput,
