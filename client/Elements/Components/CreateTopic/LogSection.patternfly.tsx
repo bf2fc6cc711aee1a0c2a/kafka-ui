@@ -106,7 +106,7 @@ const LogSection: React.FC = () => {
             onSelectOption={onDropdownChange}
             type='memory'
             name='log-retention-bytes-unit'
-            dropdownValue={store['log.retention.bytes.unit.unit']}
+            dropdownValue={store['log.retention.bytes.unit']}
           />
         </FormGroupWithPopover>
 
