@@ -62,7 +62,7 @@ export const TopicContextProvider: React.FC<ITopicProviderProps> = ({
   const updateStore = (name: string, value: string | boolean | number) => {
     setStore({
       ...store,
-      [name]: value,
+      [name]: value.toString(),
     });
   };
 
