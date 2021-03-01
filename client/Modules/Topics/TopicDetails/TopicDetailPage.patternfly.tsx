@@ -1,8 +1,3 @@
-/*
- * Copyright Strimzi authors.
- * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
- */
-
 import React, { useContext, useEffect, useState } from 'react';
 import { TopicDetailHead } from 'Modules/Topics/TopicDetails/Components/TopicDetailHead.patternfly';
 import { TopicDetailView } from './Components/TopicDetailView.patternfly';

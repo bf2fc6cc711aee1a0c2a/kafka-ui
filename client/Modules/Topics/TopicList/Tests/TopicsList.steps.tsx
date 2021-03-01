@@ -1,8 +1,3 @@
-/*
- * Copyright Strimzi authors.
- * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
- */
-
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { TopicsListComponent } from '../../TopicList/Components/TopicsList.patternfly';

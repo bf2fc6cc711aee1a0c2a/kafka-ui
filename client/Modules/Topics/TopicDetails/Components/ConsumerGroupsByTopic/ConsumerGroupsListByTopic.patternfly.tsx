@@ -1,8 +1,3 @@
-/*
- * Copyright Strimzi authors.
- * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
- */
-
 import React, { useState } from 'react';
 import {
   Label,
@@ -38,9 +33,10 @@ export const ConsumerGroupByTopicList: React.FunctionComponent = () => {
   const [perPage, setPerPage] = useState<number>(10);
   const [offset, setOffset] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [consumerGroupDetail, setConsumerGroupDetail] = useState<
-    IConsumerGroupByTopic
-  >();
+  const [
+    consumerGroupDetail,
+    setConsumerGroupDetail,
+  ] = useState<IConsumerGroupByTopic>();
   const [tableData, setTableData] = useState(ConsumerGroupDataByTopics);
 
   const onSetPage = (_event, pageNumber: number) => {

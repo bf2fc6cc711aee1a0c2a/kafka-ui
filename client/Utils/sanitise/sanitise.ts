@@ -1,7 +1,3 @@
-/*
- * Copyright Strimzi authors.
- * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
- */
 // we explicitly only want `.` as an allowed character (vs `.`, matching any character)
 // eslint-disable-next-line no-useless-escape
 const allowedURLParamCharacters = new RegExp(/^[a-zA-Z0-9\.,_\-=]*$/);

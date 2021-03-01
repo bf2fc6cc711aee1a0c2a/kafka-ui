@@ -1,8 +1,3 @@
-/*
- * Copyright Strimzi authors.
- * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
- */
-
 import { AxiosResponse } from 'axios';
 import { AdvancedTopic } from '../Contexts/Topic';
 import { DefaultApi, Topic, TopicSettings, TopicsList } from 'OpenApi/api';

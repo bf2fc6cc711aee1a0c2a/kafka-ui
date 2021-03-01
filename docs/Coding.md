@@ -1,6 +1,6 @@
 #Coding Standards
 
-The Strimzi UI projects uses best practices based off the official [React TypeScript Cheat sheet](https://react-typescript-cheatsheet.netlify.app/), with modifications for this project. The React TypeScript Cheat sheet is maintained and used by developers through out the world, and is a place where developers can bring together lessons learned using TypeScript and React.
+The Kafka UI projects uses best practices based off the official [React TypeScript Cheat sheet](https://react-typescript-cheatsheet.netlify.app/), with modifications for this project. The React TypeScript Cheat sheet is maintained and used by developers through out the world, and is a place where developers can bring together lessons learned using TypeScript and React.
 
 ## Imports
 
@@ -19,7 +19,7 @@ import { X1, X2, ... Xn } from 'package-x';
 
 ## View Props
 
-Since Strimzi UI is made up of 2 different views (one for PatternFly, and one for Carbon) props for a component should be declared in separate file instead of within the components source code. For example Carbon views are written in **View.carbon.tsx**, while PatternFly views are written in **View.patternfly.tsx**. In order to allow the views to share the same props, the code for the props should live in **View.props.tsx**.
+Since Kafka UI is made up of 2 different views (one for PatternFly, and one for Carbon) props for a component should be declared in separate file instead of within the components source code. For example Carbon views are written in **View.carbon.tsx**, while PatternFly views are written in **View.patternfly.tsx**. In order to allow the views to share the same props, the code for the props should live in **View.props.tsx**.
 
 For props we are using **type** instead of **interfaces**. The reason to use types instead of interfaces is for consistency between the views and because it's more constrained (See [Types or Interfaces](https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/types_or_interfaces) for more clarification). By using types we are ensuring that both views will not deviate from the agreed upon [contract](https://dev.to/reyronald/typescript-types-or-interfaces-for-react-component-props-1408).
 
