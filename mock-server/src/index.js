@@ -1,7 +1,3 @@
-/*
- * Copyright Strimzi authors.
- * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
- */
 const OpenAPIBackend = require('openapi-backend').default;
 const express = require('express');
 const kafkaHandlers = require('./kafka-service-handlers');
@@ -35,6 +31,10 @@ kafkaAPI.registerSecurityHandler('Bearer', (c, req, res) => {
   // }
   // const token = authHeader.replace('Bearer ', '');
   // return jwt.verify(token, 'secret');
+});
+
+topicAPI.registerSecurityHandler('Bearer', (c, req, res) => {
+  return true;
 });
 
 // Skipping validation of the schema

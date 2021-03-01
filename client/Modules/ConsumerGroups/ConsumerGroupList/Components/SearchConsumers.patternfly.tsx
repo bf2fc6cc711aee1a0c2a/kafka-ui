@@ -1,7 +1,3 @@
-/*
- * Copyright Strimzi authors.
- * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
- */
 import React, { useState, useEffect } from 'react';
 import { InputGroup, SearchInput } from '@patternfly/react-core';
 import { consumerGroupData } from './ConsumerGroupData';

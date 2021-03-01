@@ -1,8 +1,3 @@
-/*
- * Copyright Strimzi authors.
- * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
- */
-
 import merge from 'lodash.merge';
 import {
   PublicConfig,
@@ -51,9 +46,10 @@ export const processConfig = <T extends Literal>(
         publicValue = value;
         privateValue = value;
       } else if (isConfigurationValue) {
-        const { configValue, publicConfigValue } = value as ProgrammaticValue<
-          T
-        >;
+        const {
+          configValue,
+          publicConfigValue,
+        } = value as ProgrammaticValue<T>;
         privateValue =
           typeof configValue === 'function' ? configValue() : configValue;
         publicValue = publicConfigValue;
