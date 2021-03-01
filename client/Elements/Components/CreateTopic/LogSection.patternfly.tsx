@@ -32,7 +32,7 @@ const LogSection: React.FC = () => {
     updateStore(kebabToDotSeparated(fieldName), value);
   };
 
-  const onDropdownChange2 = (value: string, event) => {
+  const onDropdownChangeDotSeparated = (value: string, event) => {
     const { name: fieldName } = event.target;
     updateStore(kebabToDotSeparated(fieldName), value);
   };
@@ -79,7 +79,7 @@ const LogSection: React.FC = () => {
             id='log-section-policy-type-dropdown'
             toggleId='log-section-policy-type-dropdowntoggle'
             ariaLabel='select policy type from dropdown'
-            onSelectOption={onDropdownChange2}
+            onSelectOption={onDropdownChangeDotSeparated}
             items={clearOptions}
             name='log-cleanup-policy'
             value={store['log.cleanup.policy'] || ""}

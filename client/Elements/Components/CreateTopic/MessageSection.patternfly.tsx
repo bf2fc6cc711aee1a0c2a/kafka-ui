@@ -58,7 +58,7 @@ const MessageSection: React.FC = () => {
     updateStore(kebabToDotSeparated(fieldName), value);
   };
 
-  const onDropdownChange2 = (value: string, event) => {
+  const onDropdownChangeDotSeparated = (value: string, event) => {
     const { name: fieldName } = event.target;
     updateStore(kebabToDotSeparated(fieldName), value);
   };
@@ -110,7 +110,7 @@ const MessageSection: React.FC = () => {
             toggleId='msg-section-timestamp-dropdowntoggle'
             ariaLabel='select timestamp type from dropdown'
             name='message-timestamp-type'
-            onSelectOption={onDropdownChange2}
+            onSelectOption={onDropdownChangeDotSeparated}
             items={timeStampOptions}
             value={store['message.timestamp.type'] || ""}
           />
@@ -151,7 +151,7 @@ const MessageSection: React.FC = () => {
             toggleId='msg-section-compression-type-dropdowntoggle'
             ariaLabel='select timestamp type from dropdown'
             name='compression-type'
-            onSelectOption={onDropdownChange2}
+            onSelectOption={onDropdownChangeDotSeparated}
             items={messageCompressionTypes}
             value={store['compression.type'] || ""}
           />
