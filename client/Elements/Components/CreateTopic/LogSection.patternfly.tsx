@@ -10,7 +10,7 @@ import {
   IDropdownOption,
 } from '../Common/DropdownWithToggle.patternfly';
 import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWithPopover.patternfly';
-import { kebabToCamel } from './utils';
+import { kebabToDotSeparated } from './utils';
 import { SizeTimeFormGroup } from '../Common/SizeTimeFormGroup/SizeTimeFormGroup.patternfly';
 import { TopicContext } from 'Contexts/Topic';
 import { useTranslation } from 'react-i18next';
@@ -29,26 +29,31 @@ const LogSection: React.FC = () => {
 
   const onDropdownChange = (value: string, event) => {
     const { name: fieldName } = event.target;
-    updateStore(kebabToCamel(fieldName), value);
+    updateStore(kebabToDotSeparated(fieldName), value);
+  };
+
+  const onDropdownChangeDotSeparated = (value: string, event) => {
+    const { name: fieldName } = event.target;
+    updateStore(kebabToDotSeparated(fieldName), value);
   };
 
   const handleTouchSpinInputChange = (
     event: React.FormEvent<HTMLInputElement>
   ) => {
     const { name: fieldName, value } = event.currentTarget;
-    updateStore(kebabToCamel(fieldName), Number(value));
+    updateStore(kebabToDotSeparated(fieldName), Number(value));
   };
 
   const handleTouchSpinPlus = (event) => {
     const { name } = event.currentTarget;
-    const fieldName = kebabToCamel(name);
-    updateStore(fieldName, store[fieldName] + 1);
+    const fieldName = kebabToDotSeparated(name);
+    updateStore(fieldName, Number(store[fieldName]) + 1);
   };
 
   const handleTouchSpinMinus = (event) => {
     const { name } = event.currentTarget;
-    const fieldName = kebabToCamel(name);
-    updateStore(fieldName, store[fieldName] - 1);
+    const fieldName = kebabToDotSeparated(name);
+    updateStore(fieldName, Number(store[fieldName]) - 1);
   };
 
   return (
@@ -74,10 +79,10 @@ const LogSection: React.FC = () => {
             id='log-section-policy-type-dropdown'
             toggleId='log-section-policy-type-dropdowntoggle'
             ariaLabel='select policy type from dropdown'
-            onSelectOption={onDropdownChange}
+            onSelectOption={onDropdownChangeDotSeparated}
             items={clearOptions}
-            name='cleanup-policy'
-            value={store.cleanupPolicy}
+            name='log-cleanup-policy'
+            value={store['log.cleanup.policy'] || ""}
           />
         </FormGroupWithPopover>
         <FormGroupWithPopover
@@ -88,20 +93,20 @@ const LogSection: React.FC = () => {
           buttonAriaLabel='More info for retention bytes field'
         >
           <SizeTimeFormGroup
-            inputName='retention-bytes'
+            inputName='log-retention-bytes'
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
             onMinus={handleTouchSpinMinus}
-            value={store.retentionBytes}
-            plusBtnProps={{ name: 'retention-bytes' }}
-            minusBtnProps={{ name: 'retention-bytes' }}
+            value={Number(store['log.retention.bytes'])}
+            plusBtnProps={{ name: 'log-retention-bytes' }}
+            minusBtnProps={{ name: 'log-retention-bytes' }}
             id='log-section-retention-unit-dropdown'
             toggleId='log-section-retention-unit-dropdowntoggle'
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
             type='memory'
-            name='retention-unit'
-            dropdownValue={store.retentionUnit}
+            name='log-retention-bytes-unit'
+            dropdownValue={store['log.retention.bytes.unit']}
           />
         </FormGroupWithPopover>
 
@@ -113,20 +118,20 @@ const LogSection: React.FC = () => {
           buttonAriaLabel='More info for log segment types field'
         >
           <SizeTimeFormGroup
-            inputName='segment-size'
+            inputName='log-segment-bytes'
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
             onMinus={handleTouchSpinMinus}
-            value={store.segmentSize}
-            plusBtnProps={{ name: 'segment-size' }}
-            minusBtnProps={{ name: 'segment-size' }}
+            value={Number(store['log.segment.bytes'])}
+            plusBtnProps={{ name: 'log-segment-bytes' }}
+            minusBtnProps={{ name: 'log-segment-bytes' }}
             id='log-section-segment-unit-dropdown'
             toggleId='log-section-segment-unit-dropdowntoggle'
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
             type='memory'
-            name='segment-unit'
-            dropdownValue={store.segmentUnit}
+            name='log-segment-bytes-unit'
+            dropdownValue={store['log.segment.bytes.unit']}
           />
         </FormGroupWithPopover>
       </Form>

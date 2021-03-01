@@ -1,3 +1,4 @@
+
 /*
  * Copyright Strimzi authors.
  * License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
@@ -6,7 +7,7 @@
 import { TextContent, Text, Form, TextVariants } from '@patternfly/react-core';
 import React from 'react';
 import { FormGroupWithPopover } from '../Common/FormGroupWithPopover/FormGroupWithPopover.patternfly';
-import { kebabToCamel } from './utils';
+import { kebabToDotSeparated } from './utils';
 import { SizeTimeFormGroup } from '../Common/SizeTimeFormGroup/SizeTimeFormGroup.patternfly';
 import { TopicContext } from 'Contexts/Topic';
 import { useTranslation } from 'react-i18next';
@@ -20,24 +21,24 @@ export const FlushSection: React.FC = () => {
     event: React.FormEvent<HTMLInputElement>
   ) => {
     const { name: fieldName, value } = event.currentTarget;
-    updateStore(fieldName, value);
+    updateStore(kebabToDotSeparated(fieldName), Number(value));
   };
 
   const handleTouchSpinPlus = (event) => {
     const { name } = event.currentTarget;
-    const fieldName = kebabToCamel(name);
-    updateStore(fieldName, store[fieldName] + 1);
+    const fieldName = kebabToDotSeparated(name);
+    updateStore(fieldName, Number(store[fieldName]) + 1);
   };
 
   const handleTouchSpinMinus = (event) => {
     const { name } = event.currentTarget;
-    const fieldName = kebabToCamel(name);
-    updateStore(fieldName, store[fieldName] - 1);
+    const fieldName = kebabToDotSeparated(name);
+    updateStore(fieldName, Number(store[fieldName]) - 1);
   };
 
   const onDropdownChange = (value: string, event) => {
     const { name: fieldName } = event.target;
-    updateStore(kebabToCamel(fieldName), value);
+    updateStore(kebabToDotSeparated(fieldName), value);
   };
 
   return (
@@ -59,20 +60,20 @@ export const FlushSection: React.FC = () => {
           buttonAriaLabel='More info for flush interval messages field'
         >
           <SizeTimeFormGroup
-            inputName='interval-messages'
+            inputName='flush-messages'
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
             onMinus={handleTouchSpinMinus}
-            value={store.intervalMessages}
-            plusBtnProps={{ name: 'interval-messages' }}
-            minusBtnProps={{ name: 'interval-messages' }}
+            value={Number(store['flush.messages'])}
+            plusBtnProps={{ name: 'flush-messages' }}
+            minusBtnProps={{ name: 'flush-messages' }}
             id='interval-messages-unit-dropdown'
             toggleId='interval-messages-unit-dropdowntoggle'
-            name='interval-messages-unit'
+            name='flush-messages-unit'
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
             type='time'
-            dropdownValue={store.intervalMessagesUnit}
+            dropdownValue={store['flush.messages.unit']}
           />
         </FormGroupWithPopover>
         <FormGroupWithPopover
@@ -83,19 +84,19 @@ export const FlushSection: React.FC = () => {
           buttonAriaLabel='More info for flush interval time field'
         >
           <SizeTimeFormGroup
-            inputName='interval-time'
+            inputName='flush-ms'
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
             onMinus={handleTouchSpinMinus}
-            value={store.intervalTime}
-            plusBtnProps={{ name: 'interval-time' }}
-            minusBtnProps={{ name: 'interval-time' }}
+            value={Number(store['flush.ms'])}
+            plusBtnProps={{ name: 'flush-ms' }}
+            minusBtnProps={{ name: 'flush-ms' }}
             id='interval-time-unit-dropdown'
             toggleId='interval-time-unit-dropdowntoggle'
-            name='interval-time-unit'
+            name='flush-ms-unit'
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
-            dropdownValue={store.intervalTimeUnit}
+            dropdownValue={store['flush.ms.unit']}
             type='time'
           />
         </FormGroupWithPopover>

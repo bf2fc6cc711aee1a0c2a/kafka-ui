@@ -19,12 +19,12 @@ import {
 } from '@patternfly/react-core';
 import './TopicDetailView.patternfly.css';
 import { TextWithLabelPopover } from '../Common/TextWithLabelPopover/TextWithLabelPopover.patternfly';
-import { AdvancedTopic2 } from 'Contexts/Topic';
+import { AdvancedTopic } from 'Contexts/Topic';
 import { useTranslation } from 'react-i18next';
 
 export type TopicViewDetailProps = {
   /** Topic details */
-  topic: AdvancedTopic2;
+  topic: AdvancedTopic;
   /** Method to delete topic */
   deleteTopic: () => void;
   /** Method to update topic */
