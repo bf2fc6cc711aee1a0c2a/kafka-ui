@@ -41,7 +41,7 @@ export const UpdateTopic: React.FC = () => {
 
   const saveToStore = (topic: Topic) => {
     const advanceConfig: AdvancedTopic = store;
-    advanceConfig.numPartitions = topic?.partitions?.length.toString() || "0";
+    advanceConfig.numPartitions = topic?.partitions?.length.toString() || '0';
     advanceConfig.name = topic.name || '';
     topic.config?.forEach((configItem) => {
       advanceConfig[configItem.key || ''] = configItem.value || '';

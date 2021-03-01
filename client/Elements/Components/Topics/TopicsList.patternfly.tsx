@@ -22,11 +22,12 @@ import {
 import { SearchTopics } from './SearchTopics.patternfly';
 import { EmptyTopics } from './EmptyTopics.patternfly';
 import { EmptySearch } from './EmptySearch.patternfly';
-import { getTopics } from 'Services/TopicServices';
+import { getTopics } from 'Services';
 import { DeleteTopics } from './DeleteTopicsModal.patternfly';
 import { useHistory } from 'react-router';
 import { ConfigContext } from '../../../Contexts';
 import { TopicsList } from '../../../OpenApi';
+import { Loading } from '../Loading/Loading';
 
 export interface ITopic {
   name: string;
@@ -45,6 +46,7 @@ export interface ITopicList {
 export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   onCreateTopic,
 }) => {
+  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(10);
   const [offset, setOffset] = useState(0);
@@ -52,6 +54,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   const [topics, setTopics] = useState<TopicsList>();
   const [filteredTopics, setFilteredTopics] = useState<TopicsList>();
   const [deleteModal, setDeleteModal] = useState(false);
+  const [topicName, setTopicName] = useState<string | undefined>();
   const history = useHistory();
 
   const config = useContext(ConfigContext);
@@ -62,11 +65,13 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
       setTopics(topicsList);
       setFilteredTopics(topicsList);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
+    setLoading(true);
     fetchTopic();
-  }, []);
+  }, [deleteModal]);
 
   const onSetPage = (_event, pageNumber: number) => {
     setPage(pageNumber);
@@ -99,6 +104,13 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
           </Button>
         ),
       },
+      topic.partitions
+        ?.map((p) => (p.replicas ? p.replicas.length : 0))
+        .reduce(
+          (previousValue, currentValue) => previousValue + currentValue,
+          0
+        ),
+      topic.partitions?.length,
     ]) || [];
 
   useEffect(() => {
@@ -128,14 +140,21 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   const onClear = () => {
     setFilteredTopics(topics);
   };
-  const onDelete = () => {
+  const onDelete = (rowId: any) => {
+    if (filteredTopics?.items) {
+      setTopicName(filteredTopics.items[rowId].name);
+    }
     setDeleteModal(true);
   };
 
   const actions = [
-    { title: 'Delete', onClick: () => onDelete() },
+    { title: 'Delete', onClick: (_, rowId) => onDelete(rowId) },
     { title: 'Edit' },
   ];
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -144,6 +163,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
       </Title>
       {deleteModal && (
         <DeleteTopics
+          topicName={topicName}
           setDeleteModal={setDeleteModal}
           deleteModal={deleteModal}
         />

@@ -112,7 +112,7 @@ const MessageSection: React.FC = () => {
             name='message-timestamp-type'
             onSelectOption={onDropdownChangeDotSeparated}
             items={timeStampOptions}
-            value={store['message.timestamp.type'] || ""}
+            value={store['message.timestamp.type'] || ''}
           />
         </FormGroupWithPopover>
         <FormGroupWithPopover
@@ -153,7 +153,7 @@ const MessageSection: React.FC = () => {
             name='compression-type'
             onSelectOption={onDropdownChangeDotSeparated}
             items={messageCompressionTypes}
-            value={store['compression.type'] || ""}
+            value={store['compression.type'] || ''}
           />
         </FormGroupWithPopover>
       </Form>

@@ -5,7 +5,6 @@
 
 Kafka UI provides a way for managing Kafka topics, and clusters using a graphical user interface.
 
-
 ## Getting started
 
 This UI uses `npm` to provide dependency management. If you wish to develop the UI, you will need:
