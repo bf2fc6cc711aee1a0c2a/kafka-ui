@@ -2,7 +2,7 @@ import { render, RenderResult } from '@testing-library/react';
 import {
   StepTopicName,
   IStepTopicName,
-} from 'Modules/Topics/CreateTopic/Components/StepTopicName.patternfly';
+} from 'Modules/Topics/CreateTopic/Components/StepTopicName';
 import React, { ReactElement } from 'react';
 
 const setup = () => {

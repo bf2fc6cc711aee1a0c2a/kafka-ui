@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { SearchTopics } from 'Modules/Topics/TopicList/Components/SearchTopics.patternfly';
-import { ISearchTopicsProps } from 'Modules/Topics/TopicList/Components/SearchTopics.patternfly';
+import { SearchTopics } from 'Modules/Topics/TopicList/Components/SearchTopics';
+import { ISearchTopicsProps } from 'Modules/Topics/TopicList/Components/SearchTopics';
 
 describe('<SearchTopics />', () => {
   const props: ISearchTopicsProps = {

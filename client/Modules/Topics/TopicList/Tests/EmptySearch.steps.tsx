@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { EmptySearch } from '../Components/EmptySearch.patternfly';
+import { EmptySearch } from '../Components/EmptySearch';
 
 describe('<EmptySearch />', () => {
   it('should render an empty state if filters return no result', () => {

@@ -4,12 +4,11 @@ import React from 'react';
 import { ConfigContext } from '../Contexts';
 import { Topics } from '../Panels/Topics';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
-import { Home } from '../Panels/Home';
-import CreateTopic from '../Panels/Topics/CreateView.patternfly';
-import TopicDetail from 'Panels/Topics/DetailView.patternfly';
-import UpdateTopicView from '../Panels/Topics/UpdateView.patternfly';
+import CreateTopic from '../Panels/Topics/CreateView';
+import TopicDetail from 'Panels/Topics/DetailView';
+import UpdateTopicView from '../Panels/Topics/UpdateView';
 import { TopicContextProvider } from 'Contexts/Topic';
-import { ConsumerGroupsView } from '../Panels/ConsumerGroups/ConsumerGroupsView.patternfly';
+import { ConsumerGroupsView } from '../Panels/ConsumerGroups/ConsumerGroupsView';
 import { ConsumerGroupsTopicsView } from '../Panels/ConsumerGroupsByTopic/ConsumerGroupsByTopic';
 
 init(); //Bootstrap i18next support
@@ -23,7 +22,7 @@ ReactDOM.render(
     <TopicContextProvider>
       <Router>
         <Switch>
-          <Route path='/' component={Home} exact />
+          <Route path='/' component={Topics} exact />
           <Route path='/topics' component={Topics} exact />
           <Route path='/topic/:topicName' component={TopicDetail} exact />
           <Route path='/topics/create' component={CreateTopic} exact />

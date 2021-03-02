@@ -26,7 +26,7 @@ import {
 } from './SearchConsumerGroupsByTopics.patternfly';
 import ExclamationCircleIcon from '@patternfly/react-icons/dist/js/icons/exclamation-circle-icon';
 import CheckCircleIcon from '@patternfly/react-icons/dist/js/icons/check-circle-icon';
-import { EmptySearch } from '../../../TopicList/Components/EmptySearch.patternfly';
+import { EmptySearch } from '../../../TopicList/Components/EmptySearch';
 
 export const ConsumerGroupByTopicList: React.FunctionComponent = () => {
   const [page, setPage] = useState<number>(1);

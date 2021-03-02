@@ -2,7 +2,7 @@ import { render, RenderResult } from '@testing-library/react';
 import {
   StepMessageRetention,
   IStepMessageRetention,
-} from 'Modules/Topics/CreateTopic/Components/StepMessageRetention.patternfly';
+} from 'Modules/Topics/CreateTopic/Components/StepMessageRetention';
 import React, { ReactElement } from 'react';
 import userEvent from '@testing-library/user-event';
 

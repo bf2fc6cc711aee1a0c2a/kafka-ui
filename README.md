@@ -31,6 +31,7 @@ If you run into any issues while working in this repo, please check out [the tro
 - `npm run lint` - lints the codebase. See [`Linting`](./docs/Linting.md) for the individual linting steps
 
 ## Contribution documentation
+
 [Coding Standards](./docs/Coding.md)
 
 ## Troubleshooting
