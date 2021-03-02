@@ -14,20 +14,21 @@ export class ErrorBoundary extends React.Component<IErrorBoundaryProps, IErrorBo
     hasError: false,
   };
 
-  static getDerivedStateFromError(_: Error): IErrorBoundary {
+  static getDerivedStateFromError(error: Error): IErrorBoundary {
+    console.error(error);
     // Update state so the next render will show the fallback UI.
     return { hasError: true };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     console.error('error:', error, errorInfo);
   }
 
-  updateState = (hasError: boolean) => {
+  updateState = (hasError: boolean): void => {
     this.setState({ hasError });
   };
 
-  render() {
+  render(): React.ReactNode {
     if (this.state.hasError) {
       return <UnexpectedError updateState={this.updateState} />;
     }
