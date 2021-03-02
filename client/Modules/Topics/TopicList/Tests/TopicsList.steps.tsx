@@ -33,11 +33,7 @@ describe('<TopicsList />', () => {
 
     await waitFor(() => expect(getByText('Topics')).toBeInTheDocument());
 
-    const titleNode = getByText('Topics');
-
     const createBtn = getByText('Create topic');
-
-    expect(titleNode).toBeInTheDocument();
 
     fireEvent.click(createBtn);
   });
