@@ -31,8 +31,6 @@ describe('<TopicsList />', () => {
       />
     );
 
-    await waitFor(() => expect(getByText('Topics')).toBeInTheDocument());
-
     const createBtn = getByText('Create topic');
 
     fireEvent.click(createBtn);
