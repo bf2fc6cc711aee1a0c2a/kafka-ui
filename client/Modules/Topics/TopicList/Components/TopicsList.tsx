@@ -157,84 +157,84 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   }
 
   return (
-     <Page>
-       <PageSection>
-      {deleteModal && (
-        <DeleteTopics
-          topicName={topicName}
-          setDeleteModal={setDeleteModal}
-          deleteModal={deleteModal}
-        />
-      )}
-      {rowData.length < 1 && search.length < 1 ? (
-        <EmptyTopics onCreateTopic={onCreateTopic} />
-      ) : (
-        <Card>
-          <Toolbar>
-            <ToolbarContent>
-              <ToolbarItem>
-                <SearchTopics
-                  onClear={onClear}
-                  search={search}
-                  setSearch={setSearch}
-                />
-              </ToolbarItem>
-              <ToolbarItem>
-                <Button
-                  id='topic-list-create-topic-button'
-                  className='topics-per-page'
-                  onClick={() => {
-                    onCreateTopic();
-                  }}
-                >
-                  Create topic
-                </Button>
-              </ToolbarItem>
-              <ToolbarItem variant='pagination'>
-                <Pagination
-                  itemCount={rowData.length}
-                  perPage={perPage}
-                  page={page}
-                  onSetPage={onSetPage}
-                  widgetId='topic-list-pagination-top'
-                  onPerPageSelect={onPerPageSelect}
-                />
-              </ToolbarItem>
-            </ToolbarContent>
-          </Toolbar>
-          <Divider />
-
-          <Table
-            aria-label='Compact Table'
-            variant={TableVariant.compact}
-            cells={tableColumns}
-            rows={
-              page != 1
-                ? rowData.slice(offset, offset + perPage)
-                : rowData.slice(0, perPage)
-            }
-            actions={actions}
-          >
-            <TableHeader />
-            <TableBody />
-          </Table>
-          </Card>
-      )}
-      {rowData.length < 1 && search.length > 1 && <EmptySearch/>}
-      {rowData.length > 1 && (
+    <Page>
+      <PageSection>
+        {deleteModal && (
+          <DeleteTopics
+            topicName={topicName}
+            setDeleteModal={setDeleteModal}
+            deleteModal={deleteModal}
+          />
+        )}
+        {rowData.length < 1 && search.length < 1 ? (
+          <EmptyTopics onCreateTopic={onCreateTopic} />
+        ) : (
           <Card>
-          <Pagination
-          itemCount={rowData.length}
-          perPage={perPage}
-          page={page}
-          onSetPage={onSetPage}
-          widgetId='topic-list-pagination-bottom'
-          onPerPageSelect={onPerPageSelect}
-          offset={0}
-        />
-        </Card>
-      )}
-        </PageSection>
-        </Page>      
+            <Toolbar>
+              <ToolbarContent>
+                <ToolbarItem>
+                  <SearchTopics
+                    onClear={onClear}
+                    search={search}
+                    setSearch={setSearch}
+                  />
+                </ToolbarItem>
+                <ToolbarItem>
+                  <Button
+                    id='topic-list-create-topic-button'
+                    className='topics-per-page'
+                    onClick={() => {
+                      onCreateTopic();
+                    }}
+                  >
+                    Create topic
+                  </Button>
+                </ToolbarItem>
+                <ToolbarItem variant='pagination'>
+                  <Pagination
+                    itemCount={rowData.length}
+                    perPage={perPage}
+                    page={page}
+                    onSetPage={onSetPage}
+                    widgetId='topic-list-pagination-top'
+                    onPerPageSelect={onPerPageSelect}
+                  />
+                </ToolbarItem>
+              </ToolbarContent>
+            </Toolbar>
+            <Divider />
+
+            <Table
+              aria-label='Compact Table'
+              variant={TableVariant.compact}
+              cells={tableColumns}
+              rows={
+                page != 1
+                  ? rowData.slice(offset, offset + perPage)
+                  : rowData.slice(0, perPage)
+              }
+              actions={actions}
+            >
+              <TableHeader />
+              <TableBody />
+            </Table>
+          </Card>
+        )}
+        {rowData.length < 1 && search.length > 1 && <EmptySearch />}
+        {rowData.length > 1 && (
+          <Card>
+            <Pagination
+              itemCount={rowData.length}
+              perPage={perPage}
+              page={page}
+              onSetPage={onSetPage}
+              widgetId='topic-list-pagination-bottom'
+              onPerPageSelect={onPerPageSelect}
+              offset={0}
+            />
+          </Card>
+        )}
+      </PageSection>
+    </Page>
   );
 };
