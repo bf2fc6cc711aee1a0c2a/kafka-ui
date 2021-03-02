@@ -7,6 +7,11 @@
     "customInserts": "This paragraph contains multiple inserts. First {{insert}} is a <0>div with a classname</0>. Second is <1>bold</1>. Third is <2>italic</2>. Finally there is a <3>link</3>.",
     "customContent": "This is <0>Something</0>"
   },
+  "common": {
+    "errorBoundaryTitle": "Something went wrong",
+    "unexpectedError": "There was a problem processing the request. Please try again.",
+    "returnToHome": "Return to home"
+  },
   "createTopic": {
     "topicNameLabelHead": "Topic name",
     "topicNameLabelBody": "This is the unique identifier for this topic within this cluster. You'll need this to set up your producers and consumers, so make it something memorable.",
