@@ -19,17 +19,21 @@ import {
 import { TopicsListComponent } from "../../Topics/TopicList/Components/TopicsList";
 import "./TabHeaders.css";
 import CodeBranchIcon from "@patternfly/react-icons/dist/js/icons/code-branch-icon";
-
-interface ITabHeaderProps{
-  eventKey:number
+import { useHistory } from "react-router";
+interface ITabHeaderProps {
+  eventKey: number;
 }
 export const TabHeaders: React.FunctionComponent<ITabHeaderProps> = ({
-  eventKey
+  eventKey,
 }) => {
   const [activeTabKey, setActiveTabKey] = useState(eventKey);
-  const [, setOnCreateTopic] = useState(false);
   const handleTabClick = (event, tabIndex) => {
     setActiveTabKey(tabIndex);
+  };
+  const history = useHistory();
+
+  const onCreateTopic = () => {
+    history.push("/topics/create");
   };
 
   const mainBreadcrumbs = (
@@ -82,7 +86,7 @@ export const TabHeaders: React.FunctionComponent<ITabHeaderProps> = ({
             id="topics-tab-section"
             aria-label="Topics Tab"
           >
-            <TopicsListComponent onCreateTopic={() => setOnCreateTopic} />
+            <TopicsListComponent onCreateTopic={onCreateTopic} />
           </Tab>
           <Tab
             title={<TabTitleText>Consumer Groups</TabTitleText>}
