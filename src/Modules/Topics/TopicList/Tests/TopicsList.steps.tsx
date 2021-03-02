@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { TopicsListComponent } from '../Components/TopicsList';
 
 import { Topic, TopicsList } from '../../../../OpenApi';
@@ -8,7 +8,7 @@ import { IConfiguration } from '../../../../Contexts';
 jest.mock('Services');
 import { getTopics } from '../../../../Services';
 
-describe('<TopicsList />', () => {
+describe('<TopicsListComponent />', () => {
   it('should render a list of topics', async () => {
     const topics = {
       items: [
@@ -22,17 +22,18 @@ describe('<TopicsList />', () => {
       (config: IConfiguration | undefined) => Promise<TopicsList>
     >;
     getTopicsMock.mockReturnValueOnce(Promise.resolve(topics));
+    await waitFor(() => {
+      const { getByText } = render(
+        <TopicsListComponent
+          onCreateTopic={() => {
+            return;
+          }}
+        />
+      );
 
-    const { getByText } = render(
-      <TopicsListComponent
-        onCreateTopic={() => {
-          return;
-        }}
-      />
-    );
+      const createBtn = getByText('Create topic');
 
-    const createBtn = getByText('Create topic');
-
-    fireEvent.click(createBtn);
+      fireEvent.click(createBtn);
+    });
   });
 });
