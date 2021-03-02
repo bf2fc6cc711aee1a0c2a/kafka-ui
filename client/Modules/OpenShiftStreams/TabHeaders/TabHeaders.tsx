@@ -16,12 +16,17 @@ import {
   Tab,
   TabTitleText,
 } from "@patternfly/react-core";
-import { TopicsList } from "../Topics/TopicsList.patternfly";
-import "./OpenShiftStreams.patternfly.css";
+import { TopicsListComponent } from "../../Topics/TopicList/Components/TopicsList";
+import "./TabHeaders.css";
 import CodeBranchIcon from "@patternfly/react-icons/dist/js/icons/code-branch-icon";
 
-export const OpenShiftStreams: React.FunctionComponent = () => {
-  const [activeTabKey, setActiveTabKey] = useState(1);
+interface ITabHeaderProps{
+  eventKey:number
+}
+export const TabHeaders: React.FunctionComponent<ITabHeaderProps> = ({
+  eventKey
+}) => {
+  const [activeTabKey, setActiveTabKey] = useState(eventKey);
   const [, setOnCreateTopic] = useState(false);
   const handleTabClick = (event, tabIndex) => {
     setActiveTabKey(tabIndex);
@@ -77,7 +82,7 @@ export const OpenShiftStreams: React.FunctionComponent = () => {
             id="topics-tab-section"
             aria-label="Topics Tab"
           >
-            <TopicsList onCreateTopic={() => setOnCreateTopic} />
+            <TopicsListComponent onCreateTopic={() => setOnCreateTopic} />
           </Tab>
           <Tab
             title={<TabTitleText>Consumer Groups</TabTitleText>}
