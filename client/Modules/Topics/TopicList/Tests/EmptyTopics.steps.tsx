@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import { EmptyTopics } from 'Modules/Topics/TopicList/Components/EmptyTopics.patternfly';
+import { EmptyTopics } from 'Modules/Topics/TopicList/Components/EmptyTopics';
 import { MemoryRouter } from 'react-router';
 
 describe('<EmptyTopics />', () => {

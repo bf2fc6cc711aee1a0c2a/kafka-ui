@@ -1,1 +1,1 @@
-export { Home } from './Home.carbon';
+export { Home } from './Home';

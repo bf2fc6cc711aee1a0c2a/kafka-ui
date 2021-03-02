@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
-import { TopicsListComponent } from '../../TopicList/Components/TopicsList.patternfly';
+import { TopicsListComponent } from '../Components/TopicsList';
 
 import { Topic, TopicsList } from 'OpenApi';
 import { IConfiguration } from 'Contexts';
