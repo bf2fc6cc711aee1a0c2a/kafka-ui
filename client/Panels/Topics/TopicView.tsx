@@ -3,7 +3,7 @@ import { useHistory } from 'react-router';
 import './style.scss';
 import '@patternfly/react-core/dist/styles/base.css';
 import { TopicsListComponent } from '../../Modules/Topics/TopicList/Components/TopicsList';
-
+import {TabHeaders} from "../../Modules/OpenShiftStreams/TabHeaders/TabHeaders"
 const Topics: FunctionComponent = () => {
   const history = useHistory();
 
@@ -11,7 +11,7 @@ const Topics: FunctionComponent = () => {
     history.push('/topics/create');
   };
 
-  return <TopicsListComponent onCreateTopic={onCreateTopic} />;
+  return <TabHeaders eventKey={1}/>;
 };
 
 export { Topics };
