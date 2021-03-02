@@ -45,10 +45,6 @@ kafkaAdminAPI.registerSecurityHandler('Bearer', (c, req, res) => {
   // return jwt.verify(token, 'secret');
 });
 
-topicAPI.registerSecurityHandler('Bearer', (c, req, res) => {
-  return true;
-});
-
 // Skipping validation of the schema
 // validation fails on this schema definition
 // even though it is valid through other validation forms like Swagger.io
