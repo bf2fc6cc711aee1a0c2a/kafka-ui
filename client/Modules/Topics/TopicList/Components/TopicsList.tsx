@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Button,
   Card,
@@ -8,23 +8,23 @@ import {
   Toolbar,
   ToolbarContent,
   ToolbarItem,
-} from "@patternfly/react-core";
+} from '@patternfly/react-core';
 import {
   Table,
   TableBody,
   TableHeader,
   TableVariant,
-} from "@patternfly/react-table";
-import { useTimeout } from "Hooks/useTimeOut";
-import { SearchTopics } from "./SearchTopics";
-import { EmptyTopics } from "./EmptyTopics";
-import { EmptySearch } from "./EmptySearch";
-import { getTopics } from "Services";
-import { DeleteTopics } from "./DeleteTopicsModal";
-import { useHistory } from "react-router";
-import { ConfigContext } from "Contexts";
-import { TopicsList } from "OpenApi";
-import { Loading } from "../../../../Components/Loading/Loading";
+} from '@patternfly/react-table';
+import { useTimeout } from 'Hooks/useTimeOut';
+import { SearchTopics } from './SearchTopics';
+import { EmptyTopics } from './EmptyTopics';
+import { EmptySearch } from './EmptySearch';
+import { getTopics } from 'Services';
+import { DeleteTopics } from './DeleteTopicsModal';
+import { useHistory } from 'react-router';
+import { ConfigContext } from 'Contexts';
+import { TopicsList } from 'OpenApi';
+import { Loading } from 'Components/Loading/Loading';
 
 export interface ITopic {
   name: string;
@@ -47,7 +47,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(10);
   const [offset, setOffset] = useState<number>(0);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [topics, setTopics] = useState<TopicsList>();
   const [filteredTopics, setFilteredTopics] = useState<TopicsList>();
   const [deleteModal, setDeleteModal] = useState(false);
@@ -85,18 +85,18 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   };
 
   const tableColumns = [
-    { title: "Name" },
-    { title: "Replicas" },
-    { title: "Partitions" },
+    { title: 'Name' },
+    { title: 'Replicas' },
+    { title: 'Partitions' },
   ];
   const rowData =
     filteredTopics?.items?.map((topic) => [
       {
         title: (
           <Button
-            variant="link"
+            variant='link'
             onClick={() =>
-              onTopicClick((topic && topic.name && topic.name.toString()) || "")
+              onTopicClick((topic && topic.name && topic.name.toString()) || '')
             }
           >
             {topic?.name}
@@ -115,7 +115,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   useEffect(() => {
     if (
       search &&
-      search.trim() != "" &&
+      search.trim() != '' &&
       topics?.items &&
       topics.items.length > 0
     ) {
@@ -147,8 +147,8 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   };
 
   const actions = [
-    { title: "Delete", onClick: (_, rowId) => onDelete(rowId) },
-    { title: "Edit" },
+    { title: 'Delete', onClick: (_, rowId) => onDelete(rowId) },
+    { title: 'Edit' },
   ];
 
   if (loading) {
@@ -157,7 +157,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
 
   return (
     <>
-      <Title headingLevel="h2" size="lg">
+      <Title headingLevel='h2' size='lg'>
         Topics
       </Title>
       {deleteModal && (
@@ -182,8 +182,8 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
               </ToolbarItem>
               <ToolbarItem>
                 <Button
-                  id="topic-list-create-topic-button"
-                  className="topics-per-page"
+                  id='topic-list-create-topic-button'
+                  className='topics-per-page'
                   onClick={() => {
                     onCreateTopic();
                   }}
@@ -191,13 +191,13 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
                   Create topic
                 </Button>
               </ToolbarItem>
-              <ToolbarItem variant="pagination">
+              <ToolbarItem variant='pagination'>
                 <Pagination
                   itemCount={rowData.length}
                   perPage={perPage}
                   page={page}
                   onSetPage={onSetPage}
-                  widgetId="topic-list-pagination-top"
+                  widgetId='topic-list-pagination-top'
                   onPerPageSelect={onPerPageSelect}
                 />
               </ToolbarItem>
@@ -206,7 +206,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
           <Divider />
 
           <Table
-            aria-label="Compact Table"
+            aria-label='Compact Table'
             variant={TableVariant.compact}
             cells={tableColumns}
             rows={
@@ -228,7 +228,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
           perPage={perPage}
           page={page}
           onSetPage={onSetPage}
-          widgetId="topic-list-pagination-bottom"
+          widgetId='topic-list-pagination-bottom'
           onPerPageSelect={onPerPageSelect}
           offset={0}
         />
