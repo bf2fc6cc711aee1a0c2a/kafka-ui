@@ -3,13 +3,16 @@ import { UnexpectedError } from './UnexpectedError';
 
 type IErrorBoundaryProps = {
   children: React.ReactNode;
-}
+};
 
 type IErrorBoundary = {
   hasError: boolean;
-}
+};
 
-export class ErrorBoundary extends React.Component<IErrorBoundaryProps, IErrorBoundary> {
+export class ErrorBoundary extends React.Component<
+  IErrorBoundaryProps,
+  IErrorBoundary
+> {
   state: IErrorBoundary = {
     hasError: false,
   };

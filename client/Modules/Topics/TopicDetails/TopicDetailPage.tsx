@@ -6,6 +6,8 @@ import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import { useHistory, useParams } from 'react-router';
 import { getTopicDetail } from 'Services';
 import { ConfigContext } from 'Contexts';
+import { ConsumerGroupByTopicList } from './Components/ConsumerGroupsByTopic/ConsumerGroupsListByTopic.patternfly';
+import { DeleteTopics } from '../TopicList/Components/DeleteTopicsModal';
 
 export type TopicDetailRouteParams = {
   topicName: string;
@@ -60,6 +62,7 @@ export const TopicDetailGroup: React.FC = () => {
   const { topicName } = useParams<TopicDetailRouteParams>();
   const history = useHistory();
   const config = useContext(ConfigContext);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   const fetchTopicDetail = async (topicName: string) => {
     const response = await getTopicDetail(topicName, config);
@@ -75,6 +78,10 @@ export const TopicDetailGroup: React.FC = () => {
     history.push(`/topics/update/${topicName}`);
   };
 
+  const deleteTopic = () => {
+    setDeleteModal(true);
+  };
+
   return (
     <>
       <TopicDetailHead topicName={topicName} />
@@ -87,18 +94,23 @@ export const TopicDetailGroup: React.FC = () => {
         className='tab-padding'
       >
         <Tab eventKey={0} title={<TabTitleText>Consumer Groups</TabTitleText>}>
-          Consumer Group Component
+          <ConsumerGroupByTopicList />
         </Tab>
         <Tab eventKey={1} title={<TabTitleText>Properties</TabTitleText>}>
           <TopicDetailView
             topic={topicDetail}
-            deleteTopic={() => {
-              return;
-            }}
+            deleteTopic={deleteTopic}
             updateTopic={updateTopic}
           />
         </Tab>
       </Tabs>
+      {deleteModal && (
+        <DeleteTopics
+          topicName={topicName}
+          deleteModal={deleteModal}
+          setDeleteModal={setDeleteModal}
+        />
+      )}
     </>
   );
 };

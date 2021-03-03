@@ -17,11 +17,13 @@ import { getTopic, updateTopicModel } from 'Services/index';
 import { Topic, TopicSettings } from 'OpenApi/api';
 import { AdvancedTopic, TopicContext } from 'Contexts/Topic';
 import { ConfigContext } from 'Contexts';
+import { DeleteTopics } from 'Modules/Topics/TopicList/Components/DeleteTopicsModal';
 
 export const UpdateTopic: React.FC = () => {
   const { store, updateBulkStore } = React.useContext(TopicContext);
   const [alertVisible, setAlertVisible] = useState(false);
   const { name } = useParams<any>();
+  const [deleteModal, setDeleteModal] = useState(false);
 
   const config = useContext(ConfigContext);
 
@@ -55,6 +57,10 @@ export const UpdateTopic: React.FC = () => {
 
   const handleAlertClose = () => {
     setAlertVisible(true);
+  };
+
+  const deleteTopic = () => {
+    setDeleteModal(true);
   };
 
   const saveTopic = async () => {
@@ -116,8 +122,19 @@ export const UpdateTopic: React.FC = () => {
       <>
         <Divider />
         <PageSection variant={PageSectionVariants.light}>
-          <TopicAdvanceConfig isCreate={false} saveTopic={saveTopic} />
+          <TopicAdvanceConfig
+            isCreate={false}
+            saveTopic={saveTopic}
+            deleteTopic={deleteTopic}
+          />
         </PageSection>
+        {deleteModal && (
+          <DeleteTopics
+            deleteModal={deleteModal}
+            setDeleteModal={setDeleteModal}
+            topicName={name}
+          />
+        )}
       </>
     </>
   );
