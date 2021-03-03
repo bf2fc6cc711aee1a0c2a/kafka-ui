@@ -12,14 +12,14 @@ import {
   Tab,
   TabTitleText,
 } from '@patternfly/react-core';
-import { TopicsListComponent } from '../../Topics/TopicList/Components/TopicsList';
-import './TabHeaders.css';
+import { TopicsListComponent } from '../Topics/TopicList/Components/TopicsList';
+import './AppNavigation.css';
 import CodeBranchIcon from '@patternfly/react-icons/dist/js/icons/code-branch-icon';
 import { useHistory } from 'react-router';
 interface ITabHeaderProps {
   eventKey: number;
 }
-export const TabHeaders: React.FunctionComponent<ITabHeaderProps> = ({
+export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
   eventKey,
 }) => {
   const [activeTabKey, setActiveTabKey] = useState(eventKey);
