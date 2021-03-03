@@ -28,7 +28,8 @@ export const UpdateTopic: React.FC = () => {
   const config = useContext(ConfigContext);
 
   const fetchTopic = async (topicName) => {
-    const topic = await getTopic(topicName, config);
+    topic = await getTopic(topicName, config);
+
     if (topic) saveToStore(topic);
   };
 
@@ -61,18 +62,25 @@ export const UpdateTopic: React.FC = () => {
 
   const deleteTopic = () => {
     setDeleteModal(true);
+  }
+  const patchConfig = (previousTopic: Topic) => {
+    const updatedConfig: Array<ConfigEntry> = [];
+    previousTopic.config?.forEach((item) => {
+      if (item.key) {
+        if (store[item.key] != item.value) {
+          updatedConfig.push({ key: item.key, value: store[item.key] });
+        }
+      }
+    });
+    return updatedConfig;
   };
 
   const saveTopic = async () => {
+    const newConfig = await patchConfig(topic);
     const topicSettings: TopicSettings = {
       numPartitions: Number(store.numPartitions),
       replicationFactor: Number(store.replicationFactor),
-      config: [
-        {
-          key: 'min.insync.replicas',
-          value: store['min.insync.replicas'],
-        },
-      ],
+      config: newConfig,
     };
 
     const updateResponse = await updateTopicModel(
