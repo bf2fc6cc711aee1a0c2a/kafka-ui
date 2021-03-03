@@ -15,6 +15,7 @@ import {
   TableHeader,
   TableVariant,
 } from '@patternfly/react-table';
+import { useTimeout } from 'Hooks/useTimeOut';
 import { SearchTopics } from './SearchTopics';
 import { EmptyTopics } from './EmptyTopics';
 import { EmptySearch } from './EmptySearch';
@@ -23,7 +24,7 @@ import { DeleteTopics } from './DeleteTopicsModal';
 import { useHistory } from 'react-router';
 import { ConfigContext } from 'Contexts';
 import { TopicsList } from 'OpenApi';
-import { Loading } from '../../../../Components/Loading/Loading';
+import { Loading } from 'Components/Loading/Loading';
 
 export interface ITopic {
   name: string;
@@ -68,6 +69,8 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
     setLoading(true);
     fetchTopic();
   }, [deleteModal]);
+
+  useTimeout(() => fetchTopic(), 5000);
 
   const onSetPage = (_event, pageNumber: number) => {
     setPage(pageNumber);
