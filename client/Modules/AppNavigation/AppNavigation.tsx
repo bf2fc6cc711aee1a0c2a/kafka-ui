@@ -4,6 +4,7 @@ import {
   BreadcrumbItem,
   Button,
   Flex,
+  Page,
   FlexItem,
   PageSection,
   PageSectionVariants,
@@ -12,24 +13,19 @@ import {
   Tab,
   TabTitleText,
 } from '@patternfly/react-core';
-import { TopicsListComponent } from '../Topics/TopicList/Components/TopicsList';
 import './AppNavigation.css';
 import CodeBranchIcon from '@patternfly/react-icons/dist/js/icons/code-branch-icon';
-import { useHistory } from 'react-router';
+
 interface ITabHeaderProps {
-  eventKey: number;
+  children: React.ReactNode;
 }
+
 export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
-  eventKey,
+  children,
 }) => {
-  const [activeTabKey, setActiveTabKey] = useState(eventKey);
+  const [activeTabKey, setActiveTabKey] = useState(1);
   const handleTabClick = (event, tabIndex) => {
     setActiveTabKey(tabIndex);
-  };
-  const history = useHistory();
-
-  const onCreateTopic = () => {
-    history.push('/topics/create');
   };
 
   const mainBreadcrumbs = (
@@ -82,7 +78,9 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
             id='topics-tab-section'
             aria-label='Topics Tab'
           >
-            <TopicsListComponent onCreateTopic={onCreateTopic} />
+            <Page>
+              <PageSection>{children}</PageSection>
+            </Page>
           </Tab>
           <Tab
             title={<TabTitleText>Consumer Groups</TabTitleText>}
