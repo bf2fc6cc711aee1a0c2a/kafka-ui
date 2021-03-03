@@ -14,7 +14,7 @@ import '../../CreateTopic/Components/CreateTopicWizard.css';
 import { TopicAdvanceConfig } from '../../CreateTopic/Components/TopicAdvanceConfig';
 import { useParams } from 'react-router';
 import { getTopic, updateTopicModel } from 'Services/index';
-import { Topic, TopicSettings } from 'OpenApi/api';
+import { Topic, TopicSettings, ConfigEntry } from 'OpenApi/api';
 import { AdvancedTopic, TopicContext } from 'Contexts/Topic';
 import { ConfigContext } from 'Contexts';
 
@@ -22,11 +22,12 @@ export const UpdateTopic: React.FC = () => {
   const { store, updateBulkStore } = React.useContext(TopicContext);
   const [alertVisible, setAlertVisible] = useState(false);
   const { name } = useParams<any>();
-
+  let topic: Topic;
   const config = useContext(ConfigContext);
 
   const fetchTopic = async (topicName) => {
-    const topic = await getTopic(topicName, config);
+    topic = await getTopic(topicName, config);
+
     if (topic) saveToStore(topic);
   };
 
@@ -57,16 +58,24 @@ export const UpdateTopic: React.FC = () => {
     setAlertVisible(true);
   };
 
+  const patchConfig = (previousTopic: Topic) => {
+    const updatedConfig: Array<ConfigEntry> = [];
+    previousTopic.config?.forEach((item) => {
+      if (item.key) {
+        if (store[item.key] != item.value) {
+          updatedConfig.push({ key: item.key, value: store[item.key] });
+        }
+      }
+    });
+    return updatedConfig;
+  };
+
   const saveTopic = async () => {
+    const newConfig = await patchConfig(topic);
     const topicSettings: TopicSettings = {
       numPartitions: Number(store.numPartitions),
       replicationFactor: Number(store.replicationFactor),
-      config: [
-        {
-          key: 'min.insync.replicas',
-          value: store['min.insync.replicas'],
-        },
-      ],
+      config: newConfig,
     };
 
     const updateResponse = await updateTopicModel(
