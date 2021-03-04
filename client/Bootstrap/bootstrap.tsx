@@ -33,7 +33,11 @@ ReactDOM.render(
               component={UpdateTopicView}
               exact
             />
-            <Route path='/consumerGroups' component={ConsumerGroupsView} exact />
+            <Route
+              path='/consumerGroups'
+              component={ConsumerGroupsView}
+              exact
+            />
             <Route
               path='/topics/consumerGroups/:topicName'
               component={ConsumerGroupsTopicsView}

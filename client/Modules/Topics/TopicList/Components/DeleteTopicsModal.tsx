@@ -9,7 +9,7 @@ import {
 } from '@patternfly/react-core';
 import { deleteTopic } from 'Services/TopicServices';
 import { ConfigContext } from 'Contexts';
-
+import { useHistory } from 'react-router';
 export interface IDeleteTopics {
   setDeleteModal: (value: boolean) => void;
   deleteModal: boolean;
@@ -20,8 +20,14 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
   deleteModal,
   topicName,
 }) => {
+  const history = useHistory();
   const onClose = () => {
     setDeleteModal(false);
+  };
+
+  const onSave = () => {
+    setDeleteModal(false);
+    history.push('/topics');
   };
 
   const config = useContext(ConfigContext);
@@ -36,6 +42,7 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
       showClose={true}
       aria-describedby='no-header-example'
       onClose={onClose}
+      // onClick={onSave}
     >
       <Text> The Topic will be deleted </Text>
 
@@ -46,7 +53,7 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
             variant='danger'
             onClick={() => {
               if (topicName)
-                deleteTopic(topicName, config).then(() => onClose());
+                deleteTopic(topicName, config).then(() => onSave());
             }}
           >
             Delete Topic

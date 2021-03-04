@@ -26,11 +26,13 @@ import { CleanupSection } from './CleanupSection';
 interface ITopicAdvanceConfig {
   isCreate: boolean;
   saveTopic: () => void;
+  deleteTopic?: () => void;
 }
 
 export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = ({
   isCreate,
   saveTopic,
+  deleteTopic,
 }) => {
   const actionText = isCreate === true ? 'Create Topic' : 'Save';
 
@@ -126,7 +128,11 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                       </Text>
                     </TextContent>
                     <br />
-                    <Button variant='danger' className='section-margin'>
+                    <Button
+                      variant='danger'
+                      className='section-margin'
+                      onClick={deleteTopic}
+                    >
                       Delete topic
                     </Button>
                   </>
