@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from "react";
 import {
   Alert,
   AlertActionCloseButton,
@@ -9,6 +9,7 @@ import {
   PageSection,
   PageSectionVariants,
   Title,
+<<<<<<< HEAD:src/Modules/Topics/UpdateTopic/Components/UpdateTopic.tsx
 } from '@patternfly/react-core';
 import '../../CreateTopic/Components/CreateTopicWizard.css';
 import { TopicAdvanceConfig } from '../../CreateTopic/Components/TopicAdvanceConfig';
@@ -18,6 +19,17 @@ import { Topic, TopicSettings } from '../../../../OpenApi/api';
 import { AdvancedTopic, TopicContext } from '../../../../Contexts/Topic';
 import { ConfigContext } from '../../../../Contexts';
 import { DeleteTopics } from '../../../../Modules/Topics/TopicList/Components/DeleteTopicsModal';
+=======
+} from "@patternfly/react-core";
+import "../../CreateTopic/Components/CreateTopicWizard.css";
+import { TopicAdvanceConfig } from "../../CreateTopic/Components/TopicAdvanceConfig";
+import { useParams } from "react-router";
+import { getTopic, updateTopicModel } from "Services/index";
+import { Topic, TopicSettings } from "OpenApi/api";
+import { AdvancedTopic, TopicContext } from "Contexts/Topic";
+import { ConfigContext } from "Contexts";
+import { DeleteTopics } from 'Modules/Topics/TopicList/Components/DeleteTopicsModal';
+>>>>>>> 9a3f614 (Add advanced config properties for update):client/Modules/Topics/UpdateTopic/Components/UpdateTopic.tsx
 
 export const UpdateTopic: React.FC = () => {
   const { store, updateBulkStore } = React.useContext(TopicContext);
@@ -25,12 +37,13 @@ export const UpdateTopic: React.FC = () => {
   const { name } = useParams<any>();
   const [deleteModal, setDeleteModal] = useState(false);
 
+  const [topic, setTopic] = useState<Topic>();
   const config = useContext(ConfigContext);
 
   const fetchTopic = async (topicName) => {
-    topic = await getTopic(topicName, config);
-
-    if (topic) saveToStore(topic);
+    const topicRes = await getTopic(topicName, config);
+    setTopic(topicRes);
+    if (topicRes) saveToStore(topicRes);
   };
 
   useEffect(() => {
@@ -39,18 +52,18 @@ export const UpdateTopic: React.FC = () => {
 
   const saveToStore = (topic: Topic) => {
     const advanceConfig: AdvancedTopic = store;
-    advanceConfig.numPartitions = topic?.partitions?.length.toString() || '0';
-    advanceConfig.name = topic.name || '';
+    advanceConfig.numPartitions = topic?.partitions?.length.toString() || "0";
+    advanceConfig.name = topic.name || "";
     topic.config?.forEach((configItem) => {
-      advanceConfig[configItem.key || ''] = configItem.value || '';
+      advanceConfig[configItem.key || ""] = configItem.value || "";
     });
     updateBulkStore(advanceConfig);
   };
 
   const mainBreadcrumbs = (
     <Breadcrumb>
-      <BreadcrumbItem to='/#/topics'>Topics</BreadcrumbItem>
-      <BreadcrumbItem to='#' isActive>
+      <BreadcrumbItem to="/#/topics">Topics</BreadcrumbItem>
+      <BreadcrumbItem to="#" isActive>
         {name}
       </BreadcrumbItem>
     </Breadcrumb>
@@ -64,19 +77,18 @@ export const UpdateTopic: React.FC = () => {
     setDeleteModal(true);
   }
   const patchConfig = (previousTopic: Topic) => {
-    const updatedConfig: Array<ConfigEntry> = [];
-    previousTopic.config?.forEach((item) => {
-      if (item.key) {
-        if (store[item.key] != item.value) {
-          updatedConfig.push({ key: item.key, value: store[item.key] });
-        }
-      }
+    const updatedConfig = previousTopic.config?.filter((item) => {
+      if (item.key && store[item.key] != item.value)
+        // console.log("store", store[item.key], "item", item.value);
+      return { key: item.key, value: store[item.key] };
     });
+    console.log("updatedConfig", updatedConfig);
     return updatedConfig;
   };
 
   const saveTopic = async () => {
-    const newConfig = await patchConfig(topic);
+    const newConfig = topic && (await patchConfig(topic));
+
     const topicSettings: TopicSettings = {
       numPartitions: Number(store.numPartitions),
       replicationFactor: Number(store.replicationFactor),
@@ -88,20 +100,20 @@ export const UpdateTopic: React.FC = () => {
       topicSettings,
       config
     );
-    console.log('updateResponse', updateResponse);
+    console.log("updateResponse", updateResponse);
     setAlertVisible(true);
   };
 
   return (
     <>
       <section
-        className='pf-c-page__main-breadcrumb'
-        style={{ padding: '20px 20px' }}
+        className="pf-c-page__main-breadcrumb"
+        style={{ padding: "20px 20px" }}
       >
         {mainBreadcrumbs}
         <br />
         <br />
-        <Title headingLevel='h1' size='xl'>
+        <Title headingLevel="h1" size="xl">
           {name}
         </Title>
       </section>
@@ -110,11 +122,11 @@ export const UpdateTopic: React.FC = () => {
           {alertVisible ? (
             <Alert
               isLiveRegion
-              variant='success'
-              title='OpenShift Streams topic updated'
+              variant="success"
+              title="OpenShift Streams topic updated"
               actionClose={
                 <AlertActionCloseButton
-                  aria-label='Close success alert'
+                  aria-label="Close success alert"
                   onClose={handleAlertClose}
                 />
               }
