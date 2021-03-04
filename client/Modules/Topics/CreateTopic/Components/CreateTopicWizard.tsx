@@ -51,7 +51,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   const { store } = React.useContext(TopicContext);
 
   const mainBreadcrumbs = (
-    <Breadcrumb>
+    <Breadcrumb >
       <BreadcrumbItem to='/openshiftstreams'>
         Red Hat OpenShift Streams for Apache Kafka
       </BreadcrumbItem>
@@ -151,7 +151,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
 
   return (
     <>
-      <section className='pf-c-page__main-breadcrumb'>
+      <section className='breadcrumbs-padding'>
         {mainBreadcrumbs}
       </section>
       <PageSection variant={PageSectionVariants.light}>
@@ -175,7 +175,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
           )}
         </AlertGroup>
 
-        <Title headingLevel='h1' size='lg'>
+        <Title headingLevel='h1' size='lg' className='title-padding'>
           Create topic
         </Title>
         <Switch
@@ -184,7 +184,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
           labelOff='Show all available options'
           isChecked={isSwitchChecked}
           onChange={setIsSwitchChecked}
-          className='create-topic-wizard'
+          className='switch-padding'
         />
       </PageSection>
       <Divider />

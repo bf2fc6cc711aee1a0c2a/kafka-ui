@@ -48,3 +48,19 @@
 .pf-c-dropdown__toggle {
   width: 100%;
 }
+.breadcrumbs-padding {
+  padding-left: 20px;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 14px;
+}
+
+.title-padding {
+  padding-left: 20px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.switch-padding {
+  padding-left: 20px;
+  padding-bottom: 20px;
+}
