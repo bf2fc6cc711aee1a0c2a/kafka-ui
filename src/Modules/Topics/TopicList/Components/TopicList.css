@@ -1,0 +1,4 @@
+.pf-c-toolbar-item--search,
+.pf-c-toolbar-item--search .pf-c-search-input {
+  flex: 0 1 20em;
+}
