@@ -1,7 +1,17 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
-import { Button, ButtonVariant, EmptyState, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, PageSection, Title, TitleSizes } from '@patternfly/react-core';
+import {
+  Button,
+  ButtonVariant,
+  EmptyState,
+  EmptyStateBody,
+  EmptyStateIcon,
+  EmptyStateVariant,
+  PageSection,
+  Title,
+  TitleSizes,
+} from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 
 type IUnexpectedErrorProps = {
@@ -9,16 +19,15 @@ type IUnexpectedErrorProps = {
 };
 
 export const UnexpectedError: React.FC<IUnexpectedErrorProps> = ({
-  updateState
+  updateState,
 }) => {
-
   const { t } = useTranslation();
   const history = useHistory();
 
   const navigateToHome = () => {
     updateState(false);
-    history.push("/");
-  }
+    history.push('/');
+  };
 
   return (
     <PageSection padding={{ default: 'noPadding' }}>
@@ -33,5 +42,5 @@ export const UnexpectedError: React.FC<IUnexpectedErrorProps> = ({
         </Button>
       </EmptyState>
     </PageSection>
-  )
-}
+  );
+};

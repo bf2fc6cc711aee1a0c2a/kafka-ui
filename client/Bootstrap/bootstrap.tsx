@@ -10,11 +10,7 @@ import UpdateTopicView from '../Panels/Topics/UpdateView';
 import { TopicContextProvider } from 'Contexts/Topic';
 import { ConsumerGroupsView } from '../Panels/ConsumerGroups/ConsumerGroupsView';
 import { ConsumerGroupsTopicsView } from '../Panels/ConsumerGroupsByTopic/ConsumerGroupsByTopic';
-<<<<<<< HEAD
 import { ErrorBoundary } from 'Components/ErrorBoundary/ErrorBoundary';
-=======
-import { AppNavigation } from 'Modules/AppNavigation/AppNavigation';
->>>>>>> WIP:Use app layout as the entry point for the app
 
 init(); //Bootstrap i18next support
 ReactDOM.render(
@@ -37,7 +33,11 @@ ReactDOM.render(
               component={UpdateTopicView}
               exact
             />
-            <Route path='/consumerGroups' component={ConsumerGroupsView} exact />
+            <Route
+              path='/consumerGroups'
+              component={ConsumerGroupsView}
+              exact
+            />
             <Route
               path='/topics/consumerGroups/:topicName'
               component={ConsumerGroupsTopicsView}

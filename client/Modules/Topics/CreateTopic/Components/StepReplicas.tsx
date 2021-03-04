@@ -79,11 +79,11 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
       <Text component={TextVariants.h2}>Replicas</Text>
       <Text component={TextVariants.p}>
         This is how many copies of a topic will be made for high availability.
-        </Text>
+      </Text>
       <Text component={TextVariants.small}>
         The partitions of each topic can be replicated across a configurable
         number of brokers.
-        </Text>
+      </Text>
       <Form onSubmit={preventFormSubmit}>
         <FormGroup
           fieldId='create-wizard-replica-form-group'
@@ -128,7 +128,7 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
               className='minimum-in-sync-replicas'
             >
               Minimum in-sync replicas
-              </Text>
+            </Text>
             <NumberInput
               value={minInSyncReplicaTouchspinValue}
               onMinus={handleOnMinusMinInSyncReplicaFactor}

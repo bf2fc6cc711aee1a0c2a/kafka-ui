@@ -28,16 +28,16 @@ export const StepTopicName: React.FC<IStepTopicName> = ({
       <Text component={TextVariants.h2}>Topic name</Text>
       <Text component={TextVariants.p}>
         This is the unique name used to recognize your topic.
-        </Text>
+      </Text>
       <Text component={TextVariants.small}>
         It will also be used by your producers and consumers as part of the
         connection information, so make it something easy to recognize.
-        </Text>
+      </Text>
       <Form onSubmit={preventFormSubmit}>
         <FormGroup
           label='Topic name'
           fieldId='step-topic-name-form'
-        // helperText="Please enter your topic name"
+          // helperText="Please enter your topic name"
         >
           <TextInput
             isRequired
