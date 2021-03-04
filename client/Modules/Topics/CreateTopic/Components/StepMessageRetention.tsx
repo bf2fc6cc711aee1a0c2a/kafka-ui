@@ -93,6 +93,8 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
     setMsgTouchspinValue(Number(event.target.value));
   };
 
+  const preventFormSubmit = (event) => event.preventDefault();
+
   return (
     <>
       <TextContent className='topics-wizard-content'>
@@ -105,7 +107,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
           will be missed.
         </Text>
       </TextContent>
-      <Form className='form-in-wizard'>
+      <Form className='form-in-wizard' onSubmit={preventFormSubmit}>
         <FormGroup
           fieldId='form-group-in-wizard'
           label='Message retention'
