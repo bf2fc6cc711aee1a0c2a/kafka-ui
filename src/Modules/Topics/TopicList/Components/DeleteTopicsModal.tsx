@@ -7,8 +7,8 @@ import {
   Text,
   FlexItem,
 } from '@patternfly/react-core';
-import { deleteTopic } from 'Services/TopicServices';
-import { ConfigContext } from 'Contexts';
+import { deleteTopic } from '../../../../Services/TopicServices';
+import { ConfigContext } from '../../../../Contexts';
 import { useHistory } from 'react-router';
 export interface IDeleteTopics {
   setDeleteModal: (value: boolean) => void;

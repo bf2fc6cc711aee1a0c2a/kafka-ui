@@ -15,16 +15,16 @@ import {
   TableHeader,
   TableVariant,
 } from '@patternfly/react-table';
-import { useTimeout } from 'Hooks/useTimeOut';
+import { useTimeout } from '../../../../Hooks/useTimeOut';
 import { SearchTopics } from './SearchTopics';
 import { EmptyTopics } from './EmptyTopics';
 import { EmptySearch } from './EmptySearch';
-import { getTopics } from 'Services';
+import { getTopics } from '../../../../Services';
 import { DeleteTopics } from './DeleteTopicsModal';
 import { useHistory } from 'react-router';
-import { ConfigContext } from 'Contexts';
-import { TopicsList } from 'OpenApi';
-import { Loading } from 'Components/Loading/Loading';
+import { ConfigContext } from '../../../../Contexts';
+import { TopicsList } from '../../../../OpenApi';
+import { Loading } from '../../../../Components/Loading/Loading';
 
 export interface ITopic {
   name: string;

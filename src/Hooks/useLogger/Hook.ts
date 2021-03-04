@@ -1,7 +1,7 @@
 import { useEffect, useContext } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import { LogLevel, LoggingContext } from 'Contexts';
+import { LogLevel, LoggingContext } from '../../Contexts';
 
 export const MESSAGE_BUFFER_MAX_SIZE = 100;
 

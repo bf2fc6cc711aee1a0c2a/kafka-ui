@@ -7,10 +7,10 @@ import {
   NumberInput,
   Text,
 } from '@patternfly/react-core';
-import { FormGroupWithPopover } from 'Components/FormGroupWithPopover/FormGroupWithPopover';
+import { FormGroupWithPopover } from '../../../../Components/FormGroupWithPopover/FormGroupWithPopover';
 import { kebabToDotSeparated } from '../utils';
-import { TopicContext } from 'Contexts/Topic';
-import { SizeTimeFormGroup } from 'Components/SizeTimeFormGroup/SizeTimeFormGroup';
+import { TopicContext } from '../../../../Contexts/Topic';
+import { SizeTimeFormGroup } from '../../../../Components/SizeTimeFormGroup/SizeTimeFormGroup';
 import { useTranslation } from 'react-i18next';
 
 export const CleanupSection: React.FC = () => {

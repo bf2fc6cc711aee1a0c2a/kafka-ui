@@ -5,12 +5,12 @@ import { ConfigContext } from '../Contexts';
 import { Topics } from '../Panels/Topics';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import CreateTopic from '../Panels/Topics/CreateView';
-import TopicDetail from 'Panels/Topics/DetailView';
+import TopicDetail from '../Panels/Topics/DetailView';
 import UpdateTopicView from '../Panels/Topics/UpdateView';
-import { TopicContextProvider } from 'Contexts/Topic';
+import { TopicContextProvider } from '../Contexts/Topic';
 import { ConsumerGroupsView } from '../Panels/ConsumerGroups/ConsumerGroupsView';
 import { ConsumerGroupsTopicsView } from '../Panels/ConsumerGroupsByTopic/ConsumerGroupsByTopic';
-import { ErrorBoundary } from 'Components/ErrorBoundary/ErrorBoundary';
+import { ErrorBoundary } from '../Components/ErrorBoundary/ErrorBoundary';
 
 init(); //Bootstrap i18next support
 ReactDOM.render(

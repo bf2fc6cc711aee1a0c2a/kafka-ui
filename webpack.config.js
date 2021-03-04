@@ -20,7 +20,7 @@ const singletonDeps = [
   '@patternfly/react-tokens',
   '@redhat-cloud-services/frontend-components',
   '@redhat-cloud-services/frontend-components-utilities',
-  '@redhat-cloud-services/frontend-components-notifications'
+  '@redhat-cloud-services/frontend-components-notifications',
 ];
 const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
 const srcDir = path.resolve(__dirname, './src');
@@ -41,7 +41,7 @@ module.exports = (_env, argv) => {
     entry,
     output: {
       filename: isProduction ? '[chunkhash].bundle.js' : '[name].bundle.js',
-      publicPath: '/'
+      publicPath: '/',
     },
     module: {
       rules: [
@@ -51,16 +51,12 @@ module.exports = (_env, argv) => {
           use: [
             {
               loader: 'ts-loader',
-            }
-          ]
+            },
+          ],
         },
         {
           test: /\.css|s[ac]ss$/i,
-          use: [
-            MiniCssExtractPlugin.loader,
-            'css-loader',
-            'sass-loader'
-          ],
+          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
         },
         {
           test: fileRegEx,
@@ -70,7 +66,7 @@ module.exports = (_env, argv) => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: path.join(srcDir, 'index.html'),
+        template: path.join(srcDir, 'Bootstrap', 'index.html'),
       }),
       new MiniCssExtractPlugin({
         filename: isProduction ? '[id].[contenthash].css' : '[name].css',
@@ -81,21 +77,21 @@ module.exports = (_env, argv) => {
         name: federatedModuleName,
         filename: 'remoteEntry.js',
         exposes: {
-            './Panels/Topics': './client/Panels/Topics/FederatedView',
-            './Panels/CreateTopic': './client/Panels/Topics/FederatedCreateView',
+          './Panels/Topics': './src/Panels/Topics/FederatedView',
+          './Panels/CreateTopic': './src/Panels/Topics/FederatedCreateView',
         },
         shared: {
           ...dependencies,
           ...singletonDeps.reduce((acc, dep) => {
             acc[dep] = { singleton: true, requiredVersion: dependencies[dep] };
             return acc;
-          }, {})
-        }
+          }, {}),
+        },
       }),
     ],
     optimization: {
       splitChunks: {
-        chunks: 'all'
+        chunks: 'all',
       },
     },
     resolve: {
@@ -109,7 +105,7 @@ module.exports = (_env, argv) => {
     devServer: {
       historyApiFallback: true,
       port: 8002,
-      disableHostCheck: true
+      disableHostCheck: true,
     },
   };
 };

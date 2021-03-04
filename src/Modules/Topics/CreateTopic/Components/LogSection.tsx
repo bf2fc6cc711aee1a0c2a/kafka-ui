@@ -3,11 +3,11 @@ import React from 'react';
 import {
   DropdownWithToggle,
   IDropdownOption,
-} from 'Components/DropdownWithToggle';
-import { FormGroupWithPopover } from 'Components/FormGroupWithPopover/FormGroupWithPopover';
+} from '../../../../Components/DropdownWithToggle';
+import { FormGroupWithPopover } from '../../../../Components/FormGroupWithPopover/FormGroupWithPopover';
 import { kebabToDotSeparated } from '../utils';
-import { SizeTimeFormGroup } from 'Components/SizeTimeFormGroup/SizeTimeFormGroup';
-import { TopicContext } from 'Contexts/Topic';
+import { SizeTimeFormGroup } from '../../../../Components/SizeTimeFormGroup/SizeTimeFormGroup';
+import { TopicContext } from '../../../../Contexts/Topic';
 import { useTranslation } from 'react-i18next';
 
 const clearOptions: IDropdownOption[] = [

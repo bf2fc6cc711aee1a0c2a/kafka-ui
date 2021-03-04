@@ -8,8 +8,8 @@ import {
   TextVariants,
 } from '@patternfly/react-core';
 import React from 'react';
-import { FormGroupWithPopover } from 'Components/FormGroupWithPopover/FormGroupWithPopover';
-import { TopicContext } from 'Contexts/Topic';
+import { FormGroupWithPopover } from '../../../../Components/FormGroupWithPopover/FormGroupWithPopover';
+import { TopicContext } from '../../../../Contexts/Topic';
 import { kebabToDotSeparated } from '../utils';
 import { useTranslation } from 'react-i18next';
 

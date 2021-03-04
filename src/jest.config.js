@@ -1,13 +1,13 @@
 const merge = require('lodash.merge');
 const { pathsToModuleNameMapper } = require('ts-jest/utils');
-const { jestModuleMapper } = require('../utils/tooling/aliasHelper');
-const { compilerOptions } = require('./tsconfig.json');
+const { jestModuleMapper } = require('<rootDir>/utils/tooling/aliasHelper');
+const { compilerOptions } = require('../tsconfig.json');
 const commonConfig = require('../test_common/jest.common.config');
 
 const config = {
   setupFilesAfterEnv: ['<rootDir>/../test_common/jest_rtl_setup.ts'],
   testMatch: ['**/*.(spec|steps).[jt]s?(x)'],
-  coverageDirectory: '<rootDir>/../coverage/client',
+  coverageDirectory: '<rootDir>/../coverage',
   moduleNameMapper: {
     ...pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' }),
     ...jestModuleMapper,
@@ -25,9 +25,6 @@ const config = {
     '!**/*.assets.{ts,tsx}',
     '!jest.config.js',
     '!**/mock/**/*',
-    // Wrapper around graphql - not something we need/wish to test
-    '!Bootstrap/GraphQLClient/**',
-    '!Bootstrap/bootstrap.tsx',
   ],
 };
 

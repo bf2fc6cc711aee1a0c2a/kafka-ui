@@ -4,8 +4,8 @@ import { Given, When, Then, Fusion } from 'jest-cucumber-fusion';
 import {
   TopicDetailView,
   TopicViewDetailProps,
-} from 'Modules/Topics/TopicDetails/Components/TopicDetailView';
-import { AdvancedTopic } from 'Contexts/Topic';
+} from '../../../../Modules/Topics/TopicDetails/Components/TopicDetailView';
+import { AdvancedTopic } from '../../../../Contexts/Topic';
 
 let renderResult: RenderResult;
 let component: ReactElement;

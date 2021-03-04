@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { TopicDetailHead } from 'Modules/Topics/TopicDetails/Components/TopicDetailHead';
+import { TopicDetailHead } from '../../../Modules/Topics/TopicDetails/Components/TopicDetailHead';
 import { TopicDetailView } from './Components/TopicDetailView';
-import { AdvancedTopic } from 'Contexts/Topic';
+import { AdvancedTopic } from '../../../Contexts/Topic';
 import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import { useHistory, useParams } from 'react-router';
-import { getTopicDetail } from 'Services';
-import { ConfigContext } from 'Contexts';
+import { getTopicDetail } from '../../../Services';
+import { ConfigContext } from '../../../Contexts';
 import { ConsumerGroupByTopicList } from './Components/ConsumerGroupsByTopic/ConsumerGroupsListByTopic.patternfly';
 import { DeleteTopics } from '../TopicList/Components/DeleteTopicsModal';
 

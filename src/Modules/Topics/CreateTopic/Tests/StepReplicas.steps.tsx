@@ -2,7 +2,7 @@ import { render, RenderResult } from '@testing-library/react';
 import {
   StepReplicas,
   IStepReplicas,
-} from 'Modules/Topics/CreateTopic/Components/StepReplicas';
+} from '../../../../Modules/Topics/CreateTopic/Components/StepReplicas';
 import React, { ReactElement } from 'react';
 import userEvent from '@testing-library/user-event';
 

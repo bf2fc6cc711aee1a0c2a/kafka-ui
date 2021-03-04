@@ -2,11 +2,11 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { TopicsListComponent } from '../Components/TopicsList';
 
-import { Topic, TopicsList } from 'OpenApi';
-import { IConfiguration } from 'Contexts';
+import { Topic, TopicsList } from '../../../../OpenApi';
+import { IConfiguration } from '../../../../Contexts';
 
 jest.mock('Services');
-import { getTopics } from 'Services';
+import { getTopics } from '../../../../Services';
 
 describe('<TopicsList />', () => {
   it('should render a list of topics', async () => {

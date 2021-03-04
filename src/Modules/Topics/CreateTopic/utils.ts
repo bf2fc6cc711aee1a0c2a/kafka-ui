@@ -1,5 +1,5 @@
-import { AdvancedTopic } from 'Contexts/Topic';
-import { ConfigEntry, NewTopicInput } from 'OpenApi';
+import { AdvancedTopic } from '../../../Contexts/Topic';
+import { ConfigEntry, NewTopicInput } from '../../../OpenApi';
 
 const capitalizeText = (text: string) => {
   return text.charAt(0).toUpperCase() + text.slice(1);

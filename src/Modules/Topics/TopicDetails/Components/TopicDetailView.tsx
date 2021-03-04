@@ -13,8 +13,8 @@ import {
   Divider,
 } from '@patternfly/react-core';
 import './TopicDetailView.css';
-import { TextWithLabelPopover } from 'Components/TextWithLabelPopover/TextWithLabelPopover';
-import { AdvancedTopic } from 'Contexts/Topic';
+import { TextWithLabelPopover } from '../../../../Components/TextWithLabelPopover/TextWithLabelPopover';
+import { AdvancedTopic } from '../../../../Contexts/Topic';
 import { useTranslation } from 'react-i18next';
 
 export type TopicViewDetailProps = {

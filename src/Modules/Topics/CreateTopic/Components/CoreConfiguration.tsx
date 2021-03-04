@@ -8,10 +8,10 @@ import {
   NumberInput,
 } from '@patternfly/react-core';
 import React from 'react';
-import { FormGroupWithPopover } from 'Components/FormGroupWithPopover/FormGroupWithPopover';
+import { FormGroupWithPopover } from '../../../../Components/FormGroupWithPopover/FormGroupWithPopover';
 import { kebabToCamel, kebabToDotSeparated } from '../utils';
-import { TopicContext } from 'Contexts/Topic';
-import { SizeTimeFormGroup } from 'Components/SizeTimeFormGroup/SizeTimeFormGroup';
+import { TopicContext } from '../../../../Contexts/Topic';
+import { SizeTimeFormGroup } from '../../../../Components/SizeTimeFormGroup/SizeTimeFormGroup';
 import { useTranslation } from 'react-i18next';
 
 const CoreConfiguration: React.FC = () => {

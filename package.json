@@ -6,7 +6,7 @@
   "schemaUrl": "https://raw.githubusercontent.com/strimzi/strimzi-admin/d73f77de68ad15d5b155d7e555200393b5b68596/kafka-admin/src/main/resources/graphql-schema/kafka-admin.graphql",
   "description": "Strimzi UI provides a way for managing Strimzi and Kafka clusters (+ other components) deployed by it using a graphical user interface.",
   "scripts": {
-    "api:generate": "openapi-generator-cli generate -i openapi/strimzi-admin.yaml -g typescript-axios -o client/OpenApi --additional-properties=ngVersion=6.1.7,npmName=restClient,supportsES6=true,npmVersion=6.9.0,withInterfaces=true",
+    "api:generate": "openapi-generator-cli generate -i openapi/strimzi-admin.yaml -g typescript-axios -o src/OpenApi --additional-properties=ngVersion=6.1.7,npmName=restClient,supportsES6=true,npmVersion=6.9.0,withInterfaces=true",
     "clean": "rm -rf dist/ && rm -rf js/ && rm -rf .out/ && rm -rf generated/ && rm -rf coverage/ && npx jest --clear-cache",
     "start:restmockserver": "node mock-server/src/index.js",
     "start": "npm-run-all --parallel --race start:client start:restmockserver",
@@ -22,7 +22,7 @@
     "storybook:build": "build-storybook -o .out",
     "test": "npm-run-all test:jest",
     "test:jest": "npm-run-all \"test:jest:* -- {1}\" --",
-    "test:jest:client": "jest --collectCoverage --config client/jest.config.js",
+    "test:jest:client": "jest --collectCoverage --config src/jest.config.js",
     "test:e2e": "npm-run-all clean build --parallel --race start:e2eserver cy:closed",
     "test:e2e:open": "npm-run-all clean build --parallel --race start:e2eserver cy:open",
     "lint": "npm-run-all 'lint:src -- .' 'lint:styling -- \"**/*.(s)css\"' 'lint:format -- .'",

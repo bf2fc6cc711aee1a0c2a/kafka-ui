@@ -19,11 +19,11 @@ import { StepMessageRetention } from './StepMessageRetention';
 import { StepReplicas } from './StepReplicas';
 import './CreateTopicWizard.css';
 import { TopicAdvanceConfig } from './TopicAdvanceConfig';
-import { DefaultApi, NewTopicInput } from 'OpenApi/api';
-import { TopicContext } from 'Contexts/Topic';
+import { DefaultApi, NewTopicInput } from '../../../../OpenApi/api';
+import { TopicContext } from '../../../../Contexts/Topic';
 import { convertUnits, formatTopicRequest } from '../utils';
-import { ConfigContext } from 'Contexts';
-import { Configuration } from 'OpenApi';
+import { ConfigContext } from '../../../../Contexts';
+import { Configuration } from '../../../../OpenApi';
 
 interface ICreateTopicWizard {
   setIsCreateTopic?: (value: boolean) => void;
