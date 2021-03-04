@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { TopicDetailGroup } from 'Modules/Topics/TopicDetails/TopicDetailPage';
+import { TopicDetailGroup } from '../../Modules/Topics/TopicDetails/TopicDetailPage';
 
 const TopicDetail: FunctionComponent = () => {
   return <TopicDetailGroup />;

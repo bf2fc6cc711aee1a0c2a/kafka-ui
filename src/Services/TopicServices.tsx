@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { AdvancedTopic } from '../Contexts/Topic';
-import { DefaultApi, Topic, TopicSettings, TopicsList } from 'OpenApi/api';
-import { Configuration } from 'OpenApi';
+import { DefaultApi, Topic, TopicSettings, TopicsList } from '../OpenApi/api';
+import { Configuration } from '../OpenApi';
 import { IConfiguration } from '../Contexts';
 
 export const getTopics = async (
