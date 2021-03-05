@@ -1,6 +1,5 @@
 const merge = require('lodash.merge');
-const { pathsToModuleNameMapper } = require('ts-jest/utils');
-const { jestModuleMapper } = require('<rootDir>/utils/tooling/aliasHelper');
+const { jestModuleMapper } = require('../utils/tooling/aliasHelper');
 const { compilerOptions } = require('../tsconfig.json');
 const commonConfig = require('../test_common/jest.common.config');
 
@@ -9,7 +8,7 @@ const config = {
   testMatch: ['**/*.(spec|steps).[jt]s?(x)'],
   coverageDirectory: '<rootDir>/../coverage',
   moduleNameMapper: {
-    ...pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' }),
+    ...compilerOptions.paths,
     ...jestModuleMapper,
     '\\.(css|less)$':
       '<rootDir>/../node_modules/@patternfly/react-styles/__mocks__/styleMock.js',
