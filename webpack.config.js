@@ -76,7 +76,7 @@ module.exports = (_env, argv) => {
       }),
       new webpack.container.ModuleFederationPlugin({
         name: federatedModuleName,
-        filename: 'remoteEntry.js',
+        filename: `${federatedModuleName}${_env === "production" ? '.[chunkhash]' : ''}.js`,
         exposes: {
           './Panels/Topics': './src/Panels/Topics/FederatedView',
           './Panels/CreateTopic': './src/Panels/Topics/FederatedCreateView',
