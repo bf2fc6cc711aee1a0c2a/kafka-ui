@@ -38,11 +38,11 @@ module.exports = (_env, argv) => {
       modules: false,
     },
     mode: isProduction ? 'production' : 'development',
-    devtool: isProduction ? 'source-map' : 'cheap-module-source-map',
+    devtool: isProduction ? 'source-map' : 'eval-source-map',
     entry,
     output: {
       filename: isProduction ? '[chunkhash].bundle.js' : '[name].bundle.js',
-      publicPath: '/',
+      publicPath: 'auto',
     },
     module: {
       rules: [
@@ -110,8 +110,15 @@ module.exports = (_env, argv) => {
     },
     devServer: {
       historyApiFallback: true,
-      port: 8002,
+      port: 8080,
       disableHostCheck: true,
+      progress: true,
+      hot: true,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+        "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+      },
     },
   };
 };
