@@ -24,6 +24,7 @@ const singletonDeps = [
 ];
 const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
 const srcDir = path.resolve(__dirname, './src');
+const ChunkMapper = require('@redhat-cloud-services/frontend-components-config/chunk-mapper');
 
 module.exports = (_env, argv) => {
   const isProduction = argv.mode === 'production';
@@ -88,6 +89,11 @@ module.exports = (_env, argv) => {
           }, {}),
         },
       }),
+      new ChunkMapper({
+        modules: [
+          federatedModuleName
+        ]
+      })
     ],
     optimization: {
       splitChunks: {
