@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {
+  AlertVariant,
   Button,
   Card,
   Divider,
@@ -25,6 +26,7 @@ import { useHistory } from 'react-router';
 import { ConfigContext } from '../../../../Contexts';
 import { TopicsList } from '../../../../OpenApi';
 import { Loading } from '../../../../Components/Loading/Loading';
+import { AlertContext } from '../../../../Contexts/Alert';
 
 export interface ITopic {
   name: string;
@@ -54,13 +56,22 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   const [topicName, setTopicName] = useState<string | undefined>();
   const history = useHistory();
 
+  const { addAlert } = useContext(AlertContext);
+
   const config = useContext(ConfigContext);
 
   const fetchTopic = async () => {
-    const topicsList = await getTopics(config);
-    if (topicsList) {
-      setTopics(topicsList);
-      setFilteredTopics(topicsList);
+    try {
+      const topicsList = await getTopics(config);
+      if (topicsList) {
+        setTopics(topicsList);
+        setFilteredTopics(topicsList);
+      }
+    } catch (err) {
+      addAlert(
+        err.response.data.err,
+        AlertVariant.danger
+      );
     }
     setLoading(false);
   };
@@ -126,9 +137,9 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
       setFilteredTopics((prevState) =>
         prevState
           ? {
-              ...prevState,
-              items: filterSearch,
-            }
+            ...prevState,
+            items: filterSearch,
+          }
           : undefined
       );
     } else {

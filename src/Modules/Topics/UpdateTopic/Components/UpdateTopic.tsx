@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {
-  Alert,
-  AlertActionCloseButton,
-  AlertGroup,
+  AlertVariant,
   Breadcrumb,
   BreadcrumbItem,
   Divider,
@@ -18,15 +16,16 @@ import { Topic, TopicSettings } from '../../../../OpenApi/api';
 import { AdvancedTopic, TopicContext } from '../../../../Contexts/Topic';
 import { ConfigContext } from '../../../../Contexts';
 import { DeleteTopics } from '../../../../Modules/Topics/TopicList/Components/DeleteTopicsModal';
+import { AlertContext } from '../../../../Contexts/Alert';
 
 export const UpdateTopic: React.FC = () => {
   const { store, updateBulkStore } = React.useContext(TopicContext);
-  const [alertVisible, setAlertVisible] = useState(false);
   const { name } = useParams<any>();
   const [deleteModal, setDeleteModal] = useState(false);
 
   const [topic, setTopic] = useState<Topic>();
   const config = useContext(ConfigContext);
+  const { addAlert } = useContext(AlertContext);
 
   const fetchTopic = async (topicName) => {
     const topicRes = await getTopic(topicName, config);
@@ -57,10 +56,6 @@ export const UpdateTopic: React.FC = () => {
     </Breadcrumb>
   );
 
-  const handleAlertClose = () => {
-    setAlertVisible(true);
-  };
-
   const deleteTopic = () => {
     setDeleteModal(true);
   };
@@ -86,14 +81,27 @@ export const UpdateTopic: React.FC = () => {
       config: newConfig,
     };
 
-    const updateStatus = await updateTopicModel(
-      store.name,
-      topicSettings,
-      config
-    );
-
     //Todo: handle alert based on update response
-    if (updateStatus === 204) setAlertVisible(true);
+    try {
+      const updateStatus = await updateTopicModel(
+        store.name,
+        topicSettings,
+        config
+      );
+      console.log('updateResponse', updateStatus);
+
+      if (updateStatus === 204){
+        addAlert(
+          'The topic was successfully updated in the Kafka instance',
+          AlertVariant.success
+        );
+      }
+    } catch (err) {
+      addAlert(
+        err.response.data.err,
+        AlertVariant.danger
+      );
+    }
   };
 
   return (
@@ -109,27 +117,6 @@ export const UpdateTopic: React.FC = () => {
           {name}
         </Title>
       </section>
-      <PageSection variant={PageSectionVariants.light}>
-        <AlertGroup isToast>
-          {alertVisible ? (
-            <Alert
-              isLiveRegion
-              variant='success'
-              title='OpenShift Streams topic updated'
-              actionClose={
-                <AlertActionCloseButton
-                  aria-label='Close success alert'
-                  onClose={handleAlertClose}
-                />
-              }
-            >
-              The topic was successfully updated in the Kafka instance.
-            </Alert>
-          ) : (
-            <></>
-          )}
-        </AlertGroup>
-      </PageSection>
       <Divider />
       <>
         <Divider />
