@@ -1,8 +1,6 @@
 import React, { useContext, useState } from 'react';
 import {
-  Alert,
-  AlertActionCloseButton,
-  AlertGroup,
+  AlertVariant,
   Breadcrumb,
   BreadcrumbItem,
   Divider,
@@ -24,6 +22,7 @@ import { TopicContext } from '../../../../Contexts/Topic';
 import { convertUnits, formatTopicRequest } from '../utils';
 import { ConfigContext } from '../../../../Contexts';
 import { Configuration } from '../../../../OpenApi';
+import { AlertContext } from '../../../../Contexts/Alert/Context';
 
 interface ICreateTopicWizard {
   setIsCreateTopic?: (value: boolean) => void;
@@ -33,8 +32,8 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   setIsCreateTopic,
 }) => {
   const config = useContext(ConfigContext);
+  const { addAlert } = useContext(AlertContext);
 
-  const [alertVisible, setAlertVisible] = useState(false);
   const [isSwitchChecked, setIsSwitchChecked] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [msgRetentionValue, setMsgRetentionValue] = useState(1);
@@ -64,10 +63,6 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     </Breadcrumb>
   );
 
-  const handleAlertClose = () => {
-    setAlertVisible(true);
-  };
-
   const closeWizard = () => {
     if (setIsCreateTopic) {
       setIsCreateTopic(false);
@@ -96,7 +91,10 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       .createTopic(topic)
       .then((res) => {
         if (res.status === 200) {
-          setAlertVisible(true);
+          addAlert(
+            'The topic was successfully created in the Kafka instance',
+            AlertVariant.success
+          );
         }
         closeWizard();
       });
@@ -155,26 +153,6 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
         {mainBreadcrumbs}
       </section>
       <PageSection variant={PageSectionVariants.light}>
-        <AlertGroup isToast>
-          {alertVisible ? (
-            <Alert
-              isLiveRegion
-              variant='success'
-              title='OpenShift Streams topic created'
-              actionClose={
-                <AlertActionCloseButton
-                  aria-label='Close success alert'
-                  onClose={handleAlertClose}
-                />
-              }
-            >
-              The topic was successfully created in the Kafka instance.
-            </Alert>
-          ) : (
-            <></>
-          )}
-        </AlertGroup>
-
         <Title headingLevel='h1' size='lg'>
           Create topic
         </Title>

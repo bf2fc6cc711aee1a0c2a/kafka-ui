@@ -11,6 +11,7 @@ import { TopicContextProvider } from '../Contexts/Topic';
 import { ConsumerGroupsView } from '../Panels/ConsumerGroups/ConsumerGroupsView';
 import { ConsumerGroupsTopicsView } from '../Panels/ConsumerGroupsByTopic/ConsumerGroupsByTopic';
 import { ErrorBoundary } from '../Components/ErrorBoundary/ErrorBoundary';
+import { AlertProvider } from '../Contexts/Alert/Context';
 
 init(); //Bootstrap i18next support
 ReactDOM.render(
@@ -22,29 +23,31 @@ ReactDOM.render(
   >
     <TopicContextProvider>
       <Router>
-        <ErrorBoundary>
-          <Switch>
-            <Route path='/' component={Topics} exact />
-            <Route path='/topics' component={Topics} exact />
-            <Route path='/topic/:topicName' component={TopicDetail} exact />
-            <Route path='/topics/create' component={CreateTopic} exact />
-            <Route
-              path='/topics/update/:name'
-              component={UpdateTopicView}
-              exact
-            />
-            <Route
-              path='/consumerGroups'
-              component={ConsumerGroupsView}
-              exact
-            />
-            <Route
-              path='/topics/consumerGroups/:topicName'
-              component={ConsumerGroupsTopicsView}
-              exact
-            />
-          </Switch>
-        </ErrorBoundary>
+        <AlertProvider>
+          <ErrorBoundary>
+            <Switch>
+              <Route path='/' component={Topics} exact />
+              <Route path='/topics' component={Topics} exact />
+              <Route path='/topic/:topicName' component={TopicDetail} exact />
+              <Route path='/topics/create' component={CreateTopic} exact />
+              <Route
+                path='/topics/update/:name'
+                component={UpdateTopicView}
+                exact
+              />
+              <Route
+                path='/consumerGroups'
+                component={ConsumerGroupsView}
+                exact
+              />
+              <Route
+                path='/topics/consumerGroups/:topicName'
+                component={ConsumerGroupsTopicsView}
+                exact
+              />
+            </Switch>
+          </ErrorBoundary>
+        </AlertProvider>
       </Router>
     </TopicContextProvider>
   </ConfigContext.Provider>,
