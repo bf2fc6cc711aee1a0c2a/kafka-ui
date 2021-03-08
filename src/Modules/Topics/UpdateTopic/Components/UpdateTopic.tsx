@@ -81,18 +81,25 @@ export const UpdateTopic: React.FC = () => {
       config: newConfig,
     };
 
-    const updateStatus = await updateTopicModel(
-      store.name,
-      topicSettings,
-      config
-    );
-
     //Todo: handle alert based on update response
-    if (updateStatus === 204){
+    try {
+      const updateStatus = await updateTopicModel(
+        store.name,
+        topicSettings,
+        config
+      );
       console.log('updateResponse', updateStatus);
+
+      if (updateStatus === 204){
+        addAlert(
+          'The topic was successfully updated in the Kafka instance',
+          AlertVariant.success
+        );
+      }
+    } catch (err) {
       addAlert(
-        'The topic was successfully updated in the Kafka instance',
-        AlertVariant.success
+        err.response.data.err,
+        AlertVariant.danger
       );
     }
   };
