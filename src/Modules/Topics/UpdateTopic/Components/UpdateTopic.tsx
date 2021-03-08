@@ -64,11 +64,16 @@ export const UpdateTopic: React.FC = () => {
   const deleteTopic = () => {
     setDeleteModal(true);
   };
+
   const patchConfig = (previousTopic: Topic) => {
-    const updatedConfig = previousTopic.config?.filter((item) => {
-      if (item.key && store[item.key] != item.value)
-        return { key: item.key, value: store[item.key] };
-    });
+    const updatedConfig = previousTopic.config?.length
+      ? previousTopic.config.filter((item) => {
+          if (item.key && store[item.key] != item.value)
+            return { key: item.key, value: store[item.key] };
+        })
+      : Object.keys(store).map((key) => {
+          return { key: key, value: store[key] };
+        });
     return updatedConfig;
   };
 
@@ -81,13 +86,14 @@ export const UpdateTopic: React.FC = () => {
       config: newConfig,
     };
 
-    const updateResponse = await updateTopicModel(
+    const updateStatus = await updateTopicModel(
       store.name,
       topicSettings,
       config
     );
-    console.log('Update Response', updateResponse);
-    setAlertVisible(true);
+
+    //Todo: handle alert based on update response
+    if (updateStatus === 204) setAlertVisible(true);
   };
 
   return (
