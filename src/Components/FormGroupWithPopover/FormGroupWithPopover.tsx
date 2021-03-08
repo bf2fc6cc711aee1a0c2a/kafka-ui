@@ -1,5 +1,5 @@
 import { FormGroup, Popover } from '@patternfly/react-core';
-import { HelpIcon } from '@patternfly/react-icons';
+import HelpIcon from '@patternfly/react-icons/dist/js/icons/help-icon';
 import React from 'react';
 
 interface IFormGroupWithPopoverProps {

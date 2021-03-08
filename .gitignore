@@ -7,6 +7,7 @@ node_modules/
 dist/
 .out/
 js/
+stats.json
 
 # test/supporting generated content
 generated/

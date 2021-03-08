@@ -58,6 +58,7 @@ module.exports = (_env, argv) => {
         {
           test: /\.css|s[ac]ss$/i,
           use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+          sideEffects: true,
         },
         {
           test: fileRegEx,
@@ -77,7 +78,7 @@ module.exports = (_env, argv) => {
       new webpack.container.ModuleFederationPlugin({
         name: federatedModuleName,
         filename: `${federatedModuleName}${
-          _env === 'production' ? '.[chunkhash]' : ''
+         isProduction ? '.[chunkhash]' : ''
         }.js`,
         exposes: {
           './Panels/Topics': './src/Panels/Topics/FederatedView',
