@@ -41,7 +41,7 @@ module.exports = (_env, argv) => {
     devtool: isProduction ? 'source-map' : 'eval-source-map',
     entry,
     output: {
-      filename: isProduction ? '[chunkhash].bundle.js' : '[name].bundle.js',
+      filename: isProduction ? '[contenthash:8].bundle.js' : '[name].bundle.js',
       publicPath: 'auto',
     },
     module: {
@@ -71,14 +71,14 @@ module.exports = (_env, argv) => {
         template: path.join(srcDir, 'Bootstrap', 'index.html'),
       }),
       new MiniCssExtractPlugin({
-        filename: isProduction ? '[id].[contenthash].css' : '[name].css',
-        chunkFilename: isProduction ? '[id].[contenthash].css' : '[id].css',
+        filename: isProduction ? '[id].[contenthash:8].css' : '[name].css',
+        chunkFilename: isProduction ? '[id].[contenthash:8].css' : '[id].css',
         ignoreOrder: true, // Enable to remove warnings about conflicting order
       }),
       new webpack.container.ModuleFederationPlugin({
         name: federatedModuleName,
         filename: `${federatedModuleName}${
-         isProduction ? '.[chunkhash]' : ''
+          isProduction ? '.[chunkhash:8]' : ''
         }.js`,
         exposes: {
           './Panels/Topics': './src/Panels/Topics/FederatedView',
