@@ -67,10 +67,8 @@ export const UpdateTopic: React.FC = () => {
   const patchConfig = (previousTopic: Topic) => {
     const updatedConfig = previousTopic.config?.filter((item) => {
       if (item.key && store[item.key] != item.value)
-        // console.log("store", store[item.key], "item", item.value);
-      return { key: item.key, value: store[item.key] };
+        return { key: item.key, value: store[item.key] };
     });
-    console.log("updatedConfig", updatedConfig);
     return updatedConfig;
   };
 
@@ -88,7 +86,6 @@ export const UpdateTopic: React.FC = () => {
       topicSettings,
       config
     );
-    console.log("updateResponse", updateResponse);
     setAlertVisible(true);
   };
 
