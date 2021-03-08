@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Alert,
   AlertActionCloseButton,
@@ -40,18 +40,18 @@ export const UpdateTopic: React.FC = () => {
 
   const saveToStore = (topic: Topic) => {
     const advanceConfig: AdvancedTopic = store;
-    advanceConfig.numPartitions = topic?.partitions?.length.toString() || "0";
-    advanceConfig.name = topic.name || "";
+    advanceConfig.numPartitions = topic?.partitions?.length.toString() || '0';
+    advanceConfig.name = topic.name || '';
     topic.config?.forEach((configItem) => {
-      advanceConfig[configItem.key || ""] = configItem.value || "";
+      advanceConfig[configItem.key || ''] = configItem.value || '';
     });
     updateBulkStore(advanceConfig);
   };
 
   const mainBreadcrumbs = (
     <Breadcrumb>
-      <BreadcrumbItem to="/#/topics">Topics</BreadcrumbItem>
-      <BreadcrumbItem to="#" isActive>
+      <BreadcrumbItem to='/#/topics'>Topics</BreadcrumbItem>
+      <BreadcrumbItem to='#' isActive>
         {name}
       </BreadcrumbItem>
     </Breadcrumb>
@@ -63,7 +63,7 @@ export const UpdateTopic: React.FC = () => {
 
   const deleteTopic = () => {
     setDeleteModal(true);
-  }
+  };
   const patchConfig = (previousTopic: Topic) => {
     const updatedConfig = previousTopic.config?.filter((item) => {
       if (item.key && store[item.key] != item.value)
@@ -86,19 +86,20 @@ export const UpdateTopic: React.FC = () => {
       topicSettings,
       config
     );
+    console.log('Update Response', updateResponse);
     setAlertVisible(true);
   };
 
   return (
     <>
       <section
-        className="pf-c-page__main-breadcrumb"
-        style={{ padding: "20px 20px" }}
+        className='pf-c-page__main-breadcrumb'
+        style={{ padding: '20px 20px' }}
       >
         {mainBreadcrumbs}
         <br />
         <br />
-        <Title headingLevel="h1" size="xl">
+        <Title headingLevel='h1' size='xl'>
           {name}
         </Title>
       </section>
@@ -107,11 +108,11 @@ export const UpdateTopic: React.FC = () => {
           {alertVisible ? (
             <Alert
               isLiveRegion
-              variant="success"
-              title="OpenShift Streams topic updated"
+              variant='success'
+              title='OpenShift Streams topic updated'
               actionClose={
                 <AlertActionCloseButton
-                  aria-label="Close success alert"
+                  aria-label='Close success alert'
                   onClose={handleAlertClose}
                 />
               }
