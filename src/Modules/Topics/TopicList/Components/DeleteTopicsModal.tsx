@@ -11,7 +11,7 @@ import {
 import { deleteTopic } from '../../../../Services/TopicServices';
 import { ConfigContext } from '../../../../Contexts';
 import { useHistory } from 'react-router';
-import { AlertContext } from 'src/Contexts/Alert/Context';
+import { AlertContext } from '../../../../Contexts/Alert/Context';
 export interface IDeleteTopics {
   setDeleteModal: (value: boolean) => void;
   deleteModal: boolean;

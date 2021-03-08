@@ -26,7 +26,7 @@ import { useHistory } from 'react-router';
 import { ConfigContext } from '../../../../Contexts';
 import { TopicsList } from '../../../../OpenApi';
 import { Loading } from '../../../../Components/Loading/Loading';
-import { AlertContext } from 'src/Contexts/Alert';
+import { AlertContext } from '../../../../Contexts/Alert';
 
 export interface ITopic {
   name: string;
