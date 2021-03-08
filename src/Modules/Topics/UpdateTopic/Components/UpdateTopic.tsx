@@ -9,7 +9,6 @@ import {
   PageSection,
   PageSectionVariants,
   Title,
-<<<<<<< HEAD:src/Modules/Topics/UpdateTopic/Components/UpdateTopic.tsx
 } from '@patternfly/react-core';
 import '../../CreateTopic/Components/CreateTopicWizard.css';
 import { TopicAdvanceConfig } from '../../CreateTopic/Components/TopicAdvanceConfig';
@@ -19,17 +18,6 @@ import { Topic, TopicSettings } from '../../../../OpenApi/api';
 import { AdvancedTopic, TopicContext } from '../../../../Contexts/Topic';
 import { ConfigContext } from '../../../../Contexts';
 import { DeleteTopics } from '../../../../Modules/Topics/TopicList/Components/DeleteTopicsModal';
-=======
-} from "@patternfly/react-core";
-import "../../CreateTopic/Components/CreateTopicWizard.css";
-import { TopicAdvanceConfig } from "../../CreateTopic/Components/TopicAdvanceConfig";
-import { useParams } from "react-router";
-import { getTopic, updateTopicModel } from "Services/index";
-import { Topic, TopicSettings } from "OpenApi/api";
-import { AdvancedTopic, TopicContext } from "Contexts/Topic";
-import { ConfigContext } from "Contexts";
-import { DeleteTopics } from 'Modules/Topics/TopicList/Components/DeleteTopicsModal';
->>>>>>> 9a3f614 (Add advanced config properties for update):client/Modules/Topics/UpdateTopic/Components/UpdateTopic.tsx
 
 export const UpdateTopic: React.FC = () => {
   const { store, updateBulkStore } = React.useContext(TopicContext);
