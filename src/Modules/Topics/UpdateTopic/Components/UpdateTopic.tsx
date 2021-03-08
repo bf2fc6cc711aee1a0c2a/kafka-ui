@@ -25,11 +25,13 @@ export const UpdateTopic: React.FC = () => {
   const { name } = useParams<any>();
   const [deleteModal, setDeleteModal] = useState(false);
 
+  const [topic, setTopic] = useState<Topic>();
   const config = useContext(ConfigContext);
 
   const fetchTopic = async (topicName) => {
-    const topic = await getTopic(topicName, config);
-    if (topic) saveToStore(topic);
+    const topicRes = await getTopic(topicName, config);
+    setTopic(topicRes);
+    if (topicRes) saveToStore(topicRes);
   };
 
   useEffect(() => {
@@ -63,25 +65,35 @@ export const UpdateTopic: React.FC = () => {
     setDeleteModal(true);
   };
 
+  const patchConfig = (previousTopic: Topic) => {
+    const updatedConfig = previousTopic.config?.length
+      ? previousTopic.config.filter((item) => {
+          if (item.key && store[item.key] != item.value)
+            return { key: item.key, value: store[item.key] };
+        })
+      : Object.keys(store).map((key) => {
+          return { key: key, value: store[key] };
+        });
+    return updatedConfig;
+  };
+
   const saveTopic = async () => {
+    const newConfig = topic && (await patchConfig(topic));
+
     const topicSettings: TopicSettings = {
       numPartitions: Number(store.numPartitions),
       replicationFactor: Number(store.replicationFactor),
-      config: [
-        {
-          key: 'min.insync.replicas',
-          value: store['min.insync.replicas'],
-        },
-      ],
+      config: newConfig,
     };
 
-    const updateResponse = await updateTopicModel(
+    const updateStatus = await updateTopicModel(
       store.name,
       topicSettings,
       config
     );
-    console.log('updateResponse', updateResponse);
-    setAlertVisible(true);
+
+    //Todo: handle alert based on update response
+    if (updateStatus === 204) setAlertVisible(true);
   };
 
   return (

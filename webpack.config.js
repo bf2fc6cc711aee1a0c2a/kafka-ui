@@ -76,7 +76,9 @@ module.exports = (_env, argv) => {
       }),
       new webpack.container.ModuleFederationPlugin({
         name: federatedModuleName,
-        filename: `${federatedModuleName}${_env === "production" ? '.[chunkhash]' : ''}.js`,
+        filename: `${federatedModuleName}${
+          _env === 'production' ? '.[chunkhash]' : ''
+        }.js`,
         exposes: {
           './Panels/Topics': './src/Panels/Topics/FederatedView',
           './Panels/CreateTopic': './src/Panels/Topics/FederatedCreateView',
@@ -90,10 +92,8 @@ module.exports = (_env, argv) => {
         },
       }),
       new ChunkMapper({
-        modules: [
-          federatedModuleName
-        ]
-      })
+        modules: [federatedModuleName],
+      }),
     ],
     optimization: {
       splitChunks: {
@@ -115,9 +115,11 @@ module.exports = (_env, argv) => {
       progress: true,
       hot: true,
       headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-        "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods':
+          'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+        'Access-Control-Allow-Headers':
+          'X-Requested-With, content-type, Authorization',
       },
     },
   };

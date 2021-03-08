@@ -60,7 +60,7 @@ export const updateTopicModel = async (
   topicName: string,
   topicSettings: TopicSettings,
   config: IConfiguration | undefined
-): Promise<Topic> => {
+): Promise<number> => {
   const accessToken = await config?.getToken();
 
   const api = new DefaultApi(
@@ -73,7 +73,7 @@ export const updateTopicModel = async (
     topicName,
     topicSettings
   );
-  return response.data;
+  return response.status;
 };
 
 export const getTopic = async (
