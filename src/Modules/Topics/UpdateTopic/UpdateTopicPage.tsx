@@ -5,12 +5,12 @@ import { UpdateTopicHead } from './Components/UpdateTopicHead';
 import { UpdateTopicView } from './Components/UpdateTopicView';
 import { useParams } from 'react-router';
 
-export interface UpdateTopicRouteParams {
+export interface IUpdateTopicRouteParams {
   topicName: string;
 }
 
 export const UpdateTopicPage: React.FC = () => {
-  const { topicName } = useParams<UpdateTopicRouteParams>();
+  const { topicName } = useParams<IUpdateTopicRouteParams>();
   return (
     <>
       <UpdateTopicHead topicName={topicName} />

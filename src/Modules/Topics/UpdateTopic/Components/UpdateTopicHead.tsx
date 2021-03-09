@@ -1,11 +1,11 @@
 import React from 'react';
 import { Title, Breadcrumb, BreadcrumbItem } from '@patternfly/react-core';
 
-export interface UpdateTopicHeadProps {
+export interface IUpdateTopicHeadProps {
   topicName: string;
 }
 
-export const UpdateTopicHead: React.FC<UpdateTopicHeadProps> = ({
+export const UpdateTopicHead: React.FC<IUpdateTopicHeadProps> = ({
   topicName,
 }) => {
   const mainBreadcrumbs = (

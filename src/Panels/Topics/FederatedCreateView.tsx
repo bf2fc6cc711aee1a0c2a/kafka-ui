@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import './style.scss';
 import { ConfigContext, IConfiguration } from '../../Contexts';
 import { PageSection, PageSectionVariants } from '@patternfly/react-core';
-import { CreateTopicWizard } from '../../Modules/Topics/CreateTopic/Components/CreateTopicWizard';
+import { CreateTopicPage } from 'src/Modules/Topics/CreateTopic/CreateTopicPage';
 
 export type FederatedCreateTopicProps = {
   getToken: () => Promise<string>;
@@ -26,7 +26,7 @@ const FederatedCreateTopic: FunctionComponent<FederatedCreateTopicProps> = ({
       value={{ basePath: apiBasePath, getToken } as IConfiguration}
     >
       <PageSection variant={PageSectionVariants.light}>
-        <CreateTopicWizard setIsCreateTopic={setIsCreateTopic} />
+        <CreateTopicPage setIsCreateTopic={setIsCreateTopic} />
       </PageSection>
     </ConfigContext.Provider>
   );
