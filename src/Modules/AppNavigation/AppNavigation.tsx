@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -12,11 +12,11 @@ import {
   Tabs,
   Tab,
   TabTitleText,
-} from "@patternfly/react-core";
-import { TopicsListComponent } from "../Topics/TopicList/Components/TopicsList";
-import { ConsumerGroupsList } from "../ConsumerGroups/ConsumerGroupList/Components/ConsumerGroupList";
-import CodeBranchIcon from "@patternfly/react-icons/dist/js/icons/code-branch-icon";
-import { useHistory } from "react-router";
+} from '@patternfly/react-core';
+import { TopicsListComponent } from '../Topics/TopicList/Components/TopicsList';
+import { ConsumerGroupsList } from '../ConsumerGroups/ConsumerGroupList/Components/ConsumerGroupList';
+import CodeBranchIcon from '@patternfly/react-icons/dist/js/icons/code-branch-icon';
+import { useHistory } from 'react-router';
 interface ITabHeaderProps {
   eventKey: number;
 }
@@ -30,13 +30,13 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
   const history = useHistory();
 
   const onCreateTopic = () => {
-    history.push("/topics/create");
+    history.push('/topics/create');
   };
 
   const mainBreadcrumbs = (
     <Breadcrumb>
-      <BreadcrumbItem to="#">OpenShift Streams</BreadcrumbItem>
-      <BreadcrumbItem to="#" isActive>
+      <BreadcrumbItem to='#'>OpenShift Streams</BreadcrumbItem>
+      <BreadcrumbItem to='#' isActive>
         MK Cluster Instance
       </BreadcrumbItem>
     </Breadcrumb>
@@ -47,38 +47,38 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
       <section>{mainBreadcrumbs}</section>
       <PageSection variant={PageSectionVariants.light}>
         <Flex>
-          <FlexItem align={{ default: "alignRight" }}>
+          <FlexItem align={{ default: 'alignRight' }}>
             <Button
-              variant="link"
+              variant='link'
               icon={<CodeBranchIcon />}
-              iconPosition="right"
+              iconPosition='right'
             >
               Connect to this cluster
             </Button>
           </FlexItem>
         </Flex>
-        <Title headingLevel="h1">MK Cluster Instance</Title>
+        <Title headingLevel='h1'>MK Cluster Instance</Title>
       </PageSection>
       <br />
       <PageSection
         variant={PageSectionVariants.light}
-        padding={{ default: "noPadding" }}
+        padding={{ default: 'noPadding' }}
       >
         <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
           <Tab
             title={<TabTitleText>Home</TabTitleText>}
             eventKey={0}
-            id="home-tab-section"
-            aria-label="Home Tab"
+            id='home-tab-section'
+            aria-label='Home Tab'
             hidden
           >
-            <Title headingLevel="h4">Home </Title>
+            <Title headingLevel='h4'>Home </Title>
           </Tab>
           <Tab
             title={<TabTitleText>Topics</TabTitleText>}
             eventKey={1}
-            id="topics-tab-section"
-            aria-label="Topics Tab"
+            id='topics-tab-section'
+            aria-label='Topics Tab'
           >
             <Page>
               <PageSection>
@@ -89,8 +89,8 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
           <Tab
             title={<TabTitleText>Consumer Groups</TabTitleText>}
             eventKey={2}
-            id="consumer-groups-tab-section"
-            aria-label="Consumer Groups Tab"
+            id='consumer-groups-tab-section'
+            aria-label='Consumer Groups Tab'
           >
             <Page>
               <PageSection>
@@ -101,10 +101,10 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
           <Tab
             title={<TabTitleText>Metrics</TabTitleText>}
             eventKey={3}
-            id="metrics-tab-section"
-            aria-label="Metrics Tab"
+            id='metrics-tab-section'
+            aria-label='Metrics Tab'
           >
-            <Title headingLevel="h4">Metrics </Title>
+            <Title headingLevel='h4'>Metrics </Title>
           </Tab>
         </Tabs>
       </PageSection>
