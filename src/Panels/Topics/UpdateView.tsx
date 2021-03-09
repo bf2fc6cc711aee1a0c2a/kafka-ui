@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react';
 import './style.scss';
 import '@patternfly/react-core/dist/styles/base.css';
-import { UpdateTopic } from '../../Modules/Topics/UpdateTopic/Components/UpdateTopic';
+import { UpdateTopicPage } from 'src/Modules/Topics/UpdateTopic/UpdateTopicPage';
 
-const UpdateTopicView: FunctionComponent = () => {
-  return <UpdateTopic />;
+const UpdateTopic: FunctionComponent = () => {
+  return <UpdateTopicPage />;
 };
 
-export { UpdateTopicView };
+export { UpdateTopic };
 
-export default UpdateTopicView;
+export default UpdateTopic;
