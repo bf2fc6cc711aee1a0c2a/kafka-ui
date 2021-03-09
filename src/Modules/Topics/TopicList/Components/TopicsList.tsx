@@ -5,6 +5,7 @@ import {
   Card,
   Divider,
   Pagination,
+  PaginationVariant,
   Title,
   Toolbar,
   ToolbarContent,
@@ -15,6 +16,7 @@ import {
   TableBody,
   TableHeader,
   TableVariant,
+  sortable,
 } from '@patternfly/react-table';
 import { useTimeout } from '../../../../Hooks/useTimeOut';
 import { SearchTopics } from './SearchTopics';
@@ -27,6 +29,8 @@ import { ConfigContext } from '../../../../Contexts';
 import { TopicsList } from '../../../../OpenApi';
 import { Loading } from '../../../../Components/Loading/Loading';
 import { AlertContext } from '../../../../Contexts/Alert';
+
+import './TopicList.css';
 
 export interface ITopic {
   name: string;
@@ -97,8 +101,8 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
 
   const tableColumns = [
     { title: 'Name' },
-    { title: 'Replicas' },
-    { title: 'Partitions' },
+    { title: 'Replicas', transforms: [sortable] },
+    { title: 'Partitions', transforms: [sortable] },
   ];
   const rowData =
     filteredTopics?.items?.map((topic) => [
@@ -106,6 +110,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
         title: (
           <Button
             variant='link'
+            isInline
             onClick={() =>
               onTopicClick((topic && topic.name && topic.name.toString()) || '')
             }
@@ -184,7 +189,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
         <Card>
           <Toolbar>
             <ToolbarContent>
-              <ToolbarItem>
+              <ToolbarItem className='pf-c-toolbar-item--search'>
                 <SearchTopics
                   onClear={onClear}
                   search={search}
@@ -214,7 +219,6 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
               </ToolbarItem>
             </ToolbarContent>
           </Toolbar>
-          <Divider />
 
           <Table
             aria-label='Compact Table'
@@ -232,6 +236,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
           </Table>
         </Card>
       )}
+      <Divider />
       {rowData.length < 1 && search.length > 1 && <EmptySearch />}
       {rowData.length > 1 && (
         <Pagination
@@ -242,6 +247,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
           widgetId='topic-list-pagination-bottom'
           onPerPageSelect={onPerPageSelect}
           offset={0}
+          variant={PaginationVariant.bottom}
         />
       )}
     </>
