@@ -8,12 +8,12 @@ import {
   PageSection,
   PageSectionVariants,
   Title,
+  Page,
   Tabs,
   Tab,
   TabTitleText,
 } from '@patternfly/react-core';
 import { TopicsListComponent } from '../Topics/TopicList/Components/TopicsList';
-import './AppNavigation.css';
 import CodeBranchIcon from '@patternfly/react-icons/dist/js/icons/code-branch-icon';
 import { useHistory } from 'react-router';
 interface ITabHeaderProps {
@@ -42,10 +42,7 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
   );
 
   return (
-    <PageSection
-      className='page-section-padding'
-      variant={PageSectionVariants.light}
-    >
+    <PageSection variant={PageSectionVariants.light}>
       <section>{mainBreadcrumbs}</section>
       <PageSection variant={PageSectionVariants.light}>
         <Flex>
@@ -82,7 +79,11 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
             id='topics-tab-section'
             aria-label='Topics Tab'
           >
-            <TopicsListComponent onCreateTopic={onCreateTopic} />
+            <Page>
+              <PageSection>
+                <TopicsListComponent onCreateTopic={onCreateTopic} />
+              </PageSection>
+            </Page>
           </Tab>
           <Tab
             title={<TabTitleText>Consumer Groups</TabTitleText>}
