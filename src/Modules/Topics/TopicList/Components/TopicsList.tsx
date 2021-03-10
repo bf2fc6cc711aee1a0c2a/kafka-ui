@@ -6,7 +6,6 @@ import {
   Divider,
   Pagination,
   PaginationVariant,
-  Title,
   Toolbar,
   ToolbarContent,
   ToolbarItem,
@@ -72,10 +71,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
         setFilteredTopics(topicsList);
       }
     } catch (err) {
-      addAlert(
-        err.response.data.err,
-        AlertVariant.danger
-      );
+      addAlert(err.response.data.err, AlertVariant.danger);
     }
     setLoading(false);
   };
@@ -142,9 +138,9 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
       setFilteredTopics((prevState) =>
         prevState
           ? {
-            ...prevState,
-            items: filterSearch,
-          }
+              ...prevState,
+              items: filterSearch,
+            }
           : undefined
       );
     } else {
@@ -173,9 +169,6 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
 
   return (
     <>
-      <Title headingLevel='h2' size='lg'>
-        Topics
-      </Title>
       {deleteModal && (
         <DeleteTopics
           topicName={topicName}
@@ -239,16 +232,18 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
       <Divider />
       {rowData.length < 1 && search.length > 1 && <EmptySearch />}
       {rowData.length > 1 && (
-        <Pagination
-          itemCount={rowData.length}
-          perPage={perPage}
-          page={page}
-          onSetPage={onSetPage}
-          widgetId='topic-list-pagination-bottom'
-          onPerPageSelect={onPerPageSelect}
-          offset={0}
-          variant={PaginationVariant.bottom}
-        />
+        <Card>
+          <Pagination
+            itemCount={rowData.length}
+            perPage={perPage}
+            page={page}
+            onSetPage={onSetPage}
+            widgetId='topic-list-pagination-bottom'
+            onPerPageSelect={onPerPageSelect}
+            offset={0}
+            variant={PaginationVariant.bottom}
+          />
+        </Card>
       )}
     </>
   );

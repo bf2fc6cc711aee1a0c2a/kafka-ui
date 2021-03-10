@@ -1,17 +1,10 @@
 import React, { FunctionComponent } from 'react';
-import { useHistory } from 'react-router';
+
 import './style.scss';
 import '@patternfly/react-core/dist/styles/base.css';
-import { TopicsListComponent } from '../../Modules/Topics/TopicList/Components/TopicsList';
-
+import { AppNavigation } from '../../Modules/AppNavigation/AppNavigation';
 const Topics: FunctionComponent = () => {
-  const history = useHistory();
-
-  const onCreateTopic = () => {
-    history.push('/topics/create');
-  };
-
-  return <TopicsListComponent onCreateTopic={onCreateTopic} />;
+  return <AppNavigation eventKey={1} />;
 };
 
 export { Topics };
