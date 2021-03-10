@@ -2,7 +2,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import { TopicDetailHead } from '../../../Modules/Topics/TopicDetails/Components/TopicDetailHead';
 import { TopicDetailView } from './Components/TopicDetailView';
 import { AdvancedTopic } from '../../../Contexts/Topic';
-import { Tab, Tabs, TabTitleText } from '@patternfly/react-core';
+import {
+  PageSection,
+  PageSectionVariants,
+  Tab,
+  Tabs,
+  TabTitleText,
+} from '@patternfly/react-core';
 import { useHistory, useParams } from 'react-router';
 import { getTopicDetail } from '../../../Services';
 import { ConfigContext } from '../../../Contexts';
@@ -85,32 +91,37 @@ export const TopicDetailGroup: React.FC = () => {
   return (
     <>
       <TopicDetailHead topicName={topicName} />
-      <Tabs
-        activeKey={1}
-        onSelect={() => {
-          return;
-        }}
-        isBox={false}
-        className='tab-padding'
-      >
-        <Tab eventKey={0} title={<TabTitleText>Consumer Groups</TabTitleText>}>
-          <ConsumerGroupByTopicList />
-        </Tab>
-        <Tab eventKey={1} title={<TabTitleText>Properties</TabTitleText>}>
-          <TopicDetailView
-            topic={topicDetail}
-            deleteTopic={deleteTopic}
-            updateTopic={updateTopic}
+      <PageSection variant={PageSectionVariants.light}>
+        <Tabs
+          activeKey={1}
+          onSelect={() => {
+            return;
+          }}
+          isBox={false}
+          className='tab-padding'
+        >
+          <Tab
+            eventKey={0}
+            title={<TabTitleText>Consumer Groups</TabTitleText>}
+          >
+            <ConsumerGroupByTopicList />
+          </Tab>
+          <Tab eventKey={1} title={<TabTitleText>Properties</TabTitleText>}>
+            <TopicDetailView
+              topic={topicDetail}
+              deleteTopic={deleteTopic}
+              updateTopic={updateTopic}
+            />
+          </Tab>
+        </Tabs>
+        {deleteModal && (
+          <DeleteTopics
+            topicName={topicName}
+            deleteModal={deleteModal}
+            setDeleteModal={setDeleteModal}
           />
-        </Tab>
-      </Tabs>
-      {deleteModal && (
-        <DeleteTopics
-          topicName={topicName}
-          deleteModal={deleteModal}
-          setDeleteModal={setDeleteModal}
-        />
-      )}
+        )}
+      </PageSection>
     </>
   );
 };

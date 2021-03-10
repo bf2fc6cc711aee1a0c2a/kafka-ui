@@ -40,6 +40,7 @@ export const CreateTopichead: React.FC<ICreateTopicProps> = ({
         <Title headingLevel='h1' size='lg'>
           Create topic
         </Title>
+        <br />
         <Switch
           id='simple-switch'
           label='Show all available options'

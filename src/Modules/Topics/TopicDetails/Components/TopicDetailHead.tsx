@@ -4,6 +4,8 @@ import {
   TextContent,
   Text,
   TextVariants,
+  PageSection,
+  PageSectionVariants,
 } from '@patternfly/react-core';
 import React from 'react';
 import './TopicDetailView.css';
@@ -16,14 +18,16 @@ export const TopicDetailHead: React.FC<TopicDetailHeadProps> = ({
   topicName,
 }) => {
   return (
-    <>
-      <Breadcrumb className='breadcrumb-padding'>
+    <section className='pf-c-page__main-breadcrumb'>
+      <Breadcrumb>
         <BreadcrumbItem to='#/topics'>Topics</BreadcrumbItem>
         <BreadcrumbItem to={`#/topic/${topicName}`}>{topicName}</BreadcrumbItem>
       </Breadcrumb>
-      <TextContent className='header-padding'>
-        <Text component={TextVariants.h1}>{topicName}</Text>
-      </TextContent>
-    </>
+      <PageSection variant={PageSectionVariants.light}>
+        <TextContent className='header-padding'>
+          <Text component={TextVariants.h1}>{topicName}</Text>
+        </TextContent>
+      </PageSection>
+    </section>
   );
 };

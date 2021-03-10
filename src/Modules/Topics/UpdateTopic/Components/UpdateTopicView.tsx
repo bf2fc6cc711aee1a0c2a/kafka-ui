@@ -1,9 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {
-  AlertVariant,
-  PageSection,
-  PageSectionVariants,
-} from '@patternfly/react-core';
+import { AlertVariant } from '@patternfly/react-core';
 import '../../CreateTopic/Components/CreateTopicWizard.css';
 import { TopicAdvanceConfig } from '../../CreateTopic/Components/TopicAdvanceConfig';
 import { useParams } from 'react-router';
@@ -88,13 +84,13 @@ export const UpdateTopicView: React.FC = () => {
 
   return (
     <>
-      <PageSection variant={PageSectionVariants.light}>
-        <TopicAdvanceConfig
-          isCreate={false}
-          saveTopic={saveTopic}
-          deleteTopic={deleteTopic}
-        />
-      </PageSection>
+      <TopicAdvanceConfig
+        isCreate={false}
+        saveTopic={saveTopic}
+        deleteTopic={deleteTopic}
+      />
+      <br />
+      <br />
       {deleteModal && (
         <DeleteTopics
           deleteModal={deleteModal}

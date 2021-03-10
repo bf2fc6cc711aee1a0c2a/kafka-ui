@@ -97,7 +97,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <IndexSection />
 
                 <FlushSection />
-
+                <br />
                 <ActionGroup>
                   <Button onClick={saveTopic} variant='primary'>
                     {actionText}
