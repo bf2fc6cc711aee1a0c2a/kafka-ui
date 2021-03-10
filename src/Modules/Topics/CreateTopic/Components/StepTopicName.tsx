@@ -27,17 +27,18 @@ export const StepTopicName: React.FC<IStepTopicName> = ({
     <TextContent className='topics-wizard-content'>
       <Text component={TextVariants.h2}>Topic name</Text>
       <Text component={TextVariants.p}>
-        This is the unique name used to recognize your topic.
+        Unique name used to recognize your topic
       </Text>
       <Text component={TextVariants.small}>
-        It will also be used by your producers and consumers as part of the
+        The topic name is also used by your producers and consumers as part of the
         connection information, so make it something easy to recognize.
       </Text>
       <Form onSubmit={preventFormSubmit}>
         <FormGroup
           label='Topic name'
           fieldId='step-topic-name-form'
-          // helperText="Please enter your topic name"
+          helperText="Must be letters (Aa-Zz), numbers, underscores( _ ), or hyphens ( - )."
+          isRequired
         >
           <TextInput
             isRequired

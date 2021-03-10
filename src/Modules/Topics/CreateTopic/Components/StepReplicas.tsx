@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Alert,
   Form,
   FormGroup,
   NumberInput,
@@ -75,15 +76,18 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
   };
 
   return (
+    <>
     <TextContent className='topics-wizard-content'>
       <Text component={TextVariants.h2}>Replicas</Text>
       <Text component={TextVariants.p}>
-        This is how many copies of a topic will be made for high availability.
+        How many copies of a topic will be made for high availability.
       </Text>
       <Text component={TextVariants.small}>
         The partitions of each topic can be replicated across a configurable
         number of brokers.
       </Text>
+    </TextContent>
+      <Alert variant="info" isInline title="Streams for Apache Kafka only supports 3 replicas and a minimum in-sync replica factor of 2." />
       <Form onSubmit={preventFormSubmit}>
         <FormGroup
           fieldId='create-wizard-replica-form-group'
@@ -138,6 +142,6 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
           </div>
         </FormGroup>
       </Form>
-    </TextContent>
+    </>
   );
 };

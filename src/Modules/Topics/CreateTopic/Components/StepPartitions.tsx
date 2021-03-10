@@ -4,8 +4,14 @@ import {
   Text,
   TextVariants,
   NumberInput,
+  FormGroup,
+  Form,
+  Button,
+  Popover,
+  ButtonVariant
 } from '@patternfly/react-core';
 import './CreateTopicWizard.css';
+import { HelpIcon } from '@patternfly/react-icons';
 export interface IStepPartitions {
   setPartitionTouchspinValue: (value: number) => void;
   partitionTouchspinValue: number;
@@ -29,21 +35,26 @@ export const StepPartitions: React.FC<IStepPartitions> = ({
     <TextContent className='topics-wizard-content'>
       <Text component={TextVariants.h2}>Partitions</Text>
       <Text component={TextVariants.p}>
-        One or more partitions make up a topic. A partition is an ordered list
-        of messages.
+        An ordered list of messages
       </Text>
       <Text component={TextVariants.small}>
-        Partitions are distributed across the brokers in order to increase the
-        scalability of your topic. You can also use them to distribute messages
-        across the members of a consumer group.
+        One or more partitions make up a topic. Partitions are distributed across the brokers to increase the salability of your topic. You can also use them to distribute messages across the members of the consumer group.
       </Text>
-      <NumberInput
-        onPlus={handleOnPlus}
-        onMinus={handleOnMinus}
-        value={partitionTouchspinValue}
-        inputName='input'
-        onChange={handlePartitionTouchspinChange}
-      />
+      <Form>
+        <FormGroup
+        label='Partitions'
+        fieldId='step-topic-name-form'
+        helperText="One partition is sufficient for getting started, but production systems often have more."
+        >
+          <NumberInput
+            onPlus={handleOnPlus}
+            onMinus={handleOnMinus}
+            value={partitionTouchspinValue}
+            inputName='input'
+            onChange={handlePartitionTouchspinChange}
+          />
+        </FormGroup>
+      </Form>
     </TextContent>
   );
 };

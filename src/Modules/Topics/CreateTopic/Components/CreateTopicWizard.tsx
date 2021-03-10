@@ -2,8 +2,14 @@ import React, { useContext, useState } from 'react';
 import {
   AlertVariant,
   Divider,
+  Page,
+  PageBreadcrumb,
   PageSection,
+  PageSectionTypes,
   PageSectionVariants,
+  Switch,
+  TextContent,
+  Title,
   Wizard,
   WizardStep,
 } from '@patternfly/react-core';
@@ -139,9 +145,29 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
 
   return (
     <>
+    <Page> 
+      {/* TODO: remove Page */}
+      <PageBreadcrumb>
+        {mainBreadcrumbs}
+      </PageBreadcrumb>
+      <PageSection variant={PageSectionVariants.light}>
+        <TextContent>
+        <Title headingLevel='h1' size='lg'>
+          Create a topic
+        </Title>
+        <Switch
+          id='simple-switch'
+          label='Show all available options'
+          labelOff='Show all available options'
+          isChecked={isSwitchChecked}
+          onChange={setIsSwitchChecked}
+          className='switch--topic'
+        />
+      </TextContent>
+      </PageSection>
+      <Divider />
       {isSwitchChecked ? (
         <>
-          <Divider />
           <PageSection variant={PageSectionVariants.light}>
             <TopicAdvanceConfig isCreate={true} saveTopic={saveTopic} />
           </PageSection>
@@ -149,7 +175,8 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       ) : (
         <PageSection
           variant={PageSectionVariants.light}
-          padding={{ default: 'noPadding' }}
+          type={PageSectionTypes.wizard}
+          isFilled
         >
           <Wizard
             navAriaLabel={`${title} steps`}
@@ -160,6 +187,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
           />
         </PageSection>
       )}
+      </Page>      
     </>
   );
 };
