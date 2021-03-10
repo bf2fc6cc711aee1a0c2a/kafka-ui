@@ -33,11 +33,6 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  // TODO: Add delete modal back to this view.
-  // const [deleteModal, setDeleteModal] = useState(false);
-  // const onDelete = () => {
-  //   setDeleteModal(true);
-  // };
   return (
     <Grid hasGutter>
       <GridItem span={2} className='grid-item-padding'>

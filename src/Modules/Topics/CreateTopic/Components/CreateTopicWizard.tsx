@@ -1,13 +1,9 @@
 import React, { useContext, useState } from 'react';
 import {
   AlertVariant,
-  Breadcrumb,
-  BreadcrumbItem,
   Divider,
   PageSection,
   PageSectionVariants,
-  Switch,
-  Title,
   Wizard,
   WizardStep,
 } from '@patternfly/react-core';
@@ -25,16 +21,17 @@ import { Configuration } from '../../../../OpenApi';
 import { AlertContext } from '../../../../Contexts/Alert/Context';
 
 interface ICreateTopicWizard {
+  isSwitchChecked: boolean;
   setIsCreateTopic?: (value: boolean) => void;
 }
 
 export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   setIsCreateTopic,
+  isSwitchChecked,
 }) => {
   const config = useContext(ConfigContext);
   const { addAlert } = useContext(AlertContext);
 
-  const [isSwitchChecked, setIsSwitchChecked] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [msgRetentionValue, setMsgRetentionValue] = useState(1);
   const [topicNameInput, setTopicNameInput] = useState('');
@@ -48,20 +45,6 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     setMinInSyncReplicaTouchspinValue,
   ] = useState(1);
   const { store } = React.useContext(TopicContext);
-
-  const mainBreadcrumbs = (
-    <Breadcrumb>
-      <BreadcrumbItem to='/openshiftstreams'>
-        Red Hat OpenShift Streams for Apache Kafka
-      </BreadcrumbItem>
-      <BreadcrumbItem to='/openshiftstreams'>
-        MK Cluster Instance
-      </BreadcrumbItem>
-      <BreadcrumbItem to='#' isActive>
-        Create topic
-      </BreadcrumbItem>
-    </Breadcrumb>
-  );
 
   const closeWizard = () => {
     if (setIsCreateTopic) {
@@ -97,11 +80,9 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
           );
         }
         closeWizard();
-      }).catch(err => {
-        addAlert(
-          err.response.data.err,
-          AlertVariant.danger
-        );
+      })
+      .catch((err) => {
+        addAlert(err.response.data.err, AlertVariant.danger);
         closeWizard();
       });
   };
@@ -155,23 +136,6 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
 
   return (
     <>
-      <section className='pf-c-page__main-breadcrumb'>
-        {mainBreadcrumbs}
-      </section>
-      <PageSection variant={PageSectionVariants.light}>
-        <Title headingLevel='h1' size='lg'>
-          Create topic
-        </Title>
-        <Switch
-          id='simple-switch'
-          label='Show all available options'
-          labelOff='Show all available options'
-          isChecked={isSwitchChecked}
-          onChange={setIsSwitchChecked}
-          className='create-topic-wizard'
-        />
-      </PageSection>
-      <Divider />
       {isSwitchChecked ? (
         <>
           <Divider />

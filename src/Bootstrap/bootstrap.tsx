@@ -33,7 +33,7 @@ ReactDOM.render(
                 <Route path='/topic/:topicName' component={TopicDetail} exact />
                 <Route path='/topics/create' component={CreateTopic} exact />
                 <Route
-                  path='/topics/update/:name'
+                  path='/topics/update/:topicName'
                   component={UpdateTopicView}
                   exact
                 />

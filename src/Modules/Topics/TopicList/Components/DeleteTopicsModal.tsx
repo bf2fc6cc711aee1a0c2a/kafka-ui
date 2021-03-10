@@ -22,7 +22,6 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
   deleteModal,
   topicName,
 }) => {
-
   const { addAlert } = useContext(AlertContext);
   const history = useHistory();
   const onClose = () => {
@@ -31,20 +30,14 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
 
   const onDelete = async () => {
     try {
-      topicName && await deleteTopic(topicName, config);
-      addAlert(
-        `Successfully deleted topic ${topicName}`,
-        AlertVariant.success
-      );
+      topicName && (await deleteTopic(topicName, config));
+      addAlert(`Successfully deleted topic ${topicName}`, AlertVariant.success);
     } catch (err) {
-      addAlert(
-        err.response.data.err,
-        AlertVariant.danger
-      );
+      addAlert(err.response.data.err, AlertVariant.danger);
     }
     history.push('/topics');
     setDeleteModal(false);
-  }
+  };
 
   const config = useContext(ConfigContext);
 
@@ -65,10 +58,7 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
       <br />
       <Flex>
         <FlexItem>
-          <Button
-            variant='danger'
-            onClick={onDelete}
-          >
+          <Button variant='danger' onClick={onDelete}>
             Delete Topic
           </Button>
         </FlexItem>
