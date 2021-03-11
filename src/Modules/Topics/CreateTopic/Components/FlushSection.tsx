@@ -49,8 +49,8 @@ export const FlushSection: React.FC = () => {
         <FormGroupWithPopover
           fieldId='interval-messages'
           fieldLabel='Flush interval messages'
-          labelHead={'createTopic.intervalMessagesLabelHead'}
-          labelBody={'createTopic.intervalMessagesLabelBody'}
+          labelHead={t('createTopic.intervalMessagesLabelHead')}
+          labelBody={t('createTopic.intervalMessagesLabelBody')}
           buttonAriaLabel='More info for flush interval messages field'
         >
           <SizeTimeFormGroup

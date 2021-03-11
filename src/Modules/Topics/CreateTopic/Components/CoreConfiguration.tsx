@@ -101,7 +101,7 @@ const CoreConfiguration: React.FC = () => {
             value={store.name}
             onChange={handleTextInputChange}
             label='Topic name'
-            placeholder='Test topic name'
+            placeholder='Enter topic name'
           />
         </FormGroupWithPopover>
         <FormGroupWithPopover

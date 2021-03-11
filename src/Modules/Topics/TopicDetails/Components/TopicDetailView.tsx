@@ -137,7 +137,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextWithLabelPopover
               btnAriaLabel='topic detail max message bytes'
               fieldLabel='Maximum message bytes'
-              fieldValue={topic['max.message.bytes.message.bytes']}
+              fieldValue={topic['max.message.bytes']}
               popoverBody={t('createTopic.maxMessageSizeLabelBody')}
               popoverHeader={t('createTopic.maxMessageSizeLabelHead')}
               unit={'bytes'}

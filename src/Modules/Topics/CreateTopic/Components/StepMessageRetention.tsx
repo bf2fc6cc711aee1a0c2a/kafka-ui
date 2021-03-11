@@ -39,13 +39,13 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
 
   useEffect(() => {
     if (currentPeriod === RetentionOption.DAY) {
-      setMsgRetentionValue(RetentionOption.DAY);
+      setMsgRetentionValue(RetentionOption.DAY * 86400000);
     } else if (currentPeriod === RetentionOption.WEEK) {
-      setMsgRetentionValue(RetentionOption.WEEK);
+      setMsgRetentionValue(RetentionOption.WEEK * 86400000);
     } else if (currentPeriod === RetentionOption.MONTH) {
-      setMsgRetentionValue(RetentionOption.MONTH);
+      setMsgRetentionValue(RetentionOption.MONTH  * 86400000);
     } else if (currentPeriod === RetentionOption.CUSTOM) {
-      setMsgRetentionValue(retentionFactor * msgTouchspinValue);
+      setMsgRetentionValue(retentionFactor * msgTouchspinValue * 86400000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPeriod, msgTouchspinValue, retentionFactor]);
