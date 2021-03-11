@@ -1,6 +1,6 @@
 import { Popover, TextContent, Text } from '@patternfly/react-core';
 import React from 'react';
-import { HelpIcon } from '@patternfly/react-icons';
+import HelpIcon from '@patternfly/react-icons/dist/js/icons/help-icon';
 import bytes from 'bytes';
 import humanizeDuration from 'humanize-duration';
 

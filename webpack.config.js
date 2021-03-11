@@ -58,6 +58,7 @@ module.exports = (_env, argv) => {
         {
           test: /\.css|s[ac]ss$/i,
           use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+          sideEffects: true,
         },
         {
           test: fileRegEx,
