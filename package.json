@@ -32,7 +32,10 @@
     "addDevCerts": "./utils/tooling/generateCerts.sh",
     "graphql:codegen": "curl $npm_package_schemaUrl > server/mockapi/schema.graphql && graphql codegen"
   },
-  "sideEffects": false,
+  "sideEffects": [
+    "*.css",
+    "*.scss"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/strimzi/strimzi-ui.git"
