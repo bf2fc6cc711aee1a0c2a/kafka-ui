@@ -31,8 +31,6 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
 }) => {
   const config = useContext(ConfigContext);
   const { addAlert } = useContext(AlertContext);
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [msgRetentionValue, setMsgRetentionValue] = useState(1);
   const [topicNameInput, setTopicNameInput] = useState('');
   const [partitionTouchspinValue, setPartitionTouchspinValue] = useState(1);
@@ -62,6 +60,11 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
           settings: {
             numPartitions: partitionTouchspinValue,
             replicationFactor: replicationFactorTouchspinValue,
+            config: [
+              {
+                key: "retention.ms", value : msgRetentionValue.toString()
+              }
+            ]
           },
         };
 

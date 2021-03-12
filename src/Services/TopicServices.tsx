@@ -39,6 +39,8 @@ export const getTopicDetail = async (
 const convertTopicResponse = (topic: Topic): AdvancedTopic => {
   const topicObj: any = {};
 
+  topicObj.name = topic.name;
+
   topic.config?.forEach((config) => {
     if (config.key) {
       topicObj[config.key] = config.value;
