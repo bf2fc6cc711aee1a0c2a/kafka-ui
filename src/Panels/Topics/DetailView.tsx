@@ -1,8 +1,20 @@
 import React, { FunctionComponent } from 'react';
+import { useHistory, useParams } from 'react-router';
 import { TopicDetailGroup } from '../../Modules/Topics/TopicDetails/TopicDetailPage';
 
+type topicUseParams = {
+  topicName: string;
+};
+
 const TopicDetail: FunctionComponent = () => {
-  return <TopicDetailGroup />;
+  const { topicName } = useParams<topicUseParams>();
+
+  const onUpdateTopic = () => {
+    const history = useHistory();
+    history.push(`/topics/update/${topicName}`);
+  };
+
+  return <TopicDetailGroup topicName={topicName} onUpdateTopic={onUpdateTopic}/>;
 };
 
 export { TopicDetail };

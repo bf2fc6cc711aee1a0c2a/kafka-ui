@@ -82,6 +82,7 @@ module.exports = (_env, argv) => {
         }.js`,
         exposes: {
           './Panels/Topics': './src/Panels/Topics/FederatedView',
+          './Panels/TopicDetails': './src/Panels/Topics/FederatedTopicDetailView.tsx',
           './Panels/CreateTopic': './src/Panels/Topics/FederatedCreateView',
         },
         shared: {

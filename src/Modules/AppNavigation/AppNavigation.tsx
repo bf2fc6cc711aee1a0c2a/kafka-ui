@@ -33,6 +33,10 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
     history.push('/topics/create');
   };
 
+  const onTopicClick = (topic: string) => {
+    history.push(`/topic/${topic}`);
+  };
+
   const mainBreadcrumbs = (
     <Breadcrumb>
       <BreadcrumbItem to='#'>OpenShift Streams</BreadcrumbItem>
@@ -82,7 +86,7 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
           >
             <Page>
               <PageSection>
-                <TopicsListComponent onCreateTopic={onCreateTopic} />
+                <TopicsListComponent onCreateTopic={onCreateTopic} onTopicClick={onTopicClick}/>
               </PageSection>
             </Page>
           </Tab>

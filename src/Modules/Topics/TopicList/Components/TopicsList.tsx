@@ -43,10 +43,12 @@ export interface ITopicProps {
 
 export interface ITopicList {
   onCreateTopic: () => void;
+  onTopicClick: (topic: string) => void;
 }
 
 export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   onCreateTopic,
+  onTopicClick
 }) => {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState<number>(1);
@@ -90,9 +92,6 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
 
   const onPerPageSelect = (_event, perPage: number) => {
     setPerPage(perPage);
-  };
-  const onTopicClick = (topic: string) => {
-    history.push(`/topic/${topic}`);
   };
 
   const tableColumns = [

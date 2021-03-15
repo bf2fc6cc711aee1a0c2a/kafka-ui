@@ -8,17 +8,19 @@ export type FederatedTopicsProps = {
   getToken: () => Promise<string>;
   apiBasePath: string;
   onCreateTopic: () => void;
+  onTopicDetails: (topic: string) => void;
 };
 
 const FederatedTopics: FunctionComponent<FederatedTopicsProps> = ({
   getToken,
   apiBasePath,
   onCreateTopic,
+  onTopicDetails
 }) => {
   return (
     <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
       <PageSection variant={PageSectionVariants.light}>
-        <TopicsListComponent onCreateTopic={onCreateTopic} />
+        <TopicsListComponent onCreateTopic={onCreateTopic} onTopicClick={onTopicDetails}/>
       </PageSection>
     </ConfigContext.Provider>
   );
