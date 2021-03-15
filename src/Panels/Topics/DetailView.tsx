@@ -9,12 +9,14 @@ type topicUseParams = {
 const TopicDetail: FunctionComponent = () => {
   const { topicName } = useParams<topicUseParams>();
 
-  const onUpdateTopic = () => {
+  const useUpdateTopic = () => {
     const history = useHistory();
     history.push(`/topics/update/${topicName}`);
   };
 
-  return <TopicDetailGroup topicName={topicName} onUpdateTopic={onUpdateTopic}/>;
+  return (
+    <TopicDetailGroup topicName={topicName} onUpdateTopic={useUpdateTopic} />
+  );
 };
 
 export { TopicDetail };

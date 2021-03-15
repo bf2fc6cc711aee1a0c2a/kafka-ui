@@ -63,7 +63,10 @@ const topic: AdvancedTopic = {
   'flush.ms.unit': 'milliseconds',
 };
 
-export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({topicName, onUpdateTopic}) => {
+export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
+  topicName,
+  onUpdateTopic,
+}) => {
   const [topicDetail, setTopicDetail] = useState<AdvancedTopic>(topic);
   const config = useContext(ConfigContext);
   const [deleteModal, setDeleteModal] = useState(false);

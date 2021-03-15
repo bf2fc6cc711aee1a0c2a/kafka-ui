@@ -23,7 +23,6 @@ import { EmptyTopics } from './EmptyTopics';
 import { EmptySearch } from './EmptySearch';
 import { getTopics } from '../../../../Services';
 import { DeleteTopics } from './DeleteTopicsModal';
-import { useHistory } from 'react-router';
 import { ConfigContext } from '../../../../Contexts';
 import { TopicsList } from '../../../../OpenApi';
 import { Loading } from '../../../../Components/Loading/Loading';
@@ -48,7 +47,7 @@ export interface ITopicList {
 
 export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   onCreateTopic,
-  onTopicClick
+  onTopicClick,
 }) => {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState<number>(1);
@@ -59,7 +58,6 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   const [filteredTopics, setFilteredTopics] = useState<TopicsList>();
   const [deleteModal, setDeleteModal] = useState(false);
   const [topicName, setTopicName] = useState<string | undefined>();
-  const history = useHistory();
 
   const { addAlert } = useContext(AlertContext);
 

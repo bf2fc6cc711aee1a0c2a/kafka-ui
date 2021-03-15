@@ -28,7 +28,9 @@ describe('<TopicsListComponent />', () => {
           onCreateTopic={() => {
             return;
           }}
-          onTopicClick={() => { return; }}
+          onTopicClick={() => {
+            return;
+          }}
         />
       );
 

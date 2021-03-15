@@ -86,7 +86,10 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
           >
             <Page>
               <PageSection>
-                <TopicsListComponent onCreateTopic={onCreateTopic} onTopicClick={onTopicClick}/>
+                <TopicsListComponent
+                  onCreateTopic={onCreateTopic}
+                  onTopicClick={onTopicClick}
+                />
               </PageSection>
             </Page>
           </Tab>

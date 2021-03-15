@@ -15,12 +15,15 @@ const FederatedTopics: FunctionComponent<FederatedTopicsProps> = ({
   getToken,
   apiBasePath,
   onCreateTopic,
-  onTopicDetails
+  onTopicDetails,
 }) => {
   return (
     <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
       <PageSection variant={PageSectionVariants.light}>
-        <TopicsListComponent onCreateTopic={onCreateTopic} onTopicClick={onTopicDetails}/>
+        <TopicsListComponent
+          onCreateTopic={onCreateTopic}
+          onTopicClick={onTopicDetails}
+        />
       </PageSection>
     </ConfigContext.Provider>
   );
