@@ -9,6 +9,8 @@ import {
   JumpLinksItem,
   PageGroup,
   PageSection,
+  Stack,
+  StackItem,
   Text,
   TextContent,
   TextVariants,
@@ -81,62 +83,81 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
             <PageGroup
               hasOverflowScroll
               id='advanced-create-topic'
-              className='topics-wizard-content'
+              // className='topics-wizard-content'
+              className='topics-advanced-config'
             >
               <PageSection>
-                <CoreConfiguration />
+                <Stack hasGutter className="topic-advanced-config__stack">
+                  <StackItem>
+                    <CoreConfiguration />
+                  </StackItem>
 
-                <MessageSection />
+                  <StackItem>
+                    <MessageSection />
+                  </StackItem>
 
-                <LogSection />
+                  <StackItem>
+                    <LogSection />
+                    </StackItem>
 
-                <ReplicationSection />
+                  <StackItem>
+                    <ReplicationSection />
+                  </StackItem>
+                  
+                  <StackItem>
+                    <CleanupSection />
+                  </StackItem>
 
-                <CleanupSection />
+                  <StackItem>
+                    <IndexSection />
+                  </StackItem>
 
-                <IndexSection />
+                  <StackItem>
+                    <FlushSection />
+                  </StackItem>
 
-                <FlushSection />
-                <br />
-                <ActionGroup>
-                  <Button onClick={saveTopic} variant='primary'>
-                    {actionText}
-                  </Button>
-                  <Button variant='link'>Cancel</Button>
-                </ActionGroup>
+                  <StackItem>
+                    <ActionGroup>
+                      <Button onClick={saveTopic} variant='primary'>
+                        {actionText}
+                      </Button>
+                      <Button variant='link'>Cancel</Button>
+                    </ActionGroup>
+                  </StackItem>
+                </Stack>
 
                 {isCreate ? (
-                  <></>
-                ) : (
-                  <>
-                    <br />
-                    <Divider />
-                    <br />
-                    <br />
-                    <TextContent className='section-margin'>
-                      <Text
-                        component={TextVariants.h2}
-                        tabIndex={-1}
-                        id='delete'
+                    <></>
+                  ) : (
+                    <>
+                      <br />
+                      <Divider />
+                      <br />
+                      <br />
+                      <TextContent className='section-margin'>
+                        <Text
+                          component={TextVariants.h2}
+                          tabIndex={-1}
+                          id='delete'
+                        >
+                          Delete topic (irreversible)
+                        </Text>
+                        <Text component={TextVariants.p}>
+                          This permanently removes this topic from this instance
+                          of Strimzi. Applications will no longer have access to
+                          this topic.
+                        </Text>
+                      </TextContent>
+                      <br />
+                      <Button
+                        variant='danger'
+                        className='section-margin'
+                        onClick={deleteTopic}
                       >
-                        Delete topic (irreversible)
-                      </Text>
-                      <Text component={TextVariants.p}>
-                        This permanently removes this topic from this instance
-                        of Strimzi. Applications will no longer have access to
-                        this topic.
-                      </Text>
-                    </TextContent>
-                    <br />
-                    <Button
-                      variant='danger'
-                      className='section-margin'
-                      onClick={deleteTopic}
-                    >
-                      Delete topic
-                    </Button>
-                  </>
-                )}
+                        Delete topic
+                      </Button>
+                    </>
+                  )}
               </PageSection>
             </PageGroup>
           </div>

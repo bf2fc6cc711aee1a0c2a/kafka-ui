@@ -9,6 +9,7 @@ import {
   Select,
   SelectOption,
   SelectVariant,
+  Stack,
   Text,
   TextContent,
   TextVariants,
@@ -97,20 +98,25 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
 
   return (
     <>
-      <TextContent className='topics-wizard-content'>
-        <Text component={TextVariants.h2}>Message retention</Text>
-        <Text component={TextVariants.p}>
-          How long messages are retained and the maximum total size of all log segments in a partition before they are deleted to free up space
-        </Text>
-        <Text component={TextVariants.small}>
-          Messages that aren't read by a consumer within this time will be missed. By default, the retention size time limit is `retention.ms`.
-        </Text>
-        <Form className='form-in-wizard' onSubmit={preventFormSubmit}>
+      <Stack hasGutter className="wizard-main-body__stack">
+
+        <TextContent>
+          <Text component={TextVariants.h2}>Message retention</Text>
+          <Text component={TextVariants.p}>
+            How long messages are retained and the maximum total size of all log segments in a partition before they are deleted to free up space
+          </Text>
+          <Text component={TextVariants.small}>
+            Messages that aren't read by a consumer within this time will be missed. By default, no retention size limit is applied, only a `retention.ms` time limit'.
+          </Text>
+        </TextContent>
+
+        <Form onSubmit={preventFormSubmit}>
           <FormGroup
             fieldId='form-group-in-wizard'
             label='Retention time'
-            className='form-group-radio'
+            // className='form-group-radio'
           >
+            <Stack hasGutter>
             <Radio
               isChecked={currentPeriod === RetentionOption.DAY}
               name='radio1'
@@ -147,7 +153,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
               id='radio-controlled-4'
               value='custom'
             />
-            <div className='radio-description radio-step-3'>
+            <div className='radio__parameters'>
               <Flex>
                 <FlexItem>
                   <NumberInput
@@ -174,9 +180,11 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
                 </FlexItem>
               </Flex>
             </div>
+              
+            </Stack>
           </FormGroup>
         </Form>
-      </TextContent>
+      </Stack>
     </>
   );
 };

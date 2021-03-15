@@ -7,6 +7,7 @@ import {
   PageSection,
   PageSectionTypes,
   PageSectionVariants,
+  Stack,
   Switch,
   TextContent,
   Title,
@@ -151,19 +152,20 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
         {mainBreadcrumbs}
       </PageBreadcrumb>
       <PageSection variant={PageSectionVariants.light}>
-        <TextContent>
-        <Title headingLevel='h1' size='lg'>
-          Create a topic
-        </Title>
-        <Switch
-          id='simple-switch'
-          label='Show all available options'
-          labelOff='Show all available options'
-          isChecked={isSwitchChecked}
-          onChange={setIsSwitchChecked}
-          className='switch--topic'
-        />
-      </TextContent>
+        <Stack hasGutter>
+          <Title headingLevel='h1' size='lg'>
+            Create a topic
+          </Title>
+          <Switch
+            id='simple-switch'
+            label='Show all available options'
+            labelOff='Show all available options'
+            isChecked={isSwitchChecked}
+            onChange={setIsSwitchChecked}
+            className='switch--topic'
+          />
+        </Stack>
+
       </PageSection>
       <Divider />
       {isSwitchChecked ? (

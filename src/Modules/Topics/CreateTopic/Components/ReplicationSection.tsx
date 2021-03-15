@@ -6,6 +6,7 @@ import {
   InputGroup,
   TextInput,
   TextVariants,
+  Stack,
 } from '@patternfly/react-core';
 import React from 'react';
 import { FormGroupWithPopover } from '../../../../Components/FormGroupWithPopover/FormGroupWithPopover';
@@ -32,7 +33,7 @@ export const ReplicationSection: React.FC = () => {
   };
 
   return (
-    <>
+    <Stack hasGutter>
       <TextContent>
         <Text component={TextVariants.h2} tabIndex={-1} id='replication'>
           Replication
@@ -93,6 +94,6 @@ export const ReplicationSection: React.FC = () => {
           </InputGroup>
         </FormGroupWithPopover>
       </Form>
-    </>
+    </Stack>
   );
 };

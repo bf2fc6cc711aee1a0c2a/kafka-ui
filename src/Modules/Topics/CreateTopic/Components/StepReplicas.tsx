@@ -5,6 +5,7 @@ import {
   FormGroup,
   NumberInput,
   Radio,
+  Stack,
   Text,
   TextContent,
   TextVariants,
@@ -76,17 +77,17 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
   };
 
   return (
-    <>
-    <TextContent className='topics-wizard-content'>
-      <Text component={TextVariants.h2}>Replicas</Text>
-      <Text component={TextVariants.p}>
-        How many copies of a topic will be made for high availability.
-      </Text>
-      <Text component={TextVariants.small}>
-        The partitions of each topic can be replicated across a configurable
-        number of brokers.
-      </Text>
-    </TextContent>
+    <Stack hasGutter className="wizard-main-body__stack">
+      <TextContent>
+        <Text component={TextVariants.h2}>Replicas</Text>
+        <Text component={TextVariants.p}>
+          How many copies of a topic will be made for high availability.
+        </Text>
+        <Text component={TextVariants.small}>
+          The partitions of each topic can be replicated across a configurable
+          number of brokers.
+        </Text>
+      </TextContent>
       <Alert variant="info" isInline title="Streams for Apache Kafka only supports 3 replicas and a minimum in-sync replica factor of 2." />
       <Form onSubmit={preventFormSubmit}>
         <FormGroup
@@ -94,54 +95,56 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
           label='Replicas'
           className='form-group-radio'
         >
-          <Radio
-            isChecked={currentReplicationFactor === ReplicationOption.ONE}
-            name='radio4'
-            onChange={handleChangeReplicationFactor}
-            label='Replication factor: 1'
-            id='radio-controlled-4'
-            value='radio4'
-            description='Minimum in-sync replicas: 1'
-          />
-          <Radio
-            isChecked={currentReplicationFactor === ReplicationOption.TWO}
-            name='radio5'
-            onChange={handleChangeReplicationFactor}
-            label='Replication factor: 2'
-            id='radio-controlled-5'
-            value='radio5'
-            description='Minimum in-sync replicas: 2'
-          />
-          <Radio
-            isChecked={currentReplicationFactor === ReplicationOption.CUSTOM}
-            name='radio6'
-            onChange={handleChangeReplicationFactor}
-            label='Replication factor'
-            id='radio-controlled-6'
-            value='radio6'
-          />
-          <div className='radio-description'>
-            <NumberInput
-              value={replicationFactorTouchspinValue}
-              onMinus={handleOnMinusReplicationFactor}
-              onPlus={handleOnPlusReplicationFactor}
-              onChange={handleReplicationFactorChange}
+          <Stack hasGutter>
+            <Radio
+              isChecked={currentReplicationFactor === ReplicationOption.ONE}
+              name='radio4'
+              onChange={handleChangeReplicationFactor}
+              label='Replication factor: 1'
+              id='radio-controlled-4'
+              value='radio4'
+              description='Minimum in-sync replicas: 1'
             />
-            <Text
-              component={TextVariants.small}
-              className='minimum-in-sync-replicas'
-            >
-              Minimum in-sync replicas
-            </Text>
-            <NumberInput
-              value={minInSyncReplicaTouchspinValue}
-              onMinus={handleOnMinusMinInSyncReplicaFactor}
-              onPlus={handleOnPlusMinInSyncReplicaFactor}
-              onChange={handleMinInSyncReplicaChange}
+            <Radio
+              isChecked={currentReplicationFactor === ReplicationOption.TWO}
+              name='radio5'
+              onChange={handleChangeReplicationFactor}
+              label='Replication factor: 2'
+              id='radio-controlled-5'
+              value='radio5'
+              description='Minimum in-sync replicas: 2'
             />
-          </div>
+            <Radio
+              isChecked={currentReplicationFactor === ReplicationOption.CUSTOM}
+              name='radio6'
+              onChange={handleChangeReplicationFactor}
+              label='Replication factor'
+              id='radio-controlled-6'
+              value='radio6'
+            />
+            <div className='radio__parameters'>
+              <NumberInput
+                value={replicationFactorTouchspinValue}
+                onMinus={handleOnMinusReplicationFactor}
+                onPlus={handleOnPlusReplicationFactor}
+                onChange={handleReplicationFactorChange}
+              />
+              <Text
+                component={TextVariants.small}
+                className='minimum-in-sync-replicas'
+              >
+                Minimum in-sync replicas
+              </Text>
+              <NumberInput
+                value={minInSyncReplicaTouchspinValue}
+                onMinus={handleOnMinusMinInSyncReplicaFactor}
+                onPlus={handleOnPlusMinInSyncReplicaFactor}
+                onChange={handleMinInSyncReplicaChange}
+              />
+            </div>
+          </Stack>
         </FormGroup>
       </Form>
-    </>
+    </Stack>
   );
 };

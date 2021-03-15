@@ -1,4 +1,4 @@
-import { TextContent, Text, Form, TextVariants } from '@patternfly/react-core';
+import { TextContent, Text, Form, TextVariants, Stack } from '@patternfly/react-core';
 import React from 'react';
 import { FormGroupWithPopover } from '../../../../Components/FormGroupWithPopover/FormGroupWithPopover';
 import { kebabToDotSeparated } from '../utils';
@@ -36,7 +36,7 @@ export const IndexSection: React.FC = () => {
   };
 
   return (
-    <>
+    <Stack hasGutter>
       <TextContent>
         <Text component={TextVariants.h2} tabIndex={-1} id='index'>
           Index
@@ -96,6 +96,6 @@ export const IndexSection: React.FC = () => {
           />
         </FormGroupWithPopover>
       </Form>
-    </>
+    </Stack>
   );
 };
