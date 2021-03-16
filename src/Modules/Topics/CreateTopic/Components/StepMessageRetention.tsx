@@ -17,10 +17,14 @@ import './CreateTopicWizard.css';
 
 export interface IStepMessageRetention {
   setMsgRetentionValue: (value: number) => void;
+  currentPeriod: string | number;
+  setCurrentPeriod: (value: string | number) => void;
 }
 
 export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
   setMsgRetentionValue,
+  currentPeriod,
+  setCurrentPeriod,
 }) => {
   enum RetentionOption {
     DAY = 1,
@@ -28,10 +32,6 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
     MONTH = 30,
     CUSTOM = 'custom',
   }
-
-  const [currentPeriod, setCurrentPeriod] = React.useState<string | number>(
-    RetentionOption.DAY
-  );
   const [msgTouchspinValue, setMsgTouchspinValue] = useState(7);
   const [isMsgSelectOpen, setIsMsgSelectOpen] = useState(false);
   const [selected, setSelected] = useState(false);

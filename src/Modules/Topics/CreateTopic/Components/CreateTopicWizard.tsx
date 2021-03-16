@@ -42,6 +42,8 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     minInSyncReplicaTouchspinValue,
     setMinInSyncReplicaTouchspinValue,
   ] = useState(1);
+
+  const [currentPeriod, setCurrentPeriod] = React.useState<string | number>(1);
   const { store } = React.useContext(TopicContext);
 
   const closeWizard = () => {
@@ -116,7 +118,11 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       name: 'Message retention',
       canJumpTo: topicNameInput.trim() !== '',
       component: (
-        <StepMessageRetention setMsgRetentionValue={setMsgRetentionValue} />
+        <StepMessageRetention
+          setMsgRetentionValue={setMsgRetentionValue}
+          currentPeriod={currentPeriod}
+          setCurrentPeriod={setCurrentPeriod}
+        />
       ),
     },
     {

@@ -71,16 +71,16 @@ export const UpdateTopicView: React.FC = () => {
         config
       );
 
-      if (updateStatus === 204) {
+      if (updateStatus === 200) {
         addAlert(
           'The topic was successfully updated in the Kafka instance',
           AlertVariant.success
         );
+        history.push(`/topic/${topicName}`);
       }
     } catch (err) {
       addAlert(err.response.data.err, AlertVariant.danger);
     }
-    history.push(`/topic/${topicName}`);
   };
 
   return (
