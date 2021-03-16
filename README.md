@@ -26,7 +26,7 @@ If you run into any issues while working in this repo, please check out [the tro
 
 - `npm run test` - runs all tests for the client and server
 - `npm run start` - runs the UI client and server in development mode
-- `npm run start:client` - runs the UI client in development mode
+- `npm run start:client` - runs the UI client in development mode.
 - `npm run start:restmockserver` - runs the REST mock server.
 - `npm run build` - builds the UI
 - `npm run clean` - deletes the build/generated content directories
