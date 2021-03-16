@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   ActionGroup,
   Button,
@@ -22,6 +22,7 @@ import { ReplicationSection } from './ReplicationSection';
 import { IndexSection } from './IndexSection';
 import { FlushSection } from './FlushSection';
 import { CleanupSection } from './CleanupSection';
+import { initialState, TopicContext } from 'src/Contexts/Topic';
 
 interface ITopicAdvanceConfig {
   isCreate: boolean;
@@ -34,7 +35,17 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
   saveTopic,
   deleteTopic,
 }) => {
+  const { updateBulkStore } = React.useContext(TopicContext);
   const actionText = isCreate === true ? 'Create Topic' : 'Save';
+
+  useEffect(() => {
+    updateBulkStore(initialState);
+  }, [])
+
+  const handleOnSave = () => {
+    saveTopic();
+    updateBulkStore(initialState);
+  }
 
   return (
     <>
@@ -99,7 +110,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <FlushSection />
                 <br />
                 <ActionGroup>
-                  <Button onClick={saveTopic} variant='primary'>
+                  <Button onClick={handleOnSave} variant='primary'>
                     {actionText}
                   </Button>
                   <Button variant='link'>Cancel</Button>

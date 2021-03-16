@@ -5,7 +5,7 @@ import {
   TopicContextProp,
 } from './Topic.types';
 
-const initialState: AdvancedTopic = {
+export const initialState: AdvancedTopic = {
   name: '',
   numPartitions: '',
   replicationFactor: '',
