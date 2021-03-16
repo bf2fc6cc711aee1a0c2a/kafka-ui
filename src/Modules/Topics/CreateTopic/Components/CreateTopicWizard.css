@@ -1,15 +1,15 @@
 /* Make sure the forms aren't too wide */
 .pf-c-wizard__main-body,
-.topics-advanced-config {
+.kafka-ui--topics-advanced-config {
   max-width: 600px;
 }
 
 /* stack provides the vertical spacing */
-.wizard-main-body__stack {
+.kafka-ui--wizard-main-body__stack {
   --pf-l-stack--m-gutter--MarginBottom: var(--pf-global--spacer--lg);
 }
 
-.radio__parameters {
+.kafka-ui--radio__parameters {
   padding-left: var(--pf-global--spacer--lg);
 }
 
@@ -17,7 +17,7 @@
   margin-top: var(--pf-global--spacer--md);
 }
 
-.topic-advanced-config__stack {
+.kafka-ui--topic-advanced-config__stack {
   --pf-l-stack--m-gutter--MarginBottom: var(--pf-global--spacer--2xl);
 }
 

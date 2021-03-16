@@ -33,7 +33,7 @@ export const StepPartitions: React.FC<IStepPartitions> = ({
   };
 
   return (
-    <Stack hasGutter className="wizard-main-body__stack">  
+    <Stack hasGutter className="kafka-ui--wizard-main-body__stack">  
       <TextContent >
         <Text component={TextVariants.h2}>Partitions</Text>
         <Text component={TextVariants.p}>

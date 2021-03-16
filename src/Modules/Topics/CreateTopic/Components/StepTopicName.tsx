@@ -25,7 +25,7 @@ export const StepTopicName: React.FC<IStepTopicName> = ({
   const preventFormSubmit = (event) => event.preventDefault();
 
   return (
-    <Stack hasGutter className="wizard-main-body__stack">
+    <Stack hasGutter className="kafka-ui--wizard-main-body__stack">
       <TextContent>
         <Text component={TextVariants.h2}>Topic name</Text>
         <Text component={TextVariants.p}>

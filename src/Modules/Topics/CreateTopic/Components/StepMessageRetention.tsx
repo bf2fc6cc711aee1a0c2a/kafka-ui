@@ -98,7 +98,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
 
   return (
     <>
-      <Stack hasGutter className="wizard-main-body__stack">
+      <Stack hasGutter className="kafka-ui--wizard-main-body__stack">
 
         <TextContent>
           <Text component={TextVariants.h2}>Message retention</Text>
@@ -153,7 +153,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
               id='radio-controlled-4'
               value='custom'
             />
-            <div className='radio__parameters'>
+            <div className='kafka-ui--radio__parameters'>
               <Flex>
                 <FlexItem>
                   <NumberInput

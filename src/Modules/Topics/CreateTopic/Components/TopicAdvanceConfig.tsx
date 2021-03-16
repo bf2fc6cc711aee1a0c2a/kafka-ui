@@ -84,10 +84,10 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               hasOverflowScroll
               id='advanced-create-topic'
               // className='topics-wizard-content'
-              className='topics-advanced-config'
+              className='kafka-ui--topics-advanced-config'
             >
               <PageSection>
-                <Stack hasGutter className="topic-advanced-config__stack">
+                <Stack hasGutter className="kafka-ui--topic-advanced-config__stack">
                   <StackItem>
                     <CoreConfiguration />
                   </StackItem>

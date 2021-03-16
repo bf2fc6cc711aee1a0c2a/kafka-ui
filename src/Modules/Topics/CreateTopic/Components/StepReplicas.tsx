@@ -77,7 +77,7 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
   };
 
   return (
-    <Stack hasGutter className="wizard-main-body__stack">
+    <Stack hasGutter className="kafka-ui--wizard-main-body__stack">
       <TextContent>
         <Text component={TextVariants.h2}>Replicas</Text>
         <Text component={TextVariants.p}>
@@ -122,7 +122,7 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
               id='radio-controlled-6'
               value='radio6'
             />
-            <div className='radio__parameters'>
+            <div className='kafka-ui--radio__parameters'>
               <NumberInput
                 value={replicationFactorTouchspinValue}
                 onMinus={handleOnMinusReplicationFactor}
