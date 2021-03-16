@@ -146,7 +146,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
     } else {
       setFilteredTopics(topics);
     }
-  }, [search]);
+  }, [search, topics]);
 
   const onClear = () => {
     setFilteredTopics(topics);
