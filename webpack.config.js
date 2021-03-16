@@ -83,8 +83,10 @@ module.exports = (_env, argv) => {
         exposes: {
           './Panels/Topics': './src/Panels/Topics/FederatedView',
           './Panels/TopicDetails':
-            './src/Panels/Topics/FederatedTopicDetailView.tsx',
+            './src/Panels/Topics/FederatedTopicDetailView',
           './Panels/CreateTopic': './src/Panels/Topics/FederatedCreateView',
+          './Panels/UpdateTopic':
+            './src/Panels/Topics/FederatedUpdateTopicView',
         },
         shared: {
           ...dependencies,

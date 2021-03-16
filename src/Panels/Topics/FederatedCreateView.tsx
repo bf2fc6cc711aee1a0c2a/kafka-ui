@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import './style.scss';
 import { ConfigContext, IConfiguration } from '../../Contexts';
 import { PageSection, PageSectionVariants } from '@patternfly/react-core';
-import { CreateTopicPage } from 'src/Modules/Topics/CreateTopic/CreateTopicPage';
+import { CreateTopicPage } from '../../Modules/Topics/CreateTopic/CreateTopicPage';
 
 export type FederatedCreateTopicProps = {
   getToken: () => Promise<string>;

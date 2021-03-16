@@ -2,15 +2,15 @@ import React, { FunctionComponent } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { TopicDetailGroup } from '../../Modules/Topics/TopicDetails/TopicDetailPage';
 
-type topicUseParams = {
+type TopicUseParams = {
   topicName: string;
 };
 
 const TopicDetail: FunctionComponent = () => {
-  const { topicName } = useParams<topicUseParams>();
+  const { topicName } = useParams<TopicUseParams>();
+  const history = useHistory();
 
   const useUpdateTopic = () => {
-    const history = useHistory();
     history.push(`/topics/update/${topicName}`);
   };
 

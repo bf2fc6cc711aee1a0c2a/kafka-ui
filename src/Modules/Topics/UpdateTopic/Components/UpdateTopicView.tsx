@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AlertVariant } from '@patternfly/react-core';
 import '../../CreateTopic/Components/CreateTopicWizard.css';
 import { TopicAdvanceConfig } from '../../CreateTopic/Components/TopicAdvanceConfig';
-import { useParams, useHistory } from 'react-router';
+import { useHistory } from 'react-router';
 import { getTopic, updateTopicModel } from '../../../../Services/index';
 import { Topic, TopicSettings } from '../../../../OpenApi/api';
 import {
@@ -10,13 +10,14 @@ import {
   initialState,
   TopicContext,
 } from '../../../../Contexts/Topic';
-import { ConfigContext } from '../../../../Contexts';
 import { DeleteTopics } from '../../TopicList/Components/DeleteTopicsModal';
 import { AlertContext } from '../../../../Contexts/Alert';
 
-export const UpdateTopicView: React.FC = () => {
+export type UpdateTopicViewProps = {
+  topicName: string
+}
+export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({topicName}) => {
   const { store, updateBulkStore } = React.useContext(TopicContext);
-  const { topicName } = useParams<any>();
   const [deleteModal, setDeleteModal] = useState(false);
 
   const [topic, setTopic] = useState<Topic>();
