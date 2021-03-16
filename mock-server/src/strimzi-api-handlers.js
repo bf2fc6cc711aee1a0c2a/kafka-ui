@@ -67,6 +67,7 @@ module.exports = {
     if (topicBody.numPartitions) {
       topic.partitions = createPartitions(topicBody.numPartitions, 2);
     }
+
     if (topicBody.config) {
       topic.config = topicBody.config;
     }
@@ -75,7 +76,11 @@ module.exports = {
       return res.status(404).json({ err: 'not found' });
     }
 
-    if (topicBody && topic.settings ** topic.settings.config) {
+    if (
+      topicBody &&
+      topic.settings &&
+      topic.settings ** topic.settings.config
+    ) {
       topic.config = topicBody.settings.config;
     }
 
