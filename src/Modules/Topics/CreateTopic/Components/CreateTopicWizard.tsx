@@ -62,9 +62,10 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
             replicationFactor: replicationFactorTouchspinValue,
             config: [
               {
-                key: "retention.ms", value : msgRetentionValue.toString()
-              }
-            ]
+                key: 'retention.ms',
+                value: msgRetentionValue.toString(),
+              },
+            ],
           },
         };
 

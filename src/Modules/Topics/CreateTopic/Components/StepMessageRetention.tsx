@@ -43,7 +43,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
     } else if (currentPeriod === RetentionOption.WEEK) {
       setMsgRetentionValue(RetentionOption.WEEK * 86400000);
     } else if (currentPeriod === RetentionOption.MONTH) {
-      setMsgRetentionValue(RetentionOption.MONTH  * 86400000);
+      setMsgRetentionValue(RetentionOption.MONTH * 86400000);
     } else if (currentPeriod === RetentionOption.CUSTOM) {
       setMsgRetentionValue(retentionFactor * msgTouchspinValue * 86400000);
     }
