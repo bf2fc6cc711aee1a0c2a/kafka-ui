@@ -15,7 +15,7 @@ export interface UpdateTopicPageProps {
 }
 
 export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
-  topicName
+  topicName,
 }) => {
   return (
     <>
@@ -41,7 +41,7 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
           </Tab>
           <Tab eventKey={1} title={<TabTitleText>Properties</TabTitleText>}>
             <PageSection variant='light'>
-              <UpdateTopicView topicName={topicName}/>
+              <UpdateTopicView topicName={topicName} />
             </PageSection>
           </Tab>
         </Tabs>

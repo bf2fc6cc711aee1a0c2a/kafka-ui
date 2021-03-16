@@ -14,9 +14,11 @@ import { DeleteTopics } from '../../TopicList/Components/DeleteTopicsModal';
 import { AlertContext } from '../../../../Contexts/Alert';
 
 export type UpdateTopicViewProps = {
-  topicName: string
-}
-export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({topicName}) => {
+  topicName: string;
+};
+export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
+  topicName,
+}) => {
   const { store, updateBulkStore } = React.useContext(TopicContext);
   const [deleteModal, setDeleteModal] = useState(false);
 
@@ -50,12 +52,12 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   const patchConfig = (previousTopic: Topic) => {
     const updatedConfig = previousTopic.config?.length
       ? previousTopic.config.filter((item) => {
-        if (item.key && store[item.key] != item.value)
-          return { key: item.key, value: store[item.key] };
-      })
+          if (item.key && store[item.key] != item.value)
+            return { key: item.key, value: store[item.key] };
+        })
       : Object.keys(store).map((key) => {
-        return { key: key, value: store[key] };
-      });
+          return { key: key, value: store[key] };
+        });
     return updatedConfig;
   };
 
