@@ -48,12 +48,14 @@ module.exports = {
       files: ['**/*.tsx'],
       rules: {
         'react/prop-types': 'off',
+        'react/no-unescaped-entities': 'off',
       },
     },
     {
       files: ['**/*.js'], //Allow commonjs modules for js files
       rules: {
         '@typescript-eslint/no-var-requires': 'off',
+        'react/no-unescaped-entities': 'off',
       },
     },
   ],

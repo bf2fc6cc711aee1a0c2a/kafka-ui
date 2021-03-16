@@ -106,9 +106,8 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
             segments in a partition before they are deleted to free up space
           </Text>
           <Text component={TextVariants.small}>
-            Messages that arent read by a consumer within this time will be
-            missed. By default, no retention size limit is applied, only a
-            &apos;retention.ms&apos; time limit.
+            Messages that aren't read by a consumer within this time will be
+            missed. By default, a limit is only applied to retention time.
           </Text>
         </TextContent>
 

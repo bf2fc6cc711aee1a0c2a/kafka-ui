@@ -20,11 +20,11 @@ describe('Step Topic Name', () => {
   it('should render topic name step component', () => {
     const { getByText, getByPlaceholderText } = renderResult;
     expect(
-      getByText('This is the unique name used to recognize your topic.')
+      getByText('Unique name used to recognize your topic')
     ).toBeInTheDocument();
     expect(
       getByText(
-        'It will also be used by your producers and consumers as part of the connection information, so make it something easy to recognize.'
+        'The topic name is also used by your producers and consumers as part of the connection information, so make it something easy to recognize.'
       )
     ).toBeInTheDocument();
     expect(getByPlaceholderText('Enter topic name')).toBeInTheDocument();

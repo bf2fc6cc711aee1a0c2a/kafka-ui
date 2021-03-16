@@ -21,14 +21,10 @@ describe('Step Partitions', () => {
   it('should render Partitions step component', () => {
     const renderResult = setup();
     const { getByText } = renderResult;
+    expect(getByText('An ordered list of messages')).toBeInTheDocument();
     expect(
       getByText(
-        'One or more partitions make up a topic. A partition is an ordered list of messages.'
-      )
-    ).toBeInTheDocument();
-    expect(
-      getByText(
-        'Partitions are distributed across the brokers in order to increase the scalability of your topic. You can also use them to distribute messages across the members of a consumer group.'
+        'One or more partitions make up a topic. Partitions are distributed across the brokers to increase the salability of your topic. You can also use them to distribute messages across the members of the consumer group.'
       )
     ).toBeInTheDocument();
   });
