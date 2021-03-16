@@ -22,7 +22,7 @@ import { ReplicationSection } from './ReplicationSection';
 import { IndexSection } from './IndexSection';
 import { FlushSection } from './FlushSection';
 import { CleanupSection } from './CleanupSection';
-import { initialState, TopicContext } from 'src/Contexts/Topic';
+import { initialState, TopicContext } from '../../../../Contexts/Topic';
 
 interface ITopicAdvanceConfig {
   isCreate: boolean;
