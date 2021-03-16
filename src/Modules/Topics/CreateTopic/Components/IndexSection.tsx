@@ -4,6 +4,7 @@ import {
   Form,
   TextVariants,
   Stack,
+  Title,
 } from '@patternfly/react-core';
 import React from 'react';
 import { FormGroupWithPopover } from '../../../../Components/FormGroupWithPopover/FormGroupWithPopover';
@@ -44,9 +45,9 @@ export const IndexSection: React.FC = () => {
   return (
     <Stack hasGutter>
       <TextContent>
-        <Text component={TextVariants.h2} tabIndex={-1} id='index'>
+        <Title headingLevel='h2' size='xl' id='index' tabIndex={-1}>
           Index
-        </Text>
+        </Title>
         <Text component={TextVariants.p}>
           {t('createTopic.indexSectionInfo')}
         </Text>

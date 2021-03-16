@@ -7,6 +7,7 @@ import {
   NumberInput,
   Text,
   Stack,
+  Title,
 } from '@patternfly/react-core';
 import { FormGroupWithPopover } from '../../../../Components/FormGroupWithPopover/FormGroupWithPopover';
 import { kebabToDotSeparated } from '../utils';
@@ -52,9 +53,9 @@ export const CleanupSection: React.FC = () => {
   return (
     <Stack hasGutter>
       <TextContent>
-        <Text component={TextVariants.h2} tabIndex={-1} id='cleanup'>
+        <Title headingLevel='h2' size='xl' id='cleanup' tabIndex={-1}>
           Cleanup
-        </Text>
+        </Title>
         <Text component={TextVariants.p}>
           {t('createTopic.cleanupSectionInfo')}
         </Text>

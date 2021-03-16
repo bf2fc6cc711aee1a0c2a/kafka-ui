@@ -37,7 +37,7 @@ export const CreateTopichead: React.FC<ICreateTopicProps> = ({
         {mainBreadcrumbs}
       </section>
       <PageSection variant={PageSectionVariants.light}>
-        <Title headingLevel='h1' size='lg'>
+        <Title headingLevel='h1' size='2xl'>
           Create topic
         </Title>
         <br />

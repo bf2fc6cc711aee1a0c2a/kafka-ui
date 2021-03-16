@@ -4,6 +4,7 @@ import {
   TextContent,
   Form,
   Stack,
+  Title,
 } from '@patternfly/react-core';
 import React from 'react';
 import {
@@ -67,9 +68,9 @@ const MessageSection: React.FC = () => {
   return (
     <Stack hasGutter>
       <TextContent>
-        <Text component={TextVariants.h2} tabIndex={-1} id='messages'>
+        <Title headingLevel='h2' size='xl' id='messages' tabIndex={-1}>
           Messages
-        </Text>
+        </Title>
         <Text component={TextVariants.p}>
           {t('createTopic.messageSectionInfo')}
         </Text>

@@ -7,6 +7,7 @@ import {
   TextInput,
   TextVariants,
   Stack,
+  Title,
 } from '@patternfly/react-core';
 import React from 'react';
 import { FormGroupWithPopover } from '../../../../Components/FormGroupWithPopover/FormGroupWithPopover';
@@ -35,9 +36,10 @@ export const ReplicationSection: React.FC = () => {
   return (
     <Stack hasGutter>
       <TextContent>
-        <Text component={TextVariants.h2} tabIndex={-1} id='replication'>
+        <Title headingLevel='h2' size='xl' id='replication' tabIndex={-1}>
           Replication
-        </Text>
+        </Title>
+
         <Text component={TextVariants.p}>
           {t('createTopic.replicationSectionInfo')}
         </Text>

@@ -76,7 +76,7 @@ const CoreConfiguration: React.FC = () => {
       <TextContent>
         <Title
           headingLevel='h2'
-          size='2xl'
+          size='xl'
           id='core-configuration'
           tabIndex={-1}
         >
