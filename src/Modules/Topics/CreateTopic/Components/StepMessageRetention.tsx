@@ -44,7 +44,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
     } else if (currentPeriod === RetentionOption.WEEK) {
       setMsgRetentionValue(RetentionOption.WEEK * 86400000);
     } else if (currentPeriod === RetentionOption.MONTH) {
-      setMsgRetentionValue(RetentionOption.MONTH  * 86400000);
+      setMsgRetentionValue(RetentionOption.MONTH * 86400000);
     } else if (currentPeriod === RetentionOption.CUSTOM) {
       setMsgRetentionValue(retentionFactor * msgTouchspinValue * 86400000);
     }
@@ -98,15 +98,17 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
 
   return (
     <>
-      <Stack hasGutter className="kafka-ui--wizard-main-body__stack">
-
+      <Stack hasGutter className='kafka-ui--wizard-main-body__stack'>
         <TextContent>
           <Text component={TextVariants.h2}>Message retention</Text>
           <Text component={TextVariants.p}>
-            How long messages are retained and the maximum total size of all log segments in a partition before they are deleted to free up space
+            How long messages are retained and the maximum total size of all log
+            segments in a partition before they are deleted to free up space
           </Text>
           <Text component={TextVariants.small}>
-            Messages that aren't read by a consumer within this time will be missed. By default, no retention size limit is applied, only a `retention.ms` time limit'.
+            Messages that arent read by a consumer within this time will be
+            missed. By default, no retention size limit is applied, only a
+            &apos;retention.ms&apos; time limit.
           </Text>
         </TextContent>
 
@@ -117,70 +119,69 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
             // className='form-group-radio'
           >
             <Stack hasGutter>
-            <Radio
-              isChecked={currentPeriod === RetentionOption.DAY}
-              name='radio1'
-              onChange={handleMessageRetention}
-              label='A day'
-              aria-label='A day'
-              id='radio-controlled-1'
-              value='day'
-            />
-            <Radio
-              isChecked={currentPeriod === RetentionOption.WEEK}
-              name='radio2'
-              onChange={handleMessageRetention}
-              label='A week'
-              aria-label='A week'
-              id='radio-controlled-2'
-              value='week'
-            />
-            <Radio
-              isChecked={currentPeriod === RetentionOption.MONTH}
-              name='radio3'
-              onChange={handleMessageRetention}
-              label='A month'
-              aria-label='A month'
-              id='radio-controlled-3'
-              value='month'
-            />
-            <Radio
-              isChecked={currentPeriod === RetentionOption.CUSTOM}
-              name='radio4'
-              onChange={handleMessageRetention}
-              label='Custom duration'
-              aria-label='custom input'
-              id='radio-controlled-4'
-              value='custom'
-            />
-            <div className='kafka-ui--radio__parameters'>
-              <Flex>
-                <FlexItem>
-                  <NumberInput
-                    onMinus={handleMinusClick}
-                    onPlus={handlePlusClick}
-                    value={msgTouchspinValue}
-                    onChange={handleMsgTouchSpinChange}
-                  />
-                </FlexItem>
-                <FlexItem>
-                  <Select
-                    variant={SelectVariant.single}
-                    aria-label='Select Input'
-                    onToggle={onMsgToggle}
-                    onSelect={onMsgSelect}
-                    selections={selected}
-                    isOpen={isMsgSelectOpen}
-                    // aria-labelledby={titleId}
-                  >
-                    <SelectOption key={0} value='days' isPlaceholder />
-                    <SelectOption key={1} value='weeks' />
-                    <SelectOption key={2} value='months' />
-                  </Select>
-                </FlexItem>
-              </Flex>
-            </div>
-              
+              <Radio
+                isChecked={currentPeriod === RetentionOption.DAY}
+                name='radio1'
+                onChange={handleMessageRetention}
+                label='A day'
+                aria-label='A day'
+                id='radio-controlled-1'
+                value='day'
+              />
+              <Radio
+                isChecked={currentPeriod === RetentionOption.WEEK}
+                name='radio2'
+                onChange={handleMessageRetention}
+                label='A week'
+                aria-label='A week'
+                id='radio-controlled-2'
+                value='week'
+              />
+              <Radio
+                isChecked={currentPeriod === RetentionOption.MONTH}
+                name='radio3'
+                onChange={handleMessageRetention}
+                label='A month'
+                aria-label='A month'
+                id='radio-controlled-3'
+                value='month'
+              />
+              <Radio
+                isChecked={currentPeriod === RetentionOption.CUSTOM}
+                name='radio4'
+                onChange={handleMessageRetention}
+                label='Custom duration'
+                aria-label='custom input'
+                id='radio-controlled-4'
+                value='custom'
+              />
+              <div className='kafka-ui--radio__parameters'>
+                <Flex>
+                  <FlexItem>
+                    <NumberInput
+                      onMinus={handleMinusClick}
+                      onPlus={handlePlusClick}
+                      value={msgTouchspinValue}
+                      onChange={handleMsgTouchSpinChange}
+                    />
+                  </FlexItem>
+                  <FlexItem>
+                    <Select
+                      variant={SelectVariant.single}
+                      aria-label='Select Input'
+                      onToggle={onMsgToggle}
+                      onSelect={onMsgSelect}
+                      selections={selected}
+                      isOpen={isMsgSelectOpen}
+                      // aria-labelledby={titleId}
+                    >
+                      <SelectOption key={0} value='days' isPlaceholder />
+                      <SelectOption key={1} value='weeks' />
+                      <SelectOption key={2} value='months' />
+                    </Select>
+                  </FlexItem>
+                </Flex>
+              </div>
             </Stack>
           </FormGroup>
         </Form>

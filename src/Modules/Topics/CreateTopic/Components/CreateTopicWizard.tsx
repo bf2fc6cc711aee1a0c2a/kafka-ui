@@ -1,16 +1,9 @@
 import React, { useContext, useState } from 'react';
 import {
   AlertVariant,
-  Divider,
-  Page,
-  PageBreadcrumb,
   PageSection,
   PageSectionTypes,
   PageSectionVariants,
-  Stack,
-  Switch,
-  TextContent,
-  Title,
   Wizard,
   WizardStep,
 } from '@patternfly/react-core';
@@ -69,9 +62,10 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
             replicationFactor: replicationFactorTouchspinValue,
             config: [
               {
-                key: "retention.ms", value : msgRetentionValue.toString()
-              }
-            ]
+                key: 'retention.ms',
+                value: msgRetentionValue.toString(),
+              },
+            ],
           },
         };
 

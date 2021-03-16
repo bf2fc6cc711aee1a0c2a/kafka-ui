@@ -87,7 +87,10 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               className='kafka-ui--topics-advanced-config'
             >
               <PageSection>
-                <Stack hasGutter className="kafka-ui--topic-advanced-config__stack">
+                <Stack
+                  hasGutter
+                  className='kafka-ui--topic-advanced-config__stack'
+                >
                   <StackItem>
                     <CoreConfiguration />
                   </StackItem>
@@ -98,12 +101,12 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
 
                   <StackItem>
                     <LogSection />
-                    </StackItem>
+                  </StackItem>
 
                   <StackItem>
                     <ReplicationSection />
                   </StackItem>
-                  
+
                   <StackItem>
                     <CleanupSection />
                   </StackItem>
@@ -127,37 +130,37 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 </Stack>
 
                 {isCreate ? (
-                    <></>
-                  ) : (
-                    <>
-                      <br />
-                      <Divider />
-                      <br />
-                      <br />
-                      <TextContent className='section-margin'>
-                        <Text
-                          component={TextVariants.h2}
-                          tabIndex={-1}
-                          id='delete'
-                        >
-                          Delete topic (irreversible)
-                        </Text>
-                        <Text component={TextVariants.p}>
-                          This permanently removes this topic from this instance
-                          of Strimzi. Applications will no longer have access to
-                          this topic.
-                        </Text>
-                      </TextContent>
-                      <br />
-                      <Button
-                        variant='danger'
-                        className='section-margin'
-                        onClick={deleteTopic}
+                  <></>
+                ) : (
+                  <>
+                    <br />
+                    <Divider />
+                    <br />
+                    <br />
+                    <TextContent className='section-margin'>
+                      <Text
+                        component={TextVariants.h2}
+                        tabIndex={-1}
+                        id='delete'
                       >
-                        Delete topic
-                      </Button>
-                    </>
-                  )}
+                        Delete topic (irreversible)
+                      </Text>
+                      <Text component={TextVariants.p}>
+                        This permanently removes this topic from this instance
+                        of Strimzi. Applications will no longer have access to
+                        this topic.
+                      </Text>
+                    </TextContent>
+                    <br />
+                    <Button
+                      variant='danger'
+                      className='section-margin'
+                      onClick={deleteTopic}
+                    >
+                      Delete topic
+                    </Button>
+                  </>
+                )}
               </PageSection>
             </PageGroup>
           </div>

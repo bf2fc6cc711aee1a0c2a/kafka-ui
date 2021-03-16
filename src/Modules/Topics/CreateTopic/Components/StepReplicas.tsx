@@ -77,7 +77,7 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
   };
 
   return (
-    <Stack hasGutter className="kafka-ui--wizard-main-body__stack">
+    <Stack hasGutter className='kafka-ui--wizard-main-body__stack'>
       <TextContent>
         <Text component={TextVariants.h2}>Replicas</Text>
         <Text component={TextVariants.p}>
@@ -88,7 +88,11 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
           number of brokers.
         </Text>
       </TextContent>
-      <Alert variant="info" isInline title="Streams for Apache Kafka only supports 3 replicas and a minimum in-sync replica factor of 2." />
+      <Alert
+        variant='info'
+        isInline
+        title='Streams for Apache Kafka only supports 3 replicas and a minimum in-sync replica factor of 2.'
+      />
       <Form onSubmit={preventFormSubmit}>
         <FormGroup
           fieldId='create-wizard-replica-form-group'
