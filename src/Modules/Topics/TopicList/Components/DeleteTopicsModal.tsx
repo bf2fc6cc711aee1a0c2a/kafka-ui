@@ -49,7 +49,7 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
       title=' Delete Topic  ?'
       titleIconVariant='warning'
       showClose={true}
-      aria-dsescribedby='no-header-example'
+      aria-describedby='no-header-example'
       onClose={onClose}
       // onClick={onSave}
     >
