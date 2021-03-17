@@ -130,7 +130,7 @@ const CoreConfiguration: React.FC = () => {
           buttonAriaLabel='More info for replicas field'
         >
           <NumberInput
-            inputName='replicas'
+            inputName='replication-factor'
             onChange={handleTouchSpinInputChangeCamelCase}
             onPlus={handleTouchSpinPlusCamelCase}
             onMinus={handleTouchSpinMinusCamelCase}

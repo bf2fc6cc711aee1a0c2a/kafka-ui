@@ -5,7 +5,7 @@ import { TopicAdvanceConfig } from '../../CreateTopic/Components/TopicAdvanceCon
 import { useParams, useHistory } from 'react-router';
 import { getTopic, updateTopicModel } from '../../../../Services/index';
 import { Topic, TopicSettings } from '../../../../OpenApi/api';
-import { AdvancedTopic, TopicContext } from '../../../../Contexts/Topic';
+import { AdvancedTopic, initialState, TopicContext } from '../../../../Contexts/Topic';
 import { ConfigContext } from '../../../../Contexts';
 import { DeleteTopics } from '../../TopicList/Components/DeleteTopicsModal';
 import { AlertContext } from '../../../../Contexts/Alert';
@@ -26,7 +26,10 @@ export const UpdateTopicView: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchTopic(topicName);
+    (async function() {
+      await updateBulkStore(initialState);
+      fetchTopic(topicName);
+    })();
   }, []);
 
   const saveToStore = (topic: Topic) => {
@@ -81,6 +84,7 @@ export const UpdateTopicView: React.FC = () => {
     } catch (err) {
       addAlert(err.response.data.err, AlertVariant.danger);
     }
+    updateBulkStore(initialState);
   };
 
   return (
