@@ -23,7 +23,7 @@ describe('Step Replicas', () => {
     const { getByText } = setup();
     expect(
       getByText(
-        'This is how many copies of a topic will be made for high availability.'
+        'How many copies of a topic will be made for high availability.'
       )
     ).toBeInTheDocument();
     expect(

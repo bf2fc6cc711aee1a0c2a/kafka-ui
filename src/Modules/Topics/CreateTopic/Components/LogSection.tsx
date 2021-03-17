@@ -1,4 +1,11 @@
-import { TextVariants, Text, TextContent, Form } from '@patternfly/react-core';
+import {
+  TextVariants,
+  Text,
+  TextContent,
+  Form,
+  Stack,
+  Title,
+} from '@patternfly/react-core';
 import React from 'react';
 import {
   DropdownWithToggle,
@@ -52,11 +59,12 @@ const LogSection: React.FC = () => {
   };
 
   return (
-    <>
+    <Stack hasGutter>
       <TextContent>
-        <Text component={TextVariants.h2} tabIndex={-1} id='log'>
+        <Title headingLevel='h2' size='xl' id='log' tabIndex={-1}>
           Log
-        </Text>
+        </Title>
+
         <Text component={TextVariants.p}>
           {t('createTopic.logSectionInfo')}
         </Text>
@@ -130,7 +138,7 @@ const LogSection: React.FC = () => {
           />
         </FormGroupWithPopover>
       </Form>
-    </>
+    </Stack>
   );
 };
 

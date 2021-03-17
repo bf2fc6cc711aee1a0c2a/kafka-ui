@@ -7,8 +7,9 @@ import {
   GridItem,
   JumpLinks,
   JumpLinksItem,
-  PageGroup,
   PageSection,
+  Stack,
+  StackItem,
   Text,
   TextContent,
   TextVariants,
@@ -50,12 +51,12 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
   return (
     <>
       <Grid hasGutter>
-        <GridItem span={2} style={{ padding: '30px 30px' }}>
+        <GridItem span={2}>
           <JumpLinks
             isVertical
             label='JUMP TO SECTION'
             scrollableSelector='#advanced-create-topic'
-            style={{ position: 'absolute' }}
+            style={{ position: 'sticky', top: 0 }}
           >
             <JumpLinksItem key={0} href='#core-configuration'>
               Core configuration
@@ -87,70 +88,81 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
             )}
           </JumpLinks>
         </GridItem>
-        <GridItem span={10} style={{ padding: '30px 30px' }}>
-          <div>
-            <PageGroup
-              hasOverflowScroll
-              id='advanced-create-topic'
-              className='topics-wizard-content'
-            >
-              <PageSection>
+        <GridItem span={10}>
+          <PageSection
+            hasOverflowScroll
+            id='advanced-create-topic'
+            className='kafka-ui--topics-advanced-config'
+            padding={{ default: 'noPadding' }}
+          >
+            <Stack hasGutter className='kafka-ui--topic-advanced-config__stack'>
+              <StackItem>
                 <CoreConfiguration />
+              </StackItem>
 
+              <StackItem>
                 <MessageSection />
+              </StackItem>
 
+              <StackItem>
                 <LogSection />
+              </StackItem>
 
+              <StackItem>
                 <ReplicationSection />
+              </StackItem>
 
+              <StackItem>
                 <CleanupSection />
+              </StackItem>
 
+              <StackItem>
                 <IndexSection />
+              </StackItem>
 
+              <StackItem>
                 <FlushSection />
-                <br />
+              </StackItem>
+
+              <StackItem>
                 <ActionGroup>
                   <Button onClick={handleOnSave} variant='primary'>
                     {actionText}
                   </Button>
                   <Button variant='link'>Cancel</Button>
                 </ActionGroup>
+              </StackItem>
+            </Stack>
 
-                {isCreate ? (
-                  <></>
-                ) : (
-                  <>
-                    <br />
-                    <Divider />
-                    <br />
-                    <br />
-                    <TextContent className='section-margin'>
-                      <Text
-                        component={TextVariants.h2}
-                        tabIndex={-1}
-                        id='delete'
-                      >
-                        Delete topic (irreversible)
-                      </Text>
-                      <Text component={TextVariants.p}>
-                        This permanently removes this topic from this instance
-                        of Strimzi. Applications will no longer have access to
-                        this topic.
-                      </Text>
-                    </TextContent>
-                    <br />
-                    <Button
-                      variant='danger'
-                      className='section-margin'
-                      onClick={deleteTopic}
-                    >
-                      Delete topic
-                    </Button>
-                  </>
-                )}
-              </PageSection>
-            </PageGroup>
-          </div>
+            {isCreate ? (
+              <></>
+            ) : (
+              <>
+                <br />
+                <Divider />
+                <br />
+                <br />
+                <TextContent className='section-margin'>
+                  <Text component={TextVariants.h2} tabIndex={-1} id='delete'>
+                    Delete topic (irreversible)
+                  </Text>
+                  <Text component={TextVariants.p}>
+                    This permanently removes this topic from this instance of
+                    Strimzi. Applications will no longer have access to this
+                    topic.
+                  </Text>
+                </TextContent>
+                <br />
+                <Button
+                  variant='danger'
+                  className='section-margin'
+                  onClick={deleteTopic}
+                >
+                  Delete topic
+                </Button>
+              </>
+            )}
+          </PageSection>
         </GridItem>
       </Grid>
     </>

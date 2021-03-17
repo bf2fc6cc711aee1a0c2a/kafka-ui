@@ -1,4 +1,11 @@
-import { TextContent, Text, Form, TextVariants } from '@patternfly/react-core';
+import {
+  TextContent,
+  Text,
+  Form,
+  TextVariants,
+  Stack,
+  Title,
+} from '@patternfly/react-core';
 import React from 'react';
 import { FormGroupWithPopover } from '../../../../Components/FormGroupWithPopover/FormGroupWithPopover';
 import { kebabToDotSeparated } from '../utils';
@@ -36,11 +43,11 @@ export const FlushSection: React.FC = () => {
   };
 
   return (
-    <>
+    <Stack hasGutter>
       <TextContent>
-        <Text component={TextVariants.h2} tabIndex={-1} id='flush'>
+        <Title headingLevel='h2' size='xl' id='flush' tabIndex={-1}>
           Flush
-        </Text>
+        </Title>
         <Text component={TextVariants.p}>
           {t('createTopic.flushSectionInfo')}
         </Text>
@@ -95,6 +102,6 @@ export const FlushSection: React.FC = () => {
           />
         </FormGroupWithPopover>
       </Form>
-    </>
+    </Stack>
   );
 };

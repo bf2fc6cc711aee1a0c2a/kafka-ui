@@ -4,6 +4,9 @@ import {
   Text,
   TextVariants,
   NumberInput,
+  FormGroup,
+  Form,
+  Stack,
 } from '@patternfly/react-core';
 import './CreateTopicWizard.css';
 export interface IStepPartitions {
@@ -26,24 +29,34 @@ export const StepPartitions: React.FC<IStepPartitions> = ({
   };
 
   return (
-    <TextContent className='topics-wizard-content'>
-      <Text component={TextVariants.h2}>Partitions</Text>
-      <Text component={TextVariants.p}>
-        One or more partitions make up a topic. A partition is an ordered list
-        of messages.
-      </Text>
-      <Text component={TextVariants.small}>
-        Partitions are distributed across the brokers in order to increase the
-        scalability of your topic. You can also use them to distribute messages
-        across the members of a consumer group.
-      </Text>
-      <NumberInput
-        onPlus={handleOnPlus}
-        onMinus={handleOnMinus}
-        value={partitionTouchspinValue}
-        inputName='input'
-        onChange={handlePartitionTouchspinChange}
-      />
-    </TextContent>
+    <Stack hasGutter className='kafka-ui--wizard-main-body__stack'>
+      <TextContent>
+        <Text component={TextVariants.h2}>Partitions</Text>
+        <Text component={TextVariants.p}>An ordered list of messages</Text>
+        <Text component={TextVariants.small}>
+          One or more partitions make up a topic. Partitions are distributed
+          across the brokers to increase the salability of your topic. You can
+          also use them to distribute messages across the members of the
+          consumer group.
+        </Text>
+      </TextContent>
+      <Form>
+        <FormGroup
+          label='Partitions'
+          fieldId='step-topic-name-form'
+          helperText='One partition is sufficient for getting started, but production systems often have more.'
+          isRequired
+        >
+          <NumberInput
+            onPlus={handleOnPlus}
+            onMinus={handleOnMinus}
+            value={partitionTouchspinValue}
+            inputName='input'
+            onChange={handlePartitionTouchspinChange}
+            widthChars={20}
+          />
+        </FormGroup>
+      </Form>
+    </Stack>
   );
 };

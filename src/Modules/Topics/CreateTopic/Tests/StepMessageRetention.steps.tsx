@@ -25,12 +25,12 @@ describe('Step Message Retention', () => {
     const { getByText } = setup();
     expect(
       getByText(
-        'This is how long messages are retained before they are deleted.'
+        'How long messages are retained and the maximum total size of all log segments in a partition before they are deleted to free up space'
       )
     ).toBeInTheDocument();
     expect(
       getByText(
-        'If your messages are not read by a consumer within this time, they will be missed.'
+        "Messages that aren't read by a consumer within this time will be missed. By default, a limit is only applied to retention time."
       )
     ).toBeInTheDocument();
   });

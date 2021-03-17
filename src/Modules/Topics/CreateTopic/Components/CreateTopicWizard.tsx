@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import {
   AlertVariant,
-  Divider,
   PageSection,
+  PageSectionTypes,
   PageSectionVariants,
   Wizard,
   WizardStep,
@@ -148,7 +148,6 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     <>
       {isSwitchChecked ? (
         <>
-          <Divider />
           <PageSection variant={PageSectionVariants.light}>
             <TopicAdvanceConfig isCreate={true} saveTopic={saveTopic} />
           </PageSection>
@@ -156,7 +155,8 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       ) : (
         <PageSection
           variant={PageSectionVariants.light}
-          padding={{ default: 'noPadding' }}
+          type={PageSectionTypes.wizard}
+          isFilled
         >
           <Wizard
             navAriaLabel={`${title} steps`}

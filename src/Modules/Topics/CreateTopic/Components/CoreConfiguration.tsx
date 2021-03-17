@@ -6,6 +6,7 @@ import {
   TextVariants,
   Title,
   NumberInput,
+  Stack,
 } from '@patternfly/react-core';
 import React from 'react';
 import { FormGroupWithPopover } from '../../../../Components/FormGroupWithPopover/FormGroupWithPopover';
@@ -71,11 +72,11 @@ const CoreConfiguration: React.FC = () => {
   };
 
   return (
-    <>
+    <Stack hasGutter>
       <TextContent>
         <Title
           headingLevel='h2'
-          size='2xl'
+          size='xl'
           id='core-configuration'
           tabIndex={-1}
         >
@@ -182,7 +183,7 @@ const CoreConfiguration: React.FC = () => {
           />
         </FormGroupWithPopover>
       </Form>
-    </>
+    </Stack>
   );
 };
 
