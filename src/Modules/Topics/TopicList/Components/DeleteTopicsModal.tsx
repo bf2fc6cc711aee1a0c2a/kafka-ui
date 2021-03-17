@@ -53,7 +53,7 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
       onClose={onClose}
       // onClick={onSave}
     >
-      <Text> The Topic will be deleted </Text>
+      <Text> The Topic {topicName} will be deleted </Text>
 
       <br />
       <Flex>

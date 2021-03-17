@@ -8,6 +8,8 @@ import userEvent from '@testing-library/user-event';
 
 const messageRetentionProps: IStepMessageRetention = {
   setMsgRetentionValue: jest.fn(),
+  currentPeriod: 1,
+  setCurrentPeriod: jest.fn(),
 };
 
 const setup = () => {
@@ -53,9 +55,9 @@ describe('Step Message Retention', () => {
     expect(setMsgRetentionValue).toBeCalledTimes(1);
     userEvent.click(getByLabelText('A week'));
     expect(setMsgRetentionValue).toHaveBeenCalled();
-    expect(setMsgRetentionValue).toBeCalledTimes(2);
+    expect(setMsgRetentionValue).toBeCalledTimes(1);
     userEvent.click(getByLabelText('A month'));
     expect(setMsgRetentionValue).toHaveBeenCalled();
-    expect(setMsgRetentionValue).toBeCalledTimes(3);
+    expect(setMsgRetentionValue).toBeCalledTimes(1);
   });
 });

@@ -146,7 +146,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
     } else {
       setFilteredTopics(topics);
     }
-  }, [search]);
+  }, [search, topics]);
 
   const onClear = () => {
     setFilteredTopics(topics);
@@ -158,9 +158,15 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
     setDeleteModal(true);
   };
 
+  const onEdit = (rowId: any) => {
+    if (filteredTopics?.items) {
+      history.push(`/topics/update/${filteredTopics.items[rowId].name}`);
+    }
+  };
+
   const actions = [
     { title: 'Delete', onClick: (_, rowId) => onDelete(rowId) },
-    { title: 'Edit' },
+    { title: 'Edit', onClick: (_, rowId) => onEdit(rowId) },
   ];
 
   if (loading) {

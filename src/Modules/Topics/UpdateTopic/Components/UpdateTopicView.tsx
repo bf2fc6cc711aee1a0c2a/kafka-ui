@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AlertVariant } from '@patternfly/react-core';
 import '../../CreateTopic/Components/CreateTopicWizard.css';
 import { TopicAdvanceConfig } from '../../CreateTopic/Components/TopicAdvanceConfig';
-import { useParams } from 'react-router';
+import { useParams, useHistory } from 'react-router';
 import { getTopic, updateTopicModel } from '../../../../Services/index';
 import { Topic, TopicSettings } from '../../../../OpenApi/api';
 import { AdvancedTopic, TopicContext } from '../../../../Contexts/Topic';
@@ -18,7 +18,7 @@ export const UpdateTopicView: React.FC = () => {
   const [topic, setTopic] = useState<Topic>();
   const config = useContext(ConfigContext);
   const { addAlert } = useContext(AlertContext);
-
+  const history = useHistory();
   const fetchTopic = async (topicName) => {
     const topicRes = await getTopic(topicName, config);
     setTopic(topicRes);
@@ -71,11 +71,12 @@ export const UpdateTopicView: React.FC = () => {
         config
       );
 
-      if (updateStatus === 204) {
+      if (updateStatus === 200) {
         addAlert(
           'The topic was successfully updated in the Kafka instance',
           AlertVariant.success
         );
+        history.push(`/topic/${topicName}`);
       }
     } catch (err) {
       addAlert(err.response.data.err, AlertVariant.danger);
