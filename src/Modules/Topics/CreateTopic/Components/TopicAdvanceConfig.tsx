@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import {
   ActionGroup,
   Button,
-  Divider,
   Grid,
   GridItem,
   JumpLinks,
@@ -10,9 +9,6 @@ import {
   PageSection,
   Stack,
   StackItem,
-  Text,
-  TextContent,
-  TextVariants,
 } from '@patternfly/react-core';
 import './CreateTopicWizard.css';
 
@@ -28,35 +24,33 @@ import { initialState, TopicContext } from '../../../../Contexts/Topic';
 interface ITopicAdvanceConfig {
   isCreate: boolean;
   saveTopic: () => void;
-  deleteTopic?: () => void;
 }
 
 export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = ({
   isCreate,
   saveTopic,
-  deleteTopic,
 }) => {
   const { updateBulkStore } = React.useContext(TopicContext);
   const actionText = isCreate === true ? 'Create Topic' : 'Save';
 
   useEffect(() => {
     updateBulkStore(initialState);
-  }, [])
+  }, []);
 
   const handleOnSave = () => {
     saveTopic();
     updateBulkStore(initialState);
-  }
+  };
 
   return (
     <>
       <Grid hasGutter>
-        <GridItem span={2}>
+        <GridItem span={2} rowSpan={2}>
           <JumpLinks
             isVertical
             label='JUMP TO SECTION'
-            scrollableSelector='#advanced-create-topic'
-            style={{ position: 'sticky', top: 0 }}
+            scrollableSelector='#main-container'
+            style={{ position: 'sticky', top: 'var(--pf-global--spacer--lg)' }}
           >
             <JumpLinksItem key={0} href='#core-configuration'>
               Core configuration
@@ -90,10 +84,10 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
         </GridItem>
         <GridItem span={10}>
           <PageSection
-            hasOverflowScroll
-            id='advanced-create-topic'
             className='kafka-ui--topics-advanced-config'
             padding={{ default: 'noPadding' }}
+            hasOverflowScroll
+            id='topic-advance-config-scroll-container'
           >
             <Stack hasGutter className='kafka-ui--topic-advanced-config__stack'>
               <StackItem>
@@ -123,46 +117,16 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               <StackItem>
                 <FlushSection />
               </StackItem>
-
-              <StackItem>
-                <ActionGroup>
-                  <Button onClick={handleOnSave} variant='primary'>
-                    {actionText}
-                  </Button>
-                  <Button variant='link'>Cancel</Button>
-                </ActionGroup>
-              </StackItem>
             </Stack>
-
-            {isCreate ? (
-              <></>
-            ) : (
-              <>
-                <br />
-                <Divider />
-                <br />
-                <br />
-                <TextContent className='section-margin'>
-                  <Text component={TextVariants.h2} tabIndex={-1} id='delete'>
-                    Delete topic (irreversible)
-                  </Text>
-                  <Text component={TextVariants.p}>
-                    This permanently removes this topic from this instance of
-                    Strimzi. Applications will no longer have access to this
-                    topic.
-                  </Text>
-                </TextContent>
-                <br />
-                <Button
-                  variant='danger'
-                  className='section-margin'
-                  onClick={deleteTopic}
-                >
-                  Delete topic
-                </Button>
-              </>
-            )}
           </PageSection>
+        </GridItem>
+        <GridItem offset={2} span={10} className='kafka-ui--sticky-footer'>
+          <ActionGroup>
+            <Button onClick={handleOnSave} variant='primary'>
+              {actionText}
+            </Button>
+            <Button variant='link'>Cancel</Button>
+          </ActionGroup>
         </GridItem>
       </Grid>
     </>
