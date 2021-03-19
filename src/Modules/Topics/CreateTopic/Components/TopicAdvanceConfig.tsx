@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import {
   ActionGroup,
   Button,
-  Grid,
-  GridItem,
   JumpLinks,
   JumpLinksItem,
   PageSection,
+  Sidebar,
+  SidebarContent,
+  SidebarPanel,
   Stack,
   StackItem,
 } from '@patternfly/react-core';
@@ -44,13 +45,16 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
 
   return (
     <>
-      <Grid hasGutter>
-        <GridItem span={2} rowSpan={2}>
+      <Sidebar hasGutter>
+        <SidebarPanel variant='sticky'>
           <JumpLinks
             isVertical
             label='JUMP TO SECTION'
             scrollableSelector='#main-container'
-            style={{ position: 'sticky', top: 'var(--pf-global--spacer--lg)' }}
+            style={{ position: 'sticky' }}
+            offset={-164} // for header
+            expandable={{ default: 'expandable', md: 'nonExpandable' }}
+            isExpanded={false}
           >
             <JumpLinksItem key={0} href='#core-configuration'>
               Core configuration
@@ -81,8 +85,8 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               </JumpLinksItem>
             )}
           </JumpLinks>
-        </GridItem>
-        <GridItem span={10}>
+        </SidebarPanel>
+        <SidebarContent>
           <PageSection
             className='kafka-ui--topics-advanced-config'
             padding={{ default: 'noPadding' }}
@@ -119,16 +123,15 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               </StackItem>
             </Stack>
           </PageSection>
-        </GridItem>
-        <GridItem offset={2} span={10} className='kafka-ui--sticky-footer'>
-          <ActionGroup>
+
+          <ActionGroup className='kafka-ui--sticky-footer'>
             <Button onClick={handleOnSave} variant='primary'>
               {actionText}
             </Button>
             <Button variant='link'>Cancel</Button>
           </ActionGroup>
-        </GridItem>
-      </Grid>
+        </SidebarContent>
+      </Sidebar>
     </>
   );
 };
