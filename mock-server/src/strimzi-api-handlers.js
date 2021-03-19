@@ -31,11 +31,24 @@ module.exports = {
   },
 
   getTopicsList: async (c, req, res) => {
+
+    let count = topics ? topics.length : 0 , topicList = topic
+
+    const filterTopics = () => {
+      var regexp = new RegExp(`${req.query.filter?.trim()}`);
+      return topics.filter(topic => regexp.test(topic.name))
+    }
+
+    if(topics && req.query.filter && req.query.filter?.trim() !== "") {
+      topicList = filterTopics();
+      count = topicList.length;
+    }
+
     return res.status(200).json({
       limit: parseInt(req.query.limit, 10) || 100,
       offset: 0,
-      count: topics ? topics.length : 0,
-      items: topics,
+      count,
+      items: topicList,
     });
   },
 
