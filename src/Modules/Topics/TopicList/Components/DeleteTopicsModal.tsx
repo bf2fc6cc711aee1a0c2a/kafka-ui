@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Modal,
   ModalVariant,
@@ -7,6 +7,9 @@ import {
   Text,
   FlexItem,
   AlertVariant,
+  TextInput,
+  TextVariants,
+  TextContent,
 } from '@patternfly/react-core';
 import { deleteTopic } from '../../../../Services/TopicServices';
 import { ConfigContext } from '../../../../Contexts';
@@ -22,6 +25,7 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
   deleteModal,
   topicName,
 }) => {
+  const [verificationText, setVerificationText] = useState('');
   const { addAlert } = useContext(AlertContext);
   const history = useHistory();
   const onClose = () => {
@@ -41,6 +45,10 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
 
   const config = useContext(ConfigContext);
 
+  const handleVerificationTextChange = (value) => {
+    setVerificationText(value);
+  };
+
   return (
     <Modal
       variant={ModalVariant.small}
@@ -53,12 +61,30 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
       onClose={onClose}
       // onClick={onSave}
     >
-      <Text> The Topic {topicName} will be deleted </Text>
+      <Text>
+        {' '}
+        The Topic <b>{topicName}</b> will be deleted forever.{' '}
+      </Text>
 
+      <br />
+      <TextContent>
+        <Text component={TextVariants.h6}> Type DELETE to confirm: </Text>
+      </TextContent>
+      <TextInput
+        value={verificationText}
+        type='text'
+        onChange={handleVerificationTextChange}
+        aria-label='text input example'
+      />
+      <br />
       <br />
       <Flex>
         <FlexItem>
-          <Button variant='danger' onClick={onDelete}>
+          <Button
+            variant='danger'
+            onClick={onDelete}
+            isDisabled={verificationText.toUpperCase() != 'DELETE'}
+          >
             Delete Topic
           </Button>
         </FlexItem>
