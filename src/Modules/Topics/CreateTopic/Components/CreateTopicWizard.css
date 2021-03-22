@@ -29,3 +29,11 @@
 .pf-c-number-input {
   min-width: 100%;
 }
+
+.kafka-ui--sticky-footer {
+  position: sticky;
+  bottom: 0;
+  background: var(--pf-global--BackgroundColor--100);
+  padding-top: var(--pf-global--spacer--lg);
+  padding-bottom: var(--pf-global--spacer--lg);
+}

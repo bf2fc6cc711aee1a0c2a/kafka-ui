@@ -5,7 +5,11 @@ import { TopicAdvanceConfig } from '../../CreateTopic/Components/TopicAdvanceCon
 import { useParams, useHistory } from 'react-router';
 import { getTopic, updateTopicModel } from '../../../../Services/index';
 import { Topic, TopicSettings } from '../../../../OpenApi/api';
-import { AdvancedTopic, initialState, TopicContext } from '../../../../Contexts/Topic';
+import {
+  AdvancedTopic,
+  initialState,
+  TopicContext,
+} from '../../../../Contexts/Topic';
 import { ConfigContext } from '../../../../Contexts';
 import { DeleteTopics } from '../../TopicList/Components/DeleteTopicsModal';
 import { AlertContext } from '../../../../Contexts/Alert';
@@ -26,7 +30,7 @@ export const UpdateTopicView: React.FC = () => {
   };
 
   useEffect(() => {
-    (async function() {
+    (async function () {
       await updateBulkStore(initialState);
       fetchTopic(topicName);
     })();
@@ -40,10 +44,6 @@ export const UpdateTopicView: React.FC = () => {
       advanceConfig[configItem.key || ''] = configItem.value || '';
     });
     updateBulkStore(advanceConfig);
-  };
-
-  const deleteTopic = () => {
-    setDeleteModal(true);
   };
 
   const patchConfig = (previousTopic: Topic) => {
@@ -89,11 +89,7 @@ export const UpdateTopicView: React.FC = () => {
 
   return (
     <>
-      <TopicAdvanceConfig
-        isCreate={false}
-        saveTopic={saveTopic}
-        deleteTopic={deleteTopic}
-      />
+      <TopicAdvanceConfig isCreate={false} saveTopic={saveTopic} />
       <br />
       <br />
       {deleteModal && (

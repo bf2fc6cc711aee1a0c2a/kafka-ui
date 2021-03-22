@@ -20,7 +20,11 @@ export const UpdateTopicPage: React.FC = () => {
   return (
     <>
       <UpdateTopicHead topicName={topicName} />
-      <PageSection variant={PageSectionVariants.light}>
+      <PageSection
+        variant={PageSectionVariants.light}
+        padding={{ default: 'noPadding' }}
+      >
+        {/* <div> */}
         <Tabs
           activeKey={1}
           onSelect={() => {
@@ -36,7 +40,9 @@ export const UpdateTopicPage: React.FC = () => {
             <ConsumerGroupByTopicList />
           </Tab>
           <Tab eventKey={1} title={<TabTitleText>Properties</TabTitleText>}>
-            <UpdateTopicView />
+            <PageSection variant='light'>
+              <UpdateTopicView />
+            </PageSection>
           </Tab>
         </Tabs>
       </PageSection>
