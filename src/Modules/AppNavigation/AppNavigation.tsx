@@ -15,7 +15,7 @@ import {
 } from '@patternfly/react-core';
 import { TopicsListComponent } from '../Topics/TopicList/Components/TopicsList';
 import { ConsumerGroupsList } from '../ConsumerGroups/ConsumerGroupList/Components/ConsumerGroupList';
-import CodeBranchIcon from '@patternfly/react-icons/dist/js/icons/code-branch-icon';
+import { EllipsisVIcon } from '@patternfly/react-icons/dist/js/icons/ellipsis-v-icon';
 import { useHistory } from 'react-router';
 interface ITabHeaderProps {
   eventKey: number;
@@ -35,9 +35,9 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
 
   const mainBreadcrumbs = (
     <Breadcrumb>
-      <BreadcrumbItem to='#'>OpenShift Streams</BreadcrumbItem>
+      <BreadcrumbItem to='#'>Streams for Apache Kafka</BreadcrumbItem>
       <BreadcrumbItem to='#' isActive>
-        MK Cluster Instance
+        Kafka Instance Name
       </BreadcrumbItem>
     </Breadcrumb>
   );
@@ -48,16 +48,12 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
       <PageSection variant={PageSectionVariants.light}>
         <Flex>
           <FlexItem align={{ default: 'alignRight' }}>
-            <Button
-              variant='link'
-              icon={<CodeBranchIcon />}
-              iconPosition='right'
-            >
-              Connect to this cluster
+            <Button variant='plain' iconPosition='right'>
+              <EllipsisVIcon />
             </Button>
           </FlexItem>
         </Flex>
-        <Title headingLevel='h1'>MK Cluster Instance</Title>
+        <Title headingLevel='h1'>Kafka Instance Name</Title>
       </PageSection>
       <br />
       <PageSection
@@ -65,15 +61,6 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
         padding={{ default: 'noPadding' }}
       >
         <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
-          <Tab
-            title={<TabTitleText>Home</TabTitleText>}
-            eventKey={0}
-            id='home-tab-section'
-            aria-label='Home Tab'
-            hidden
-          >
-            <Title headingLevel='h4'>Home </Title>
-          </Tab>
           <Tab
             title={<TabTitleText>Topics</TabTitleText>}
             eventKey={1}
@@ -97,14 +84,6 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
                 <ConsumerGroupsList />
               </PageSection>
             </Page>
-          </Tab>
-          <Tab
-            title={<TabTitleText>Metrics</TabTitleText>}
-            eventKey={3}
-            id='metrics-tab-section'
-            aria-label='Metrics Tab'
-          >
-            <Title headingLevel='h4'>Metrics </Title>
           </Tab>
         </Tabs>
       </PageSection>

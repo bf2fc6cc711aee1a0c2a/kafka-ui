@@ -97,9 +97,31 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
 
   const tableColumns = [
     { title: 'Name' },
-    { title: 'Replicas', transforms: [sortable] },
     { title: 'Partitions', transforms: [sortable] },
+    { title: 'Retention Time', transforms: [sortable] },
+    { title: 'Retention Size', transforms: [sortable] },
   ];
+  const conversion = (milliseconds: number) => {
+    if (milliseconds < 60000) return milliseconds + ' ' + 'Milliseconds';
+    else if (milliseconds >= 6000 && milliseconds < 3.6e6) {
+      return Math.floor(milliseconds / 60000) + ' ' + 'minutes';
+    } else if (milliseconds >= 3.6e6 && milliseconds < 1.728e8)
+      return Math.floor(milliseconds / 3.6e6) + ' ' + 'hours';
+    else if (milliseconds >= 1.728e8)
+      return Math.floor(milliseconds / 8.64e7) + ' ' + 'Days';
+  };
+
+  const byteConversion = (byte: number) => {
+    if (Math.abs(byte) < 1000) return byte + ' ' + 'bytes';
+    else if (Math.abs(byte) >= 1000 && Math.abs(byte) < 1000000)
+      return byte / 1000 + ' ' + 'kilobytes';
+    else if (Math.abs(byte) >= 1000000 && Math.abs(byte) < 1000000000)
+      return byte / 1000000 + ' ' + 'megabytes';
+    else if (Math.abs(byte) >= 1000000000 && Math.abs(byte) < 1000000000000)
+      return byte / 1000000000 + ' ' + 'gigaabytes';
+    else if (Math.abs(byte) >= 1000000000000)
+      return byte / 1000000000000 + ' ' + 'terabytes';
+  };
   const rowData =
     filteredTopics?.items?.map((topic) => [
       {
@@ -115,13 +137,30 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
           </Button>
         ),
       },
-      topic.partitions
-        ?.map((p) => (p.replicas ? p.replicas.length : 0))
-        .reduce(
-          (previousValue, currentValue) => previousValue + currentValue,
-          0
-        ),
       topic.partitions?.length,
+
+      conversion(
+        topic.config
+          ?.map((element) =>
+            element.key === 'retention.ms'
+              ? element.value && parseInt(element.value)
+              : 0
+          )
+          .reduce((previousValue: any, currentValue: any) => {
+            return previousValue + currentValue;
+          }, 0)
+      ),
+      byteConversion(
+        topic.config
+          ?.map((element) =>
+            element.key === 'log.retention.bytes'
+              ? element.value && parseInt(element.value)
+              : 0
+          )
+          .reduce((previousValue: any, currentValue: any) => {
+            return previousValue + currentValue;
+          }, 0)
+      ),
     ]) || [];
 
   useEffect(() => {
