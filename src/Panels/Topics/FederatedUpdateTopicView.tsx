@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import './style.scss';
-import '@patternfly/react-core/dist/styles/base.css';
 import { UpdateTopicPage } from '../../Modules/Topics/UpdateTopic/UpdateTopicPage';
 import { ConfigContext, TopicContextProvider } from '../../Contexts';
 import { PageSection, PageSectionVariants } from '@patternfly/react-core';
-
+import kafkai18n from '../../i18n';
+import { I18nextProvider } from 'react-i18next';
 export type FederatedUpdateTopicProps = {
   getToken: () => Promise<string>;
   apiBasePath: string;
@@ -17,6 +17,7 @@ const FederatedUpdateTopicView: FunctionComponent<FederatedUpdateTopicProps> = (
   currentTopic,
 }) => {
   return (
+    <I18nextProvider i18n = {kafkai18n}>
     <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
       <TopicContextProvider>
         <PageSection variant={PageSectionVariants.light}>
@@ -24,6 +25,7 @@ const FederatedUpdateTopicView: FunctionComponent<FederatedUpdateTopicProps> = (
         </PageSection>
       </TopicContextProvider>
     </ConfigContext.Provider>
+    </I18nextProvider>
   );
 };
 

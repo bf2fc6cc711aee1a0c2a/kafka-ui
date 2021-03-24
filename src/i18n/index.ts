@@ -6,8 +6,9 @@ import { resources } from './locale';
 // have a look at the Quick start guide
 // for passing in lng and translations on init
 
-const init = (): void => {
-  i18n
+let kafkai18n = i18n.createInstance();
+
+kafkai18n
     // pass the i18n instance to react-i18next.
     .use(initReactI18next)
     .use(LanguageDetector)
@@ -26,6 +27,5 @@ const init = (): void => {
       },
       resources,
     });
-};
 
-export { init };
+export default kafkai18n;

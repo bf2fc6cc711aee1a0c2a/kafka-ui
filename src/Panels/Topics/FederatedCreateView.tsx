@@ -3,6 +3,8 @@ import './style.scss';
 import { ConfigContext, IConfiguration } from '../../Contexts';
 import { PageSection, PageSectionVariants } from '@patternfly/react-core';
 import { CreateTopicPage } from '../../Modules/Topics/CreateTopic/CreateTopicPage';
+import kafkai18n from '../../i18n';
+import {I18nextProvider} from 'react-i18next';
 
 export type FederatedCreateTopicProps = {
   getToken: () => Promise<string>;
@@ -22,6 +24,7 @@ const FederatedCreateTopic: FunctionComponent<FederatedCreateTopicProps> = ({
   };
 
   return (
+    <I18nextProvider i18n = {kafkai18n}>
     <ConfigContext.Provider
       value={{ basePath: apiBasePath, getToken } as IConfiguration}
     >
@@ -29,6 +32,7 @@ const FederatedCreateTopic: FunctionComponent<FederatedCreateTopicProps> = ({
         <CreateTopicPage setIsCreateTopic={setIsCreateTopic} />
       </PageSection>
     </ConfigContext.Provider>
+    </I18nextProvider>
   );
 };
 

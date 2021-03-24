@@ -1,4 +1,5 @@
-import { init } from '../i18n';
+import kafkai18n from '../i18n';
+import {I18nextProvider} from 'react-i18next';
 import ReactDOM from 'react-dom';
 import React from 'react';
 import { ConfigContext } from '../Contexts';
@@ -14,8 +15,9 @@ import { ErrorBoundary } from '../Components/ErrorBoundary/ErrorBoundary';
 import { AlertProvider } from '../Contexts/Alert/Context';
 import { MastHead } from '../Panels/MastHead/MastHead';
 
-init(); //Bootstrap i18next support
+//Bootstrap i18next support
 ReactDOM.render(
+  <I18nextProvider i18n = {kafkai18n}>
   <ConfigContext.Provider
     value={{
       basePath: 'http://localhost:8000/api/managed-services-strimzi-ui/v1/api',
@@ -53,6 +55,7 @@ ReactDOM.render(
         </Router>
       </MastHead>
     </TopicContextProvider>
-  </ConfigContext.Provider>,
+  </ConfigContext.Provider>
+  </I18nextProvider>,
   document.getElementById('root')
 );

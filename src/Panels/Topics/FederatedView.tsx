@@ -3,6 +3,8 @@ import './style.scss';
 import { TopicsListComponent } from '../../Modules/Topics/TopicList/Components/TopicsList';
 import { ConfigContext } from '../../Contexts';
 import { PageSection, PageSectionVariants } from '@patternfly/react-core';
+import kafkai18n from '../../i18n';
+import {I18nextProvider} from 'react-i18next';
 
 export type FederatedTopicsProps = {
   getToken: () => Promise<string>;
@@ -18,6 +20,7 @@ const FederatedTopics: FunctionComponent<FederatedTopicsProps> = ({
   onTopicDetails,
 }) => {
   return (
+    <I18nextProvider i18n = {kafkai18n}>
     <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
       <PageSection variant={PageSectionVariants.light}>
         <TopicsListComponent
@@ -26,6 +29,7 @@ const FederatedTopics: FunctionComponent<FederatedTopicsProps> = ({
         />
       </PageSection>
     </ConfigContext.Provider>
+    </I18nextProvider>
   );
 };
 
