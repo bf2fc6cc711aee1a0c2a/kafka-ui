@@ -1,9 +1,5 @@
-<<<<<<< Updated upstream
 import React, { useEffect } from 'react';
-=======
-import React from 'react';
 import { useHistory } from 'react-router';
->>>>>>> Stashed changes
 import {
   ActionGroup,
   Button,
@@ -36,8 +32,9 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
   isCreate,
   saveTopic,
 }) => {
-<<<<<<< Updated upstream
   const { updateBulkStore } = React.useContext(TopicContext);
+  const history = useHistory();
+  
   const actionText = isCreate === true ? 'Create Topic' : 'Save';
 
   useEffect(() => {
@@ -48,15 +45,10 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     saveTopic();
     updateBulkStore(initialState);
   };
-=======
-
-  const history = useHistory();
-  const actionText = isCreate === true ? 'Create Topic' : 'Save';
 
   const handleCancel = () => {
     history.push('/topics');
   }
->>>>>>> Stashed changes
 
   return (
     <>
@@ -136,8 +128,6 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               <StackItem>
                 <FlushSection />
               </StackItem>
-<<<<<<< Updated upstream
-=======
 
               <StackItem>
                 <ActionGroup>
@@ -147,7 +137,6 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                   <Button onClick={handleCancel} variant='link'>Cancel</Button>
                 </ActionGroup>
               </StackItem>
->>>>>>> Stashed changes
             </Stack>
           </PageSection>
 
