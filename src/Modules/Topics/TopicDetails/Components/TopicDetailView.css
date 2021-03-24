@@ -11,6 +11,10 @@
   margin-top: 2rem;
 }
 
-.section-info {
+.section-info-head {
+  margin-bottom: 0 !important;
+}
+
+.section-info, .section-info-note {
   margin-bottom: 1rem;
 }

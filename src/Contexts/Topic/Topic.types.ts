@@ -25,6 +25,8 @@ export interface AdvancedTopic {
   'message.timestamp.difference.max.ms.unit'?: string;
   /** determines the final compression for the topic */
   'compression.type'?: string;
+  /** The message format version the broker will use to append messages to the logs */
+  'log.message.format.version'?: string;
   /** determines what happens to log segments beyond the retention window */
   'log.cleanup.policy'?: string;
   /** maximum total size of a partition's log segments before old log segments are deleted */
