@@ -32,7 +32,7 @@ module.exports = {
 
   getTopicsList: async (c, req, res) => {
 
-    let count = topics ? topics.length : 0 , topicList = topic
+    let count = topics ? topics.length : 0 , topicList = topics
 
     const filterTopics = () => {
       var regexp = new RegExp(`${req.query.filter?.trim()}`);
