@@ -10,7 +10,7 @@ let component: ReactElement;
 Given('the create topic advanced wizard component', () => {
   component = (
     <TopicContextProvider>
-      <TopicAdvanceConfig isCreate={true} saveTopic={jest.fn()} />
+      <TopicAdvanceConfig isCreate={true} saveTopic={jest.fn()} handleCancel={jest.fn()} />
     </TopicContextProvider>
   );
 });
