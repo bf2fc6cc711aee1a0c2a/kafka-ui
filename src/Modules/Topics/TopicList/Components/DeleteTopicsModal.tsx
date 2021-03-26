@@ -49,7 +49,7 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
     <Modal
       variant={ModalVariant.small}
       isOpen={deleteModal}
-      aria-label='Modal warning'
+      aria-label='Delete topic?'
       title=' Delete topic  ?'
       titleIconVariant='warning'
       showClose={true}
