@@ -6,8 +6,6 @@ import {
   Text,
   AlertVariant,
   TextInput,
-  TextVariants,
-  TextContent,
 } from '@patternfly/react-core';
 import { deleteTopic } from '../../../../Services/TopicServices';
 import { ConfigContext } from '../../../../Contexts';
@@ -77,14 +75,12 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
       </Text>
 
       <br />
-      <TextContent>
-        <Text component={TextVariants.h6}> Type DELETE to confirm: </Text>
-      </TextContent>
+      <label htmlFor='delete-text-input'>Type DELETE to confirm:</label>
       <TextInput
         value={verificationText}
+        name='delete-text-input'
         type='text'
         onChange={handleVerificationTextChange}
-        aria-label='text input example'
         autoFocus={true}
       />
     </Modal>
