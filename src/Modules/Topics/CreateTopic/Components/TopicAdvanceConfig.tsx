@@ -25,13 +25,16 @@ import { initialState, TopicContext } from '../../../../Contexts/Topic';
 interface ITopicAdvanceConfig {
   isCreate: boolean;
   saveTopic: () => void;
+  handleCancel: () => void;
 }
 
 export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = ({
   isCreate,
   saveTopic,
+  handleCancel
 }) => {
   const { updateBulkStore } = React.useContext(TopicContext);
+
   const actionText = isCreate === true ? 'Create Topic' : 'Save';
 
   useEffect(() => {
@@ -42,6 +45,11 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     saveTopic();
     updateBulkStore(initialState);
   };
+
+  const handleOnCancel = () => {
+    handleCancel();
+    updateBulkStore(initialState);
+  }
 
   return (
     <>
@@ -121,14 +129,14 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               <StackItem>
                 <FlushSection />
               </StackItem>
+
             </Stack>
           </PageSection>
-
           <ActionGroup className='kafka-ui--sticky-footer'>
             <Button onClick={handleOnSave} variant='primary'>
               {actionText}
             </Button>
-            <Button variant='link'>Cancel</Button>
+            <Button onClick={handleOnCancel} variant='link'>Cancel</Button>
           </ActionGroup>
         </SidebarContent>
       </Sidebar>

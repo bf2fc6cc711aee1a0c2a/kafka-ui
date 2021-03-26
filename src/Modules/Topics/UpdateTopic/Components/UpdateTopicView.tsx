@@ -87,9 +87,13 @@ export const UpdateTopicView: React.FC = () => {
     updateBulkStore(initialState);
   };
 
+  const handleCancel = () => {
+    history.push('/topics');
+  }
+
   return (
     <>
-      <TopicAdvanceConfig isCreate={false} saveTopic={saveTopic} />
+      <TopicAdvanceConfig isCreate={false} saveTopic={saveTopic} handleCancel={handleCancel}/>
       <br />
       <br />
       {deleteModal && (

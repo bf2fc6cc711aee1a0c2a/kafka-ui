@@ -168,12 +168,23 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
               popoverHeader={t('createTopic.compressionTypeLabelHead')}
             />
 
+            <TextWithLabelPopover
+              btnAriaLabel='topic detail message format version'
+              fieldLabel='Message format version'
+              fieldValue={topic['log.message.format.version']}
+              popoverBody={t('createTopic.messageFormatLabelBody')}
+              popoverHeader={t('createTopic.messageFormatLabelHead')}
+            />
+
             <TextContent className='section-margin'>
               <Text component={TextVariants.h2} tabIndex={-1} id='log'>
                 Log
               </Text>
-              <Text component={TextVariants.p} className='section-info'>
+              <Text component={TextVariants.p} className='section-info-head'>
                 {t('createTopic.logSectionInfo')}
+              </Text>
+              <Text component={TextVariants.small} className='section-info-note'>
+                {t('createTopic.logSectionInfoNote')}
               </Text>
             </TextContent>
 
@@ -187,64 +198,12 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
 
             <TextWithLabelPopover
               btnAriaLabel='topic detail retention bytes'
-              fieldLabel='Retention bytes'
-              fieldValue={topic['log.retention.bytes']}
-              popoverBody={t('createTopic.retentionBytesLabelBody')}
-              popoverHeader={t('createTopic.retentionBytesLabelHead')}
-              unit={'bytes'}
+              fieldLabel='Delete retention time'
+              fieldValue={topic['delete.retention.ms']}
+              popoverBody={t('createTopic.deleteRetentionLabelBody')}
+              popoverHeader={t('createTopic.deleteRetentionLabelHead')}
+              unit={'time'}
             />
-
-            {/* TODO: Clarify the field from wireframes */}
-            {/* <TextWithLabelPopover
-                  btnAriaLabel='topic detail log segment types'
-                  fieldLabel='Log segment types'
-
-                  fieldValue={topic.}
-                  popoverBody={t('createTopic.compressionTypeLabelBody')}
-                  popoverHeader={t('createTopic.compressionTypeLabelHead')}
-                /> */}
-
-            <TextContent className='section-margin'>
-              <Text component={TextVariants.h2} tabIndex={-1} id='replication'>
-                Replication
-              </Text>
-              <Text component={TextVariants.p} className='section-info'>
-                {t('createTopic.replicationSectionInfo')}
-              </Text>
-            </TextContent>
-
-            <TextWithLabelPopover
-              btnAriaLabel='topic detail unclean leader election'
-              fieldLabel='Unclean leader election'
-              fieldValue={topic['unclean.leader.election.enable']}
-              popoverBody={t('createTopic.leaderElectionLabelBody')}
-              popoverHeader={t('createTopic.leaderElectionLabelHead')}
-            />
-
-            <TextWithLabelPopover
-              btnAriaLabel='topic detail throttled follower replicas'
-              fieldLabel='Follower replication throttled replicas'
-              fieldValue={topic['follower.replication.throttled.replicas']}
-              popoverBody={t('createTopic.followerReplicaLabelBody')}
-              popoverHeader={t('createTopic.followerReplicaLabelHead')}
-            />
-
-            <TextWithLabelPopover
-              btnAriaLabel='topic detail throttled leader replicas'
-              fieldLabel='Leader replication throttled replicas'
-              fieldValue={topic['leader.replication.throttled.replicas']}
-              popoverBody={t('createTopic.leaderReplicaLabelBody')}
-              popoverHeader={t('createTopic.leaderReplicaLabelHead')}
-            />
-
-            <TextContent className='section-margin'>
-              <Text component={TextVariants.h2} tabIndex={-1} id='cleanup'>
-                Cleanup
-              </Text>
-              <Text component={TextVariants.p} className='section-info'>
-                {t('createTopic.cleanupSectionInfo')}
-              </Text>
-            </TextContent>
 
             <TextWithLabelPopover
               btnAriaLabel='topic detail min cleanable dirty ratio'
@@ -261,6 +220,44 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
               popoverBody={t('createTopic.minLagLabelBody')}
               popoverHeader={t('createTopic.minLagLabelHead')}
               unit={'ms'}
+            />
+
+            <TextContent className='section-margin'>
+              <Text component={TextVariants.h2} tabIndex={-1} id='replication'>
+                Replication
+              </Text>
+              <Text component={TextVariants.p} className='section-info-head'>
+                {t('createTopic.replicationSectionInfo')}
+              </Text>
+              <Text component={TextVariants.small} className='section-info-note'>
+                {t('createTopic.replicationSectionInfoNote')}
+              </Text>
+            </TextContent>
+
+            <TextWithLabelPopover
+              btnAriaLabel='topic detail unclean leader election'
+              fieldLabel='Unclean leader election'
+              fieldValue={topic['unclean.leader.election.enable']}
+              popoverBody={t('createTopic.leaderElectionLabelBody')}
+              popoverHeader={t('createTopic.leaderElectionLabelHead')}
+            />
+
+            <TextContent className='section-margin'>
+              <Text component={TextVariants.h2} tabIndex={-1} id='cleanup'>
+                Cleanup
+              </Text>
+              <Text component={TextVariants.p} className='section-info'>
+                {t('createTopic.cleanupSectionInfo')}
+              </Text>
+            </TextContent>
+
+            <TextWithLabelPopover
+              btnAriaLabel='topic detail max message bytes'
+              fieldLabel='Log segment size'
+              fieldValue={topic['log.segment.bytes']}
+              popoverBody={t('createTopic.logSegmentLabelHead')}
+              popoverHeader={t('createTopic.logSegmentLabelBody')}
+              unit={'bytes'}
             />
 
             <TextWithLabelPopover

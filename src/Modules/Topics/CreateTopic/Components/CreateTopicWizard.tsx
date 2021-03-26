@@ -19,6 +19,7 @@ import { convertUnits, formatTopicRequest } from '../utils';
 import { ConfigContext } from '../../../../Contexts';
 import { Configuration } from '../../../../OpenApi';
 import { AlertContext } from '../../../../Contexts/Alert/Context';
+import { useHistory } from 'react-router';
 
 interface ICreateTopicWizard {
   isSwitchChecked: boolean;
@@ -30,6 +31,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   isSwitchChecked,
 }) => {
   const config = useContext(ConfigContext);
+  const history = useHistory();
   const { addAlert } = useContext(AlertContext);
   const [msgRetentionValue, setMsgRetentionValue] = useState(1);
   const [topicNameInput, setTopicNameInput] = useState('');
@@ -93,6 +95,10 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       });
   };
 
+  const handleCancel = () => {
+    history.push('/topics');
+  }
+
   const steps: WizardStep[] = [
     {
       name: 'Topic name',
@@ -149,7 +155,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       {isSwitchChecked ? (
         <>
           <PageSection variant={PageSectionVariants.light}>
-            <TopicAdvanceConfig isCreate={true} saveTopic={saveTopic} />
+            <TopicAdvanceConfig isCreate={true} saveTopic={saveTopic} handleCancel={handleCancel}/>
           </PageSection>
         </>
       ) : (
