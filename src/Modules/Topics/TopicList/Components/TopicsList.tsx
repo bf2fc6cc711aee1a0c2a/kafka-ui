@@ -101,17 +101,17 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
     { title: 'Retention Time', transforms: [sortable] },
     { title: 'Retention Size', transforms: [sortable] },
   ];
-  const conversion = (milliseconds: number) => {
-    if (milliseconds < 60000) return milliseconds + ' ' + 'Milliseconds';
-    else if (milliseconds >= 6000 && milliseconds < 3.6e6) {
+  const convertRetentionSize = (milliseconds: number) => {
+    if (milliseconds < 60000) return milliseconds + ' ' + 'milliseconds';
+    else if (milliseconds >= 60000 && milliseconds < 3.6e6) {
       return Math.floor(milliseconds / 60000) + ' ' + 'minutes';
     } else if (milliseconds >= 3.6e6 && milliseconds < 1.728e8)
       return Math.floor(milliseconds / 3.6e6) + ' ' + 'hours';
     else if (milliseconds >= 1.728e8)
-      return Math.floor(milliseconds / 8.64e7) + ' ' + 'Days';
+      return Math.floor(milliseconds / 8.64e7) + ' ' + 'days';
   };
 
-  const byteConversion = (byte: number) => {
+  const convertRetentionTime = (byte: number) => {
     if (Math.abs(byte) < 1000) return byte + ' ' + 'bytes';
     else if (Math.abs(byte) >= 1000 && Math.abs(byte) < 1000000)
       return byte / 1000 + ' ' + 'kilobytes';
@@ -139,7 +139,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
       },
       topic.partitions?.length,
 
-      conversion(
+      convertRetentionSize(
         topic.config
           ?.map((element) =>
             element.key === 'retention.ms'
@@ -150,7 +150,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
             return previousValue + currentValue;
           }, 0)
       ),
-      byteConversion(
+      convertRetentionTime(
         topic.config
           ?.map((element) =>
             element.key === 'log.retention.bytes'
