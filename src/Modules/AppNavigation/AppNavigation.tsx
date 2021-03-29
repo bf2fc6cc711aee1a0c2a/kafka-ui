@@ -3,13 +3,12 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   Button,
-  Flex,
-  FlexItem,
   PageSection,
   PageSectionVariants,
   Title,
   Page,
   Tabs,
+  Level,
   Tab,
   TabTitleText,
 } from '@patternfly/react-core';
@@ -35,7 +34,7 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
 
   const mainBreadcrumbs = (
     <Breadcrumb>
-      <BreadcrumbItem to='#'>Streams for Apache Kafka</BreadcrumbItem>
+      <BreadcrumbItem to='#'>Kafka Instance</BreadcrumbItem>
       <BreadcrumbItem to='#' isActive>
         Kafka Instance Name
       </BreadcrumbItem>
@@ -46,16 +45,14 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
     <PageSection variant={PageSectionVariants.light}>
       <section>{mainBreadcrumbs}</section>
       <PageSection variant={PageSectionVariants.light}>
-        <Flex>
-          <FlexItem align={{ default: 'alignRight' }}>
-            <Button variant='plain' iconPosition='right'>
-              <EllipsisVIcon />
-            </Button>
-          </FlexItem>
-        </Flex>
-        <Title headingLevel='h1'>Kafka Instance Name</Title>
+        <Level>
+          <Title headingLevel='h1'>Kafka Instance Name</Title>
+          <Button variant='plain' iconPosition='right'>
+            <EllipsisVIcon />
+          </Button>
+        </Level>
       </PageSection>
-      <br />
+
       <PageSection
         variant={PageSectionVariants.light}
         padding={{ default: 'noPadding' }}
