@@ -118,7 +118,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
       else return convertedValue + ' ' + 'hours';
     } else if (milliseconds >= 1.728e8) {
       convertedValue = milliseconds / 8.64e7;
-      convertedValue = Math.round(convertedValue * 10) / 10;
+      convertedValue = Math.round(convertedValue * 100) / 100;
       return convertedValue + ' ' + 'days';
     }
   };
