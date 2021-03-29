@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Strimzi Kubernetes REST API
- * An API to provide k8s REST endpoints for query
+ * Kafka Admin REST API
+ * An API to provide REST endpoints for query Kafka for admin operations
  *
  * The version of the OpenAPI document: 0.1.0
  *

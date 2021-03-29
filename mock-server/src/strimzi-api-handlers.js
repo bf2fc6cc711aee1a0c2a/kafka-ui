@@ -27,15 +27,15 @@ module.exports = {
   },
 
   getTopicsList: async (c, req, res) => {
-
-    let count = topics ? topics.length : 0 , topicList = topics
+    let count = topics ? topics.length : 0,
+      topicList = topics;
 
     const filterTopics = () => {
-      var regexp = new RegExp(`${req.query.filter?.trim()}`);
-      return topics.filter(topic => regexp.test(topic.name))
-    }
+      let regexp = new RegExp(`${req.query.filter.trim()}`);
+      return topics.filter((topic) => regexp.test(topic.name));
+    };
 
-    if(topics && req.query.filter && req.query.filter?.trim() !== "") {
+    if (topics && req.query.filter && req.query.filter.trim() !== '') {
       topicList = filterTopics();
       count = topicList.length;
     }

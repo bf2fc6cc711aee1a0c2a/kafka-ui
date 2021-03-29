@@ -63,7 +63,6 @@ export const UpdateTopicView: React.FC = () => {
 
     const topicSettings: TopicSettings = {
       numPartitions: Number(store.numPartitions),
-      replicationFactor: Number(store.replicationFactor),
       config: newConfig,
     };
 
@@ -89,11 +88,15 @@ export const UpdateTopicView: React.FC = () => {
 
   const handleCancel = () => {
     history.push('/topics');
-  }
+  };
 
   return (
     <>
-      <TopicAdvanceConfig isCreate={false} saveTopic={saveTopic} handleCancel={handleCancel}/>
+      <TopicAdvanceConfig
+        isCreate={false}
+        saveTopic={saveTopic}
+        handleCancel={handleCancel}
+      />
       <br />
       <br />
       {deleteModal && (

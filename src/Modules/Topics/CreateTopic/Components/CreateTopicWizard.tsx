@@ -63,7 +63,6 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
           name: topicNameInput,
           settings: {
             numPartitions: partitionTouchspinValue,
-            replicationFactor: replicationFactorTouchspinValue,
             config: [
               {
                 key: 'retention.ms',
@@ -97,7 +96,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
 
   const handleCancel = () => {
     history.push('/topics');
-  }
+  };
 
   const steps: WizardStep[] = [
     {
@@ -155,7 +154,11 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       {isSwitchChecked ? (
         <>
           <PageSection variant={PageSectionVariants.light}>
-            <TopicAdvanceConfig isCreate={true} saveTopic={saveTopic} handleCancel={handleCancel}/>
+            <TopicAdvanceConfig
+              isCreate={true}
+              saveTopic={saveTopic}
+              handleCancel={handleCancel}
+            />
           </PageSection>
         </>
       ) : (
