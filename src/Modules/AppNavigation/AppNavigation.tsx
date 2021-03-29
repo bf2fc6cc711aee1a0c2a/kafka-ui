@@ -18,9 +18,11 @@ import { EllipsisVIcon } from '@patternfly/react-icons/dist/js/icons/ellipsis-v-
 import { useHistory } from 'react-router';
 interface ITabHeaderProps {
   eventKey: number;
+  instanceName?: string;
 }
 export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
   eventKey,
+  instanceName,
 }) => {
   const [activeTabKey, setActiveTabKey] = useState(eventKey);
   const handleTabClick = (event, tabIndex) => {
@@ -36,7 +38,7 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
     <Breadcrumb>
       <BreadcrumbItem to='#'>Kafka Instance</BreadcrumbItem>
       <BreadcrumbItem to='#' isActive>
-        Kafka Instance Name
+        {instanceName ? instanceName : 'Kafka Instance Name'}
       </BreadcrumbItem>
     </Breadcrumb>
   );
@@ -46,7 +48,9 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
       <section>{mainBreadcrumbs}</section>
       <PageSection variant={PageSectionVariants.light}>
         <Level>
-          <Title headingLevel='h1'>Kafka Instance Name</Title>
+          <Title headingLevel='h1'>
+            {instanceName ? instanceName : 'Kafka Instance Name'}
+          </Title>
           <Button variant='plain' iconPosition='right'>
             <EllipsisVIcon />
           </Button>
