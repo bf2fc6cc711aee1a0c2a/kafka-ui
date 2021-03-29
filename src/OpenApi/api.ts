@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Strimzi Kubernetes REST API
- * An API to provide k8s REST endpoints for query
+ * Kafka Admin REST API
+ * An API to provide REST endpoints for query Kafka for admin operations
  *
  * The version of the OpenAPI document: 0.1.0
  *
@@ -42,6 +42,105 @@ export interface ConfigEntry {
    * @memberof ConfigEntry
    */
   value?: string;
+}
+/**
+ * A Kafka consumer is responsible for reading records from one or more topics and one or more partitions of a topic.
+ * @export
+ * @interface Consumer
+ */
+export interface Consumer {
+  /**
+   * Unique identifier for the consumer group to which this consumer belongs.
+   * @type {string}
+   * @memberof Consumer
+   */
+  groupId: string;
+  /**
+   * The unique topic name to which this consumer belongs
+   * @type {string}
+   * @memberof Consumer
+   */
+  topic: string;
+  /**
+   * The partition number to which this consumer group is assigned to.
+   * @type {number}
+   * @memberof Consumer
+   */
+  partition: number;
+  /**
+   * Offset denotes the position of the consumer in a partition.
+   * @type {number}
+   * @memberof Consumer
+   */
+  offset: number;
+  /**
+   * The log end offset is the offset of the last message written to a log.
+   * @type {number}
+   * @memberof Consumer
+   */
+  logEndOffset?: number;
+  /**
+   * Offset Lag is the delta between the last produced message and the last consumer\'s committed offset.
+   * @type {number}
+   * @memberof Consumer
+   */
+  lag: number;
+  /**
+   * The member ID is a unique identifier given to a consumer by the coordinator upon initially joining the group.
+   * @type {string}
+   * @memberof Consumer
+   */
+  memberId?: string;
+}
+/**
+ * A group of Kafka consumers
+ * @export
+ * @interface ConsumerGroup
+ */
+export interface ConsumerGroup {
+  /**
+   * Unique identifier for the consumer group
+   * @type {string}
+   * @memberof ConsumerGroup
+   */
+  id: string;
+  /**
+   * The list of consumers associated with this consumer group
+   * @type {Array<Consumer>}
+   * @memberof ConsumerGroup
+   */
+  consumers: Array<Consumer>;
+}
+/**
+ * A list of consumer groups
+ * @export
+ * @interface ConsumerGroupList
+ */
+export interface ConsumerGroupList {
+  /**
+   * Consumer group list items
+   * @type {Array<ConsumerGroup>}
+   * @memberof ConsumerGroupList
+   */
+  items: Array<ConsumerGroup>;
+  /**
+   * The total number of consumer groups.
+   * @type {number}
+   * @memberof ConsumerGroupList
+   */
+  count: number;
+  /**
+   * The number of consumer groups per page.
+   * @type {number}
+   * @memberof ConsumerGroupList
+   */
+  limit: number;
+  /**
+   * The page offset
+   * @type {number}
+   * @memberof ConsumerGroupList
+   */
+  offset: number;
 }
 /**
  * Input object to create a new topic.
@@ -129,13 +228,7 @@ export interface TopicSettings {
    * @type {number}
    * @memberof TopicSettings
    */
-  numPartitions?: number;
-  /**
-   * Number of replications for the topic.
-   * @type {number}
-   * @memberof TopicSettings
-   */
-  replicationFactor?: number;
+  numPartitions: number;
   /**
    * Topic configuration entry.
    * @type {Array<ConfigEntry>}
@@ -149,12 +242,6 @@ export interface TopicSettings {
  * @interface TopicsList
  */
 export interface TopicsList {
-  /**
-   * List of topics
-   * @type {Array<Topic>}
-   * @memberof TopicsList
-   */
-  items?: Array<Topic>;
   /**
    * The page offset
    * @type {number}
@@ -173,6 +260,12 @@ export interface TopicsList {
    * @memberof TopicsList
    */
   count: number;
+  /**
+   * List of topics
+   * @type {Array<Topic>}
+   * @memberof TopicsList
+   */
+  items: Array<Topic>;
 }
 
 /**
@@ -184,7 +277,7 @@ export const DefaultApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * Creates a new topic in Kafka.
+     * Creates a new topic for Kafka.
      * @summary Creates a new topic
      * @param {NewTopicInput} newTopicInput Topic to create.
      * @param {*} [options] Override http request option.
@@ -216,16 +309,6 @@ export const DefaultApiAxiosParamCreator = function (
       };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
-
-      // authentication Bearer required
-      // http bearer authentication required
-      if (configuration && configuration.accessToken) {
-        const accessToken =
-          typeof configuration.accessToken === 'function'
-            ? await configuration.accessToken()
-            : await configuration.accessToken;
-        localVarHeaderParameter['Authorization'] = 'Bearer ' + accessToken;
-      }
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
 
@@ -262,9 +345,68 @@ export const DefaultApiAxiosParamCreator = function (
       };
     },
     /**
+     * Delete a consumer group, along with its consumers.
+     * @summary Delete a consumer group.
+     * @param {string} consumerGroupId The unique name of the topic.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteConsumerGroupById: async (
+      consumerGroupId: string,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'consumerGroupId' is not null or undefined
+      if (consumerGroupId === null || consumerGroupId === undefined) {
+        throw new RequiredError(
+          'consumerGroupId',
+          'Required parameter consumerGroupId was null or undefined when calling deleteConsumerGroupById.'
+        );
+      }
+      const localVarPath = `/consumer-groups/{consumerGroupId}`.replace(
+        `{${'consumerGroupId'}}`,
+        encodeURIComponent(String(consumerGroupId))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'DELETE',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      const queryParameters = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        queryParameters.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.query) {
+        queryParameters.set(key, options.query[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(queryParameters).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Deletes the topic with the specified name.
      * @summary Deletes a  topic
-     * @param {string} topicName The topic name to retrieve.
+     * @param {string} topicName The topic name to delete.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -298,14 +440,134 @@ export const DefaultApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
-      // authentication Bearer required
-      // http bearer authentication required
-      if (configuration && configuration.accessToken) {
-        const accessToken =
-          typeof configuration.accessToken === 'function'
-            ? await configuration.accessToken()
-            : await configuration.accessToken;
-        localVarHeaderParameter['Authorization'] = 'Bearer ' + accessToken;
+      const queryParameters = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        queryParameters.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.query) {
+        queryParameters.set(key, options.query[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(queryParameters).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Get a single consumer group by its unique ID.
+     * @param {string} consumerGroupId The unique ID of the consumer group
+     * @param {string} [topic] Filter consumer groups for a specific topic
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getConsumerGroupById: async (
+      consumerGroupId: string,
+      topic?: string,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'consumerGroupId' is not null or undefined
+      if (consumerGroupId === null || consumerGroupId === undefined) {
+        throw new RequiredError(
+          'consumerGroupId',
+          'Required parameter consumerGroupId was null or undefined when calling getConsumerGroupById.'
+        );
+      }
+      const localVarPath = `/consumer-groups/{consumerGroupId}`.replace(
+        `{${'consumerGroupId'}}`,
+        encodeURIComponent(String(consumerGroupId))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (topic !== undefined) {
+        localVarQueryParameter['topic'] = topic;
+      }
+
+      const queryParameters = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        queryParameters.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.query) {
+        queryParameters.set(key, options.query[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(queryParameters).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Returns a list of all consumer groups for a particular Kafka instance.
+     * @summary List of consumer groups in the Kafka instance.
+     * @param {number} [limit] Maximum number of consumer groups to returnd
+     * @param {number} [offset] The page offset when returning the list of consumer groups
+     * @param {string} [topic] Filter to apply when returning the list of consumer groups
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getConsumerGroupList: async (
+      limit?: number,
+      offset?: number,
+      topic?: string,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/consumer-groups`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (limit !== undefined) {
+        localVarQueryParameter['limit'] = limit;
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter['offset'] = offset;
+      }
+
+      if (topic !== undefined) {
+        localVarQueryParameter['topic'] = topic;
       }
 
       const queryParameters = new URLSearchParams(localVarUrlObj.search);
@@ -367,16 +629,6 @@ export const DefaultApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
-      // authentication Bearer required
-      // http bearer authentication required
-      if (configuration && configuration.accessToken) {
-        const accessToken =
-          typeof configuration.accessToken === 'function'
-            ? await configuration.accessToken()
-            : await configuration.accessToken;
-        localVarHeaderParameter['Authorization'] = 'Bearer ' + accessToken;
-      }
-
       const queryParameters = new URLSearchParams(localVarUrlObj.search);
       for (const key in localVarQueryParameter) {
         queryParameters.set(key, localVarQueryParameter[key]);
@@ -405,6 +657,7 @@ export const DefaultApiAxiosParamCreator = function (
      * @param {number} [limit] Maximum number of topics to return
      * @param {string} [filter] Filter to apply when returning the list of topics
      * @param {number} [offset] The page offset when returning  the limit of requested topics.
+     * @param {string} [order] Order of the items sorting. If \&quot;asc\&quot; is set as a value, ascending order is used, descending otherwise.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -412,6 +665,7 @@ export const DefaultApiAxiosParamCreator = function (
       limit?: number,
       filter?: string,
       offset?: number,
+      order?: string,
       options: any = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/topics`;
@@ -430,16 +684,6 @@ export const DefaultApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
-      // authentication Bearer required
-      // http bearer authentication required
-      if (configuration && configuration.accessToken) {
-        const accessToken =
-          typeof configuration.accessToken === 'function'
-            ? await configuration.accessToken()
-            : await configuration.accessToken;
-        localVarHeaderParameter['Authorization'] = 'Bearer ' + accessToken;
-      }
-
       if (limit !== undefined) {
         localVarQueryParameter['limit'] = limit;
       }
@@ -451,6 +695,158 @@ export const DefaultApiAxiosParamCreator = function (
       if (offset !== undefined) {
         localVarQueryParameter['offset'] = offset;
       }
+
+      if (order !== undefined) {
+        localVarQueryParameter['order'] = order;
+      }
+
+      const queryParameters = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        queryParameters.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.query) {
+        queryParameters.set(key, options.query[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(queryParameters).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Admin server metrics
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metrics: async (options: any = {}): Promise<RequestArgs> => {
+      const localVarPath = `/metrics`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      const queryParameters = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        queryParameters.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.query) {
+        queryParameters.set(key, options.query[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(queryParameters).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    openApi: async (options: any = {}): Promise<RequestArgs> => {
+      const localVarPath = `/api`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      const queryParameters = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        queryParameters.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.query) {
+        queryParameters.set(key, options.query[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(queryParameters).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Reset the offset for a particular consumer group.
+     * @summary Reset the offset for a consumer group.
+     * @param {string} consumerGroupId The ID of the consumer group.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    resetConsumerGroupOffset: async (
+      consumerGroupId: string,
+      options: any = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'consumerGroupId' is not null or undefined
+      if (consumerGroupId === null || consumerGroupId === undefined) {
+        throw new RequiredError(
+          'consumerGroupId',
+          'Required parameter consumerGroupId was null or undefined when calling resetConsumerGroupOffset.'
+        );
+      }
+      const localVarPath = `/consumer-groups/{consumerGroupId}/reset-offset`.replace(
+        `{${'consumerGroupId'}}`,
+        encodeURIComponent(String(consumerGroupId))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       const queryParameters = new URLSearchParams(localVarUrlObj.search);
       for (const key in localVarQueryParameter) {
@@ -520,16 +916,6 @@ export const DefaultApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
-      // authentication Bearer required
-      // http bearer authentication required
-      if (configuration && configuration.accessToken) {
-        const accessToken =
-          typeof configuration.accessToken === 'function'
-            ? await configuration.accessToken()
-            : await configuration.accessToken;
-        localVarHeaderParameter['Authorization'] = 'Bearer ' + accessToken;
-      }
-
       localVarHeaderParameter['Content-Type'] = 'application/json';
 
       const queryParameters = new URLSearchParams(localVarUrlObj.search);
@@ -574,7 +960,7 @@ export const DefaultApiAxiosParamCreator = function (
 export const DefaultApiFp = function (configuration?: Configuration) {
   return {
     /**
-     * Creates a new topic in Kafka.
+     * Creates a new topic for Kafka.
      * @summary Creates a new topic
      * @param {NewTopicInput} newTopicInput Topic to create.
      * @param {*} [options] Override http request option.
@@ -601,9 +987,36 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       };
     },
     /**
+     * Delete a consumer group, along with its consumers.
+     * @summary Delete a consumer group.
+     * @param {string} consumerGroupId The unique name of the topic.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteConsumerGroupById(
+      consumerGroupId: string,
+      options?: any
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await DefaultApiAxiosParamCreator(
+        configuration
+      ).deleteConsumerGroupById(consumerGroupId, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs = {
+          ...localVarAxiosArgs.options,
+          url: (configuration?.basePath || basePath) + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
      * Deletes the topic with the specified name.
      * @summary Deletes a  topic
-     * @param {string} topicName The topic name to retrieve.
+     * @param {string} topicName The topic name to delete.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -616,6 +1029,69 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs = await DefaultApiAxiosParamCreator(
         configuration
       ).deleteTopic(topicName, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs = {
+          ...localVarAxiosArgs.options,
+          url: (configuration?.basePath || basePath) + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @summary Get a single consumer group by its unique ID.
+     * @param {string} consumerGroupId The unique ID of the consumer group
+     * @param {string} [topic] Filter consumer groups for a specific topic
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getConsumerGroupById(
+      consumerGroupId: string,
+      topic?: string,
+      options?: any
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConsumerGroup>
+    > {
+      const localVarAxiosArgs = await DefaultApiAxiosParamCreator(
+        configuration
+      ).getConsumerGroupById(consumerGroupId, topic, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs = {
+          ...localVarAxiosArgs.options,
+          url: (configuration?.basePath || basePath) + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     * Returns a list of all consumer groups for a particular Kafka instance.
+     * @summary List of consumer groups in the Kafka instance.
+     * @param {number} [limit] Maximum number of consumer groups to returnd
+     * @param {number} [offset] The page offset when returning the list of consumer groups
+     * @param {string} [topic] Filter to apply when returning the list of consumer groups
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getConsumerGroupList(
+      limit?: number,
+      offset?: number,
+      topic?: string,
+      options?: any
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<ConsumerGroupList>
+    > {
+      const localVarAxiosArgs = await DefaultApiAxiosParamCreator(
+        configuration
+      ).getConsumerGroupList(limit, offset, topic, options);
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
@@ -660,6 +1136,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Maximum number of topics to return
      * @param {string} [filter] Filter to apply when returning the list of topics
      * @param {number} [offset] The page offset when returning  the limit of requested topics.
+     * @param {string} [order] Order of the items sorting. If \&quot;asc\&quot; is set as a value, ascending order is used, descending otherwise.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -667,13 +1144,90 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       limit?: number,
       filter?: string,
       offset?: number,
+      order?: string,
       options?: any
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<TopicsList>
     > {
       const localVarAxiosArgs = await DefaultApiAxiosParamCreator(
         configuration
-      ).getTopicsList(limit, filter, offset, options);
+      ).getTopicsList(limit, filter, offset, order, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs = {
+          ...localVarAxiosArgs.options,
+          url: (configuration?.basePath || basePath) + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @summary Admin server metrics
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async metrics(
+      options?: any
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await DefaultApiAxiosParamCreator(
+        configuration
+      ).metrics(options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs = {
+          ...localVarAxiosArgs.options,
+          url: (configuration?.basePath || basePath) + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async openApi(
+      options?: any
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await DefaultApiAxiosParamCreator(
+        configuration
+      ).openApi(options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs = {
+          ...localVarAxiosArgs.options,
+          url: (configuration?.basePath || basePath) + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     * Reset the offset for a particular consumer group.
+     * @summary Reset the offset for a consumer group.
+     * @param {string} consumerGroupId The ID of the consumer group.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async resetConsumerGroupOffset(
+      consumerGroupId: string,
+      options?: any
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConsumerGroup>
+    > {
+      const localVarAxiosArgs = await DefaultApiAxiosParamCreator(
+        configuration
+      ).resetConsumerGroupOffset(consumerGroupId, options);
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
@@ -728,7 +1282,7 @@ export const DefaultApiFactory = function (
 ) {
   return {
     /**
-     * Creates a new topic in Kafka.
+     * Creates a new topic for Kafka.
      * @summary Creates a new topic
      * @param {NewTopicInput} newTopicInput Topic to create.
      * @param {*} [options] Override http request option.
@@ -743,15 +1297,66 @@ export const DefaultApiFactory = function (
         .then((request) => request(axios, basePath));
     },
     /**
+     * Delete a consumer group, along with its consumers.
+     * @summary Delete a consumer group.
+     * @param {string} consumerGroupId The unique name of the topic.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteConsumerGroupById(
+      consumerGroupId: string,
+      options?: any
+    ): AxiosPromise<void> {
+      return DefaultApiFp(configuration)
+        .deleteConsumerGroupById(consumerGroupId, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * Deletes the topic with the specified name.
      * @summary Deletes a  topic
-     * @param {string} topicName The topic name to retrieve.
+     * @param {string} topicName The topic name to delete.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     deleteTopic(topicName: string, options?: any): AxiosPromise<void> {
       return DefaultApiFp(configuration)
         .deleteTopic(topicName, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Get a single consumer group by its unique ID.
+     * @param {string} consumerGroupId The unique ID of the consumer group
+     * @param {string} [topic] Filter consumer groups for a specific topic
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getConsumerGroupById(
+      consumerGroupId: string,
+      topic?: string,
+      options?: any
+    ): AxiosPromise<ConsumerGroup> {
+      return DefaultApiFp(configuration)
+        .getConsumerGroupById(consumerGroupId, topic, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Returns a list of all consumer groups for a particular Kafka instance.
+     * @summary List of consumer groups in the Kafka instance.
+     * @param {number} [limit] Maximum number of consumer groups to returnd
+     * @param {number} [offset] The page offset when returning the list of consumer groups
+     * @param {string} [topic] Filter to apply when returning the list of consumer groups
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getConsumerGroupList(
+      limit?: number,
+      offset?: number,
+      topic?: string,
+      options?: any
+    ): AxiosPromise<ConsumerGroupList> {
+      return DefaultApiFp(configuration)
+        .getConsumerGroupList(limit, offset, topic, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -772,6 +1377,7 @@ export const DefaultApiFactory = function (
      * @param {number} [limit] Maximum number of topics to return
      * @param {string} [filter] Filter to apply when returning the list of topics
      * @param {number} [offset] The page offset when returning  the limit of requested topics.
+     * @param {string} [order] Order of the items sorting. If \&quot;asc\&quot; is set as a value, ascending order is used, descending otherwise.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -779,10 +1385,47 @@ export const DefaultApiFactory = function (
       limit?: number,
       filter?: string,
       offset?: number,
+      order?: string,
       options?: any
     ): AxiosPromise<TopicsList> {
       return DefaultApiFp(configuration)
-        .getTopicsList(limit, filter, offset, options)
+        .getTopicsList(limit, filter, offset, order, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Admin server metrics
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    metrics(options?: any): AxiosPromise<void> {
+      return DefaultApiFp(configuration)
+        .metrics(options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    openApi(options?: any): AxiosPromise<void> {
+      return DefaultApiFp(configuration)
+        .openApi(options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Reset the offset for a particular consumer group.
+     * @summary Reset the offset for a consumer group.
+     * @param {string} consumerGroupId The ID of the consumer group.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    resetConsumerGroupOffset(
+      consumerGroupId: string,
+      options?: any
+    ): AxiosPromise<ConsumerGroup> {
+      return DefaultApiFp(configuration)
+        .resetConsumerGroupOffset(consumerGroupId, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -812,7 +1455,7 @@ export const DefaultApiFactory = function (
  */
 export interface DefaultApiInterface {
   /**
-   * Creates a new topic in Kafka.
+   * Creates a new topic for Kafka.
    * @summary Creates a new topic
    * @param {NewTopicInput} newTopicInput Topic to create.
    * @param {*} [options] Override http request option.
@@ -822,14 +1465,59 @@ export interface DefaultApiInterface {
   createTopic(newTopicInput: NewTopicInput, options?: any): AxiosPromise<Topic>;
 
   /**
+   * Delete a consumer group, along with its consumers.
+   * @summary Delete a consumer group.
+   * @param {string} consumerGroupId The unique name of the topic.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  deleteConsumerGroupById(
+    consumerGroupId: string,
+    options?: any
+  ): AxiosPromise<void>;
+
+  /**
    * Deletes the topic with the specified name.
    * @summary Deletes a  topic
-   * @param {string} topicName The topic name to retrieve.
+   * @param {string} topicName The topic name to delete.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
   deleteTopic(topicName: string, options?: any): AxiosPromise<void>;
+
+  /**
+   *
+   * @summary Get a single consumer group by its unique ID.
+   * @param {string} consumerGroupId The unique ID of the consumer group
+   * @param {string} [topic] Filter consumer groups for a specific topic
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  getConsumerGroupById(
+    consumerGroupId: string,
+    topic?: string,
+    options?: any
+  ): AxiosPromise<ConsumerGroup>;
+
+  /**
+   * Returns a list of all consumer groups for a particular Kafka instance.
+   * @summary List of consumer groups in the Kafka instance.
+   * @param {number} [limit] Maximum number of consumer groups to returnd
+   * @param {number} [offset] The page offset when returning the list of consumer groups
+   * @param {string} [topic] Filter to apply when returning the list of consumer groups
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  getConsumerGroupList(
+    limit?: number,
+    offset?: number,
+    topic?: string,
+    options?: any
+  ): AxiosPromise<ConsumerGroupList>;
 
   /**
    * Topic
@@ -847,6 +1535,7 @@ export interface DefaultApiInterface {
    * @param {number} [limit] Maximum number of topics to return
    * @param {string} [filter] Filter to apply when returning the list of topics
    * @param {number} [offset] The page offset when returning  the limit of requested topics.
+   * @param {string} [order] Order of the items sorting. If \&quot;asc\&quot; is set as a value, ascending order is used, descending otherwise.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
@@ -855,8 +1544,39 @@ export interface DefaultApiInterface {
     limit?: number,
     filter?: string,
     offset?: number,
+    order?: string,
     options?: any
   ): AxiosPromise<TopicsList>;
+
+  /**
+   *
+   * @summary Admin server metrics
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  metrics(options?: any): AxiosPromise<void>;
+
+  /**
+   *
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  openApi(options?: any): AxiosPromise<void>;
+
+  /**
+   * Reset the offset for a particular consumer group.
+   * @summary Reset the offset for a consumer group.
+   * @param {string} consumerGroupId The ID of the consumer group.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  resetConsumerGroupOffset(
+    consumerGroupId: string,
+    options?: any
+  ): AxiosPromise<ConsumerGroup>;
 
   /**
    * updates the topic with the new data.
@@ -882,7 +1602,7 @@ export interface DefaultApiInterface {
  */
 export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   /**
-   * Creates a new topic in Kafka.
+   * Creates a new topic for Kafka.
    * @summary Creates a new topic
    * @param {NewTopicInput} newTopicInput Topic to create.
    * @param {*} [options] Override http request option.
@@ -896,9 +1616,23 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   }
 
   /**
+   * Delete a consumer group, along with its consumers.
+   * @summary Delete a consumer group.
+   * @param {string} consumerGroupId The unique name of the topic.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public deleteConsumerGroupById(consumerGroupId: string, options?: any) {
+    return DefaultApiFp(this.configuration)
+      .deleteConsumerGroupById(consumerGroupId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
    * Deletes the topic with the specified name.
    * @summary Deletes a  topic
-   * @param {string} topicName The topic name to retrieve.
+   * @param {string} topicName The topic name to delete.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApi
@@ -906,6 +1640,46 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public deleteTopic(topicName: string, options?: any) {
     return DefaultApiFp(this.configuration)
       .deleteTopic(topicName, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @summary Get a single consumer group by its unique ID.
+   * @param {string} consumerGroupId The unique ID of the consumer group
+   * @param {string} [topic] Filter consumer groups for a specific topic
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public getConsumerGroupById(
+    consumerGroupId: string,
+    topic?: string,
+    options?: any
+  ) {
+    return DefaultApiFp(this.configuration)
+      .getConsumerGroupById(consumerGroupId, topic, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Returns a list of all consumer groups for a particular Kafka instance.
+   * @summary List of consumer groups in the Kafka instance.
+   * @param {number} [limit] Maximum number of consumer groups to returnd
+   * @param {number} [offset] The page offset when returning the list of consumer groups
+   * @param {string} [topic] Filter to apply when returning the list of consumer groups
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public getConsumerGroupList(
+    limit?: number,
+    offset?: number,
+    topic?: string,
+    options?: any
+  ) {
+    return DefaultApiFp(this.configuration)
+      .getConsumerGroupList(limit, offset, topic, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -929,6 +1703,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @param {number} [limit] Maximum number of topics to return
    * @param {string} [filter] Filter to apply when returning the list of topics
    * @param {number} [offset] The page offset when returning  the limit of requested topics.
+   * @param {string} [order] Order of the items sorting. If \&quot;asc\&quot; is set as a value, ascending order is used, descending otherwise.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApi
@@ -937,10 +1712,50 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
     limit?: number,
     filter?: string,
     offset?: number,
+    order?: string,
     options?: any
   ) {
     return DefaultApiFp(this.configuration)
-      .getTopicsList(limit, filter, offset, options)
+      .getTopicsList(limit, filter, offset, order, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @summary Admin server metrics
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public metrics(options?: any) {
+    return DefaultApiFp(this.configuration)
+      .metrics(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public openApi(options?: any) {
+    return DefaultApiFp(this.configuration)
+      .openApi(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Reset the offset for a particular consumer group.
+   * @summary Reset the offset for a consumer group.
+   * @param {string} consumerGroupId The ID of the consumer group.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public resetConsumerGroupOffset(consumerGroupId: string, options?: any) {
+    return DefaultApiFp(this.configuration)
+      .resetConsumerGroupOffset(consumerGroupId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 

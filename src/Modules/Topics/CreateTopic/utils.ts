@@ -69,7 +69,7 @@ export const convertUnits = (topicData: AdvancedTopic): AdvancedTopic => {
 };
 
 export const formatTopicRequest = (topic: AdvancedTopic): NewTopicInput => {
-  const { name, numPartitions, replicationFactor, ...configEntries } = topic;
+  const { name, numPartitions, ...configEntries } = topic;
 
   const config: ConfigEntry[] = [];
 
@@ -86,7 +86,6 @@ export const formatTopicRequest = (topic: AdvancedTopic): NewTopicInput => {
     name,
     settings: {
       numPartitions: Number(numPartitions),
-      replicationFactor: Number(replicationFactor),
       config,
     },
   };

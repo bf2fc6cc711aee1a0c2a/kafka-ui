@@ -183,7 +183,10 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
               <Text component={TextVariants.p} className='section-info-head'>
                 {t('createTopic.logSectionInfo')}
               </Text>
-              <Text component={TextVariants.small} className='section-info-note'>
+              <Text
+                component={TextVariants.small}
+                className='section-info-note'
+              >
                 {t('createTopic.logSectionInfoNote')}
               </Text>
             </TextContent>
@@ -229,7 +232,10 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
               <Text component={TextVariants.p} className='section-info-head'>
                 {t('createTopic.replicationSectionInfo')}
               </Text>
-              <Text component={TextVariants.small} className='section-info-note'>
+              <Text
+                component={TextVariants.small}
+                className='section-info-note'
+              >
                 {t('createTopic.replicationSectionInfoNote')}
               </Text>
             </TextContent>

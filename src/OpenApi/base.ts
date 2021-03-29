@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Strimzi Kubernetes REST API
- * An API to provide k8s REST endpoints for query
+ * Kafka Admin REST API
+ * An API to provide REST endpoints for query Kafka for admin operations
  *
  * The version of the OpenAPI document: 0.1.0
  *
@@ -17,10 +17,7 @@ import { Configuration } from './configuration';
 // @ts-ignore
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 
-export const BASE_PATH = 'https://api.openshift.com/api/managed-services-strimzi-ui/v1/api'.replace(
-  /\/+$/,
-  ''
-);
+export const BASE_PATH = 'https://api.openshift.com'.replace(/\/+$/, '');
 
 /**
  *

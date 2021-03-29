@@ -31,7 +31,7 @@ interface ITopicAdvanceConfig {
 export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = ({
   isCreate,
   saveTopic,
-  handleCancel
+  handleCancel,
 }) => {
   const { updateBulkStore } = React.useContext(TopicContext);
 
@@ -49,7 +49,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
   const handleOnCancel = () => {
     handleCancel();
     updateBulkStore(initialState);
-  }
+  };
 
   return (
     <>
@@ -129,14 +129,15 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               <StackItem>
                 <FlushSection />
               </StackItem>
-
             </Stack>
           </PageSection>
           <ActionGroup className='kafka-ui--sticky-footer'>
             <Button onClick={handleOnSave} variant='primary'>
               {actionText}
             </Button>
-            <Button onClick={handleOnCancel} variant='link'>Cancel</Button>
+            <Button onClick={handleOnCancel} variant='link'>
+              Cancel
+            </Button>
           </ActionGroup>
         </SidebarContent>
       </Sidebar>
