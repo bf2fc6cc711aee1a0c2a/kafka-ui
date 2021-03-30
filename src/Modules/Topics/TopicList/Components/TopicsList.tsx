@@ -96,9 +96,59 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
 
   const tableColumns = [
     { title: 'Name' },
-    { title: 'Replicas', transforms: [sortable] },
     { title: 'Partitions', transforms: [sortable] },
+    { title: 'Retention Time', transforms: [sortable] },
+    { title: 'Retention Size', transforms: [sortable] },
   ];
+  const convertRetentionTime = (milliseconds: number) => {
+    let convertedValue;
+    if (milliseconds < 60000) {
+      if (milliseconds === 1) return milliseconds + ' ' + 'millisecond';
+      else return milliseconds + ' ' + 'milliseconds';
+    } else if (milliseconds >= 60000 && milliseconds < 3.6e6) {
+      convertedValue = milliseconds / 60000;
+      convertedValue = Math.round(convertedValue * 100) / 100;
+      if (convertedValue === 1) return convertedValue + ' ' + 'minute';
+      else return convertedValue + ' ' + 'minutes';
+    } else if (milliseconds >= 3.6e6 && milliseconds < 1.728e8) {
+      convertedValue = milliseconds / 3.6e6;
+      convertedValue = Math.round(convertedValue * 100) / 100;
+      if (convertedValue === 1) return convertedValue + ' ' + 'hour';
+      else return convertedValue + ' ' + 'hours';
+    } else if (milliseconds >= 1.728e8) {
+      convertedValue = milliseconds / 8.64e7;
+      convertedValue = Math.round(convertedValue * 100) / 100;
+      return convertedValue + ' ' + 'days';
+    }
+  };
+
+  const convertRetentionSize = (byte: number) => {
+    let convertedByteValue;
+    if (Math.abs(byte) < 1000) {
+      if (byte === 1) return byte + ' ' + 'byte';
+      else return byte + ' ' + 'bytes';
+    } else if (Math.abs(byte) >= 1000 && Math.abs(byte) < 1000000) {
+      convertedByteValue = byte / 1000;
+      if (convertedByteValue === 1)
+        return convertedByteValue + ' ' + 'kilobyte';
+      else return convertedByteValue + ' ' + 'kilobytes';
+    } else if (Math.abs(byte) >= 1000000 && Math.abs(byte) < 1000000000) {
+      convertedByteValue = byte / 1000000;
+      if (convertedByteValue === 1)
+        return convertedByteValue + ' ' + 'megabyte';
+      else return convertedByteValue + ' ' + 'megabytes';
+    } else if (Math.abs(byte) >= 1000000000 && Math.abs(byte) < 1000000000000) {
+      convertedByteValue = byte / 1000000000;
+      if (convertedByteValue === 1)
+        return convertedByteValue + ' ' + 'gigaabyte';
+      else return convertedByteValue + ' ' + 'gigaabytes';
+    } else if (Math.abs(byte) >= 1000000000000) {
+      convertedByteValue = byte / 1000000000000;
+      if (convertedByteValue === 1)
+        return convertedByteValue + ' ' + 'terabyte';
+      else return convertedByteValue + ' ' + 'terabytes';
+    }
+  };
   const rowData =
     filteredTopics?.items?.map((topic) => [
       {
@@ -114,13 +164,22 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
           </Button>
         ),
       },
-      topic.partitions
-        ?.map((p) => (p.replicas ? p.replicas.length : 0))
-        .reduce(
-          (previousValue, currentValue) => previousValue + currentValue,
-          0
-        ),
       topic.partitions?.length,
+
+      convertRetentionTime(
+        Number(
+          topic.config?.filter((element) => element.key === 'retention.ms')[0]
+            ?.value || 0
+        )
+      ),
+
+      convertRetentionSize(
+        Number(
+          topic.config?.filter(
+            (element) => element.key === 'log.retention.bytes'
+          )[0]?.value || 0
+        )
+      ),
     ]) || [];
 
   useEffect(() => {
