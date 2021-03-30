@@ -12,13 +12,17 @@ import {
 } from '../../../../Contexts/Topic';
 import { DeleteTopics } from '../../TopicList/Components/DeleteTopicsModal';
 import { AlertContext } from '../../../../Contexts/Alert';
-import {ConfigContext} from "../../../../Contexts";
+import { ConfigContext } from '../../../../Contexts';
 
 export type UpdateTopicViewProps = {
   topicName: string;
+  onCancelUpdateTopic: () => void;
+  onDeleteTopic: () => void;
 };
 export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   topicName,
+  onCancelUpdateTopic,
+  onDeleteTopic,
 }) => {
   const { store, updateBulkStore } = React.useContext(TopicContext);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -85,13 +89,9 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
         history.push(`/topic/${topicName}`);
       }
     } catch (err) {
-      addAlert(err.response.data.err, AlertVariant.danger);
+      addAlert(err.response.data.error, AlertVariant.danger);
     }
     updateBulkStore(initialState);
-  };
-
-  const handleCancel = () => {
-    history.push('/topics');
   };
 
   return (
@@ -99,7 +99,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
       <TopicAdvanceConfig
         isCreate={false}
         saveTopic={saveTopic}
-        handleCancel={handleCancel}
+        handleCancel={onCancelUpdateTopic}
       />
       <br />
       <br />
@@ -108,6 +108,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
           deleteModal={deleteModal}
           setDeleteModal={setDeleteModal}
           topicName={topicName}
+          onDeleteTopic={onDeleteTopic}
         />
       )}
     </>

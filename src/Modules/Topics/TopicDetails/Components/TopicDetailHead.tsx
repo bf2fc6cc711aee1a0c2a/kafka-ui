@@ -12,16 +12,28 @@ import './TopicDetailView.css';
 
 export type TopicDetailHeadProps = {
   topicName: string;
+  getTopicListPath: () => string;
+  onClickTopicList: () => void;
 };
 
 export const TopicDetailHead: React.FC<TopicDetailHeadProps> = ({
   topicName,
+  getTopicListPath,
+  onClickTopicList,
 }) => {
   return (
     <section className='pf-c-page__main-breadcrumb'>
       <Breadcrumb>
-        <BreadcrumbItem to='#/topics'>Topics</BreadcrumbItem>
-        <BreadcrumbItem to={`#/topic/${topicName}`}>{topicName}</BreadcrumbItem>
+        <BreadcrumbItem
+          onClick={(e) => {
+            e.preventDefault();
+            onClickTopicList();
+          }}
+          to={getTopicListPath()}
+        >
+          Topics
+        </BreadcrumbItem>
+        <BreadcrumbItem>{topicName}</BreadcrumbItem>
       </Breadcrumb>
       <PageSection variant={PageSectionVariants.light}>
         <TextContent className='header-padding'>

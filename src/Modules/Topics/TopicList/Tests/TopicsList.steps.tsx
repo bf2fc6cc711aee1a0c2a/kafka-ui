@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { TopicsListComponent } from '../Components/TopicsList';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import { Topic, TopicsList } from '../../../../OpenApi';
 import { IConfiguration } from '../../../../Contexts';
@@ -24,14 +25,22 @@ describe('<TopicsListComponent />', () => {
     getTopicsMock.mockReturnValueOnce(Promise.resolve(topics));
     await waitFor(() => {
       const { getByText } = render(
-        <TopicsListComponent
-          onCreateTopic={() => {
-            return;
-          }}
-          onTopicClick={() => {
-            return;
-          }}
-        />
+        <Router>
+          <TopicsListComponent
+            onCreateTopic={() => {
+              return;
+            }}
+            onClickTopic={() => {
+              return;
+            }}
+            getTopicDetailsPath={() => {
+              return '';
+            }}
+            onDeleteTopic={() => {
+              return;
+            }}
+          />
+        </Router>
       );
 
       const createBtn = getByText('Create topic');

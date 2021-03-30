@@ -7,19 +7,31 @@ import {
   PageSectionVariants,
 } from '@patternfly/react-core';
 import { ConsumerGroupByTopicList } from '../TopicDetails/Components/ConsumerGroupsByTopic/ConsumerGroupsListByTopic.patternfly';
-import { UpdateTopicHead } from './Components/UpdateTopicHead';
 import { UpdateTopicView } from './Components/UpdateTopicView';
+import { TopicDetailHead } from '../TopicDetails/Components/TopicDetailHead';
 
 export interface UpdateTopicPageProps {
   topicName: string;
+  getTopicListPath: () => string;
+  onClickTopicList: () => void;
+  onCancelUpdateTopic: () => void;
+  onDeleteTopic: () => void;
 }
 
 export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
   topicName,
+  getTopicListPath,
+  onClickTopicList,
+  onCancelUpdateTopic,
+  onDeleteTopic,
 }) => {
   return (
     <>
-      <UpdateTopicHead topicName={topicName} />
+      <TopicDetailHead
+        topicName={topicName}
+        getTopicListPath={getTopicListPath}
+        onClickTopicList={onClickTopicList}
+      />
       <PageSection
         variant={PageSectionVariants.light}
         padding={{ default: 'noPadding' }}
@@ -41,7 +53,11 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
           </Tab>
           <Tab eventKey={1} title={<TabTitleText>Properties</TabTitleText>}>
             <PageSection variant='light'>
-              <UpdateTopicView topicName={topicName} />
+              <UpdateTopicView
+                topicName={topicName}
+                onCancelUpdateTopic={onCancelUpdateTopic}
+                onDeleteTopic={onDeleteTopic}
+              />
             </PageSection>
           </Tab>
         </Tabs>

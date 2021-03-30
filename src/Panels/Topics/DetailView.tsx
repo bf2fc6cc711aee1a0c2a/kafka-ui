@@ -6,7 +6,13 @@ type TopicUseParams = {
   topicName: string;
 };
 
-const TopicDetail: FunctionComponent = () => {
+type TopicDetailParams = {
+  onDeleteTopic: () => void;
+};
+
+const TopicDetail: FunctionComponent<TopicDetailParams> = ({
+  onDeleteTopic,
+}) => {
   const { topicName } = useParams<TopicUseParams>();
   const history = useHistory();
 
@@ -15,7 +21,13 @@ const TopicDetail: FunctionComponent = () => {
   };
 
   return (
-    <TopicDetailGroup topicName={topicName} onUpdateTopic={useUpdateTopic} />
+    <TopicDetailGroup
+      topicName={topicName}
+      onUpdateTopic={useUpdateTopic}
+      getTopicListPath={() => '/topics'}
+      onClickTopicList={() => history.push('/topics')}
+      onDeleteTopic={onDeleteTopic}
+    />
   );
 };
 

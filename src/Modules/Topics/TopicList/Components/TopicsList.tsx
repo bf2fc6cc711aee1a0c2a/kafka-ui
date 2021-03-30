@@ -27,7 +27,7 @@ import { ConfigContext } from '../../../../Contexts';
 import { TopicsList } from '../../../../OpenApi';
 import { Loading } from '../../../../Components/Loading/Loading';
 import { AlertContext } from '../../../../Contexts/Alert';
-import {useHistory} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import './TopicList.css';
 
@@ -43,12 +43,16 @@ export interface ITopicProps {
 
 export interface ITopicList {
   onCreateTopic: () => void;
-  onTopicClick: (topic: string) => void;
+  onClickTopic: (topicName: string | undefined) => void;
+  getTopicDetailsPath: (topic: string | undefined) => string;
+  onDeleteTopic: () => void;
 }
 
 export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   onCreateTopic,
-  onTopicClick,
+  getTopicDetailsPath,
+  onClickTopic,
+  onDeleteTopic,
 }) => {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState<number>(1);
@@ -63,7 +67,6 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   const { addAlert } = useContext(AlertContext);
 
   const config = useContext(ConfigContext);
-  const history = useHistory();
 
   const fetchTopic = async () => {
     try {
@@ -153,15 +156,15 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
     filteredTopics?.items?.map((topic) => [
       {
         title: (
-          <Button
-            variant='link'
-            isInline
-            onClick={() =>
-              onTopicClick((topic && topic.name && topic.name.toString()) || '')
-            }
+          <Link
+            to={getTopicDetailsPath(topic.name)}
+            onClick={(e) => {
+              e.preventDefault();
+              onClickTopic(topic.name);
+            }}
           >
             {topic?.name}
-          </Button>
+          </Link>
         ),
       },
       topic.partitions?.length,
@@ -218,7 +221,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
 
   const onEdit = (rowId: any) => {
     if (filteredTopics?.items) {
-      history.push(`/topics/update/${filteredTopics.items[rowId].name}`);
+      onClickTopic(filteredTopics.items[rowId].name);
     }
   };
 
@@ -238,6 +241,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
           topicName={topicName}
           setDeleteModal={setDeleteModal}
           deleteModal={deleteModal}
+          onDeleteTopic={onDeleteTopic}
         />
       )}
       {rowData.length < 1 && search.length < 1 ? (

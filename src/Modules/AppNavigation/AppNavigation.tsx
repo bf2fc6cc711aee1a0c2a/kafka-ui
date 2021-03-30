@@ -34,8 +34,16 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
     history.push('/topics/create');
   };
 
-  const onTopicClick = (topic: string) => {
+  const getTopicDetailsPath = (topic: string | undefined) => {
+    return `/topic/${topic}`;
+  };
+
+  const onClickTopic = (topic: string | undefined) => {
     history.push(`/topic/${topic}`);
+  };
+
+  const onDeleteTopic = () => {
+    history.push('/topics');
   };
 
   const mainBreadcrumbs = (
@@ -76,7 +84,9 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
               <PageSection>
                 <TopicsListComponent
                   onCreateTopic={onCreateTopic}
-                  onTopicClick={onTopicClick}
+                  onClickTopic={onClickTopic}
+                  getTopicDetailsPath={getTopicDetailsPath}
+                  onDeleteTopic={onDeleteTopic}
                 />
               </PageSection>
             </Page>
