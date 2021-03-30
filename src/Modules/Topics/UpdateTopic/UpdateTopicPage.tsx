@@ -16,6 +16,7 @@ export interface UpdateTopicPageProps {
   onClickTopicList: () => void;
   onCancelUpdateTopic: () => void;
   onDeleteTopic: () => void;
+  onSaveTopic: () => void;
 }
 
 export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
@@ -24,6 +25,7 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
   onClickTopicList,
   onCancelUpdateTopic,
   onDeleteTopic,
+  onSaveTopic,
 }) => {
   return (
     <>
@@ -57,6 +59,7 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
                 topicName={topicName}
                 onCancelUpdateTopic={onCancelUpdateTopic}
                 onDeleteTopic={onDeleteTopic}
+                onSaveTopic={onSaveTopic}
               />
             </PageSection>
           </Tab>

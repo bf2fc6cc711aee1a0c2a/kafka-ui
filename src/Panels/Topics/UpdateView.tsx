@@ -20,6 +20,9 @@ const UpdateTopic: FunctionComponent<TopicUseParams> = () => {
       onDeleteTopic={() => {
         return;
       }}
+      onSaveTopic={() => {
+        return;
+      }}
     />
   );
 };

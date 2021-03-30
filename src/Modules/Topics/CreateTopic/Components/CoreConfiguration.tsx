@@ -14,6 +14,7 @@ import { kebabToCamel, kebabToDotSeparated } from '../utils';
 import { TopicContext } from '../../../../Contexts/Topic';
 import { SizeTimeFormGroup } from '../../../../Components/SizeTimeFormGroup/SizeTimeFormGroup';
 import { useTranslation } from 'react-i18next';
+import { TextWithLabelPopover } from '../../../../Components/TextWithLabelPopover/TextWithLabelPopover';
 
 const CoreConfiguration: React.FC = () => {
   const { store, updateStore } = React.useContext(TopicContext);
@@ -123,41 +124,21 @@ const CoreConfiguration: React.FC = () => {
             minusBtnProps={{ name: 'num-partitions' }}
           />
         </FormGroupWithPopover>
-        <FormGroupWithPopover
-          fieldId='replicas'
+        <TextWithLabelPopover
+          btnAriaLabel='topic detail replicas'
           fieldLabel='Replicas'
-          labelHead={t('createTopic.replicasLabelHead')}
-          labelBody={t('createTopic.replicasLabelBody')}
-          buttonAriaLabel='More info for replicas field'
-        >
-          <NumberInput
-            inputName='replication-factor'
-            onChange={handleTouchSpinInputChangeCamelCase}
-            onPlus={handleTouchSpinPlusCamelCase}
-            onMinus={handleTouchSpinMinusCamelCase}
-            value={Number(store.replicationFactor)}
-            plusBtnProps={{ name: 'replication-factor' }}
-            minusBtnProps={{ name: 'replication-factor' }}
-          />
-        </FormGroupWithPopover>
-        <FormGroupWithPopover
-          fieldId='insyncreplicas'
+          fieldValue={store.replicationFactor}
+          popoverBody={t('createTopic.replicasLabelBody')}
+          popoverHeader={t('createTopic.replicasLabelHead')}
+        />
+
+        <TextWithLabelPopover
+          btnAriaLabel='topic detail min-in-sync replica'
           fieldLabel='Minimum in-sync replicas'
-          labelHead={t('createTopic.inSyncReplicasLabelHead')}
-          labelBody={t('createTopic.inSyncReplicasLabelBody')}
-          buttonAriaLabel='More info for minimum in-sync replicas field'
-        >
-          <NumberInput
-            id='insyncreplicas'
-            inputName='min-insync-replicas'
-            onChange={handleTouchSpinInputChange}
-            onPlus={handleTouchSpinPlus}
-            onMinus={handleTouchSpinMinus}
-            value={Number(store['min.insync.replicas'])}
-            plusBtnProps={{ name: 'min-insync-replicas' }}
-            minusBtnProps={{ name: 'min-insync-replicas' }}
-          />
-        </FormGroupWithPopover>
+          fieldValue={store['min.insync.replicas']}
+          popoverBody={t('createTopic.inSyncReplicasLabelBody')}
+          popoverHeader={t('createTopic.inSyncReplicasLabelHead')}
+        />
         <FormGroupWithPopover
           fieldId='retention'
           fieldLabel='Retention time'

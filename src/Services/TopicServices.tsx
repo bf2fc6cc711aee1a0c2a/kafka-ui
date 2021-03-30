@@ -1,6 +1,12 @@
 import { AxiosResponse } from 'axios';
 import { AdvancedTopic } from '../Contexts/Topic';
-import { DefaultApi, Topic, TopicSettings, TopicsList } from '../OpenApi/api';
+import {
+  ConfigEntry,
+  DefaultApi,
+  Topic,
+  TopicSettings,
+  TopicsList,
+} from '../OpenApi/api';
 import { Configuration } from '../OpenApi';
 import { IConfiguration } from '../Contexts';
 
@@ -91,6 +97,18 @@ export const getTopic = async (
     })
   );
   const response = await api.getTopic(topicName);
+
+  const answer = response.data;
+  answer.config = answer.config || ([] as ConfigEntry[]);
+  answer.config.push({
+    key: 'replicationFactor',
+    value: response.data?.partitions
+      ?.map((p) => p.replicas?.length)
+      .reduce(
+        (previousValue = 0, currentValue = 0) => previousValue + currentValue
+      )
+      ?.toString(),
+  });
   return response.data;
 };
 
