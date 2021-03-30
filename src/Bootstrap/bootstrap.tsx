@@ -3,17 +3,17 @@ import {I18nextProvider} from 'react-i18next';
 import ReactDOM from 'react-dom';
 import React from 'react';
 import { ConfigContext } from '../Contexts';
-import { Topics } from '../Panels/Topics';
+import { Topics } from '../Views/Topics';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
-import CreateTopic from '../Panels/Topics/CreateView';
-import TopicDetail from '../Panels/Topics/DetailView';
-import UpdateTopicView from '../Panels/Topics/UpdateView';
+import CreateTopic from '../Views/Topics/CreateView';
+import TopicDetail from '../Views/Topics/DetailView';
+import UpdateTopicView from '../Views/Topics/UpdateView';
 import { TopicContextProvider } from '../Contexts/Topic';
-import { ConsumerGroupsView } from '../Panels/ConsumerGroups/ConsumerGroupsView';
-import { ConsumerGroupsTopicsView } from '../Panels/ConsumerGroupsByTopic/ConsumerGroupsByTopic';
+import { ConsumerGroupsView } from '../Views/ConsumerGroups/ConsumerGroupsView';
+import { ConsumerGroupsTopicsView } from '../Views/ConsumerGroupsByTopic/ConsumerGroupsByTopic';
 import { ErrorBoundary } from '../Components/ErrorBoundary/ErrorBoundary';
 import { AlertProvider } from '../Contexts/Alert/Context';
-import { MastHead } from '../Panels/MastHead/MastHead';
+import { MastHead } from '../Views/MastHead/MastHead';
 
 //Bootstrap i18next support
 ReactDOM.render(
