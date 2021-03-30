@@ -1,12 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Modal,
   ModalVariant,
   Button,
-  Flex,
   Text,
-  FlexItem,
   AlertVariant,
+  TextInput,
 } from '@patternfly/react-core';
 import { deleteTopic } from '../../../../Services/TopicServices';
 import { ConfigContext } from '../../../../Contexts';
@@ -22,6 +21,7 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
   deleteModal,
   topicName,
 }) => {
+  const [verificationText, setVerificationText] = useState<string>('');
   const { addAlert } = useContext(AlertContext);
   const history = useHistory();
   const onClose = () => {
@@ -41,33 +41,48 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
 
   const config = useContext(ConfigContext);
 
+  const handleVerificationTextChange = (value) => {
+    setVerificationText(value);
+  };
+
   return (
     <Modal
       variant={ModalVariant.small}
       isOpen={deleteModal}
-      aria-label='Modal warning example'
-      title=' Delete Topic  ?'
+      aria-label='Delete topic?'
+      title=' Delete topic  ?'
       titleIconVariant='warning'
       showClose={true}
-      aria-describedby='no-header-example'
+      aria-describedby='modal-message'
       onClose={onClose}
-      // onClick={onSave}
+      actions={[
+        <Button
+          variant='danger'
+          onClick={onDelete}
+          key={1}
+          isDisabled={verificationText.toUpperCase() != 'DELETE'}
+        >
+          Delete
+        </Button>,
+        <Button variant='link' onClick={onClose} key={2}>
+          Cancel
+        </Button>,
+      ]}
     >
-      <Text> The Topic {topicName} will be deleted </Text>
+      <Text id='modal-message'>
+        {' '}
+        <b>{topicName}</b> will be deleted.{' '}
+      </Text>
 
       <br />
-      <Flex>
-        <FlexItem>
-          <Button variant='danger' onClick={onDelete}>
-            Delete Topic
-          </Button>
-        </FlexItem>
-        <FlexItem>
-          <Button variant='link' onClick={onClose}>
-            Cancel
-          </Button>
-        </FlexItem>
-      </Flex>
+      <label htmlFor='delete-text-input'>Type DELETE to confirm:</label>
+      <TextInput
+        value={verificationText}
+        name='delete-text-input'
+        type='text'
+        onChange={handleVerificationTextChange}
+        autoFocus={true}
+      />
     </Modal>
   );
 };
