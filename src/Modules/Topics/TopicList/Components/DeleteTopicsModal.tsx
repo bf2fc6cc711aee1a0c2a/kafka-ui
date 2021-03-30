@@ -50,7 +50,7 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
       variant={ModalVariant.small}
       isOpen={deleteModal}
       aria-label='Delete topic?'
-      title=' Delete topic  ?'
+      title='Delete topic?'
       titleIconVariant='warning'
       showClose={true}
       aria-describedby='modal-message'
@@ -78,6 +78,7 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
       <label htmlFor='delete-text-input'>Type DELETE to confirm:</label>
       <TextInput
         value={verificationText}
+        id='delete-text-input'
         name='delete-text-input'
         type='text'
         onChange={handleVerificationTextChange}
