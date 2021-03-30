@@ -10,6 +10,7 @@ const messageRetentionProps: IStepMessageRetention = {
   setMsgRetentionValue: jest.fn(),
   currentPeriod: 1,
   setCurrentPeriod: jest.fn(),
+  setRetentionSize: jest.fn(),
 };
 
 const setup = () => {

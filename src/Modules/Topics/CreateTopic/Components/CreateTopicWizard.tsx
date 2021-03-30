@@ -34,6 +34,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   const history = useHistory();
   const { addAlert } = useContext(AlertContext);
   const [msgRetentionValue, setMsgRetentionValue] = useState(1);
+  const [retentionSize, setRetentionSize] = useState(1);
   const [topicNameInput, setTopicNameInput] = useState('');
   const [partitionTouchspinValue, setPartitionTouchspinValue] = useState(1);
   const [replicationFactorTouchspinValue] = useState(3);
@@ -62,6 +63,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
                 key: 'retention.ms',
                 value: msgRetentionValue.toString(),
               },
+              { key: 'log.retention.bytes', value: retentionSize.toString() },
             ],
           },
         };
@@ -121,6 +123,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
           setMsgRetentionValue={setMsgRetentionValue}
           currentPeriod={currentPeriod}
           setCurrentPeriod={setCurrentPeriod}
+          setRetentionSize={setRetentionSize}
         />
       ),
     },
