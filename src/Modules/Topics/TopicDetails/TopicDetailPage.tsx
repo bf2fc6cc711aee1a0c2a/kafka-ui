@@ -3,6 +3,7 @@ import { TopicDetailHead } from '../../../Modules/Topics/TopicDetails/Components
 import { TopicDetailView } from './Components/TopicDetailView';
 import { AdvancedTopic } from '../../../Contexts/Topic';
 import {
+  AlertVariant,
   PageSection,
   PageSectionVariants,
   Tab,
@@ -13,10 +14,15 @@ import { getTopicDetail } from '../../../Services';
 import { ConfigContext } from '../../../Contexts';
 import { ConsumerGroupByTopicList } from './Components/ConsumerGroupsByTopic/ConsumerGroupsListByTopic.patternfly';
 import { DeleteTopics } from '../TopicList/Components/DeleteTopicsModal';
+import { isAxiosError } from '../../../Utils/axios';
+import { AlertContext } from '../../../Contexts/Alert';
 
 export type TopicDetailGroupProps = {
   topicName: string;
   onUpdateTopic: () => void;
+  getTopicListPath: () => string;
+  onClickTopicList: () => void;
+  onDeleteTopic: () => void;
 };
 
 // TODO: Remove this mock, fetch it from server.
@@ -66,14 +72,28 @@ const topic: AdvancedTopic = {
 export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
   topicName,
   onUpdateTopic,
+  getTopicListPath,
+  onClickTopicList,
+  onDeleteTopic,
 }) => {
   const [topicDetail, setTopicDetail] = useState<AdvancedTopic>(topic);
   const config = useContext(ConfigContext);
   const [deleteModal, setDeleteModal] = useState(false);
+  const { addAlert } = useContext(AlertContext);
 
   const fetchTopicDetail = async (topicName: string) => {
-    const response = await getTopicDetail(topicName, config);
-    setTopicDetail(response);
+    try {
+      const response = await getTopicDetail(topicName, config);
+      setTopicDetail(response);
+    } catch (e) {
+      if (isAxiosError(e)) {
+        if (e.response?.status === 404) {
+          // then it's a non-existent topic
+          addAlert(`Topic ${topicName} does not exist`, AlertVariant.danger);
+          onClickTopicList();
+        }
+      }
+    }
   };
 
   // Make the get request
@@ -87,7 +107,11 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
 
   return (
     <>
-      <TopicDetailHead topicName={topicName} />
+      <TopicDetailHead
+        topicName={topicName}
+        getTopicListPath={getTopicListPath}
+        onClickTopicList={onClickTopicList}
+      />
       <PageSection variant={PageSectionVariants.light}>
         <Tabs
           activeKey={1}
@@ -116,6 +140,7 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
             topicName={topicName}
             deleteModal={deleteModal}
             setDeleteModal={setDeleteModal}
+            onDeleteTopic={onDeleteTopic}
           />
         )}
       </PageSection>

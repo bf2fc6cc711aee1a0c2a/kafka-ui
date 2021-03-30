@@ -9,21 +9,21 @@ import {
 } from '@patternfly/react-core';
 import { deleteTopic } from '../../../../Services/TopicServices';
 import { ConfigContext } from '../../../../Contexts';
-import { useHistory } from 'react-router';
 import { AlertContext } from '../../../../Contexts/Alert/Context';
 export interface IDeleteTopics {
   setDeleteModal: (value: boolean) => void;
   deleteModal: boolean;
   topicName?: string;
+  onDeleteTopic: () => void;
 }
 export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
   setDeleteModal,
   deleteModal,
   topicName,
+  onDeleteTopic,
 }) => {
   const [verificationText, setVerificationText] = useState<string>('');
   const { addAlert } = useContext(AlertContext);
-  const history = useHistory();
   const onClose = () => {
     setDeleteModal(false);
   };
@@ -35,7 +35,7 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
     } catch (err) {
       addAlert(err.response.data.err, AlertVariant.danger);
     }
-    history.push('/topics');
+    onDeleteTopic();
     setDeleteModal(false);
   };
 

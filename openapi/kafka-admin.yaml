@@ -7,50 +7,41 @@ info:
     name: Apache 2.0
     url: 'https://www.apache.org/licenses/LICENSE-2.0'
 servers:
-  -
-    url: 'https://api.openshift.com'
+  - url: 'https://api.openshift.com'
     description: Main (production) server
-  -
-    url: 'https://api.stage.openshift.com'
+  - url: 'https://api.stage.openshift.com'
     description: Staging server
-  -
-    url: 'http://localhost:8001'
+  - url: 'http://localhost:8001'
     description: localhost
-  -
-    url: 'http://localhost:8000'
+  - url: 'http://localhost:8000'
     description: localhost
-  -
-    url: 'http://localhost:8080/rest'
+  - url: 'http://localhost:8080/rest'
     description: localhost
 paths:
   /topics:
     get:
       security:
-        - Bearer: [ ]
+        - Bearer: []
       parameters:
-        -
-          name: limit
+        - name: limit
           description: Maximum number of topics to return
           schema:
             format: int32
             type: integer
           in: query
           required: false
-        -
-          name: filter
+        - name: filter
           description: Filter to apply when returning the list of topics
           schema:
             type: string
           in: query
-        -
-          name: offset
+        - name: offset
           description: The page offset when returning  the limit of requested topics.
           schema:
             format: int32
             type: integer
           in: query
-        -
-          name: order
+        - name: order
           description: >-
             Order of the items sorting. If "asc" is set as a value, ascending order is used,
             descending otherwise.
@@ -84,7 +75,7 @@ paths:
         Query Parameters.
     post:
       security:
-        - Bearer: [ ]
+        - Bearer: []
       requestBody:
         description: Topic to create.
         content:
@@ -98,11 +89,9 @@ paths:
                   settings:
                     numPartitions: 3
                     config:
-                      -
-                        key: min.insync.replicas
+                      - key: min.insync.replicas
                         value: '1'
-                      -
-                        key: max.message.bytes
+                      - key: max.message.bytes
                         value: '1050000'
         required: true
       responses:
@@ -128,10 +117,9 @@ paths:
   '/topics/{topicName}':
     get:
       security:
-        - Bearer: [ ]
+        - Bearer: []
       parameters:
-        -
-          name: topicName
+        - name: topicName
           description: The topic name to retrieve.
           schema:
             type: string
@@ -157,10 +145,9 @@ paths:
       description: Topic
     delete:
       security:
-        - Bearer: [ ]
+        - Bearer: []
       parameters:
-        -
-          name: topicName
+        - name: topicName
           description: The topic name to delete.
           schema:
             type: string
@@ -182,7 +169,7 @@ paths:
       description: Deletes the topic with the specified name.
     patch:
       security:
-        - Bearer: [ ]
+        - Bearer: []
       requestBody:
         content:
           application/json:
@@ -190,8 +177,7 @@ paths:
               $ref: '#/components/schemas/TopicSettings'
         required: true
       parameters:
-        -
-          name: topicName
+        - name: topicName
           description: The topic name which is its unique id.
           schema:
             type: string
@@ -218,8 +204,7 @@ paths:
       summary: Updates the topic with the specified name.
       description: updates the topic with the new data.
     parameters:
-      -
-        name: topicName
+      - name: topicName
         description: The topic name which is its unique id.
         schema:
           type: string
@@ -228,7 +213,7 @@ paths:
   /metrics:
     get:
       security:
-        - Bearer: [ ]
+        - Bearer: []
       responses:
         '200':
           description: Metrics
@@ -237,7 +222,7 @@ paths:
   /groups:
     get:
       security:
-        - Bearer: [ ]
+        - Bearer: []
       responses:
         '200':
           content:
@@ -247,7 +232,7 @@ paths:
   '/groups/{groupName}':
     get:
       security:
-        - Bearer: [ ]
+        - Bearer: []
       responses:
         '200':
           content:
@@ -256,7 +241,7 @@ paths:
       operationId: getGroup
     delete:
       security:
-        - Bearer: [ ]
+        - Bearer: []
       responses:
         '200':
           content:
@@ -264,8 +249,7 @@ paths:
           description: OK
       operationId: deleteGroup
     parameters:
-      -
-        name: groupName
+      - name: groupName
         description: Consumer group identificator
         schema:
           type: string
@@ -274,7 +258,7 @@ paths:
   /api:
     get:
       security:
-        - Bearer: [ ]
+        - Bearer: []
       responses:
         '200':
           content:
@@ -309,39 +293,27 @@ components:
       example:
         name: my-topic
         config:
-          -
-            key: min.insync.replicas
+          - key: min.insync.replicas
             value: '1'
-          -
-            key: max.message.bytes
+          - key: max.message.bytes
             value: '1050000'
         partitions:
-          -
-            id: 0
+          - id: 0
             replicas:
-              -
-                id: 0
-              -
-                id: 1
+              - id: 0
+              - id: 1
             isr:
-              -
-                id: 0
-              -
-                id: 1
+              - id: 0
+              - id: 1
             leader:
               id: 0
-          -
-            id: 1
+          - id: 1
             replicas:
-              -
-                id: 0
-              -
-                id: 1
+              - id: 0
+              - id: 1
             isr:
-              -
-                id: 0
-              -
-                id: 1
+              - id: 0
+              - id: 1
             leader:
               id: 1
     Partition:
@@ -369,15 +341,11 @@ components:
       example:
         id: 0
         replicas:
-          -
-            id: 0
-          -
-            id: 1
+          - id: 0
+          - id: 1
         isr:
-          -
-            id: 0
-          -
-            id: 1
+          - id: 0
+          - id: 1
         leader:
           id: 1
     ConfigEntry:
@@ -418,42 +386,29 @@ components:
             $ref: '#/components/schemas/Topic'
       example:
         items:
-          -
-            name: my-topic
+          - name: my-topic
             config:
-              -
-                key: min.insync.replicas
+              - key: min.insync.replicas
                 value: '1'
-              -
-                key: max.message.bytes
+              - key: max.message.bytes
                 value: '1050000'
             partitions:
-              -
-                id: 0
+              - id: 0
                 replicas:
-                  -
-                    id: 0
-                  -
-                    id: 1
+                  - id: 0
+                  - id: 1
                 isr:
-                  -
-                    id: 0
-                  -
-                    id: 1
+                  - id: 0
+                  - id: 1
                 leader:
                   id: 0
-              -
-                id: 1
+              - id: 1
                 replicas:
-                  -
-                    id: 0
-                  -
-                    id: 1
+                  - id: 0
+                  - id: 1
                 isr:
-                  -
-                    id: 0
-                  -
-                    id: 1
+                  - id: 0
+                  - id: 1
                 leader:
                   id: 1
         offset: 25
@@ -475,11 +430,9 @@ components:
       example:
         numPartitions: 2
         config:
-          -
-            key: min.insync.replicas
+          - key: min.insync.replicas
             value: '1'
-          -
-            key: max.message.bytes
+          - key: max.message.bytes
             value: '1050000'
     Node:
       description: Kafka server / broker.
@@ -503,9 +456,7 @@ components:
         settings:
           numPartitions: 3
           config:
-            -
-              key: min.insync.replicas
+            - key: min.insync.replicas
               value: '1'
-            -
-              key: max.message.bytes
+            - key: max.message.bytes
               value: '1050000'
