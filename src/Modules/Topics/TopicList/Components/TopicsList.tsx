@@ -73,7 +73,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
         setFilteredTopics(topicsList);
       }
     } catch (err) {
-      addAlert(err.response.data.err, AlertVariant.danger);
+      addAlert(err.response.data.error, AlertVariant.danger);
     }
     setLoading(false);
   };
