@@ -12,6 +12,7 @@ import {
 } from '../../../../Contexts/Topic';
 import { DeleteTopics } from '../../TopicList/Components/DeleteTopicsModal';
 import { AlertContext } from '../../../../Contexts/Alert';
+import {ConfigContext} from "../../../../Contexts";
 
 export type UpdateTopicViewProps = {
   topicName: string;

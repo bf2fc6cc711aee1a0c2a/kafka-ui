@@ -27,6 +27,7 @@ import { ConfigContext } from '../../../../Contexts';
 import { TopicsList } from '../../../../OpenApi';
 import { Loading } from '../../../../Components/Loading/Loading';
 import { AlertContext } from '../../../../Contexts/Alert';
+import {useHistory} from 'react-router-dom';
 
 import './TopicList.css';
 
@@ -62,6 +63,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   const { addAlert } = useContext(AlertContext);
 
   const config = useContext(ConfigContext);
+  const history = useHistory();
 
   const fetchTopic = async () => {
     try {
