@@ -23,11 +23,11 @@ import { EmptyTopics } from './EmptyTopics';
 import { EmptySearch } from './EmptySearch';
 import { getTopics } from '../../../../Services';
 import { DeleteTopics } from './DeleteTopicsModal';
-import { useHistory } from 'react-router';
 import { ConfigContext } from '../../../../Contexts';
 import { TopicsList } from '../../../../OpenApi';
 import { Loading } from '../../../../Components/Loading/Loading';
 import { AlertContext } from '../../../../Contexts/Alert';
+import {useHistory} from 'react-router-dom';
 
 import './TopicList.css';
 
@@ -43,10 +43,12 @@ export interface ITopicProps {
 
 export interface ITopicList {
   onCreateTopic: () => void;
+  onTopicClick: (topic: string) => void;
 }
 
 export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   onCreateTopic,
+  onTopicClick,
 }) => {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState<number>(1);
@@ -57,11 +59,11 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   const [filteredTopics, setFilteredTopics] = useState<TopicsList>();
   const [deleteModal, setDeleteModal] = useState(false);
   const [topicName, setTopicName] = useState<string | undefined>();
-  const history = useHistory();
 
   const { addAlert } = useContext(AlertContext);
 
   const config = useContext(ConfigContext);
+  const history = useHistory();
 
   const fetchTopic = async () => {
     try {
@@ -71,7 +73,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
         setFilteredTopics(topicsList);
       }
     } catch (err) {
-      addAlert(err.response.data.err, AlertVariant.danger);
+      addAlert(err.response.data.error, AlertVariant.danger);
     }
     setLoading(false);
   };
@@ -90,9 +92,6 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
 
   const onPerPageSelect = (_event, perPage: number) => {
     setPerPage(perPage);
-  };
-  const onTopicClick = (topic: string) => {
-    history.push(`/topic/${topic}`);
   };
 
   const tableColumns = [

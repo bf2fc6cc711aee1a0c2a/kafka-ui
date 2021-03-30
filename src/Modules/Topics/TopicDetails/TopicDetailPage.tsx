@@ -9,14 +9,14 @@ import {
   Tabs,
   TabTitleText,
 } from '@patternfly/react-core';
-import { useHistory, useParams } from 'react-router';
 import { getTopicDetail } from '../../../Services';
 import { ConfigContext } from '../../../Contexts';
 import { ConsumerGroupByTopicList } from './Components/ConsumerGroupsByTopic/ConsumerGroupsListByTopic.patternfly';
 import { DeleteTopics } from '../TopicList/Components/DeleteTopicsModal';
 
-export type TopicDetailRouteParams = {
+export type TopicDetailGroupProps = {
   topicName: string;
+  onUpdateTopic: () => void;
 };
 
 // TODO: Remove this mock, fetch it from server.
@@ -63,10 +63,11 @@ const topic: AdvancedTopic = {
   'flush.ms.unit': 'milliseconds',
 };
 
-export const TopicDetailGroup: React.FC = () => {
+export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
+  topicName,
+  onUpdateTopic,
+}) => {
   const [topicDetail, setTopicDetail] = useState<AdvancedTopic>(topic);
-  const { topicName } = useParams<TopicDetailRouteParams>();
-  const history = useHistory();
   const config = useContext(ConfigContext);
   const [deleteModal, setDeleteModal] = useState(false);
 
@@ -79,10 +80,6 @@ export const TopicDetailGroup: React.FC = () => {
   useEffect(() => {
     fetchTopicDetail(topicName);
   }, [topicName]);
-
-  const updateTopic = () => {
-    history.push(`/topics/update/${topicName}`);
-  };
 
   const deleteTopic = () => {
     setDeleteModal(true);
@@ -110,7 +107,7 @@ export const TopicDetailGroup: React.FC = () => {
             <TopicDetailView
               topic={topicDetail}
               deleteTopic={deleteTopic}
-              updateTopic={updateTopic}
+              updateTopic={onUpdateTopic}
             />
           </Tab>
         </Tabs>

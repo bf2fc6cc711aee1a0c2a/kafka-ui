@@ -9,14 +9,14 @@ import {
 import { ConsumerGroupByTopicList } from '../TopicDetails/Components/ConsumerGroupsByTopic/ConsumerGroupsListByTopic.patternfly';
 import { UpdateTopicHead } from './Components/UpdateTopicHead';
 import { UpdateTopicView } from './Components/UpdateTopicView';
-import { useParams } from 'react-router';
 
-export interface IUpdateTopicRouteParams {
+export interface UpdateTopicPageProps {
   topicName: string;
 }
 
-export const UpdateTopicPage: React.FC = () => {
-  const { topicName } = useParams<IUpdateTopicRouteParams>();
+export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
+  topicName,
+}) => {
   return (
     <>
       <UpdateTopicHead topicName={topicName} />
@@ -41,7 +41,7 @@ export const UpdateTopicPage: React.FC = () => {
           </Tab>
           <Tab eventKey={1} title={<TabTitleText>Properties</TabTitleText>}>
             <PageSection variant='light'>
-              <UpdateTopicView />
+              <UpdateTopicView topicName={topicName} />
             </PageSection>
           </Tab>
         </Tabs>
