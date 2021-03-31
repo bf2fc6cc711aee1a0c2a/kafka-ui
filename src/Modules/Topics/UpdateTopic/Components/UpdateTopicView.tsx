@@ -2,14 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AlertVariant } from '@patternfly/react-core';
 import '../../CreateTopic/Components/CreateTopicWizard.css';
 import { TopicAdvanceConfig } from '../../CreateTopic/Components/TopicAdvanceConfig';
-import { useHistory } from 'react-router';
 import { getTopic, updateTopicModel } from '../../../../Services/index';
-import { Topic, TopicSettings } from '../../../../OpenApi/api';
-import {
-  AdvancedTopic,
-  initialState,
-  TopicContext,
-} from '../../../../Contexts/Topic';
+import { ConfigEntry, Topic, TopicSettings } from '../../../../OpenApi/api';
+import { initialState, TopicContext } from '../../../../Contexts/Topic';
 import { DeleteTopics } from '../../TopicList/Components/DeleteTopicsModal';
 import { AlertContext } from '../../../../Contexts/Alert';
 import { ConfigContext } from '../../../../Contexts';
@@ -18,11 +13,13 @@ export type UpdateTopicViewProps = {
   topicName: string;
   onCancelUpdateTopic: () => void;
   onDeleteTopic: () => void;
+  onSaveTopic: () => void;
 };
 export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   topicName,
   onCancelUpdateTopic,
   onDeleteTopic,
+  onSaveTopic,
 }) => {
   const { store, updateBulkStore } = React.useContext(TopicContext);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -30,7 +27,6 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   const [topic, setTopic] = useState<Topic>();
   const config = useContext(ConfigContext);
   const { addAlert } = useContext(AlertContext);
-  const history = useHistory();
   const fetchTopic = async (topicName) => {
     const topicRes = await getTopic(topicName, config);
     setTopic(topicRes);
@@ -45,7 +41,8 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   }, []);
 
   const saveToStore = (topic: Topic) => {
-    const advanceConfig: AdvancedTopic = store;
+    const advanceConfig = store;
+
     advanceConfig.numPartitions = topic?.partitions?.length.toString() || '0';
     advanceConfig.name = topic.name || '';
     topic.config?.forEach((configItem) => {
@@ -54,23 +51,28 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
     updateBulkStore(advanceConfig);
   };
 
-  const patchConfig = (previousTopic: Topic) => {
-    const updatedConfig = previousTopic.config?.length
-      ? previousTopic.config.filter((item) => {
-          if (item.key && store[item.key] != item.value)
-            return { key: item.key, value: store[item.key] };
-        })
-      : Object.keys(store).map((key) => {
-          return { key: key, value: store[key] };
-        });
-    return updatedConfig;
+  const patchConfig = (
+    previousTopic: Topic | undefined
+  ): ConfigEntry[] | undefined => {
+    return previousTopic?.config
+      ?.map((v) => {
+        if (v.key) {
+          return {
+            key: v.key,
+            value: store[v.key],
+          };
+        }
+        return v;
+      })
+      .filter((v) => v.key !== 'replicationFactor');
   };
 
   const saveTopic = async () => {
-    const newConfig = topic && (await patchConfig(topic));
+    const newConfig = patchConfig(topic);
 
     const topicSettings: TopicSettings = {
-      numPartitions: Number(store.numPartitions),
+      // TODO Re-enable when the API supports setting the number of partition
+      // numPartitions: Number(store.numPartitions),
       config: newConfig,
     };
 
@@ -86,7 +88,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
           'The topic was successfully updated in the Kafka instance',
           AlertVariant.success
         );
-        history.push(`/topic/${topicName}`);
+        onSaveTopic();
       }
     } catch (err) {
       addAlert(err.response.data.error, AlertVariant.danger);

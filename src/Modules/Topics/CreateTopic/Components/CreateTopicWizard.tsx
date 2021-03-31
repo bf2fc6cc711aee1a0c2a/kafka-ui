@@ -36,14 +36,8 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   const [msgRetentionValue, setMsgRetentionValue] = useState(1);
   const [topicNameInput, setTopicNameInput] = useState('');
   const [partitionTouchspinValue, setPartitionTouchspinValue] = useState(1);
-  const [
-    replicationFactorTouchspinValue,
-    setReplicationFactorTouchspinValue,
-  ] = useState(1);
-  const [
-    minInSyncReplicaTouchspinValue,
-    setMinInSyncReplicaTouchspinValue,
-  ] = useState(1);
+  const [replicationFactorTouchspinValue] = useState(3);
+  const [minInSyncReplicaTouchspinValue] = useState(2);
 
   const [currentPeriod, setCurrentPeriod] = React.useState<string | number>(1);
   const { store } = React.useContext(TopicContext);
@@ -135,12 +129,8 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       canJumpTo: topicNameInput.trim() !== '',
       component: (
         <StepReplicas
-          setReplicationFactorTouchspinValue={
-            setReplicationFactorTouchspinValue
-          }
-          setMinInSyncReplicaTouchspinValue={setMinInSyncReplicaTouchspinValue}
-          replicationFactorTouchspinValue={replicationFactorTouchspinValue}
-          minInSyncReplicaTouchspinValue={minInSyncReplicaTouchspinValue}
+          replicationFactor={replicationFactorTouchspinValue}
+          minInSyncReplica={minInSyncReplicaTouchspinValue}
         />
       ),
       nextButtonText: 'Finish',

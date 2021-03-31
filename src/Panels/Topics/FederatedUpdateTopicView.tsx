@@ -20,6 +20,7 @@ export type FederatedUpdateTopicProps = {
   onCancelUpdateTopic: () => void;
   addAlert: (message: string, variant?: AlertVariant) => void;
   onDeleteTopic: () => void;
+  onSaveTopic: () => void;
 };
 
 const FederatedUpdateTopicView: FunctionComponent<FederatedUpdateTopicProps> = ({
@@ -31,6 +32,7 @@ const FederatedUpdateTopicView: FunctionComponent<FederatedUpdateTopicProps> = (
   onCancelUpdateTopic,
   addAlert,
   onDeleteTopic,
+  onSaveTopic,
 }) => {
   const alertContext = {
     addAlert,
@@ -47,6 +49,7 @@ const FederatedUpdateTopicView: FunctionComponent<FederatedUpdateTopicProps> = (
                 onClickTopicList={onClickTopicList}
                 onCancelUpdateTopic={onCancelUpdateTopic}
                 onDeleteTopic={onDeleteTopic}
+                onSaveTopic={onSaveTopic}
               />
             </PageSection>
           </TopicContextProvider>

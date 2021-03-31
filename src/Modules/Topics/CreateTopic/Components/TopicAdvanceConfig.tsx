@@ -41,16 +41,6 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     updateBulkStore(initialState);
   }, []);
 
-  const handleOnSave = () => {
-    saveTopic();
-    updateBulkStore(initialState);
-  };
-
-  const handleOnCancel = () => {
-    handleCancel();
-    updateBulkStore(initialState);
-  };
-
   return (
     <>
       <Sidebar hasGutter>
@@ -132,10 +122,10 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
             </Stack>
           </PageSection>
           <ActionGroup className='kafka-ui--sticky-footer'>
-            <Button onClick={handleOnSave} variant='primary'>
+            <Button onClick={saveTopic} variant='primary'>
               {actionText}
             </Button>
-            <Button onClick={handleOnCancel} variant='link'>
+            <Button onClick={handleCancel} variant='link'>
               Cancel
             </Button>
           </ActionGroup>
