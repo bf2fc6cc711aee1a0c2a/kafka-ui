@@ -19,14 +19,18 @@ import './CreateTopicWizard.css';
 export interface IStepMessageRetention {
   setMsgRetentionValue: (value: number) => void;
   currentPeriod: string | number;
+  currentSize: string | number;
   setCurrentPeriod: (value: string | number) => void;
+  setCurrentSize: (value: string | number) => void;
   setRetentionSize: (value: number) => void;
 }
 
 export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
   setMsgRetentionValue,
   currentPeriod,
+  currentSize,
   setCurrentPeriod,
+  setCurrentSize,
   setRetentionSize,
 }) => {
   enum RetentionOption {
@@ -35,45 +39,83 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
     CUSTOM = 'custom',
     UNLIMITED = -1,
   }
-  const [msgTouchspinValue, setMsgTouchspinValue] = useState(7);
-  const [isMsgSelectOpen, setIsMsgSelectOpen] = useState(false);
-  const [selected, setSelected] = useState(false);
+  const [
+    retentionTimeTouchspinValue,
+    setRetentionTimeTouchspinValue,
+  ] = useState(7);
+  const [
+    retentionSizeTouchspinValue,
+    setRetentionSizeTouchspinValue,
+  ] = useState(1);
+  const [isRetentionTimeSelectOpen, setIsRetentionTimeSelectOpen] = useState(
+    false
+  );
+  const [isRetentionSizeSelectOpen, setIsRetentionSizeSelectOpen] = useState(
+    false
+  );
+  const [selectedTime, setSelectedTime] = useState(false);
+  const [selectedSize, setSelectedSize] = useState(false);
   const [retentionFactor, setRetentionFactor] = useState(1);
 
   useEffect(() => {
     if (currentPeriod === RetentionOption.DAY) {
       setMsgRetentionValue(RetentionOption.DAY * 86400000);
-      setRetentionSize(RetentionOption.UNLIMITED);
     } else if (currentPeriod === RetentionOption.WEEK) {
       setMsgRetentionValue(RetentionOption.WEEK * 86400000);
     } else if (currentPeriod === RetentionOption.UNLIMITED) {
       setMsgRetentionValue(RetentionOption.UNLIMITED);
     } else if (currentPeriod === RetentionOption.CUSTOM) {
-      setMsgRetentionValue(retentionFactor * msgTouchspinValue * 86400000);
+      setMsgRetentionValue(
+        retentionFactor * retentionTimeTouchspinValue * 86400000
+      );
+    }
+
+    if (currentSize === RetentionOption.UNLIMITED) {
+      setRetentionSize(RetentionOption.UNLIMITED);
+    } else if (currentSize === RetentionOption.CUSTOM) {
+      setRetentionSize(
+        retentionFactor * retentionSizeTouchspinValue * 86400000
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPeriod, msgTouchspinValue, retentionFactor]);
+  }, [
+    currentPeriod,
+    currentSize,
+    retentionTimeTouchspinValue,
+    retentionSizeTouchspinValue,
+    retentionFactor,
+  ]);
 
   const handleMessageRetention = (checked, event) => {
     const target = event.target;
     const name = target.name;
 
-    if (name === 'radio1') {
+    if (name === 'radioDay') {
       setCurrentPeriod(RetentionOption.DAY);
-    } else if (name === 'radio2') {
+    } else if (name === 'radioWeek') {
       setCurrentPeriod(RetentionOption.WEEK);
-    } else if (name === 'radio3') {
+    } else if (name === 'radioUnlimitedTime') {
       setCurrentPeriod(RetentionOption.UNLIMITED);
-    } else if (name === 'radio4') {
+    } else if (name === 'radioCustomTime') {
       setCurrentPeriod(RetentionOption.CUSTOM);
+    }
+
+    if (name === 'radioCustomSize') {
+      setCurrentSize(RetentionOption.CUSTOM);
+    } else if (name === 'radioUnlimitedSize') {
+      setCurrentSize(RetentionOption.UNLIMITED);
     }
   };
 
-  const onMsgToggle = (isMsgSelectOpen) => {
-    setIsMsgSelectOpen(isMsgSelectOpen);
+  const onRetentionTimeToggle = (isRetentionTimeSelectOpen) => {
+    setIsRetentionTimeSelectOpen(isRetentionTimeSelectOpen);
   };
 
-  const onMsgSelect = (event, selection) => {
+  const onRetentionSizeToggle = (isRetentionSizeSelectOpen) => {
+    setIsRetentionSizeSelectOpen(isRetentionSizeSelectOpen);
+  };
+
+  const onRetentionTimeSelect = (event, selection) => {
     if (selection === 'days') {
       setRetentionFactor(RetentionOption.DAY);
     } else if (selection === 'weeks') {
@@ -81,20 +123,40 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
     } else if (selection === 'unlimited') {
       setRetentionFactor(RetentionOption.UNLIMITED);
     }
-    setSelected(selection);
-    setIsMsgSelectOpen(false);
+    setSelectedTime(selection);
+    setIsRetentionTimeSelectOpen(false);
   };
 
-  const handlePlusClick = () => {
-    setMsgTouchspinValue(msgTouchspinValue + 1);
+  const onRetentionSizeSelect = (event, selection) => {
+    if (selection === 'unlimited') {
+      setRetentionFactor(RetentionOption.UNLIMITED);
+    }
+    setSelectedSize(selection);
+    setIsRetentionSizeSelectOpen(false);
   };
 
-  const handleMinusClick = () => {
-    setMsgTouchspinValue(msgTouchspinValue - 1);
+  const handleRetentionTimePlusClick = () => {
+    setRetentionTimeTouchspinValue(retentionTimeTouchspinValue + 1);
   };
 
-  const handleMsgTouchSpinChange = (event) => {
-    setMsgTouchspinValue(Number(event.target.value));
+  const handleRetentionTimeMinusClick = () => {
+    setRetentionTimeTouchspinValue(retentionTimeTouchspinValue - 1);
+  };
+
+  const handleRetentionTimeTouchSpinChange = (event) => {
+    setRetentionTimeTouchspinValue(Number(event.target.value));
+  };
+
+  const handleRetentionSizePlusClick = () => {
+    setRetentionSizeTouchspinValue(retentionSizeTouchspinValue + 1);
+  };
+
+  const handleRetentionSizeMinusClick = () => {
+    setRetentionSizeTouchspinValue(retentionSizeTouchspinValue - 1);
+  };
+
+  const handleRetentionSizeTouchSpinChange = (event) => {
+    setRetentionSizeTouchspinValue(Number(event.target.value));
   };
 
   const preventFormSubmit = (event) => event.preventDefault();
@@ -123,7 +185,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
             <Stack hasGutter>
               <Radio
                 isChecked={currentPeriod === RetentionOption.DAY}
-                name='radio1'
+                name='radioDay'
                 onChange={handleMessageRetention}
                 label='A day'
                 aria-label='A day'
@@ -132,7 +194,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
               />
               <Radio
                 isChecked={currentPeriod === RetentionOption.WEEK}
-                name='radio2'
+                name='radioWeek'
                 onChange={handleMessageRetention}
                 label='A week'
                 aria-label='A week'
@@ -141,7 +203,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
               />
               <Radio
                 isChecked={currentPeriod === RetentionOption.CUSTOM}
-                name='radio4'
+                name='radioCustomTime'
                 onChange={handleMessageRetention}
                 label='Custom duration'
                 aria-label='custom input'
@@ -152,20 +214,20 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
                 <Flex>
                   <FlexItem>
                     <NumberInput
-                      onMinus={handleMinusClick}
-                      onPlus={handlePlusClick}
-                      value={msgTouchspinValue}
-                      onChange={handleMsgTouchSpinChange}
+                      onMinus={handleRetentionTimeMinusClick}
+                      onPlus={handleRetentionTimePlusClick}
+                      value={retentionTimeTouchspinValue}
+                      onChange={handleRetentionTimeTouchSpinChange}
                     />
                   </FlexItem>
                   <FlexItem>
                     <Select
                       variant={SelectVariant.single}
                       aria-label='Select Input'
-                      onToggle={onMsgToggle}
-                      onSelect={onMsgSelect}
-                      selections={selected}
-                      isOpen={isMsgSelectOpen}
+                      onToggle={onRetentionTimeToggle}
+                      onSelect={onRetentionTimeSelect}
+                      selections={selectedTime}
+                      isOpen={isRetentionTimeSelectOpen}
                       // aria-labelledby={titleId}
                     >
                       <SelectOption
@@ -173,7 +235,6 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
                         value='milliseconds'
                         isPlaceholder
                       />
-                      <SelectOption key={0} value='milliseconds' />
                       <SelectOption key={1} value='seconds' />
                       <SelectOption key={2} value='minutes' />
                       <SelectOption key={3} value='hours' />
@@ -184,7 +245,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
               </div>
               <Radio
                 isChecked={currentPeriod === RetentionOption.UNLIMITED}
-                name='radio3'
+                name='radioUnlimitedTime'
                 onChange={handleMessageRetention}
                 label='Unlimited'
                 aria-label='Unlimited'
@@ -199,8 +260,8 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
           >
             <Stack hasGutter>
               <Radio
-                isChecked={currentPeriod === RetentionOption.CUSTOM}
-                name='radio5'
+                isChecked={currentSize === RetentionOption.CUSTOM}
+                name='radioCustomSize'
                 onChange={handleMessageRetention}
                 label='Custom size'
                 aria-label='custom input'
@@ -211,20 +272,20 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
                 <Flex>
                   <FlexItem>
                     <NumberInput
-                      onMinus={handleMinusClick}
-                      onPlus={handlePlusClick}
-                      value={msgTouchspinValue}
-                      onChange={handleMsgTouchSpinChange}
+                      onMinus={handleRetentionSizeMinusClick}
+                      onPlus={handleRetentionSizePlusClick}
+                      value={retentionSizeTouchspinValue}
+                      onChange={handleRetentionSizeTouchSpinChange}
                     />
                   </FlexItem>
                   <FlexItem>
                     <Select
                       variant={SelectVariant.single}
                       aria-label='Select Input'
-                      onToggle={onMsgToggle}
-                      onSelect={onMsgSelect}
-                      selections={selected}
-                      isOpen={isMsgSelectOpen}
+                      onToggle={onRetentionSizeToggle}
+                      onSelect={onRetentionSizeSelect}
+                      selections={selectedSize}
+                      isOpen={isRetentionSizeSelectOpen}
                       // aria-labelledby={titleId}
                     >
                       <SelectOption key={5} value='bytes' isPlaceholder />
@@ -237,8 +298,8 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
                 </Flex>
               </div>
               <Radio
-                isChecked={currentPeriod === RetentionOption.UNLIMITED}
-                name='radio6'
+                isChecked={currentSize === RetentionOption.UNLIMITED}
+                name='radioUnlimitedSize'
                 onChange={handleMessageRetention}
                 label='Unlimited'
                 aria-label='Unlimited'

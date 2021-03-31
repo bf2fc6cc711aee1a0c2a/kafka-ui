@@ -9,7 +9,9 @@ import userEvent from '@testing-library/user-event';
 const messageRetentionProps: IStepMessageRetention = {
   setMsgRetentionValue: jest.fn(),
   currentPeriod: 1,
+  currentSize: 'custom',
   setCurrentPeriod: jest.fn(),
+  setCurrentSize: jest.fn(),
   setRetentionSize: jest.fn(),
 };
 
