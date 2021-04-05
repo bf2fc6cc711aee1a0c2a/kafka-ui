@@ -6,7 +6,6 @@ import {
   PageSection,
   PageSectionVariants,
   Title,
-  Page,
   Tabs,
   Level,
   Tab,
@@ -57,54 +56,40 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
 
   return (
     <PageSection variant={PageSectionVariants.light}>
-      <section>{mainBreadcrumbs}</section>
-      <PageSection variant={PageSectionVariants.light}>
-        <Level>
-          <Title headingLevel='h1'>
-            {instanceName ? instanceName : 'Kafka Instance Name'}
-          </Title>
-          <Button variant='plain' iconPosition='right'>
-            <EllipsisVIcon />
-          </Button>
-        </Level>
-      </PageSection>
+      {mainBreadcrumbs}
 
-      <PageSection
-        variant={PageSectionVariants.light}
-        padding={{ default: 'noPadding' }}
-      >
-        <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
-          <Tab
-            title={<TabTitleText>Topics</TabTitleText>}
-            eventKey={1}
-            id='topics-tab-section'
-            aria-label='Topics Tab'
-          >
-            <Page>
-              <PageSection>
-                <TopicsListComponent
-                  onCreateTopic={onCreateTopic}
-                  onClickTopic={onClickTopic}
-                  getTopicDetailsPath={getTopicDetailsPath}
-                  onDeleteTopic={onDeleteTopic}
-                />
-              </PageSection>
-            </Page>
-          </Tab>
-          <Tab
-            title={<TabTitleText>Consumer Groups</TabTitleText>}
-            eventKey={2}
-            id='consumer-groups-tab-section'
-            aria-label='Consumer Groups Tab'
-          >
-            <Page>
-              <PageSection>
-                <ConsumerGroupsList />
-              </PageSection>
-            </Page>
-          </Tab>
-        </Tabs>
-      </PageSection>
+      <Level>
+        <Title headingLevel='h1'>
+          {instanceName ? instanceName : 'Kafka Instance Name'}
+        </Title>
+        <Button variant='plain' iconPosition='right'>
+          <EllipsisVIcon />
+        </Button>
+      </Level>
+
+      <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
+        <Tab
+          title={<TabTitleText>Topics</TabTitleText>}
+          eventKey={1}
+          id='topics-tab-section'
+          aria-label='Topics Tab'
+        >
+          <TopicsListComponent
+            onCreateTopic={onCreateTopic}
+            onClickTopic={onClickTopic}
+            getTopicDetailsPath={getTopicDetailsPath}
+            onDeleteTopic={onDeleteTopic}
+          />
+        </Tab>
+        <Tab
+          title={<TabTitleText>Consumer Groups</TabTitleText>}
+          eventKey={2}
+          id='consumer-groups-tab-section'
+          aria-label='Consumer Groups Tab'
+        >
+          <ConsumerGroupsList />
+        </Tab>
+      </Tabs>
     </PageSection>
   );
 };
