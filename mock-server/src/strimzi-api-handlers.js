@@ -1,6 +1,15 @@
 var topics = require('../_data_/topics.json');
+var consumerGroups = require('../_data_/consumer-groups.json');
 
 module.exports = {
+  getConsumerGroupList: async (c, req, res) => {
+    return res.status(200).json({
+      limit: parseInt(req.query.limit, 10) || 100,
+      offset: 0,
+      count: consumerGroups?.length,
+      items: consumerGroups
+    })
+  },
   createTopic: async (c, req, res) => {
     const topicBody = c.request.body;
 
