@@ -33,9 +33,23 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
   setCurrentSize,
   setRetentionSize,
 }) => {
-  enum RetentionOption {
-    DAY = 1,
-    WEEK = 7,
+  enum RetentionTimeOption {
+    MILLISECOND = 1,
+    SECOND = 1000,
+    MINUTE = 60000,
+    HOUR = 3600000,
+    DAY = 86400000,
+    WEEK = 604800000,
+    CUSTOM = 'custom',
+    UNLIMITED = -1,
+  }
+
+  enum RetentionSizeOption {
+    BYTE = 1,
+    KILOBYTE = 1000,
+    MEGABYTE = 1000000,
+    GIGABYTE = 1000000000,
+    TERABYTE = 1000000000000,
     CUSTOM = 'custom',
     UNLIMITED = -1,
   }
@@ -55,27 +69,24 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
   );
   const [selectedTime, setSelectedTime] = useState(false);
   const [selectedSize, setSelectedSize] = useState(false);
-  const [retentionFactor, setRetentionFactor] = useState(1);
+  const [retentionTimeFactor, setRetentionTimeFactor] = useState(1);
+  const [retentionSizeFactor, setRetentionSizeFactor] = useState(1);
 
   useEffect(() => {
-    if (currentPeriod === RetentionOption.DAY) {
-      setMsgRetentionValue(RetentionOption.DAY * 86400000);
-    } else if (currentPeriod === RetentionOption.WEEK) {
-      setMsgRetentionValue(RetentionOption.WEEK * 86400000);
-    } else if (currentPeriod === RetentionOption.UNLIMITED) {
-      setMsgRetentionValue(RetentionOption.UNLIMITED);
-    } else if (currentPeriod === RetentionOption.CUSTOM) {
-      setMsgRetentionValue(
-        retentionFactor * retentionTimeTouchspinValue * 86400000
-      );
+    if (currentPeriod === RetentionTimeOption.DAY) {
+      setMsgRetentionValue(RetentionTimeOption.DAY);
+    } else if (currentPeriod === RetentionTimeOption.WEEK) {
+      setMsgRetentionValue(RetentionTimeOption.WEEK);
+    } else if (currentPeriod === RetentionTimeOption.UNLIMITED) {
+      setMsgRetentionValue(RetentionTimeOption.UNLIMITED);
+    } else if (currentPeriod === RetentionTimeOption.CUSTOM) {
+      setMsgRetentionValue(retentionTimeFactor * retentionTimeTouchspinValue);
     }
 
-    if (currentSize === RetentionOption.UNLIMITED) {
-      setRetentionSize(RetentionOption.UNLIMITED);
-    } else if (currentSize === RetentionOption.CUSTOM) {
-      setRetentionSize(
-        retentionFactor * retentionSizeTouchspinValue * 86400000
-      );
+    if (currentSize === RetentionSizeOption.UNLIMITED) {
+      setRetentionSize(RetentionSizeOption.UNLIMITED);
+    } else if (currentSize === RetentionSizeOption.CUSTOM) {
+      setRetentionSize(retentionSizeFactor * retentionSizeTouchspinValue);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -83,7 +94,8 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
     currentSize,
     retentionTimeTouchspinValue,
     retentionSizeTouchspinValue,
-    retentionFactor,
+    retentionTimeFactor,
+    retentionSizeFactor,
   ]);
 
   const handleMessageRetention = (checked, event) => {
@@ -91,19 +103,19 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
     const name = target.name;
 
     if (name === 'radioDay') {
-      setCurrentPeriod(RetentionOption.DAY);
+      setCurrentPeriod(RetentionTimeOption.DAY);
     } else if (name === 'radioWeek') {
-      setCurrentPeriod(RetentionOption.WEEK);
+      setCurrentPeriod(RetentionTimeOption.WEEK);
     } else if (name === 'radioUnlimitedTime') {
-      setCurrentPeriod(RetentionOption.UNLIMITED);
+      setCurrentPeriod(RetentionTimeOption.UNLIMITED);
     } else if (name === 'radioCustomTime') {
-      setCurrentPeriod(RetentionOption.CUSTOM);
+      setCurrentPeriod(RetentionTimeOption.CUSTOM);
     }
 
     if (name === 'radioCustomSize') {
-      setCurrentSize(RetentionOption.CUSTOM);
+      setCurrentSize(RetentionSizeOption.CUSTOM);
     } else if (name === 'radioUnlimitedSize') {
-      setCurrentSize(RetentionOption.UNLIMITED);
+      setCurrentSize(RetentionSizeOption.UNLIMITED);
     }
   };
 
@@ -117,11 +129,17 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
 
   const onRetentionTimeSelect = (event, selection) => {
     if (selection === 'days') {
-      setRetentionFactor(RetentionOption.DAY);
-    } else if (selection === 'weeks') {
-      setRetentionFactor(RetentionOption.WEEK);
+      setRetentionTimeFactor(RetentionTimeOption.DAY);
     } else if (selection === 'unlimited') {
-      setRetentionFactor(RetentionOption.UNLIMITED);
+      setRetentionTimeFactor(RetentionTimeOption.UNLIMITED);
+    } else if (selection === 'milliseconds') {
+      setRetentionTimeFactor(RetentionTimeOption.MILLISECOND);
+    } else if (selection === 'seconds') {
+      setRetentionTimeFactor(RetentionTimeOption.SECOND);
+    } else if (selection === 'minutes') {
+      setRetentionTimeFactor(RetentionTimeOption.MINUTE);
+    } else if (selection === 'hours') {
+      setRetentionTimeFactor(RetentionTimeOption.HOUR);
     }
     setSelectedTime(selection);
     setIsRetentionTimeSelectOpen(false);
@@ -129,7 +147,17 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
 
   const onRetentionSizeSelect = (event, selection) => {
     if (selection === 'unlimited') {
-      setRetentionFactor(RetentionOption.UNLIMITED);
+      setRetentionSizeFactor(RetentionSizeOption.UNLIMITED);
+    } else if (selection === 'bytes') {
+      setRetentionSizeFactor(RetentionSizeOption.BYTE);
+    } else if (selection === 'kilobytes') {
+      setRetentionSizeFactor(RetentionSizeOption.KILOBYTE);
+    } else if (selection === 'megabytes') {
+      setRetentionSizeFactor(RetentionSizeOption.MEGABYTE);
+    } else if (selection === 'gigabytes') {
+      setRetentionSizeFactor(RetentionSizeOption.GIGABYTE);
+    } else if (selection === 'terabytes') {
+      setRetentionSizeFactor(RetentionSizeOption.TERABYTE);
     }
     setSelectedSize(selection);
     setIsRetentionSizeSelectOpen(false);
@@ -184,7 +212,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
           >
             <Stack hasGutter>
               <Radio
-                isChecked={currentPeriod === RetentionOption.DAY}
+                isChecked={currentPeriod === RetentionTimeOption.DAY}
                 name='radioDay'
                 onChange={handleMessageRetention}
                 label='A day'
@@ -193,7 +221,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
                 value='day'
               />
               <Radio
-                isChecked={currentPeriod === RetentionOption.WEEK}
+                isChecked={currentPeriod === RetentionTimeOption.WEEK}
                 name='radioWeek'
                 onChange={handleMessageRetention}
                 label='A week'
@@ -202,7 +230,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
                 value='week'
               />
               <Radio
-                isChecked={currentPeriod === RetentionOption.CUSTOM}
+                isChecked={currentPeriod === RetentionTimeOption.CUSTOM}
                 name='radioCustomTime'
                 onChange={handleMessageRetention}
                 label='Custom duration'
@@ -244,7 +272,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
                 </Flex>
               </div>
               <Radio
-                isChecked={currentPeriod === RetentionOption.UNLIMITED}
+                isChecked={currentPeriod === RetentionTimeOption.UNLIMITED}
                 name='radioUnlimitedTime'
                 onChange={handleMessageRetention}
                 label='Unlimited'
@@ -260,7 +288,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
           >
             <Stack hasGutter>
               <Radio
-                isChecked={currentSize === RetentionOption.CUSTOM}
+                isChecked={currentSize === RetentionSizeOption.CUSTOM}
                 name='radioCustomSize'
                 onChange={handleMessageRetention}
                 label='Custom size'
@@ -298,7 +326,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
                 </Flex>
               </div>
               <Radio
-                isChecked={currentSize === RetentionOption.UNLIMITED}
+                isChecked={currentSize === RetentionSizeOption.UNLIMITED}
                 name='radioUnlimitedSize'
                 onChange={handleMessageRetention}
                 label='Unlimited'

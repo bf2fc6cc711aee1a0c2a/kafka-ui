@@ -40,7 +40,9 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   const [replicationFactorTouchspinValue] = useState(3);
   const [minInSyncReplicaTouchspinValue] = useState(2);
 
-  const [currentPeriod, setCurrentPeriod] = React.useState<string | number>(1);
+  const [currentPeriod, setCurrentPeriod] = React.useState<string | number>(
+    86400000
+  );
   const [currentSize, setCurrentSize] = React.useState<string | number>(
     'custom'
   );
