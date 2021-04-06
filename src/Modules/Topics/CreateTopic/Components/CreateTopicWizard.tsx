@@ -34,12 +34,18 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   const history = useHistory();
   const { addAlert } = useContext(AlertContext);
   const [msgRetentionValue, setMsgRetentionValue] = useState(1);
+  const [retentionSize, setRetentionSize] = useState(1);
   const [topicNameInput, setTopicNameInput] = useState('');
   const [partitionTouchspinValue, setPartitionTouchspinValue] = useState(1);
   const [replicationFactorTouchspinValue] = useState(3);
   const [minInSyncReplicaTouchspinValue] = useState(2);
 
-  const [currentPeriod, setCurrentPeriod] = React.useState<string | number>(1);
+  const [currentPeriod, setCurrentPeriod] = React.useState<string | number>(
+    86400000
+  );
+  const [currentSize, setCurrentSize] = React.useState<string | number>(
+    'custom'
+  );
   const { store } = React.useContext(TopicContext);
 
   const closeWizard = () => {
@@ -62,6 +68,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
                 key: 'retention.ms',
                 value: msgRetentionValue.toString(),
               },
+              { key: 'log.retention.bytes', value: retentionSize.toString() },
             ],
           },
         };
@@ -120,7 +127,10 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
         <StepMessageRetention
           setMsgRetentionValue={setMsgRetentionValue}
           currentPeriod={currentPeriod}
+          currentSize={currentSize}
           setCurrentPeriod={setCurrentPeriod}
+          setCurrentSize={setCurrentSize}
+          setRetentionSize={setRetentionSize}
         />
       ),
     },
