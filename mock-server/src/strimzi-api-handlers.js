@@ -6,7 +6,7 @@ module.exports = {
     return res.status(200).json({
       limit: parseInt(req.query.limit, 10) || 100,
       offset: 0,
-      count: consumerGroups?.length,
+      count: consumerGroups.length,
       items: consumerGroups
     })
   },
