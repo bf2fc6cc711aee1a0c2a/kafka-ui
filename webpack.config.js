@@ -81,12 +81,12 @@ module.exports = (_env, argv) => {
           isProduction ? '.[chunkhash:8]' : ''
         }.js`,
         exposes: {
-          './Panels/Topics': './src/Panels/Topics/FederatedView',
-          './Panels/TopicDetails':
-            './src/Panels/Topics/FederatedTopicDetailView',
-          './Panels/CreateTopic': './src/Panels/Topics/FederatedCreateView',
-          './Panels/UpdateTopic':
-            './src/Panels/Topics/FederatedUpdateTopicView',
+          './Views/Topics': './src/Views/Topics/FederatedView',
+          './Views/TopicDetails':
+            './src/Views/Topics/FederatedTopicDetailView',
+          './Views/CreateTopic': './src/Views/Topics/FederatedCreateView',
+          './Views/UpdateTopic':
+            './src/Views/Topics/FederatedUpdateTopicView',
         },
         shared: {
           ...dependencies,
