@@ -3,12 +3,27 @@ var consumerGroups = require('../_data_/consumer-groups.json');
 
 module.exports = {
   getConsumerGroupList: async (c, req, res) => {
+
+    let consumerGroupList = consumerGroups;
+    let count = consumerGroups?.length;
+
+    const filterConsumerGroups = (topicName) => {
+      return consumerGroupList.filter(consumerGroup => {
+        return consumerGroup.consumers.some(consumer => consumer.topic === topicName)
+      });
+    }
+
+    if(consumerGroups && req?.query?.topic && req?.query?.topic?.trim() !== "") {
+      consumerGroupList = filterConsumerGroups(req?.query?.topic);
+      count = consumerGroupList.length;
+    }
+
     return res.status(200).json({
       limit: parseInt(req.query.limit, 10) || 100,
       offset: 0,
-      count: consumerGroups.length,
-      items: consumerGroups,
-    });
+      count,
+      items: consumerGroupList
+    })
   },
   getConsumerGroupById: async (c, req, res) => {
     const group = getConsumerGroup(c.request.params.consumerGroupId);
