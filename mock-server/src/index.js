@@ -14,7 +14,7 @@ const kasFleetManagerAPI = new OpenAPIBackend({
   definition: path.join(__dirname, '../../openapi/kafka-service.yaml'),
 });
 const kafkaAdminAPI = new OpenAPIBackend({
-  definition: path.join(__dirname, '../../openapi/strimzi-admin.yaml'),
+  definition: path.join(__dirname, '../../openapi/kafka-admin.yaml'),
 });
 
 // register handlers
