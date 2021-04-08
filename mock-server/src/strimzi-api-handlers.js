@@ -5,7 +5,9 @@ module.exports = {
   getConsumerGroupList: async (c, req, res) => {
 
     let consumerGroupList = consumerGroups;
-    let count = consumerGroups?.length;
+    if (consumerGroups) {
+      let count = consumerGroups.length;
+    }
 
     const filterConsumerGroups = (topicName) => {
       return consumerGroupList.filter(consumerGroup => {
