@@ -16,7 +16,11 @@ import { SizeTimeFormGroup } from '../../../../Components/SizeTimeFormGroup/Size
 import { useTranslation } from 'react-i18next';
 import { TextWithLabelPopover } from '../../../../Components/TextWithLabelPopover/TextWithLabelPopover';
 
-const CoreConfiguration: React.FC = () => {
+interface ICoreConfigProps {
+  isCreate: boolean;
+}
+
+const CoreConfiguration: React.FC<ICoreConfigProps> = ({ isCreate }) => {
   const { store, updateStore } = React.useContext(TopicContext);
 
   const { t } = useTranslation();
@@ -95,16 +99,26 @@ const CoreConfiguration: React.FC = () => {
           labelBody={t('createTopic.topicNameLabelBody')}
           buttonAriaLabel='More info for topic name field'
         >
-          <TextInput
-            isRequired
-            type='text'
-            id='create-topic-name'
-            name='name'
-            value={store.name}
-            onChange={handleTextInputChange}
-            label='Topic name'
-            placeholder='Enter topic name'
-          />
+          {isCreate ? (
+            <TextInput
+              isRequired
+              type='text'
+              id='create-topic-name'
+              name='name'
+              value={store.name}
+              onChange={handleTextInputChange}
+              label='Topic name'
+              placeholder='Enter topic name'
+            />
+          ) : (
+            <TextWithLabelPopover
+              btnAriaLabel='topic name'
+              fieldLabel='Name'
+              fieldValue={store.name}
+              popoverBody={t('createTopic.topicNameLabelBody')}
+              popoverHeader={t('createTopic.topicNameLabelHead')}
+            />
+          )}
         </FormGroupWithPopover>
         <FormGroupWithPopover
           fieldId='create-topic-partitions'
