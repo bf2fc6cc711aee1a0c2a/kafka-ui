@@ -1,2 +1,2 @@
 export * from './TopicServices';
-export * from './ConsumerServices';
+export * from './ConsumerGroupsServices';

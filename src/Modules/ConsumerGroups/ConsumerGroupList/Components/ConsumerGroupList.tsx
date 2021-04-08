@@ -20,16 +20,16 @@ import {
 
 import { EmptyConsumers } from './EmptyConsumers';
 import {
-  getConsumers,
-  getConsumerDetail,
-} from '../../../../Services/ConsumerServices';
+  getConsumerGroups,
+  getConsumerGroupDetail,
+} from '../../../../Services/ConsumerGroupsServices';
 import { ConfigContext } from '../../../../Contexts';
 import { ConsumerGroupList, ConsumerGroup } from '../../../../OpenApi';
 import { Loading } from '../../../../Components/Loading/Loading';
 import { AlertContext } from '../../../../Contexts/Alert';
 import { useTimeout } from '../../../../Hooks/useTimeOut';
 import { SearchConsumers } from './SearchConsumers';
-import { DeleteConsumer } from './DeleteConsumer';
+import { DeleteConsumerGroup } from './DeleteConsumerGroup';
 import { ConsumerGroupDetail } from './ConsumerGroupDetail';
 export interface IConsumerGroupsList {
   onDeleteConsumerGroup: () => void;
@@ -45,7 +45,10 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
   const [loading, setLoading] = useState(true);
   const [isExpanded, setIsExpanded] = useState(false);
   const [search, setSearch] = useState('');
-  const [consumerDetail, setConsumerDetail] = useState<ConsumerGroup>();
+  const [
+    consumerGroupDetail,
+    setConsumerGroupDetail,
+  ] = useState<ConsumerGroup>();
   const [consumerGroupName, setConsumerGroupName] = useState<
     string | undefined
   >();
@@ -56,7 +59,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
 
   const fetchConsumers = async () => {
     try {
-      const consumerGroupsData = await getConsumers(
+      const consumerGroupsData = await getConsumerGroups(
         config,
         100,
         offset,
@@ -105,11 +108,14 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
 
   const actions = [{ title: 'Delete', onClick: (_, rowId) => onDelete(rowId) }];
 
-  const fetchConsumerDetail = async (consumerName) => {
+  const fetchConsumerGroupDetail = async (consumerGroupName) => {
     try {
-      const consumer = await getConsumerDetail(consumerName, config);
-      if (consumer) {
-        setConsumerDetail(consumer);
+      const consumerData = await getConsumerGroupDetail(
+        consumerGroupName,
+        config
+      );
+      if (consumerData) {
+        setConsumerGroupDetail(consumerData);
       }
     } catch (err) {
       addAlert(err.response.data.error, AlertVariant.danger);
@@ -120,7 +126,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
   const panelContent = (
     <ConsumerGroupDetail
       setIsExpanded={setIsExpanded}
-      consumerDetail={consumerDetail}
+      consumerDetail={consumerGroupDetail}
     />
   );
   const rowData =
@@ -130,7 +136,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
           <Button
             variant='link'
             isInline
-            onClick={() => fetchConsumerDetail(consumer.id)}
+            onClick={() => fetchConsumerGroupDetail(consumer.id)}
           >
             {consumer.id}
           </Button>
@@ -147,7 +153,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
     <>
       <Card>
         {deleteModal && (
-          <DeleteConsumer
+          <DeleteConsumerGroup
             consumerName={consumerGroupName}
             setDeleteModal={setDeleteModal}
             deleteModal={deleteModal}

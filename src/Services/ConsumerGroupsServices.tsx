@@ -4,7 +4,7 @@ import { DefaultApi, ConsumerGroupList, ConsumerGroup } from '../OpenApi/api';
 import { Configuration } from '../OpenApi';
 import { IConfiguration } from '../Contexts';
 
-export const getConsumers = async (
+export const getConsumerGroups = async (
   config: IConfiguration | undefined,
   limit?: number,
   offset?: number,
@@ -26,7 +26,7 @@ export const getConsumers = async (
   return response.data;
 };
 
-export const deleteConsumer = async (
+export const deleteConsumerGroup = async (
   consumerGroupId: string,
   config: IConfiguration | undefined
 ): Promise<void> => {
@@ -41,7 +41,7 @@ export const deleteConsumer = async (
   await api.deleteConsumerGroupById(consumerGroupId);
   return;
 };
-export const getConsumerDetail = async (
+export const getConsumerGroupDetail = async (
   consumerGroupId: string,
   config: IConfiguration | undefined
 ): Promise<ConsumerGroup> => {

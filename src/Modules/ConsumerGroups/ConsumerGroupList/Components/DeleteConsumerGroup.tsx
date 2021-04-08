@@ -7,7 +7,7 @@ import {
   AlertVariant,
   TextInput,
 } from '@patternfly/react-core';
-import { deleteConsumer } from '../../../../Services/ConsumerServices';
+import { deleteConsumerGroup } from '../../../../Services/ConsumerGroupsServices';
 import { ConfigContext } from '../../../../Contexts';
 import { AlertContext } from '../../../../Contexts/Alert/Context';
 export interface IDeleteConsumer {
@@ -16,7 +16,7 @@ export interface IDeleteConsumer {
   consumerName?: string;
   onDeleteConsumer: () => void;
 }
-export const DeleteConsumer: React.FunctionComponent<IDeleteConsumer> = ({
+export const DeleteConsumerGroup: React.FunctionComponent<IDeleteConsumer> = ({
   setDeleteModal,
   deleteModal,
   consumerName,
@@ -30,7 +30,7 @@ export const DeleteConsumer: React.FunctionComponent<IDeleteConsumer> = ({
 
   const onDelete = async () => {
     try {
-      consumerName && (await deleteConsumer(consumerName, config));
+      consumerName && (await deleteConsumerGroup(consumerName, config));
       addAlert(
         `Successfully deleted consumer group ${consumerName}`,
         AlertVariant.success
@@ -73,7 +73,6 @@ export const DeleteConsumer: React.FunctionComponent<IDeleteConsumer> = ({
       ]}
     >
       <Text id='modal-message'>
-        {' '}
         <b>{consumerName}</b> will be deleted.{' '}
       </Text>
 
