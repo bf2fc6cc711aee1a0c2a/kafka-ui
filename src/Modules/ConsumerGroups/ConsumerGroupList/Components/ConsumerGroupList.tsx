@@ -40,11 +40,11 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
 }) => {
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(10);
-  const [offset, setOffset] = useState(0);
+  const [offset, setOffset] = useState<number>(0);
   const [consumerGroups, setConsumerGroups] = useState<ConsumerGroupList>();
-  const [loading, setLoading] = useState(true);
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState<boolean>(true);
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [search, setSearch] = useState<string>('');
   const [
     consumerGroupDetail,
     setConsumerGroupDetail,
@@ -57,7 +57,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
   const config = useContext(ConfigContext);
   const { addAlert } = useContext(AlertContext);
 
-  const fetchConsumers = async () => {
+  const fetchConsumerGroups = async () => {
     try {
       const consumerGroupsData = await getConsumerGroups(
         config,
@@ -76,10 +76,10 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
 
   useEffect(() => {
     setLoading(true);
-    fetchConsumers();
+    fetchConsumerGroups();
   }, [search, deleteModal]);
 
-  useTimeout(() => fetchConsumers(), 5000);
+  useTimeout(() => fetchConsumerGroups(), 5000);
 
   if (loading) {
     return <Loading />;
