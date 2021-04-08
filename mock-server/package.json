@@ -10,7 +10,7 @@
     "refresh": "../scripts/pullapi.sh",
     "test": "jest",
     "api:kafka-service": "openapi-editor --file ../openapi/kafka-service.yaml --port 10000",
-    "api:topic-admin": "openapi-editor --file ../openapi/strimzi-admin.yaml --port 10001"
+    "api:topic-admin": "openapi-editor --file ../openapi/kafka-admin.yaml --port 10001"
   },
   "dependencies": {
     "cors": "^2.8.5",
