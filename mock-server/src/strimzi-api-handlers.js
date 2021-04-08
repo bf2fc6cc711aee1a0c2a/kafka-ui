@@ -4,10 +4,8 @@ var consumerGroups = require('../_data_/consumer-groups.json');
 module.exports = {
   getConsumerGroupList: async (c, req, res) => {
 
-    let consumerGroupList = consumerGroups;
-    if (consumerGroups) {
-      let count = consumerGroups.length;
-    }
+    let consumerGroupList = consumerGroups;  
+    let count = consumerGroups !== undefined ? consumerGroups.length : 0
 
     const filterConsumerGroups = (topicName) => {
       return consumerGroupList.filter(consumerGroup => {
