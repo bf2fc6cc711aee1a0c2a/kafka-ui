@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
   Card,
   Divider,
-  Label,
   Pagination,
   Toolbar,
   ToolbarContent,
   ToolbarItem,
+  AlertVariant,
 } from '@patternfly/react-core';
 import {
   Table,
@@ -14,16 +14,65 @@ import {
   TableHeader,
   TableVariant,
 } from '@patternfly/react-table';
-import { SearchConsumers } from './SearchConsumers';
-import { ExclamationCircleIcon } from '@patternfly/react-icons/dist/js/icons/exclamation-circle-icon';
-import { CheckCircleIcon } from '@patternfly/react-icons/dist/js/icons/check-circle-icon';
-import { consumerGroupData } from './ConsumerGroupData';
+
 import { EmptySearch } from '../../../Topics/TopicList/Components/EmptySearch';
-export const ConsumerGroupsList: React.FunctionComponent = () => {
+import { getConsumers } from '../../../../Services/ConsumerServices';
+import { ConfigContext } from '../../../../Contexts';
+import { ConsumerGroupList } from '../../../../OpenApi';
+import { Loading } from '../../../../Components/Loading/Loading';
+import { AlertContext } from '../../../../Contexts/Alert';
+import { useTimeout } from '../../../../Hooks/useTimeOut';
+import { SearchConsumers } from './SearchConsumers';
+import { DeleteConsumer } from './DeleteConsumer';
+
+export interface IConsumerGroupsList {
+  onDeleteConsumerGroup: () => void;
+}
+
+export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = ({
+  onDeleteConsumerGroup,
+}) => {
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(10);
   const [offset, setOffset] = useState(0);
-  const [tableData, setTableData] = useState(consumerGroupData);
+  const [consumerGroups, setConsumerGroups] = useState<ConsumerGroupList>();
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  const [consumerGroupName, setConsumerGroupName] = useState<
+    string | undefined
+  >();
+  const [deleteModal, setDeleteModal] = useState(false);
+
+  const config = useContext(ConfigContext);
+  const { addAlert } = useContext(AlertContext);
+
+  const fetchConsumers = async () => {
+    try {
+      const consumerGroupsData = await getConsumers(
+        config,
+        100,
+        offset,
+        search
+      );
+      if (consumerGroupsData) {
+        setConsumerGroups(consumerGroupsData);
+      }
+    } catch (err) {
+      addAlert(err.response.data.error, AlertVariant.danger);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    fetchConsumers();
+  }, [search, deleteModal]);
+
+  useTimeout(() => fetchConsumers(), 5000);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   const onSetPage = (_event, pageNumber: number) => {
     setPage(pageNumber);
@@ -37,40 +86,41 @@ export const ConsumerGroupsList: React.FunctionComponent = () => {
   const tableColumns = [
     { title: 'Consumer Group ID' },
     { title: 'Active Members' },
-    { title: 'Unconsumed Partitions' },
-    { title: 'State' },
+    { title: 'Partitions with lag' },
   ];
+  const onDelete = (rowId: any) => {
+    if (consumerGroups?.items) {
+      setConsumerGroupName(consumerGroups.items[rowId].id);
+    }
+    setDeleteModal(true);
+  };
 
-  //const rowData = model.consumersList.items.map((consumer) => [
-  const rowData = tableData.map((consumer) => [
-    consumer.id,
-    consumer.members,
-    consumer.partitions,
-    {
-      title: (
-        <Label
-          color={consumer.state === 'Stable' ? 'green' : 'red'}
-          icon={
-            consumer.state === 'Stable' ? (
-              <CheckCircleIcon />
-            ) : (
-              <ExclamationCircleIcon />
-            )
-          }
-        >
-          {consumer.state}
-        </Label>
-      ),
-    },
-  ]);
+  const actions = [{ title: 'Delete', onClick: (_, rowId) => onDelete(rowId) }];
+
+  const rowData =
+    consumerGroups?.items.map((consumer) => [
+      consumer.id,
+      consumer.consumers?.length,
+      consumer.consumers.reduce(function (prev, cur) {
+        return prev + cur.lag > 0 ? prev + 1 : 0;
+      }, 0),
+    ]) || [];
 
   return (
     <>
       <Card>
+        {deleteModal && (
+          <DeleteConsumer
+            consumerName={consumerGroupName}
+            setDeleteModal={setDeleteModal}
+            deleteModal={deleteModal}
+            onDeleteConsumer={onDeleteConsumerGroup}
+          />
+        )}
         <Toolbar>
           <ToolbarContent>
             <ToolbarItem>
-              <SearchConsumers setTableData={setTableData} />
+              <SearchConsumers search={search} setSearch={setSearch} />
             </ToolbarItem>
             <ToolbarItem variant='pagination'>
               <Pagination
@@ -94,6 +144,7 @@ export const ConsumerGroupsList: React.FunctionComponent = () => {
               ? rowData.slice(offset, offset + perPage)
               : rowData.slice(0, perPage)
           }
+          actions={actions}
         >
           <TableHeader />
           <TableBody />
