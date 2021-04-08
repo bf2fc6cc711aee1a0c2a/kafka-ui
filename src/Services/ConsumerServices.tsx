@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 
-import { DefaultApi, ConsumerGroupList } from '../OpenApi/api';
+import { DefaultApi, ConsumerGroupList, ConsumerGroup } from '../OpenApi/api';
 import { Configuration } from '../OpenApi';
 import { IConfiguration } from '../Contexts';
 
@@ -40,4 +40,21 @@ export const deleteConsumer = async (
   );
   await api.deleteConsumerGroupById(consumerGroupId);
   return;
+};
+export const getConsumerDetail = async (
+  consumerGroupId: string,
+  config: IConfiguration | undefined
+): Promise<ConsumerGroup> => {
+  const accessToken = await config?.getToken();
+
+  const api = new DefaultApi(
+    new Configuration({
+      accessToken,
+      basePath: config?.basePath,
+    })
+  );
+  const response: AxiosResponse<ConsumerGroup> = await api.getConsumerGroupById(
+    consumerGroupId
+  );
+  return response.data;
 };
