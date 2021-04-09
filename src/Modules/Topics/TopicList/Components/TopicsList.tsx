@@ -179,7 +179,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
       convertRetentionSize(
         Number(
           topic.config?.filter(
-            (element) => element.key === 'log.retention.bytes'
+            (element) => element.key === 'retention.bytes'
           )[0]?.value || 0
         )
       ),
