@@ -100,7 +100,7 @@ const LogSection: React.FC = () => {
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
             onMinus={handleTouchSpinMinus}
-            value={Number(store['log.retention.bytes'])}
+            value={Number(store['retention.bytes'])}
             plusBtnProps={{ name: 'log-retention-bytes' }}
             minusBtnProps={{ name: 'log-retention-bytes' }}
             id='log-section-retention-unit-dropdown'
@@ -109,7 +109,7 @@ const LogSection: React.FC = () => {
             onSelectOption={onDropdownChange}
             type='memory'
             name='log-retention-bytes-unit'
-            dropdownValue={store['log.retention.bytes.unit']}
+            dropdownValue={store['retention.bytes.unit']}
           />
         </FormGroupWithPopover>
 

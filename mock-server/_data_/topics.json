@@ -90,7 +90,7 @@
         "value": "compact"
       },
       {
-        "key": "log.retention.bytes",
+        "key": "retention.bytes",
         "value": "-1"
       },
       {

@@ -68,7 +68,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
                 key: 'retention.ms',
                 value: msgRetentionValue.toString(),
               },
-              { key: 'log.retention.bytes', value: retentionSize.toString() },
+              { key: 'retention.bytes', value: retentionSize.toString() },
             ],
           },
         };

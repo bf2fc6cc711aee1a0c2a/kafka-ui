@@ -3,17 +3,22 @@ var consumerGroups = require('../_data_/consumer-groups.json');
 
 module.exports = {
   getConsumerGroupList: async (c, req, res) => {
-
-    let consumerGroupList = consumerGroups;  
-    let count = consumerGroups !== undefined ? consumerGroups.length : 0
+    let consumerGroupList = consumerGroups;
+    let count = consumerGroups !== undefined ? consumerGroups.length : 0;
 
     const filterConsumerGroups = (topicName) => {
-      return consumerGroupList.filter(consumerGroup => {
-        return consumerGroup.consumers.some(consumer => consumer.topic === topicName)
+      return consumerGroupList.filter((consumerGroup) => {
+        return consumerGroup.consumers.some(
+          (consumer) => consumer.topic === topicName
+        );
       });
-    }
+    };
 
-    if(consumerGroups && req?.query?.topic && req?.query?.topic?.trim() !== "") {
+    if (
+      consumerGroups &&
+      req?.query?.topic &&
+      req?.query?.topic?.trim() !== ''
+    ) {
       consumerGroupList = filterConsumerGroups(req?.query?.topic);
       count = consumerGroupList.length;
     }
@@ -22,8 +27,8 @@ module.exports = {
       limit: parseInt(req.query.limit, 10) || 100,
       offset: 0,
       count,
-      items: consumerGroupList
-    })
+      items: consumerGroupList,
+    });
   },
   getConsumerGroupById: async (c, req, res) => {
     const group = getConsumerGroup(c.request.params.consumerGroupId);
@@ -175,7 +180,7 @@ module.exports = {
 };
 
 function getConsumerGroup(id) {
-  return consumerGroups.find(c => c.id === id);
+  return consumerGroups.find((c) => c.id === id);
 }
 
 function getTopic(name) {

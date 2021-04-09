@@ -30,9 +30,9 @@ export interface AdvancedTopic {
   /** determines what happens to log segments beyond the retention window */
   'log.cleanup.policy'?: string;
   /** maximum total size of a partition's log segments before old log segments are deleted */
-  'log.retention.bytes'?: string;
+  'retention.bytes'?: string;
   /** unit for retention bytes */
-  'log.retention.bytes.unit'?: string;
+  'retention.bytes.unit'?: string;
   /** size of the log segment files */
   'log.segment.bytes'?: string;
   /** unit for segment size */
