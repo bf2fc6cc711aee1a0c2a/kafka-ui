@@ -56,21 +56,21 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
   const [
     retentionTimeTouchspinValue,
     setRetentionTimeTouchspinValue,
-  ] = useState(7);
+  ] = useState<number>(7);
   const [
     retentionSizeTouchspinValue,
     setRetentionSizeTouchspinValue,
-  ] = useState(1);
-  const [isRetentionTimeSelectOpen, setIsRetentionTimeSelectOpen] = useState(
+  ] = useState<number>(1);
+  const [isRetentionTimeSelectOpen, setIsRetentionTimeSelectOpen] = useState<boolean>(
     false
   );
-  const [isRetentionSizeSelectOpen, setIsRetentionSizeSelectOpen] = useState(
+  const [isRetentionSizeSelectOpen, setIsRetentionSizeSelectOpen] = useState<boolean>(
     false
   );
-  const [selectedTime, setSelectedTime] = useState(false);
-  const [selectedSize, setSelectedSize] = useState(false);
-  const [retentionTimeFactor, setRetentionTimeFactor] = useState(1);
-  const [retentionSizeFactor, setRetentionSizeFactor] = useState(1);
+  const [selectedTime, setSelectedTime] = useState<boolean>(false);
+  const [selectedSize, setSelectedSize] = useState<boolean>(false);
+  const [retentionTimeFactor, setRetentionTimeFactor] = useState<number>(RetentionTimeOption.DAY);
+  const [retentionSizeFactor, setRetentionSizeFactor] = useState<number>(RetentionSizeOption.BYTE);
 
   useEffect(() => {
     if (currentPeriod === RetentionTimeOption.DAY) {
@@ -98,7 +98,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
     retentionSizeFactor,
   ]);
 
-  const handleMessageRetention = (checked, event) => {
+  const handleMessageRetention = (_, event) => {
     const target = event.target;
     const name = target.name;
 
