@@ -94,15 +94,18 @@ export const getTopic = async (
 
   const answer = response.data;
   answer.config = answer.config || ([] as ConfigEntry[]);
-  answer.config.push({
-    key: 'replicationFactor',
-    value: response.data?.partitions
-      ?.map((p) => p.replicas?.length)
-      .reduce(
-        (previousValue = 0, currentValue = 0) => previousValue + currentValue
-      )
-      ?.toString(),
-  });
+  const numPartitions = response.data?.partitions?.length || 0;
+  if (numPartitions > 0) {
+    answer.config.push({
+      key: 'replicationFactor',
+      value: response.data?.partitions
+        ?.map((p) => p.replicas?.length)
+        .reduce(
+          (previousValue = 0, currentValue = 0) => previousValue + currentValue
+        )
+        ?.toString(),
+    });
+  }
   return response.data;
 };
 
