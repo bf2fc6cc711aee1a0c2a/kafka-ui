@@ -22,6 +22,7 @@ import { EmptyConsumers } from './EmptyConsumers';
 import {
   getConsumerGroups,
   getConsumerGroupDetail,
+  getConsumerGroupsByTopic,
 } from '../../../../Services/ConsumerGroupsServices';
 import { ConfigContext } from '../../../../Contexts';
 import { ConsumerGroupList, ConsumerGroup } from '../../../../OpenApi';
@@ -33,10 +34,14 @@ import { DeleteConsumerGroup } from './DeleteConsumerGroup';
 import { ConsumerGroupDetail } from './ConsumerGroupDetail';
 export interface IConsumerGroupsList {
   onDeleteConsumerGroup: () => void;
+  consumerGroupByTopic: boolean;
+  topic?: string;
 }
 
 export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = ({
   onDeleteConsumerGroup,
+  consumerGroupByTopic,
+  topic,
 }) => {
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(10);
@@ -58,20 +63,32 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
   const { addAlert } = useContext(AlertContext);
 
   const fetchConsumerGroups = async () => {
-    try {
-      const consumerGroupsData = await getConsumerGroups(
-        config,
-        100,
-        offset,
-        search
-      );
-      if (consumerGroupsData) {
-        setConsumerGroups(consumerGroupsData);
+    if (consumerGroupByTopic && topic) {
+      try {
+        const consumerGroupsData = await getConsumerGroupsByTopic(
+          config,
+          100,
+          offset,
+          topic
+        );
+        if (consumerGroupsData) {
+          setConsumerGroups(consumerGroupsData);
+        }
+      } catch (err) {
+        addAlert(err.response.data.error, AlertVariant.danger);
       }
-    } catch (err) {
-      addAlert(err.response.data.error, AlertVariant.danger);
+      setLoading(false);
+    } else {
+      try {
+        const consumerGroupsData = await getConsumerGroups(config);
+        if (consumerGroupsData) {
+          setConsumerGroups(consumerGroupsData);
+        }
+      } catch (err) {
+        addAlert(err.response.data.error, AlertVariant.danger);
+      }
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -180,20 +197,36 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
               </ToolbarContent>
             </Toolbar>
             <Divider />
-            <Table
-              aria-label='Compact Table'
-              variant={TableVariant.compact}
-              cells={tableColumns}
-              rows={
-                page != 1
-                  ? rowData.slice(offset, offset + perPage)
-                  : rowData.slice(0, perPage)
-              }
-              actions={actions}
-            >
-              <TableHeader />
-              <TableBody />
-            </Table>
+            {consumerGroupByTopic ? (
+              <Table
+                aria-label='Compact Table'
+                variant={TableVariant.compact}
+                cells={tableColumns}
+                rows={
+                  page != 1
+                    ? rowData.slice(offset, offset + perPage)
+                    : rowData.slice(0, perPage)
+                }
+              >
+                <TableHeader />
+                <TableBody />
+              </Table>
+            ) : (
+              <Table
+                aria-label='Compact Table'
+                variant={TableVariant.compact}
+                cells={tableColumns}
+                rows={
+                  page != 1
+                    ? rowData.slice(offset, offset + perPage)
+                    : rowData.slice(0, perPage)
+                }
+                actions={actions}
+              >
+                <TableHeader />
+                <TableBody />
+              </Table>
+            )}
             {rowData.length < 1 ? (
               <EmptyConsumers />
             ) : (

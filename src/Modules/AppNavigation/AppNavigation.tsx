@@ -91,7 +91,10 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
           id='consumer-groups-tab-section'
           aria-label='Consumer Groups Tab'
         >
-          <ConsumerGroupsList onDeleteConsumerGroup={onDeleteConsumer} />
+          <ConsumerGroupsList
+            onDeleteConsumerGroup={onDeleteConsumer}
+            consumerGroupByTopic={false}
+          />
         </Tab>
       </Tabs>
     </PageSection>

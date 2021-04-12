@@ -58,3 +58,24 @@ export const getConsumerGroupDetail = async (
   );
   return response.data;
 };
+export const getConsumerGroupsByTopic = async (
+  config: IConfiguration | undefined,
+  limit: number,
+  offset: number,
+  topic: string
+): Promise<ConsumerGroupList> => {
+  const accessToken = await config?.getToken();
+
+  const api = new DefaultApi(
+    new Configuration({
+      accessToken,
+      basePath: config?.basePath,
+    })
+  );
+  const response: AxiosResponse<ConsumerGroupList> = await api.getConsumerGroupList(
+    limit,
+    offset,
+    topic
+  );
+  return response.data;
+};

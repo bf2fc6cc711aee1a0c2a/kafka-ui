@@ -10,7 +10,7 @@ type TopicDetailParams = {
   onDeleteTopic: () => void;
 };
 
-const TopicDetail: FunctionComponent<TopicDetailParams> = ({
+const ConsumerGroupsByTopicView: FunctionComponent<TopicDetailParams> = ({
   onDeleteTopic,
 }) => {
   const { topicName } = useParams<TopicUseParams>();
@@ -27,11 +27,11 @@ const TopicDetail: FunctionComponent<TopicDetailParams> = ({
       getTopicListPath={() => '/topics'}
       onClickTopicList={() => history.push('/topics')}
       onDeleteTopic={onDeleteTopic}
-      eventKey={2}
+      eventKey={1}
     />
   );
 };
 
-export { TopicDetail };
+export { ConsumerGroupsByTopicView };
 
-export default TopicDetail;
+export default ConsumerGroupsByTopicView;
