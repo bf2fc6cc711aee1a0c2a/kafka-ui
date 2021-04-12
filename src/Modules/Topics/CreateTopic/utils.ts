@@ -1,5 +1,5 @@
-import { AdvancedTopic } from '../../../Contexts/Topic';
 import { ConfigEntry, NewTopicInput } from '../../../OpenApi';
+import { IAdvancedTopic } from './Components/CreateTopicWizard';
 
 const capitalizeText = (text: string) => {
   return text.charAt(0).toUpperCase() + text.slice(1);
@@ -35,7 +35,7 @@ const unitsToMilliSecond = {
   years: 31536000000,
 };
 
-export const convertUnits = (topicData: AdvancedTopic): AdvancedTopic => {
+export const convertUnits = (topicData: IAdvancedTopic): IAdvancedTopic => {
   const topic = { ...topicData };
 
   for (const key in topic) {
@@ -68,7 +68,7 @@ export const convertUnits = (topicData: AdvancedTopic): AdvancedTopic => {
   return topic;
 };
 
-export const formatTopicRequest = (topic: AdvancedTopic): NewTopicInput => {
+export const formatTopicRequest = (topic: IAdvancedTopic): NewTopicInput => {
   const { name, numPartitions, ...configEntries } = topic;
 
   const config: ConfigEntry[] = [];

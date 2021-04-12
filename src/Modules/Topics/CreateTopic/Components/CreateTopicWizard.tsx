@@ -14,7 +14,6 @@ import { StepReplicas } from './StepReplicas';
 import './CreateTopicWizard.css';
 import { TopicAdvanceConfig } from './TopicAdvanceConfig';
 import { DefaultApi, NewTopicInput } from '../../../../OpenApi/api';
-import { TopicContext } from '../../../../Contexts/Topic';
 import { convertUnits, formatTopicRequest } from '../utils';
 import { ConfigContext } from '../../../../Contexts';
 import { Configuration } from '../../../../OpenApi';
@@ -24,6 +23,23 @@ import { useHistory } from 'react-router';
 interface ICreateTopicWizard {
   isSwitchChecked: boolean;
   setIsCreateTopic?: (value: boolean) => void;
+}
+
+export interface IAdvancedTopic {
+  /** unique identifier for a topic within the cluster */
+  name: string;
+  /** ordered list of messages that make up a topic */
+  numPartitions: string;
+  /** the length of time that messages are retained before they are deleted */
+  'retention.ms'?: string;
+  /** unit for retention time */
+  'retention.ms.unit'?: string;
+  /** maximum total size of a partition's log segments before old log segments are deleted */
+  'retention.bytes'?: string;
+  /** unit for retention bytes */
+  'retention.bytes.unit'?: string;
+
+  'log.cleanup.policy'?: string;
 }
 
 export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
@@ -39,6 +55,15 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   const [partitionTouchspinValue, setPartitionTouchspinValue] = useState(1);
   const [replicationFactorTouchspinValue] = useState(3);
   const [minInSyncReplicaTouchspinValue] = useState(2);
+  const [topicData, setTopicData] = useState<IAdvancedTopic>({
+    name: '',
+    numPartitions: '1',
+    'retention.ms': '7',
+    'retention.ms.unit': 'days',
+    'retention.bytes': '-1',
+    'retention.bytes.unit': 'bytes',
+    'log.cleanup.policy': 'delete'
+  });
 
   const [currentPeriod, setCurrentPeriod] = React.useState<string | number>(
     86400000
@@ -46,7 +71,6 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   const [currentSize, setCurrentSize] = React.useState<string | number>(
     'custom'
   );
-  const { store } = React.useContext(TopicContext);
 
   const closeWizard = () => {
     if (setIsCreateTopic) {
@@ -55,10 +79,10 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   };
 
   const saveTopic = () => {
-    //Object may change based on schema
+    // Object may change based on schema
 
     const topic: NewTopicInput = isSwitchChecked
-      ? formatTopicRequest(convertUnits(store))
+      ? formatTopicRequest(convertUnits(topicData))
       : {
           name: topicNameInput,
           settings: {
@@ -158,6 +182,8 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
               isCreate={true}
               saveTopic={saveTopic}
               handleCancel={handleCancel}
+              topicData={topicData}
+              setTopicData={setTopicData}
             />
           </PageSection>
         </>

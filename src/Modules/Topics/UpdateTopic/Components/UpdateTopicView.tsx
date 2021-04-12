@@ -3,11 +3,12 @@ import { AlertVariant } from '@patternfly/react-core';
 import '../../CreateTopic/Components/CreateTopicWizard.css';
 import { TopicAdvanceConfig } from '../../CreateTopic/Components/TopicAdvanceConfig';
 import { getTopic, updateTopicModel } from '../../../../Services/index';
-import { ConfigEntry, Topic, TopicSettings } from '../../../../OpenApi/api';
-import { initialState, TopicContext } from '../../../../Contexts/Topic';
+import { ConfigEntry, TopicSettings } from '../../../../OpenApi/api';
 import { DeleteTopics } from '../../TopicList/Components/DeleteTopicsModal';
 import { AlertContext } from '../../../../Contexts/Alert';
 import { ConfigContext } from '../../../../Contexts';
+import { IAdvancedTopic } from '../../CreateTopic/Components/CreateTopicWizard';
+import { convertUnits } from '../../CreateTopic/utils';
 
 export type UpdateTopicViewProps = {
   topicName: string;
@@ -21,64 +22,69 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   onDeleteTopic,
   onSaveTopic,
 }) => {
-  const { store, updateBulkStore } = React.useContext(TopicContext);
   const [deleteModal, setDeleteModal] = useState(false);
 
-  const [topic, setTopic] = useState<Topic>();
+  const [topicData, setTopicData] = useState<IAdvancedTopic>({
+    name: topicName,
+    numPartitions: '',
+    'retention.ms': '',
+    'retention.ms.unit': 'milliseconds',
+    'retention.bytes': '',
+    'retention.bytes.unit': "bytes",
+    'log.cleanup.policy': ''
+  });
   const config = useContext(ConfigContext);
   const { addAlert } = useContext(AlertContext);
   const fetchTopic = async (topicName) => {
     const topicRes = await getTopic(topicName, config);
-    setTopic(topicRes);
-    if (topicRes) saveToStore(topicRes);
+
+    const configEntries: any = {};
+    topicRes.config?.forEach((configItem) => {
+      configEntries[configItem.key || ''] = configItem.value || '';
+    });
+
+    setTopicData(
+      {
+        ...topicData,
+        numPartitions: topicRes?.partitions?.length.toString() || '',
+        'log.cleanup.policy': configEntries['log.cleanup.policy'] || 'delete',
+        'retention.bytes': configEntries['retention.bytes'] || '-1',
+        'retention.ms': configEntries['retention.ms'] || '604800000'
+      }
+    );
   };
 
   useEffect(() => {
     (async function () {
-      await updateBulkStore(initialState);
       fetchTopic(topicName);
     })();
   }, []);
 
-  const saveToStore = (topic: Topic) => {
-    const advanceConfig = store;
-
-    advanceConfig.numPartitions = topic?.partitions?.length.toString() || '0';
-    advanceConfig.name = topic.name || '';
-    topic.config?.forEach((configItem) => {
-      advanceConfig[configItem.key || ''] = configItem.value || '';
-    });
-    updateBulkStore(advanceConfig);
-  };
-
-  const patchConfig = (
-    previousTopic: Topic | undefined
-  ): ConfigEntry[] | undefined => {
-    return previousTopic?.config
-      ?.map((v) => {
-        if (v.key) {
-          return {
-            key: v.key,
-            value: store[v.key],
-          };
-        }
-        return v;
-      })
-      .filter((v) => v.key !== 'replicationFactor');
-  };
-
   const saveTopic = async () => {
-    const newConfig = patchConfig(topic);
+
+    const { name, ...configEntries } = convertUnits(topicData);
+
+    const newConfig: ConfigEntry[] = [];
+
+    for (const key in configEntries) {
+      // TODO Remove check when API supports setting the number of partition
+      if (key && key !== 'numPartitions') {
+        newConfig.push({
+          key,
+          value: configEntries[key].toString(),
+        });
+      }
+    }
 
     const topicSettings: TopicSettings = {
       // TODO Re-enable when the API supports setting the number of partition
-      // numPartitions: Number(store.numPartitions),
+      // numPartitions: Number(topicData.numPartitions),
       config: newConfig,
     };
 
     try {
       const updateStatus = await updateTopicModel(
-        store.name,
+        name,
         topicSettings,
         config
       );
@@ -93,7 +99,6 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
     } catch (err) {
       addAlert(err.response.data.error, AlertVariant.danger);
     }
-    updateBulkStore(initialState);
   };
 
   return (
@@ -102,6 +107,8 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
         isCreate={false}
         saveTopic={saveTopic}
         handleCancel={onCancelUpdateTopic}
+        topicData={topicData}
+        setTopicData={setTopicData}
       />
       <br />
       <br />

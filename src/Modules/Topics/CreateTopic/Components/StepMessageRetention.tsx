@@ -260,13 +260,13 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
                     >
                       <SelectOption
                         key={0}
-                        value='milliseconds'
+                        value='days'
                         isPlaceholder
                       />
                       <SelectOption key={1} value='seconds' />
                       <SelectOption key={2} value='minutes' />
                       <SelectOption key={3} value='hours' />
-                      <SelectOption key={4} value='days' />
+                      <SelectOption key={4} value='milliseconds' />
                     </Select>
                   </FlexItem>
                 </Flex>
