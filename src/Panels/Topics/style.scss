@@ -8,6 +8,8 @@
   justify-content: center;
 }
 
+// Needed for federated modules
+/* stylelint-disable-next-line */
 main#root {
   display: contents !important;
 }
