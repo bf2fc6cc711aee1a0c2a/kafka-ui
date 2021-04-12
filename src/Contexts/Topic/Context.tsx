@@ -7,7 +7,7 @@ import {
 
 export const initialState: AdvancedTopic = {
   name: '',
-  numPartitions: '',
+  numPartitions: '1',
   replicationFactor: '',
   'min.insync.replicas': '',
   'retention.ms': '7',
