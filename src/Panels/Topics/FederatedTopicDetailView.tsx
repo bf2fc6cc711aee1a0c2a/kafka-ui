@@ -40,6 +40,7 @@ const FederatedTopicDetailView: FunctionComponent<FederatedTopicDetailViewProps>
         <AlertContext.Provider value={alertContext}>
           <PageSection variant={PageSectionVariants.light}>
             <TopicDetailGroup
+              eventKey={2}
               topicName={currentTopic}
               onUpdateTopic={onUpdateTopic}
               getTopicListPath={getTopicListPath}

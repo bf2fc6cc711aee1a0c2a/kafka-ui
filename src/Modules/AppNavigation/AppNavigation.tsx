@@ -45,6 +45,10 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
     history.push('/topics');
   };
 
+  const onDeleteConsumer = () => {
+    history.push('/consumerGroups');
+  };
+
   const mainBreadcrumbs = (
     <Breadcrumb>
       <BreadcrumbItem to='#'>Kafka Instance</BreadcrumbItem>
@@ -87,7 +91,10 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
           id='consumer-groups-tab-section'
           aria-label='Consumer Groups Tab'
         >
-          <ConsumerGroupsList />
+          <ConsumerGroupsList
+            onDeleteConsumerGroup={onDeleteConsumer}
+            consumerGroupByTopic={false}
+          />
         </Tab>
       </Tabs>
     </PageSection>

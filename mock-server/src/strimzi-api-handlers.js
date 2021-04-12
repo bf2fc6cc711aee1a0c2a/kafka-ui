@@ -30,6 +30,7 @@ module.exports = {
       items: consumerGroupList,
     });
   },
+
   getConsumerGroupById: async (c, req, res) => {
     const group = getConsumerGroup(c.request.params.consumerGroupId);
     if (!group) {
@@ -70,6 +71,7 @@ module.exports = {
 
     return res.status(200).json(group);
   },
+
   createTopic: async (c, req, res) => {
     const topicBody = c.request.body;
 
@@ -187,6 +189,9 @@ function getTopic(name) {
   const topic = topics.find((t) => t.name === name);
 
   return topic;
+}
+function getConsumerGroup(id) {
+  return consumerGroups.find((c) => c.id === id);
 }
 
 const createPartitions = (numberOfPartitions, numberOfReplicas) => {

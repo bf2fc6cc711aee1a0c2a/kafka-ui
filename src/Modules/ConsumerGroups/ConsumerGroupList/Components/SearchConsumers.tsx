@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { InputGroup, SearchInput } from '@patternfly/react-core';
-import { consumerGroupData } from './ConsumerGroupData';
 
 export interface IConsumerGroupData {
   id: string;
@@ -10,37 +9,19 @@ export interface IConsumerGroupData {
 }
 
 export interface ISearchConsumerGroupProps {
-  setTableData: (IConsumerGroupData) => void;
+  setSearch: (value: string) => void;
+  search: string;
 }
 
 const SearchConsumers: React.FunctionComponent<ISearchConsumerGroupProps> = ({
-  setTableData,
+  search,
+  setSearch,
 }) => {
-  const [search, setSearch] = useState('');
-
-  useEffect(() => {
-    if (search && search.trim() != '') {
-      const filterSearch = consumerGroupData.filter((consumersFiltered) =>
-        consumersFiltered?.id.includes(search)
-      );
-      setTableData(filterSearch);
-      console.log(filterSearch);
-    } else {
-      setTableData(consumerGroupData);
-    }
-  }, [search]);
-
   const onChangeInput = (value: string) => {
     setSearch(value);
-    setTableData(
-      consumerGroupData.filter(
-        (row) => row.id.toLowerCase().indexOf(search.toLowerCase()) > -1
-      )
-    );
   };
   const onClear = () => {
     setSearch('');
-    setTableData(consumerGroupData);
   };
   return (
     <InputGroup>

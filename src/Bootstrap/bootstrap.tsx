@@ -10,7 +10,7 @@ import TopicDetail from '../Panels/Topics/DetailView';
 import UpdateTopicView from '../Panels/Topics/UpdateView';
 import { TopicContextProvider } from '../Contexts/Topic';
 import { ConsumerGroupsView } from '../Panels/ConsumerGroups/ConsumerGroupsView';
-import { ConsumerGroupsTopicsView } from '../Panels/ConsumerGroupsByTopic/ConsumerGroupsByTopic';
+import { ConsumerGroupsByTopicView } from '../Panels/ConsumerGroupsByTopic/ConsumerGroupsByTopicView';
 import { ErrorBoundary } from '../Components/ErrorBoundary/ErrorBoundary';
 import { AlertProvider } from '../Contexts/Alert/Context';
 import { MastHead } from '../Panels/MastHead/MastHead';
@@ -51,7 +51,7 @@ ReactDOM.render(
                   />
                   <Route
                     path='/topics/consumerGroups/:topicName'
-                    component={ConsumerGroupsTopicsView}
+                    component={ConsumerGroupsByTopicView}
                     exact
                   />
                 </Switch>
