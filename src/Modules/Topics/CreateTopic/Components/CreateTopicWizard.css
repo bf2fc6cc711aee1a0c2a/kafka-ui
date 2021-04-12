@@ -17,10 +17,6 @@
   margin-top: var(--pf-global--spacer--md);
 }
 
-.kafka-ui--topic-advanced-config__stack {
-  --pf-l-stack--m-gutter--MarginBottom: var(--pf-global--spacer--2xl);
-}
-
 .pf-c-jump-links__label {
   text-transform: uppercase;
 }

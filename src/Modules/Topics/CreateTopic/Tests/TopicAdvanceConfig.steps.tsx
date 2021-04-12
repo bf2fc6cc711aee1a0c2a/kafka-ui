@@ -14,6 +14,8 @@ Given('the create topic advanced wizard component', () => {
         isCreate={true}
         saveTopic={jest.fn()}
         handleCancel={jest.fn()}
+        topicData={{} as any}
+        setTopicData={jest.fn()}
       />
     </TopicContextProvider>
   );
