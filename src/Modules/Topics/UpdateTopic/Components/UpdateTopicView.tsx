@@ -3,7 +3,7 @@ import { AlertVariant } from '@patternfly/react-core';
 import '../../CreateTopic/Components/CreateTopicWizard.css';
 import { TopicAdvanceConfig } from '../../CreateTopic/Components/TopicAdvanceConfig';
 import { getTopic, updateTopicModel } from '../../../../Services/index';
-import { ConfigEntry, Topic, TopicSettings } from '../../../../OpenApi/api';
+import { ConfigEntry, TopicSettings } from '../../../../OpenApi/api';
 import { DeleteTopics } from '../../TopicList/Components/DeleteTopicsModal';
 import { AlertContext } from '../../../../Contexts/Alert';
 import { ConfigContext } from '../../../../Contexts';
@@ -26,19 +26,19 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
 
   const [topicData, setTopicData] = useState<IAdvancedTopic>({
     name: topicName,
-    numPartitions: "",
-    "retention.ms": "",
-    "retention.ms.unit": "milliseconds",
-    "retention.bytes": "",
-    "retention.bytes.unit": "bytes",
-    "log.cleanup.policy": ""
+    numPartitions: '',
+    'retention.ms': '',
+    'retention.ms.unit': 'milliseconds',
+    'retention.bytes': '',
+    'retention.bytes.unit': "bytes",
+    'log.cleanup.policy': ''
   });
   const config = useContext(ConfigContext);
   const { addAlert } = useContext(AlertContext);
   const fetchTopic = async (topicName) => {
     const topicRes = await getTopic(topicName, config);
 
-    let configEntries: any = {};
+    const configEntries: any = {};
     topicRes.config?.forEach((configItem) => {
       configEntries[configItem.key || ''] = configItem.value || '';
     });
@@ -51,7 +51,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
         'retention.bytes': configEntries['retention.bytes'] || '-1',
         'retention.ms': configEntries['retention.ms'] || '604800000'
       }
-    )
+    );
   };
 
   useEffect(() => {
@@ -62,12 +62,13 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
 
   const saveTopic = async () => {
 
-    const { name, numPartitions, ...configEntries } = convertUnits(topicData);
+    const { name, ...configEntries } = convertUnits(topicData);
 
     const newConfig: ConfigEntry[] = [];
 
     for (const key in configEntries) {
-      if (key) {
+      // TODO Remove check when API supports setting the number of partition
+      if (key && key !== 'numPartitions') {
         newConfig.push({
           key,
           value: configEntries[key].toString(),
@@ -83,7 +84,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
 
     try {
       const updateStatus = await updateTopicModel(
-        topicData.name,
+        name,
         topicSettings,
         config
       );

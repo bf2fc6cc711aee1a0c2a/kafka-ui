@@ -39,7 +39,7 @@ export interface IAdvancedTopic {
   /** unit for retention bytes */
   'retention.bytes.unit'?: string;
 
-  "log.cleanup.policy"?: string;
+  'log.cleanup.policy'?: string;
 }
 
 export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
@@ -56,13 +56,13 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   const [replicationFactorTouchspinValue] = useState(3);
   const [minInSyncReplicaTouchspinValue] = useState(2);
   const [topicData, setTopicData] = useState<IAdvancedTopic>({
-    name: "",
-    numPartitions: "1",
-    "retention.ms": "7",
-    "retention.ms.unit": "days",
-    "retention.bytes": "-1",
-    "retention.bytes.unit": "bytes",
-    "log.cleanup.policy": "delete"
+    name: '',
+    numPartitions: '1',
+    'retention.ms': '7',
+    'retention.ms.unit': 'days',
+    'retention.bytes': '-1',
+    'retention.bytes.unit': 'bytes',
+    'log.cleanup.policy': 'delete'
   });
 
   const [currentPeriod, setCurrentPeriod] = React.useState<string | number>(
