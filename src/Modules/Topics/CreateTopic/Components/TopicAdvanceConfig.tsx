@@ -77,13 +77,13 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
   const handleTouchSpinPlusCamelCase = (event) => {
     const { name } = event.currentTarget;
     const fieldName = kebabToCamel(name);
-    setTopicData({ ...topicData, [fieldName]: topicData[fieldName] + 1 });
+    setTopicData({ ...topicData, [fieldName]: Number(topicData[fieldName]) + 1 });
   };
 
   const handleTouchSpinMinusCamelCase = (event) => {
     const { name } = event.currentTarget;
     const fieldName = kebabToCamel(name);
-    setTopicData({ ...topicData, [fieldName]: topicData[fieldName] - 1 });
+    setTopicData({ ...topicData, [fieldName]: Number(topicData[fieldName]) - 1 });
   };
 
   const handleTouchSpinInputChange = (
