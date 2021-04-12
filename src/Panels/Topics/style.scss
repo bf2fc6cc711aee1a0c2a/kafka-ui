@@ -7,3 +7,7 @@
   height: 98vh;
   justify-content: center;
 }
+
+main#root {
+  display: contents !important;
+}

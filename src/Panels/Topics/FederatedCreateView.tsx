@@ -39,9 +39,7 @@ const FederatedCreateTopic: FunctionComponent<FederatedCreateTopicProps> = ({
         value={{ basePath: apiBasePath, getToken } as IConfiguration}
       >
         <AlertContext.Provider value={alertContext}>
-          <PageSection variant={PageSectionVariants.light}>
             <CreateTopicPage setIsCreateTopic={setIsCreateTopic} />
-          </PageSection>
         </AlertContext.Provider>
       </ConfigContext.Provider>
     </I18nextProvider>
