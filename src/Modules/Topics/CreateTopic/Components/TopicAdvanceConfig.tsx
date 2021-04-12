@@ -93,7 +93,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
           >
             <Stack hasGutter className='kafka-ui--topic-advanced-config__stack'>
               <StackItem>
-                <CoreConfiguration />
+                <CoreConfiguration isCreate={isCreate} />
               </StackItem>
 
               <StackItem>
