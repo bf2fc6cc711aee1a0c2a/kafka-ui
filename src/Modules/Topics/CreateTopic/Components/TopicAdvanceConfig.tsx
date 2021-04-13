@@ -66,6 +66,8 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     },
   ];
 
+  debugger;
+
   const handleTextInputChange = (
     value: string,
     event: React.FormEvent<HTMLInputElement>
