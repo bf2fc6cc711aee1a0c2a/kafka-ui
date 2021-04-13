@@ -15,12 +15,14 @@ export type UpdateTopicViewProps = {
   onCancelUpdateTopic: () => void;
   onDeleteTopic: () => void;
   onSaveTopic: () => void;
+  onError?: (errorCode: number, message: string) => void;
 };
 export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   topicName,
   onCancelUpdateTopic,
   onDeleteTopic,
   onSaveTopic,
+  onError
 }) => {
   const [deleteModal, setDeleteModal] = useState(false);
 
@@ -97,6 +99,9 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
         onSaveTopic();
       }
     } catch (err) {
+      if(onError) {
+        onError(err.response.data.code, err.response.data.error)
+      }
       addAlert(err.response.data.error, AlertVariant.danger);
     }
   };

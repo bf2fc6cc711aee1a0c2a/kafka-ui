@@ -46,6 +46,7 @@ export interface ITopicList {
   onClickTopic: (topicName: string | undefined) => void;
   getTopicDetailsPath: (topic: string | undefined) => string;
   onDeleteTopic: () => void;
+  onError?: (errorCode: number, message: string) => void;
 }
 
 export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
@@ -53,6 +54,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   getTopicDetailsPath,
   onClickTopic,
   onDeleteTopic,
+  onError
 }) => {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState<number>(1);
@@ -76,6 +78,9 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
         setFilteredTopics(topicsList);
       }
     } catch (err) {
+      if (onError) {
+        onError(err.response.data.code, err.response.data.error)
+      }
       addAlert(err.response.data.error, AlertVariant.danger);
     }
     setLoading(false);

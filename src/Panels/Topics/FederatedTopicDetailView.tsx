@@ -9,8 +9,9 @@ import {
 import kafkai18n from '../../i18n';
 import { I18nextProvider } from 'react-i18next';
 import { AlertContext, AlertContextProps } from '../../Contexts/Alert';
+import { FederatedProps } from '../../Utils';
 
-export type FederatedTopicDetailViewProps = {
+export interface FederatedTopicDetailViewProps extends FederatedProps {
   getToken: () => Promise<string>;
   apiBasePath: string;
   currentTopic: string;
@@ -18,6 +19,7 @@ export type FederatedTopicDetailViewProps = {
   getTopicListPath: () => string;
   onClickTopicList: () => void;
   addAlert: (message: string, variant?: AlertVariant) => void;
+
   onDeleteTopic: () => void;
 };
 
@@ -29,6 +31,7 @@ const FederatedTopicDetailView: FunctionComponent<FederatedTopicDetailViewProps>
   getTopicListPath,
   onClickTopicList,
   onDeleteTopic,
+  onError,
   addAlert,
 }) => {
   const alertContext = {
@@ -46,6 +49,7 @@ const FederatedTopicDetailView: FunctionComponent<FederatedTopicDetailViewProps>
               getTopicListPath={getTopicListPath}
               onClickTopicList={onClickTopicList}
               onDeleteTopic={onDeleteTopic}
+              onError={onError}
             />
             ;
           </PageSection>

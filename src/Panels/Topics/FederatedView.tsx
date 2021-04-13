@@ -11,8 +11,9 @@ import kafkai18n from '../../i18n';
 import { I18nextProvider } from 'react-i18next';
 import { AlertContext, AlertContextProps } from '../../Contexts/Alert';
 import { BrowserRouter } from 'react-router-dom';
+import { FederatedProps } from '../../Utils';
 
-export type FederatedTopicsProps = {
+export interface FederatedTopicsProps extends FederatedProps  {
   getToken: () => Promise<string>;
   apiBasePath: string;
   onCreateTopic: () => void;
@@ -30,6 +31,7 @@ const FederatedTopics: FunctionComponent<FederatedTopicsProps> = ({
   onClickTopic,
   addAlert,
   onDeleteTopic,
+  onError
 }) => {
   const alertContext = {
     addAlert,
@@ -47,6 +49,7 @@ const FederatedTopics: FunctionComponent<FederatedTopicsProps> = ({
                 onClickTopic={onClickTopic}
                 getTopicDetailsPath={getTopicDetailsPath}
                 onDeleteTopic={onDeleteTopic}
+                onError={onError}
               />
             </PageSection>
           </AlertContext.Provider>

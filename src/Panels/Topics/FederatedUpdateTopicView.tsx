@@ -10,8 +10,9 @@ import {
 import kafkai18n from '../../i18n';
 import { I18nextProvider } from 'react-i18next';
 import { AlertContext, AlertContextProps } from '../../Contexts/Alert';
+import { FederatedProps } from '../../Utils';
 
-export type FederatedUpdateTopicProps = {
+export interface FederatedUpdateTopicProps extends FederatedProps {
   getToken: () => Promise<string>;
   apiBasePath: string;
   currentTopic: string;
@@ -33,6 +34,7 @@ const FederatedUpdateTopicView: FunctionComponent<FederatedUpdateTopicProps> = (
   addAlert,
   onDeleteTopic,
   onSaveTopic,
+  onError
 }) => {
   const alertContext = {
     addAlert,
@@ -50,6 +52,7 @@ const FederatedUpdateTopicView: FunctionComponent<FederatedUpdateTopicProps> = (
                 onCancelUpdateTopic={onCancelUpdateTopic}
                 onDeleteTopic={onDeleteTopic}
                 onSaveTopic={onSaveTopic}
+                onError={onError}
               />
             </PageSection>
           </TopicContextProvider>
