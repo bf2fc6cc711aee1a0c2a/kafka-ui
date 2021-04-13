@@ -76,13 +76,13 @@ module.exports = {
     const topicBody = c.request.body;
 
     if (!topicBody) {
-      return res.status(400).json({ err: 'Bad request' });
+      return res.status(400).json({ error: 'Bad request' });
     }
 
     let topic = getTopic(topicBody.name);
 
     if (topic) {
-      return res.status(409).json({ err: 'topic exists' });
+      return res.status(409).json({ error: 'topic exists' });
     }
 
     topic = {
@@ -122,7 +122,7 @@ module.exports = {
   getTopic: async (c, req, res) => {
     const topic = getTopic(c.request.params.topicName);
     if (!topic) {
-      return res.status(404).json({ err: 'not found' });
+      return res.status(404).json({ error: 'not found' });
     }
     return res.status(200).json(topic);
   },
@@ -132,7 +132,7 @@ module.exports = {
 
     const topic = getTopic(topicName);
     if (!topic) {
-      return res.status(404).json({ err: 'not found' });
+      return res.status(404).json({ error: 'not found' });
     }
     topics = topics.filter((t) => t.name !== topicName);
 
@@ -144,7 +144,7 @@ module.exports = {
     const topicBody = c.request.body;
 
     if (!topicBody) {
-      return res.status(400).json({ err: 'Bad request' });
+      return res.status(400).json({ error: 'Bad request' });
     }
 
     const topic = getTopic(topicName);
@@ -157,7 +157,7 @@ module.exports = {
     }
 
     if (!topic) {
-      return res.status(404).json({ err: 'not found' });
+      return res.status(404).json({ error: 'not found' });
     }
 
     if (

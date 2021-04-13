@@ -33,7 +33,7 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
       topicName && (await deleteTopic(topicName, config));
       addAlert(`Successfully deleted topic ${topicName}`, AlertVariant.success);
     } catch (err) {
-      addAlert(err.response.data.err, AlertVariant.danger);
+      addAlert(err.response.data.error, AlertVariant.danger);
     }
     onDeleteTopic();
     setDeleteModal(false);
