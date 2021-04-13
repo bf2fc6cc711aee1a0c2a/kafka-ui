@@ -61,16 +61,22 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
     retentionSizeTouchspinValue,
     setRetentionSizeTouchspinValue,
   ] = useState<number>(1);
-  const [isRetentionTimeSelectOpen, setIsRetentionTimeSelectOpen] = useState<boolean>(
-    false
-  );
-  const [isRetentionSizeSelectOpen, setIsRetentionSizeSelectOpen] = useState<boolean>(
-    false
-  );
+  const [
+    isRetentionTimeSelectOpen,
+    setIsRetentionTimeSelectOpen,
+  ] = useState<boolean>(false);
+  const [
+    isRetentionSizeSelectOpen,
+    setIsRetentionSizeSelectOpen,
+  ] = useState<boolean>(false);
   const [selectedTime, setSelectedTime] = useState<boolean>(false);
   const [selectedSize, setSelectedSize] = useState<boolean>(false);
-  const [retentionTimeFactor, setRetentionTimeFactor] = useState<number>(RetentionTimeOption.DAY);
-  const [retentionSizeFactor, setRetentionSizeFactor] = useState<number>(RetentionSizeOption.BYTE);
+  const [retentionTimeFactor, setRetentionTimeFactor] = useState<number>(
+    RetentionTimeOption.DAY
+  );
+  const [retentionSizeFactor, setRetentionSizeFactor] = useState<number>(
+    RetentionSizeOption.BYTE
+  );
 
   useEffect(() => {
     if (currentPeriod === RetentionTimeOption.DAY) {
@@ -258,11 +264,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
                       isOpen={isRetentionTimeSelectOpen}
                       // aria-labelledby={titleId}
                     >
-                      <SelectOption
-                        key={0}
-                        value='days'
-                        isPlaceholder
-                      />
+                      <SelectOption key={0} value='days' isPlaceholder />
                       <SelectOption key={1} value='seconds' />
                       <SelectOption key={2} value='minutes' />
                       <SelectOption key={3} value='hours' />

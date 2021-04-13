@@ -22,7 +22,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   onCancelUpdateTopic,
   onDeleteTopic,
   onSaveTopic,
-  onError
+  onError,
 }) => {
   const [deleteModal, setDeleteModal] = useState(false);
 
@@ -32,8 +32,8 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
     'retention.ms': '',
     'retention.ms.unit': 'milliseconds',
     'retention.bytes': '',
-    'retention.bytes.unit': "bytes",
-    'cleanup.policy': ''
+    'retention.bytes.unit': 'bytes',
+    'cleanup.policy': '',
   });
   const config = useContext(ConfigContext);
   const { addAlert } = useContext(AlertContext);
@@ -45,15 +45,13 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
       configEntries[configItem.key || ''] = configItem.value || '';
     });
 
-    setTopicData(
-      {
-        ...topicData,
-        numPartitions: topicRes?.partitions?.length.toString() || '',
-        'cleanup.policy': configEntries['cleanup.policy'] || 'delete',
-        'retention.bytes': configEntries['retention.bytes'] || '-1',
-        'retention.ms': configEntries['retention.ms'] || '604800000'
-      }
-    );
+    setTopicData({
+      ...topicData,
+      numPartitions: topicRes?.partitions?.length.toString() || '',
+      'cleanup.policy': configEntries['cleanup.policy'] || 'delete',
+      'retention.bytes': configEntries['retention.bytes'] || '-1',
+      'retention.ms': configEntries['retention.ms'] || '604800000',
+    });
   };
 
   useEffect(() => {
@@ -63,7 +61,6 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   }, []);
 
   const saveTopic = async () => {
-
     const { name, ...configEntries } = convertUnits(topicData);
 
     const newConfig: ConfigEntry[] = [];
@@ -85,11 +82,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
     };
 
     try {
-      const updateStatus = await updateTopicModel(
-        name,
-        topicSettings,
-        config
-      );
+      const updateStatus = await updateTopicModel(name, topicSettings, config);
 
       if (updateStatus === 200) {
         addAlert(
@@ -99,8 +92,8 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
         onSaveTopic();
       }
     } catch (err) {
-      if(onError) {
-        onError(err.response.data.code, err.response.data.error)
+      if (onError) {
+        onError(err.response.data.code, err.response.data.error);
       }
       addAlert(err.response.data.error, AlertVariant.danger);
     }

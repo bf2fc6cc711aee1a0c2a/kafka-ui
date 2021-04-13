@@ -1,3 +1,3 @@
 export interface FederatedProps {
-    onError: (errorCode: number, message: string) => void;
+  onError: (errorCode: number, message: string) => void;
 }

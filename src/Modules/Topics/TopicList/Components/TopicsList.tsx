@@ -54,7 +54,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   getTopicDetailsPath,
   onClickTopic,
   onDeleteTopic,
-  onError
+  onError,
 }) => {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState<number>(1);
@@ -79,7 +79,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
       }
     } catch (err) {
       if (onError) {
-        onError(err.response.data.code, err.response.data.error)
+        onError(err.response.data.code, err.response.data.error);
       }
       addAlert(err.response.data.error, AlertVariant.danger);
     }

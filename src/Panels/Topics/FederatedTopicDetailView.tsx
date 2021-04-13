@@ -21,7 +21,7 @@ export interface FederatedTopicDetailViewProps extends FederatedProps {
   addAlert: (message: string, variant?: AlertVariant) => void;
 
   onDeleteTopic: () => void;
-};
+}
 
 const FederatedTopicDetailView: FunctionComponent<FederatedTopicDetailViewProps> = ({
   getToken,

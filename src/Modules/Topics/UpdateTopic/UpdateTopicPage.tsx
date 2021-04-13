@@ -27,7 +27,7 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
   onCancelUpdateTopic,
   onDeleteTopic,
   onSaveTopic,
-  onError
+  onError,
 }) => {
   return (
     <>

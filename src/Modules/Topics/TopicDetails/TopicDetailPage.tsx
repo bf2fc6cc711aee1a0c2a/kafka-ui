@@ -95,7 +95,7 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
       } catch (err) {
         if (isAxiosError(err)) {
           if (onError) {
-            onError(err.response?.data.code, err.response?.data.error)
+            onError(err.response?.data.code, err.response?.data.error);
           }
           if (err.response?.status === 404) {
             // then it's a non-existent topic

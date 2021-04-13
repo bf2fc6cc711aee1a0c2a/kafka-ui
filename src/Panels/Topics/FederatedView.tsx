@@ -13,7 +13,7 @@ import { AlertContext, AlertContextProps } from '../../Contexts/Alert';
 import { BrowserRouter } from 'react-router-dom';
 import { FederatedProps } from '../../Utils';
 
-export interface FederatedTopicsProps extends FederatedProps  {
+export interface FederatedTopicsProps extends FederatedProps {
   getToken: () => Promise<string>;
   apiBasePath: string;
   onCreateTopic: () => void;
@@ -21,7 +21,7 @@ export interface FederatedTopicsProps extends FederatedProps  {
   getTopicDetailsPath: (topic: string | undefined) => string;
   addAlert: (message: string, variant?: AlertVariant) => void;
   onDeleteTopic: () => void;
-};
+}
 
 const FederatedTopics: FunctionComponent<FederatedTopicsProps> = ({
   getToken,
@@ -31,7 +31,7 @@ const FederatedTopics: FunctionComponent<FederatedTopicsProps> = ({
   onClickTopic,
   addAlert,
   onDeleteTopic,
-  onError
+  onError,
 }) => {
   const alertContext = {
     addAlert,
