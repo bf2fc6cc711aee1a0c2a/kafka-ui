@@ -3,8 +3,6 @@ import './style.scss';
 import { ConfigContext, IConfiguration } from '../../Contexts';
 import {
   AlertVariant,
-  PageSection,
-  PageSectionVariants,
 } from '@patternfly/react-core';
 import { CreateTopicPage } from '../../Modules/Topics/CreateTopic/CreateTopicPage';
 import kafkai18n from '../../i18n';
@@ -39,9 +37,7 @@ const FederatedCreateTopic: FunctionComponent<FederatedCreateTopicProps> = ({
         value={{ basePath: apiBasePath, getToken } as IConfiguration}
       >
         <AlertContext.Provider value={alertContext}>
-          <PageSection variant={PageSectionVariants.light}>
-            <CreateTopicPage setIsCreateTopic={setIsCreateTopic} />
-          </PageSection>
+          <CreateTopicPage setIsCreateTopic={setIsCreateTopic} />
         </AlertContext.Provider>
       </ConfigContext.Provider>
     </I18nextProvider>
