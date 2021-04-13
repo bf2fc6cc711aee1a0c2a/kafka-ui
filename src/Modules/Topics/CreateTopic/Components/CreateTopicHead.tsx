@@ -3,7 +3,6 @@ import {
   PageSectionVariants,
   Title,
   Switch,
-  Divider,
   Breadcrumb,
   BreadcrumbItem,
 } from '@patternfly/react-core';
@@ -50,7 +49,6 @@ export const CreateTopichead: React.FC<ICreateTopicProps> = ({
           className='create-topic-wizard'
         />
       </PageSection>
-      <Divider />
     </>
   );
 };

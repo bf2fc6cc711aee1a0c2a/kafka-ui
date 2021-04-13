@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import {
   AlertVariant,
+  Divider,
   PageSection,
   PageSectionTypes,
   PageSectionVariants,
@@ -62,7 +63,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     'retention.ms.unit': 'days',
     'retention.bytes': '-1',
     'retention.bytes.unit': 'bytes',
-    'log.cleanup.policy': 'delete'
+    'log.cleanup.policy': 'delete',
   });
 
   const [currentPeriod, setCurrentPeriod] = React.useState<string | number>(
@@ -177,6 +178,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     <>
       {isSwitchChecked ? (
         <>
+          <Divider />
           <PageSection variant={PageSectionVariants.light}>
             <TopicAdvanceConfig
               isCreate={true}
