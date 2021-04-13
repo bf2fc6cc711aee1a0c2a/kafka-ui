@@ -33,7 +33,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
     'retention.ms.unit': 'milliseconds',
     'retention.bytes': '',
     'retention.bytes.unit': "bytes",
-    'log.cleanup.policy': ''
+    'cleanup.policy': ''
   });
   const config = useContext(ConfigContext);
   const { addAlert } = useContext(AlertContext);
@@ -49,7 +49,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
       {
         ...topicData,
         numPartitions: topicRes?.partitions?.length.toString() || '',
-        'log.cleanup.policy': configEntries['log.cleanup.policy'] || 'delete',
+        'cleanup.policy': configEntries['cleanup.policy'] || 'delete',
         'retention.bytes': configEntries['retention.bytes'] || '-1',
         'retention.ms': configEntries['retention.ms'] || '604800000'
       }
@@ -73,7 +73,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
       if (key && key !== 'numPartitions') {
         newConfig.push({
           key,
-          value: configEntries[key].toString(),
+          value: configEntries[key].toString().toLowerCase(),
         });
       }
     }

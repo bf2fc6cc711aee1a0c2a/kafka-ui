@@ -194,7 +194,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextWithLabelPopover
               btnAriaLabel='topic detail cleanup policy'
               fieldLabel='Cleanup policy'
-              fieldValue={topic['log.cleanup.policy']}
+              fieldValue={topic['cleanup.policy']}
               popoverBody={t('createTopic.cleanupPolicyLabelBody')}
               popoverHeader={t('createTopic.cleanupPolicyLabelHead')}
             />

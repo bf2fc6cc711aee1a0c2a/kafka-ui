@@ -42,7 +42,7 @@ const topic: AdvancedTopic = {
   'message.timestamp.difference.max.ms': '4',
   'message.timestamp.difference.max.ms.unit': 'milliseconds',
   'compression.type': 'Producer',
-  'log.cleanup.policy': 'Delete',
+  'cleanup.policy': 'Delete',
   'retention.bytes': '-1',
   'retention.bytes.unit': 'bytes',
   'log.segment.bytes': '78',

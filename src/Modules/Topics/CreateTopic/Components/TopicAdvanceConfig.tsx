@@ -361,8 +361,8 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                     ariaLabel='select policy type from dropdown'
                     onSelectOption={onDropdownChangeDotSeparated}
                     items={clearOptions}
-                    name='log-cleanup-policy'
-                    value={topicData['log.cleanup.policy'] || ''}
+                    name='cleanup-policy'
+                    value={topicData['cleanup.policy'] || ''}
                   />
                 </FormGroupWithPopover>
 

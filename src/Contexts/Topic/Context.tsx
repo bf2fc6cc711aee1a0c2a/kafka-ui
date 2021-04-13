@@ -19,7 +19,7 @@ export const initialState: AdvancedTopic = {
   'message.timestamp.difference.max.ms.unit': 'milliseconds',
   'compression.type': '',
   'log.message.format.version': '',
-  'log.cleanup.policy': '',
+  'cleanup.policy': '',
   'retention.bytes': '-1',
   'retention.bytes.unit': 'bytes',
   'log.segment.bytes': '',
