@@ -42,7 +42,7 @@ const topic: AdvancedTopic = {
   'message.timestamp.difference.max.ms': '4',
   'message.timestamp.difference.max.ms.unit': 'milliseconds',
   'compression.type': 'Producer',
-  'log.cleanup.policy': 'Delete',
+  'cleanup.policy': 'Delete',
   'retention.bytes': '-1',
   'retention.bytes.unit': 'bytes',
   'log.segment.bytes': '78',
@@ -95,7 +95,7 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
       } catch (err) {
         if (isAxiosError(err)) {
           if (onError) {
-            onError(err.response?.data.code, err.response?.data.error)
+            onError(err.response?.data.code, err.response?.data.error);
           }
           if (err.response?.status === 404) {
             // then it's a non-existent topic

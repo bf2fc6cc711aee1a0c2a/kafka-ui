@@ -86,7 +86,7 @@
         "value": "snappy"
       },
       {
-        "key": "log.cleanup.policy",
+        "key": "cleanup.policy",
         "value": "compact"
       },
       {

@@ -15,7 +15,7 @@ import {
   TextVariants,
   TextInput,
   NumberInput,
-  Form
+  Form,
 } from '@patternfly/react-core';
 import './CreateTopicWizard.css';
 
@@ -24,7 +24,10 @@ import { TextWithLabelPopover } from '../../../../Components/TextWithLabelPopove
 import { FormGroupWithPopover } from '../../../../Components/FormGroupWithPopover/FormGroupWithPopover';
 import { SizeTimeFormGroup } from '../../../../Components/SizeTimeFormGroup/SizeTimeFormGroup';
 import { kebabToCamel, kebabToDotSeparated } from '../utils';
-import { DropdownWithToggle, IDropdownOption } from '../../../../Components/DropdownWithToggle';
+import {
+  DropdownWithToggle,
+  IDropdownOption,
+} from '../../../../Components/DropdownWithToggle';
 import { IAdvancedTopic } from './CreateTopicWizard';
 
 interface ITopicAdvanceConfig {
@@ -40,9 +43,8 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
   saveTopic,
   handleCancel,
   topicData,
-  setTopicData
+  setTopicData,
 }) => {
-
   const { t } = useTranslation();
 
   const actionText = isCreate === true ? 'Create Topic' : 'Save';
@@ -50,8 +52,18 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
   const clearOptions: IDropdownOption[] = [
     { key: 'compact', value: 'compact', label: 'Compact', isDisabled: false },
     { key: 'delete', value: 'delete', label: 'Delete', isDisabled: false },
-    { key: 'compact-delete', value: 'compact, delete', label: 'Compact, Delete', isDisabled: false },
-    { key: 'delete-compact', value: 'delete, compact', label: 'Delete, Compact', isDisabled: false },
+    {
+      key: 'compact-delete',
+      value: 'compact, delete',
+      label: 'Compact, Delete',
+      isDisabled: false,
+    },
+    {
+      key: 'delete-compact',
+      value: 'delete, compact',
+      label: 'Delete, Compact',
+      isDisabled: false,
+    },
   ];
 
   const handleTextInputChange = (
@@ -67,9 +79,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     setTopicData({ ...topicData, [kebabToDotSeparated(fieldName)]: value });
   };
 
-  const onPartitionsChange = (
-    event: React.FormEvent<HTMLInputElement>
-  ) => {
+  const onPartitionsChange = (event: React.FormEvent<HTMLInputElement>) => {
     const { name: fieldName, value } = event.currentTarget;
     setTopicData({ ...topicData, [kebabToCamel(fieldName)]: Number(value) });
   };
@@ -77,32 +87,47 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
   const handleTouchSpinPlusCamelCase = (event) => {
     const { name } = event.currentTarget;
     const fieldName = kebabToCamel(name);
-    setTopicData({ ...topicData, [fieldName]: Number(topicData[fieldName]) + 1 });
+    setTopicData({
+      ...topicData,
+      [fieldName]: Number(topicData[fieldName]) + 1,
+    });
   };
 
   const handleTouchSpinMinusCamelCase = (event) => {
     const { name } = event.currentTarget;
     const fieldName = kebabToCamel(name);
-    setTopicData({ ...topicData, [fieldName]: Number(topicData[fieldName]) - 1 });
+    setTopicData({
+      ...topicData,
+      [fieldName]: Number(topicData[fieldName]) - 1,
+    });
   };
 
   const handleTouchSpinInputChange = (
     event: React.FormEvent<HTMLInputElement>
   ) => {
     const { name: fieldName, value } = event.currentTarget;
-    setTopicData({ ...topicData, [kebabToDotSeparated(fieldName)]: Number(value) });
+    setTopicData({
+      ...topicData,
+      [kebabToDotSeparated(fieldName)]: Number(value),
+    });
   };
 
   const handleTouchSpinPlus = (event) => {
     const { name } = event.currentTarget;
     const fieldName = kebabToDotSeparated(name);
-    setTopicData({ ...topicData, [fieldName]: Number(topicData[fieldName]) + 1 });
+    setTopicData({
+      ...topicData,
+      [fieldName]: Number(topicData[fieldName]) + 1,
+    });
   };
 
   const handleTouchSpinMinus = (event) => {
     const { name } = event.currentTarget;
     const fieldName = kebabToDotSeparated(name);
-    setTopicData({ ...topicData, [fieldName]: Number(topicData[fieldName]) - 1 });
+    setTopicData({
+      ...topicData,
+      [fieldName]: Number(topicData[fieldName]) - 1,
+    });
   };
 
   const onDropdownChangeDotSeparated = (value: string, event) => {
@@ -217,7 +242,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                   <TextWithLabelPopover
                     btnAriaLabel='topic detail replicas'
                     fieldLabel='Replicas'
-                    fieldValue={"3"}
+                    fieldValue={'3'}
                     popoverBody={t('createTopic.replicasLabelBody')}
                     popoverHeader={t('createTopic.replicasLabelHead')}
                   />
@@ -225,7 +250,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                   <TextWithLabelPopover
                     btnAriaLabel='topic detail min-in-sync replica'
                     fieldLabel='Minimum in-sync replicas'
-                    fieldValue={"2"}
+                    fieldValue={'2'}
                     popoverBody={t('createTopic.inSyncReplicasLabelBody')}
                     popoverHeader={t('createTopic.inSyncReplicasLabelHead')}
                   />
@@ -292,7 +317,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='topic detail max message bytes'
                   fieldLabel='Maximum message bytes'
-                  fieldValue={"1000012"}
+                  fieldValue={'1000012'}
                   popoverBody={t('createTopic.maxMessageSizeLabelBody')}
                   popoverHeader={t('createTopic.maxMessageSizeLabelHead')}
                   unit={'bytes'}
@@ -301,7 +326,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='topic detail message timestamp type'
                   fieldLabel='Message timestamp type'
-                  fieldValue={"CreateTime"}
+                  fieldValue={'CreateTime'}
                   popoverBody={t('createTopic.messageTimestampLabelBody')}
                   popoverHeader={t('createTopic.messageTimestampLabelHead')}
                 />
@@ -309,7 +334,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='topic detail message timestamp difference'
                   fieldLabel='Maximum message timestamp difference'
-                  fieldValue={"9007199254740991"}
+                  fieldValue={'9007199254740991'}
                   popoverBody={t('createTopic.messageTimestampDiffLabelBody')}
                   popoverHeader={t('createTopic.messageTimestampDiffLabelHead')}
                   unit={'ms'}
@@ -318,7 +343,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='topic detail compression type'
                   fieldLabel='Compression type'
-                  fieldValue={"Producer"}
+                  fieldValue={'Producer'}
                   popoverBody={t('createTopic.compressionTypeLabelBody')}
                   popoverHeader={t('createTopic.compressionTypeLabelHead')}
                 />
@@ -326,7 +351,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='topic detail message format version'
                   fieldLabel='Message format version'
-                  fieldValue={"2.6"}
+                  fieldValue={'2.6'}
                   popoverBody={t('createTopic.messageFormatLabelBody')}
                   popoverHeader={t('createTopic.messageFormatLabelHead')}
                 />
@@ -337,7 +362,10 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                   <Text component={TextVariants.h2} tabIndex={-1} id='log'>
                     Log
                   </Text>
-                  <Text component={TextVariants.p} className='section-info-head'>
+                  <Text
+                    component={TextVariants.p}
+                    className='section-info-head'
+                  >
                     {t('createTopic.logSectionInfo')}
                   </Text>
                   <Text
@@ -361,15 +389,15 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                     ariaLabel='select policy type from dropdown'
                     onSelectOption={onDropdownChangeDotSeparated}
                     items={clearOptions}
-                    name='log-cleanup-policy'
-                    value={topicData['log.cleanup.policy'] || ''}
+                    name='cleanup-policy'
+                    value={topicData['cleanup.policy'] || ''}
                   />
                 </FormGroupWithPopover>
 
                 <TextWithLabelPopover
                   btnAriaLabel='topic detail retention bytes'
                   fieldLabel='Delete retention time'
-                  fieldValue={"86400000"}
+                  fieldValue={'86400000'}
                   popoverBody={t('createTopic.deleteRetentionLabelBody')}
                   popoverHeader={t('createTopic.deleteRetentionLabelHead')}
                   unit={'time'}
@@ -378,7 +406,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='topic detail min cleanable dirty ratio'
                   fieldLabel='Minimum cleanable dirty ratio'
-                  fieldValue={"4"}
+                  fieldValue={'4'}
                   popoverBody={t('createTopic.minRatioLabelBody')}
                   popoverHeader={t('createTopic.minRatioLabelHead')}
                 />
@@ -386,7 +414,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='topic detail min compaction lag time'
                   fieldLabel='Minimum compaction lag time'
-                  fieldValue={"0"}
+                  fieldValue={'0'}
                   popoverBody={t('createTopic.minLagLabelBody')}
                   popoverHeader={t('createTopic.minLagLabelHead')}
                   unit={'ms'}
@@ -395,10 +423,17 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
 
               <StackItem>
                 <TextContent className='section-margin'>
-                  <Text component={TextVariants.h2} tabIndex={-1} id='replication'>
+                  <Text
+                    component={TextVariants.h2}
+                    tabIndex={-1}
+                    id='replication'
+                  >
                     Replication
                   </Text>
-                  <Text component={TextVariants.p} className='section-info-head'>
+                  <Text
+                    component={TextVariants.p}
+                    className='section-info-head'
+                  >
                     {t('createTopic.replicationSectionInfo')}
                   </Text>
                   <Text
@@ -412,7 +447,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='topic detail unclean leader election'
                   fieldLabel='Unclean leader election'
-                  fieldValue={"Disabled"}
+                  fieldValue={'Disabled'}
                   popoverBody={t('createTopic.leaderElectionLabelBody')}
                   popoverHeader={t('createTopic.leaderElectionLabelHead')}
                 />
@@ -431,7 +466,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='topic detail max message bytes'
                   fieldLabel='Log segment size'
-                  fieldValue={"1000012"}
+                  fieldValue={'1000012'}
                   popoverBody={t('createTopic.logSegmentLabelHead')}
                   popoverHeader={t('createTopic.logSegmentLabelBody')}
                   unit={'bytes'}
@@ -440,7 +475,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='segment time'
                   fieldLabel='Segment time'
-                  fieldValue={"6048000"}
+                  fieldValue={'6048000'}
                   popoverBody={t('createTopic.segementTimeLabelBody')}
                   popoverHeader={t('createTopic.segementTimeLabelHead')}
                   unit={'ms'}
@@ -449,7 +484,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='segment jitter time'
                   fieldLabel='Segment jitter time'
-                  fieldValue={"0"}
+                  fieldValue={'0'}
                   popoverBody={t('createTopic.jitterTimeLabelBody')}
                   popoverHeader={t('createTopic.jitterTimeLabelHead')}
                   unit={'ms'}
@@ -458,7 +493,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='file delete delay'
                   fieldLabel='File delete delay'
-                  fieldValue={"6000"}
+                  fieldValue={'6000'}
                   popoverBody={t('createTopic.deleteDelayLabelBody')}
                   popoverHeader={t('createTopic.deleteDelayLabelHead')}
                   unit={'ms'}
@@ -467,7 +502,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='preallocation log segment files'
                   fieldLabel='Preallocation log segment files'
-                  fieldValue={"Enabled"}
+                  fieldValue={'Enabled'}
                   popoverBody={t('createTopic.preallocateLabelBody')}
                   popoverHeader={t('createTopic.preallocateLabelHead')}
                 />
@@ -486,7 +521,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='index interval size'
                   fieldLabel='Index interval size'
-                  fieldValue={"4096"}
+                  fieldValue={'4096'}
                   popoverBody={t('createTopic.indexIntervalLabelBody')}
                   popoverHeader={t('createTopic.indexIntervalLabelHead')}
                   unit={'bytes'}
@@ -495,7 +530,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='segment index size'
                   fieldLabel='Segment index size'
-                  fieldValue={"10847560"}
+                  fieldValue={'10847560'}
                   popoverBody={t('createTopic.segementIntervalLabelBody')}
                   popoverHeader={t('createTopic.segementIntervalLabelHead')}
                   unit={'bytes'}
@@ -515,7 +550,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='flush interval messages'
                   fieldLabel='Flush interval messages'
-                  fieldValue={"984245548293848"}
+                  fieldValue={'984245548293848'}
                   popoverBody={t('createTopic.intervalMessagesLabelBody')}
                   popoverHeader={t('createTopic.intervalMessagesLabelHead')}
                   unit={'ms'}
@@ -524,7 +559,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='flush interval time'
                   fieldLabel='Flush interval time'
-                  fieldValue={"968472937473987"}
+                  fieldValue={'968472937473987'}
                   popoverBody={t('createTopic.intervalTimeLabelBody')}
                   popoverHeader={t('createTopic.intervalTimeLabelHead')}
                   unit={'ms'}

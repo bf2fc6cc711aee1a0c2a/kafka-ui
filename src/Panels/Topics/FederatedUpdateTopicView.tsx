@@ -22,7 +22,7 @@ export interface FederatedUpdateTopicProps extends FederatedProps {
   addAlert: (message: string, variant?: AlertVariant) => void;
   onDeleteTopic: () => void;
   onSaveTopic: () => void;
-};
+}
 
 const FederatedUpdateTopicView: FunctionComponent<FederatedUpdateTopicProps> = ({
   getToken,
@@ -34,7 +34,7 @@ const FederatedUpdateTopicView: FunctionComponent<FederatedUpdateTopicProps> = (
   addAlert,
   onDeleteTopic,
   onSaveTopic,
-  onError
+  onError,
 }) => {
   const alertContext = {
     addAlert,

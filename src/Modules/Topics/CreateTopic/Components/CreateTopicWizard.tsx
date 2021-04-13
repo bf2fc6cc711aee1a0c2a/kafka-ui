@@ -40,7 +40,7 @@ export interface IAdvancedTopic {
   /** unit for retention bytes */
   'retention.bytes.unit'?: string;
 
-  'log.cleanup.policy'?: string;
+  'cleanup.policy'?: string;
 }
 
 export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
@@ -63,7 +63,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     'retention.ms.unit': 'days',
     'retention.bytes': '-1',
     'retention.bytes.unit': 'bytes',
-    'log.cleanup.policy': 'delete',
+    'cleanup.policy': 'delete',
   });
 
   const [currentPeriod, setCurrentPeriod] = React.useState<string | number>(

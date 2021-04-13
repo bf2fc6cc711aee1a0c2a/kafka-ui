@@ -28,7 +28,7 @@ export interface AdvancedTopic {
   /** The message format version the broker will use to append messages to the logs */
   'log.message.format.version'?: string;
   /** determines what happens to log segments beyond the retention window */
-  'log.cleanup.policy'?: string;
+  'cleanup.policy'?: string;
   /** maximum total size of a partition's log segments before old log segments are deleted */
   'retention.bytes'?: string;
   /** unit for retention bytes */

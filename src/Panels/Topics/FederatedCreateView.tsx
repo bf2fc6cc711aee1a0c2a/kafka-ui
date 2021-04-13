@@ -1,9 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import './style.scss';
 import { ConfigContext, IConfiguration } from '../../Contexts';
-import {
-  AlertVariant,
-} from '@patternfly/react-core';
+import { AlertVariant } from '@patternfly/react-core';
 import { CreateTopicPage } from '../../Modules/Topics/CreateTopic/CreateTopicPage';
 import kafkai18n from '../../i18n';
 import { I18nextProvider } from 'react-i18next';
@@ -15,13 +13,13 @@ export interface FederatedCreateTopicProps extends FederatedProps {
   apiBasePath: string;
   onCloseCreateTopic: () => void;
   addAlert: (message: string, variant?: AlertVariant) => void;
-};
+}
 
 const FederatedCreateTopic: FunctionComponent<FederatedCreateTopicProps> = ({
   getToken,
   apiBasePath,
   onCloseCreateTopic,
-  addAlert
+  addAlert,
 }) => {
   const alertContext = {
     addAlert,
