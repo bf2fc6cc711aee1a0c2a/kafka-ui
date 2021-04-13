@@ -144,13 +144,6 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
             <JumpLinksItem key={6} href='#flush'>
               Flush
             </JumpLinksItem>
-            {isCreate ? (
-              <></>
-            ) : (
-              <JumpLinksItem key={7} href='#delete'>
-                Delete
-              </JumpLinksItem>
-            )}
           </JumpLinks>
         </SidebarPanel>
         <SidebarContent>

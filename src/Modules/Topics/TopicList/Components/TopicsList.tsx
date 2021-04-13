@@ -143,8 +143,8 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
     } else if (Math.abs(byte) >= 1000000000 && Math.abs(byte) < 1000000000000) {
       convertedByteValue = byte / 1000000000;
       if (convertedByteValue === 1)
-        return convertedByteValue + ' ' + 'gigaabyte';
-      else return convertedByteValue + ' ' + 'gigaabytes';
+        return convertedByteValue + ' ' + 'gigabyte';
+      else return convertedByteValue + ' ' + 'gigabytes';
     } else if (Math.abs(byte) >= 1000000000000) {
       convertedByteValue = byte / 1000000000000;
       if (convertedByteValue === 1)
