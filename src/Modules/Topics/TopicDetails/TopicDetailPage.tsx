@@ -24,6 +24,7 @@ export type TopicDetailGroupProps = {
   getTopicListPath: () => string;
   onClickTopicList: () => void;
   onDeleteTopic: () => void;
+  onError?: (errorCode: number, message: string) => void;
   eventKey: number;
 };
 
@@ -77,6 +78,7 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
   getTopicListPath,
   onClickTopicList,
   onDeleteTopic,
+  onError,
   eventKey,
 }) => {
   const [topicDetail, setTopicDetail] = useState<AdvancedTopic>(topic);
@@ -90,9 +92,14 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
       try {
         const response = await getTopicDetail(topicName, config);
         setTopicDetail(response);
-      } catch (e) {
-        if (isAxiosError(e)) {
-          if (e.response?.status === 404) {
+      } catch (err) {
+        debugger;
+        if (isAxiosError(err)) {
+          if (onError) {
+            onError(err.response?.data.code, err.response?.data.error)
+          }
+          debugger;
+          if (err.response?.status === 404) {
             // then it's a non-existent topic
             addAlert(`Topic ${topicName} does not exist`, AlertVariant.danger);
             onClickTopicList();

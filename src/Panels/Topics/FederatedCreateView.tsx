@@ -8,8 +8,9 @@ import { CreateTopicPage } from '../../Modules/Topics/CreateTopic/CreateTopicPag
 import kafkai18n from '../../i18n';
 import { I18nextProvider } from 'react-i18next';
 import { AlertContext, AlertContextProps } from '../../Contexts/Alert';
+import { FederatedProps } from '../../Utils';
 
-export type FederatedCreateTopicProps = {
+export interface FederatedCreateTopicProps extends FederatedProps {
   getToken: () => Promise<string>;
   apiBasePath: string;
   onCloseCreateTopic: () => void;
@@ -20,7 +21,7 @@ const FederatedCreateTopic: FunctionComponent<FederatedCreateTopicProps> = ({
   getToken,
   apiBasePath,
   onCloseCreateTopic,
-  addAlert,
+  addAlert
 }) => {
   const alertContext = {
     addAlert,
