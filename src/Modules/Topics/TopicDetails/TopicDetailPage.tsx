@@ -93,12 +93,10 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
         const response = await getTopicDetail(topicName, config);
         setTopicDetail(response);
       } catch (err) {
-        debugger;
         if (isAxiosError(err)) {
           if (onError) {
             onError(err.response?.data.code, err.response?.data.error)
           }
-          debugger;
           if (err.response?.status === 404) {
             // then it's a non-existent topic
             addAlert(`Topic ${topicName} does not exist`, AlertVariant.danger);
