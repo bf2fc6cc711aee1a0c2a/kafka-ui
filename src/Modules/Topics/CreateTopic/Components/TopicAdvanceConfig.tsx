@@ -317,7 +317,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='topic detail max message bytes'
                   fieldLabel='Maximum message bytes'
-                  fieldValue={'1000012'}
+                  fieldValue={'1048588'}
                   popoverBody={t('createTopic.maxMessageSizeLabelBody')}
                   popoverHeader={t('createTopic.maxMessageSizeLabelHead')}
                   unit={'bytes'}
@@ -334,7 +334,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='topic detail message timestamp difference'
                   fieldLabel='Maximum message timestamp difference'
-                  fieldValue={'9007199254740991'}
+                  fieldValue={'9223372036854775807'}
                   popoverBody={t('createTopic.messageTimestampDiffLabelBody')}
                   popoverHeader={t('createTopic.messageTimestampDiffLabelHead')}
                   unit={'ms'}
@@ -351,7 +351,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='topic detail message format version'
                   fieldLabel='Message format version'
-                  fieldValue={'2.6'}
+                  fieldValue={'2.7-IV2'}
                   popoverBody={t('createTopic.messageFormatLabelBody')}
                   popoverHeader={t('createTopic.messageFormatLabelHead')}
                 />
@@ -400,13 +400,13 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                   fieldValue={'86400000'}
                   popoverBody={t('createTopic.deleteRetentionLabelBody')}
                   popoverHeader={t('createTopic.deleteRetentionLabelHead')}
-                  unit={'time'}
+                  unit={'ms'}
                 />
 
                 <TextWithLabelPopover
                   btnAriaLabel='topic detail min cleanable dirty ratio'
                   fieldLabel='Minimum cleanable dirty ratio'
-                  fieldValue={'4'}
+                  fieldValue={'0.5'}
                   popoverBody={t('createTopic.minRatioLabelBody')}
                   popoverHeader={t('createTopic.minRatioLabelHead')}
                 />
@@ -464,9 +464,9 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 </TextContent>
 
                 <TextWithLabelPopover
-                  btnAriaLabel='topic detail max message bytes'
+                  btnAriaLabel='topic detail log segment bytes'
                   fieldLabel='Log segment size'
-                  fieldValue={'1000012'}
+                  fieldValue={'1073741824'}
                   popoverBody={t('createTopic.logSegmentLabelHead')}
                   popoverHeader={t('createTopic.logSegmentLabelBody')}
                   unit={'bytes'}
@@ -475,7 +475,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='segment time'
                   fieldLabel='Segment time'
-                  fieldValue={'6048000'}
+                  fieldValue={'604800000'}
                   popoverBody={t('createTopic.segementTimeLabelBody')}
                   popoverHeader={t('createTopic.segementTimeLabelHead')}
                   unit={'ms'}
@@ -493,7 +493,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='file delete delay'
                   fieldLabel='File delete delay'
-                  fieldValue={'6000'}
+                  fieldValue={'60000'}
                   popoverBody={t('createTopic.deleteDelayLabelBody')}
                   popoverHeader={t('createTopic.deleteDelayLabelHead')}
                   unit={'ms'}
@@ -502,7 +502,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='preallocation log segment files'
                   fieldLabel='Preallocation log segment files'
-                  fieldValue={'Enabled'}
+                  fieldValue={'Disabled'}
                   popoverBody={t('createTopic.preallocateLabelBody')}
                   popoverHeader={t('createTopic.preallocateLabelHead')}
                 />
@@ -530,7 +530,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='segment index size'
                   fieldLabel='Segment index size'
-                  fieldValue={'10847560'}
+                  fieldValue={'10485760'}
                   popoverBody={t('createTopic.segementIntervalLabelBody')}
                   popoverHeader={t('createTopic.segementIntervalLabelHead')}
                   unit={'bytes'}
@@ -550,7 +550,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='flush interval messages'
                   fieldLabel='Flush interval messages'
-                  fieldValue={'984245548293848'}
+                  fieldValue={'9223372036854775807'}
                   popoverBody={t('createTopic.intervalMessagesLabelBody')}
                   popoverHeader={t('createTopic.intervalMessagesLabelHead')}
                   unit={'ms'}
@@ -559,7 +559,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <TextWithLabelPopover
                   btnAriaLabel='flush interval time'
                   fieldLabel='Flush interval time'
-                  fieldValue={'968472937473987'}
+                  fieldValue={'9223372036854775807'}
                   popoverBody={t('createTopic.intervalTimeLabelBody')}
                   popoverHeader={t('createTopic.intervalTimeLabelHead')}
                   unit={'ms'}

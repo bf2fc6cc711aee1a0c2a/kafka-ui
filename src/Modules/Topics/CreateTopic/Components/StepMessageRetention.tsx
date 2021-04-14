@@ -60,7 +60,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
   const [
     retentionSizeTouchspinValue,
     setRetentionSizeTouchspinValue,
-  ] = useState<number>(1);
+  ] = useState<number>(-1);
   const [
     isRetentionTimeSelectOpen,
     setIsRetentionTimeSelectOpen,
