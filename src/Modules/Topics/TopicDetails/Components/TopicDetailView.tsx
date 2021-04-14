@@ -379,6 +379,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
               variant='danger'
               className='section-margin'
               onClick={deleteTopic}
+              data-testid="tabProperties-actionDelete"
             >
               Delete topic
             </Button>
@@ -386,7 +387,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
         </PageGroup>
       </GridItem>
       <GridItem span={2} className='grid-item-padding'>
-        <Button variant='primary' onClick={updateTopic}>
+        <Button variant='primary' onClick={updateTopic} data-testid="tabProperties-actionEdit">
           Edit properties
         </Button>
       </GridItem>
