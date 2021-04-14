@@ -70,7 +70,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     86400000
   );
   const [currentSize, setCurrentSize] = React.useState<string | number>(
-    'custom'
+    -1
   );
 
   const closeWizard = () => {
@@ -85,18 +85,18 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     const topic: NewTopicInput = isSwitchChecked
       ? formatTopicRequest(convertUnits(topicData))
       : {
-          name: topicNameInput,
-          settings: {
-            numPartitions: partitionTouchspinValue,
-            config: [
-              {
-                key: 'retention.ms',
-                value: msgRetentionValue.toString(),
-              },
-              { key: 'retention.bytes', value: retentionSize.toString() },
-            ],
-          },
-        };
+        name: topicNameInput,
+        settings: {
+          numPartitions: partitionTouchspinValue,
+          config: [
+            {
+              key: 'retention.ms',
+              value: msgRetentionValue.toString(),
+            },
+            { key: 'retention.bytes', value: retentionSize.toString() },
+          ],
+        },
+      };
 
     new DefaultApi(
       new Configuration({
