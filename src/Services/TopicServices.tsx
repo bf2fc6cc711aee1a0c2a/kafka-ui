@@ -53,13 +53,7 @@ const convertTopicResponse = (topic: Topic): AdvancedTopic => {
     }
   });
 
-  topicObj.numPartitions = topic?.partitions?.length;
-
-  topicObj.replicationFactor = topic?.partitions
-    ?.map((p) => p.replicas?.length)
-    .reduce(
-      (previousValue = 0, currentValue = 0) => previousValue + currentValue
-    );
+  topicObj.numPartitions = topic?.partitions?.length || 0;
 
   return topicObj;
 };

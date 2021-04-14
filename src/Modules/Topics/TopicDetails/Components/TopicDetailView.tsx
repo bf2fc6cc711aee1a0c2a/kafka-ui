@@ -103,7 +103,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextWithLabelPopover
               btnAriaLabel='topic detail replicas'
               fieldLabel='Replicas'
-              fieldValue={topic.replicationFactor}
+              fieldValue={'3'}
               popoverBody={t('createTopic.replicasLabelBody')}
               popoverHeader={t('createTopic.replicasLabelHead')}
             />
@@ -111,7 +111,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextWithLabelPopover
               btnAriaLabel='topic detail min-in-sync replica'
               fieldLabel='Minimum in-sync replicas'
-              fieldValue={topic['min.insync.replicas']}
+              fieldValue={'2'}
               popoverBody={t('createTopic.inSyncReplicasLabelBody')}
               popoverHeader={t('createTopic.inSyncReplicasLabelHead')}
             />
@@ -123,6 +123,15 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
               popoverBody={t('createTopic.retentionTimeLabelBody')}
               popoverHeader={t('createTopic.retentionTimeLabelHead')}
               unit={'ms'}
+            />
+
+            <TextWithLabelPopover
+              btnAriaLabel='topic detail retention size'
+              fieldLabel='Retention Size'
+              fieldValue={topic['retention.bytes']}
+              popoverHeader={t('createTopic.retentionBytesLabelHead')}
+              popoverBody={t('createTopic.retentionBytesLabelBody')}
+              unit={'bytes'}
             />
 
             <TextContent className='section-margin'>
@@ -137,7 +146,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextWithLabelPopover
               btnAriaLabel='topic detail max message bytes'
               fieldLabel='Maximum message bytes'
-              fieldValue={topic['max.message.bytes']}
+              fieldValue={'1048588'}
               popoverBody={t('createTopic.maxMessageSizeLabelBody')}
               popoverHeader={t('createTopic.maxMessageSizeLabelHead')}
               unit={'bytes'}
@@ -146,7 +155,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextWithLabelPopover
               btnAriaLabel='topic detail message timestamp type'
               fieldLabel='Message timestamp type'
-              fieldValue={topic['message.timestamp.type']}
+              fieldValue={'CreateTime'}
               popoverBody={t('createTopic.messageTimestampLabelBody')}
               popoverHeader={t('createTopic.messageTimestampLabelHead')}
             />
@@ -154,7 +163,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextWithLabelPopover
               btnAriaLabel='topic detail message timestamp difference'
               fieldLabel='Maximum message timestamp difference'
-              fieldValue={topic['message.timestamp.difference.max.ms']}
+              fieldValue={'9223372036854775807'}
               popoverBody={t('createTopic.messageTimestampDiffLabelBody')}
               popoverHeader={t('createTopic.messageTimestampDiffLabelHead')}
               unit={'ms'}
@@ -163,7 +172,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextWithLabelPopover
               btnAriaLabel='topic detail compression type'
               fieldLabel='Compression type'
-              fieldValue={topic['compression.type']}
+              fieldValue='Producer'
               popoverBody={t('createTopic.compressionTypeLabelBody')}
               popoverHeader={t('createTopic.compressionTypeLabelHead')}
             />
@@ -171,7 +180,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextWithLabelPopover
               btnAriaLabel='topic detail message format version'
               fieldLabel='Message format version'
-              fieldValue={topic['log.message.format.version']}
+              fieldValue='2.7-IV2'
               popoverBody={t('createTopic.messageFormatLabelBody')}
               popoverHeader={t('createTopic.messageFormatLabelHead')}
             />
@@ -202,16 +211,16 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextWithLabelPopover
               btnAriaLabel='topic detail retention bytes'
               fieldLabel='Delete retention time'
-              fieldValue={topic['delete.retention.ms']}
+              fieldValue={'86400000'}
               popoverBody={t('createTopic.deleteRetentionLabelBody')}
               popoverHeader={t('createTopic.deleteRetentionLabelHead')}
-              unit={'time'}
+              unit={'ms'}
             />
 
             <TextWithLabelPopover
               btnAriaLabel='topic detail min cleanable dirty ratio'
               fieldLabel='Minimum cleanable dirty ratio'
-              fieldValue={topic['min.cleanable.dirty.ratio']}
+              fieldValue={'0.5'}
               popoverBody={t('createTopic.minRatioLabelBody')}
               popoverHeader={t('createTopic.minRatioLabelHead')}
             />
@@ -219,7 +228,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextWithLabelPopover
               btnAriaLabel='topic detail min compaction lag time'
               fieldLabel='Minimum compaction lag time'
-              fieldValue={topic['min.compaction.lag.ms']}
+              fieldValue={'0'}
               popoverBody={t('createTopic.minLagLabelBody')}
               popoverHeader={t('createTopic.minLagLabelHead')}
               unit={'ms'}
@@ -243,7 +252,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextWithLabelPopover
               btnAriaLabel='topic detail unclean leader election'
               fieldLabel='Unclean leader election'
-              fieldValue={topic['unclean.leader.election.enable']}
+              fieldValue={'Disabled'}
               popoverBody={t('createTopic.leaderElectionLabelBody')}
               popoverHeader={t('createTopic.leaderElectionLabelHead')}
             />
@@ -260,7 +269,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextWithLabelPopover
               btnAriaLabel='topic detail max message bytes'
               fieldLabel='Log segment size'
-              fieldValue={topic['log.segment.bytes']}
+              fieldValue={'1073741824'}
               popoverBody={t('createTopic.logSegmentLabelHead')}
               popoverHeader={t('createTopic.logSegmentLabelBody')}
               unit={'bytes'}
@@ -269,7 +278,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextWithLabelPopover
               btnAriaLabel='segment time'
               fieldLabel='Segment time'
-              fieldValue={topic['segment.ms']}
+              fieldValue={'604800000'}
               popoverBody={t('createTopic.segementTimeLabelBody')}
               popoverHeader={t('createTopic.segementTimeLabelHead')}
               unit={'ms'}
@@ -278,7 +287,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextWithLabelPopover
               btnAriaLabel='segment jitter time'
               fieldLabel='Segment jitter time'
-              fieldValue={topic['segment.jitter.ms']}
+              fieldValue={'0'}
               popoverBody={t('createTopic.jitterTimeLabelBody')}
               popoverHeader={t('createTopic.jitterTimeLabelHead')}
               unit={'ms'}
@@ -287,7 +296,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextWithLabelPopover
               btnAriaLabel='file delete delay'
               fieldLabel='File delete delay'
-              fieldValue={topic['file.delete.delay.ms']}
+              fieldValue={'60000'}
               popoverBody={t('createTopic.deleteDelayLabelBody')}
               popoverHeader={t('createTopic.deleteDelayLabelHead')}
               unit={'ms'}
@@ -296,7 +305,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextWithLabelPopover
               btnAriaLabel='preallocation log segment files'
               fieldLabel='Preallocation log segment files'
-              fieldValue={topic.preallocate}
+              fieldValue={'Disabled'}
               popoverBody={t('createTopic.preallocateLabelBody')}
               popoverHeader={t('createTopic.preallocateLabelHead')}
             />
@@ -313,7 +322,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextWithLabelPopover
               btnAriaLabel='index interval size'
               fieldLabel='Index interval size'
-              fieldValue={topic['index.interval.bytes']}
+              fieldValue={'4096'}
               popoverBody={t('createTopic.indexIntervalLabelBody')}
               popoverHeader={t('createTopic.indexIntervalLabelHead')}
               unit={'bytes'}
@@ -322,7 +331,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextWithLabelPopover
               btnAriaLabel='segment index size'
               fieldLabel='Segment index size'
-              fieldValue={topic['segment.index.bytes']}
+              fieldValue={'10485760'}
               popoverBody={t('createTopic.segementIntervalLabelBody')}
               popoverHeader={t('createTopic.segementIntervalLabelHead')}
               unit={'bytes'}
@@ -340,7 +349,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextWithLabelPopover
               btnAriaLabel='flush interval messages'
               fieldLabel='Flush interval messages'
-              fieldValue={topic['flush.messages']}
+              fieldValue={'9223372036854775807'}
               popoverBody={t('createTopic.intervalMessagesLabelBody')}
               popoverHeader={t('createTopic.intervalMessagesLabelHead')}
               unit={'ms'}
@@ -349,7 +358,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <TextWithLabelPopover
               btnAriaLabel='flush interval time'
               fieldLabel='Flush interval time'
-              fieldValue={topic['flush.ms']}
+              fieldValue={'9223372036854775807'}
               popoverBody={t('createTopic.intervalTimeLabelBody')}
               popoverHeader={t('createTopic.intervalTimeLabelHead')}
               unit={'ms'}
