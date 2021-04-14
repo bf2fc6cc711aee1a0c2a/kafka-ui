@@ -290,6 +290,15 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
           >
             <Stack hasGutter>
               <Radio
+                isChecked={currentSize === RetentionSizeOption.UNLIMITED}
+                name='radioUnlimitedSize'
+                onChange={handleMessageRetention}
+                label='Unlimited'
+                aria-label='Unlimited'
+                id='radio-controlled-6'
+                value='unlimited'
+              />
+              <Radio
                 isChecked={currentSize === RetentionSizeOption.CUSTOM}
                 name='radioCustomSize'
                 onChange={handleMessageRetention}
@@ -327,15 +336,6 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
                   </FlexItem>
                 </Flex>
               </div>
-              <Radio
-                isChecked={currentSize === RetentionSizeOption.UNLIMITED}
-                name='radioUnlimitedSize'
-                onChange={handleMessageRetention}
-                label='Unlimited'
-                aria-label='Unlimited'
-                id='radio-controlled-6'
-                value='unlimited'
-              />
             </Stack>
           </FormGroup>
         </Form>

@@ -112,7 +112,9 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   ];
   const convertRetentionTime = (milliseconds: number) => {
     let convertedValue;
-    if (milliseconds < 60000) {
+    if (milliseconds === -1) {
+      return 'Unlimited';
+    } else if (milliseconds < 60000) {
       if (milliseconds === 1) return milliseconds + ' ' + 'millisecond';
       else return milliseconds + ' ' + 'milliseconds';
     } else if (milliseconds >= 60000 && milliseconds < 3.6e6) {
@@ -134,7 +136,9 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
 
   const convertRetentionSize = (byte: number) => {
     let convertedByteValue;
-    if (Math.abs(byte) < 1000) {
+    if (byte === -1) {
+      return 'Unlimited';
+    } else if (Math.abs(byte) < 1000) {
       if (byte === 1) return byte + ' ' + 'byte';
       else return byte + ' ' + 'bytes';
     } else if (Math.abs(byte) >= 1000 && Math.abs(byte) < 1000000) {
@@ -206,9 +210,9 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
       setFilteredTopics((prevState) =>
         prevState
           ? {
-              ...prevState,
-              items: filterSearch,
-            }
+            ...prevState,
+            items: filterSearch,
+          }
           : undefined
       );
     } else {
