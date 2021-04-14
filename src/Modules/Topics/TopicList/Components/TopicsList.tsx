@@ -168,6 +168,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
       {
         title: (
           <Link
+            data-testid="tableTopics-linkTopic"
             to={getTopicDetailsPath(topic.name)}
             onClick={(e) => {
               e.preventDefault();
@@ -237,8 +238,8 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   };
 
   const actions = [
-    { title: 'Delete', onClick: (_, rowId) => onDelete(rowId) },
-    { title: 'Edit', onClick: (_, rowId) => onEdit(rowId) },
+    { title: 'Delete', ['data-testid']: 'tableTopics-actionDelete', onClick: (_, rowId) => onDelete(rowId) }, 
+    { title: 'Edit', ['data-testid']: 'tableTopics-actionEdit', onClick: (_, rowId) => onEdit(rowId) },
   ];
 
   if (loading) {

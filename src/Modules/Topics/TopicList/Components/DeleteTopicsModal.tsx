@@ -60,6 +60,7 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
           variant='danger'
           onClick={onDelete}
           key={1}
+          data-testid="modalDeleteTopic-buttonDelete"
           isDisabled={verificationText.toUpperCase() != 'DELETE'}
         >
           Delete

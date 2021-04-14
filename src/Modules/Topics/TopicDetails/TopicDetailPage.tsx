@@ -138,6 +138,7 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
         >
           <Tab
             eventKey={1}
+            data-testid="pageTopic-tabConsumers"
             title={<TabTitleText>Consumer Groups</TabTitleText>}
           >
             <ConsumerGroupsList
@@ -146,11 +147,12 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
               topic={topicName}
             />
           </Tab>
-          <Tab eventKey={2} title={<TabTitleText>Properties</TabTitleText>}>
+          <Tab eventKey={2} title={<TabTitleText>Properties</TabTitleText>} data-testid="pageTopic-tabProperties">
             <TopicDetailView
               topic={topicDetail}
               deleteTopic={deleteTopic}
               updateTopic={onUpdateTopic}
+
             />
           </Tab>
         </Tabs>
