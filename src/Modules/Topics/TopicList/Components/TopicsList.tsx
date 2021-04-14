@@ -78,10 +78,12 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
         setFilteredTopics(topicsList);
       }
     } catch (err) {
-      if (onError) {
+      //TODO: Update the api to allow suppress alerts if the application does not want to show them as well.
+      if (onError && err.response.data.code === 401) {
         onError(err.response.data.code, err.response.data.error);
+      } else {
+        addAlert(err.response.data.error, AlertVariant.danger);
       }
-      addAlert(err.response.data.error, AlertVariant.danger);
     }
     setLoading(false);
   };
