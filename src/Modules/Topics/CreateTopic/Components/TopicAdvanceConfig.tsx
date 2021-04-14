@@ -66,6 +66,8 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     },
   ];
 
+  const minPartition = 1;
+
   const handleTextInputChange = (
     value: string,
     event: React.FormEvent<HTMLInputElement>
@@ -237,6 +239,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                       value={Number(topicData.numPartitions)}
                       plusBtnProps={{ name: 'num-partitions' }}
                       minusBtnProps={{ name: 'num-partitions' }}
+                      min={minPartition}
                     />
                   </FormGroupWithPopover>
                   <TextWithLabelPopover
