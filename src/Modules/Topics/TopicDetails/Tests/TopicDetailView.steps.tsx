@@ -6,6 +6,8 @@ import {
   TopicViewDetailProps,
 } from '../../../../Modules/Topics/TopicDetails/Components/TopicDetailView';
 import { AdvancedTopic } from '../../../../Contexts/Topic';
+import { I18nextProvider } from 'react-i18next';
+import kafkai18n from '../../../../../test-utils/i18n';
 
 let renderResult: RenderResult;
 let component: ReactElement;
@@ -63,7 +65,11 @@ const props: TopicViewDetailProps = {
 };
 
 Given('the topic detail view component', () => {
-  component = <TopicDetailView {...props} />;
+  component = (
+    <I18nextProvider i18n={kafkai18n}>
+      <TopicDetailView {...props} />
+    </I18nextProvider>
+  );
 });
 
 When('it is rendered', () => {

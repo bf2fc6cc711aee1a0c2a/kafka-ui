@@ -4,6 +4,8 @@ import {
   IStepReplicas,
 } from '../../../../Modules/Topics/CreateTopic/Components/StepReplicas';
 import React, { ReactElement } from 'react';
+import { I18nextProvider } from 'react-i18next';
+import kafkai18n from '../../../../../test-utils/i18n';
 
 const replicasProps: IStepReplicas = {
   minInSyncReplica: 1,
@@ -11,7 +13,11 @@ const replicasProps: IStepReplicas = {
 };
 
 const setup = () => {
-  const component: ReactElement = <StepReplicas {...replicasProps} />;
+  const component: ReactElement = (
+    <I18nextProvider i18n={kafkai18n}>
+      <StepReplicas {...replicasProps} />
+    </I18nextProvider>
+  );
   const renderResult: RenderResult = render(component);
   return renderResult;
 };

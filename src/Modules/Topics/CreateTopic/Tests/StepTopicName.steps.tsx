@@ -3,14 +3,20 @@ import {
   StepTopicName,
   IStepTopicName,
 } from '../../../../Modules/Topics/CreateTopic/Components/StepTopicName';
+import { I18nextProvider } from 'react-i18next';
 import React, { ReactElement } from 'react';
+import kafkai18n from '../../../../../test-utils/i18n';
 
 const setup = () => {
   const topicNameProps: IStepTopicName = {
     topicNameInput: '',
     setTopicNameInput: jest.fn(),
   };
-  const component: ReactElement = <StepTopicName {...topicNameProps} />;
+  const component: ReactElement = (
+    <I18nextProvider i18n={kafkai18n}>
+      <StepTopicName {...topicNameProps} />
+    </I18nextProvider>
+  );
   const renderResult: RenderResult = render(component);
   return renderResult;
 };
