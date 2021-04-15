@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { AlertVariant } from '@patternfly/react-core';
+import { AlertVariant, PageSection } from '@patternfly/react-core';
 import '../../CreateTopic/Components/CreateTopicWizard.css';
 import { TopicAdvanceConfig } from '../../CreateTopic/Components/TopicAdvanceConfig';
 import { getTopic, updateTopicModel } from '../../../../Services/index';
@@ -101,23 +101,25 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
 
   return (
     <>
-      <TopicAdvanceConfig
-        isCreate={false}
-        saveTopic={saveTopic}
-        handleCancel={onCancelUpdateTopic}
-        topicData={topicData}
-        setTopicData={setTopicData}
-      />
-      <br />
-      <br />
-      {deleteModal && (
-        <DeleteTopics
-          deleteModal={deleteModal}
-          setDeleteModal={setDeleteModal}
-          topicName={topicName}
-          onDeleteTopic={onDeleteTopic}
+      <PageSection className='kafka-ui--page__main-section--adjust-padding'>
+        <TopicAdvanceConfig
+          isCreate={false}
+          saveTopic={saveTopic}
+          handleCancel={onCancelUpdateTopic}
+          topicData={topicData}
+          setTopicData={setTopicData}
         />
-      )}
+        <br />
+        <br />
+        {deleteModal && (
+          <DeleteTopics
+            deleteModal={deleteModal}
+            setDeleteModal={setDeleteModal}
+            topicName={topicName}
+            onDeleteTopic={onDeleteTopic}
+          />
+        )}
+      </PageSection>
     </>
   );
 };

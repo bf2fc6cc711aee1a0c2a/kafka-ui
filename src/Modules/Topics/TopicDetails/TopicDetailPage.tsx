@@ -86,12 +86,15 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
         getTopicListPath={getTopicListPath}
         onClickTopicList={onClickTopicList}
       />
-      <PageSection variant={PageSectionVariants.light}>
+      <PageSection
+        variant={PageSectionVariants.light}
+        padding={{ default: 'noPadding' }}
+      >
         <Tabs
           activeKey={activeTabKey}
           onSelect={handleTabClick}
           isBox={false}
-          className='tab-padding'
+          className='kafka-ui--tab-padding'
         >
           <Tab
             eventKey={1}
@@ -105,12 +108,13 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
             />
           </Tab>
           <Tab eventKey={2} title={<TabTitleText>Properties</TabTitleText>} data-testid="pageTopic-tabProperties">
-            <TopicDetailView
-              topic={topicDetail}
-              deleteTopic={deleteTopic}
-              updateTopic={onUpdateTopic}
-
-            />
+            <PageSection padding={{ default: 'noPadding' }}>
+              <TopicDetailView
+                topic={topicDetail}
+                deleteTopic={deleteTopic}
+                updateTopic={onUpdateTopic}
+              />
+            </PageSection>
           </Tab>
         </Tabs>
         {deleteModal && (

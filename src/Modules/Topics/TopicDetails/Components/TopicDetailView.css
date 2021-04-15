@@ -1,16 +1,3 @@
-.breadcrumb-padding,
-.grid-item-padding {
-  padding: 30px;
-}
-
-.header-padding {
-  padding-left: 30px;
-}
-
-.section-margin {
-  margin-top: 2rem;
-}
-
 .section-info-head {
   margin-bottom: 0 !important;
 }
@@ -18,4 +5,17 @@
 .section-info,
 .section-info-note {
   margin-bottom: 1rem;
+}
+
+.kafka-ui--tab-padding {
+  --pf-c-tabs--inset: var(--pf-global--spacer--xl);
+}
+
+/* This is only to apply it when in app services,
+because the PatternFly CSS is being included again after the custom CSS */
+#root .kafka-ui--page__main-section--adjust-padding {
+  padding-top: var(--pf-global--spacer--lg);
+  padding-right: var(--pf-global--spacer--lg);
+  padding-bottom: var(--pf-global--spacer--lg);
+  padding-left: var(--pf-global--spacer--lg);
 }
