@@ -23,9 +23,8 @@ import { TopicsListComponent } from '../Topics/TopicList/Components/TopicsList';
 import { ConsumerGroupsList } from '../ConsumerGroups/ConsumerGroupList/Components/ConsumerGroupList';
 import { EllipsisVIcon } from '@patternfly/react-icons/dist/js/icons/ellipsis-v-icon';
 import { useHistory } from 'react-router';
-import { Dashboard, DashboardSectionItem } from '../../Views';
-import { DashboardSection } from 'src/Views/Dashboard/DashboardSection';
-import SyncIcon from '@patternfly/react-icons/dist/js/icons/sync-icon';
+import { Dashboard, DashboardSectionItem } from '../../Panels';
+import { DashboardSection } from '../../Panels/Dashboard/DashboardSection';
 interface ITabHeaderProps {
   eventKey: number;
   instanceName?: string;
