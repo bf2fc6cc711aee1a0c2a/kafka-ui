@@ -47,7 +47,7 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
             return;
           }}
           isBox={false}
-          className='tab-padding'
+          className='kafka-ui--tab-padding'
         >
           <Tab
             eventKey={0}
@@ -56,7 +56,7 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
             <ConsumerGroupByTopicList />
           </Tab>
           <Tab eventKey={1} title={<TabTitleText>Properties</TabTitleText>}>
-            <PageSection variant='light'>
+            <PageSection variant='light' padding={{ default: 'noPadding' }}>
               <UpdateTopicView
                 topicName={topicName}
                 onCancelUpdateTopic={onCancelUpdateTopic}

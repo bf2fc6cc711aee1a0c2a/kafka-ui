@@ -33,3 +33,7 @@
   padding-top: var(--pf-global--spacer--lg);
   padding-bottom: var(--pf-global--spacer--lg);
 }
+
+.kafka-ui--divider--FlexShrink {
+  flex-shrink: 0;
+}

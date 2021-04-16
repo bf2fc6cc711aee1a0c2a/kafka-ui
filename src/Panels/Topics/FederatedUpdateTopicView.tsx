@@ -2,11 +2,7 @@ import React, { FunctionComponent } from 'react';
 import './style.scss';
 import { UpdateTopicPage } from '../../Modules/Topics/UpdateTopic/UpdateTopicPage';
 import { ConfigContext, TopicContextProvider } from '../../Contexts';
-import {
-  AlertVariant,
-  PageSection,
-  PageSectionVariants,
-} from '@patternfly/react-core';
+import { AlertVariant } from '@patternfly/react-core';
 import kafkai18n from '../../i18n';
 import { I18nextProvider } from 'react-i18next';
 import { AlertContext, AlertContextProps } from '../../Contexts/Alert';
@@ -44,17 +40,15 @@ const FederatedUpdateTopicView: FunctionComponent<FederatedUpdateTopicProps> = (
       <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
         <AlertContext.Provider value={alertContext}>
           <TopicContextProvider>
-            <PageSection variant={PageSectionVariants.light}>
-              <UpdateTopicPage
-                topicName={currentTopic}
-                getTopicListPath={getTopicListPath}
-                onClickTopicList={onClickTopicList}
-                onCancelUpdateTopic={onCancelUpdateTopic}
-                onDeleteTopic={onDeleteTopic}
-                onSaveTopic={onSaveTopic}
-                onError={onError}
-              />
-            </PageSection>
+            <UpdateTopicPage
+              topicName={currentTopic}
+              getTopicListPath={getTopicListPath}
+              onClickTopicList={onClickTopicList}
+              onCancelUpdateTopic={onCancelUpdateTopic}
+              onDeleteTopic={onDeleteTopic}
+              onSaveTopic={onSaveTopic}
+              onError={onError}
+            />
           </TopicContextProvider>
         </AlertContext.Provider>
       </ConfigContext.Provider>

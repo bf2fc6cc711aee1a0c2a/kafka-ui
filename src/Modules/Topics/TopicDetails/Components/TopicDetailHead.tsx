@@ -22,24 +22,26 @@ export const TopicDetailHead: React.FC<TopicDetailHeadProps> = ({
   onClickTopicList,
 }) => {
   return (
-    <section className='pf-c-page__main-breadcrumb'>
-      <Breadcrumb>
-        <BreadcrumbItem
-          onClick={(e) => {
-            e.preventDefault();
-            onClickTopicList();
-          }}
-          to={getTopicListPath()}
-        >
-          Topics
-        </BreadcrumbItem>
-        <BreadcrumbItem>{topicName}</BreadcrumbItem>
-      </Breadcrumb>
+    <>
+      <section className='pf-c-page__main-breadcrumb'>
+        <Breadcrumb>
+          <BreadcrumbItem
+            onClick={(e) => {
+              e.preventDefault();
+              onClickTopicList();
+            }}
+            to={getTopicListPath()}
+          >
+            Topics
+          </BreadcrumbItem>
+          <BreadcrumbItem>{topicName}</BreadcrumbItem>
+        </Breadcrumb>
+      </section>
       <PageSection variant={PageSectionVariants.light}>
-        <TextContent className='header-padding'>
+        <TextContent>
           <Text component={TextVariants.h1}>{topicName}</Text>
         </TextContent>
       </PageSection>
-    </section>
+    </>
   );
 };

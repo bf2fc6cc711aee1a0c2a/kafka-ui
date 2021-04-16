@@ -1,7 +1,5 @@
 import React from 'react';
 import {
-  Grid,
-  GridItem,
   PageSection,
   PageGroup,
   JumpLinks,
@@ -11,6 +9,11 @@ import {
   TextVariants,
   Button,
   Divider,
+  Sidebar,
+  SidebarContent,
+  SidebarPanel,
+  SplitItem,
+  Split,
 } from '@patternfly/react-core';
 import './TopicDetailView.css';
 import { TextWithLabelPopover } from '../../../../Components/TextWithLabelPopover/TextWithLabelPopover';
@@ -34,8 +37,9 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
   const { t } = useTranslation();
 
   return (
-    <Grid hasGutter>
-      <GridItem span={2} className='grid-item-padding'>
+    <PageSection className='kafka-ui--page__main-section--adjust-padding'>
+      <Sidebar hasGutter>
+        <SidebarPanel variant='sticky'>
         <JumpLinks
           isVertical
           label='JUMP TO SECTION'
@@ -67,10 +71,12 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             Delete
           </JumpLinksItem>
         </JumpLinks>
-      </GridItem>
-      <GridItem span={8} className='grid-item-padding'>
-        <PageGroup hasOverflowScroll id='topic-detail-view'>
-          <PageSection>
+        </SidebarPanel>
+        <SidebarContent>
+          <PageGroup hasOverflowScroll id='topic-detail-view'>
+            <PageSection padding={{ default: 'noPadding' }}>
+              <Split>
+                <SplitItem isFilled>
             <TextContent>
               <Text
                 component={TextVariants.h2}
@@ -376,21 +382,23 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             </TextContent>
 
             <Button
-              variant='danger'
-              className='section-margin'
-              onClick={deleteTopic}
-              data-testid="tabProperties-actionDelete"
-            >
-              Delete topic
-            </Button>
-          </PageSection>
-        </PageGroup>
-      </GridItem>
-      <GridItem span={2} className='grid-item-padding'>
-        <Button variant='primary' onClick={updateTopic} data-testid="tabProperties-actionEdit">
-          Edit properties
-        </Button>
-      </GridItem>
-    </Grid>
+                    variant='danger'
+                    className='section-margin'
+                    onClick={deleteTopic}
+                  >
+                    Delete topic
+                  </Button>
+                </SplitItem>
+                <SplitItem>
+                  <Button variant='primary' onClick={updateTopic}>
+                    Edit properties
+                  </Button>
+                </SplitItem>
+              </Split>
+            </PageSection>
+          </PageGroup>
+        </SidebarContent>
+      </Sidebar>
+    </PageSection>
   );
 };
