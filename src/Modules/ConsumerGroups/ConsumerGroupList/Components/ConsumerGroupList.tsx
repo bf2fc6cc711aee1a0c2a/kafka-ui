@@ -152,7 +152,13 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
     }
   };
 
-  const actions = [{ title: 'Delete', ['data-testid']: 'tableConsumers-actionDelete', onClick: (_, rowId) => onDelete(rowId) }];
+  const actions = [
+    {
+      title: 'Delete',
+      ['data-testid']: 'tableConsumers-actionDelete',
+      onClick: (_, rowId) => onDelete(rowId),
+    },
+  ];
 
   const fetchConsumerGroupDetail = async (consumerGroupId) => {
     try {
