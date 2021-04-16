@@ -9,6 +9,8 @@ import {
   Stack,
 } from '@patternfly/react-core';
 import './CreateTopicWizard.css';
+import { useTranslation } from 'react-i18next';
+
 export interface IStepTopicName {
   topicNameInput: string;
   setTopicNameInput: (value: string) => void;
@@ -18,6 +20,9 @@ export const StepTopicName: React.FC<IStepTopicName> = ({
   topicNameInput,
   setTopicNameInput,
 }) => {
+
+  const { t } = useTranslation();
+
   const handleTopicNameChange = (topicNameInput) => {
     setTopicNameInput(topicNameInput);
   };
@@ -51,7 +56,7 @@ export const StepTopicName: React.FC<IStepTopicName> = ({
             aria-describedby='step-topic-name-helper'
             value={topicNameInput}
             onChange={handleTopicNameChange}
-            placeholder='Enter topic name'
+            placeholder={t('createTopic.enterName')}
           />
         </FormGroup>
       </Form>

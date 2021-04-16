@@ -12,7 +12,6 @@ const config = {
     ...jestModuleMapper,
     '\\.(css|less)$':
       '<rootDir>/../node_modules/@patternfly/react-styles/__mocks__/styleMock.js',
-    'react-i18next': '<rootDir>/../__mocks__/react-i18next.tsx',
   },
   testEnvironment: 'jsdom',
   collectCoverageFrom: [

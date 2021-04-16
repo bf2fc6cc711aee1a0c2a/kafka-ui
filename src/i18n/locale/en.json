@@ -13,6 +13,7 @@
     "returnToHome": "Return to home"
   },
   "createTopic": {
+    "enterName": "Enter topic name",
     "topicNameLabelHead": "Topic name",
     "topicNameLabelBody": "Topic name is the unique identifier for this topic within this cluster. You need this to set up your producers and consumers, so make it something memorable.",
     "partitionsLabelHead": "Partitions",
