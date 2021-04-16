@@ -2,6 +2,7 @@ import kafkai18n from '../i18n';
 import { I18nextProvider } from 'react-i18next';
 import ReactDOM from 'react-dom';
 import React from 'react';
+import '@patternfly/react-core/dist/styles/base.css';
 import { ConfigContext } from '../Contexts';
 import { Topics } from '../Panels/Topics';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
