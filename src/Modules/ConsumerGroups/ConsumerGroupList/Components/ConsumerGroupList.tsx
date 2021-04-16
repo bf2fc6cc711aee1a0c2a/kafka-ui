@@ -152,7 +152,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
     }
   };
 
-  const actions = [{ title: 'Delete', onClick: (_, rowId) => onDelete(rowId) }];
+  const actions = [{ title: 'Delete', ['data-testid']: 'tableConsumers-actionDelete', onClick: (_, rowId) => onDelete(rowId) }];
 
   const fetchConsumerGroupDetail = async (consumerGroupId) => {
     try {
@@ -183,6 +183,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
             variant='link'
             isInline
             onClick={() => fetchConsumerGroupDetail(consumer.groupId)}
+            data-testid='tableConsumers-actionDetails'
           >
             {consumer.groupId}
           </Button>
