@@ -6,9 +6,10 @@ import {
   PageSection,
   PageSectionVariants,
 } from '@patternfly/react-core';
-import { ConsumerGroupByTopicList } from '../TopicDetails/Components/ConsumerGroupsByTopic/ConsumerGroupsListByTopic.patternfly';
+import { ConsumerGroupsList } from '../../ConsumerGroups/ConsumerGroupList/Components/ConsumerGroupList';
 import { UpdateTopicView } from './Components/UpdateTopicView';
 import { TopicDetailHead } from '../TopicDetails/Components/TopicDetailHead';
+import { useHistory } from 'react-router';
 
 export interface UpdateTopicPageProps {
   topicName: string;
@@ -29,6 +30,11 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
   onSaveTopic,
   onError,
 }) => {
+  const history = useHistory();
+
+  const onDeleteConsumer = () => {
+    history.push('/consumerGroups');
+  };
   return (
     <>
       <TopicDetailHead
@@ -53,7 +59,11 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
             eventKey={0}
             title={<TabTitleText>Consumer Groups</TabTitleText>}
           >
-            <ConsumerGroupByTopicList />
+            <ConsumerGroupsList
+              onDeleteConsumerGroup={onDeleteConsumer}
+              topic={topicName}
+              consumerGroupByTopic={true}
+            />
           </Tab>
           <Tab eventKey={1} title={<TabTitleText>Properties</TabTitleText>}>
             <PageSection variant='light' padding={{ default: 'noPadding' }}>

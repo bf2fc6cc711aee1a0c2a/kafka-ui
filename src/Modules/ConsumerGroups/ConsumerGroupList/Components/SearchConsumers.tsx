@@ -1,13 +1,6 @@
 import React from 'react';
 import { InputGroup, SearchInput } from '@patternfly/react-core';
 
-export interface IConsumerGroupData {
-  id: string;
-  members: number;
-  partitions: number;
-  state: number;
-}
-
 export interface ISearchConsumerGroupProps {
   setSearch: (value: string) => void;
   search: string;

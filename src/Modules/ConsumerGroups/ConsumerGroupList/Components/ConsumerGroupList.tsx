@@ -47,6 +47,10 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
   const [perPage, setPerPage] = useState<number>(10);
   const [offset, setOffset] = useState<number>(0);
   const [consumerGroups, setConsumerGroups] = useState<ConsumerGroupList>();
+  const [
+    filterConsumerGroups,
+    setFilterConsumerGroups,
+  ] = useState<ConsumerGroupList>();
   const [loading, setLoading] = useState<boolean>(true);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [search, setSearch] = useState<string>('');
@@ -73,6 +77,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
         );
         if (consumerGroupsData) {
           setConsumerGroups(consumerGroupsData);
+          setFilterConsumerGroups(consumerGroupsData);
         }
       } catch (err) {
         addAlert(err.response.data.error, AlertVariant.danger);
@@ -83,6 +88,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
         const consumerGroupsData = await getConsumerGroups(config);
         if (consumerGroupsData) {
           setConsumerGroups(consumerGroupsData);
+          setFilterConsumerGroups(consumerGroupsData);
         }
       } catch (err) {
         addAlert(err.response.data.error, AlertVariant.danger);
@@ -94,7 +100,31 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
   useEffect(() => {
     setLoading(true);
     fetchConsumerGroups();
-  }, [search, deleteModal]);
+  }, [deleteModal]);
+  useEffect(() => {
+    if (
+      search &&
+      search.trim() != '' &&
+      consumerGroups?.items &&
+      consumerGroups.items.length > 0
+    ) {
+      const filterSearch = consumerGroups?.items.filter(
+        (consumerGroupsFiltered) =>
+          consumerGroupsFiltered?.id &&
+          consumerGroupsFiltered.id.includes(search)
+      );
+      setFilterConsumerGroups((prevState) =>
+        prevState
+          ? {
+              ...prevState,
+              items: filterSearch,
+            }
+          : undefined
+      );
+    } else {
+      setFilterConsumerGroups(consumerGroups);
+    }
+  }, [search]);
 
   useTimeout(() => fetchConsumerGroups(), 5000);
 
@@ -117,8 +147,8 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
     { title: 'Partitions with lag' },
   ];
   const onDelete = (rowId: any) => {
-    if (consumerGroups?.items) {
-      setConsumerGroupName(consumerGroups.items[rowId].id);
+    if (filterConsumerGroups?.items) {
+      setConsumerGroupName(filterConsumerGroups.items[rowId].id);
     }
     setDeleteModal(true);
   };
@@ -147,7 +177,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
     />
   );
   const rowData =
-    consumerGroups?.items.map((consumer) => [
+    filterConsumerGroups?.items.map((consumer) => [
       {
         title: (
           <Button
