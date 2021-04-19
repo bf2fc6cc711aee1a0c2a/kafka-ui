@@ -39,7 +39,7 @@ export const TextWithLabelPopover: React.FC<TextWithLabelPopoverProps> = ({
         displayText = humanizeDuration(Number(fieldValue));
       }
       if (unit === 'bytes') {
-        displayText = bytes(Number(fieldValue), {unitSeparator: ' '});
+        displayText = bytes(Number(fieldValue), { unitSeparator: ' ' });
       }
     } else {
       displayText = fieldValue;

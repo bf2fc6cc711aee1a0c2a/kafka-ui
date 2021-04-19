@@ -20,7 +20,6 @@ export const StepTopicName: React.FC<IStepTopicName> = ({
   topicNameInput,
   setTopicNameInput,
 }) => {
-
   const { t } = useTranslation();
 
   const handleTopicNameChange = (topicNameInput) => {
