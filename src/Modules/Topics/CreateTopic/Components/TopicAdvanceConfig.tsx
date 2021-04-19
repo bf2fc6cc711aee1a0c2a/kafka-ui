@@ -568,10 +568,26 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
             </Stack>
           </PageSection>
           <ActionGroup className='kafka-ui--sticky-footer'>
-            <Button onClick={saveTopic} variant='primary' data-testid={isCreate ? "topicAdvanceCreate-actionCreate" : "tabProperties-actionSave"}>
+            <Button
+              onClick={saveTopic}
+              variant='primary'
+              data-testid={
+                isCreate
+                  ? 'topicAdvanceCreate-actionCreate'
+                  : 'tabProperties-actionSave'
+              }
+            >
               {actionText}
             </Button>
-            <Button onClick={handleCancel} variant='link' data-testid={isCreate ? "topicAdvanceCreate-actionCancel" : "tabProperties-actionCancel"}>
+            <Button
+              onClick={handleCancel}
+              variant='link'
+              data-testid={
+                isCreate
+                  ? 'topicAdvanceCreate-actionCancel'
+                  : 'tabProperties-actionCancel'
+              }
+            >
               Cancel
             </Button>
           </ActionGroup>
