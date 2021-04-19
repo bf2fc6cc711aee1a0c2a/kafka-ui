@@ -11,8 +11,12 @@ import React, { useState } from 'react';
 import { CaretDownIcon } from '@patternfly/react-icons';
 import avatarImg from '../../Images/img_avatar.svg';
 import brandImg from '../../Images/brandImg.png';
+import { useTranslation } from 'react-i18next';
 
 export const AppMastHead: React.FC = () => {
+
+  const { t } = useTranslation();
+
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
   const handleUserDropDownSelect = () => {
     setIsDropDownOpen(!isDropDownOpen);
@@ -23,7 +27,7 @@ export const AppMastHead: React.FC = () => {
   };
 
   const userDropDownItems = [<DropdownItem key='logout'>Logout</DropdownItem>];
-  const brandImgLogo = <Brand src={brandImg} alt={'Red Hat logo'} />;
+  const brandImgLogo = <Brand src={brandImg} alt={t('common.redHatLogo')} />;
 
   const userDropDownToggle = (
     <DropdownToggle

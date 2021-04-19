@@ -11,7 +11,6 @@ import { deleteTopic } from '../../../../Services/TopicServices';
 import { ConfigContext } from '../../../../Contexts';
 import { AlertContext } from '../../../../Contexts/Alert/Context';
 import { useTranslation } from 'react-i18next';
-
 export interface IDeleteTopics {
   setDeleteModal: (value: boolean) => void;
   deleteModal: boolean;
@@ -35,7 +34,7 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
   const onDelete = async () => {
     try {
       topicName && (await deleteTopic(topicName, config));
-      addAlert(`Successfully deleted topic ${topicName}`, AlertVariant.success);
+      addAlert(t('createTopic.deleteSuccess', { name: topicName}), AlertVariant.success);
     } catch (err) {
       addAlert(err.response.data.error_message, AlertVariant.danger);
     }
@@ -76,11 +75,11 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
     >
       <Text id='modal-message'>
         {' '}
-        <b>{topicName}</b> will be deleted.{' '}
+        {t('common.confirmDeleteModalText', { name: topicName})}{' '}
       </Text>
 
       <br />
-      <label htmlFor='delete-text-input'>Type DELETE to confirm:</label>
+      <label htmlFor='delete-text-input'>{t('common.confirmDelete')}</label>
       <TextInput
         value={verificationText}
         id='delete-text-input'

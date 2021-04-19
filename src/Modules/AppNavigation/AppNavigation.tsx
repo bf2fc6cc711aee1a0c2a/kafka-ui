@@ -15,6 +15,7 @@ import { TopicsListComponent } from '../Topics/TopicList/Components/TopicsList';
 import { ConsumerGroupsList } from '../ConsumerGroups/ConsumerGroupList/Components/ConsumerGroupList';
 import { EllipsisVIcon } from '@patternfly/react-icons/dist/js/icons/ellipsis-v-icon';
 import { useHistory } from 'react-router';
+import { useTranslation } from 'react-i18next';
 interface ITabHeaderProps {
   eventKey: number;
   instanceName?: string;
@@ -23,6 +24,9 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
   eventKey,
   instanceName,
 }) => {
+
+  const { t } = useTranslation();
+
   const [activeTabKey, setActiveTabKey] = useState(eventKey);
   const handleTabClick = (event, tabIndex) => {
     setActiveTabKey(tabIndex);
@@ -51,9 +55,9 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
 
   const mainBreadcrumbs = (
     <Breadcrumb>
-      <BreadcrumbItem to='#'>Kafka Instances</BreadcrumbItem>
+      <BreadcrumbItem to='#'>{t('common.kafkaInstance')}</BreadcrumbItem>
       <BreadcrumbItem to='#' isActive>
-        {instanceName ? instanceName : 'Kafka Instance Name'}
+        {instanceName ? instanceName : t('common.kafkaInstanceName')}
       </BreadcrumbItem>
     </Breadcrumb>
   );
@@ -64,7 +68,7 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
 
       <Level>
         <Title headingLevel='h1'>
-          {instanceName ? instanceName : 'Kafka Instance Name'}
+          {instanceName ? instanceName : t('common.kafkaInstanceName')}
         </Title>
         <Button variant='plain' iconPosition='right'>
           <EllipsisVIcon />
@@ -77,11 +81,11 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
         data-testid='pageKafka-tabProperties'
       >
         <Tab
-          title={<TabTitleText>Topics</TabTitleText>}
+          title={<TabTitleText>{t('topicList.topics')}</TabTitleText>}
           eventKey={1}
           data-testid='pageKafka-tabTopics'
           id='topics-tab-section'
-          aria-label='Topics Tab'
+          aria-label={t('topicList.topics')}
         >
           <TopicsListComponent
             onCreateTopic={onCreateTopic}
@@ -91,11 +95,11 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
           />
         </Tab>
         <Tab
-          title={<TabTitleText>Consumer Groups</TabTitleText>}
+          title={<TabTitleText>{t('consumerGroups.consumerGroups')}</TabTitleText>}
           eventKey={2}
           data-testid='pageKafka-tabConsumers'
           id='consumer-groups-tab-section'
-          aria-label='Consumer Groups Tab'
+          aria-label={t('consumerGroups.consumerGroups')}
         >
           <ConsumerGroupsList
             onDeleteConsumerGroup={onDeleteConsumer}

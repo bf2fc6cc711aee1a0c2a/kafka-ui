@@ -5,6 +5,8 @@ import {
 } from '../../../../Modules/Topics/CreateTopic/Components/StepPartitions';
 import React, { ReactElement } from 'react';
 import userEvent from '@testing-library/user-event';
+import { I18nextProvider } from 'react-i18next';
+import kafkai18n from '../../../../../test-utils/i18n';
 
 const partitionsProps: IStepPartitions = {
   partitionTouchspinValue: 1,
@@ -12,7 +14,11 @@ const partitionsProps: IStepPartitions = {
 };
 
 const setup = () => {
-  const component: ReactElement = <StepPartitions {...partitionsProps} />;
+  const component: ReactElement = (
+    <I18nextProvider i18n={kafkai18n}>
+      <StepPartitions {...partitionsProps} />
+    </I18nextProvider>
+  );
   const renderResult: RenderResult = render(component);
   return renderResult;
 };
