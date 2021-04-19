@@ -110,8 +110,8 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   const tableColumns = [
     { title: t('common.name') }, 
     { title: t('common.partitions'), transforms: [sortable] },
-    { title: 'Retention Time', transforms: [sortable] },
-    { title: 'Retention Size', transforms: [sortable] },
+    { title: t('createTopic.retentionTimeLabelHead'), transforms: [sortable] },
+    { title: t('createTopic.retentionBytesLabelHead'), transforms: [sortable] },
   ];
   const convertRetentionTime = (milliseconds: number) => {
     let convertedValue;

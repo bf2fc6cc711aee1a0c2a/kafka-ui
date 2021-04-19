@@ -10,6 +10,7 @@ import {
 import { ConsumerGroupsList } from '../../ConsumerGroups/ConsumerGroupList/Components/ConsumerGroupList';
 import { UpdateTopicView } from './Components/UpdateTopicView';
 import { TopicDetailHead } from '../TopicDetails/Components/TopicDetailHead';
+import { useTranslation } from 'react-i18next';
 
 export interface UpdateTopicPageProps {
   topicName: string;
@@ -36,14 +37,8 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
   onDeleteConsumer,
   activeTab = 0,
 }) => {
-  const [activeTabKey, setActiveTabKey] = useState(activeTab);
 
-  const contentRefConsumerGroup = React.createRef<HTMLElement>();
-  const contentRefProperties = React.createRef<HTMLElement>();
-
-  const handleTabClick = (event, tabIndex) => {
-    setActiveTabKey(tabIndex);
-  };
+  const { t } = useTranslation();
 
   return (
     <>
@@ -66,16 +61,25 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
         >
           <Tab
             eventKey={0}
-            title={<TabTitleText>Consumer groups</TabTitleText>}
-            tabContentId='kafka-ui-TabcontentConsumerGroups'
-            tabContentRef={contentRefConsumerGroup}
-          />
-          <Tab
-            eventKey={1}
-            title={<TabTitleText>Properties</TabTitleText>}
-            tabContentId='kafka-ui-TabcontentProperties'
-            tabContentRef={contentRefProperties}
-          />
+            title={<TabTitleText>{t('consumerGroups.consumerGroups')}</TabTitleText>}
+          >
+            <ConsumerGroupsList
+              onDeleteConsumerGroup={onDeleteConsumer}
+              topic={topicName}
+              consumerGroupByTopic={true}
+            />
+          </Tab>
+          <Tab eventKey={1} title={<TabTitleText>{t('common.properties')}</TabTitleText>}>
+            <PageSection variant='light' padding={{ default: 'noPadding' }}>
+              <UpdateTopicView
+                topicName={topicName}
+                onCancelUpdateTopic={onCancelUpdateTopic}
+                onDeleteTopic={onDeleteTopic}
+                onSaveTopic={onSaveTopic}
+                onError={onError}
+              />
+            </PageSection>
+          </Tab>
         </Tabs>
       </PageSection>
       <PageSection

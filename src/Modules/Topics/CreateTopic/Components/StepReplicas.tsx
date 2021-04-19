@@ -24,23 +24,22 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
   return (
     <Stack hasGutter className='kafka-ui--wizard-main-body__stack'>
       <TextContent>
-        <Text component={TextVariants.h2}>Replicas</Text>
+        <Text component={TextVariants.h2}>{t('common.replicas')}</Text>
         <Text component={TextVariants.p}>
-          How many copies of a topic will be made for high availability.
+          {t('createTopic.stepReplicasInfo')}
         </Text>
         <Text component={TextVariants.small}>
-          The partitions of each topic can be replicated across a configurable
-          number of brokers.
+          {t('createTopic.stepReplicasDetail')}
         </Text>
       </TextContent>
       <Alert
         variant='info'
         isInline
-        title='Streams for Apache Kafka only supports 3 replicas and a minimum in-sync replica factor of 2.'
+        title={t('createTopic.stepReplicasHelperText')}
       />
       <TextWithLabelPopover
-        btnAriaLabel='topic detail replicas'
-        fieldLabel='Replicas'
+        btnAriaLabel={t('common.replicas')}
+        fieldLabel={t('common.replicas')}
         fieldValue={replicationFactor.toString()}
         popoverBody={t('createTopic.replicasLabelBody')}
         popoverHeader={t('createTopic.replicasLabelHead')}

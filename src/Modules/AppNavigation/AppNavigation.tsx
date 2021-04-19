@@ -16,6 +16,7 @@ import { TopicsListComponent } from '../Topics/TopicList/Components/TopicsList';
 import { ConsumerGroupsList } from '../ConsumerGroups/ConsumerGroupList/Components/ConsumerGroupList';
 import { EllipsisVIcon } from '@patternfly/react-icons/dist/js/icons/ellipsis-v-icon';
 import { useHistory } from 'react-router';
+import { useTranslation } from 'react-i18next';
 interface ITabHeaderProps {
   eventKey: number;
   instanceName?: string;
@@ -24,6 +25,9 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
   eventKey,
   instanceName,
 }) => {
+
+  const { t } = useTranslation();
+
   const [activeTabKey, setActiveTabKey] = useState(eventKey);
   const contentRefConsumerGroups = React.createRef<HTMLElement>();
   const contentRefTopics = React.createRef<HTMLElement>();
@@ -55,9 +59,9 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
 
   const mainBreadcrumbs = (
     <Breadcrumb>
-      <BreadcrumbItem to='#'>Kafka Instances</BreadcrumbItem>
+      <BreadcrumbItem to='#'>{t('common.kafkaInstance')}</BreadcrumbItem>
       <BreadcrumbItem to='#' isActive>
-        {instanceName ? instanceName : 'Kafka Instance Name'}
+        {instanceName ? instanceName : t('common.kafkaInstanceName')}
       </BreadcrumbItem>
     </Breadcrumb>
   );
@@ -68,54 +72,27 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
         {mainBreadcrumbs}
       </section>
 
-      <PageSection variant={PageSectionVariants.light}>
-        <Level>
-          <Title headingLevel='h1'>
-            {instanceName ? instanceName : 'Kafka Instance Name'}
-          </Title>
-          <Button variant='plain' iconPosition='right'>
-            <EllipsisVIcon />
-          </Button>
-        </Level>
-      </PageSection>
-      <PageSection
-        variant={PageSectionVariants.light}
-        padding={{ default: 'noPadding' }}
-        className='pf-c-page__main-tabs'
+      <Level>
+        <Title headingLevel='h1'>
+          {instanceName ? instanceName : t('common.kafkaInstanceName')}
+        </Title>
+        <Button variant='plain' iconPosition='right'>
+          <EllipsisVIcon />
+        </Button>
+      </Level>
+
+      <Tabs
+        activeKey={activeTabKey}
+        onSelect={handleTabClick}
+        data-testid='pageKafka-tabProperties'
       >
-        <Tabs
-          activeKey={activeTabKey}
-          onSelect={handleTabClick}
-          data-testid='pageKafka-tabProperties'
-          className='pf-m-page-insets'
-        >
-          <Tab
-            title={<TabTitleText>Topics</TabTitleText>}
-            eventKey={1}
-            data-testid='pageKafka-tabTopics'
-            id='topics-tab-section'
-            aria-label='Topics Tab.'
-            tabContentRef={contentRefTopics}
-            tabContentId='kafka-ui-TabcontentTopicsList'
-          />
-          <Tab
-            title={<TabTitleText>Consumer Groups</TabTitleText>}
-            eventKey={2}
-            data-testid='pageKafka-tabConsumers'
-            id='consumer-groups-tab-section'
-            aria-label='Consumer Groups Tab.'
-            tabContentRef={contentRefConsumerGroups}
-            tabContentId='kafka-ui-TabcontentConsumersList'
-          />
-        </Tabs>
-      </PageSection>
-      <PageSection isFilled>
-        <TabContent
+        <Tab
+          title={<TabTitleText>{t('topicList.topics')}</TabTitleText>}
           eventKey={1}
-          ref={contentRefTopics}
-          id='kafka-ui-TabcontentTopicsList'
+          data-testid='pageKafka-tabTopics'
+          id='topics-tab-section'
+          aria-label={t('topicList.topics')}
           className='kafka-ui-m-full-height'
-          aria-label='Topics.'
         >
           <TopicsListComponent
             onCreateTopic={onCreateTopic}
@@ -123,14 +100,14 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
             getTopicDetailsPath={getTopicDetailsPath}
             onDeleteTopic={onDeleteTopic}
           />
-        </TabContent>
-        <TabContent
+        </Tab>
+        <Tab
+          title={<TabTitleText>{t('consumerGroups.consumerGroups')}</TabTitleText>}
           eventKey={2}
-          ref={contentRefConsumerGroups}
-          id='kafka-ui-TabcontentConsumersList'
+          data-testid='pageKafka-tabConsumers'
+          id='consumer-groups-tab-section'
+          aria-label={t('consumerGroups.consumerGroups')}
           className='kafka-ui-m-full-height'
-          aria-label='Consumer Groups.'
-          hidden
         >
           <ConsumerGroupsList
             onDeleteConsumerGroup={onDeleteConsumer}

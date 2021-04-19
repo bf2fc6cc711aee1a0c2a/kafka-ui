@@ -18,6 +18,7 @@ import { isAxiosError } from '../../../Utils/axios';
 import { AlertContext } from '../../../Contexts/Alert';
 import { useHistory } from 'react-router';
 import { IAdvancedTopic } from '../CreateTopic/Components/CreateTopicWizard';
+import { useTranslation } from 'react-i18next';
 
 export type TopicDetailGroupProps = {
   topicName: string;
@@ -56,6 +57,9 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
   const [deleteModal, setDeleteModal] = useState(false);
   const { addAlert } = useContext(AlertContext);
   const history = useHistory();
+
+  const { t } = useTranslation();
+
   const fetchTopicDetail = async (topicName: string) => {
     if (eventKey === 2) {
       try {
@@ -68,7 +72,7 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
           }
           if (err.response?.status === 404) {
             // then it's a non-existent topic
-            addAlert(`Topic ${topicName} does not exist`, AlertVariant.danger);
+            addAlert(t('createTopic.topic404', { name: topicName}), AlertVariant.danger);
             onClickTopicList();
           }
         }
@@ -117,13 +121,20 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
           <Tab
             eventKey={1}
             data-testid='pageTopic-tabConsumers'
-            title={<TabTitleText>Consumer groups</TabTitleText>}
-            tabContentId='kafka-ui-TabcontentConsumerGroupList'
-            tabContentRef={contentRefConsumerGroup}
-          />
+            title={<TabTitleText>{t('consumerGroups.consumerGroups')}</TabTitleText>}
+            className={activeTabKey === 1 ? 'kafka-ui--consumer-content':''}
+          >
+            <ConsumerGroupsList
+              onDeleteConsumerGroup={onDeleteConsumer}
+              consumerGroupByTopic={true}
+              topic={topicName}
+              rowDataId='tableTopicConsumers-row'
+              detailsDataId='tableTopicConsumers-actionDetails'
+            />
+          </Tab>
           <Tab
             eventKey={2}
-            title={<TabTitleText>Properties</TabTitleText>}
+            title={<TabTitleText>{t('common.properties')}</TabTitleText>}
             data-testid='pageTopic-tabProperties'
             tabContentId='kafka-ui-TabcontentProperties'
             tabContentRef={contentRefProperties}
