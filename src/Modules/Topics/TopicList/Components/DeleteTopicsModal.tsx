@@ -75,7 +75,10 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
     >
       <Text id='modal-message'>
         {' '}
-        {t('common.confirmDeleteModalText', { name: topicName})}{' '}
+        <label
+          htmlFor="instance-name-input"
+          dangerouslySetInnerHTML={{ __html: t('common.confirmDeleteModalText', { name: topicName }) }}
+        />
       </Text>
 
       <br />
