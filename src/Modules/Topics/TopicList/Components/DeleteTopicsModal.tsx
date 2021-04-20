@@ -33,7 +33,7 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
       topicName && (await deleteTopic(topicName, config));
       addAlert(`Successfully deleted topic ${topicName}`, AlertVariant.success);
     } catch (err) {
-      addAlert(err.response.data.error, AlertVariant.danger);
+      addAlert(err.response.data.error_message, AlertVariant.danger);
     }
     onDeleteTopic();
     setDeleteModal(false);
@@ -60,7 +60,7 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
           variant='danger'
           onClick={onDelete}
           key={1}
-          data-testid="modalDeleteTopic-buttonDelete"
+          data-testid='modalDeleteTopic-buttonDelete'
           isDisabled={verificationText.toUpperCase() != 'DELETE'}
         >
           Delete

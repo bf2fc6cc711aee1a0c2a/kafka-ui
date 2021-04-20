@@ -80,9 +80,9 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
     } catch (err) {
       //TODO: Update the api to allow suppress alerts if the application does not want to show them as well.
       if (onError && err.response.data.code === 401) {
-        onError(err.response.data.code, err.response.data.error);
+        onError(err.response.data.code, err.response.data.error_message);
       } else {
-        addAlert(err.response.data.error, AlertVariant.danger);
+        addAlert(err.response.data.error_message, AlertVariant.danger);
       }
     }
     setLoading(false);
@@ -168,7 +168,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
       {
         title: (
           <Link
-            data-testid="tableTopics-linkTopic"
+            data-testid='tableTopics-linkTopic'
             to={getTopicDetailsPath(topic.name)}
             onClick={(e) => {
               e.preventDefault();
@@ -238,8 +238,16 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   };
 
   const actions = [
-    { title: 'Delete', ['data-testid']: 'tableTopics-actionDelete', onClick: (_, rowId) => onDelete(rowId) }, 
-    { title: 'Edit', ['data-testid']: 'tableTopics-actionEdit', onClick: (_, rowId) => onEdit(rowId) },
+    {
+      title: 'Delete',
+      ['data-testid']: 'tableTopics-actionDelete',
+      onClick: (_, rowId) => onDelete(rowId),
+    },
+    {
+      title: 'Edit',
+      ['data-testid']: 'tableTopics-actionEdit',
+      onClick: (_, rowId) => onEdit(rowId),
+    },
   ];
 
   if (loading) {

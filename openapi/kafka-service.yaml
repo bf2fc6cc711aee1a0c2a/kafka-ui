@@ -1,1142 +1,892 @@
-# Copyright Strimzi authors.
-# License: Apache License 2.0 (see the file LICENSE or http://apache.org/licenses/LICENSE-2.0.html).
+---
 openapi: 3.0.0
 info:
-  title: Managed Service API
-  version: 0.0.1
-  description: Managed Service API
+  title: Kafka Admin REST API
+  version: 0.1.0
+  description: An API to provide REST endpoints for query Kafka for admin operations
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
 servers:
   - url: https://api.openshift.com
     description: Main (production) server
   - url: https://api.stage.openshift.com
     description: Staging server
+  - url: http://localhost:8001
+    description: localhost
   - url: http://localhost:8000
     description: localhost
-  - url: /
-    description: current domain
 paths:
-  /api/managed-services-api/v1/kafkas/{id}:
+  /topics:
     get:
-      operationId: getKafkaById
+      parameters:
+        - name: limit
+          description: Maximum number of topics to return
+          schema:
+            format: int32
+            type: integer
+          in: query
+          required: false
+        - name: filter
+          description: Filter to apply when returning the list of topics
+          schema:
+            type: string
+          in: query
+        - name: offset
+          description: The page offset when returning  the limit of requested topics.
+          schema:
+            format: int32
+            type: integer
+          in: query
+        - name: order
+          description:
+            "Order of the items sorting. If \"asc\" is set as a value, ascending\
+            \ order is used, descending otherwise."
+          schema:
+            type: string
+          in: query
+          required: false
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/KafkaRequest'
-              examples:
-                KafkaRequestGetResponseExample:
-                  $ref: '#/components/examples/KafkaRequestExample'
-                KafkaRequestGetResponseWithFailedCreationStatusExample:
-                  $ref: '#/components/examples/KafkaRequestFailedCreationStatusExample'
-          description: Kafka request found by id
-        '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                401Example:
-                  $ref: '#/components/examples/401Example'
-          description: Auth token is invalid
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                403Example:
-                  $ref: '#/components/examples/403Example'
-          description: User not authorized to access the service.
-        '404':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                404Example:
-                  $ref: '#/components/examples/404Example'
-          description: No kafka request with specified id exists
-        '500':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                500Example:
-                  $ref: '#/components/examples/500Example'
-          description: Unexpected error occurred
-      security:
-        - Bearer: []
-      summary: Get a kafka request by id
-    delete:
-      operationId: deleteKafkaById
-      parameters:
-        - in: query
-          name: async
-          description: Perform the action in an asynchronous manner
-          schema:
-            type: boolean
-          required: true
-      responses:
-        '204':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-              #No Content
-          description: Deleted
+                $ref: '#/components/schemas/TopicsList'
+          description: List of topics matching the users query paramters.
         '400':
           content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                400DeletionExample:
-                  $ref: '#/components/examples/400DeletionExample'
-          description: Validation errors occurred
+            application/json: {}
+          description: Unable to retreive topics.
         '401':
           content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                401Example:
-                  $ref: '#/components/examples/401Example'
-          description: Auth token is invalid
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                403Example:
-                  $ref: '#/components/examples/403Example'
-          description: User not authorized to access the service.
-        '404':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                404DeleteExample:
-                  $ref: '#/components/examples/404DeleteExample'
-          description: No kafka request with specified id exists
+            application/json: {}
+          description: 'Unauthorized, unable to retrive topics.'
         '500':
           content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                500DeleteExample:
-                  $ref: '#/components/examples/500DeleteExample'
-          description: Unexpected error occurred
-      summary: Delete a kafka request by id
+            application/json: {}
+          description: Internal server error.
+        '503':
+          content:
+            application/json: {}
+          description: Unable to connect to the Kafka cluster.
       security:
         - Bearer: []
-    parameters:
-      - $ref: '#/components/parameters/id'
-  /api/managed-services-api/v1/kafkas:
+      operationId: getTopicsList
+      summary: List of topics
+      description:
+        "Returns a list of all of the available topics, or the list of\
+        \ topics that meet the users URL Query Parameters."
     post:
-      operationId: createKafka
-      parameters:
-        - in: query
-          name: async
-          description: Perform the action in an asynchronous manner
-          schema:
-            type: boolean
-          required: true
       requestBody:
-        description: Kafka data
+        description: Topic to create.
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/KafkaRequestPayload'
+              $ref: '#/components/schemas/NewTopicInput'
             examples:
-              USRegion:
-                $ref: '#/components/examples/USRegionExample'
-              EURegion:
-                $ref: '#/components/examples/EURegionExample'
+              NewTopicInput:
+                value:
+                  name: my-topic
+                  settings:
+                    numPartitions: 3
+                    replicationFactor: 4
+                    config:
+                      - key: min.insync.replicas
+                        value: '1'
+                      - key: max.message.bytes
+                        value: '1050000'
         required: true
       responses:
-        '202':
+        '201':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/KafkaRequest'
-              examples:
-                KafkaRequestPostResponseExample:
-                  $ref: '#/components/examples/KafkaRequestExample'
-          description: Accepted
+                $ref: '#/components/schemas/Topic'
+          description: Topic created successfully.
         '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                400CreationExample:
-                  $ref: '#/components/examples/400CreationExample'
-          description: Validation errors occurred
+          description: Unable to create topic.
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                401Example:
-                  $ref: '#/components/examples/401Example'
-          description: Auth token is invalid
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                403Example:
-                  $ref: '#/components/examples/403Example'
-                403MaxAllowedInstanceReachedExample:
-                  $ref: '#/components/examples/403MaxAllowedInstanceReachedExample'
-          description: User forbidden either because the user is not authorized to access the service or because the maximum number of instances that can be created by this user has been reached.
-        '404':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                404Example:
-                  $ref: '#/components/examples/404Example'
-          description: The requested resource doesn't exist
+          description: 'Unauthorized, Unable to create topic.'
         '409':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                409NameConflictExample:
-                  $ref: '#/components/examples/409NameConflictExample'
-          description: A conflict has been detected in the creation of this resource
+          description: Entry already exisits
         '500':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                500Example:
-                  $ref: '#/components/examples/500Example'
-          description: An unexpected error occurred creating the Kafka Request
+          description: Internal server error.
+        '503':
+          description: Unable to connect to the Kafka cluster.
       security:
         - Bearer: []
-      summary: Create a new kafka Request
+      operationId: createTopic
+      summary: Creates a new topic
+      description: Creates a new topic for Kafka.
+  /topics/{topicName}:
     get:
-      summary: Returns a list of Kafka requests
-      operationId: listKafkas
-      security:
-        - Bearer: []
-      responses:
-        '200':
-          description: A list of Kafka requests
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/KafkaRequestList'
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                InvalidQueryExample:
-                  $ref: '#/components/examples/400InvalidQueryExample'
-        '401':
-          description: Auth token is invalid
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                401Example:
-                  $ref: '#/components/examples/401Example'
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                403Example:
-                  $ref: '#/components/examples/403Example'
-          description: User not authorized to access the service.
-        '500':
-          description: Unexpected error occurred
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                500Example:
-                  $ref: '#/components/examples/500Example'
       parameters:
-        - $ref: '#/components/parameters/page'
-        - $ref: '#/components/parameters/size'
-        - $ref: '#/components/parameters/orderBy'
-        - $ref: '#/components/parameters/search'
-  /api/managed-services-api/v1/cloud_providers:
-    get:
-      summary: Retrieves the list of supported cloud providers.
-      operationId: listCloudProviders
-      security:
-        - Bearer: []
+        - name: topicName
+          description: The topic name to retrieve.
+          schema:
+            type: string
+          in: path
+          required: true
       responses:
         '200':
-          description: Retrieved list of supported cloud providers
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CloudProviderList'
+                $ref: '#/components/schemas/Topic'
+          description: Kakfa topic details.
         '401':
-          description: Auth token is invalid
           content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                401Example:
-                  $ref: '#/components/examples/401Example'
+            application/json: {}
+          description: 'Unauthorized, unable to retrieve topics.'
+        '404':
+          content:
+            application/json: {}
+          description: Topic not found.
         '500':
-          description: Unexpected error occurred
           content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                500Example:
-                  $ref: '#/components/examples/500Example'
+            application/json: {}
+          description: Internal server error.
+        '503':
+          content:
+            application/json: {}
+          description: Unable to connect to the Kafka cluster.
+      security:
+        - Bearer: []
+      operationId: getTopic
+      summary: Retrieves the topic with the specified name.
+      description: Topic
+    delete:
       parameters:
-        - $ref: '#/components/parameters/page'
-        - $ref: '#/components/parameters/size'
-  /api/managed-services-api/v1/cloud_providers/{id}/regions:
-    get:
-      summary: Retrieves the list of supported regions of the supported cloud provider.
-      operationId: listCloudProviderRegions
-      security:
-        - Bearer: []
+        - name: topicName
+          description: The topic name to delete.
+          schema:
+            type: string
+          in: path
+          required: true
       responses:
         '200':
-          description: Retrieved list of supported cloud providers regions
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CloudRegionList'
+          description: Topic deleted successfully.
         '401':
-          description: Auth token is invalid
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                401Example:
-                  $ref: '#/components/examples/401Example'
+          description: 'Unathorized, unable to delete topic.'
+        '404':
+          description: Topic not found.
         '500':
-          description: Unexpected error occurred
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                500Example:
-                  $ref: '#/components/examples/500Example'
-      parameters:
-        - $ref: '#/components/parameters/id'
-        - $ref: '#/components/parameters/page'
-        - $ref: '#/components/parameters/size'
-  /api/managed-services-api/v1/serviceaccounts:
-    get:
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ServiceAccountList'
-          description: List of service accounts
-        '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                401Example:
-                  $ref: '#/components/examples/401Example'
-          description: Auth token is invalid
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                403Example:
-                  $ref: '#/components/examples/403Example'
-          description: User not authorized to access the service
-        '500':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                500Example:
-                  $ref: '#/components/examples/500Example'
-          description: Unexpected error occurred
+          description: Internal server error.
+        '503':
+          description: Unable to connect to the Kafka cluster.
       security:
         - Bearer: []
-      operationId: listServiceAccounts
-      summary: List service accounts
-    post:
+      operationId: deleteTopic
+      summary: Deletes a  topic
+      description: Deletes the topic with the specified name.
+    patch:
       requestBody:
-        description: service account request
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ServiceAccountRequest'
-            examples:
-              sa:
-                $ref: '#/components/examples/ServiceAccountRequestExample'
-        required: true
+              $ref: '#/components/schemas/UpdateTopicInput'
+        required: false
+      parameters:
+        - name: topicName
+          description: The topic name which is its unique id.
+          schema:
+            type: string
+          in: path
+          required: true
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServiceAccount'
-              examples:
-                serviceaccount:
-                  $ref: '#/components/examples/ServiceAccountExample'
-          description: service account created
+                $ref: '#/components/schemas/Topic'
+          description: Topic updated successfully.
+        '400':
+          description: Unable to update topic.
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                401Example:
-                  $ref: '#/components/examples/401Example'
-          description: Auth token is invalid
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                403Example:
-                  $ref: '#/components/examples/403Example'
-          description: list of service account
+          description: 'Unauthroized, unable to update topic.'
+        '404':
+          description: Topic not found.
         '500':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                500Example:
-                  $ref: '#/components/examples/500Example'
-          description: Unexpected error occurred
+          description: Internal server error.
+        '503':
+          description: Unable to connect to the Kafka cluster.
       security:
         - Bearer: []
-      operationId: createServiceAccount
-      summary: Create a service account
-  '/api/managed-services-api/v1/serviceaccounts/{id}':
-    summary: Delete a service account
-    description: Delete the service account with the given id
+      operationId: updateTopic
+      summary: Updates the topic with the specified name.
+      description: updates the topic with the new data.
+    parameters:
+      - name: topicName
+        description: The topic name which is its unique id.
+        schema:
+          type: string
+        in: path
+        required: true
+  /metrics:
+    get:
+      responses:
+        '200':
+          description: Metrics
+      operationId: metrics
+      summary: Admin server metrics
+  /api:
+    get:
+      responses:
+        '200':
+          content:
+            application/json: {}
+          description: OpenAPI spec
+      security:
+        - Bearer: []
+      operationId: openApi
+  /consumer-groups/{consumerGroupId}:
+    get:
+      parameters:
+        - name: consumerGroupId
+          description: The unique ID of the consumer group
+          schema:
+            type: string
+          in: path
+          required: true
+        - examples:
+            Consumer group:
+              value:
+                groupId: consumer_group_1
+                consumers:
+                  - groupId: consumer_group_1
+                    topic: topic-1
+                    partition: 0
+                    memberId: consumer_group_member1
+                    offset: 5
+                    lag: 0
+                    logEndOffset: 5
+                  - groupId: consumer_group_1
+                    topic: topic-1
+                    partition: 1
+                    memberId: consumer_group_member2
+                    offset: 3
+                    lag: 0
+                    logEndOffset: 3
+                  - groupId: consumer_group_1
+                    topic: topic-1
+                    partition: 2
+                    memberId: consumer_group_member3
+                    offset: 6
+                    lag: 1
+                    logEndOffset: 5
+          name: topic
+          description: Filter consumer groups for a specific topic
+          schema:
+            type: string
+          in: query
+          required: false
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsumerGroup'
+          description: Consumer group details.
+        '401':
+          content:
+            application/json: {}
+          description:
+            "Unauthorized, request has not been applied because it lacks\
+            \ valid authentication credentials."
+        '404':
+          content:
+            application/json: {}
+          description: Consumer group not found.
+        '500':
+          content:
+            application/json: {}
+          description: Internal server error.
+        '503':
+          content:
+            application/json: {}
+          description: Unable to connect to the Kafka cluster.
+        '403':
+          content:
+            application/json: {}
+          description: User is forbidden this view this consumer group.
+      security:
+        - Bearer: []
+      operationId: getConsumerGroupById
+      summary: Get a single consumer group by its unique ID.
     delete:
       parameters:
-        - $ref: '#/components/parameters/id'
+        - name: consumerGroupId
+          description: The unique ID of the consumer group.
+          schema:
+            type: string
+          in: path
+          required: true
       responses:
         '204':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: deleted
+          description: The consumer group was deleted successfully.
         '401':
           content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                401Example:
-                  $ref: '#/components/examples/401Example'
-          description: auth token is invalid
+            application/json: {}
+          description:
+            "Unauthorized, request has not been applied because it lacks\
+            \ valid authentication credentials."
         '403':
           content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                401Example:
-                  $ref: '#/components/examples/403Example'
-          description: User not authorized to access the service
+            application/json: {}
+          description: Forbidden to delete this consumer group.
         '500':
           content:
-            application/json:
-              schema: {}
-              examples:
-                500Example:
-                  $ref: '#/components/examples/500Example'
-          description: Unexpected error occurred
+            application/json: {}
+          description: Internal Server Error.
+        '503':
+          content:
+            application/json: {}
+          description: Unable to connect to the Kafka cluster.
+        '404':
+          content:
+            application/json: {}
+          description: The consumer group does not exist.
+        '423':
+          content:
+            application/json: {}
+          description: User cannot delete consumer group with active members.
       security:
         - Bearer: []
-      operationId: deleteServiceAccount
-      summary: Delete service account
-  '/api/managed-services-api/v1/serviceaccounts/{id}/reset-credentials':
+      operationId: deleteConsumerGroupById
+      summary: Delete a consumer group.
+      description: 'Delete a consumer group, along with its consumers.'
+    parameters:
+      - name: consumerGroupId
+        description: The unique name of the topic.
+        schema:
+          type: string
+        in: path
+        required: true
+  /consumer-groups/{consumerGroupId}/reset-offset:
     post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetOffsetInput'
+            examples:
+              Reset to a specific offset:
+                value:
+                  mode: offset
+                  offset: 10
+              Reset to the latest offset:
+                value:
+                  mode: latest
+              Reset to the earliest offset:
+                value:
+                  mode: earliest
+        required: true
       parameters:
-        - $ref: '#/components/parameters/id'
+        - name: consumerGroupId
+          description: The ID of the consumer group.
+          schema:
+            type: string
+          in: path
+          required: true
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServiceAccount'
-              examples:
-                sa-reset:
-                  $ref: '#/components/examples/ServiceAccountExample'
-          description: reset credentials
-      security:
-        - Bearer: []
-      operationId: resetServiceAccountCreds
-      summary: reset credentials for the service account
-  /api/managed-services-api/v1/kafkas/{id}/metrics:
-    get:
-      summary: Get metrics by kafka id.
-      operationId: getMetricsByKafkaId
-      security:
-        - Bearer: []
-      responses:
-        '200':
-          description: A JSON array of prometheus metrics objects from observatorium
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MetricsList'
+                $ref: '#/components/schemas/ConsumerGroup'
+          description: The consumer group offsets have been reset.
         '401':
-          description: Auth token is invalid
           content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                401Example:
-                  $ref: '#/components/examples/401Example'
+            application/json: {}
+          description:
+            "Unauthorized, request has not been applied because it lacks\
+            \ valid authentication credentials."
+        '403':
+          content:
+            application/json: {}
+          description: Forbidden to delete this consumer group.
         '500':
-          description: Unexpected error occurred
+          content:
+            application/json: {}
+          description: Internal Server Error.
+        '503':
+          content:
+            application/json: {}
+          description: Unable to connect to the Kafka cluster.
+      security:
+        - Bearer: []
+      operationId: resetConsumerGroupOffset
+      summary: Reset the offset for a consumer group.
+      description: Reset the offset for a particular consumer group.
+  /consumer-groups:
+    summary: API endpoints for consumer groups under a Kafka topic
+    get:
+      parameters:
+        - name: limit
+          description: Maximum number of consumer groups to returnd
+          schema:
+            type: integer
+          in: query
+        - name: offset
+          description: The page offset when returning the list of consumer groups
+          schema:
+            type: integer
+          in: query
+        - name: topic
+          description: Filter to apply when returning the list of consumer groups
+          schema:
+            type: string
+          in: query
+        - name: page
+          description: The current page of consumer group results.
+          schema:
+            type: integer
+          in: query
+      responses:
+        '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ConsumerGroupList'
               examples:
-                500Example:
-                  $ref: '#/components/examples/500Example'
-      parameters:
-        - $ref: '#/components/parameters/id'
-        - $ref: '#/components/parameters/duration'
-        - $ref: '#/components/parameters/interval'
-        - $ref: '#/components/parameters/filters'
+                List of consumer groups:
+                  value:
+                    count: 1
+                    limit: 10
+                    offset: 0
+                    items:
+                      - groupId: consumer_group_1
+                        consumers:
+                          - groupId: consumer_group_1
+                            topic: topic-1
+                            partition: 0
+                            memberId: consumer_group_member1
+                            offset: 5
+                            lag: 0
+                            logEndOffset: 5
+                          - groupId: consumer_group_1
+                            topic: topic-1
+                            partition: 1
+                            memberId: consumer_group_member2
+                            offset: 3
+                            lag: 0
+                            logEndOffset: 3
+                          - groupId: consumer_group_1
+                            topic: topic-1
+                            partition: 2
+                            memberId: consumer_group_member3
+                            offset: 6
+                            lag: 1
+                            logEndOffset: 5
+          description: List of consumer groups matching the request parameters.
+        '400':
+          content:
+            application/json: {}
+          description:
+            The server cannot or will not process the request due to something
+            that is perceived to be a client error such as malformed request syntax.
+        '401':
+          content:
+            application/json: {}
+          description:
+            "Unauthorized, request has not been applied because it lacks\
+            \ valid authentication credentials."
+        '403':
+          content:
+            application/json: {}
+          description: User is forbidden to retrieve the list of consumer groups.
+        '500':
+          content:
+            application/json: {}
+          description: An internal server error occurred.
+        '503':
+          content:
+            application/json: {}
+          description: Unable to connect to the Kafka cluster.
+      security:
+        - Bearer: []
+      operationId: getConsumerGroupList
+      summary: List of consumer groups in the Kafka instance.
+      description: Returns a list of all consumer groups for a particular Kafka instance.
+  /: {}
 components:
   schemas:
-    ObjectReference:
-      type: object
-      properties:
-        id:
-          type: string
-        kind:
-          type: string
-        href:
-          type: string
-    List:
-      required:
-        - kind
-        - page
-        - size
-        - total
-        - items
-      type: object
-      properties:
-        kind:
-          type: string
-        page:
-          type: integer
-        size:
-          type: integer
-        total:
-          type: integer
-    Error:
-      allOf:
-        - $ref: '#/components/schemas/ObjectReference'
-        - type: object
-          properties:
-            code:
-              type: string
-            reason:
-              type: string
-            operation_id:
-              type: string
-    ErrorList:
-      allOf:
-        - $ref: '#/components/schemas/List'
-        - type: object
-          properties:
-            items:
-              type: array
-              items:
-                $ref: '#/components/schemas/Error'
-    KafkaRequest:
-      allOf:
-        - $ref: '#/components/schemas/ObjectReference'
-        - type: object
-          properties:
-            status:
-              type: string
-            cloud_provider:
-              type: string
-            multi_az:
-              type: boolean
-            region:
-              type: string
-            owner:
-              type: string
-            name:
-              type: string
-            bootstrapServerHost:
-              type: string
-            created_at:
-              format: date-time
-              type: string
-            updated_at:
-              format: date-time
-              type: string
-            failed_reason:
-              type: string
-          example:
-            $ref: '#/components/examples/KafkaRequestExample'
-    KafkaRequestList:
-      allOf:
-        - $ref: '#/components/schemas/List'
-        - type: object
-          example:
-            kind: 'KafkaRequestList'
-            page: '1'
-            size: '1'
-            total: '1'
-            item:
-              $ref: '#/components/examples/KafkaRequestExample'
-          properties:
-            items:
-              type: array
-              items:
-                allOf:
-                  - $ref: '#/components/schemas/KafkaRequest'
-    KafkaRequestPayload:
-      description: Schema for the request body sent to /kafkas POST
-      required:
-        - name
-      type: object
-      properties:
-        cloud_provider:
-          description: The cloud provider where the Kafka cluster will be created in
-          type: string
-        multi_az:
-          description: Set this to true to configure the Kafka cluster to be multiAZ
-          type: boolean
-        name:
-          description: "The name of the Kafka cluster. It must consist of lower-case alphanumeric characters or '-', start with an alphabetic character, and end with an alphanumeric character, and can not be longer than 32 characters."
-          type: string
-        region:
-          description: The region where the Kafka cluster will be created in
-          type: string
-    CloudProviderList:
-      allOf:
-        - $ref: '#/components/schemas/List'
-        - type: object
-          example:
-            kind: 'CloudProviderList'
-            page: '1'
-            size: '1'
-            total: '1'
-            item:
-              $ref: '#/components/examples/CloudProviderExample'
-          properties:
-            items:
-              type: array
-              items:
-                allOf:
-                  - $ref: '#/components/schemas/CloudProvider'
-    CloudRegionList:
-      allOf:
-        - $ref: '#/components/schemas/List'
-        - type: object
-          example:
-            kind: 'CloudRegionList'
-            page: '1'
-            size: '1'
-            total: '1'
-            item:
-              $ref: '#/components/examples/CloudRegionExample'
-          properties:
-            items:
-              type: array
-              items:
-                allOf:
-                  - $ref: '#/components/schemas/CloudRegion'
-    CloudProvider:
-      description: 'Cloud provider.'
-      properties:
-        kind:
-          description: "Indicates the type of this object. Will be 'CloudProvider' link."
-          type: string
-        id:
-          description: 'Unique identifier of the object.'
-          type: string
-        display_name:
-          description: 'Name of the cloud provider for display purposes.'
-          type: string
-        name:
-          description: 'Human friendly identifier of the cloud provider, for example `aws`.'
-          type: string
-        enabled:
-          description: 'Whether the cloud provider is enabled for deploying an OSD cluster.'
-          type: boolean
-      required:
-        - enabled
-    CloudRegion:
-      description: 'Description of a region of a cloud provider.'
-      properties:
-        kind:
-          description: "Indicates the type of this object. Will be 'CloudRegion'."
-          type: string
-        id:
-          description: 'Unique identifier of the object.'
-          type: string
-        display_name:
-          description: 'Name of the region for display purposes, for example `N. Virginia`.'
-          type: string
-        enabled:
-          description: 'Whether the region is enabled for deploying an OSD cluster.'
-          type: boolean
-          default: false
-      required:
-        - enabled
-    ServiceAccount:
-      description: 'Service Account created in MAS-SSO for the Kafka Cluster for authentication'
-      allOf:
-        - $ref: '#/components/schemas/ObjectReference'
-        - type: object
-          properties:
-            id:
-              description: 'server generated unique id of the service account'
-              type: string
-            name:
-              description: ''
-              type: string
-            description:
-              description: ''
-              type: string
-            clientID:
-              type: string
-            clientSecret:
-              type: string
-          example:
-            $ref: '#/components/examples/ServiceAccountExample'
-    ServiceAccountRequest:
-      description: 'Schema for the request to create a service account'
-      required:
-        - name
+    Topic:
+      title: Root Type for NewTopicInput
+      description: Kafka Topic (A feed where records are stored and published)
       type: object
       properties:
         name:
-          description: 'The name of the service account'
+          description: The name of the topic.
           type: string
-        description:
-          description: 'A description for the service account'
-          type: string
-      example:
-        $ref: '#/components/examples/ServiceAccountRequestExample'
-    ServiceAccountListItem:
-      description: ''
-      allOf:
-        - $ref: '#/components/schemas/ObjectReference'
-        - type: object
-          properties:
-            id:
-              description: 'server generated unique id of the service account'
-              type: string
-            clientID:
-              description: ''
-              type: string
-            name:
-              description: ''
-              type: string
-            description:
-              description: ''
-    ServiceAccountList:
-      allOf:
-        - type: object
-          example:
-            kind: 'ServiceAccountList'
-            items:
-              $ref: '#/components/examples/ServiceAccountListItemExample'
-          properties:
-            kind:
-              type: string
-            items:
-              type: array
-              items:
-                allOf:
-                  - $ref: '#/components/schemas/ServiceAccountListItem'
-    MetricsList:
-      allOf:
-        - type: object
-          example:
-            kind: 'Metrics'
-            id: '1nbpS70HduPe4l0to8jSg2CLzfu'
-            items:
-              metric:
-                __name__: kafka_server_brokertopicmetrics_bytes_in_total
-                strimzi_io_cluster: kafka-service
-                topic: __consumer_offsets
-              values:
-                - Timestamp: 1611670230000
-                  Value: 84154
-                - Timestamp: 1611670260000
-                  Value: 85888
-                - Timestamp: 1611670290000
-                  Value: 87622
-          properties:
-            kind:
-              type: string
-            id:
-              type: string
-            items:
-              type: array
-              items:
-                allOf:
-                  - $ref: '#/components/schemas/Metric'
-    Metric:
-      type: object
-      properties:
-        metric:
-          type: object
-          additionalProperties:
-            type: string
-        values:
+        config:
+          description: Topic configuration entry.
           type: array
           items:
-            $ref: '#/components/schemas/values'
-    values:
+            $ref: '#/components/schemas/ConfigEntry'
+        partitions:
+          description: Partitions for this topic.
+          type: array
+          items:
+            $ref: '#/components/schemas/Partition'
+      example:
+        name: my-topic
+        config:
+          - key: min.insync.replicas
+            value: '1'
+          - key: max.message.bytes
+            value: '1050000'
+        partitions:
+          - id: 0
+            replicas:
+              - id: 0
+              - id: 1
+            isr:
+              - id: 0
+              - id: 1
+            leader:
+              id: 0
+          - id: 1
+            replicas:
+              - id: 0
+              - id: 1
+            isr:
+              - id: 0
+              - id: 1
+            leader:
+              id: 1
+    Partition:
+      description: Kafka topic partition
+      required:
+        - id
       type: object
       properties:
-        Timestamp:
+        id:
+          description: Uniquie id for the partition
           type: integer
-          format: int64
-        Value:
-          type: number
-          format: double
-      required:
-        - Value
-  parameters:
-    id:
-      name: id
-      description: The id of record
-      schema:
-        type: string
-      in: path
-      required: true
-    duration:
-      name: duration
-      in: query
-      description: The length of time in minutes over which to return the metrics.
-      required: true
-      schema:
-        type: integer
-        format: int64
-        default: 5
-        minimum: 1
-        maximum: 4320
-      examples:
-        duration:
-          value: 5
-    interval:
-      name: interval
-      in: query
-      description: The interval in seconds between data points.
-      required: true
-      schema:
-        type: integer
-        format: int64
-        default: 30
-        minimum: 1
-        maximum: 10800
-      examples:
-        interval:
-          value: 30
-    filters:
-      name: filters
-      in: query
-      description: List of metrics to fetch. Fetch all metrics when empty. List entries are kafka internal metric names.
-      schema:
-        type: array
-        items:
+        replicas:
+          description: List of replicas for the partition
+          type: array
+          items:
+            $ref: '#/components/schemas/Node'
+        isr:
+          description: List isync-replicas for this partition.
+          type: array
+          items:
+            $ref: '#/components/schemas/Node'
+        leader:
+          $ref: '#/components/schemas/Node'
+          description: Node that is the leader for this partition.
+      example:
+        id: 0
+        replicas:
+          - id: 0
+          - id: 1
+        isr:
+          - id: 0
+          - id: 1
+        leader:
+          id: 1
+    ConfigEntry:
+      description:
+        Key value pair indicating possible configuration options for a
+        topic.
+      type: object
+      properties:
+        key:
+          description:
+            The key indicating what configuration entry you would like
+            to set for the topic.
           type: string
-        default: []
-    page:
-      name: page
-      in: query
-      description: Page index
-      required: false
-      schema:
-        type: string
-      examples:
-        page:
-          value: '1'
-    size:
-      name: size
-      in: query
-      description: Number of items in each page
-      required: false
-      schema:
-        type: string
-      examples:
-        size:
-          value: '100'
-    orderBy:
-      description: |-
-        Specifies the order by criteria. The syntax of this parameter is
-        similar to the syntax of the _order by_ clause of an SQL statement.
-        Each query can be ordered by any of the kafkaRequests fields.
-        For example, in order to retrieve all kafkas ordered by their name:
-
-        ```sql
-        name asc
-        ```
-
-        Or in order to retrieve all kafkas ordered by their name _and_ created date:
-
-        ```sql
-        name asc, created_at asc
-        ```
-
-        If the parameter isn't provided, or if the value is empty, then
-        the results will be ordered by name.
-      explode: true
-      examples:
-        orderBy:
-          value: 'name asc'
-      in: query
-      name: orderBy
-      required: false
-      schema:
-        type: string
-      style: form
-    search:
-      description: |
-        Search criteria.
-
-        The syntax of this parameter is similar to the syntax of the _where_ clause of an
-        SQL statement. Allowed fields in the search are: cloud_provider, name, owner, region and status. Allowed comparators are `<>`, `=` or `LIKE`.
-        Allowed joins are `AND` and `OR`, however there is a limit of max 10 joins in the search query.
-
-        Examples:
-
-        To retrieve kafka request with name equal `my-kafka` and region equal `aws`, the value should be:
-
-        ```
-        name = my-kafka and cloud_provider = aws
-        ```
-
-        To retrieve kafka request with its name starting with `my`, the value should be:
-
-        ```
-        name like my%25
-        ```
-
-        If the parameter isn't provided, or if the value is empty, then all the kafkas
-        that the user has permission to see will be returned.
-
-        Note. If the query is invalid, an error will be returned
-      explode: true
-      name: search
-      in: query
-      required: false
-      examples:
-        search:
-          value: 'name = my-kafka and cloud_provider = aws'
-      schema:
-        type: string
-      style: form
+        value:
+          description: Value to indicate the setting on the topic configuration entry.
+          type: string
+      example:
+        key: min.insync.replicas
+        value: '1'
+    TopicsList:
+      description: A list of topics.
+      required:
+        - items
+        - offset
+        - limit
+        - count
+      type: object
+      properties:
+        offset:
+          description: The page offset
+          type: integer
+        limit:
+          description: number of entries per page
+          type: integer
+        count:
+          description: Total number of topics
+          type: integer
+        items:
+          description: List of topics
+          type: array
+          items:
+            $ref: '#/components/schemas/Topic'
+      example:
+        items:
+          - name: my-topic
+            config:
+              - key: min.insync.replicas
+                value: '1'
+              - key: max.message.bytes
+                value: '1050000'
+            partitions:
+              - id: 0
+                replicas:
+                  - id: 0
+                  - id: 1
+                isr:
+                  - id: 0
+                  - id: 1
+                leader:
+                  id: 0
+              - id: 1
+                replicas:
+                  - id: 0
+                  - id: 1
+                isr:
+                  - id: 0
+                  - id: 1
+                leader:
+                  id: 1
+        offset: 25
+        limit: 90
+        count: 94
+    TopicSettings:
+      title: Root Type for NewTopicInput
+      description: Kafka Topic (A feed where records are stored and published)
+      required:
+        - numPartitions
+      type: object
+      properties:
+        numPartitions:
+          description: Number of partitions for this topic.
+          type: integer
+        config:
+          description: Topic configuration entry.
+          type: array
+          items:
+            $ref: '#/components/schemas/ConfigEntry'
+      example:
+        numPartitions: 2
+        config:
+          - key: min.insync.replicas
+            value: '1'
+          - key: max.message.bytes
+            value: '1050000'
+    Node:
+      description: Kafka server / broker.
+      type: object
+    NewTopicInput:
+      description: Input object to create a new topic.
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          description: 'The topic name, this value must be unique.'
+          type: string
+        settings:
+          $ref: '#/components/schemas/TopicSettings'
+          description:
+            "The settings that are applicable to this topic.  This includes\
+            \ partitions, configuration information, and number of replicas."
+      example:
+        name: my-topic
+        settings:
+          numPartitions: 3
+          config:
+            - key: min.insync.replicas
+              value: '1'
+            - key: max.message.bytes
+              value: '1050000'
+    ConsumerGroup:
+      description: A group of Kafka consumers
+      required:
+        - id
+        - consumers
+      type: object
+      properties:
+        id:
+          description: Unique identifier for the consumer group
+          type: string
+        consumers:
+          description: The list of consumers associated with this consumer group
+          type: array
+          items:
+            $ref: '#/components/schemas/Consumer'
+      example:
+        id: consumer_group_1
+        consumers:
+          - groupId: consumer_group_1
+            topic: topic-1
+            partition: 0
+            memberId: consumer_group_member1
+            offset: 5
+            lag: 0
+            logEndOffset: 5
+          - groupId: consumer_group_1
+            topic: topic-1
+            partition: 1
+            memberId: consumer_group_member2
+            offset: 3
+            lag: 0
+            logEndOffset: 3
+          - groupId: consumer_group_1
+            topic: topic-1
+            partition: 2
+            memberId: consumer_group_member3
+            offset: 6
+            lag: 1
+            logEndOffset: 5
+    Consumer:
+      description:
+        A Kafka consumer is responsible for reading records from one or
+        more topics and one or more partitions of a topic.
+      required:
+        - groupId
+        - topic
+        - partition
+        - offset
+        - lag
+      type: object
+      properties:
+        groupId:
+          description:
+            Unique identifier for the consumer group to which this consumer
+            belongs.
+          type: string
+        topic:
+          description: The unique topic name to which this consumer belongs
+          type: string
+        partition:
+          description:
+            The partition number to which this consumer group is assigned
+            to.
+          type: integer
+        offset:
+          description: Offset denotes the position of the consumer in a partition.
+          type: number
+        logEndOffset:
+          description:
+            The log end offset is the offset of the last message written
+            to a log.
+          type: number
+        lag:
+          description:
+            Offset Lag is the delta between the last produced message and
+            the last consumer's committed offset.
+          type: integer
+        memberId:
+          description:
+            The member ID is a unique identifier given to a consumer by
+            the coordinator upon initially joining the group.
+          type: string
+      example:
+        groupId: consumer_group_1
+        topic: topic-1
+        partition: 0
+        memberId: consumer_group_1-0
+        offset: 5
+        lag: 0
+        logEndOffset: 5
+    ConsumerGroupList:
+      description: A list of consumer groups
+      required:
+        - items
+        - count
+        - limit
+        - offset
+      type: object
+      properties:
+        items:
+          description: Consumer group list items
+          type: array
+          items:
+            $ref: '#/components/schemas/ConsumerGroup'
+        count:
+          description: The total number of consumer groups.
+          type: number
+        limit:
+          description: The number of consumer groups per page.
+          type: number
+        offset:
+          description: The page offset
+          type: integer
+      example:
+        count: 1
+        limit: 10
+        offset: 0
+        items:
+          - id: consumer_group_1
+            consumers:
+              - groupId: consumer_group_1
+                topic: topic-1
+                partition: 0
+                memberId: consumer_group_member1
+                offset: 5
+                lag: 0
+                logEndOffset: 5
+              - groupId: consumer_group_1
+                topic: topic-1
+                partition: 1
+                memberId: consumer_group_member2
+                offset: 3
+                lag: 0
+                logEndOffset: 3
+              - groupId: consumer_group_1
+                topic: topic-1
+                partition: 2
+                memberId: consumer_group_member3
+                offset: 6
+                lag: 1
+                logEndOffset: 5
+    UpdateTopicInput:
+      title: Root Type for UpdateTopicInput
+      description: Kafka Topic (A feed where records are stored and published)
+      type: object
+      properties:
+        config:
+          description: Topic configuration entry.
+          type: array
+          items:
+            $ref: '#/components/schemas/ConfigEntry'
+      example:
+        config:
+          - key: min.insync.replicas
+            value: '1'
+          - key: max.message.bytes
+            value: '1050000'
+    ResetOffsetInput:
+      title: Root Type for ResetOffsetInput
+      description:
+        Object containing configuration values to reset the offset of a
+        consumer group
+      required:
+        - mode
+      type: object
+      properties:
+        mode:
+          description: The type of reset action requested by the client
+          enum:
+            - earliest
+            - latest
+            - offset
+          type: string
+        offset:
+          description:
+            The specific offset position to reset to (only required in
+            combination with the "offset" mode).
+          type: integer
+      example:
+        mode: earliest
   securitySchemes:
     Bearer:
-      scheme: bearer
-      bearerFormat: JWT
-      type: http
-  examples:
-    USRegionExample:
-      value:
-        region: 'us-east-1'
-        cloud_provider: 'aws'
-        name: 'serviceapitest'
-    EURegionExample:
-      value:
-        region: 'eu-west-1'
-        cloud_provider: 'aws'
-        name: 'serviceapitest'
-    KafkaRequestExample:
-      value:
-        id: '1iSY6RQ3JKI8Q0OTmjQFd3ocFRg'
-        kind: 'kafka'
-        href: '/api/managed-services-api/v1/kafkas/1iSY6RQ3JKI8Q0OTmjQFd3ocFRg'
-        status: 'ready'
-        cloud_provider: 'aws'
-        multi_az: true
-        region: 'us-east-1'
-        owner: 'api_kafka_service'
-        name: 'serviceapi'
-        bootstrapServerHost: 'serviceapi-1isy6rq3jki8q0otmjqfd3ocfrg.apps.ms-bttg0jn170hp.x5u8.s1.devshift.org'
-        created_at: '2020-10-05T12:51:24.053142Z'
-        updated_at: '2020-10-05T12:56:36.362208Z'
-    KafkaRequestFailedCreationStatusExample:
-      value:
-        id: '1iSY6RQ3JKI8Q0OTmjQFd3ocFRg'
-        kind: 'kafka'
-        href: '/api/managed-services-api/v1/kafkas/1iSY6RQ3JKI8Q0OTmjQFd3ocFRg'
-        status: 'failed'
-        cloud_provider: 'aws'
-        multi_az: true
-        region: 'us-east-1'
-        owner: 'api_kafka_service'
-        name: 'serviceapi'
-        bootstrapServerHost: 'serviceapi-1isy6rq3jki8q0otmjqfd3ocfrg.apps.ms-bttg0jn170hp.x5u8.s1.devshift.org'
-        created_at: '2020-10-05T12:51:24.053142Z'
-        updated_at: '2020-10-05T12:56:36.362208Z'
-        failed_reason: 'a reason the kafka request creation failed'
-    CloudProviderExample:
-      value:
-        kind: 'CloudProvider'
-        id: 'aws'
-        name: 'aws'
-        display_name: 'Amazon Web Services'
-        enabled: true
-    CloudRegionExample:
-      value:
-        kind: 'CloudRegion'
-        id: 'us-east-1'
-        display_name: 'US East, N. Virginia'
-        enabled: true
-    ServiceAccountRequestExample:
-      value:
-        name: 'my-app-sa'
-        description: 'service account for my app'
-    ServiceAccountExample:
-      value:
-        id: '1'
-        kind: 'ServiceAccount'
-        href: '/api/managed-services-api/v1/serviceaccounts/1'
-        name: 'my-app-sa'
-        description: 'service account for my app'
-        clientID: 'SA-121212'
-        clientSecret: 'secret'
-    ServiceAccountListItemExample:
-      value:
-        id: '1'
-        kind: 'ServiceAccountListItem'
-        href: '/api/managed-services-api/v1/serviceaccounts/1'
-        name: 'my-app-sa'
-        description: 'service account for my app'
-        clientID: 'SA-121212'
-    400DeletionExample:
-      value:
-        id: '103'
-        kind: 'Error'
-        href: '/api/managed-services-api/v1/errors/103'
-        code: 'MGD-SERV-API-103'
-        reason: 'Synchronous action is not supported, use async=true parameter'
-        operation_id: '1iWIimqGcrDuL61aUxIZqBTqNRa'
-    400CreationExample:
-      value:
-        id: '103'
-        kind: 'Error'
-        href: '/api/managed-services-api/v1/errors/103'
-        code: 'MGD-SERV-API-103'
-        reason: 'Synchronous action is not supported, use async=true parameter'
-        operation_id: '1iWIimqGcrDuL61aUxIZqBTqNRa'
-    400InvalidQueryExample:
-      value:
-        id: '203'
-        kind: 'Error'
-        href: '/api/managed-services-api/v1/errors/23'
-        code: 'MGD-SERV-API-23'
-        reason: "Failed to parse search query: Unable to list kafka requests for api_kafka_service: MGD-SERV-API-23: Failed to parse search query: Unsupported column name for search: 'id'. Supported column names are: region, name, cloud_provider, name, status. Query invalid: id = 123"
-        operation_id: '1lWDGuybIrEnxrAem724gqkkiDv'
-    404Example:
-      value:
-        id: '404'
-        kind: 'Error'
-        href: '/api/managed-services-api/v1/errors/7'
-        code: 'MGD-SERV-API-7'
-        reason: "The requested resource doesn't exist"
-    404DeleteExample:
-      value:
-        id: '7'
-        kind: 'Error'
-        href: '/api/managed-services-api/v1/errors/7'
-        code: 'MGD-SERV-API-7'
-        reason: "KafkaResource with id='1iK3duVYIvv5YvLlyz1mGR3JyqN' not found"
-        operation_id: '1iYO7g2g6HTdUKUa2ksH82kQD3y'
-    401Example:
-      value:
-        id: '11'
-        kind: 'Error'
-        href: '/api/managed-services-api/v1/errors/11'
-        code: 'MGD-SERV-API-11'
-        reason: 'Unable to verify JWT token: Required authorization token not found'
-        operation_id: '1iY3UhEhwmXBpWPfI2lNekpd4ZD'
-    403Example:
-      value:
-        id: '4'
-        kind: 'Error'
-        href: '/api/managed-services-api/v1/errors/4'
-        code: 'MGD-SERV-API-4'
-        reason: "User 'foo-bar' is not authorized to access the service."
-        operation_id: '1lY3UiEhznXBpWPfI2lNejpd4YC'
-    403MaxAllowedInstanceReachedExample:
-      value:
-        id: '5'
-        kind: 'Error'
-        href: '/api/managed-services-api/v1/errors/5'
-        code: 'MGD-SERV-API-5'
-        reason: "User 'foo-bar' has reached a maximum number of 6 allowed instances."
-        operation_id: '1lY3UiEkxnXBpVPeI2oNejd3XB'
-    409NameConflictExample:
-      value:
-        id: '36'
-        kind: 'Error'
-        href: '/api/managed-services-api/v1/errors/36'
-        code: 'MGD-SERV-API-36'
-        reason: 'Kafka cluster name is already used'
-        operation_id: '6kY0UiEkzkXCzWPeI2oYehd3ED'
-    500Example:
-      value:
-        id: '9'
-        kind: 'Error'
-        href: '/api/managed-services-api/v1/errors/9'
-        code: 'MGD-SERV-API-9'
-        reason: 'Unspecified error'
-        operation_id: '1ieELvF9jMQY6YghfM9gGRsHvEW'
-    500DeleteExample:
-      value:
-        id: '9'
-        kind: 'Error'
-        href: '/api/managed-services-api/v1/errors/9'
-        code: 'MGD-SERV-API-9'
-        reason:
-          "error deleting syncset: OCM-EX-9: failed to delete syncset: ext-serviceapi-1ix03lndlmq0qfc7sita5sljv8e
-          for cluster id: 1g5d88q0lrcdv4g7alb7slfgnj3dhbsj%!(EXTRA *errors.Error=identifier
-          is '404', code is 'CLUSTERS-MGMT-404' and operation identifier is '1g5or50viu07oealuehrkc26dgftj1ac':
-          Cluster '1g5d88q0lrcdv4g7alb7slfgnj3dhbsj' not found)"
-        operation_id: '1iYTsWry6nsqb2sNmFj5bXpD7Ca'
+      flows: {}
+      type: oauth2
+      description: Access token used with OAuth 2.0

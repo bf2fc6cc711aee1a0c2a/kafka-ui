@@ -61,7 +61,7 @@ export const ConsumerGroupDetail: React.FunctionComponent<IConsumerGroupDetailPr
           <TextContent>
             <Text>Consumer group ID</Text>
             <Text component={TextVariants.h1}>
-              {consumerDetail && consumerDetail.id}
+              {consumerDetail && consumerDetail.groupId}
             </Text>
           </TextContent>
         </span>

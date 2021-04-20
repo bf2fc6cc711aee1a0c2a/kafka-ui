@@ -80,7 +80,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
           setFilterConsumerGroups(consumerGroupsData);
         }
       } catch (err) {
-        addAlert(err.response.data.error, AlertVariant.danger);
+        addAlert(err.response.data.error_message, AlertVariant.danger);
       }
       setLoading(false);
     } else {
@@ -91,7 +91,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
           setFilterConsumerGroups(consumerGroupsData);
         }
       } catch (err) {
-        addAlert(err.response.data.error, AlertVariant.danger);
+        addAlert(err.response.data.error_message, AlertVariant.danger);
       }
       setLoading(false);
     }
@@ -147,8 +147,9 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
     { title: 'Partitions with lag' },
   ];
   const onDelete = (rowId: any) => {
+
     if (filterConsumerGroups?.items) {
-      setConsumerGroupName(filterConsumerGroups.items[rowId].id);
+      setConsumerGroupName(filterConsumerGroups.items[rowId].groupId);
     }
     setDeleteModal(true);
   };
@@ -165,7 +166,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
         setConsumerGroupDetail(consumerData);
       }
     } catch (err) {
-      addAlert(err.response.data.error, AlertVariant.danger);
+      addAlert(err.response.data.error_message, AlertVariant.danger);
     }
     setIsExpanded(true);
   };
@@ -183,9 +184,9 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
           <Button
             variant='link'
             isInline
-            onClick={() => fetchConsumerGroupDetail(consumer.id)}
+            onClick={() => fetchConsumerGroupDetail(consumer.groupId)}
           >
-            {consumer.id}
+            {consumer.groupId}
           </Button>
         ),
       },

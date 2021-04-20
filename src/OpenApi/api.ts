@@ -103,7 +103,7 @@ export interface ConsumerGroup {
    * @type {string}
    * @memberof ConsumerGroup
    */
-  id: string;
+  groupId: string;
   /**
    * The list of consumers associated with this consumer group
    * @type {Array<Consumer>}
@@ -391,6 +391,16 @@ export const DefaultApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      // authentication Bearer required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken =
+          typeof configuration.accessToken === 'function'
+            ? await configuration.accessToken()
+            : await configuration.accessToken;
+        localVarHeaderParameter['Authorization'] = 'Bearer ' + accessToken;
+      }
+
       const queryParameters = new URLSearchParams(localVarUrlObj.search);
       for (const key in localVarQueryParameter) {
         queryParameters.set(key, localVarQueryParameter[key]);
@@ -589,6 +599,16 @@ export const DefaultApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      // authentication Bearer required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken =
+          typeof configuration.accessToken === 'function'
+            ? await configuration.accessToken()
+            : await configuration.accessToken;
+        localVarHeaderParameter['Authorization'] = 'Bearer ' + accessToken;
+      }
+
       if (topic !== undefined) {
         localVarQueryParameter['topic'] = topic;
       }
@@ -645,6 +665,16 @@ export const DefaultApiAxiosParamCreator = function (
       };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
+
+      // authentication Bearer required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken =
+          typeof configuration.accessToken === 'function'
+            ? await configuration.accessToken()
+            : await configuration.accessToken;
+        localVarHeaderParameter['Authorization'] = 'Bearer ' + accessToken;
+      }
 
       if (limit !== undefined) {
         localVarQueryParameter['limit'] = limit;
