@@ -84,10 +84,12 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
 
   return (
     <>
-      <TopicDetailHead topicName={topicName}
+      <TopicDetailHead
+        topicName={topicName}
         kafkaName={kafkaName}
         kafkaPageLink={kafkaPageLink}
-        kafkaInstanceLink={kafkaInstanceLink}/>
+        kafkaInstanceLink={kafkaInstanceLink}
+      />
       <PageSection
         variant={PageSectionVariants.light}
         padding={{ default: 'noPadding' }}

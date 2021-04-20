@@ -12,16 +12,16 @@ import './TopicDetailView.css';
 
 export type TopicDetailHeadProps = {
   topicName: string;
-  kafkaName?: string,
-  kafkaInstanceLink?: string,
-  kafkaPageLink?: string,
+  kafkaName?: string;
+  kafkaInstanceLink?: string;
+  kafkaPageLink?: string;
 };
 
 export const TopicDetailHead: React.FC<TopicDetailHeadProps> = ({
   topicName,
   kafkaName,
   kafkaInstanceLink,
-  kafkaPageLink
+  kafkaPageLink,
 }) => {
   return (
     <>
