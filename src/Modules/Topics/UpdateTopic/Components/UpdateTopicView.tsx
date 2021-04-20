@@ -93,9 +93,9 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
       }
     } catch (err) {
       if (onError) {
-        onError(err.response.data.code, err.response.data.error);
+        onError(err.response.data.code, err.response.data.error_message);
       }
-      addAlert(err.response.data.error, AlertVariant.danger);
+      addAlert(err.response.data.error_message, AlertVariant.danger);
     }
   };
 

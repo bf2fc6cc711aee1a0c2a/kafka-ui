@@ -113,7 +113,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
         closeWizard();
       })
       .catch((err) => {
-        addAlert(err.response.data.error, AlertVariant.danger);
+        addAlert(err.response.data.error_message, AlertVariant.danger);
         closeWizard();
       });
   };

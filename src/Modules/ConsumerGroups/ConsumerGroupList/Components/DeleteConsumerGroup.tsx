@@ -36,7 +36,7 @@ export const DeleteConsumerGroup: React.FunctionComponent<IDeleteConsumer> = ({
         AlertVariant.success
       );
     } catch (err) {
-      addAlert(err.response.data.err, AlertVariant.danger);
+      addAlert(err.response.data.error_message, AlertVariant.danger);
     }
     onDeleteConsumer();
     setDeleteModal(false);

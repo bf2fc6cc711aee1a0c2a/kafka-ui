@@ -34,7 +34,7 @@ module.exports = {
   getConsumerGroupById: async (c, req, res) => {
     const group = getConsumerGroup(c.request.params.consumerGroupId);
     if (!group) {
-      return res.status(404).json({ err: 'not found' });
+      return res.status(404).json({ error_message: 'not found' });
     }
     return res.status(200).json(group);
   },
@@ -43,7 +43,7 @@ module.exports = {
 
     const group = getConsumerGroup(id);
     if (!group) {
-      return res.status(404).json({ err: 'not found' });
+      return res.status(404).json({ error_message: 'not found' });
     }
     consumerGroups = consumerGroups.filter((t) => t.id !== id);
 
@@ -54,7 +54,7 @@ module.exports = {
 
     const group = getConsumerGroup(id);
     if (!group) {
-      return res.status(404).json({ err: 'not found' });
+      return res.status(404).json({ error_message: 'not found' });
     }
     if (group.consumers && group.consumers.length) {
       for (let i = 0; i < group.consumers.length; i++) {
@@ -76,13 +76,13 @@ module.exports = {
     const topicBody = c.request.body;
 
     if (!topicBody) {
-      return res.status(400).json({ error: 'Bad request' });
+      return res.status(400).json({ error_message: 'Bad request' });
     }
 
     let topic = getTopic(topicBody.name);
 
     if (topic) {
-      return res.status(409).json({ error: 'topic exists' });
+      return res.status(409).json({ error_message: 'topic exists' });
     }
 
     topic = {
@@ -122,7 +122,7 @@ module.exports = {
   getTopic: async (c, req, res) => {
     const topic = getTopic(c.request.params.topicName);
     if (!topic) {
-      return res.status(404).json({ error: 'not found' });
+      return res.status(404).json({ error_message: 'not found' });
     }
     return res.status(200).json(topic);
   },
@@ -132,7 +132,7 @@ module.exports = {
 
     const topic = getTopic(topicName);
     if (!topic) {
-      return res.status(404).json({ error: 'not found' });
+      return res.status(404).json({ error_message: 'not found' });
     }
     topics = topics.filter((t) => t.name !== topicName);
 
@@ -144,7 +144,7 @@ module.exports = {
     const topicBody = c.request.body;
 
     if (!topicBody) {
-      return res.status(400).json({ error: 'Bad request' });
+      return res.status(400).json({ error_message: 'Bad request' });
     }
 
     const topic = getTopic(topicName);
@@ -157,7 +157,7 @@ module.exports = {
     }
 
     if (!topic) {
-      return res.status(404).json({ error: 'not found' });
+      return res.status(404).json({ error_message: 'not found' });
     }
 
     if (
@@ -174,10 +174,10 @@ module.exports = {
   // Handling auth
   notFound: async (c, req, res) => {
     debug(res);
-    return res.status(404).json({ err: 'not found' });
+    return res.status(404).json({ error_message: 'not found' });
   },
   unauthorizedHandler: async (c, req, res) => {
-    return res.status(401).json({ err: 'unauthorized' });
+    return res.status(401).json({ error_message: 'unauthorized' });
   },
 };
 
