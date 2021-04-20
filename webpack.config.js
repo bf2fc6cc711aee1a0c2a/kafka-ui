@@ -81,7 +81,7 @@ module.exports = (_env, argv) => {
           isProduction ? '.[chunkhash:8]' : ''
         }.js`,
         exposes: {
-          './Panels/Topics': './src/Panels/Topics/FederatedView',
+          './Panels/KafkaMainView': './src/Panels/Topics/FederatedMainView',
           './Panels/TopicDetails':
             './src/Panels/Topics/FederatedTopicDetailView',
           './Panels/CreateTopic': './src/Panels/Topics/FederatedCreateView',
