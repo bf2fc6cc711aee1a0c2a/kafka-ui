@@ -77,7 +77,10 @@ export const DeleteConsumerGroup: React.FunctionComponent<IDeleteConsumer> = ({
       ]}
     >
       <Text id='modal-message'>
-        {t('common.confirmDeleteModalText', { name: consumerName})}{' '}
+        <label
+          htmlFor="instance-name-input"
+          dangerouslySetInnerHTML={{ __html: t('common.confirmDeleteModalText', { name: consumerName }) }}
+        />
       </Text>
 
       <br />
