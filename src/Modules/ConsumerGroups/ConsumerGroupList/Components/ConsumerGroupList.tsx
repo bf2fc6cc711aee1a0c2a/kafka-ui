@@ -118,7 +118,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
   ];
   const onDelete = (rowId: any) => {
     if (consumerGroups?.items) {
-      setConsumerGroupName(consumerGroups.items[rowId].id);
+      setConsumerGroupName(consumerGroups.items[rowId].groupId);
     }
     setDeleteModal(true);
   };
@@ -153,9 +153,9 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
           <Button
             variant='link'
             isInline
-            onClick={() => fetchConsumerGroupDetail(consumer.id)}
+            onClick={() => fetchConsumerGroupDetail(consumer.groupId)}
           >
-            {consumer.id}
+            {consumer.groupId}
           </Button>
         ),
       },
