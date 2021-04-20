@@ -65,7 +65,7 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
     const mainBreadcrumbs = (
       <Breadcrumb>
         <BreadcrumbItem to={kafkaPageLink ? kafkaPageLink : '#'}>
-          Kafka Instance
+          Kafka Instances
         </BreadcrumbItem>
         <BreadcrumbItem to='#' isActive>
           {kafkaName ? kafkaName : 'Kafka Instance Name'}

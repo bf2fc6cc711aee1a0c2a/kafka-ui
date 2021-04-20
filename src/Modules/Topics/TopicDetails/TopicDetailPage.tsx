@@ -21,7 +21,6 @@ import { useHistory } from 'react-router';
 export type TopicDetailGroupProps = {
   topicName: string;
   onUpdateTopic: () => void;
-  getTopicListPath: () => string;
   onClickTopicList: () => void;
   onDeleteTopic: () => void;
   onError?: (errorCode: number, message: string) => void;
@@ -31,7 +30,6 @@ export type TopicDetailGroupProps = {
 export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
   topicName,
   onUpdateTopic,
-  getTopicListPath,
   onClickTopicList,
   onDeleteTopic,
   onError,
@@ -80,11 +78,7 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
 
   return (
     <>
-      <TopicDetailHead
-        topicName={topicName}
-        getTopicListPath={getTopicListPath}
-        onClickTopicList={onClickTopicList}
-      />
+      <TopicDetailHead topicName={topicName} />
       <PageSection
         variant={PageSectionVariants.light}
         padding={{ default: 'noPadding' }}

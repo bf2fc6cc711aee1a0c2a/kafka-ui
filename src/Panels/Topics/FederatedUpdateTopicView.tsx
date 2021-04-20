@@ -12,8 +12,6 @@ export interface FederatedUpdateTopicProps extends FederatedProps {
   getToken: () => Promise<string>;
   apiBasePath: string;
   currentTopic: string;
-  getTopicListPath: () => string;
-  onClickTopicList: () => void;
   onCancelUpdateTopic: () => void;
   addAlert: (message: string, variant?: AlertVariant) => void;
   onDeleteTopic: () => void;
@@ -24,8 +22,6 @@ const FederatedUpdateTopicView: FunctionComponent<FederatedUpdateTopicProps> = (
   getToken,
   apiBasePath,
   currentTopic,
-  getTopicListPath,
-  onClickTopicList,
   onCancelUpdateTopic,
   addAlert,
   onDeleteTopic,
@@ -42,8 +38,6 @@ const FederatedUpdateTopicView: FunctionComponent<FederatedUpdateTopicProps> = (
           <TopicContextProvider>
             <UpdateTopicPage
               topicName={currentTopic}
-              getTopicListPath={getTopicListPath}
-              onClickTopicList={onClickTopicList}
               onCancelUpdateTopic={onCancelUpdateTopic}
               onDeleteTopic={onDeleteTopic}
               onSaveTopic={onSaveTopic}

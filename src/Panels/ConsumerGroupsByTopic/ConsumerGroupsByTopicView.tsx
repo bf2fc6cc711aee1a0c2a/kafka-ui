@@ -24,7 +24,6 @@ const ConsumerGroupsByTopicView: FunctionComponent<TopicDetailParams> = ({
     <TopicDetailGroup
       topicName={topicName}
       onUpdateTopic={useUpdateTopic}
-      getTopicListPath={() => '/topics'}
       onClickTopicList={() => history.push('/topics')}
       onDeleteTopic={onDeleteTopic}
       eventKey={1}

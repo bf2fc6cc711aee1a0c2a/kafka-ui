@@ -51,7 +51,7 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
 
   const mainBreadcrumbs = (
     <Breadcrumb>
-      <BreadcrumbItem to='#'>Kafka Instance</BreadcrumbItem>
+      <BreadcrumbItem to='#'>Kafka Instances</BreadcrumbItem>
       <BreadcrumbItem to='#' isActive>
         {instanceName ? instanceName : 'Kafka Instance Name'}
       </BreadcrumbItem>

@@ -13,13 +13,13 @@ const UpdateTopic: FunctionComponent<TopicUseParams> = () => {
   return (
     <UpdateTopicPage
       topicName={topicName}
-      getTopicListPath={() => '/topics'}
-      onClickTopicList={() => history.push('/topics')}
       onCancelUpdateTopic={() => history.push('/topics')}
       onDeleteTopic={() => {
+        history.push('/topics');
         return;
       }}
       onSaveTopic={() => {
+        history.push('/topics');
         return;
       }}
     />

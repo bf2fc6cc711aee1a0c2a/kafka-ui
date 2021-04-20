@@ -19,11 +19,9 @@ export const CreateTopichead: React.FC<ICreateTopicProps> = ({
 }) => {
   const mainBreadcrumbs = (
     <Breadcrumb>
+      <BreadcrumbItem to='/openshiftstreams'>Kafka Instances</BreadcrumbItem>
       <BreadcrumbItem to='/openshiftstreams'>
-        Red Hat OpenShift Streams for Apache Kafka
-      </BreadcrumbItem>
-      <BreadcrumbItem to='/openshiftstreams'>
-        MK Cluster Instance
+        Kafka Instance Name
       </BreadcrumbItem>
       <BreadcrumbItem to='#' isActive>
         Create topic
