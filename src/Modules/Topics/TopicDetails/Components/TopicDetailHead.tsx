@@ -12,20 +12,26 @@ import './TopicDetailView.css';
 
 export type TopicDetailHeadProps = {
   topicName: string;
+  kafkaName?: string,
+  kafkaInstanceLink?: string,
+  kafkaPageLink?: string,
 };
 
 export const TopicDetailHead: React.FC<TopicDetailHeadProps> = ({
   topicName,
+  kafkaName,
+  kafkaInstanceLink,
+  kafkaPageLink
 }) => {
   return (
     <>
       <section className='pf-c-page__main-breadcrumb'>
         <Breadcrumb>
-          <BreadcrumbItem to='/openshiftstreams'>
+          <BreadcrumbItem to={kafkaPageLink ? kafkaPageLink : '#'}>
             Kafka Instances
           </BreadcrumbItem>
-          <BreadcrumbItem to='/openshiftstreams'>
-            Kafka Instance Name
+          <BreadcrumbItem to={kafkaInstanceLink ? kafkaInstanceLink : '#'}>
+            {kafkaName ? kafkaName : 'Kafka Instance Name'}
           </BreadcrumbItem>
           <BreadcrumbItem>{topicName}</BreadcrumbItem>
         </Breadcrumb>
