@@ -9,6 +9,9 @@ interface IFormGroupWithPopoverProps {
   fieldLabel: string;
   labelBody: string;
   buttonAriaLabel: string;
+  validated?: 'default' | 'error' | 'success' | 'warning' | undefined;
+  helperText?: string;
+  helperTextInvalid?: string;
 }
 
 export const FormGroupWithPopover: React.FC<IFormGroupWithPopoverProps> = ({
@@ -18,6 +21,9 @@ export const FormGroupWithPopover: React.FC<IFormGroupWithPopoverProps> = ({
   fieldLabel,
   labelBody,
   buttonAriaLabel,
+  validated,
+  helperText,
+  helperTextInvalid,
 }) => {
   const preventButtonSubmit = (event) => event.preventDefault();
 
@@ -25,6 +31,9 @@ export const FormGroupWithPopover: React.FC<IFormGroupWithPopoverProps> = ({
     <FormGroup
       fieldId={fieldId}
       label={fieldLabel}
+      validated={validated}
+      helperText={helperText}
+      helperTextInvalid={helperTextInvalid}
       labelIcon={
         <Popover
           headerContent={<div>{labelHead}</div>}
