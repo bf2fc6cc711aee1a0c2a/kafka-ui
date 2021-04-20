@@ -75,7 +75,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
           setConsumerGroups(consumerGroupsData);
         }
       } catch (err) {
-        addAlert(err.response.data.error, AlertVariant.danger);
+        addAlert(err.response.data.error_message, AlertVariant.danger);
       }
       setLoading(false);
     } else {
@@ -85,7 +85,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
           setConsumerGroups(consumerGroupsData);
         }
       } catch (err) {
-        addAlert(err.response.data.error, AlertVariant.danger);
+        addAlert(err.response.data.error_message, AlertVariant.danger);
       }
       setLoading(false);
     }
@@ -135,7 +135,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
         setConsumerGroupDetail(consumerData);
       }
     } catch (err) {
-      addAlert(err.response.data.error, AlertVariant.danger);
+      addAlert(err.response.data.error_message, AlertVariant.danger);
     }
     setIsExpanded(true);
   };
