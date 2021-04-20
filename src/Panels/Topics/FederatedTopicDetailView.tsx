@@ -12,10 +12,11 @@ export interface FederatedTopicDetailViewProps extends FederatedProps {
   apiBasePath: string;
   currentTopic: string;
   onUpdateTopic: () => void;
-  getTopicListPath: () => string;
   onClickTopicList: () => void;
   addAlert: (message: string, variant?: AlertVariant) => void;
-
+  kafkaName?: string;
+  kafkaPageLink?: string;
+  kafkaInstanceLink?: string;
   onDeleteTopic: () => void;
 }
 
@@ -23,8 +24,10 @@ const FederatedTopicDetailView: FunctionComponent<FederatedTopicDetailViewProps>
   getToken,
   apiBasePath,
   currentTopic,
+  kafkaName,
+  kafkaPageLink,
+  kafkaInstanceLink,
   onUpdateTopic,
-  getTopicListPath,
   onClickTopicList,
   onDeleteTopic,
   onError,
@@ -41,10 +44,12 @@ const FederatedTopicDetailView: FunctionComponent<FederatedTopicDetailViewProps>
             eventKey={2}
             topicName={currentTopic}
             onUpdateTopic={onUpdateTopic}
-            getTopicListPath={getTopicListPath}
             onClickTopicList={onClickTopicList}
             onDeleteTopic={onDeleteTopic}
             onError={onError}
+            kafkaName={kafkaName}
+            kafkaPageLink={kafkaPageLink}
+            kafkaInstanceLink={kafkaInstanceLink}
           />
           ;
         </AlertContext.Provider>

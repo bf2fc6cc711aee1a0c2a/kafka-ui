@@ -12,8 +12,6 @@ import { TopicDetailHead } from '../TopicDetails/Components/TopicDetailHead';
 
 export interface UpdateTopicPageProps {
   topicName: string;
-  getTopicListPath: () => string;
-  onClickTopicList: () => void;
   onCancelUpdateTopic: () => void;
   onDeleteTopic: () => void;
   onSaveTopic: () => void;
@@ -22,8 +20,6 @@ export interface UpdateTopicPageProps {
 
 export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
   topicName,
-  getTopicListPath,
-  onClickTopicList,
   onCancelUpdateTopic,
   onDeleteTopic,
   onSaveTopic,
@@ -31,11 +27,7 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
 }) => {
   return (
     <>
-      <TopicDetailHead
-        topicName={topicName}
-        getTopicListPath={getTopicListPath}
-        onClickTopicList={onClickTopicList}
-      />
+      <TopicDetailHead topicName={topicName} />
       <PageSection
         variant={PageSectionVariants.light}
         padding={{ default: 'noPadding' }}

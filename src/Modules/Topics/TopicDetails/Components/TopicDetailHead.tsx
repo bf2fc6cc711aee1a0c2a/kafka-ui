@@ -12,27 +12,26 @@ import './TopicDetailView.css';
 
 export type TopicDetailHeadProps = {
   topicName: string;
-  getTopicListPath: () => string;
-  onClickTopicList: () => void;
+  kafkaName?: string;
+  kafkaInstanceLink?: string;
+  kafkaPageLink?: string;
 };
 
 export const TopicDetailHead: React.FC<TopicDetailHeadProps> = ({
   topicName,
-  getTopicListPath,
-  onClickTopicList,
+  kafkaName,
+  kafkaInstanceLink,
+  kafkaPageLink,
 }) => {
   return (
     <>
       <section className='pf-c-page__main-breadcrumb'>
         <Breadcrumb>
-          <BreadcrumbItem
-            onClick={(e) => {
-              e.preventDefault();
-              onClickTopicList();
-            }}
-            to={getTopicListPath()}
-          >
-            Topics
+          <BreadcrumbItem to={kafkaPageLink ? kafkaPageLink : '#'}>
+            Kafka Instances
+          </BreadcrumbItem>
+          <BreadcrumbItem to={kafkaInstanceLink ? kafkaInstanceLink : '#'}>
+            {kafkaName ? kafkaName : 'Kafka Instance Name'}
           </BreadcrumbItem>
           <BreadcrumbItem>{topicName}</BreadcrumbItem>
         </Breadcrumb>

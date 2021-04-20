@@ -20,8 +20,10 @@ import { useHistory } from 'react-router';
 
 export type TopicDetailGroupProps = {
   topicName: string;
+  kafkaName?: string;
+  kafkaPageLink?: string;
+  kafkaInstanceLink?: string;
   onUpdateTopic: () => void;
-  getTopicListPath: () => string;
   onClickTopicList: () => void;
   onDeleteTopic: () => void;
   onError?: (errorCode: number, message: string) => void;
@@ -30,8 +32,10 @@ export type TopicDetailGroupProps = {
 
 export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
   topicName,
+  kafkaName,
+  kafkaPageLink,
+  kafkaInstanceLink,
   onUpdateTopic,
-  getTopicListPath,
   onClickTopicList,
   onDeleteTopic,
   onError,
@@ -82,8 +86,9 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
     <>
       <TopicDetailHead
         topicName={topicName}
-        getTopicListPath={getTopicListPath}
-        onClickTopicList={onClickTopicList}
+        kafkaName={kafkaName}
+        kafkaPageLink={kafkaPageLink}
+        kafkaInstanceLink={kafkaInstanceLink}
       />
       <PageSection
         variant={PageSectionVariants.light}
