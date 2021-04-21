@@ -13,6 +13,10 @@
   padding-left: var(--pf-global--spacer--lg);
 }
 
+.kafka-ui--radio-label__number-input {
+  --pf-c-radio__input--MarginTop: var(--pf-global--spacer--sm);
+}
+
 .kafka-ui--topic-switch {
   margin-top: var(--pf-global--spacer--md);
 }
