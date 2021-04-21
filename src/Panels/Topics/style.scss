@@ -13,3 +13,9 @@
 main#root {
   display: contents !important;
 }
+
+.kafka-ui--consumer-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}

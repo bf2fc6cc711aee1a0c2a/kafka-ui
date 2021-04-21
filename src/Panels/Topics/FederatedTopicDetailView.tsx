@@ -6,6 +6,7 @@ import kafkai18n from '../../i18n';
 import { I18nextProvider } from 'react-i18next';
 import { AlertContext, AlertContextProps } from '../../Contexts/Alert';
 import { FederatedProps } from '../../Utils';
+import './style.scss';
 
 export interface FederatedTopicDetailViewProps extends FederatedProps {
   getToken: () => Promise<string>;
