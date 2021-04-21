@@ -92,7 +92,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   </TextContent>
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.topicNameLabelHead')}
+                    btnAriaLabel={t('common.name')}
                     fieldLabel={t('createTopic.topicNameLabelHead')}
                     fieldValue={topic.name}
                     popoverBody={t('createTopic.topicNameLabelBody')}
