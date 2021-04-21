@@ -11,6 +11,8 @@ const setup = () => {
   const topicNameProps: IStepTopicName = {
     topicNameInput: '',
     setTopicNameInput: jest.fn(),
+    topicNameValidated: 'default',
+    setTopicNameValidated: jest.fn(),
   };
   const component: ReactElement = (
     <I18nextProvider i18n={kafkai18n}>
