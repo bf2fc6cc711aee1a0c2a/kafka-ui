@@ -406,12 +406,17 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                     variant='danger'
                     className='section-margin'
                     onClick={deleteTopic}
+                    data-testid='tabProperties-actionDelete'
                   >
                     Delete topic
                   </Button>
                 </SplitItem>
                 <SplitItem>
-                  <Button variant='primary' onClick={updateTopic}>
+                  <Button
+                    variant='primary'
+                    onClick={updateTopic}
+                    data-testid='tabProperties-actionEdit'
+                  >
                     Edit properties
                   </Button>
                 </SplitItem>

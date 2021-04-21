@@ -281,6 +281,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
                 <Button
                   id='topic-list-create-topic-button'
                   className='topics-per-page'
+                  data-testid='tabTopics-actionCreate'
                   onClick={() => {
                     onCreateTopic();
                   }}

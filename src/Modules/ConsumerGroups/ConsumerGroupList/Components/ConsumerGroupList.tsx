@@ -36,12 +36,16 @@ export interface IConsumerGroupsList {
   onDeleteConsumerGroup: () => void;
   consumerGroupByTopic: boolean;
   topic?: string;
+  rowDataId?: string;
+  detailsDataId?: string;
 }
 
 export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = ({
   onDeleteConsumerGroup,
   consumerGroupByTopic,
   topic,
+  rowDataId,
+  detailsDataId,
 }) => {
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(10);
@@ -152,7 +156,13 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
     }
   };
 
-  const actions = [{ title: 'Delete', onClick: (_, rowId) => onDelete(rowId) }];
+  const actions = [
+    {
+      title: 'Delete',
+      ['data-testid']: 'tableConsumers-actionDelete',
+      onClick: (_, rowId) => onDelete(rowId),
+    },
+  ];
 
   const fetchConsumerGroupDetail = async (consumerGroupId) => {
     try {
@@ -183,10 +193,14 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
             variant='link'
             isInline
             onClick={() => fetchConsumerGroupDetail(consumer.groupId)}
+            data-testid={
+              detailsDataId ? detailsDataId : 'tableConsumers-actionDetails'
+            }
           >
             {consumer.groupId}
           </Button>
         ),
+        props: { 'data-testid': rowDataId ? rowDataId : 'tableConsumers-row' },
       },
 
       consumer.consumers.reduce(function (prev, cur) {

@@ -109,6 +109,8 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
               onDeleteConsumerGroup={onDeleteConsumer}
               consumerGroupByTopic={true}
               topic={topicName}
+              rowDataId='tableTopicConsumers-row'
+              detailsDataId='tableTopicConsumers-actionDetails'
             />
           </Tab>
           <Tab

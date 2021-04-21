@@ -205,6 +205,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
             steps={steps}
             onClose={closeWizard}
             onSave={saveTopic}
+            data-testid='topicBasicCreate-Wizard'
           />
         </PageSection>
       )}

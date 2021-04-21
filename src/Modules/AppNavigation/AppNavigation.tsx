@@ -71,10 +71,15 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
         </Button>
       </Level>
 
-      <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
+      <Tabs
+        activeKey={activeTabKey}
+        onSelect={handleTabClick}
+        data-testid='pageKafka-tabProperties'
+      >
         <Tab
           title={<TabTitleText>Topics</TabTitleText>}
           eventKey={1}
+          data-testid='pageKafka-tabTopics'
           id='topics-tab-section'
           aria-label='Topics Tab'
         >
@@ -88,6 +93,7 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
         <Tab
           title={<TabTitleText>Consumer Groups</TabTitleText>}
           eventKey={2}
+          data-testid='pageKafka-tabConsumers'
           id='consumer-groups-tab-section'
           aria-label='Consumer Groups Tab'
         >
