@@ -40,38 +40,38 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
     <PageSection className='kafka-ui--page__main-section--adjust-padding'>
       <Sidebar hasGutter>
         <SidebarPanel variant='sticky'>
-        <JumpLinks
-          isVertical
-          label='JUMP TO SECTION'
-          scrollableSelector='.pf-c-page__main:first-of-type'
-          offset={-164} // for header
-          style={{ position: 'sticky' }}
+          <JumpLinks
+            isVertical
+            label='JUMP TO SECTION'
+            scrollableSelector='.pf-c-page__main:first-of-type'
+            offset={-164} // for header
+            style={{ position: 'sticky' }}
           >
-          <JumpLinksItem key={0} href='#core-configuration'>
-            Core configuration
-          </JumpLinksItem>
-          <JumpLinksItem key={1} href='#messages'>
-            Messages
-          </JumpLinksItem>
-          <JumpLinksItem key={2} href='#log'>
-            Log
-          </JumpLinksItem>
-          <JumpLinksItem key={3} href='#replication'>
-            Replication
-          </JumpLinksItem>
-          <JumpLinksItem key={4} href='#cleanup'>
-            Cleanup
-          </JumpLinksItem>
-          <JumpLinksItem key={5} href='#index'>
-            Index
-          </JumpLinksItem>
-          <JumpLinksItem key={6} href='#flush'>
-            Flush
-          </JumpLinksItem>
-          <JumpLinksItem key={7} href='#delete'>
-            Delete
-          </JumpLinksItem>
-        </JumpLinks>
+            <JumpLinksItem key={0} href='#core-configuration'>
+              Core configuration
+            </JumpLinksItem>
+            <JumpLinksItem key={1} href='#messages'>
+              Messages
+            </JumpLinksItem>
+            <JumpLinksItem key={2} href='#log'>
+              Log
+            </JumpLinksItem>
+            <JumpLinksItem key={3} href='#replication'>
+              Replication
+            </JumpLinksItem>
+            <JumpLinksItem key={4} href='#cleanup'>
+              Cleanup
+            </JumpLinksItem>
+            <JumpLinksItem key={5} href='#index'>
+              Index
+            </JumpLinksItem>
+            <JumpLinksItem key={6} href='#flush'>
+              Flush
+            </JumpLinksItem>
+            <JumpLinksItem key={7} href='#delete'>
+              Delete
+            </JumpLinksItem>
+          </JumpLinks>
         </SidebarPanel>
         <SidebarContent>
           <PageGroup hasOverflowScroll id='topic-detail-view'>
