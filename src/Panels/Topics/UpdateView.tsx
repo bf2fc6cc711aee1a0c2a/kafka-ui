@@ -10,8 +10,12 @@ type TopicUseParams = {
 const UpdateTopic: FunctionComponent<TopicUseParams> = () => {
   const { topicName } = useParams<TopicUseParams>();
   const history = useHistory();
+  const onDeleteConsumer = () => {
+    history.push('/consumerGroups');
+  };
   return (
     <UpdateTopicPage
+      onDeleteConsumer={onDeleteConsumer}
       topicName={topicName}
       onCancelUpdateTopic={() => history.push('/topics')}
       onDeleteTopic={() => {

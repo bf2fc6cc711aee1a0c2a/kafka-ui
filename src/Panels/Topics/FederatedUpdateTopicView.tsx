@@ -16,6 +16,7 @@ export interface FederatedUpdateTopicProps extends FederatedProps {
   addAlert: (message: string, variant?: AlertVariant) => void;
   onDeleteTopic: () => void;
   onSaveTopic: () => void;
+  onDeleteConsumer: () => void;
 }
 
 const FederatedUpdateTopicView: FunctionComponent<FederatedUpdateTopicProps> = ({
@@ -27,6 +28,7 @@ const FederatedUpdateTopicView: FunctionComponent<FederatedUpdateTopicProps> = (
   onDeleteTopic,
   onSaveTopic,
   onError,
+  onDeleteConsumer,
 }) => {
   const alertContext = {
     addAlert,
@@ -37,6 +39,7 @@ const FederatedUpdateTopicView: FunctionComponent<FederatedUpdateTopicProps> = (
         <AlertContext.Provider value={alertContext}>
           <TopicContextProvider>
             <UpdateTopicPage
+              onDeleteConsumer={onDeleteConsumer}
               topicName={currentTopic}
               onCancelUpdateTopic={onCancelUpdateTopic}
               onDeleteTopic={onDeleteTopic}
