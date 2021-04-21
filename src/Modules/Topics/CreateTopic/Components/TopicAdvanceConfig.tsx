@@ -97,7 +97,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
 
   const onDropdownChange = (value: string, event) => {
     const { name } = event.target;
-    console.log(name);
+
     if (name === 'custom-retention-time-unit') {
       setCustomRetentionTimeUnit(value);
       isCustomRetentionTimeSelected &&
@@ -143,7 +143,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     event: React.FormEvent<HTMLInputElement>
   ) => {
     const { name, value } = event.currentTarget;
-    console.log(name, value);
+
     if (name === 'custom-retention-time') {
       setCustomRetentionTime(Number(value));
       isCustomRetentionTimeSelected &&
