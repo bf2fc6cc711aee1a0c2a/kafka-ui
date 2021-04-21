@@ -39,7 +39,7 @@ export const SizeTimeFormGroup: React.FC<SizeTimeFormGroup> = ({
   plusBtnProps,
   minusBtnProps,
   type,
-  min
+  min,
 }) => {
   const timeUnits: IDropdownOption[] = [
     { key: 'milliseconds', value: 'milliseconds', isDisabled: false },
