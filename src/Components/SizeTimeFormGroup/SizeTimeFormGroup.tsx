@@ -39,6 +39,7 @@ export const SizeTimeFormGroup: React.FC<SizeTimeFormGroup> = ({
   plusBtnProps,
   minusBtnProps,
   type,
+  min,
 }) => {
   const timeUnits: IDropdownOption[] = [
     { key: 'milliseconds', value: 'milliseconds', isDisabled: false },
@@ -78,6 +79,7 @@ export const SizeTimeFormGroup: React.FC<SizeTimeFormGroup> = ({
           value={value}
           plusBtnProps={plusBtnProps}
           minusBtnProps={minusBtnProps}
+          min={min}
         />
       </FlexItem>
       <FlexItem>

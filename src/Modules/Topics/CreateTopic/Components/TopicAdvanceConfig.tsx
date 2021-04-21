@@ -16,6 +16,7 @@ import {
   TextInput,
   NumberInput,
   Form,
+  Radio,
 } from '@patternfly/react-core';
 import './CreateTopicWizard.css';
 
@@ -63,6 +64,26 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
   const [isWarningOpen, setIsWarningOpen] = useState<boolean>(false);
 
   const { t } = useTranslation();
+
+  const [
+    isCustomRetentionTimeSelected,
+    setIsCustomRetentionTimeSelected,
+  ] = useState<boolean>(true);
+  const [
+    isCustomRetentionSizeSelected,
+    setIsCustomRetentionSizeSelected,
+  ] = useState<boolean>(false);
+
+  const [customRetentionTime, setCustomRetentionTime] = useState<number>(7);
+  const [
+    customRetentionTimeUnit,
+    setCustomRetentionTimeUnit,
+  ] = useState<string>('days');
+  const [customRetentionSize, setCustomRetentionSize] = useState<number>(1);
+  const [
+    customRetentionSizeUnit,
+    setCustomRetentionSizeUnit,
+  ] = useState<string>('bytes');
 
   const actionText = isCreate === true ? 'Create Topic' : 'Save';
 
@@ -128,8 +149,24 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
   };
 
   const onDropdownChange = (value: string, event) => {
-    const { name: fieldName } = event.target;
-    setTopicData({ ...topicData, [kebabToDotSeparated(fieldName)]: value });
+    const { name } = event.target;
+
+    if (name === 'custom-retention-time-unit') {
+      setCustomRetentionTimeUnit(value);
+      isCustomRetentionTimeSelected &&
+        setTopicData({
+          ...topicData,
+          'retention.ms.unit': value,
+        });
+    }
+    if (name === 'custom-retention-size-unit') {
+      setCustomRetentionSizeUnit(value);
+    }
+    isCustomRetentionSizeSelected &&
+      setTopicData({
+        ...topicData,
+        'retention.bytes.unit': value,
+      });
   };
 
   const onPartitionsChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -188,29 +225,65 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
   const handleTouchSpinInputChange = (
     event: React.FormEvent<HTMLInputElement>
   ) => {
-    const { name: fieldName, value } = event.currentTarget;
-    setTopicData({
-      ...topicData,
-      [kebabToDotSeparated(fieldName)]: Number(value),
-    });
+    const { name, value } = event.currentTarget;
+
+    if (name === 'custom-retention-time') {
+      setCustomRetentionTime(Number(value));
+      isCustomRetentionTimeSelected &&
+        setTopicData({
+          ...topicData,
+          'retention.ms': value,
+        });
+    } else if (name === 'custom-retention-size') {
+      setCustomRetentionSize(Number(value));
+      isCustomRetentionSizeSelected &&
+        setTopicData({
+          ...topicData,
+          'retention.bytes': value,
+        });
+    }
   };
 
   const handleTouchSpinPlus = (event) => {
     const { name } = event.currentTarget;
-    const fieldName = kebabToDotSeparated(name);
-    setTopicData({
-      ...topicData,
-      [fieldName]: Number(topicData[fieldName]) + 1,
-    });
+    if (name === 'custom-retention-time') {
+      const updatedRetentionTime = customRetentionTime + 1;
+      setCustomRetentionTime(updatedRetentionTime);
+      isCustomRetentionTimeSelected &&
+        setTopicData({
+          ...topicData,
+          'retention.ms': updatedRetentionTime.toString(),
+        });
+    } else if (name === 'custom-retention-size') {
+      const updatedRetentionSize = customRetentionSize + 1;
+      setCustomRetentionSize(updatedRetentionSize);
+      isCustomRetentionSizeSelected &&
+        setTopicData({
+          ...topicData,
+          'retention.bytes': updatedRetentionSize.toString(),
+        });
+    }
   };
 
   const handleTouchSpinMinus = (event) => {
     const { name } = event.currentTarget;
-    const fieldName = kebabToDotSeparated(name);
-    setTopicData({
-      ...topicData,
-      [fieldName]: Number(topicData[fieldName]) - 1,
-    });
+    if (name === 'custom-retention-time') {
+      const updatedRetentionTime = customRetentionTime - 1;
+      setCustomRetentionTime(updatedRetentionTime);
+      isCustomRetentionTimeSelected &&
+        setTopicData({
+          ...topicData,
+          'retention.ms': updatedRetentionTime.toString(),
+        });
+    } else if (name === 'custom-retention-size') {
+      const updatedRetentionSize = customRetentionSize - 1;
+      setCustomRetentionSize(updatedRetentionSize);
+      isCustomRetentionSizeSelected &&
+        setTopicData({
+          ...topicData,
+          'retention.bytes': updatedRetentionSize.toString(),
+        });
+    }
   };
 
   const onDropdownChangeDotSeparated = (value: string, event) => {
@@ -225,6 +298,85 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     setIsWarningOpen(false);
     saveTopic();
   };
+
+  const handleRadioChange = (_, event) => {
+    const { name } = event.target;
+
+    switch (name) {
+      case 'custom-retention-time':
+        setIsCustomRetentionTimeSelected(true);
+        setTopicData({
+          ...topicData,
+          'retention.ms': customRetentionTime.toString(),
+          'retention.ms.unit': customRetentionTimeUnit,
+        });
+        break;
+      case 'unlimited-retention-time':
+        setIsCustomRetentionTimeSelected(false);
+        setTopicData({
+          ...topicData,
+          'retention.ms': '-1',
+          'retention.ms.unit': 'milliseconds',
+        });
+        break;
+      case 'custom-retention-size':
+        setIsCustomRetentionSizeSelected(true);
+        setTopicData({
+          ...topicData,
+          'retention.bytes': customRetentionSize.toString(),
+          'retention.bytes.unit': customRetentionSizeUnit,
+        });
+        break;
+      case 'unlimited-retention-size':
+        setIsCustomRetentionSizeSelected(false);
+        setTopicData({
+          ...topicData,
+          'retention.bytes': '-1',
+          'retention.bytes.unit': 'bytes',
+        });
+        break;
+    }
+  };
+
+  const retentionTimeInput = (
+    <SizeTimeFormGroup
+      inputName='custom-retention-time'
+      onChange={handleTouchSpinInputChange}
+      onPlus={handleTouchSpinPlus}
+      onMinus={handleTouchSpinMinus}
+      value={customRetentionTime}
+      plusBtnProps={{ name: 'custom-retention-time' }}
+      minusBtnProps={{ name: 'custom-retention-time' }}
+      id='core-config-retention-time-unit'
+      toggleId='core-config-retention-dropdowntoggle'
+      name='custom-retention-time-unit'
+      dropdownValue={customRetentionTimeUnit}
+      ariaLabel='select unit from dropdown'
+      onSelectOption={onDropdownChange}
+      min={0}
+      type='time'
+    />
+  );
+
+  const retentionSizeInput = (
+    <SizeTimeFormGroup
+      inputName='custom-retention-size'
+      onChange={handleTouchSpinInputChange}
+      onPlus={handleTouchSpinPlus}
+      onMinus={handleTouchSpinMinus}
+      value={customRetentionSize}
+      plusBtnProps={{ name: 'custom-retention-size' }}
+      minusBtnProps={{ name: 'custom-retention-size' }}
+      id='core-config-retention-size-unit'
+      toggleId='core-config-retention-size-dropdowntoggle'
+      name='custom-retention-size-unit'
+      dropdownValue={customRetentionSizeUnit}
+      ariaLabel='select unit from dropdown'
+      onSelectOption={onDropdownChange}
+      min={0}
+      type='memory'
+    />
+  );
 
   return (
     <>
@@ -337,7 +489,8 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                       value={Number(topicData.numPartitions)}
                       plusBtnProps={{ name: 'num-partitions' }}
                       minusBtnProps={{ name: 'num-partitions' }}
-                      min={0}
+                      min={1}
+
                     />
                   </FormGroupWithPopover>
                   <TextWithLabelPopover
@@ -362,22 +515,27 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                     labelBody={t('createTopic.retentionTimeLabelBody')}
                     buttonAriaLabel='More info for retention time field'
                   >
-                    <SizeTimeFormGroup
-                      inputName='retention-ms'
-                      onChange={handleTouchSpinInputChange}
-                      onPlus={handleTouchSpinPlus}
-                      onMinus={handleTouchSpinMinus}
-                      value={Number(topicData['retention.ms'])}
-                      plusBtnProps={{ name: 'retention-ms' }}
-                      minusBtnProps={{ name: 'retention-ms' }}
-                      id='core-config-retention-time-unit'
-                      toggleId='core-config-retention-dropdowntoggle'
-                      name='retention-ms-unit'
-                      dropdownValue={topicData['retention.ms.unit']}
-                      ariaLabel='select unit from dropdown'
-                      onSelectOption={onDropdownChange}
-                      type='time'
-                    />
+                    <Stack hasGutter>
+                      <Radio
+                        isChecked={isCustomRetentionTimeSelected}
+                        name='custom-retention-time'
+                        onChange={handleRadioChange}
+                        label={retentionTimeInput}
+                        className='kafka-ui--radio-label__number-input'
+                        aria-label='custom duration'
+                        id='custom-retention-time'
+                        value='custom'
+                      />
+                      <Radio
+                        isChecked={!isCustomRetentionTimeSelected}
+                        name='unlimited-retention-time'
+                        onChange={handleRadioChange}
+                        label='Unlimited'
+                        aria-label='Unlimited'
+                        id='unlimited-retention-time'
+                        value='unlimited'
+                      />
+                    </Stack>
                   </FormGroupWithPopover>
                   <FormGroupWithPopover
                     fieldId='retention-size'
@@ -386,22 +544,27 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                     labelBody={t('createTopic.retentionBytesLabelBody')}
                     buttonAriaLabel='More info for retention size field'
                   >
-                    <SizeTimeFormGroup
-                      inputName='retention-bytes'
-                      onChange={handleTouchSpinInputChange}
-                      onPlus={handleTouchSpinPlus}
-                      onMinus={handleTouchSpinMinus}
-                      value={Number(topicData['retention.bytes'])}
-                      plusBtnProps={{ name: 'retention-bytes' }}
-                      minusBtnProps={{ name: 'retention-bytes' }}
-                      id='core-config-retention-size-unit'
-                      toggleId='core-config-retention-size-dropdowntoggle'
-                      name='retention-bytes-unit'
-                      dropdownValue={topicData['retention.bytes.unit']}
-                      ariaLabel='select unit from dropdown'
-                      onSelectOption={onDropdownChange}
-                      type='memory'
-                    />
+                    <Stack hasGutter>
+                      <Radio
+                        isChecked={isCustomRetentionSizeSelected}
+                        name='custom-retention-size'
+                        onChange={handleRadioChange}
+                        label={retentionSizeInput}
+                        className='kafka-ui--radio-label__number-input'
+                        aria-label='custom size'
+                        id='custom-retention-size'
+                        value='custom'
+                      />
+                      <Radio
+                        isChecked={!isCustomRetentionSizeSelected}
+                        name='unlimited-retention-size'
+                        onChange={handleRadioChange}
+                        label='Unlimited'
+                        aria-label='Unlimited'
+                        id='custom-retention-size'
+                        value='unlimited'
+                      />
+                    </Stack>
                   </FormGroupWithPopover>
                 </Form>
               </StackItem>

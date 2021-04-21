@@ -38,6 +38,6 @@ describe('Step Partitions', () => {
     expect(setPartitionTouchspinValue).toBeCalledTimes(1);
     userEvent.click(getByRole('button', { name: /Minus/i }));
     expect(setPartitionTouchspinValue).toHaveBeenCalled();
-    expect(setPartitionTouchspinValue).toBeCalledTimes(2);
+    expect(setPartitionTouchspinValue).toBeCalledTimes(1);
   });
 });

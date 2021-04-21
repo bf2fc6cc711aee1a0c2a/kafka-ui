@@ -54,7 +54,7 @@ export const StepPartitions: React.FC<IStepPartitions> = ({
             inputName='input'
             onChange={handlePartitionTouchspinChange}
             widthChars={20}
-            min={0}
+            min={1}
           />
         </FormGroup>
       </Form>

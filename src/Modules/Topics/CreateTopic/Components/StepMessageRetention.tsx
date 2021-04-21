@@ -60,7 +60,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
   const [
     retentionSizeTouchspinValue,
     setRetentionSizeTouchspinValue,
-  ] = useState<number>(-1);
+  ] = useState<number>(1);
   const [
     isRetentionTimeSelectOpen,
     setIsRetentionTimeSelectOpen,
@@ -252,6 +252,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
                       onPlus={handleRetentionTimePlusClick}
                       value={retentionTimeTouchspinValue}
                       onChange={handleRetentionTimeTouchSpinChange}
+                      min={0}
                     />
                   </FlexItem>
                   <FlexItem>
@@ -315,6 +316,7 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
                       onPlus={handleRetentionSizePlusClick}
                       value={retentionSizeTouchspinValue}
                       onChange={handleRetentionSizeTouchSpinChange}
+                      min={0}
                     />
                   </FlexItem>
                   <FlexItem>
