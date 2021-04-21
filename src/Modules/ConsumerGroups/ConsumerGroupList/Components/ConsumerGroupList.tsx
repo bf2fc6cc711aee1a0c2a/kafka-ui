@@ -54,10 +54,12 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
     consumerGroupDetail,
     setConsumerGroupDetail,
   ] = useState<ConsumerGroup>();
-  const [consumerGroupName, setConsumerGroupName] = useState<
-    string | undefined
-  >();
+  const [consumerGroupId, setConsumerGroupId] = useState<string | undefined>();
   const [deleteModal, setDeleteModal] = useState(false);
+  const [
+    filteredConsumerGroups,
+    setFilteredConsumerGroups,
+  ] = useState<ConsumerGroupList>();
 
   const config = useContext(ConfigContext);
   const { addAlert } = useContext(AlertContext);
@@ -73,6 +75,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
         );
         if (consumerGroupsData) {
           setConsumerGroups(consumerGroupsData);
+          setFilteredConsumerGroups(consumerGroupsData);
         }
       } catch (err) {
         addAlert(err.response.data.error_message, AlertVariant.danger);
@@ -83,6 +86,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
         const consumerGroupsData = await getConsumerGroups(config);
         if (consumerGroupsData) {
           setConsumerGroups(consumerGroupsData);
+          setFilteredConsumerGroups(consumerGroupsData);
         }
       } catch (err) {
         addAlert(err.response.data.error_message, AlertVariant.danger);
@@ -94,7 +98,32 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
   useEffect(() => {
     setLoading(true);
     fetchConsumerGroups();
-  }, [search, deleteModal]);
+  }, [deleteModal]);
+
+  useEffect(() => {
+    if (
+      search &&
+      search.trim() != '' &&
+      consumerGroups?.items &&
+      consumerGroups.items.length > 0
+    ) {
+      const filterSearch = consumerGroups?.items.filter(
+        (consumerGroupsFiltered) =>
+          consumerGroupsFiltered?.groupId &&
+          consumerGroupsFiltered.groupId.includes(search)
+      );
+      setFilteredConsumerGroups((prevState) =>
+        prevState
+          ? {
+              ...prevState,
+              items: filterSearch,
+            }
+          : undefined
+      );
+    } else {
+      setFilteredConsumerGroups(consumerGroups);
+    }
+  }, [search]);
 
   useTimeout(() => fetchConsumerGroups(), 5000);
 
@@ -117,18 +146,18 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
     { title: 'Partitions with lag' },
   ];
   const onDelete = (rowId: any) => {
-    if (consumerGroups?.items) {
-      setConsumerGroupName(consumerGroups.items[rowId].groupId);
+    if (filteredConsumerGroups?.items) {
+      setConsumerGroupId(filteredConsumerGroups.items[rowId].groupId);
+      setDeleteModal(true);
     }
-    setDeleteModal(true);
   };
 
   const actions = [{ title: 'Delete', onClick: (_, rowId) => onDelete(rowId) }];
 
-  const fetchConsumerGroupDetail = async (consumerGroupName) => {
+  const fetchConsumerGroupDetail = async (consumerGroupId) => {
     try {
       const consumerData = await getConsumerGroupDetail(
-        consumerGroupName,
+        consumerGroupId,
         config
       );
       if (consumerData) {
@@ -147,7 +176,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
     />
   );
   const rowData =
-    consumerGroups?.items.map((consumer) => [
+    filteredConsumerGroups?.items.map((consumer) => [
       {
         title: (
           <Button
@@ -171,7 +200,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
       <Card>
         {deleteModal && (
           <DeleteConsumerGroup
-            consumerName={consumerGroupName}
+            consumerName={consumerGroupId}
             setDeleteModal={setDeleteModal}
             deleteModal={deleteModal}
             onDeleteConsumer={onDeleteConsumerGroup}
