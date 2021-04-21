@@ -14,31 +14,38 @@ import { useTranslation } from 'react-i18next';
 export interface IStepTopicName {
   topicNameInput: string;
   setTopicNameInput: (value: string) => void;
+  topicNameValidated: 'error' | 'default';
+  setTopicNameValidated: (value: 'error' | 'default') => void;
 }
 
 export const StepTopicName: React.FC<IStepTopicName> = ({
   topicNameInput,
   setTopicNameInput,
+  topicNameValidated,
+  setTopicNameValidated,
 }) => {
-  const [validated, setValidated] = useState<'error' | 'default'>('default');
   const [invalidText, setInvalidText] = useState('This is a required field');
   const { t } = useTranslation();
 
-  const handleTopicNameChange = (topicNameInput) => {
-    const regexp1 = new RegExp('^[0-9A-Za-z_-]+$');
-    setTopicNameInput(topicNameInput);
-    if (topicNameInput.length && !regexp1.test(topicNameInput)) {
+  const validationCheck = (topicNameInput) => {
+    const regexpInvalid = new RegExp('^[0-9A-Za-z_-]+$');
+    if (topicNameInput.length && !regexpInvalid.test(topicNameInput)) {
       setInvalidText(
-        'Invalid input. Only letters(Aa-Zz),numbers "_" and "-" are accepted'
+        'Invalid input. Only letters (Aa-Zz) , numbers " _ " and " - " are accepted.'
       );
-      setValidated('error');
+      setTopicNameValidated('error');
     } else if (topicNameInput.length < 1) {
       setInvalidText('This is a required field');
-      setValidated('error');
+      setTopicNameValidated('error');
     } else if (topicNameInput.length > 249) {
-      setValidated('error');
+      setTopicNameValidated('error');
       setInvalidText('Topic name cannot exceed 249 characters');
-    } else setValidated('default');
+    } else setTopicNameValidated('default');
+  };
+
+  const handleTopicNameChange = (topicNameInput) => {
+    validationCheck(topicNameInput);
+    setTopicNameInput(topicNameInput);
   };
 
   const preventFormSubmit = (event) => event.preventDefault();
@@ -61,7 +68,7 @@ export const StepTopicName: React.FC<IStepTopicName> = ({
           fieldId='step-topic-name-form'
           helperText='Must be letters (Aa-Zz), numbers, underscores( _ ), or hyphens ( - ).'
           helperTextInvalid={invalidText}
-          validated={validated}
+          validated={topicNameValidated}
           isRequired
         >
           <TextInput
@@ -73,7 +80,7 @@ export const StepTopicName: React.FC<IStepTopicName> = ({
             value={topicNameInput}
             onChange={handleTopicNameChange}
             placeholder={t('createTopic.enterName')}
-            validated={validated}
+            validated={topicNameValidated}
           />
         </FormGroup>
       </Form>
