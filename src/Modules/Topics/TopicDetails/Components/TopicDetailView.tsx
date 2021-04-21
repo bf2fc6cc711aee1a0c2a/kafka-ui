@@ -43,8 +43,9 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
           <JumpLinks
             isVertical
             label='JUMP TO SECTION'
-            scrollableSelector='#topic-detail-view'
-            style={{ position: 'absolute' }}
+            scrollableSelector='.pf-c-page__main:first-of-type'
+            offset={-164} // for header
+            style={{ position: 'sticky' }}
           >
             <JumpLinksItem key={0} href='#core-configuration'>
               Core configuration
@@ -405,12 +406,17 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                     variant='danger'
                     className='section-margin'
                     onClick={deleteTopic}
+                    data-testid='tabProperties-actionDelete'
                   >
                     Delete topic
                   </Button>
                 </SplitItem>
                 <SplitItem>
-                  <Button variant='primary' onClick={updateTopic}>
+                  <Button
+                    variant='primary'
+                    onClick={updateTopic}
+                    data-testid='tabProperties-actionEdit'
+                  >
                     Edit properties
                   </Button>
                 </SplitItem>

@@ -6,35 +6,40 @@ import {
   PageSection,
   PageSectionVariants,
 } from '@patternfly/react-core';
-import { ConsumerGroupByTopicList } from '../TopicDetails/Components/ConsumerGroupsByTopic/ConsumerGroupsListByTopic.patternfly';
+import { ConsumerGroupsList } from '../../ConsumerGroups/ConsumerGroupList/Components/ConsumerGroupList';
 import { UpdateTopicView } from './Components/UpdateTopicView';
 import { TopicDetailHead } from '../TopicDetails/Components/TopicDetailHead';
 
 export interface UpdateTopicPageProps {
   topicName: string;
-  getTopicListPath: () => string;
-  onClickTopicList: () => void;
+  kafkaName?: string;
+  kafkaPageLink?: string;
+  kafkaInstanceLink?: string;
   onCancelUpdateTopic: () => void;
   onDeleteTopic: () => void;
   onSaveTopic: () => void;
+  onDeleteConsumer: () => void;
   onError?: (errorCode: number, message: string) => void;
 }
 
 export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
   topicName,
-  getTopicListPath,
-  onClickTopicList,
+  kafkaName,
+  kafkaPageLink,
+  kafkaInstanceLink,
   onCancelUpdateTopic,
   onDeleteTopic,
   onSaveTopic,
   onError,
+  onDeleteConsumer,
 }) => {
   return (
     <>
       <TopicDetailHead
         topicName={topicName}
-        getTopicListPath={getTopicListPath}
-        onClickTopicList={onClickTopicList}
+        kafkaName={kafkaName}
+        kafkaPageLink={kafkaPageLink}
+        kafkaInstanceLink={kafkaInstanceLink}
       />
       <PageSection
         variant={PageSectionVariants.light}
@@ -53,7 +58,11 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
             eventKey={0}
             title={<TabTitleText>Consumer Groups</TabTitleText>}
           >
-            <ConsumerGroupByTopicList />
+            <ConsumerGroupsList
+              onDeleteConsumerGroup={onDeleteConsumer}
+              topic={topicName}
+              consumerGroupByTopic={true}
+            />
           </Tab>
           <Tab eventKey={1} title={<TabTitleText>Properties</TabTitleText>}>
             <PageSection variant='light' padding={{ default: 'noPadding' }}>

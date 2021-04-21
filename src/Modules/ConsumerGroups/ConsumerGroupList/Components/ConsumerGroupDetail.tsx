@@ -61,7 +61,7 @@ export const ConsumerGroupDetail: React.FunctionComponent<IConsumerGroupDetailPr
           <TextContent>
             <Text>Consumer group ID</Text>
             <Text component={TextVariants.h1}>
-              {consumerDetail && consumerDetail.id}
+              {consumerDetail && consumerDetail.groupId}
             </Text>
           </TextContent>
         </span>
@@ -77,7 +77,10 @@ export const ConsumerGroupDetail: React.FunctionComponent<IConsumerGroupDetailPr
                 Active members
               </Text>
               <Text component={TextVariants.h2}>
-                {consumerDetail && consumerDetail.consumers.length}
+                {consumerDetail &&
+                  consumerDetail.consumers.reduce(function (prev, cur) {
+                    return prev + cur.partition != -1 ? prev + 1 : 0;
+                  }, 0)}
               </Text>
             </FlexItem>
             <FlexItem>

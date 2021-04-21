@@ -36,12 +36,16 @@ export interface IConsumerGroupsList {
   onDeleteConsumerGroup: () => void;
   consumerGroupByTopic: boolean;
   topic?: string;
+  rowDataId?: string;
+  detailsDataId?: string;
 }
 
 export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = ({
   onDeleteConsumerGroup,
   consumerGroupByTopic,
   topic,
+  rowDataId,
+  detailsDataId,
 }) => {
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(10);
@@ -54,10 +58,12 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
     consumerGroupDetail,
     setConsumerGroupDetail,
   ] = useState<ConsumerGroup>();
-  const [consumerGroupName, setConsumerGroupName] = useState<
-    string | undefined
-  >();
+  const [consumerGroupId, setConsumerGroupId] = useState<string | undefined>();
   const [deleteModal, setDeleteModal] = useState(false);
+  const [
+    filteredConsumerGroups,
+    setFilteredConsumerGroups,
+  ] = useState<ConsumerGroupList>();
 
   const config = useContext(ConfigContext);
   const { addAlert } = useContext(AlertContext);
@@ -73,9 +79,10 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
         );
         if (consumerGroupsData) {
           setConsumerGroups(consumerGroupsData);
+          setFilteredConsumerGroups(consumerGroupsData);
         }
       } catch (err) {
-        addAlert(err.response.data.error, AlertVariant.danger);
+        addAlert(err.response.data.error_message, AlertVariant.danger);
       }
       setLoading(false);
     } else {
@@ -83,9 +90,10 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
         const consumerGroupsData = await getConsumerGroups(config);
         if (consumerGroupsData) {
           setConsumerGroups(consumerGroupsData);
+          setFilteredConsumerGroups(consumerGroupsData);
         }
       } catch (err) {
-        addAlert(err.response.data.error, AlertVariant.danger);
+        addAlert(err.response.data.error_message, AlertVariant.danger);
       }
       setLoading(false);
     }
@@ -94,7 +102,32 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
   useEffect(() => {
     setLoading(true);
     fetchConsumerGroups();
-  }, [search, deleteModal]);
+  }, [deleteModal]);
+
+  useEffect(() => {
+    if (
+      search &&
+      search.trim() != '' &&
+      consumerGroups?.items &&
+      consumerGroups.items.length > 0
+    ) {
+      const filterSearch = consumerGroups?.items.filter(
+        (consumerGroupsFiltered) =>
+          consumerGroupsFiltered?.groupId &&
+          consumerGroupsFiltered.groupId.includes(search)
+      );
+      setFilteredConsumerGroups((prevState) =>
+        prevState
+          ? {
+              ...prevState,
+              items: filterSearch,
+            }
+          : undefined
+      );
+    } else {
+      setFilteredConsumerGroups(consumerGroups);
+    }
+  }, [search]);
 
   useTimeout(() => fetchConsumerGroups(), 5000);
 
@@ -117,25 +150,31 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
     { title: 'Partitions with lag' },
   ];
   const onDelete = (rowId: any) => {
-    if (consumerGroups?.items) {
-      setConsumerGroupName(consumerGroups.items[rowId].id);
+    if (filteredConsumerGroups?.items) {
+      setConsumerGroupId(filteredConsumerGroups.items[rowId].groupId);
+      setDeleteModal(true);
     }
-    setDeleteModal(true);
   };
 
-  const actions = [{ title: 'Delete', onClick: (_, rowId) => onDelete(rowId) }];
+  const actions = [
+    {
+      title: 'Delete',
+      ['data-testid']: 'tableConsumers-actionDelete',
+      onClick: (_, rowId) => onDelete(rowId),
+    },
+  ];
 
-  const fetchConsumerGroupDetail = async (consumerGroupName) => {
+  const fetchConsumerGroupDetail = async (consumerGroupId) => {
     try {
       const consumerData = await getConsumerGroupDetail(
-        consumerGroupName,
+        consumerGroupId,
         config
       );
       if (consumerData) {
         setConsumerGroupDetail(consumerData);
       }
     } catch (err) {
-      addAlert(err.response.data.error, AlertVariant.danger);
+      addAlert(err.response.data.error_message, AlertVariant.danger);
     }
     setIsExpanded(true);
   };
@@ -147,20 +186,26 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
     />
   );
   const rowData =
-    consumerGroups?.items.map((consumer) => [
+    filteredConsumerGroups?.items.map((consumer) => [
       {
         title: (
           <Button
             variant='link'
             isInline
-            onClick={() => fetchConsumerGroupDetail(consumer.id)}
+            onClick={() => fetchConsumerGroupDetail(consumer.groupId)}
+            data-testid={
+              detailsDataId ? detailsDataId : 'tableConsumers-actionDetails'
+            }
           >
-            {consumer.id}
+            {consumer.groupId}
           </Button>
         ),
+        props: { 'data-testid': rowDataId ? rowDataId : 'tableConsumers-row' },
       },
 
-      consumer.consumers?.length,
+      consumer.consumers.reduce(function (prev, cur) {
+        return prev + cur.partition != -1 ? prev + 1 : 0;
+      }, 0),
       consumer.consumers.reduce(function (prev, cur) {
         return prev + cur.lag > 0 ? prev + 1 : 0;
       }, 0),
@@ -171,7 +216,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
       <Card>
         {deleteModal && (
           <DeleteConsumerGroup
-            consumerName={consumerGroupName}
+            consumerName={consumerGroupId}
             setDeleteModal={setDeleteModal}
             deleteModal={deleteModal}
             onDeleteConsumer={onDeleteConsumerGroup}

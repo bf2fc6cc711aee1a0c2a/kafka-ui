@@ -20,8 +20,10 @@ import { useHistory } from 'react-router';
 
 export type TopicDetailGroupProps = {
   topicName: string;
+  kafkaName?: string;
+  kafkaPageLink?: string;
+  kafkaInstanceLink?: string;
   onUpdateTopic: () => void;
-  getTopicListPath: () => string;
   onClickTopicList: () => void;
   onDeleteTopic: () => void;
   onError?: (errorCode: number, message: string) => void;
@@ -30,8 +32,10 @@ export type TopicDetailGroupProps = {
 
 export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
   topicName,
+  kafkaName,
+  kafkaPageLink,
+  kafkaInstanceLink,
   onUpdateTopic,
-  getTopicListPath,
   onClickTopicList,
   onDeleteTopic,
   onError,
@@ -51,7 +55,7 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
       } catch (err) {
         if (isAxiosError(err)) {
           if (onError) {
-            onError(err.response?.data.code, err.response?.data.error);
+            onError(err.response?.data.code, err.response?.data.error_message);
           }
           if (err.response?.status === 404) {
             // then it's a non-existent topic
@@ -82,8 +86,9 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
     <>
       <TopicDetailHead
         topicName={topicName}
-        getTopicListPath={getTopicListPath}
-        onClickTopicList={onClickTopicList}
+        kafkaName={kafkaName}
+        kafkaPageLink={kafkaPageLink}
+        kafkaInstanceLink={kafkaInstanceLink}
       />
       <PageSection
         variant={PageSectionVariants.light}
@@ -104,6 +109,8 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
               onDeleteConsumerGroup={onDeleteConsumer}
               consumerGroupByTopic={true}
               topic={topicName}
+              rowDataId='tableTopicConsumers-row'
+              detailsDataId='tableTopicConsumers-actionDetails'
             />
           </Tab>
           <Tab

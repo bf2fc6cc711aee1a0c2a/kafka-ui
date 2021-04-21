@@ -56,6 +56,9 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   const [partitionTouchspinValue, setPartitionTouchspinValue] = useState(1);
   const [replicationFactorTouchspinValue] = useState(3);
   const [minInSyncReplicaTouchspinValue] = useState(2);
+  const [topicNameValidated, setTopicNameValidated] = useState<
+    'error' | 'default'
+  >('default');
   const [topicData, setTopicData] = useState<IAdvancedTopic>({
     name: '',
     numPartitions: '1',
@@ -113,7 +116,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
         closeWizard();
       })
       .catch((err) => {
-        addAlert(err.response.data.error, AlertVariant.danger);
+        addAlert(err.response.data.error_message, AlertVariant.danger);
         closeWizard();
       });
   };
@@ -125,11 +128,14 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   const steps: WizardStep[] = [
     {
       name: 'Topic name',
-      enableNext: topicNameInput.trim() !== '',
+      enableNext:
+        topicNameInput.trim() !== '' && topicNameValidated === 'default',
       component: (
         <StepTopicName
           topicNameInput={topicNameInput}
           setTopicNameInput={setTopicNameInput}
+          topicNameValidated={topicNameValidated}
+          setTopicNameValidated={setTopicNameValidated}
         />
       ),
     },
@@ -199,6 +205,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
             steps={steps}
             onClose={closeWizard}
             onSave={saveTopic}
+            data-testid='topicBasicCreate-Wizard'
           />
         </PageSection>
       )}

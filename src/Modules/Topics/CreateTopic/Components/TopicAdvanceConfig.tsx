@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   ActionGroup,
   Button,
@@ -21,6 +21,7 @@ import {
 import './CreateTopicWizard.css';
 
 import { useTranslation } from 'react-i18next';
+import { PartitionsChangeModal } from './PartitionsChangeModal';
 import { TextWithLabelPopover } from '../../../../Components/TextWithLabelPopover/TextWithLabelPopover';
 import { FormGroupWithPopover } from '../../../../Components/FormGroupWithPopover/FormGroupWithPopover';
 import { SizeTimeFormGroup } from '../../../../Components/SizeTimeFormGroup/SizeTimeFormGroup';
@@ -30,6 +31,9 @@ import {
   IDropdownOption,
 } from '../../../../Components/DropdownWithToggle';
 import { IAdvancedTopic } from './CreateTopicWizard';
+
+import { getTopic } from '../../../../Services/index';
+import { ConfigContext } from '../../../../Contexts';
 
 interface ITopicAdvanceConfig {
   isCreate: boolean;
@@ -46,6 +50,19 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
   topicData,
   setTopicData,
 }) => {
+  const [partitionsValidated, setPartitionsValidated] = useState<
+    'warning' | 'default'
+  >('default');
+  const [warning, setWarning] = useState<boolean>(false);
+  const [initialPartition, setInitialPartition] = useState<number | undefined>(
+    0
+  );
+  const [topicValidated, setTopicValidated] = useState<'error' | 'default'>(
+    'default'
+  );
+  const [invalidText, setInvalidText] = useState('This is a required field');
+  const [isWarningOpen, setIsWarningOpen] = useState<boolean>(false);
+
   const { t } = useTranslation();
 
   const [
@@ -87,10 +104,46 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     },
   ];
 
+  const config = useContext(ConfigContext);
+  const fetchTopic = async (topicName) => {
+    const topicRes = await getTopic(topicName, config);
+
+    const configEntries: any = {};
+    topicRes.config?.forEach((configItem) => {
+      configEntries[configItem.key || ''] = configItem.value || '';
+    });
+
+    setInitialPartition(topicRes?.partitions?.length);
+  };
+
+  useEffect(() => {
+    (async function () {
+      fetchTopic(topicData.name);
+    })();
+  }, []);
+
+  const validationCheck = (value: string) => {
+    const regexpInvalid = new RegExp('^[0-9A-Za-z_-]+$');
+
+    if (value.length && !regexpInvalid.test(value)) {
+      setInvalidText(
+        'Invalid input. Only letters (Aa-Zz) , numbers " _ " and " - " are accepted'
+      );
+      setTopicValidated('error');
+    } else if (value.length < 1) {
+      setInvalidText('This is a required field');
+      setTopicValidated('error');
+    } else if (value.length > 249) {
+      setTopicValidated('error');
+      setInvalidText('Topic name cannot exceed 249 characters');
+    } else setTopicValidated('default');
+  };
+
   const handleTextInputChange = (
     value: string,
     event: React.FormEvent<HTMLInputElement>
   ) => {
+    validationCheck(value);
     const { name: fieldName } = event.currentTarget;
     setTopicData({ ...topicData, [kebabToCamel(fieldName)]: value });
   };
@@ -121,6 +174,18 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     setTopicData({ ...topicData, [kebabToCamel(fieldName)]: Number(value) });
   };
 
+  const partitionsWarnigCheckPlus = () => {
+    if (
+      initialPartition &&
+      Number(topicData.numPartitions + 1) > initialPartition
+    ) {
+      setPartitionsValidated('warning');
+      setWarning(true);
+    } else {
+      setPartitionsValidated('default');
+      setWarning(false);
+    }
+  };
   const handleTouchSpinPlusCamelCase = (event) => {
     const { name } = event.currentTarget;
     const fieldName = kebabToCamel(name);
@@ -128,6 +193,21 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
       ...topicData,
       [fieldName]: Number(topicData[fieldName]) + 1,
     });
+    if (!isCreate) {
+      partitionsWarnigCheckPlus();
+    }
+  };
+  const partitionsWarningCheckMinus = () => {
+    if (
+      initialPartition &&
+      Number(topicData.numPartitions + -1) > initialPartition
+    ) {
+      setPartitionsValidated('warning');
+      setWarning(true);
+    } else {
+      setPartitionsValidated('default');
+      setWarning(false);
+    }
   };
 
   const handleTouchSpinMinusCamelCase = (event) => {
@@ -137,6 +217,9 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
       ...topicData,
       [fieldName]: Number(topicData[fieldName]) - 1,
     });
+    if (!isCreate) {
+      partitionsWarningCheckMinus();
+    }
   };
 
   const handleTouchSpinInputChange = (
@@ -206,6 +289,14 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
   const onDropdownChangeDotSeparated = (value: string, event) => {
     const { name: fieldName } = event.target;
     setTopicData({ ...topicData, [kebabToDotSeparated(fieldName)]: value });
+  };
+  const onConfirm = () => {
+    if (warning) setIsWarningOpen(true);
+    else saveTopic();
+  };
+  const onSaveClick = () => {
+    setIsWarningOpen(false);
+    saveTopic();
   };
 
   const handleRadioChange = (_, event) => {
@@ -294,7 +385,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
           <JumpLinks
             isVertical
             label='JUMP TO SECTION'
-            scrollableSelector='#main-container'
+            scrollableSelector='.pf-c-page__main:first-of-type'
             style={{ position: 'sticky' }}
             offset={-164} // for header
             expandable={{ default: 'expandable', md: 'nonExpandable' }}
@@ -352,6 +443,8 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                       fieldLabel='Topic name'
                       labelBody={t('createTopic.topicNameLabelBody')}
                       buttonAriaLabel='More info for topic name field'
+                      helperTextInvalid={invalidText}
+                      validated={topicValidated}
                     >
                       <TextInput
                         isRequired
@@ -362,6 +455,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                         onChange={handleTextInputChange}
                         label='Topic name'
                         placeholder='Enter topic name'
+                        validated={topicValidated}
                       />
                     </FormGroupWithPopover>
                   ) : (
@@ -379,6 +473,12 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                     labelHead={t('createTopic.partitionsLabelHead')}
                     labelBody={t('createTopic.partitionsLabelBody')}
                     buttonAriaLabel='More info for partitions field'
+                    validated={partitionsValidated}
+                    helperText={
+                      warning
+                        ? `Increasing a topic's partitions might result in messages having the same key from two different partitions, which can potentially break the message ordering guarantees that apply to a single partition`
+                        : undefined
+                    }
                   >
                     <NumberInput
                       id='create-topic-partitions'
@@ -390,6 +490,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                       plusBtnProps={{ name: 'num-partitions' }}
                       minusBtnProps={{ name: 'num-partitions' }}
                       min={1}
+
                     />
                   </FormGroupWithPopover>
                   <TextWithLabelPopover
@@ -732,12 +833,17 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
           </PageSection>
           <ActionGroup className='kafka-ui--sticky-footer'>
             <Button
-              onClick={saveTopic}
+              onClick={onConfirm}
               variant='primary'
               data-testid={
                 isCreate
                   ? 'topicAdvanceCreate-actionCreate'
                   : 'tabProperties-actionSave'
+              }
+              isDisabled={
+                topicData.name.length > 0 && topicValidated == 'default'
+                  ? false
+                  : true
               }
             >
               {actionText}
@@ -754,6 +860,13 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               Cancel
             </Button>
           </ActionGroup>
+          {isWarningOpen && (
+            <PartitionsChangeModal
+              isWarningOpen={isWarningOpen}
+              onSaveClick={onSaveClick}
+              setIsWarningOpen={setIsWarningOpen}
+            />
+          )}
         </SidebarContent>
       </Sidebar>
     </>

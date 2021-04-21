@@ -35,7 +35,7 @@ export const StepPartitions: React.FC<IStepPartitions> = ({
         <Text component={TextVariants.p}>An ordered list of messages</Text>
         <Text component={TextVariants.small}>
           One or more partitions make up a topic. Partitions are distributed
-          across the brokers to increase the salability of your topic. You can
+          across the brokers to increase the scalability of your topic. You can
           also use them to distribute messages across the members of the
           consumer group.
         </Text>
