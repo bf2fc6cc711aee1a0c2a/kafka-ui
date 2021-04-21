@@ -24,7 +24,7 @@ describe('Step Partitions', () => {
     expect(getByText('An ordered list of messages')).toBeInTheDocument();
     expect(
       getByText(
-        'One or more partitions make up a topic. Partitions are distributed across the brokers to increase the salability of your topic. You can also use them to distribute messages across the members of the consumer group.'
+        'One or more partitions make up a topic. Partitions are distributed across the brokers to increase the scalability of your topic. You can also use them to distribute messages across the members of the consumer group.'
       )
     ).toBeInTheDocument();
   });
