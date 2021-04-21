@@ -45,7 +45,7 @@ module.exports = {
     if (!group) {
       return res.status(404).json({ error_message: 'not found' });
     }
-    consumerGroups = consumerGroups.filter((t) => t.id !== id);
+    consumerGroups = consumerGroups.filter((t) => t.groupId !== id);
 
     return res.status(204).json({ message: 'deleted' });
   },
@@ -66,7 +66,7 @@ module.exports = {
         };
       }
     }
-    consumerGroups = consumerGroups.filter((t) => t.id !== id);
+    consumerGroups = consumerGroups.filter((t) => t.groupId !== id);
     consumerGroups.push(group);
 
     return res.status(200).json(group);
@@ -182,7 +182,7 @@ module.exports = {
 };
 
 function getConsumerGroup(id) {
-  return consumerGroups.find((c) => c.id === id);
+  return consumerGroups.find((c) => c.groupId === id);
 }
 
 function getTopic(name) {
@@ -191,7 +191,7 @@ function getTopic(name) {
   return topic;
 }
 function getConsumerGroup(id) {
-  return consumerGroups.find((c) => c.id === id);
+  return consumerGroups.find((c) => c.groupId === id);
 }
 
 const createPartitions = (numberOfPartitions, numberOfReplicas) => {

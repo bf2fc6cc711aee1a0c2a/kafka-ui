@@ -708,7 +708,7 @@ components:
     ConsumerGroup:
       description: A group of Kafka consumers
       required:
-        - id
+        - groupId
         - consumers
       type: object
       properties:
@@ -823,7 +823,7 @@ components:
         limit: 10
         offset: 0
         items:
-          - id: consumer_group_1
+          - groupId: consumer_group_1
             consumers:
               - groupId: consumer_group_1
                 topic: topic-1
