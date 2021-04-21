@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
 import {
-  Card,
   Divider,
   Pagination,
   Toolbar,
@@ -213,7 +212,6 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
 
   return (
     <>
-      <Card>
         {deleteModal && (
           <DeleteConsumerGroup
             consumerName={consumerGroupId}
@@ -287,7 +285,6 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
             )}
           </DrawerContent>
         </Drawer>
-      </Card>
       <Divider />
     </>
   );

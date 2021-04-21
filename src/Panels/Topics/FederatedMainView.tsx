@@ -72,12 +72,9 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
     );
 
     return (
-      <PageSection
-        variant={PageSectionVariants.light}
-        padding={{ default: 'noPadding' }}
-      >
+      <>
         {mainBreadcrumbs}
-
+     
         <Level>
           <Title headingLevel='h1'>
             {kafkaName ? kafkaName : 'Kafka Instance Name'}
@@ -86,6 +83,11 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
             <EllipsisVIcon />
           </Button> */}
         </Level>
+
+        {/* <PageSection
+        variant={PageSectionVariants.light}
+        padding={{ default: 'noPadding' }}
+        > */}
 
         <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
           <Tab
@@ -109,6 +111,7 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
             id='consumer-groups-tab-section'
             aria-label='Consumer Groups Tab'
             data-testid='pageKafka-tabConsumers'
+            className={activeTabKey === 1 ? 'kafka-ui--consumer-content' : ''}
           >
             <ConsumerGroupsList
               onDeleteConsumerGroup={onDeleteConsumer}
@@ -116,7 +119,8 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
             />
           </Tab>
         </Tabs>
-      </PageSection>
+      {/* </PageSection> */}
+      </>
     );
   };
 
