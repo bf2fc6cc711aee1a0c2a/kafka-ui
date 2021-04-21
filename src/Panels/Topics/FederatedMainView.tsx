@@ -84,9 +84,9 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
           <Title headingLevel='h1'>
             {kafkaName ? kafkaName : 'Kafka Instance Name'}
           </Title>
-          <Button variant='plain' iconPosition='right'>
+          {/* TODO: Add this back once we get the options available to us for this menu <Button variant='plain' iconPosition='right'>
             <EllipsisVIcon />
-          </Button>
+          </Button> */}
         </Level>
 
         <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
@@ -95,6 +95,7 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
             eventKey={0}
             id='topics-tab-section'
             aria-label='Topics Tab'
+            data-testid='pageKafka-tabTopics'
           >
             <TopicsListComponent
               onCreateTopic={onCreateTopic}
@@ -109,6 +110,7 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
             eventKey={1}
             id='consumer-groups-tab-section'
             aria-label='Consumer Groups Tab'
+            data-testid='pageKafka-tabConsumers'
           >
             <ConsumerGroupsList
               onDeleteConsumerGroup={onDeleteConsumer}

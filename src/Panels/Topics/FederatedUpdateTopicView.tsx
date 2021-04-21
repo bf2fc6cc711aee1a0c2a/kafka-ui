@@ -12,6 +12,9 @@ export interface FederatedUpdateTopicProps extends FederatedProps {
   getToken: () => Promise<string>;
   apiBasePath: string;
   currentTopic: string;
+  kafkaName?: string;
+  kafkaPageLink?: string;
+  kafkaInstanceLink?: string;
   onCancelUpdateTopic: () => void;
   addAlert: (message: string, variant?: AlertVariant) => void;
   onDeleteTopic: () => void;
@@ -23,6 +26,9 @@ const FederatedUpdateTopicView: FunctionComponent<FederatedUpdateTopicProps> = (
   getToken,
   apiBasePath,
   currentTopic,
+  kafkaName,
+  kafkaPageLink,
+  kafkaInstanceLink,
   onCancelUpdateTopic,
   addAlert,
   onDeleteTopic,
@@ -45,6 +51,9 @@ const FederatedUpdateTopicView: FunctionComponent<FederatedUpdateTopicProps> = (
               onDeleteTopic={onDeleteTopic}
               onSaveTopic={onSaveTopic}
               onError={onError}
+              kafkaName={kafkaName}
+              kafkaPageLink={kafkaPageLink}
+              kafkaInstanceLink={kafkaInstanceLink}
             />
           </TopicContextProvider>
         </AlertContext.Provider>

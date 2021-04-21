@@ -12,6 +12,9 @@ import { TopicDetailHead } from '../TopicDetails/Components/TopicDetailHead';
 
 export interface UpdateTopicPageProps {
   topicName: string;
+  kafkaName?: string;
+  kafkaPageLink?: string;
+  kafkaInstanceLink?: string;
   onCancelUpdateTopic: () => void;
   onDeleteTopic: () => void;
   onSaveTopic: () => void;
@@ -21,6 +24,9 @@ export interface UpdateTopicPageProps {
 
 export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
   topicName,
+  kafkaName,
+  kafkaPageLink,
+  kafkaInstanceLink,
   onCancelUpdateTopic,
   onDeleteTopic,
   onSaveTopic,
@@ -29,7 +35,7 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
 }) => {
   return (
     <>
-      <TopicDetailHead topicName={topicName} />
+      <TopicDetailHead topicName={topicName} kafkaName={kafkaName} kafkaPageLink={kafkaPageLink} kafkaInstanceLink={kafkaInstanceLink} />
       <PageSection
         variant={PageSectionVariants.light}
         padding={{ default: 'noPadding' }}
