@@ -6,7 +6,6 @@ import {
   AlertVariant,
   Breadcrumb,
   BreadcrumbItem,
-  Button,
   Title,
   Tabs,
   Level,
@@ -21,7 +20,6 @@ import { AlertContext, AlertContextProps } from '../../Contexts/Alert';
 import { BrowserRouter } from 'react-router-dom';
 import { FederatedProps } from '../../Utils';
 import { ConsumerGroupsList } from '../../Modules/ConsumerGroups/ConsumerGroupList/Components/ConsumerGroupList';
-import { EllipsisVIcon } from '@patternfly/react-icons/dist/js/icons/ellipsis-v-icon';
 
 export interface FederatedMainViewProps extends FederatedProps {
   getToken: () => Promise<string>;

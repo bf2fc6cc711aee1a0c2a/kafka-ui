@@ -412,9 +412,11 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   </Button>
                 </SplitItem>
                 <SplitItem>
-                  <Button variant='primary'
+                  <Button
+                    variant='primary'
                     onClick={updateTopic}
-                    data-testid='tabProperties-actionEdit'>
+                    data-testid='tabProperties-actionEdit'
+                  >
                     Edit properties
                   </Button>
                 </SplitItem>
@@ -424,6 +426,5 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
         </SidebarContent>
       </Sidebar>
     </PageSection>
-              
   );
 };

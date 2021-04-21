@@ -45,7 +45,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
   consumerGroupByTopic,
   topic,
   rowDataId,
-  detailsDataId
+  detailsDataId,
 }) => {
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(10);
@@ -193,12 +193,14 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
             variant='link'
             isInline
             onClick={() => fetchConsumerGroupDetail(consumer.groupId)}
-            data-testid={detailsDataId ? detailsDataId : 'tableConsumers-actionDetails'}
+            data-testid={
+              detailsDataId ? detailsDataId : 'tableConsumers-actionDetails'
+            }
           >
             {consumer.groupId}
           </Button>
         ),
-        props: {'data-testid': rowDataId ? rowDataId : 'tableConsumers-row'}
+        props: { 'data-testid': rowDataId ? rowDataId : 'tableConsumers-row' },
       },
 
       consumer.consumers.reduce(function (prev, cur) {

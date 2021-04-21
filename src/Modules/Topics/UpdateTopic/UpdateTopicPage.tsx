@@ -35,7 +35,12 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
 }) => {
   return (
     <>
-      <TopicDetailHead topicName={topicName} kafkaName={kafkaName} kafkaPageLink={kafkaPageLink} kafkaInstanceLink={kafkaInstanceLink} />
+      <TopicDetailHead
+        topicName={topicName}
+        kafkaName={kafkaName}
+        kafkaPageLink={kafkaPageLink}
+        kafkaInstanceLink={kafkaInstanceLink}
+      />
       <PageSection
         variant={PageSectionVariants.light}
         padding={{ default: 'noPadding' }}
