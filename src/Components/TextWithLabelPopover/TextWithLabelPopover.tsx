@@ -20,7 +20,7 @@ export interface TextWithLabelPopoverProps {
   /** Unit (if exists) for the field */
   unit?: string;
   /** Indicates if unlimited should be shown for negative numbers */
-  showUnlimited?: boolean
+  showUnlimited?: boolean;
 }
 
 export const TextWithLabelPopover: React.FC<TextWithLabelPopoverProps> = ({
@@ -30,16 +30,19 @@ export const TextWithLabelPopover: React.FC<TextWithLabelPopoverProps> = ({
   popoverBody,
   popoverHeader,
   unit,
-  showUnlimited
+  showUnlimited,
 }) => {
   const preventButtonSubmit = (event) => event.preventDefault();
 
   let displayText = '-';
 
-  if (showUnlimited === true && fieldValue !== undefined && parseInt(fieldValue) < 0) {
+  if (
+    showUnlimited === true &&
+    fieldValue !== undefined &&
+    parseInt(fieldValue) < 0
+  ) {
     displayText = 'Unlimited';
-  }
-  else if (fieldValue) {
+  } else if (fieldValue) {
     if (unit) {
       if (unit === 'ms') {
         displayText = humanizeDuration(Number(fieldValue));

@@ -46,7 +46,7 @@ export interface IAdvancedTopic {
 export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   setIsCreateTopic,
   isSwitchChecked,
-  onCloseCreateTopic
+  onCloseCreateTopic,
 }) => {
   const config = useContext(ConfigContext);
   const { addAlert } = useContext(AlertContext);
@@ -86,18 +86,18 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     const topic: NewTopicInput = isSwitchChecked
       ? formatTopicRequest(convertUnits(topicData))
       : {
-        name: topicNameInput,
-        settings: {
-          numPartitions: partitionTouchspinValue,
-          config: [
-            {
-              key: 'retention.ms',
-              value: msgRetentionValue.toString(),
-            },
-            { key: 'retention.bytes', value: retentionSize.toString() },
-          ],
-        },
-      };
+          name: topicNameInput,
+          settings: {
+            numPartitions: partitionTouchspinValue,
+            config: [
+              {
+                key: 'retention.ms',
+                value: msgRetentionValue.toString(),
+              },
+              { key: 'retention.bytes', value: retentionSize.toString() },
+            ],
+          },
+        };
 
     new DefaultApi(
       new Configuration({
@@ -120,7 +120,6 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
         closeWizard();
       });
   };
-
 
   const steps: WizardStep[] = [
     {

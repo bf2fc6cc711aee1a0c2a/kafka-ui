@@ -7,7 +7,7 @@ interface ICreateTopicPageProps {
   kafkaPageLink?: string;
   kafkaInstanceLink?: string;
   setIsCreateTopic?: (value: boolean) => void;
-  onCloseCreateTopic: () => void
+  onCloseCreateTopic: () => void;
 }
 
 export const CreateTopicPage: React.FC<ICreateTopicPageProps> = ({
@@ -15,7 +15,7 @@ export const CreateTopicPage: React.FC<ICreateTopicPageProps> = ({
   kafkaInstanceLink,
   kafkaName,
   kafkaPageLink,
-  onCloseCreateTopic
+  onCloseCreateTopic,
 }) => {
   const [isSwitchChecked, setIsSwitchChecked] = useState<boolean>(false);
   return (

@@ -20,7 +20,7 @@ export const CreateTopichead: React.FC<ICreateTopicProps> = ({
   isSwitchChecked,
   setIsSwitchChecked,
   kafkaName,
-  kafkaPageLink
+  kafkaPageLink,
 }) => {
   const mainBreadcrumbs = (
     <Breadcrumb>
