@@ -46,6 +46,7 @@ const FederatedCreateTopic: FunctionComponent<FederatedCreateTopicProps> = ({
             kafkaName={kafkaName}
             kafkaPageLink={kafkaPageLink}
             kafkaInstanceLink={kafkaInatanceLink}/>
+            onCloseCreateTopic={onCloseCreateTopic} />
         </AlertContext.Provider>
       </ConfigContext.Provider>
     </I18nextProvider>

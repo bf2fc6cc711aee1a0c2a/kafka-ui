@@ -59,12 +59,12 @@ export const SizeTimeFormGroup: React.FC<SizeTimeFormGroup> = ({
 
   const getItemsForType = (type: string) => {
     switch (type) {
-      case 'time':
-        return timeUnits;
-      case 'memory':
-        return memoryUnits;
-      default:
-        return [];
+    case 'time':
+      return timeUnits;
+    case 'memory':
+      return memoryUnits;
+    default:
+      return [];
     }
   };
 

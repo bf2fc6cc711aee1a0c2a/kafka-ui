@@ -6,6 +6,10 @@ import { CreateTopicPage } from 'src/Modules/Topics/CreateTopic/CreateTopicPage'
 const CreateTopic: FunctionComponent = () => {
   const history = useHistory();
 
+  const handleCancel = () => {
+    history.push('/topics');
+  };
+
   return (
     <CreateTopicPage
       setIsCreateTopic={(value) => {
@@ -13,6 +17,7 @@ const CreateTopic: FunctionComponent = () => {
           history.goBack();
         }
       }}
+      onCloseCreateTopic={handleCancel}
     />
   );
 };
