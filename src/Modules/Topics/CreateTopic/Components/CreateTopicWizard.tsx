@@ -19,7 +19,6 @@ import { convertUnits, formatTopicRequest } from '../utils';
 import { ConfigContext } from '../../../../Contexts';
 import { Configuration } from '../../../../OpenApi';
 import { AlertContext } from '../../../../Contexts/Alert/Context';
-import { useHistory } from 'react-router';
 
 interface ICreateTopicWizard {
   isSwitchChecked: boolean;
@@ -50,7 +49,6 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   onCloseCreateTopic
 }) => {
   const config = useContext(ConfigContext);
-  const history = useHistory();
   const { addAlert } = useContext(AlertContext);
   const [msgRetentionValue, setMsgRetentionValue] = useState(1);
   const [retentionSize, setRetentionSize] = useState(1);
@@ -88,18 +86,18 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     const topic: NewTopicInput = isSwitchChecked
       ? formatTopicRequest(convertUnits(topicData))
       : {
-          name: topicNameInput,
-          settings: {
-            numPartitions: partitionTouchspinValue,
-            config: [
-              {
-                key: 'retention.ms',
-                value: msgRetentionValue.toString(),
-              },
-              { key: 'retention.bytes', value: retentionSize.toString() },
-            ],
-          },
-        };
+        name: topicNameInput,
+        settings: {
+          numPartitions: partitionTouchspinValue,
+          config: [
+            {
+              key: 'retention.ms',
+              value: msgRetentionValue.toString(),
+            },
+            { key: 'retention.bytes', value: retentionSize.toString() },
+          ],
+        },
+      };
 
     new DefaultApi(
       new Configuration({

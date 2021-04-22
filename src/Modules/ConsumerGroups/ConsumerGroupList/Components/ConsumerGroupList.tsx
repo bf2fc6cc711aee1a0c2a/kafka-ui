@@ -118,9 +118,9 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
       setFilteredConsumerGroups((prevState) =>
         prevState
           ? {
-              ...prevState,
-              items: filterSearch,
-            }
+            ...prevState,
+            items: filterSearch,
+          }
           : undefined
       );
     } else {
@@ -212,79 +212,79 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
 
   return (
     <>
-        {deleteModal && (
-          <DeleteConsumerGroup
-            consumerName={consumerGroupId}
-            setDeleteModal={setDeleteModal}
-            deleteModal={deleteModal}
-            onDeleteConsumer={onDeleteConsumerGroup}
-          />
-        )}
-        <Drawer isExpanded={isExpanded}>
-          <DrawerContent panelContent={panelContent}>
-            <Toolbar>
-              <ToolbarContent>
-                <ToolbarItem>
-                  <SearchConsumers search={search} setSearch={setSearch} />
-                </ToolbarItem>
-                <ToolbarItem variant='pagination'>
-                  <Pagination
-                    itemCount={rowData.length}
-                    perPage={perPage}
-                    page={page}
-                    onSetPage={onSetPage}
-                    widgetId='consumer-group-pagination-top'
-                    onPerPageSelect={onPerPageSelect}
-                  />
-                </ToolbarItem>
-              </ToolbarContent>
-            </Toolbar>
-            <Divider />
-            {consumerGroupByTopic ? (
-              <Table
-                aria-label='Compact Table'
-                variant={TableVariant.compact}
-                cells={tableColumns}
-                rows={
-                  page != 1
-                    ? rowData.slice(offset, offset + perPage)
-                    : rowData.slice(0, perPage)
-                }
-              >
-                <TableHeader />
-                <TableBody />
-              </Table>
-            ) : (
-              <Table
-                aria-label='Compact Table'
-                variant={TableVariant.compact}
-                cells={tableColumns}
-                rows={
-                  page != 1
-                    ? rowData.slice(offset, offset + perPage)
-                    : rowData.slice(0, perPage)
-                }
-                actions={actions}
-              >
-                <TableHeader />
-                <TableBody />
-              </Table>
-            )}
-            {rowData.length < 1 ? (
-              <EmptyConsumers />
-            ) : (
-              <Pagination
-                itemCount={rowData.length}
-                perPage={perPage}
-                page={page}
-                onSetPage={onSetPage}
-                widgetId='consumer-group-pagination-bottom'
-                onPerPageSelect={onPerPageSelect}
-                offset={0}
-              />
-            )}
-          </DrawerContent>
-        </Drawer>
+      {deleteModal && (
+        <DeleteConsumerGroup
+          consumerName={consumerGroupId}
+          setDeleteModal={setDeleteModal}
+          deleteModal={deleteModal}
+          onDeleteConsumer={onDeleteConsumerGroup}
+        />
+      )}
+      <Drawer isExpanded={isExpanded}>
+        <DrawerContent panelContent={panelContent}>
+          <Toolbar>
+            <ToolbarContent>
+              <ToolbarItem>
+                <SearchConsumers search={search} setSearch={setSearch} />
+              </ToolbarItem>
+              <ToolbarItem variant='pagination'>
+                <Pagination
+                  itemCount={rowData.length}
+                  perPage={perPage}
+                  page={page}
+                  onSetPage={onSetPage}
+                  widgetId='consumer-group-pagination-top'
+                  onPerPageSelect={onPerPageSelect}
+                />
+              </ToolbarItem>
+            </ToolbarContent>
+          </Toolbar>
+          <Divider />
+          {consumerGroupByTopic ? (
+            <Table
+              aria-label='Compact Table'
+              variant={TableVariant.compact}
+              cells={tableColumns}
+              rows={
+                page != 1
+                  ? rowData.slice(offset, offset + perPage)
+                  : rowData.slice(0, perPage)
+              }
+            >
+              <TableHeader />
+              <TableBody />
+            </Table>
+          ) : (
+            <Table
+              aria-label='Compact Table'
+              variant={TableVariant.compact}
+              cells={tableColumns}
+              rows={
+                page != 1
+                  ? rowData.slice(offset, offset + perPage)
+                  : rowData.slice(0, perPage)
+              }
+              actions={actions}
+            >
+              <TableHeader />
+              <TableBody />
+            </Table>
+          )}
+          {rowData.length < 1 ? (
+            <EmptyConsumers />
+          ) : (
+            <Pagination
+              itemCount={rowData.length}
+              perPage={perPage}
+              page={page}
+              onSetPage={onSetPage}
+              widgetId='consumer-group-pagination-bottom'
+              onPerPageSelect={onPerPageSelect}
+              offset={0}
+            />
+          )}
+        </DrawerContent>
+      </Drawer>
       <Divider />
     </>
   );
