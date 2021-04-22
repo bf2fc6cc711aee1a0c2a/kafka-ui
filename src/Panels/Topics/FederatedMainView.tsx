@@ -119,7 +119,7 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
             />
           </Tab>
         </Tabs>
-      {/* </PageSection> */}
+        {/* </PageSection> */}
       </>
     );
   };

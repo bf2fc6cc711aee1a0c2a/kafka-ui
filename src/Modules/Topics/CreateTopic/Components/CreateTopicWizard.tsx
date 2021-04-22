@@ -19,11 +19,11 @@ import { convertUnits, formatTopicRequest } from '../utils';
 import { ConfigContext } from '../../../../Contexts';
 import { Configuration } from '../../../../OpenApi';
 import { AlertContext } from '../../../../Contexts/Alert/Context';
-import { useHistory } from 'react-router';
 
 interface ICreateTopicWizard {
   isSwitchChecked: boolean;
   setIsCreateTopic?: (value: boolean) => void;
+  onCloseCreateTopic: () => void;
 }
 
 export interface IAdvancedTopic {
@@ -46,9 +46,9 @@ export interface IAdvancedTopic {
 export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   setIsCreateTopic,
   isSwitchChecked,
+  onCloseCreateTopic
 }) => {
   const config = useContext(ConfigContext);
-  const history = useHistory();
   const { addAlert } = useContext(AlertContext);
   const [msgRetentionValue, setMsgRetentionValue] = useState(1);
   const [retentionSize, setRetentionSize] = useState(1);
@@ -86,18 +86,18 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     const topic: NewTopicInput = isSwitchChecked
       ? formatTopicRequest(convertUnits(topicData))
       : {
-          name: topicNameInput,
-          settings: {
-            numPartitions: partitionTouchspinValue,
-            config: [
-              {
-                key: 'retention.ms',
-                value: msgRetentionValue.toString(),
-              },
-              { key: 'retention.bytes', value: retentionSize.toString() },
-            ],
-          },
-        };
+        name: topicNameInput,
+        settings: {
+          numPartitions: partitionTouchspinValue,
+          config: [
+            {
+              key: 'retention.ms',
+              value: msgRetentionValue.toString(),
+            },
+            { key: 'retention.bytes', value: retentionSize.toString() },
+          ],
+        },
+      };
 
     new DefaultApi(
       new Configuration({
@@ -121,9 +121,6 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       });
   };
 
-  const handleCancel = () => {
-    history.push('/topics');
-  };
 
   const steps: WizardStep[] = [
     {
@@ -187,7 +184,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
             <TopicAdvanceConfig
               isCreate={true}
               saveTopic={saveTopic}
-              handleCancel={handleCancel}
+              handleCancel={onCloseCreateTopic}
               topicData={topicData}
               setTopicData={setTopicData}
             />
