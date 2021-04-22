@@ -24,6 +24,7 @@ import { useHistory } from 'react-router';
 interface ICreateTopicWizard {
   isSwitchChecked: boolean;
   setIsCreateTopic?: (value: boolean) => void;
+  onCloseCreateTopic: () => void;
 }
 
 export interface IAdvancedTopic {
@@ -46,6 +47,7 @@ export interface IAdvancedTopic {
 export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   setIsCreateTopic,
   isSwitchChecked,
+  onCloseCreateTopic
 }) => {
   const config = useContext(ConfigContext);
   const history = useHistory();
@@ -121,9 +123,6 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       });
   };
 
-  const handleCancel = () => {
-    history.push('/topics');
-  };
 
   const steps: WizardStep[] = [
     {
@@ -187,7 +186,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
             <TopicAdvanceConfig
               isCreate={true}
               saveTopic={saveTopic}
-              handleCancel={handleCancel}
+              handleCancel={onCloseCreateTopic}
               topicData={topicData}
               setTopicData={setTopicData}
             />
