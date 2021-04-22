@@ -120,7 +120,27 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     (async function () {
       fetchTopic(topicData.name);
     })();
+    if(!isCreate) {
+      setCustomRetentionTimeUnit('milliseconds');
+    }
   }, []);
+
+  useEffect(() => {
+    if(!isCreate) {
+      if(topicData['retention.bytes'] === '-1') {
+        setIsCustomRetentionSizeSelected(false);
+      } else {
+        setIsCustomRetentionSizeSelected(true);
+        setCustomRetentionSize(Number(topicData['retention.bytes']));
+      }
+      if(topicData['retention.ms'] === '-1') {
+        setIsCustomRetentionTimeSelected(false);
+      } else {
+        setIsCustomRetentionTimeSelected(true);
+        setCustomRetentionTime(Number(topicData['retention.ms']));
+      }
+    }
+  }, [topicData['retention.bytes'], topicData['retention.ms']])
 
   const validationCheck = (value: string) => {
     const regexpInvalid = new RegExp('^[0-9A-Za-z_-]+$');
@@ -161,12 +181,12 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     }
     if (name === 'custom-retention-size-unit') {
       setCustomRetentionSizeUnit(value);
-    }
-    isCustomRetentionSizeSelected &&
+      isCustomRetentionSizeSelected &&
       setTopicData({
         ...topicData,
         'retention.bytes.unit': value,
       });
+    }
   };
 
   const onPartitionsChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -561,7 +581,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                         onChange={handleRadioChange}
                         label='Unlimited'
                         aria-label='Unlimited'
-                        id='custom-retention-size'
+                        id='unlimited-retention-size'
                         value='unlimited'
                       />
                     </Stack>
