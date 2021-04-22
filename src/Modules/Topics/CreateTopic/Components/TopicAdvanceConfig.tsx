@@ -467,7 +467,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                       popoverHeader={t('createTopic.topicNameLabelHead')}
                     />
                   )}
-                  <FormGroupWithPopover
+                  { isCreate ? (<FormGroupWithPopover
                     fieldId='create-topic-partitions'
                     fieldLabel='Partitions'
                     labelHead={t('createTopic.partitionsLabelHead')}
@@ -492,7 +492,13 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                       min={1}
 
                     />
-                  </FormGroupWithPopover>
+                  </FormGroupWithPopover>) : (<TextWithLabelPopover
+                    btnAriaLabel='More info for partitions field'
+                    fieldLabel='Partitions'
+                    fieldValue={topicData.numPartitions}
+                    popoverBody={t('createTopic.partitionsLabelBody')}
+                    popoverHeader={t('createTopic.partitionsLabelHead')}
+                  />) }
                   <TextWithLabelPopover
                     btnAriaLabel='topic detail replicas'
                     fieldLabel='Replicas'
