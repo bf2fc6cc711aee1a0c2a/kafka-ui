@@ -3,11 +3,17 @@ import { CreateTopichead } from './Components/CreateTopicHead';
 import { CreateTopicWizard } from './Components/CreateTopicWizard';
 
 interface ICreateTopicPageProps {
+  kafkaName?: string;
+  kafkaPageLink?: string;
+  kafkaInstanceLink?: string;
   setIsCreateTopic?: (value: boolean) => void;
 }
 
 export const CreateTopicPage: React.FC<ICreateTopicPageProps> = ({
   setIsCreateTopic,
+  kafkaInstanceLink,
+  kafkaName,
+  kafkaPageLink
 }) => {
   const [isSwitchChecked, setIsSwitchChecked] = useState<boolean>(false);
   return (
@@ -15,6 +21,9 @@ export const CreateTopicPage: React.FC<ICreateTopicPageProps> = ({
       <CreateTopichead
         isSwitchChecked={isSwitchChecked}
         setIsSwitchChecked={setIsSwitchChecked}
+        kafkaName={kafkaName}
+        kafkaInstanceLink={kafkaInstanceLink}
+        kafkaPageLink={kafkaPageLink}
       />
       <CreateTopicWizard
         isSwitchChecked={isSwitchChecked}

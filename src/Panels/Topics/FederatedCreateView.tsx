@@ -11,6 +11,9 @@ import { FederatedProps } from '../../Utils';
 export interface FederatedCreateTopicProps extends FederatedProps {
   getToken: () => Promise<string>;
   apiBasePath: string;
+  kafkaName?: string;
+  kafkaPageLink?: string;
+  kafkaInatanceLink?: string;
   onCloseCreateTopic: () => void;
   addAlert: (message: string, variant?: AlertVariant) => void;
 }
@@ -18,6 +21,9 @@ export interface FederatedCreateTopicProps extends FederatedProps {
 const FederatedCreateTopic: FunctionComponent<FederatedCreateTopicProps> = ({
   getToken,
   apiBasePath,
+  kafkaName,
+  kafkaPageLink,
+  kafkaInatanceLink,
   onCloseCreateTopic,
   addAlert,
 }) => {
@@ -36,7 +42,10 @@ const FederatedCreateTopic: FunctionComponent<FederatedCreateTopicProps> = ({
         value={{ basePath: apiBasePath, getToken } as IConfiguration}
       >
         <AlertContext.Provider value={alertContext}>
-          <CreateTopicPage setIsCreateTopic={setIsCreateTopic} />
+          <CreateTopicPage setIsCreateTopic={setIsCreateTopic} 
+            kafkaName={kafkaName}
+            kafkaPageLink={kafkaPageLink}
+            kafkaInstanceLink={kafkaInatanceLink}/>
         </AlertContext.Provider>
       </ConfigContext.Provider>
     </I18nextProvider>
