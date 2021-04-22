@@ -10,18 +10,25 @@ import React from 'react';
 
 export interface ICreateTopicProps {
   isSwitchChecked: boolean;
+  kafkaName?: string;
+  kafkaPageLink?: string;
+  kafkaInstanceLink?: string;
   setIsSwitchChecked: (value: boolean) => void;
 }
 
 export const CreateTopichead: React.FC<ICreateTopicProps> = ({
   isSwitchChecked,
   setIsSwitchChecked,
+  kafkaName,
+  kafkaPageLink
 }) => {
   const mainBreadcrumbs = (
     <Breadcrumb>
-      <BreadcrumbItem to='/openshiftstreams'>Kafka Instances</BreadcrumbItem>
-      <BreadcrumbItem to='/openshiftstreams'>
-        Kafka Instance Name
+      <BreadcrumbItem to={kafkaPageLink ? kafkaPageLink : '#'}>
+        Kafka Instances
+      </BreadcrumbItem>
+      <BreadcrumbItem to='#' isActive>
+        {kafkaName ? kafkaName : 'Kafka Instance Name'}
       </BreadcrumbItem>
       <BreadcrumbItem to='#' isActive>
         Create topic
