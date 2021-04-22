@@ -139,6 +139,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                     popoverHeader={t('createTopic.retentionBytesLabelHead')}
                     popoverBody={t('createTopic.retentionBytesLabelBody')}
                     unit={'bytes'}
+                    showUnlimited={true}
                   />
 
                   <TextContent className='section-margin'>
