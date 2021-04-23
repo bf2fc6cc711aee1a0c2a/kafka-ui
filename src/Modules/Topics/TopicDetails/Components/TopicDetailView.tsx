@@ -130,6 +130,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                     popoverBody={t('createTopic.retentionTimeLabelBody')}
                     popoverHeader={t('createTopic.retentionTimeLabelHead')}
                     unit={'ms'}
+                    showUnlimited={true}
                   />
 
                   <TextWithLabelPopover
