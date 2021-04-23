@@ -405,7 +405,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
           <JumpLinks
             isVertical
             label='JUMP TO SECTION'
-            scrollableSelector='.pf-c-page__main:first-of-type'
+            scrollableSelector='#scrollablePageMain'
             style={{ position: 'sticky' }}
             offset={-164} // for header
             expandable={{ default: 'expandable', md: 'nonExpandable' }}

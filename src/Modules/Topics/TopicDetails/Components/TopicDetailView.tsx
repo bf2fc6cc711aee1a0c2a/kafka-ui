@@ -43,7 +43,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
           <JumpLinks
             isVertical
             label='JUMP TO SECTION'
-            scrollableSelector='.pf-c-page__main:first-of-type'
+            scrollableSelector='#scrollablePageMain'
             offset={-164} // for header
             style={{ position: 'sticky' }}
           >
