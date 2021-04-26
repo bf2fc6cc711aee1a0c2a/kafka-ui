@@ -9,7 +9,6 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import CreateTopic from '../Panels/Topics/CreateView';
 import TopicDetail from '../Panels/Topics/DetailView';
 import UpdateTopicView from '../Panels/Topics/UpdateView';
-import { TopicContextProvider } from '../Contexts/Topic';
 import { ConsumerGroupsView } from '../Panels/ConsumerGroups/ConsumerGroupsView';
 import { ConsumerGroupsByTopicView } from '../Panels/ConsumerGroupsByTopic/ConsumerGroupsByTopicView';
 import { ErrorBoundary } from '../Components/ErrorBoundary/ErrorBoundary';
@@ -26,41 +25,39 @@ ReactDOM.render(
         getToken: async () => '',
       }}
     >
-      <TopicContextProvider>
-        <MastHead>
-          <Router>
-            <AlertProvider>
-              <ErrorBoundary>
-                <Switch>
-                  <Route path='/' component={Topics} exact />
-                  <Route path='/topics' component={Topics} exact />
-                  <Route
-                    path='/topic/:topicName'
-                    component={TopicDetail}
-                    exact
-                  />
-                  <Route path='/topics/create' component={CreateTopic} exact />
-                  <Route
-                    path='/topics/update/:topicName'
-                    component={UpdateTopicView}
-                    exact
-                  />
-                  <Route
-                    path='/consumerGroups'
-                    component={ConsumerGroupsView}
-                    exact
-                  />
-                  <Route
-                    path='/topics/consumerGroups/:topicName'
-                    component={ConsumerGroupsByTopicView}
-                    exact
-                  />
-                </Switch>
-              </ErrorBoundary>
-            </AlertProvider>
-          </Router>
-        </MastHead>
-      </TopicContextProvider>
+      <MastHead>
+        <Router>
+          <AlertProvider>
+            <ErrorBoundary>
+              <Switch>
+                <Route path='/' component={Topics} exact />
+                <Route path='/topics' component={Topics} exact />
+                <Route
+                  path='/topic/:topicName'
+                  component={TopicDetail}
+                  exact
+                />
+                <Route path='/topics/create' component={CreateTopic} exact />
+                <Route
+                  path='/topics/update/:topicName'
+                  component={UpdateTopicView}
+                  exact
+                />
+                <Route
+                  path='/consumerGroups'
+                  component={ConsumerGroupsView}
+                  exact
+                />
+                <Route
+                  path='/topics/consumerGroups/:topicName'
+                  component={ConsumerGroupsByTopicView}
+                  exact
+                />
+              </Switch>
+            </ErrorBoundary>
+          </AlertProvider>
+        </Router>
+      </MastHead>
     </ConfigContext.Provider>
   </I18nextProvider>,
   document.getElementById('root')
