@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { TopicDetailHead } from '../../../Modules/Topics/TopicDetails/Components/TopicDetailHead';
 import { TopicDetailView } from './Components/TopicDetailView';
-import { AdvancedTopic, initialState } from '../../../Contexts/Topic';
 import {
   AlertVariant,
   PageSection,
@@ -18,6 +17,7 @@ import { DeleteTopics } from '../TopicList/Components/DeleteTopicsModal';
 import { isAxiosError } from '../../../Utils/axios';
 import { AlertContext } from '../../../Contexts/Alert';
 import { useHistory } from 'react-router';
+import { IAdvancedTopic } from '../CreateTopic/Components/CreateTopicWizard';
 
 export type TopicDetailGroupProps = {
   topicName: string;
@@ -42,7 +42,15 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
   onError,
   eventKey,
 }) => {
-  const [topicDetail, setTopicDetail] = useState<AdvancedTopic>(initialState);
+  const [topicDetail, setTopicDetail] = useState<IAdvancedTopic>({
+    name: topicName,
+    numPartitions: '',
+    'retention.ms': '',
+    'retention.ms.unit': 'milliseconds',
+    'retention.bytes': '',
+    'retention.bytes.unit': 'bytes',
+    'cleanup.policy': '',
+  });
   const [activeTabKey, setActiveTabKey] = useState(eventKey);
   const config = useContext(ConfigContext);
   const [deleteModal, setDeleteModal] = useState(false);
