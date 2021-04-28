@@ -7,6 +7,9 @@ import {
   PageSectionVariants,
   Wizard,
   WizardStep,
+  WizardFooter,
+  WizardContextConsumer,
+  Button,
 } from '@patternfly/react-core';
 import { StepTopicName } from './StepTopicName';
 import { StepPartitions } from './StepPartitions';
@@ -20,6 +23,7 @@ import { ConfigContext } from '../../../../Contexts';
 import { Configuration } from '../../../../OpenApi';
 import { AlertContext } from '../../../../Contexts/Alert/Context';
 import { useTranslation } from 'react-i18next';
+import { getTopic } from '../../../../Services/index';
 
 interface ICreateTopicWizard {
   isSwitchChecked: boolean;
@@ -58,9 +62,11 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   const [partitionTouchspinValue, setPartitionTouchspinValue] = useState(1);
   const [replicationFactorTouchspinValue] = useState(3);
   const [minInSyncReplicaTouchspinValue] = useState(2);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [topicNameValidated, setTopicNameValidated] = useState<
     'error' | 'default'
   >('default');
+  const [invalidText, setInvalidText] = useState('');
   const [topicData, setTopicData] = useState<IAdvancedTopic>({
     name: '',
     numPartitions: '1',
@@ -120,6 +126,23 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       });
   };
 
+  const fetchTopic = async (topicName, onNext) => {
+    try {
+      const topicRes = await getTopic(topicName, config);
+      if (topicRes) {
+        setInvalidText(t('topic.already_exists', { name: topicName }))
+        setTopicNameValidated('error');
+        setIsLoading(false);
+      }
+    } catch (error) {
+      if (error.response.status == '404') {
+        setTopicNameValidated('default');
+
+        onNext();
+      }
+    }
+  };
+
   const steps: WizardStep[] = [
     {
       name: t('topic.topic_name'),
@@ -131,6 +154,8 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
           setTopicNameInput={setTopicNameInput}
           topicNameValidated={topicNameValidated}
           setTopicNameValidated={setTopicNameValidated}
+          invalidText={invalidText}
+          setInvalidText={setInvalidText}
         />
       ),
     },
@@ -173,6 +198,75 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
 
   const title = t('topic.wizard_title');
 
+  const onValidate = (onNext) => {
+    if (topicNameInput.length < 1) {
+      setInvalidText(t('topic.required'));
+      setTopicNameValidated('error');
+    } else {
+      setIsLoading(true);
+      fetchTopic(topicNameInput, onNext);
+    }
+  };
+
+  const CustomFooter = (
+    <WizardFooter>
+      <WizardContextConsumer>
+        {({ activeStep, onNext, onBack }) => {
+          if (activeStep.name == t('topic.topic_name')) {
+            return (
+              <>
+                <Button
+                  variant='primary'
+                  type='submit'
+                  isLoading={isLoading}
+                  onClick={() => onValidate(onNext)}
+                  isDisabled={topicNameValidated == 'default' ? false : true}
+                >
+                  {t('common.next')}
+                </Button>
+                <Button variant='secondary' isDisabled={true}>
+                  {t('common.back')}
+                </Button>
+                <Button variant='link' onClick={closeWizard}>
+                  {t('common.cancel')}
+                </Button>
+              </>
+            );
+          }
+
+          if (activeStep.name == 'Replicas') {
+            return (
+              <>
+                <Button variant='primary' type='submit' onClick={onNext}>
+                  {t('common.finish')}
+                </Button>
+                <Button variant='secondary' onClick={onBack}>
+                  {t('common.back')}
+                </Button>
+                <Button variant='link' onClick={closeWizard}>
+                  {t('common.cancel')}
+                </Button>
+              </>
+            );
+          }
+          return (
+            <>
+              <Button variant='primary' type='submit' onClick={onNext}>
+                {t('common.next')}
+              </Button>
+              <Button variant='secondary' onClick={onBack}>
+                {t('common.back')}
+              </Button>
+              <Button variant='link' onClick={closeWizard}>
+                {t('common.cancel')}
+              </Button>
+            </>
+          );
+        }}
+      </WizardContextConsumer>
+    </WizardFooter>
+  );
+
   return (
     <>
       {isSwitchChecked ? (
@@ -201,6 +295,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
             onClose={closeWizard}
             onSave={saveTopic}
             data-testid='topicBasicCreate-Wizard'
+            footer={CustomFooter}
           />
         </PageSection>
       )}

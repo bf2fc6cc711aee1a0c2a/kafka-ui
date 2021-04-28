@@ -7,6 +7,8 @@
     "partitions": "Partitions",
     "search": "Search",
     "cancel": "Cancel",
+    "next": "Next",
+    "back": "Back",
     "compact": "Compact",
     "save": "Save",
     "finish": "Finish",
@@ -126,7 +128,11 @@
     "show_all_options": "Show all available options",
     "topic_successfully_created": "The topic was successfully created in the Kafka instance",
     "topic_successfully_updated": "The topic was successfully updated in the Kafka instance",
-    "topic_successfully_deleted": "Successfully deleted topic {{name}}"
+    "topic_successfully_deleted": "Successfully deleted topic {{name}}",
+    "partitions_warning": "Increasing a topic's partitions might result in messages having the same key from two different partitions, which can potentially break the message ordering guarantees that apply to a single partition",
+    "required": "Required",
+    "already_exists": "{{name}} already exists . Try a different name",
+    "cannot_exceed_characters": "Cannot exceed 249 characters"
   },
   "consumerGroup": {
     "consumer_groups": "Consumer Groups",

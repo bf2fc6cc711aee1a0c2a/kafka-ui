@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Form,
   FormGroup,
@@ -15,6 +15,8 @@ export interface IStepTopicName {
   setTopicNameInput: (value: string) => void;
   topicNameValidated: 'error' | 'default';
   setTopicNameValidated: (value: 'error' | 'default') => void;
+  invalidText: string;
+  setInvalidText: (value: string) => void;
 }
 
 export const StepTopicName: React.FC<IStepTopicName> = ({
@@ -22,24 +24,19 @@ export const StepTopicName: React.FC<IStepTopicName> = ({
   setTopicNameInput,
   topicNameValidated,
   setTopicNameValidated,
+  invalidText,
+  setInvalidText,
 }) => {
-  const [invalidText, setInvalidText] = useState('This is a required field');
-
   const { t } = useTranslation();
 
   const validationCheck = (topicNameInput) => {
     const regexpInvalid = new RegExp('^[0-9A-Za-z_-]+$');
     if (topicNameInput.length && !regexpInvalid.test(topicNameInput)) {
-      setInvalidText(
-        'Invalid input. Only letters (Aa-Zz) , numbers " _ " and " - " are accepted.'
-      );
-      setTopicNameValidated('error');
-    } else if (topicNameInput.length < 1) {
-      setInvalidText('This is a required field');
+      setInvalidText(t('topic.topic_name_helper_text'));
       setTopicNameValidated('error');
     } else if (topicNameInput.length > 249) {
       setTopicNameValidated('error');
-      setInvalidText('Topic name cannot exceed 249 characters');
+      setInvalidText(t('common.cannot_exceed_characters'));
     } else setTopicNameValidated('default');
   };
 
@@ -66,7 +63,6 @@ export const StepTopicName: React.FC<IStepTopicName> = ({
           helperText={t('topic.topic_name_helper_text')}
           helperTextInvalid={invalidText}
           validated={topicNameValidated}
-          isRequired
         >
           <TextInput
             isRequired
