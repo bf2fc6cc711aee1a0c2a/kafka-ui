@@ -49,6 +49,10 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
     history.push(`/topic/${topic}`);
   };
 
+  const onEditTopic = (topic: string | undefined) => {
+    history.push(`/topics/update/${topic}`);
+  };
+
   const onDeleteTopic = () => {
     history.push('/topics');
   };

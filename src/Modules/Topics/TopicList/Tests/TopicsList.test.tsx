@@ -35,6 +35,9 @@ describe('<TopicsListComponent />', () => {
             onClickTopic={() => {
               return;
             }}
+            onEditTopic={() => {
+              return;
+            }}
             getTopicDetailsPath={() => {
               return '';
             }}

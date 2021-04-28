@@ -30,6 +30,7 @@ export interface FederatedMainViewProps extends FederatedProps {
   kafkaPageLink?: string;
   onCreateTopic: () => void;
   onClickTopic: (topicName: string | undefined) => void;
+  onEditTopic: (topicName: string | undefined) => void;
   getTopicDetailsPath: (topic: string | undefined) => string;
   addAlert: (message: string, variant?: AlertVariant) => void;
   onDeleteConsumer: () => void;
@@ -45,6 +46,7 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
   onCreateTopic,
   getTopicDetailsPath,
   onClickTopic,
+  onEditTopic,
   addAlert,
   onDeleteConsumer,
   onDeleteTopic,
@@ -145,6 +147,7 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
               getTopicDetailsPath={getTopicDetailsPath}
               onDeleteTopic={onDeleteTopic}
               onError={onError}
+              onEditTopic={onEditTopic}
             />
           </TabContent>
           <TabContent

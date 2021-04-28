@@ -50,6 +50,7 @@ export interface ITopicList {
   onClickTopic: (topicName: string | undefined) => void;
   getTopicDetailsPath: (topic: string | undefined) => string;
   onDeleteTopic: () => void;
+  onEditTopic: (topicName: string | undefined) => void;
   onError?: (errorCode: number, message: string) => void;
 }
 
@@ -59,6 +60,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   onClickTopic,
   onDeleteTopic,
   onError,
+  onEditTopic,
 }) => {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState<number>(1);
@@ -187,7 +189,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
 
   const onEdit = (rowId: any) => {
     if (filteredTopics?.items) {
-      onClickTopic(filteredTopics.items[rowId].name);
+      onEditTopic(filteredTopics.items[rowId].name);
     }
   };
 
