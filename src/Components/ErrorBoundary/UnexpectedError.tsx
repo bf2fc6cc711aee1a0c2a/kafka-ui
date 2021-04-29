@@ -34,11 +34,11 @@ export const UnexpectedError: React.FC<IUnexpectedErrorProps> = ({
       <EmptyState variant={EmptyStateVariant.full}>
         <EmptyStateIcon icon={ExclamationCircleIcon} />
         <Title headingLevel='h1' size={TitleSizes.lg}>
-          {t('common.errorBoundaryTitle')}
+          {t('common.error_boundary_title')}
         </Title>
-        <EmptyStateBody>{t('common.unexpectedError')}</EmptyStateBody>
+        <EmptyStateBody>{t('common.unexpected_error')}</EmptyStateBody>
         <Button variant={ButtonVariant.primary} onClick={navigateToHome}>
-          {t('common.returnToHome')}
+          {t('common.return_to_home')}
         </Button>
       </EmptyState>
     </PageSection>

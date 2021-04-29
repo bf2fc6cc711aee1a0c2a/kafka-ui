@@ -59,9 +59,9 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
 
   const mainBreadcrumbs = (
     <Breadcrumb>
-      <BreadcrumbItem to='#'>{t('common.kafkaInstance')}</BreadcrumbItem>
+      <BreadcrumbItem to='#'>{t('common.kafka_instance')}</BreadcrumbItem>
       <BreadcrumbItem to='#' isActive>
-        {instanceName ? instanceName : t('common.kafkaInstanceName')}
+        {instanceName ? instanceName : t('common.kafka_instance_name')}
       </BreadcrumbItem>
     </Breadcrumb>
   );
@@ -74,7 +74,7 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
 
       <Level>
         <Title headingLevel='h1'>
-          {instanceName ? instanceName : t('common.kafkaInstanceName')}
+          {instanceName ? instanceName : t('common.kafka_instance_name')}
         </Title>
         <Button variant='plain' iconPosition='right'>
           <EllipsisVIcon />
@@ -87,11 +87,11 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
         data-testid='pageKafka-tabProperties'
       >
         <Tab
-          title={<TabTitleText>{t('topicList.topics')}</TabTitleText>}
+          title={<TabTitleText>{t('topic.topics')}</TabTitleText>}
           eventKey={1}
           data-testid='pageKafka-tabTopics'
           id='topics-tab-section'
-          aria-label={t('topicList.topics')}
+          aria-label={t('topic.topics')}
           className='kafka-ui-m-full-height'
         >
           <TopicsListComponent
@@ -102,11 +102,11 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
           />
         </Tab>
         <Tab
-          title={<TabTitleText>{t('consumerGroups.consumerGroups')}</TabTitleText>}
+          title={<TabTitleText>{t('consumerGroup.consumer_groups')}</TabTitleText>}
           eventKey={2}
           data-testid='pageKafka-tabConsumers'
           id='consumer-groups-tab-section'
-          aria-label={t('consumerGroups.consumerGroups')}
+          aria-label={t('consumerGroup.consumer_groups')}
           className='kafka-ui-m-full-height'
         >
           <ConsumerGroupsList

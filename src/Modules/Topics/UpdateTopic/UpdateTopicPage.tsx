@@ -61,7 +61,7 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
         >
           <Tab
             eventKey={0}
-            title={<TabTitleText>{t('consumerGroups.consumerGroups')}</TabTitleText>}
+            title={<TabTitleText>{t('consumerGroup.consumer_groups')}</TabTitleText>}
           >
             <ConsumerGroupsList
               onDeleteConsumerGroup={onDeleteConsumer}

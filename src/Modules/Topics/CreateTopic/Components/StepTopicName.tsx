@@ -53,19 +53,19 @@ export const StepTopicName: React.FC<IStepTopicName> = ({
   return (
     <Stack hasGutter className='kafka-ui--wizard-main-body__stack'>
       <TextContent>
-        <Text component={TextVariants.h2}>{t('createTopic.topicNameLabelHead')}</Text>
+        <Text component={TextVariants.h2}>{t('topic.topic_name')}</Text>
         <Text component={TextVariants.p}>
-          {t('createTopic.stepTopicNameInfo')}
+          {t('topic.topic_name_info')}
         </Text>
         <Text component={TextVariants.small}>
-          {t('createTopic.stepTopicNameDetail')}
+          {t('topic.topic_name_info_note')}
         </Text>
       </TextContent>
       <Form onSubmit={preventFormSubmit}>
         <FormGroup
-          label={t('createTopic.topicNameLabelHead')}
+          label={t('topic.topic_name')}
           fieldId='step-topic-name-form'
-          helperText={t('createTopic.topicNameHelperText')}
+          helperText={t('topic.topic_name_helper_text')}
           helperTextInvalid={invalidText}
           validated={topicNameValidated}
           isRequired
@@ -77,7 +77,7 @@ export const StepTopicName: React.FC<IStepTopicName> = ({
             name='step-topic-name'
             value={topicNameInput}
             onChange={handleTopicNameChange}
-            placeholder={t('createTopic.enterName')}
+            placeholder={t('topic.enter_name')}
             validated={topicNameValidated}
           />
         </FormGroup>

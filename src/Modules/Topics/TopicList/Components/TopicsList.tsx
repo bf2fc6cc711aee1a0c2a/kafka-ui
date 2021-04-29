@@ -110,8 +110,8 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   const tableColumns = [
     { title: t('common.name') }, 
     { title: t('common.partitions'), transforms: [sortable] },
-    { title: t('createTopic.retentionTimeLabelHead'), transforms: [sortable] },
-    { title: t('createTopic.retentionBytesLabelHead'), transforms: [sortable] },
+    { title: t('topic.retention_time'), transforms: [sortable] },
+    { title: t('topic.retention_size'), transforms: [sortable] },
   ];
   const convertRetentionTime = (milliseconds: number) => {
     let convertedValue;
@@ -290,7 +290,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
                     onCreateTopic();
                   }}
                 >
-                  {t('createTopic.createTopic')}
+                  {t('topic.create_topic')}
                 </Button>
               </ToolbarItem>
               <ToolbarItem variant='pagination'>
@@ -306,25 +306,26 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
             </ToolbarContent>
           </Toolbar>
 
-            <Table
-            aria-label={t('topicList.topicListTable')}
-              variant={TableVariant.compact}
-              cells={tableColumns}
-              rows={
-                page != 1
-                  ? rowData.slice(offset, offset + perPage)
-                  : rowData.slice(0, perPage)
-              }
-              actions={actions}
-            >
-              <TableHeader />
-              <TableBody />
-            </Table>
-          </>
-        )}
-        <Divider />
-        {rowData.length < 1 && search.length > 1 && <EmptySearch />}
-        {rowData.length > 1 && (
+          <Table
+            aria-label={t('topic.topic_list_table')}
+            variant={TableVariant.compact}
+            cells={tableColumns}
+            rows={
+              page != 1
+                ? rowData.slice(offset, offset + perPage)
+                : rowData.slice(0, perPage)
+            }
+            actions={actions}
+          >
+            <TableHeader />
+            <TableBody />
+          </Table>
+        </Card>
+      )}
+      <Divider />
+      {rowData.length < 1 && search.length > 1 && <EmptySearch />}
+      {rowData.length > 1 && (
+        <Card>
           <Pagination
             itemCount={rowData.length}
             perPage={perPage}

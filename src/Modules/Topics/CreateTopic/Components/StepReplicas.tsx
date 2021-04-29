@@ -26,31 +26,31 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
       <TextContent>
         <Text component={TextVariants.h2}>{t('common.replicas')}</Text>
         <Text component={TextVariants.p}>
-          {t('createTopic.stepReplicasInfo')}
+          {t('topic.stepReplicasInfo')}
         </Text>
         <Text component={TextVariants.small}>
-          {t('createTopic.stepReplicasDetail')}
+          {t('topic.replicas_detail')}
         </Text>
       </TextContent>
       <Alert
         variant='info'
         isInline
-        title={t('createTopic.stepReplicasHelperText')}
+        title={t('topic.replicas_helper_text')}
       />
       <TextWithLabelPopover
         btnAriaLabel={t('common.replicas')}
         fieldLabel={t('common.replicas')}
         fieldValue={replicationFactor.toString()}
-        popoverBody={t('createTopic.replicasLabelBody')}
-        popoverHeader={t('createTopic.replicasLabelHead')}
+        popoverBody={t('topic.replicas_description')}
+        popoverHeader={t('topic.replicas')}
       />
 
       <TextWithLabelPopover
         btnAriaLabel='topic detail min-in-sync replica'
         fieldLabel='Minimum in-sync replicas'
         fieldValue={minInSyncReplica.toString()}
-        popoverBody={t('createTopic.inSyncReplicasLabelBody')}
-        popoverHeader={t('createTopic.inSyncReplicasLabelHead')}
+        popoverBody={t('topic.min_insync_replicas_description')}
+        popoverHeader={t('topic.min_insync_replicas')}
       />
     </Stack>
   );

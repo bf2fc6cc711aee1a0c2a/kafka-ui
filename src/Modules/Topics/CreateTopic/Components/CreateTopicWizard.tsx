@@ -111,7 +111,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       .then((res) => {
         if (res.status === 200) {
           addAlert(
-            t('createTopic.successfullyCreated'),
+            t('topic.topic_successfully_created'),
             AlertVariant.success
           );
         }
@@ -125,7 +125,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
 
   const steps: WizardStep[] = [
     {
-      name: t('createTopic.topicNameLabelHead'),
+      name: t('topic.topic_name'),
       enableNext:
         topicNameInput.trim() !== '' && topicNameValidated === 'default',
       component: (
@@ -148,7 +148,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       ),
     },
     {
-      name: t('createTopic.messageRetention'),
+      name: t('topic.message_retention'),
       canJumpTo: topicNameInput.trim() !== '',
       component: (
         <StepMessageRetention
@@ -174,7 +174,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     },
   ];
 
-  const title = t('createTopic.wizardTitle');
+  const title = t('topic.wizard_title');
 
   return (
     <>

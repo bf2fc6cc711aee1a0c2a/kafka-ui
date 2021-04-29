@@ -72,7 +72,7 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
           }
           if (err.response?.status === 404) {
             // then it's a non-existent topic
-            addAlert(t('createTopic.topic404', { name: topicName}), AlertVariant.danger);
+            addAlert(t('topic.topic_not_found', { name: topicName}), AlertVariant.danger);
             onClickTopicList();
           }
         }
@@ -121,7 +121,7 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
           <Tab
             eventKey={1}
             data-testid='pageTopic-tabConsumers'
-            title={<TabTitleText>{t('consumerGroups.consumerGroups')}</TabTitleText>}
+            title={<TabTitleText>{t('consumerGroup.consumer_groups')}</TabTitleText>}
             className={activeTabKey === 1 ? 'kafka-ui--consumer-content':''}
           >
             <ConsumerGroupsList

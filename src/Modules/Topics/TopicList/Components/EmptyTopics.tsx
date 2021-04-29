@@ -25,17 +25,17 @@ export const EmptyTopics: React.FunctionComponent<IEmptyTopic> = ({
     <EmptyState>
       <EmptyStateIcon icon={PlusIcon} />
       <Title headingLevel='h5' size='lg'>
-        {t('topicList.emptyTopicHead')}
+        {t('topic.empty_list_head')}
       </Title>
       <EmptyStateBody>
-        {t('topicList.emptyTopicBody')}
+        {t('topic.empty_list_body')}
       </EmptyStateBody>
       <Button
         variant='primary'
         className='topics-empty-page'
         onClick={onCreateTopic}
       >
-        {t('createTopic.createTopic')}
+        {t('topic.create_topic')}
       </Button>
     </EmptyState>
     </Bullseye>

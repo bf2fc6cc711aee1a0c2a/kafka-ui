@@ -148,9 +148,9 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
   };
 
   const tableColumns = [
-    { title: t('consumerGroups.consumerGroupId') },
-    { title: t('consumerGroups.activeMembers') },
-    { title: t('consumerGroups.partitionsWithLag')},
+    { title: t('consumerGroup.consumer_group_id') },
+    { title: t('consumerGroup.active_members') },
+    { title: t('consumerGroup.partitions_with_lag')},
   ];
   const onDelete = (rowId: any) => {
     if (filteredConsumerGroups?.items) {
@@ -245,7 +245,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
           </Toolbar>
           {consumerGroupByTopic ? (
             <Table
-              aria-label={t('consumerGroups.topicTableAria')}
+              aria-label={t('consumerGroup.topic_table_aria')}
               variant={TableVariant.compact}
               cells={tableColumns}
               rows={
@@ -259,7 +259,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
             </Table>
           ) : (
             <Table
-              aria-label={t('consumerGroups.topicTableAria')}
+              aria-label={t('consumerGroup.topic_table_aria')}
               variant={TableVariant.compact}
               cells={tableColumns}
               rows={

@@ -203,19 +203,19 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
     <>
       <Stack hasGutter className='kafka-ui--wizard-main-body__stack'>
         <TextContent>
-          <Text component={TextVariants.h2}>{t('createTopic.messageRetention')}</Text>
+          <Text component={TextVariants.h2}>{t('topic.message_retention')}</Text>
           <Text component={TextVariants.p}>
-            {t('createTopic.messageRetentionInfo')}
+            {t('topic.message_retention_info')}
           </Text>
           <Text component={TextVariants.small}>
-            {t('createTopic.messageRetentionDetail')}
+            {t('topic.message_retention_info_note')}
           </Text>
         </TextContent>
 
         <Form onSubmit={preventFormSubmit}>
           <FormGroup
             fieldId='form-group-retention-time-in-wizard'
-            label={t('createTopic.retentionTimeLabelHead')}
+            label={t('topic.retention_time')}
             // className='form-group-radio'
           >
             <Stack hasGutter>

@@ -42,31 +42,31 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
         <SidebarPanel variant='sticky'>
           <JumpLinks
             isVertical
-            label={t('common.jumpLinksLabel')}
+            label={t('common.jump_to_section')}
             scrollableSelector='#scrollablePageMain'
             offset={-164} // for header
             style={{ position: 'sticky' }}
           >
             <JumpLinksItem key={0} href='#core-configuration'>
-              {t('common.coreConfiguration')}
+              {t('topic.core_configuration')}
             </JumpLinksItem>
             <JumpLinksItem key={1} href='#messages'>
-              {t('common.messages')}
+              {t('topic.messages')}
             </JumpLinksItem>
             <JumpLinksItem key={2} href='#log'>
-              {t('common.log')}
+              {t('topic.log')}
             </JumpLinksItem>
             <JumpLinksItem key={3} href='#replication'>
-              {t('common.replication')}
+              {t('topic.replication')}
             </JumpLinksItem>
             <JumpLinksItem key={4} href='#cleanup'>
               {t('common.cleanup')}
             </JumpLinksItem>
             <JumpLinksItem key={5} href='#index'>
-              {t('common.index')}
+              {t('topic.index')}
             </JumpLinksItem>
             <JumpLinksItem key={6} href='#flush'>
-              {t('common.flush')}
+              {t('topic.flush')}
             </JumpLinksItem>
             <JumpLinksItem key={7} href='#delete'>
               {t('common.delete')}
@@ -84,61 +84,61 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                       tabIndex={-1}
                       id='core-configuration'
                     >
-                      {t('common.coreConfiguration')}
+                      {t('topic.core_configuration')}
                     </Text>
                     <Text component={TextVariants.p} className='section-info'>
-                      {t('createTopic.coreConfigInfo')}
+                      {t('topic.core_config_info')}
                     </Text>
                   </TextContent>
 
                   <TextWithLabelPopover
                     btnAriaLabel={t('common.name')}
-                    fieldLabel={t('createTopic.topicNameLabelHead')}
+                    fieldLabel={t('topic.topic_name')}
                     fieldValue={topic.name}
-                    popoverBody={t('createTopic.topicNameLabelBody')}
-                    popoverHeader={t('createTopic.topicNameLabelHead')}
+                    popoverBody={t('topic.topic_name_description')}
+                    popoverHeader={t('topic.topic_name')}
                   />
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.partitionsLabelHead')}
-                    fieldLabel={t('createTopic.partitionsLabelHead')}
+                    btnAriaLabel={t('topic.partitions')}
+                    fieldLabel={t('topic.partitions')}
                     fieldValue={topic.numPartitions}
-                    popoverBody={t('createTopic.partitionsLabelBody')}
-                    popoverHeader={t('createTopic.partitionsLabelHead')}
+                    popoverBody={t('topic.partitions_description')}
+                    popoverHeader={t('topic.partitions')}
                   />
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.replicasLabelHead')}
-                    fieldLabel={t('createTopic.replicasLabelHead')}
+                    btnAriaLabel={t('topic.replicas')}
+                    fieldLabel={t('topic.replicas')}
                     fieldValue={'3'}
-                    popoverBody={t('createTopic.replicasLabelBody')}
-                    popoverHeader={t('createTopic.replicasLabelHead')}
+                    popoverBody={t('topic.replicas_description')}
+                    popoverHeader={t('topic.replicas')}
                   />
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.inSyncReplicasLabelHead')}
-                    fieldLabel={t('createTopic.inSyncReplicasLabelHead')}
+                    btnAriaLabel={t('topic.min_insync_replicas')}
+                    fieldLabel={t('topic.min_insync_replicas')}
                     fieldValue={'2'}
-                    popoverBody={t('createTopic.inSyncReplicasLabelBody')}
-                    popoverHeader={t('createTopic.inSyncReplicasLabelHead')}
+                    popoverBody={t('topic.min_insync_replicas_description')}
+                    popoverHeader={t('topic.min_insync_replicas')}
                   />
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.retentionTimeLabelHead')}
-                    fieldLabel={t('createTopic.retentionTimeLabelHead')}
+                    btnAriaLabel={t('topic.retention_time')}
+                    fieldLabel={t('topic.retention_time')}
                     fieldValue={topic['retention.ms']}
-                    popoverBody={t('createTopic.retentionTimeLabelBody')}
-                    popoverHeader={t('createTopic.retentionTimeLabelHead')}
+                    popoverBody={t('topic.retention_time_description')}
+                    popoverHeader={t('topic.retention_time')}
                     unit={'ms'}
                     showUnlimited={true}
                   />
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.retentionBytesLabelHead')}
-                    fieldLabel={t('createTopic.retentionBytesLabelHead')}
+                    btnAriaLabel={t('topic.retention_size')}
+                    fieldLabel={t('topic.retention_size')}
                     fieldValue={topic['retention.bytes']}
-                    popoverHeader={t('createTopic.retentionBytesLabelHead')}
-                    popoverBody={t('createTopic.retentionBytesLabelBody')}
+                    popoverHeader={t('topic.retention_size')}
+                    popoverBody={t('topic.retention_size_description')}
                     unit={'bytes'}
                     showUnlimited={true}
                   />
@@ -149,106 +149,106 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                       tabIndex={-1}
                       id='messages'
                     >
-                      {t('common.messages')}
+                      {t('topic.messages')}
                     </Text>
                     <Text component={TextVariants.p} className='section-info'>
-                      {t('createTopic.messageSectionInfo')}
+                      {t('topic.message_section_info')}
                     </Text>
                   </TextContent>
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.maxMessageSizeLabelHead')}
-                    fieldLabel={t('createTopic.maxMessageSizeLabelHead')}
+                    btnAriaLabel={t('topic.max_message_size')}
+                    fieldLabel={t('topic.max_message_size')}
                     fieldValue={'1048588'}
-                    popoverBody={t('createTopic.maxMessageSizeLabelBody')}
-                    popoverHeader={t('createTopic.maxMessageSizeLabelHead')}
+                    popoverBody={t('topic.max_message_size_description')}
+                    popoverHeader={t('topic.max_message_size')}
                     unit={'bytes'}
                   />
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.messageTimestampLabelHead')}
-                    fieldLabel={t('createTopic.messageTimestampLabelHead')}
+                    btnAriaLabel={t('topic.message_timestamp_type')}
+                    fieldLabel={t('topic.message_timestamp_type')}
                     fieldValue={'CreateTime'}
-                    popoverBody={t('createTopic.messageTimestampLabelBody')}
-                    popoverHeader={t('createTopic.messageTimestampLabelHead')}
+                    popoverBody={t('topic.message_timestamp_type_description')}
+                    popoverHeader={t('topic.message_timestamp_type')}
                   />
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.messageTimestampDiffLabelHead')}
-                    fieldLabel={t('createTopic.messageTimestampDiffLabelHead')}
+                    btnAriaLabel={t('topic.max_message_timestamp_diff')}
+                    fieldLabel={t('topic.max_message_timestamp_diff')}
                     fieldValue={'9223372036854775807'}
-                    popoverBody={t('createTopic.messageTimestampDiffLabelBody')}
+                    popoverBody={t('topic.max_message_timestamp_diff_description')}
                     popoverHeader={t(
-                      'createTopic.messageTimestampDiffLabelHead'
+                      'createTopic.max_message_timestamp_diff'
                     )}
                     unit={'ms'}
                   />
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.compressionTypeLabelHead')}
-                    fieldLabel={t('createTopic.compressionTypeLabelHead')}
+                    btnAriaLabel={t('topic.compression_type')}
+                    fieldLabel={t('topic.compression_type')}
                     fieldValue='Producer'
-                    popoverBody={t('createTopic.compressionTypeLabelBody')}
-                    popoverHeader={t('createTopic.compressionTypeLabelHead')}
+                    popoverBody={t('topic.compression_type_description')}
+                    popoverHeader={t('topic.compression_type')}
                   />
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.messageFormatLabelHead')}
-                    fieldLabel={t('createTopic.messageFormatLabelHead')}
+                    btnAriaLabel={t('topic.message_format')}
+                    fieldLabel={t('topic.message_format')}
                     fieldValue='2.7-IV2'
-                    popoverBody={t('createTopic.messageFormatLabelBody')}
-                    popoverHeader={t('createTopic.messageFormatLabelHead')}
+                    popoverBody={t('topic.message_format_description')}
+                    popoverHeader={t('topic.message_format')}
                   />
 
                   <TextContent className='section-margin'>
                     <Text component={TextVariants.h2} tabIndex={-1} id='log'>
-                      {t('common.log')}
+                      {t('topic.log')}
                     </Text>
                     <Text
                       component={TextVariants.p}
                       className='section-info-head'
                     >
-                      {t('createTopic.logSectionInfo')}
+                      {t('topic.log_section_info')}
                     </Text>
                     <Text
                       component={TextVariants.small}
                       className='section-info-note'
                     >
-                      {t('createTopic.logSectionInfoNote')}
+                      {t('topic.log_section_info_note')}
                     </Text>
                   </TextContent>
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.cleanupPolicyLabelHead')}
-                    fieldLabel={t('createTopic.cleanupPolicyLabelHead')}
+                    btnAriaLabel={t('topic.cleanup_policy')}
+                    fieldLabel={t('topic.cleanup_policy')}
                     fieldValue={topic['cleanup.policy']}
-                    popoverBody={t('createTopic.cleanupPolicyLabelBody')}
-                    popoverHeader={t('createTopic.cleanupPolicyLabelHead')}
+                    popoverBody={t('topic.cleanup_policy_description')}
+                    popoverHeader={t('topic.cleanup_policy')}
                   />
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.deleteRetentionLabelHead')}
-                    fieldLabel={t('createTopic.deleteRetentionLabelHead')}
+                    btnAriaLabel={t('topic.delete_retention_time')}
+                    fieldLabel={t('topic.delete_retention_time')}
                     fieldValue={'86400000'}
-                    popoverBody={t('createTopic.deleteRetentionLabelBody')}
-                    popoverHeader={t('createTopic.deleteRetentionLabelHead')}
+                    popoverBody={t('topic.delete_retention_time_description')}
+                    popoverHeader={t('topic.delete_retention_time')}
                     unit={'ms'}
                   />
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.minRatioLabelHead')}
-                    fieldLabel={t('createTopic.minRatioLabelHead')}
+                    btnAriaLabel={t('topic.min_cleanable_ratio')}
+                    fieldLabel={t('topic.min_cleanable_ratio')}
                     fieldValue={'0.5'}
-                    popoverBody={t('createTopic.minRatioLabelBody')}
-                    popoverHeader={t('createTopic.minRatioLabelHead')}
+                    popoverBody={t('topic.min_cleanable_ratio_description')}
+                    popoverHeader={t('topic.min_cleanable_ratio')}
                   />
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.minLagLabelHead')}
-                    fieldLabel={t('createTopic.minLagLabelHead')}
+                    btnAriaLabel={t('topic.min_compaction_lag_time')}
+                    fieldLabel={t('topic.min_compaction_lag_time')}
                     fieldValue={'0'}
-                    popoverBody={t('createTopic.minLagLabelBody')}
-                    popoverHeader={t('createTopic.minLagLabelHead')}
+                    popoverBody={t('topic.min_compaction_lag_time_description')}
+                    popoverHeader={t('topic.min_compaction_lag_time')}
                     unit={'ms'}
                   />
 
@@ -258,28 +258,28 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                       tabIndex={-1}
                       id='replication'
                     >
-                      {t('common.replication')}
+                      {t('topic.replication')}
                     </Text>
                     <Text
                       component={TextVariants.p}
                       className='section-info-head'
                     >
-                      {t('createTopic.replicationSectionInfo')}
+                      {t('topic.replication_section_info')}
                     </Text>
                     <Text
                       component={TextVariants.small}
                       className='section-info-note'
                     >
-                      {t('createTopic.replicationSectionInfoNote')}
+                      {t('topic.replication_section_info_note')}
                     </Text>
                   </TextContent>
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.leaderElectionLabelHead')}
-                    fieldLabel={t('createTopic.leaderElectionLabelHead')}
+                    btnAriaLabel={t('topic.unclean_leader_election')}
+                    fieldLabel={t('topic.unclean_leader_election')}
                     fieldValue={'Disabled'}
-                    popoverBody={t('createTopic.leaderElectionLabelBody')}
-                    popoverHeader={t('createTopic.leaderElectionLabelHead')}
+                    popoverBody={t('topic.unclean_leader_election_description')}
+                    popoverHeader={t('topic.unclean_leader_election')}
                   />
 
                   <TextContent className='section-margin'>
@@ -291,105 +291,105 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                       {t('common.cleanup')}
                     </Text>
                     <Text component={TextVariants.p} className='section-info'>
-                      {t('createTopic.cleanupSectionInfo')}
+                      {t('topic.cleanup_section_info')}
                     </Text>
                   </TextContent>
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.logSegmentLabelHead')}
-                    fieldLabel={t('createTopic.logSegmentLabelHead')}
+                    btnAriaLabel={t('topic.log_segment_size')}
+                    fieldLabel={t('topic.log_segment_size')}
                     fieldValue={'1073741824'}
-                    popoverBody={t('createTopic.logSegmentLabelBody')}
-                    popoverHeader={t('createTopic.logSegmentLabelHead')}
+                    popoverBody={t('topic.log_segment_size_description')}
+                    popoverHeader={t('topic.log_segment_size')}
                     unit={'bytes'}
                   />
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.segementTimeLabelHead')}
-                    fieldLabel={t('createTopic.segementTimeLabelHead')}
+                    btnAriaLabel={t('topic.segement_time')}
+                    fieldLabel={t('topic.segement_time')}
                     fieldValue={'604800000'}
-                    popoverBody={t('createTopic.segementTimeLabelBody')}
-                    popoverHeader={t('createTopic.segementTimeLabelHead')}
+                    popoverBody={t('topic.segement_time_description')}
+                    popoverHeader={t('topic.segement_time')}
                     unit={'ms'}
                   />
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.jitterTimeLabelHead')}
-                    fieldLabel={t('createTopic.jitterTimeLabelHead')}
+                    btnAriaLabel={t('topic.segment_jitter_time')}
+                    fieldLabel={t('topic.segment_jitter_time')}
                     fieldValue={'0'}
-                    popoverBody={t('createTopic.jitterTimeLabelBody')}
-                    popoverHeader={t('createTopic.jitterTimeLabelHead')}
+                    popoverBody={t('topic.segment_jitter_time_description')}
+                    popoverHeader={t('topic.segment_jitter_time')}
                     unit={'ms'}
                   />
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.deleteDelayLabelHead')}
-                    fieldLabel={t('createTopic.deleteDelayLabelHead')}
+                    btnAriaLabel={t('topic.file_delete_delay')}
+                    fieldLabel={t('topic.file_delete_delay')}
                     fieldValue={'60000'}
-                    popoverBody={t('createTopic.deleteDelayLabelBody')}
-                    popoverHeader={t('createTopic.deleteDelayLabelHead')}
+                    popoverBody={t('topic.file_delete_delay_description')}
+                    popoverHeader={t('topic.file_delete_delay')}
                     unit={'ms'}
                   />
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.preallocateLabelHead')}
-                    fieldLabel={t('createTopic.preallocateLabelHead')}
+                    btnAriaLabel={t('topic.preallocate_log_segment_files')}
+                    fieldLabel={t('topic.preallocate_log_segment_files')}
                     fieldValue={'Disabled'}
-                    popoverBody={t('createTopic.preallocateLabelBody')}
-                    popoverHeader={t('createTopic.preallocateLabelHead')}
+                    popoverBody={t('topic.preallocate_log_segment_files_description')}
+                    popoverHeader={t('topic.preallocate_log_segment_files')}
                   />
 
                   <TextContent className='section-margin'>
                     <Text component={TextVariants.h2} tabIndex={-1} id='index'>
-                      {t('common.index')}
+                      {t('topic.index')}
                     </Text>
                     <Text component={TextVariants.p} className='section-info'>
-                      {t('createTopic.indexSectionInfo')}
+                      {t('topic.index_section_info')}
                     </Text>
                   </TextContent>
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.indexIntervalLabelHead')}
-                    fieldLabel={t('createTopic.indexIntervalLabelHead')}
+                    btnAriaLabel={t('topic.index_interval_size')}
+                    fieldLabel={t('topic.index_interval_size')}
                     fieldValue={'4096'}
-                    popoverBody={t('createTopic.indexIntervalLabelBody')}
-                    popoverHeader={t('createTopic.indexIntervalLabelHead')}
+                    popoverBody={t('topic.index_interval_size_description')}
+                    popoverHeader={t('topic.index_interval_size')}
                     unit={'bytes'}
                   />
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.segementIntervalLabelHead')}
-                    fieldLabel={t('createTopic.segementIntervalLabelHead')}
+                    btnAriaLabel={t('topic.segment_index_size')}
+                    fieldLabel={t('topic.segment_index_size')}
                     fieldValue={'10485760'}
-                    popoverBody={t('createTopic.segementIntervalLabelBody')}
-                    popoverHeader={t('createTopic.segementIntervalLabelHead')}
+                    popoverBody={t('topic.segment_index_size_description')}
+                    popoverHeader={t('topic.segment_index_size')}
                     unit={'bytes'}
                   />
 
                   <TextContent className='section-margin'>
                     <Text component={TextVariants.h2} tabIndex={-1} id='flush'>
-                      {t('common.flush')}
+                      {t('topic.flush')}
                     </Text>
                     <Text component={TextVariants.p} className='section-info'>
-                      {t('createTopic.flushSectionInfo')}
+                      {t('topic.flush_section_info')}
                     </Text>
                   </TextContent>
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.intervalMessagesLabelHead')}
-                    fieldLabel={t('createTopic.intervalMessagesLabelHead')}
+                    btnAriaLabel={t('topic.flush_interval_messages')}
+                    fieldLabel={t('topic.flush_interval_messages')}
                     fieldValue={'9223372036854775807'}
-                    popoverBody={t('createTopic.intervalMessagesLabelBody')}
-                    popoverHeader={t('createTopic.intervalMessagesLabelHead')}
+                    popoverBody={t('topic.flush_interval_messages_description')}
+                    popoverHeader={t('topic.flush_interval_messages')}
                     unit={'ms'}
                   />
 
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.intervalTimeLabelHead')}
-                    fieldLabel={t('createTopic.intervalTimeLabelHead')}
+                    btnAriaLabel={t('topic.flush_interval_time')}
+                    fieldLabel={t('topic.flush_interval_time')}
                     fieldValue={'9223372036854775807'}
-                    popoverBody={t('createTopic.intervalTimeLabelBody')}
-                    popoverHeader={t('createTopic.intervalTimeLabelHead')}
+                    popoverBody={t('topic.flush_interval_time_description')}
+                    popoverHeader={t('topic.flush_interval_time')}
                     unit={'ms'}
                   />
 
@@ -397,10 +397,10 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
 
                   <TextContent className='section-margin'>
                     <Text component={TextVariants.h2} tabIndex={-1} id='delete'>
-                      {t('createTopic.deleteTopicHead')}
+                      {t('topic.delete_topic')}
                     </Text>
                     <Text component={TextVariants.p} className='section-info'>
-                      {t('createTopic.deleteTopicInfo')}
+                      {t('topic.delete_topic_info')}
                     </Text>
                   </TextContent>
 
@@ -410,7 +410,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                     onClick={deleteTopic}
                     data-testid='tabProperties-actionDelete'
                   >
-                    {t('common.deleteTopic')}
+                    {t('common.delete_topic')}
                   </Button>
                 </SplitItem>
                 <SplitItem>
@@ -419,7 +419,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                     onClick={updateTopic}
                     data-testid='tabProperties-actionEdit'
                   >
-                    {t('common.editProps')}
+                    {t('common.edit_props')}
                   </Button>
                 </SplitItem>
               </Split>
