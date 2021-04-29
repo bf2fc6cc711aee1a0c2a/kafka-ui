@@ -14,7 +14,6 @@ import brandImg from '../../Images/brandImg.png';
 import { useTranslation } from 'react-i18next';
 
 export const AppMastHead: React.FC = () => {
-
   const { t } = useTranslation();
 
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);

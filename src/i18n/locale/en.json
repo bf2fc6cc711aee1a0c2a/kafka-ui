@@ -101,7 +101,7 @@
     "flush_interval_time": "Flush interval time",
     "flush_interval_time_description": "Flush interval time is the amount of time between each data flush to the log. (flush.ms)",
     "message_retention": "Message retention",
-    "message_retention_info":"How long messages are retained and the maximum total size of all log segments in a partition before they are deleted to free up space",
+    "message_retention_info": "How long messages are retained and the maximum total size of all log segments in a partition before they are deleted to free up space",
     "message_retention_info_note": "Messages that aren't read by a consumer within this time will be missed. By default, a limit is only applied to retention time.",
     "topic_name_info": "Unique name used to recognize your topic",
     "topic_name_info_note": "The topic name is also used by your producers and consumers as part of the connection information, so make it something easy to recognize.",

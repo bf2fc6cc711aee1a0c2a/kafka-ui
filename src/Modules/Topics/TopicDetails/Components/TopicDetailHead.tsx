@@ -24,7 +24,6 @@ export const TopicDetailHead: React.FC<TopicDetailHeadProps> = ({
   kafkaInstanceLink,
   kafkaPageLink,
 }) => {
-
   const { t } = useTranslation();
 
   return (

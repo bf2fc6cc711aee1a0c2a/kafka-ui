@@ -17,9 +17,8 @@ export interface IEmptyTopic {
 export const EmptyTopics: React.FunctionComponent<IEmptyTopic> = ({
   onCreateTopic,
 }) => {
-
   const { t } = useTranslation();
-  
+
   return (
     <Bullseye>
     <EmptyState>
@@ -27,9 +26,7 @@ export const EmptyTopics: React.FunctionComponent<IEmptyTopic> = ({
       <Title headingLevel='h5' size='lg'>
         {t('topic.empty_list_head')}
       </Title>
-      <EmptyStateBody>
-        {t('topic.empty_list_body')}
-      </EmptyStateBody>
+      <EmptyStateBody>{t('topic.empty_list_body')}</EmptyStateBody>
       <Button
         variant='primary'
         className='topics-empty-page'

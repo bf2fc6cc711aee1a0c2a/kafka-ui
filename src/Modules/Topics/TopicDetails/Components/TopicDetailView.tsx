@@ -42,7 +42,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
         <SidebarPanel variant='sticky'>
           <JumpLinks
             isVertical
-            label={t('common.jump_to_section')}
+            label={t('topic.jump_to_section')}
             scrollableSelector='#scrollablePageMain'
             offset={-164} // for header
             style={{ position: 'sticky' }}
@@ -177,10 +177,10 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                     btnAriaLabel={t('topic.max_message_timestamp_diff')}
                     fieldLabel={t('topic.max_message_timestamp_diff')}
                     fieldValue={'9223372036854775807'}
-                    popoverBody={t('topic.max_message_timestamp_diff_description')}
-                    popoverHeader={t(
-                      'createTopic.max_message_timestamp_diff'
+                    popoverBody={t(
+                      'topic.max_message_timestamp_diff_description'
                     )}
+                    popoverHeader={t('topic.max_message_timestamp_diff')}
                     unit={'ms'}
                   />
 
@@ -335,7 +335,9 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                     btnAriaLabel={t('topic.preallocate_log_segment_files')}
                     fieldLabel={t('topic.preallocate_log_segment_files')}
                     fieldValue={'Disabled'}
-                    popoverBody={t('topic.preallocate_log_segment_files_description')}
+                    popoverBody={t(
+                      'topic.preallocate_log_segment_files_description'
+                    )}
                     popoverHeader={t('topic.preallocate_log_segment_files')}
                   />
 

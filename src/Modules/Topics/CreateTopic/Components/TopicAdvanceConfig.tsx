@@ -83,11 +83,22 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     customRetentionSizeUnit,
     setCustomRetentionSizeUnit,
   ] = useState<string>('bytes');
-  const actionText = isCreate === true ? t('topic.create_topic') : t('common.save');
+  const actionText =
+    isCreate === true ? t('topic.create_topic') : t('common.save');
 
   const clearOptions: IDropdownOption[] = [
-    { key: 'compact', value: 'compact', label: t('common.compact'), isDisabled: false },
-    { key: 'delete', value: 'delete', label: t('common.delete'), isDisabled: false },
+    {
+      key: 'compact',
+      value: 'compact',
+      label: t('common.compact'),
+      isDisabled: false,
+    },
+    {
+      key: 'delete',
+      value: 'delete',
+      label: t('common.delete'),
+      isDisabled: false,
+    },
     {
       key: 'compact-delete',
       value: 'compact, delete',
@@ -402,7 +413,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
         <SidebarPanel variant='sticky'>
           <JumpLinks
             isVertical
-            label={t('common.jump_to_section')}
+            label={t('topic.jump_to_section')}
             scrollableSelector='#scrollablePageMain'
             style={{ position: 'sticky' }}
             offset={-164} // for header
@@ -479,38 +490,41 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                       popoverHeader={t('topic.topic_name')}
                     />
                   )}
-                  {isCreate ? (<FormGroupWithPopover
-                    fieldId='create-topic-partitions'
-                    fieldLabel='Partitions'
-                    labelHead={t('topic.partitions')}
-                    labelBody={t('topic.partitions_description')}
-                    buttonAriaLabel='More info for partitions field'
-                    validated={partitionsValidated}
-                    helperText={
-                      warning
-                        ? `Increasing a topic's partitions might result in messages having the same key from two different partitions, which can potentially break the message ordering guarantees that apply to a single partition`
-                        : undefined
-                    }
-                  >
-                    <NumberInput
-                      id='create-topic-partitions'
-                      inputName='num-partitions'
-                      onChange={onPartitionsChange}
-                      onPlus={handleTouchSpinPlusCamelCase}
-                      onMinus={handleTouchSpinMinusCamelCase}
-                      value={Number(topicData.numPartitions)}
-                      plusBtnProps={{ name: 'num-partitions' }}
-                      minusBtnProps={{ name: 'num-partitions' }}
-                      min={1}
-
+                  {isCreate ? (
+                    <FormGroupWithPopover
+                      fieldId='create-topic-partitions'
+                      fieldLabel='Partitions'
+                      labelHead={t('topic.partitions')}
+                      labelBody={t('topic.partitions_description')}
+                      buttonAriaLabel='More info for partitions field'
+                      validated={partitionsValidated}
+                      helperText={
+                        warning
+                          ? `Increasing a topic's partitions might result in messages having the same key from two different partitions, which can potentially break the message ordering guarantees that apply to a single partition`
+                          : undefined
+                      }
+                    >
+                      <NumberInput
+                        id='create-topic-partitions'
+                        inputName='num-partitions'
+                        onChange={onPartitionsChange}
+                        onPlus={handleTouchSpinPlusCamelCase}
+                        onMinus={handleTouchSpinMinusCamelCase}
+                        value={Number(topicData.numPartitions)}
+                        plusBtnProps={{ name: 'num-partitions' }}
+                        minusBtnProps={{ name: 'num-partitions' }}
+                        min={1}
+                      />
+                    </FormGroupWithPopover>
+                  ) : (
+                    <TextWithLabelPopover
+                      btnAriaLabel='More info for partitions field'
+                      fieldLabel='Partitions'
+                      fieldValue={topicData.numPartitions}
+                      popoverBody={t('topic.partitions_description')}
+                      popoverHeader={t('topic.partitions')}
                     />
-                  </FormGroupWithPopover>) : (<TextWithLabelPopover
-                    btnAriaLabel='More info for partitions field'
-                    fieldLabel='Partitions'
-                    fieldValue={topicData.numPartitions}
-                    popoverBody={t('topic.partitions_description')}
-                    popoverHeader={t('topic.partitions')}
-                  />)}
+                  )}
                   <TextWithLabelPopover
                     btnAriaLabel={t('topic.replicas')}
                     fieldLabel={t('topic.replicas')}
@@ -557,360 +571,364 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                     labelBody={t('topic.retention_time_description')}
                     buttonAriaLabel='More info for retention time field'
                   >
-                  <Stack hasGutter>
-                    <Radio
-                      isChecked={isCustomRetentionTimeSelected}
-                      name='custom-retention-time'
-                      onChange={handleRadioChange}
-                      label={retentionTimeInput}
-                      className='kafka-ui--radio-label__number-input'
-                      aria-label='custom duration'
-                      id='custom-retention-time'
-                      value='custom'
-                    />
-                    <Radio
-                      isChecked={!isCustomRetentionTimeSelected}
-                      name='unlimited-retention-time'
-                      onChange={handleRadioChange}
-                      label='Unlimited'
-                      aria-label='Unlimited'
-                      id='unlimited-retention-time'
-                      value='unlimited'
-                    />
-                  </Stack>
+                    <Stack hasGutter>
+                      <Radio
+                        isChecked={isCustomRetentionTimeSelected}
+                        name='custom-retention-time'
+                        onChange={handleRadioChange}
+                        label={retentionTimeInput}
+                        className='kafka-ui--radio-label__number-input'
+                        aria-label='custom duration'
+                        id='custom-retention-time'
+                        value='custom'
+                      />
+                      <Radio
+                        isChecked={!isCustomRetentionTimeSelected}
+                        name='unlimited-retention-time'
+                        onChange={handleRadioChange}
+                        label='Unlimited'
+                        aria-label='Unlimited'
+                        id='unlimited-retention-time'
+                        value='unlimited'
+                      />
+                    </Stack>
                   </FormGroupWithPopover>
-                <FormGroupWithPopover
-                  fieldId='retention-size'
-                  fieldLabel='Retention size'
-                  labelHead={t('topic.retention_size')}
-                  labelBody={t('topic.retention_size_description')}
-                  buttonAriaLabel='More info for retention size field'
-                >
-                <Stack hasGutter>
-                  <Radio
-                    isChecked={isCustomRetentionSizeSelected}
-                    name='custom-retention-size'
-                    onChange={handleRadioChange}
-                    label={retentionSizeInput}
-                    className='kafka-ui--radio-label__number-input'
-                    aria-label='custom size'
-                    id='custom-retention-size'
-                    value='custom'
-                  />
-                  <Radio
-                    isChecked={!isCustomRetentionSizeSelected}
-                    name='unlimited-retention-size'
-                    onChange={handleRadioChange}
-                    label='Unlimited'
-                    aria-label='Unlimited'
-                    id='unlimited-retention-size'
-                    value='unlimited'
-                  />
-                </Stack>
+                  <FormGroupWithPopover
+                    fieldId='retention-size'
+                    fieldLabel='Retention size'
+                    labelHead={t('topic.retention_size')}
+                    labelBody={t('topic.retention_size_description')}
+                    buttonAriaLabel='More info for retention size field'
+                  >
+                    <Stack hasGutter>
+                      <Radio
+                        isChecked={isCustomRetentionSizeSelected}
+                        name='custom-retention-size'
+                        onChange={handleRadioChange}
+                        label={retentionSizeInput}
+                        className='kafka-ui--radio-label__number-input'
+                        aria-label='custom size'
+                        id='custom-retention-size'
+                        value='custom'
+                      />
+                      <Radio
+                        isChecked={!isCustomRetentionSizeSelected}
+                        name='unlimited-retention-size'
+                        onChange={handleRadioChange}
+                        label='Unlimited'
+                        aria-label='Unlimited'
+                        id='unlimited-retention-size'
+                        value='unlimited'
+                      />
+                    </Stack>
                   </FormGroupWithPopover>
                 </Form>
               </StackItem>
-          <StackItem>
-            <TextContent className='section-margin'>
-              <Text component={TextVariants.h2} tabIndex={-1} id='messages'>
-                {t('topic.messages')}
-              </Text>
-              <Text component={TextVariants.p} className='section-info'>
-                {t('topic.message_section_info')}
-              </Text>
-            </TextContent>
+              <StackItem>
+                <TextContent className='section-margin'>
+                  <Text component={TextVariants.h2} tabIndex={-1} id='messages'>
+                    {t('topic.messages')}
+                  </Text>
+                  <Text component={TextVariants.p} className='section-info'>
+                    {t('topic.message_section_info')}
+                  </Text>
+                </TextContent>
 
-            <TextWithLabelPopover
-              btnAriaLabel={t('topic.max_message_size')}
-              fieldLabel={t('topic.max_message_size')}
-              fieldValue={'1048588'}
-              popoverBody={t('topic.max_message_size_description')}
-              popoverHeader={t('topic.max_message_size')}
-              unit={'bytes'}
-            />
+                <TextWithLabelPopover
+                  btnAriaLabel={t('topic.max_message_size')}
+                  fieldLabel={t('topic.max_message_size')}
+                  fieldValue={'1048588'}
+                  popoverBody={t('topic.max_message_size_description')}
+                  popoverHeader={t('topic.max_message_size')}
+                  unit={'bytes'}
+                />
 
-            <TextWithLabelPopover
-              btnAriaLabel={t('topic.message_timestamp_type')}
-              fieldLabel={t('topic.message_timestamp_type')}
-              fieldValue={'CreateTime'}
-              popoverBody={t('topic.message_timestamp_type_description')}
-              popoverHeader={t('topic.message_timestamp_type')}
-            />
+                <TextWithLabelPopover
+                  btnAriaLabel={t('topic.message_timestamp_type')}
+                  fieldLabel={t('topic.message_timestamp_type')}
+                  fieldValue={'CreateTime'}
+                  popoverBody={t('topic.message_timestamp_type_description')}
+                  popoverHeader={t('topic.message_timestamp_type')}
+                />
 
-            <TextWithLabelPopover
-              btnAriaLabel={t('topic.max_message_timestamp_diff')}
-              fieldLabel={t('topic.max_message_timestamp_diff')}
-              fieldValue={'9223372036854775807'}
-              popoverBody={t('topic.max_message_timestamp_diff_description')}
-              popoverHeader={t('topic.max_message_timestamp_diff')}
-              unit={'ms'}
-            />
+                <TextWithLabelPopover
+                  btnAriaLabel={t('topic.max_message_timestamp_diff')}
+                  fieldLabel={t('topic.max_message_timestamp_diff')}
+                  fieldValue={'9223372036854775807'}
+                  popoverBody={t(
+                    'topic.max_message_timestamp_diff_description'
+                  )}
+                  popoverHeader={t('topic.max_message_timestamp_diff')}
+                  unit={'ms'}
+                />
 
-            <TextWithLabelPopover
-              btnAriaLabel={t('topic.compression_type')}
-              fieldLabel={t('topic.compression_type')}
-              fieldValue={'Producer'}
-              popoverBody={t('topic.compression_type_description')}
-              popoverHeader={t('topic.compression_type')}
-            />
+                <TextWithLabelPopover
+                  btnAriaLabel={t('topic.compression_type')}
+                  fieldLabel={t('topic.compression_type')}
+                  fieldValue={'Producer'}
+                  popoverBody={t('topic.compression_type_description')}
+                  popoverHeader={t('topic.compression_type')}
+                />
 
-            <TextWithLabelPopover
-              btnAriaLabel={t('topic.message_format')}
-              fieldLabel={t('topic.message_format')}
-              fieldValue={'2.7-IV2'}
-              popoverBody={t('topic.message_format_description')}
-              popoverHeader={t('topic.message_format')}
-            />
-          </StackItem>
+                <TextWithLabelPopover
+                  btnAriaLabel={t('topic.message_format')}
+                  fieldLabel={t('topic.message_format')}
+                  fieldValue={'2.7-IV2'}
+                  popoverBody={t('topic.message_format_description')}
+                  popoverHeader={t('topic.message_format')}
+                />
+              </StackItem>
 
-          <StackItem>
-            <TextContent className='section-margin'>
-              <Text component={TextVariants.h2} tabIndex={-1} id='log'>
-                {t('topic.log')}
-              </Text>
-              <Text
-                component={TextVariants.p}
-                className='section-info-head'
-              >
-                {t('topic.log_section_info')}
-              </Text>
-              <Text
-                component={TextVariants.small}
-                className='section-info-note'
-              >
-                {t('topic.log_section_info_note')}
-              </Text>
-            </TextContent>
+              <StackItem>
+                <TextContent className='section-margin'>
+                  <Text component={TextVariants.h2} tabIndex={-1} id='log'>
+                    {t('topic.log')}
+                  </Text>
+                  <Text
+                    component={TextVariants.p}
+                    className='section-info-head'
+                  >
+                    {t('topic.log_section_info')}
+                  </Text>
+                  <Text
+                    component={TextVariants.small}
+                    className='section-info-note'
+                  >
+                    {t('topic.log_section_info_note')}
+                  </Text>
+                </TextContent>
 
-            <FormGroupWithPopover
-              fieldId='cleanup-policy'
-              fieldLabel={t('topic.cleanup_policy')}
-              labelHead={t('topic.cleanup_policy')}
-              labelBody={t('topic.cleanup_policy_description')}
-              buttonAriaLabel={t('topic.cleanup_policy')}
-            >
-              <DropdownWithToggle
-                id='log-section-policy-type-dropdown'
-                toggleId='log-section-policy-type-dropdowntoggle'
-                ariaLabel={t('common.select_policy')}
-                onSelectOption={onDropdownChangeDotSeparated}
-                items={clearOptions}
-                name='cleanup-policy'
-                value={topicData['cleanup.policy'] || ''}
-              />
-            </FormGroupWithPopover>
+                <FormGroupWithPopover
+                  fieldId='cleanup-policy'
+                  fieldLabel={t('topic.cleanup_policy')}
+                  labelHead={t('topic.cleanup_policy')}
+                  labelBody={t('topic.cleanup_policy_description')}
+                  buttonAriaLabel={t('topic.cleanup_policy')}
+                >
+                  <DropdownWithToggle
+                    id='log-section-policy-type-dropdown'
+                    toggleId='log-section-policy-type-dropdowntoggle'
+                    ariaLabel={t('common.select_policy')}
+                    onSelectOption={onDropdownChangeDotSeparated}
+                    items={clearOptions}
+                    name='cleanup-policy'
+                    value={topicData['cleanup.policy'] || ''}
+                  />
+                </FormGroupWithPopover>
 
-            <TextWithLabelPopover
-              btnAriaLabel={t('topic.delete_retention_time')}
-              fieldLabel={t('topic.delete_retention_time')}
-              fieldValue={'86400000'}
-              popoverBody={t('topic.delete_retention_time_description')}
-              popoverHeader={t('topic.delete_retention_time')}
-              unit={'ms'}
-            />
+                <TextWithLabelPopover
+                  btnAriaLabel={t('topic.delete_retention_time')}
+                  fieldLabel={t('topic.delete_retention_time')}
+                  fieldValue={'86400000'}
+                  popoverBody={t('topic.delete_retention_time_description')}
+                  popoverHeader={t('topic.delete_retention_time')}
+                  unit={'ms'}
+                />
 
-            <TextWithLabelPopover
-              btnAriaLabel={t('topic.min_cleanable_ratio')}
-              fieldLabel={t('topic.min_cleanable_ratio')}
-              fieldValue={'0.5'}
-              popoverBody={t('topic.min_cleanable_ratio_description')}
-              popoverHeader={t('topic.min_cleanable_ratio')}
-            />
+                <TextWithLabelPopover
+                  btnAriaLabel={t('topic.min_cleanable_ratio')}
+                  fieldLabel={t('topic.min_cleanable_ratio')}
+                  fieldValue={'0.5'}
+                  popoverBody={t('topic.min_cleanable_ratio_description')}
+                  popoverHeader={t('topic.min_cleanable_ratio')}
+                />
 
-            <TextWithLabelPopover
-              btnAriaLabel={t('topic.min_compaction_lag_time')}
-              fieldLabel={t('topic.min_compaction_lag_time')}
-              fieldValue={'0'}
-              popoverBody={t('topic.min_compaction_lag_time_description')}
-              popoverHeader={t('topic.min_compaction_lag_time')}
-              unit={'ms'}
-            />
-          </StackItem>
+                <TextWithLabelPopover
+                  btnAriaLabel={t('topic.min_compaction_lag_time')}
+                  fieldLabel={t('topic.min_compaction_lag_time')}
+                  fieldValue={'0'}
+                  popoverBody={t('topic.min_compaction_lag_time_description')}
+                  popoverHeader={t('topic.min_compaction_lag_time')}
+                  unit={'ms'}
+                />
+              </StackItem>
 
-          <StackItem>
-            <TextContent className='section-margin'>
-              <Text
-                component={TextVariants.h2}
-                tabIndex={-1}
-                id='replication'
-              >
-                {t('topic.replication')}
-              </Text>
-              <Text
-                component={TextVariants.p}
-                className='section-info-head'
-              >
-                {t('topic.replication_section_info')}
-              </Text>
-              <Text
-                component={TextVariants.small}
-                className='section-info-note'
-              >
-                {t('topic.replication_section_info_note')}
-              </Text>
-            </TextContent>
+              <StackItem>
+                <TextContent className='section-margin'>
+                  <Text
+                    component={TextVariants.h2}
+                    tabIndex={-1}
+                    id='replication'
+                  >
+                    {t('topic.replication')}
+                  </Text>
+                  <Text
+                    component={TextVariants.p}
+                    className='section-info-head'
+                  >
+                    {t('topic.replication_section_info')}
+                  </Text>
+                  <Text
+                    component={TextVariants.small}
+                    className='section-info-note'
+                  >
+                    {t('topic.replication_section_info_note')}
+                  </Text>
+                </TextContent>
 
-            <TextWithLabelPopover
-              btnAriaLabel={t('topic.unclean_leader_election')}
-              fieldLabel={t('topic.unclean_leader_election')}
-              fieldValue={'Disabled'}
-              popoverBody={t('topic.unclean_leader_election_description')}
-              popoverHeader={t('topic.unclean_leader_election')}
-            />
-          </StackItem>
+                <TextWithLabelPopover
+                  btnAriaLabel={t('topic.unclean_leader_election')}
+                  fieldLabel={t('topic.unclean_leader_election')}
+                  fieldValue={'Disabled'}
+                  popoverBody={t('topic.unclean_leader_election_description')}
+                  popoverHeader={t('topic.unclean_leader_election')}
+                />
+              </StackItem>
 
-          <StackItem>
-            <TextContent className='section-margin'>
-              <Text component={TextVariants.h2} tabIndex={-1} id='cleanup'>
-                {t('common.cleanup')}
-              </Text>
-              <Text component={TextVariants.p} className='section-info'>
-                {t('topic.cleanup_section_info')}
-              </Text>
-            </TextContent>
+              <StackItem>
+                <TextContent className='section-margin'>
+                  <Text component={TextVariants.h2} tabIndex={-1} id='cleanup'>
+                    {t('common.cleanup')}
+                  </Text>
+                  <Text component={TextVariants.p} className='section-info'>
+                    {t('topic.cleanup_section_info')}
+                  </Text>
+                </TextContent>
 
-            <TextWithLabelPopover
-              btnAriaLabel={t('topic.log_segment_size')}
-              fieldLabel={t('topic.log_segment_size')}
-              fieldValue={'1073741824'}
-              popoverBody={t('topic.log_segment_size')}
-              popoverHeader={t('topic.log_segment_size_description')}
-              unit={'bytes'}
-            />
+                <TextWithLabelPopover
+                  btnAriaLabel={t('topic.log_segment_size')}
+                  fieldLabel={t('topic.log_segment_size')}
+                  fieldValue={'1073741824'}
+                  popoverBody={t('topic.log_segment_size')}
+                  popoverHeader={t('topic.log_segment_size_description')}
+                  unit={'bytes'}
+                />
 
-            <TextWithLabelPopover
-              btnAriaLabel={t('topic.segement_time')}
-              fieldLabel={t('topic.segement_time')}
-              fieldValue={'604800000'}
-              popoverBody={t('topic.segement_time_description')}
-              popoverHeader={t('topic.segement_time')}
-              unit={'ms'}
-            />
+                <TextWithLabelPopover
+                  btnAriaLabel={t('topic.segement_time')}
+                  fieldLabel={t('topic.segement_time')}
+                  fieldValue={'604800000'}
+                  popoverBody={t('topic.segement_time_description')}
+                  popoverHeader={t('topic.segement_time')}
+                  unit={'ms'}
+                />
 
-            <TextWithLabelPopover
-              btnAriaLabel={t('topic.segment_jitter_time')}
-              fieldLabel={t('topic.segment_jitter_time')}
-              fieldValue={'0'}
-              popoverBody={t('topic.segment_jitter_time_description')}
-              popoverHeader={t('topic.segment_jitter_time')}
-              unit={'ms'}
-            />
+                <TextWithLabelPopover
+                  btnAriaLabel={t('topic.segment_jitter_time')}
+                  fieldLabel={t('topic.segment_jitter_time')}
+                  fieldValue={'0'}
+                  popoverBody={t('topic.segment_jitter_time_description')}
+                  popoverHeader={t('topic.segment_jitter_time')}
+                  unit={'ms'}
+                />
 
-            <TextWithLabelPopover
-              btnAriaLabel={t('topic.file_delete_delay')}
-              fieldLabel={t('topic.file_delete_delay')}
-              fieldValue={'60000'}
-              popoverBody={t('topic.file_delete_delay_description')}
-              popoverHeader={t('topic.file_delete_delay')}
-              unit={'ms'}
-            />
+                <TextWithLabelPopover
+                  btnAriaLabel={t('topic.file_delete_delay')}
+                  fieldLabel={t('topic.file_delete_delay')}
+                  fieldValue={'60000'}
+                  popoverBody={t('topic.file_delete_delay_description')}
+                  popoverHeader={t('topic.file_delete_delay')}
+                  unit={'ms'}
+                />
 
-            <TextWithLabelPopover
-              btnAriaLabel={t('topic.preallocate_log_segment_files')}
-              fieldLabel={t('topic.preallocate_log_segment_files')}
-              fieldValue={'Disabled'}
-              popoverBody={t('topic.preallocate_log_segment_files_description')}
-              popoverHeader={t('topic.preallocate_log_segment_files')}
-            />
-          </StackItem>
+                <TextWithLabelPopover
+                  btnAriaLabel={t('topic.preallocate_log_segment_files')}
+                  fieldLabel={t('topic.preallocate_log_segment_files')}
+                  fieldValue={'Disabled'}
+                  popoverBody={t(
+                    'topic.preallocate_log_segment_files_description'
+                  )}
+                  popoverHeader={t('topic.preallocate_log_segment_files')}
+                />
+              </StackItem>
 
-          <StackItem>
-            <TextContent className='section-margin'>
-              <Text component={TextVariants.h2} tabIndex={-1} id='index'>
-                {t('topic.index')}
-              </Text>
-              <Text component={TextVariants.p} className='section-info'>
-                {t('topic.index_section_info')}
-              </Text>
-            </TextContent>
+              <StackItem>
+                <TextContent className='section-margin'>
+                  <Text component={TextVariants.h2} tabIndex={-1} id='index'>
+                    {t('topic.index')}
+                  </Text>
+                  <Text component={TextVariants.p} className='section-info'>
+                    {t('topic.index_section_info')}
+                  </Text>
+                </TextContent>
 
-            <TextWithLabelPopover
-              btnAriaLabel={t('topic.index_interval_size')}
-              fieldLabel={t('topic.index_interval_size')}
-              fieldValue={'4096'}
-              popoverBody={t('topic.index_interval_size_description')}
-              popoverHeader={t('topic.index_interval_size')}
-              unit={'bytes'}
-            />
+                <TextWithLabelPopover
+                  btnAriaLabel={t('topic.index_interval_size')}
+                  fieldLabel={t('topic.index_interval_size')}
+                  fieldValue={'4096'}
+                  popoverBody={t('topic.index_interval_size_description')}
+                  popoverHeader={t('topic.index_interval_size')}
+                  unit={'bytes'}
+                />
 
-            <TextWithLabelPopover
-              btnAriaLabel={t('topic.segment_index_size')}
-              fieldLabel={t('topic.segment_index_size')}
-              fieldValue={'10485760'}
-              popoverBody={t('topic.segment_index_size_description')}
-              popoverHeader={t('topic.segment_index_size')}
-              unit={'bytes'}
-            />
-          </StackItem>
+                <TextWithLabelPopover
+                  btnAriaLabel={t('topic.segment_index_size')}
+                  fieldLabel={t('topic.segment_index_size')}
+                  fieldValue={'10485760'}
+                  popoverBody={t('topic.segment_index_size_description')}
+                  popoverHeader={t('topic.segment_index_size')}
+                  unit={'bytes'}
+                />
+              </StackItem>
 
-          <StackItem>
-            <TextContent className='section-margin'>
-              <Text component={TextVariants.h2} tabIndex={-1} id='flush'>
-                {t('topic.flush')}
-              </Text>
-              <Text component={TextVariants.p} className='section-info'>
-                {t('topic.flush_section_info')}
-              </Text>
-            </TextContent>
+              <StackItem>
+                <TextContent className='section-margin'>
+                  <Text component={TextVariants.h2} tabIndex={-1} id='flush'>
+                    {t('topic.flush')}
+                  </Text>
+                  <Text component={TextVariants.p} className='section-info'>
+                    {t('topic.flush_section_info')}
+                  </Text>
+                </TextContent>
 
-            <TextWithLabelPopover
-              btnAriaLabel={t('topic.flush_interval_messages')}
-              fieldLabel={t('topic.flush_interval_messages')}
-              fieldValue={'9223372036854775807'}
-              popoverBody={t('topic.flush_interval_messages_description')}
-              popoverHeader={t('topic.flush_interval_messages')}
-              unit={'ms'}
-            />
+                <TextWithLabelPopover
+                  btnAriaLabel={t('topic.flush_interval_messages')}
+                  fieldLabel={t('topic.flush_interval_messages')}
+                  fieldValue={'9223372036854775807'}
+                  popoverBody={t('topic.flush_interval_messages_description')}
+                  popoverHeader={t('topic.flush_interval_messages')}
+                  unit={'ms'}
+                />
 
-            <TextWithLabelPopover
-              btnAriaLabel={t('topic.flush_interval_time')}
-              fieldLabel={t('topic.flush_interval_time')}
-              fieldValue={'9223372036854775807'}
-              popoverBody={t('topic.flush_interval_time_description')}
-              popoverHeader={t('topic.flush_interval_time')}
-              unit={'ms'}
-            />
-          </StackItem>
+                <TextWithLabelPopover
+                  btnAriaLabel={t('topic.flush_interval_time')}
+                  fieldLabel={t('topic.flush_interval_time')}
+                  fieldValue={'9223372036854775807'}
+                  popoverBody={t('topic.flush_interval_time_description')}
+                  popoverHeader={t('topic.flush_interval_time')}
+                  unit={'ms'}
+                />
+              </StackItem>
             </Stack>
           </PageSection>
-      <ActionGroup className='kafka-ui--sticky-footer'>
-        <Button
-          onClick={onConfirm}
-          variant='primary'
-          data-testid={
-            isCreate
-              ? 'topicAdvanceCreate-actionCreate'
-              : 'tabProperties-actionSave'
-          }
-          isDisabled={
-            topicData.name.length > 0 && topicValidated == 'default'
-              ? false
-              : true
-          }
-        >
-          {actionText}
-        </Button>
-        <Button
-          onClick={handleCancel}
-          variant='link'
-          data-testid={
-            isCreate
-              ? 'topicAdvanceCreate-actionCancel'
-              : 'tabProperties-actionCancel'
-          }
-        >
-          {t('common.cancel')}
-        </Button>
-      </ActionGroup>
-      {isWarningOpen && (
-        <PartitionsChangeModal
-          isWarningOpen={isWarningOpen}
-          onSaveClick={onSaveClick}
-          setIsWarningOpen={setIsWarningOpen}
-        />
-      )}
-    </SidebarContent>
-      </Sidebar >
+          <ActionGroup className='kafka-ui--sticky-footer'>
+            <Button
+              onClick={onConfirm}
+              variant='primary'
+              data-testid={
+                isCreate
+                  ? 'topicAdvanceCreate-actionCreate'
+                  : 'tabProperties-actionSave'
+              }
+              isDisabled={
+                topicData.name.length > 0 && topicValidated == 'default'
+                  ? false
+                  : true
+              }
+            >
+              {actionText}
+            </Button>
+            <Button
+              onClick={handleCancel}
+              variant='link'
+              data-testid={
+                isCreate
+                  ? 'topicAdvanceCreate-actionCancel'
+                  : 'tabProperties-actionCancel'
+              }
+            >
+              {t('common.cancel')}
+            </Button>
+          </ActionGroup>
+          {isWarningOpen && (
+            <PartitionsChangeModal
+              isWarningOpen={isWarningOpen}
+              onSaveClick={onSaveClick}
+              setIsWarningOpen={setIsWarningOpen}
+            />
+          )}
+        </SidebarContent>
+      </Sidebar>
     </>
   );
 };

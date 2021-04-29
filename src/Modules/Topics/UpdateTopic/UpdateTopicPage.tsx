@@ -37,7 +37,6 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
   onDeleteConsumer,
   activeTab = 0,
 }) => {
-
   const { t } = useTranslation();
 
   return (
@@ -61,7 +60,9 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
         >
           <Tab
             eventKey={0}
-            title={<TabTitleText>{t('consumerGroup.consumer_groups')}</TabTitleText>}
+            title={
+              <TabTitleText>{t('consumerGroup.consumer_groups')}</TabTitleText>
+            }
           >
             <ConsumerGroupsList
               onDeleteConsumerGroup={onDeleteConsumer}
@@ -69,7 +70,10 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
               consumerGroupByTopic={true}
             />
           </Tab>
-          <Tab eventKey={1} title={<TabTitleText>{t('common.properties')}</TabTitleText>}>
+          <Tab
+            eventKey={1}
+            title={<TabTitleText>{t('common.properties')}</TabTitleText>}
+          >
             <PageSection variant='light' padding={{ default: 'noPadding' }}>
               <UpdateTopicView
                 topicName={topicName}

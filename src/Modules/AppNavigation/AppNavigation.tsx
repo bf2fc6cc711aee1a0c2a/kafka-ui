@@ -25,7 +25,6 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
   eventKey,
   instanceName,
 }) => {
-
   const { t } = useTranslation();
 
   const [activeTabKey, setActiveTabKey] = useState(eventKey);
@@ -102,7 +101,9 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
           />
         </Tab>
         <Tab
-          title={<TabTitleText>{t('consumerGroup.consumer_groups')}</TabTitleText>}
+          title={
+            <TabTitleText>{t('consumerGroup.consumer_groups')}</TabTitleText>
+          }
           eventKey={2}
           data-testid='pageKafka-tabConsumers'
           id='consumer-groups-tab-section'

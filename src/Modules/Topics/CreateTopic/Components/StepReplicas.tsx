@@ -26,7 +26,7 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
       <TextContent>
         <Text component={TextVariants.h2}>{t('common.replicas')}</Text>
         <Text component={TextVariants.p}>
-          {t('topic.stepReplicasInfo')}
+          {t('topic.replicas_info')}
         </Text>
         <Text component={TextVariants.small}>
           {t('topic.replicas_detail')}

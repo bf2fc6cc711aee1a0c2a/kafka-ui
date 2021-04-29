@@ -54,9 +54,7 @@ export const StepTopicName: React.FC<IStepTopicName> = ({
     <Stack hasGutter className='kafka-ui--wizard-main-body__stack'>
       <TextContent>
         <Text component={TextVariants.h2}>{t('topic.topic_name')}</Text>
-        <Text component={TextVariants.p}>
-          {t('topic.topic_name_info')}
-        </Text>
+        <Text component={TextVariants.p}>{t('topic.topic_name_info')}</Text>
         <Text component={TextVariants.small}>
           {t('topic.topic_name_info_note')}
         </Text>

@@ -29,7 +29,6 @@ export const ConsumerGroupDetail: React.FunctionComponent<IConsumerGroupDetailPr
   setIsExpanded,
   consumerDetail,
 }) => {
-
   const { t } = useTranslation();
 
   const columns = [
@@ -78,7 +77,7 @@ export const ConsumerGroupDetail: React.FunctionComponent<IConsumerGroupDetailPr
           <Flex>
             <FlexItem>
               <Text component={TextVariants.h4} size={50}>
-              {t('consumerGroup.active_members')}
+                {t('consumerGroup.active_members')}
               </Text>
               <Text component={TextVariants.h2}>
                 {consumerDetail &&
@@ -88,7 +87,9 @@ export const ConsumerGroupDetail: React.FunctionComponent<IConsumerGroupDetailPr
               </Text>
             </FlexItem>
             <FlexItem>
-              <Text component={TextVariants.h4}>{t('consumerGroup.partitions_with_lag')}</Text>
+              <Text component={TextVariants.h4}>
+                {t('consumerGroup.partitions_with_lag')}
+              </Text>
               <Text component={TextVariants.h2}>
                 {consumerDetail &&
                   consumerDetail.consumers.reduce(function (prev, cur) {

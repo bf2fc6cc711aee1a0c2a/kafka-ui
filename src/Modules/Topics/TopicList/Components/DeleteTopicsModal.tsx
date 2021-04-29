@@ -34,7 +34,10 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
   const onDelete = async () => {
     try {
       topicName && (await deleteTopic(topicName, config));
-      addAlert(t('topic.topic_successfully_deleted', { name: topicName}), AlertVariant.success);
+      addAlert(
+        t('topic.topic_successfully_deleted', { name: topicName }),
+        AlertVariant.success
+      );
     } catch (err) {
       addAlert(err.response.data.error_message, AlertVariant.danger);
     }
@@ -76,8 +79,10 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
       <Text id='modal-message'>
         {' '}
         <label
-          htmlFor="instance-name-input"
-          dangerouslySetInnerHTML={{ __html: t('common.confirm_delete_modal_text', { name: topicName }) }}
+          htmlFor='instance-name-input'
+          dangerouslySetInnerHTML={{
+            __html: t('common.confirm_delete_modal_text', { name: topicName }),
+          }}
         />
       </Text>
 

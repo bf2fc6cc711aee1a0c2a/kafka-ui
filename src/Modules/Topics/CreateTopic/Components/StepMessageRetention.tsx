@@ -34,7 +34,6 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
   setCurrentSize,
   setRetentionSize,
 }) => {
-
   const { t } = useTranslation();
 
   enum RetentionTimeOption {
@@ -203,7 +202,9 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
     <>
       <Stack hasGutter className='kafka-ui--wizard-main-body__stack'>
         <TextContent>
-          <Text component={TextVariants.h2}>{t('topic.message_retention')}</Text>
+          <Text component={TextVariants.h2}>
+            {t('topic.message_retention')}
+          </Text>
           <Text component={TextVariants.p}>
             {t('topic.message_retention_info')}
           </Text>
