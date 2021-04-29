@@ -16,10 +16,10 @@ export const EmptySearch: React.FunctionComponent = () => {
     <EmptyState>
       <EmptyStateIcon icon={SearchIcon} />
       <Title headingLevel='h5' size='lg'>
-        {t('topicList.emptySearchHead')}
+        {t('topic.no_result_head')}
       </Title>
       <EmptyStateBody>
-        {t('topicList.emptySearchBody')}
+        {t('topic.no_result_body')}
       </EmptyStateBody>
     </EmptyState>
   );

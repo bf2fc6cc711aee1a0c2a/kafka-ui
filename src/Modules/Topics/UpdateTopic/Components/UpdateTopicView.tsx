@@ -102,7 +102,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
 
       if (updateStatus === 200) {
         addAlert(
-          t('createTopic.successfullyUpdated'),
+          t('topic.topic_successfully_updated'),
           AlertVariant.success
         );
         onSaveTopic();

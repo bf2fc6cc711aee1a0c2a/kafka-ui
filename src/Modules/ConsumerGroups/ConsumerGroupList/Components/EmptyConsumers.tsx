@@ -17,10 +17,10 @@ export const EmptyConsumers: React.FunctionComponent = () => {
     <EmptyState variant={EmptyStateVariant.xl}>
       <EmptyStateIcon icon={CubesIcon} />
       <Title headingLevel='h5' size='4xl'>
-        {t('consumerGroups.notFound')}
+        {t('consumerGroup.no_result')}
       </Title>
       <EmptyStateBody>
-        {t('consumerGroups.emptyList')}
+        {t('consumerGroup.empty_list')}
       </EmptyStateBody>
     </EmptyState>
   );

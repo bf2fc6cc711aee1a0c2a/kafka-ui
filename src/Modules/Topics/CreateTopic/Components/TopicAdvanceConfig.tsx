@@ -84,7 +84,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     customRetentionSizeUnit,
     setCustomRetentionSizeUnit,
   ] = useState<string>('bytes');
-  const actionText = isCreate === true ? t('createTopic.createTopic') : t('common.save');
+  const actionText = isCreate === true ? t('topic.create_topic') : t('common.save');
 
   const clearOptions: IDropdownOption[] = [
     { key: 'compact', value: 'compact', label: t('common.compact'), isDisabled: false },
@@ -370,7 +370,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
       toggleId='core-config-retention-dropdowntoggle'
       name='custom-retention-time-unit'
       dropdownValue={customRetentionTimeUnit}
-      ariaLabel='select unit from dropdown'
+      ariaLabel={t('common.select_unit')}
       onSelectOption={onDropdownChange}
       min={0}
       type='time'
@@ -390,7 +390,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
       toggleId='core-config-retention-size-dropdowntoggle'
       name='custom-retention-size-unit'
       dropdownValue={customRetentionSizeUnit}
-      ariaLabel='select unit from dropdown'
+      ariaLabel={t('common.select_unit')}
       onSelectOption={onDropdownChange}
       min={0}
       type='memory'
@@ -403,7 +403,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
         <SidebarPanel variant='sticky'>
           <JumpLinks
             isVertical
-            label={t('common.jumpLinksLabel')}
+            label={t('common.jump_to_section')}
             scrollableSelector='#scrollablePageMain'
             style={{ position: 'sticky' }}
             offset={-164} // for header
@@ -411,25 +411,25 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
             isExpanded={false}
           >
             <JumpLinksItem key={0} href='#core-configuration'>
-              {t('common.coreConfiguration')}
+              {t('topic.core_configuration')}
             </JumpLinksItem>
             <JumpLinksItem key={1} href='#messages'>
-              {t('common.messages')}
+              {t('topic.messages')}
             </JumpLinksItem>
             <JumpLinksItem key={2} href='#log'>
-              {t('common.log')}
+              {t('topic.log')}
             </JumpLinksItem>
             <JumpLinksItem key={3} href='#replication'>
-              {t('common.replication')}
+              {t('topic.replication')}
             </JumpLinksItem>
             <JumpLinksItem key={4} href='#cleanup'>
               {t('common.cleanup')}
             </JumpLinksItem>
             <JumpLinksItem key={5} href='#index'>
-              {t('common.index')}
+              {t('topic.index')}
             </JumpLinksItem>
             <JumpLinksItem key={6} href='#flush'>
-              {t('common.flush')}
+              {t('topic.flush')}
             </JumpLinksItem>
           </JumpLinks>
         </SidebarPanel>
@@ -448,19 +448,19 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                     tabIndex={-1}
                     id='core-configuration'
                   >
-                    {t('common.coreConfiguration')}
+                    {t('topic.core_configuration')}
                   </Text>
                   <Text component={TextVariants.p} className='section-info'>
-                    {t('createTopic.coreConfigInfo')}
+                    {t('topic.core_config_info')}
                   </Text>
                 </TextContent>
                 <Form>
                   {isCreate ? (
                     <FormGroupWithPopover
-                      labelHead={t('createTopic.topicNameLabelHead')}
+                      labelHead={t('topic.topic_name')}
                       fieldId='create-topic-name'
-                      fieldLabel={t('createTopic.topicNameLabelHead')}
-                      labelBody={t('createTopic.topicNameLabelBody')}
+                      fieldLabel={t('topic.topic_name')}
+                      labelBody={t('topic.topic_name_description')}
                       buttonAriaLabel='More info for topic name field'
                       helperTextInvalid={invalidText}
                       validated={topicValidated}
@@ -472,8 +472,8 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                         name='name'
                         value={topicData.name}
                         onChange={handleTextInputChange}
-                        label={t('createTopic.topicNameLabelHead')}
-                        placeholder={t('createTopic.enterName')}
+                        label={t('topic.topic_name')}
+                        placeholder={t('topic.enter_name')}
                         validated={topicValidated}
                       />
                     </FormGroupWithPopover>
@@ -482,15 +482,15 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                       btnAriaLabel='topic detail name'
                       fieldLabel='Name'
                       fieldValue={topicData.name}
-                      popoverBody={t('createTopic.topicNameLabelBody')}
-                      popoverHeader={t('createTopic.topicNameLabelHead')}
+                      popoverBody={t('topic.topic_name_description')}
+                      popoverHeader={t('topic.topic_name')}
                     />
                   )}
                   {isCreate ? (<FormGroupWithPopover
                     fieldId='create-topic-partitions'
                     fieldLabel='Partitions'
-                    labelHead={t('createTopic.partitionsLabelHead')}
-                    labelBody={t('createTopic.partitionsLabelBody')}
+                    labelHead={t('topic.partitions')}
+                    labelBody={t('topic.partitions_description')}
                     buttonAriaLabel='More info for partitions field'
                     validated={partitionsValidated}
                     helperText={
@@ -515,29 +515,29 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                     btnAriaLabel='More info for partitions field'
                     fieldLabel='Partitions'
                     fieldValue={topicData.numPartitions}
-                    popoverBody={t('createTopic.partitionsLabelBody')}
-                    popoverHeader={t('createTopic.partitionsLabelHead')}
+                    popoverBody={t('topic.partitions_description')}
+                    popoverHeader={t('topic.partitions')}
                   />)}
                   <TextWithLabelPopover
-                    btnAriaLabel={t('createTopic.replicasLabelHead')}
-                    fieldLabel={t('createTopic.replicasLabelHead')}
+                    btnAriaLabel={t('topic.replicas')}
+                    fieldLabel={t('topic.replicas')}
                     fieldValue={'3'}
-                    popoverBody={t('createTopic.replicasLabelBody')}
-                    popoverHeader={t('createTopic.replicasLabelHead')}
+                    popoverBody={t('topic.replicas_description')}
+                    popoverHeader={t('topic.replicas')}
                   />
 
                   <TextWithLabelPopover
                     btnAriaLabel='topic detail min-in-sync replica'
                     fieldLabel='Minimum in-sync replicas'
                     fieldValue={'2'}
-                    popoverBody={t('createTopic.inSyncReplicasLabelBody')}
-                    popoverHeader={t('createTopic.inSyncReplicasLabelHead')}
+                    popoverBody={t('topic.min_insync_replicas_description')}
+                    popoverHeader={t('topic.min_insync_replicas')}
                   />
                   <FormGroupWithPopover
                     fieldId='retention'
                     fieldLabel='Retention time'
-                    labelHead={t('createTopic.retentionTimeLabelHead')}
-                    labelBody={t('createTopic.retentionTimeLabelBody')}
+                    labelHead={t('topic.retention_time')}
+                    labelBody={t('topic.retention_time_description')}
                     buttonAriaLabel='More info for retention time field'
                   >
                   <Stack hasGutter>
@@ -565,8 +565,8 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <FormGroupWithPopover
                   fieldId='retention-size'
                   fieldLabel='Retention size'
-                  labelHead={t('createTopic.retentionBytesLabelHead')}
-                  labelBody={t('createTopic.retentionBytesLabelBody')}
+                  labelHead={t('topic.retention_size')}
+                  labelBody={t('topic.retention_size_description')}
                   buttonAriaLabel='More info for retention size field'
                 >
                 <Stack hasGutter>
@@ -596,86 +596,86 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
           <StackItem>
             <TextContent className='section-margin'>
               <Text component={TextVariants.h2} tabIndex={-1} id='messages'>
-                {t('common.messages')}
+                {t('topic.messages')}
               </Text>
               <Text component={TextVariants.p} className='section-info'>
-                {t('createTopic.messageSectionInfo')}
+                {t('topic.message_section_info')}
               </Text>
             </TextContent>
 
             <TextWithLabelPopover
-              btnAriaLabel={t('createTopic.maxMessageSizeLabelHead')}
-              fieldLabel={t('createTopic.maxMessageSizeLabelHead')}
+              btnAriaLabel={t('topic.max_message_size')}
+              fieldLabel={t('topic.max_message_size')}
               fieldValue={'1048588'}
-              popoverBody={t('createTopic.maxMessageSizeLabelBody')}
-              popoverHeader={t('createTopic.maxMessageSizeLabelHead')}
+              popoverBody={t('topic.max_message_size_description')}
+              popoverHeader={t('topic.max_message_size')}
               unit={'bytes'}
             />
 
             <TextWithLabelPopover
-              btnAriaLabel={t('createTopic.messageTimestampLabelHead')}
-              fieldLabel={t('createTopic.messageTimestampLabelHead')}
+              btnAriaLabel={t('topic.message_timestamp_type')}
+              fieldLabel={t('topic.message_timestamp_type')}
               fieldValue={'CreateTime'}
-              popoverBody={t('createTopic.messageTimestampLabelBody')}
-              popoverHeader={t('createTopic.messageTimestampLabelHead')}
+              popoverBody={t('topic.message_timestamp_type_description')}
+              popoverHeader={t('topic.message_timestamp_type')}
             />
 
             <TextWithLabelPopover
-              btnAriaLabel={t('createTopic.messageTimestampDiffLabelHead')}
-              fieldLabel={t('createTopic.messageTimestampDiffLabelHead')}
+              btnAriaLabel={t('topic.max_message_timestamp_diff')}
+              fieldLabel={t('topic.max_message_timestamp_diff')}
               fieldValue={'9223372036854775807'}
-              popoverBody={t('createTopic.messageTimestampDiffLabelBody')}
-              popoverHeader={t('createTopic.messageTimestampDiffLabelHead')}
+              popoverBody={t('topic.max_message_timestamp_diff_description')}
+              popoverHeader={t('topic.max_message_timestamp_diff')}
               unit={'ms'}
             />
 
             <TextWithLabelPopover
-              btnAriaLabel={t('createTopic.compressionTypeLabelHead')}
-              fieldLabel={t('createTopic.compressionTypeLabelHead')}
+              btnAriaLabel={t('topic.compression_type')}
+              fieldLabel={t('topic.compression_type')}
               fieldValue={'Producer'}
-              popoverBody={t('createTopic.compressionTypeLabelBody')}
-              popoverHeader={t('createTopic.compressionTypeLabelHead')}
+              popoverBody={t('topic.compression_type_description')}
+              popoverHeader={t('topic.compression_type')}
             />
 
             <TextWithLabelPopover
-              btnAriaLabel={t('createTopic.messageFormatLabelHead')}
-              fieldLabel={t('createTopic.messageFormatLabelHead')}
+              btnAriaLabel={t('topic.message_format')}
+              fieldLabel={t('topic.message_format')}
               fieldValue={'2.7-IV2'}
-              popoverBody={t('createTopic.messageFormatLabelBody')}
-              popoverHeader={t('createTopic.messageFormatLabelHead')}
+              popoverBody={t('topic.message_format_description')}
+              popoverHeader={t('topic.message_format')}
             />
           </StackItem>
 
           <StackItem>
             <TextContent className='section-margin'>
               <Text component={TextVariants.h2} tabIndex={-1} id='log'>
-                {t('common.log')}
+                {t('topic.log')}
               </Text>
               <Text
                 component={TextVariants.p}
                 className='section-info-head'
               >
-                {t('createTopic.logSectionInfo')}
+                {t('topic.log_section_info')}
               </Text>
               <Text
                 component={TextVariants.small}
                 className='section-info-note'
               >
-                {t('createTopic.logSectionInfoNote')}
+                {t('topic.log_section_info_note')}
               </Text>
             </TextContent>
 
             <FormGroupWithPopover
               fieldId='cleanup-policy'
-              fieldLabel={t('createTopic.cleanupPolicyLabelHead')}
-              labelHead={t('createTopic.cleanupPolicyLabelHead')}
-              labelBody={t('createTopic.cleanupPolicyLabelBody')}
-              buttonAriaLabel={t('createTopic.cleanupPolicyLabelHead')}
+              fieldLabel={t('topic.cleanup_policy')}
+              labelHead={t('topic.cleanup_policy')}
+              labelBody={t('topic.cleanup_policy_description')}
+              buttonAriaLabel={t('topic.cleanup_policy')}
             >
               <DropdownWithToggle
                 id='log-section-policy-type-dropdown'
                 toggleId='log-section-policy-type-dropdowntoggle'
-                ariaLabel={t('common.selectPolicy')}
+                ariaLabel={t('common.select_policy')}
                 onSelectOption={onDropdownChangeDotSeparated}
                 items={clearOptions}
                 name='cleanup-policy'
@@ -684,28 +684,28 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
             </FormGroupWithPopover>
 
             <TextWithLabelPopover
-              btnAriaLabel={t('createTopic.deleteRetentionLabelHead')}
-              fieldLabel={t('createTopic.deleteRetentionLabelHead')}
+              btnAriaLabel={t('topic.delete_retention_time')}
+              fieldLabel={t('topic.delete_retention_time')}
               fieldValue={'86400000'}
-              popoverBody={t('createTopic.deleteRetentionLabelBody')}
-              popoverHeader={t('createTopic.deleteRetentionLabelHead')}
+              popoverBody={t('topic.delete_retention_time_description')}
+              popoverHeader={t('topic.delete_retention_time')}
               unit={'ms'}
             />
 
             <TextWithLabelPopover
-              btnAriaLabel={t('createTopic.minRatioLabelHead')}
-              fieldLabel={t('createTopic.minRatioLabelHead')}
+              btnAriaLabel={t('topic.min_cleanable_ratio')}
+              fieldLabel={t('topic.min_cleanable_ratio')}
               fieldValue={'0.5'}
-              popoverBody={t('createTopic.minRatioLabelBody')}
-              popoverHeader={t('createTopic.minRatioLabelHead')}
+              popoverBody={t('topic.min_cleanable_ratio_description')}
+              popoverHeader={t('topic.min_cleanable_ratio')}
             />
 
             <TextWithLabelPopover
-              btnAriaLabel={t('createTopic.minLagLabelHead')}
-              fieldLabel={t('createTopic.minLagLabelHead')}
+              btnAriaLabel={t('topic.min_compaction_lag_time')}
+              fieldLabel={t('topic.min_compaction_lag_time')}
               fieldValue={'0'}
-              popoverBody={t('createTopic.minLagLabelBody')}
-              popoverHeader={t('createTopic.minLagLabelHead')}
+              popoverBody={t('topic.min_compaction_lag_time_description')}
+              popoverHeader={t('topic.min_compaction_lag_time')}
               unit={'ms'}
             />
           </StackItem>
@@ -717,28 +717,28 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 tabIndex={-1}
                 id='replication'
               >
-                {t('common.replication')}
+                {t('topic.replication')}
               </Text>
               <Text
                 component={TextVariants.p}
                 className='section-info-head'
               >
-                {t('createTopic.replicationSectionInfo')}
+                {t('topic.replication_section_info')}
               </Text>
               <Text
                 component={TextVariants.small}
                 className='section-info-note'
               >
-                {t('createTopic.replicationSectionInfoNote')}
+                {t('topic.replication_section_info_note')}
               </Text>
             </TextContent>
 
             <TextWithLabelPopover
-              btnAriaLabel={t('createTopic.leaderElectionLabelHead')}
-              fieldLabel={t('createTopic.leaderElectionLabelHead')}
+              btnAriaLabel={t('topic.unclean_leader_election')}
+              fieldLabel={t('topic.unclean_leader_election')}
               fieldValue={'Disabled'}
-              popoverBody={t('createTopic.leaderElectionLabelBody')}
-              popoverHeader={t('createTopic.leaderElectionLabelHead')}
+              popoverBody={t('topic.unclean_leader_election_description')}
+              popoverHeader={t('topic.unclean_leader_election')}
             />
           </StackItem>
 
@@ -748,80 +748,80 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 {t('common.cleanup')}
               </Text>
               <Text component={TextVariants.p} className='section-info'>
-                {t('createTopic.cleanupSectionInfo')}
+                {t('topic.cleanup_section_info')}
               </Text>
             </TextContent>
 
             <TextWithLabelPopover
-              btnAriaLabel={t('createTopic.logSegmentLabelHead')}
-              fieldLabel={t('createTopic.logSegmentLabelHead')}
+              btnAriaLabel={t('topic.log_segment_size')}
+              fieldLabel={t('topic.log_segment_size')}
               fieldValue={'1073741824'}
-              popoverBody={t('createTopic.logSegmentLabelHead')}
-              popoverHeader={t('createTopic.logSegmentLabelBody')}
+              popoverBody={t('topic.log_segment_size')}
+              popoverHeader={t('topic.log_segment_size_description')}
               unit={'bytes'}
             />
 
             <TextWithLabelPopover
-              btnAriaLabel={t('createTopic.segementTimeLabelHead')}
-              fieldLabel={t('createTopic.segementTimeLabelHead')}
+              btnAriaLabel={t('topic.segement_time')}
+              fieldLabel={t('topic.segement_time')}
               fieldValue={'604800000'}
-              popoverBody={t('createTopic.segementTimeLabelBody')}
-              popoverHeader={t('createTopic.segementTimeLabelHead')}
+              popoverBody={t('topic.segement_time_description')}
+              popoverHeader={t('topic.segement_time')}
               unit={'ms'}
             />
 
             <TextWithLabelPopover
-              btnAriaLabel={t('createTopic.jitterTimeLabelHead')}
-              fieldLabel={t('createTopic.jitterTimeLabelHead')}
+              btnAriaLabel={t('topic.segment_jitter_time')}
+              fieldLabel={t('topic.segment_jitter_time')}
               fieldValue={'0'}
-              popoverBody={t('createTopic.jitterTimeLabelBody')}
-              popoverHeader={t('createTopic.jitterTimeLabelHead')}
+              popoverBody={t('topic.segment_jitter_time_description')}
+              popoverHeader={t('topic.segment_jitter_time')}
               unit={'ms'}
             />
 
             <TextWithLabelPopover
-              btnAriaLabel={t('createTopic.deleteDelayLabelHead')}
-              fieldLabel={t('createTopic.deleteDelayLabelHead')}
+              btnAriaLabel={t('topic.file_delete_delay')}
+              fieldLabel={t('topic.file_delete_delay')}
               fieldValue={'60000'}
-              popoverBody={t('createTopic.deleteDelayLabelBody')}
-              popoverHeader={t('createTopic.deleteDelayLabelHead')}
+              popoverBody={t('topic.file_delete_delay_description')}
+              popoverHeader={t('topic.file_delete_delay')}
               unit={'ms'}
             />
 
             <TextWithLabelPopover
-              btnAriaLabel={t('createTopic.preallocateLabelHead')}
-              fieldLabel={t('createTopic.preallocateLabelHead')}
+              btnAriaLabel={t('topic.preallocate_log_segment_files')}
+              fieldLabel={t('topic.preallocate_log_segment_files')}
               fieldValue={'Disabled'}
-              popoverBody={t('createTopic.preallocateLabelBody')}
-              popoverHeader={t('createTopic.preallocateLabelHead')}
+              popoverBody={t('topic.preallocate_log_segment_files_description')}
+              popoverHeader={t('topic.preallocate_log_segment_files')}
             />
           </StackItem>
 
           <StackItem>
             <TextContent className='section-margin'>
               <Text component={TextVariants.h2} tabIndex={-1} id='index'>
-                {t('common.index')}
+                {t('topic.index')}
               </Text>
               <Text component={TextVariants.p} className='section-info'>
-                {t('createTopic.indexSectionInfo')}
+                {t('topic.index_section_info')}
               </Text>
             </TextContent>
 
             <TextWithLabelPopover
-              btnAriaLabel={t('createTopic.indexIntervalLabelHead')}
-              fieldLabel={t('createTopic.indexIntervalLabelHead')}
+              btnAriaLabel={t('topic.index_interval_size')}
+              fieldLabel={t('topic.index_interval_size')}
               fieldValue={'4096'}
-              popoverBody={t('createTopic.indexIntervalLabelBody')}
-              popoverHeader={t('createTopic.indexIntervalLabelHead')}
+              popoverBody={t('topic.index_interval_size_description')}
+              popoverHeader={t('topic.index_interval_size')}
               unit={'bytes'}
             />
 
             <TextWithLabelPopover
-              btnAriaLabel={t('createTopic.segementIntervalLabelHead')}
-              fieldLabel={t('createTopic.segementIntervalLabelHead')}
+              btnAriaLabel={t('topic.segment_index_size')}
+              fieldLabel={t('topic.segment_index_size')}
               fieldValue={'10485760'}
-              popoverBody={t('createTopic.segementIntervalLabelBody')}
-              popoverHeader={t('createTopic.segementIntervalLabelHead')}
+              popoverBody={t('topic.segment_index_size_description')}
+              popoverHeader={t('topic.segment_index_size')}
               unit={'bytes'}
             />
           </StackItem>
@@ -829,28 +829,28 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
           <StackItem>
             <TextContent className='section-margin'>
               <Text component={TextVariants.h2} tabIndex={-1} id='flush'>
-                {t('common.flush')}
+                {t('topic.flush')}
               </Text>
               <Text component={TextVariants.p} className='section-info'>
-                {t('createTopic.flushSectionInfo')}
+                {t('topic.flush_section_info')}
               </Text>
             </TextContent>
 
             <TextWithLabelPopover
-              btnAriaLabel={t('createTopic.intervalMessagesLabelHead')}
-              fieldLabel={t('createTopic.intervalMessagesLabelHead')}
+              btnAriaLabel={t('topic.flush_interval_messages')}
+              fieldLabel={t('topic.flush_interval_messages')}
               fieldValue={'9223372036854775807'}
-              popoverBody={t('createTopic.intervalMessagesLabelBody')}
-              popoverHeader={t('createTopic.intervalMessagesLabelHead')}
+              popoverBody={t('topic.flush_interval_messages_description')}
+              popoverHeader={t('topic.flush_interval_messages')}
               unit={'ms'}
             />
 
             <TextWithLabelPopover
-              btnAriaLabel={t('createTopic.intervalTimeLabelHead')}
-              fieldLabel={t('createTopic.intervalTimeLabelHead')}
+              btnAriaLabel={t('topic.flush_interval_time')}
+              fieldLabel={t('topic.flush_interval_time')}
               fieldValue={'9223372036854775807'}
-              popoverBody={t('createTopic.intervalTimeLabelBody')}
-              popoverHeader={t('createTopic.intervalTimeLabelHead')}
+              popoverBody={t('topic.flush_interval_time_description')}
+              popoverHeader={t('topic.flush_interval_time')}
               unit={'ms'}
             />
           </StackItem>

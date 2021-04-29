@@ -36,7 +36,7 @@ export const DeleteConsumerGroup: React.FunctionComponent<IDeleteConsumer> = ({
     try {
       consumerName && (await deleteConsumerGroup(consumerName, config));
       addAlert(
-        t('consumerGroups.deletedSuccess', { name: consumerName }),
+        t('consumerGroup.consumergroup_successfully_deleted', { name: consumerName }),
         AlertVariant.success
       );
     } catch (err) {
@@ -56,8 +56,8 @@ export const DeleteConsumerGroup: React.FunctionComponent<IDeleteConsumer> = ({
     <Modal
       variant={ModalVariant.small}
       isOpen={deleteModal}
-      aria-label={t('consumerGroups.delete')}
-      title={t('consumerGroups.delete')}
+      aria-label={t('consumerGroup.delete')}
+      title={t('consumerGroup.delete')}
       titleIconVariant='warning'
       showClose={true}
       aria-describedby='modal-message'
@@ -79,12 +79,12 @@ export const DeleteConsumerGroup: React.FunctionComponent<IDeleteConsumer> = ({
       <Text id='modal-message'>
         <label
           htmlFor="instance-name-input"
-          dangerouslySetInnerHTML={{ __html: t('common.confirmDeleteModalText', { name: consumerName }) }}
+          dangerouslySetInnerHTML={{ __html: t('common.confirm_delete_modal_text', { name: consumerName }) }}
         />
       </Text>
 
       <br />
-      <label htmlFor='delete-text-input'>{t('common.confirmDelete')}</label>
+      <label htmlFor='delete-text-input'>{t('common.confirm_delete')}</label>
       <TextInput
         value={verificationText}
         id='delete-text-input'

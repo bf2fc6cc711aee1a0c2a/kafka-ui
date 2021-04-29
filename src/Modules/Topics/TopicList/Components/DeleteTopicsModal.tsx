@@ -34,7 +34,7 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
   const onDelete = async () => {
     try {
       topicName && (await deleteTopic(topicName, config));
-      addAlert(t('createTopic.deleteSuccess', { name: topicName}), AlertVariant.success);
+      addAlert(t('topic.topic_successfully_deleted', { name: topicName}), AlertVariant.success);
     } catch (err) {
       addAlert(err.response.data.error_message, AlertVariant.danger);
     }
@@ -52,8 +52,8 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
     <Modal
       variant={ModalVariant.small}
       isOpen={deleteModal}
-      aria-label={t('topicList.deleteModalTitle')}
-      title={t('topicList.deleteModalTitle')}
+      aria-label={t('topic.delete_modal_title')}
+      title={t('topic.delete_modal_title')}
       titleIconVariant='warning'
       showClose={true}
       aria-describedby='modal-message'
@@ -77,12 +77,12 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
         {' '}
         <label
           htmlFor="instance-name-input"
-          dangerouslySetInnerHTML={{ __html: t('common.confirmDeleteModalText', { name: topicName }) }}
+          dangerouslySetInnerHTML={{ __html: t('common.confirm_delete_modal_text', { name: topicName }) }}
         />
       </Text>
 
       <br />
-      <label htmlFor='delete-text-input'>{t('common.confirmDelete')}</label>
+      <label htmlFor='delete-text-input'>{t('common.confirm_delete')}</label>
       <TextInput
         value={verificationText}
         id='delete-text-input'

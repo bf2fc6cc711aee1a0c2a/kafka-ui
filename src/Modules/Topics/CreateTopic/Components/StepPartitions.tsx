@@ -41,16 +41,16 @@ export const StepPartitions: React.FC<IStepPartitions> = ({
     <Stack hasGutter className='kafka-ui--wizard-main-body__stack'>
       <TextContent>
         <Text component={TextVariants.h2}>Partitions</Text>
-        <Text component={TextVariants.p}>{t('createTopic.partitionsInfo')}</Text>
+        <Text component={TextVariants.p}>{t('topic.partition_info')}</Text>
         <Text component={TextVariants.small}>
-          {t('createTopic.partitionsDetail')}
+          {t('topic.partition_info_note')}
         </Text>
       </TextContent>
       <Form>
         <FormGroup
           label='Partitions'
           fieldId='step-topic-name-form'
-          helperText={t('createTopic.partitionsHelperText')}
+          helperText={t('topic.partition_helper_text')}
           isRequired
         >
           <NumberInput

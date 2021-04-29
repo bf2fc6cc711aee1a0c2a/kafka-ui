@@ -33,11 +33,11 @@ export const ConsumerGroupDetail: React.FunctionComponent<IConsumerGroupDetailPr
   const { t } = useTranslation();
 
   const columns = [
-    t('consumerGroups.partition'),
-    `${t('consumerGroups.clientId')} + ${t('consumerGroups.customerId')}`,
-    t('consumerGroups.currentOffset'),
-    t('consumerGroups.logEndOffset'),
-    t('consumerGroups.offsetLag'),
+    t('consumerGroup.partition'),
+    `${t('consumerGroup.client_id')} + ${t('consumerGroup.customer_id')}`,
+    t('consumerGroup.current_offset'),
+    t('consumerGroup.log_end_offset'),
+    t('consumerGroup.offset_lag'),
     {
       title: '',
       dataLabel: t('common.action'),
@@ -63,7 +63,7 @@ export const ConsumerGroupDetail: React.FunctionComponent<IConsumerGroupDetailPr
       <DrawerHead>
         <span>
           <TextContent>
-            <Text>{t('consumerGroups.consumerGroupId')}</Text>
+            <Text>{t('consumerGroup.consumer_group_id')}</Text>
             <Text component={TextVariants.h1}>
               {consumerDetail && consumerDetail.groupId}
             </Text>
@@ -78,7 +78,7 @@ export const ConsumerGroupDetail: React.FunctionComponent<IConsumerGroupDetailPr
           <Flex>
             <FlexItem>
               <Text component={TextVariants.h4} size={50}>
-              {t('consumerGroups.activeMembers')}
+              {t('consumerGroup.active_members')}
               </Text>
               <Text component={TextVariants.h2}>
                 {consumerDetail &&
@@ -88,7 +88,7 @@ export const ConsumerGroupDetail: React.FunctionComponent<IConsumerGroupDetailPr
               </Text>
             </FlexItem>
             <FlexItem>
-              <Text component={TextVariants.h4}>{t('consumerGroups.partitionsWithLag')}</Text>
+              <Text component={TextVariants.h4}>{t('consumerGroup.partitions_with_lag')}</Text>
               <Text component={TextVariants.h2}>
                 {consumerDetail &&
                   consumerDetail.consumers.reduce(function (prev, cur) {
@@ -101,7 +101,7 @@ export const ConsumerGroupDetail: React.FunctionComponent<IConsumerGroupDetailPr
       </DrawerPanelBody>
 
       <Table
-        aria-label={t('consumerGroups.consumerGroupInfoTableAria')}
+        aria-label={t('consumerGroup.consumer_group_info_table_aria')}
         variant={TableVariant.compact}
         cells={columns}
         rows={rows}

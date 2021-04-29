@@ -32,10 +32,10 @@ export const CreateTopichead: React.FC<ICreateTopicProps> = ({
         Kafka Instances
       </BreadcrumbItem>
       <BreadcrumbItem to='#' isActive>
-        {kafkaName ? kafkaName : 'Kafka Instance Name'}
+        {kafkaName ? kafkaName : t('common.kafka_instance_name')}
       </BreadcrumbItem>
       <BreadcrumbItem to='#' isActive>
-        {t('createTopic.createTopic')}
+        {t('topic.create_topic')}
       </BreadcrumbItem>
     </Breadcrumb>
   );
@@ -46,13 +46,13 @@ export const CreateTopichead: React.FC<ICreateTopicProps> = ({
       </section>
       <PageSection variant={PageSectionVariants.light}>
         <Title headingLevel='h1' size='2xl'>
-          {t('createTopic.createTopic')}
+          {t('topic.create_topic')}
         </Title>
         <br />
         <Switch
           id='simple-switch'
-          label={t('createTopic.showAllOptions')}
-          labelOff={t('createTopic.showAllOptions')}
+          label={t('topic.show_all_options')}
+          labelOff={t('topic.show_all_options')}
           isChecked={isSwitchChecked}
           onChange={setIsSwitchChecked}
           className='create-topic-wizard'

@@ -110,8 +110,8 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   const tableColumns = [
     { title: t('common.name') }, 
     { title: t('common.partitions'), transforms: [sortable] },
-    { title: t('createTopic.retentionTimeLabelHead'), transforms: [sortable] },
-    { title: t('createTopic.retentionBytesLabelHead'), transforms: [sortable] },
+    { title: t('topic.retention_time'), transforms: [sortable] },
+    { title: t('topic.retention_size'), transforms: [sortable] },
   ];
   const convertRetentionTime = (milliseconds: number) => {
     let convertedValue;
@@ -289,7 +289,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
                     onCreateTopic();
                   }}
                 >
-                  {t('createTopic.createTopic')}
+                  {t('topic.create_topic')}
                 </Button>
               </ToolbarItem>
               <ToolbarItem variant='pagination'>
@@ -306,7 +306,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
           </Toolbar>
 
           <Table
-            aria-label={t('topicList.topicListTable')}
+            aria-label={t('topic.topic_list_table')}
             variant={TableVariant.compact}
             cells={tableColumns}
             rows={

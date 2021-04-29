@@ -27,7 +27,7 @@ export const AppMastHead: React.FC = () => {
   };
 
   const userDropDownItems = [<DropdownItem key='logout'>Logout</DropdownItem>];
-  const brandImgLogo = <Brand src={brandImg} alt={t('common.redHatLogo')} />;
+  const brandImgLogo = <Brand src={brandImg} alt={t('common.red_hat_logo')} />;
 
   const userDropDownToggle = (
     <DropdownToggle
