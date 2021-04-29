@@ -10,7 +10,6 @@ import CubesIcon from '@patternfly/react-icons/dist/js/icons/cubes-icon';
 import { useTranslation } from 'react-i18next';
 
 export const EmptyConsumers: React.FunctionComponent = () => {
-
   const { t } = useTranslation();
 
   return (
@@ -19,9 +18,7 @@ export const EmptyConsumers: React.FunctionComponent = () => {
       <Title headingLevel='h5' size='4xl'>
         {t('consumerGroup.no_result')}
       </Title>
-      <EmptyStateBody>
-        {t('consumerGroup.empty_list')}
-      </EmptyStateBody>
+      <EmptyStateBody>{t('consumerGroup.empty_list')}</EmptyStateBody>
     </EmptyState>
   );
 };

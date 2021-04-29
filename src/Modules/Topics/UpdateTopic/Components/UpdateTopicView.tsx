@@ -26,7 +26,6 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   onSaveTopic,
   onError,
 }) => {
-
   const { t } = useTranslation();
 
   const [deleteModal, setDeleteModal] = useState(false);
@@ -101,10 +100,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
       const updateStatus = await updateTopicModel(name, topicSettings, config);
 
       if (updateStatus === 200) {
-        addAlert(
-          t('topic.topic_successfully_updated'),
-          AlertVariant.success
-        );
+        addAlert(t('topic.topic_successfully_updated'), AlertVariant.success);
         onSaveTopic();
       }
     } catch (err) {

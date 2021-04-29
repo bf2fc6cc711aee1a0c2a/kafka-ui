@@ -23,7 +23,6 @@ export const CreateTopichead: React.FC<ICreateTopicProps> = ({
   kafkaName,
   kafkaPageLink,
 }) => {
-
   const { t } = useTranslation();
 
   const mainBreadcrumbs = (

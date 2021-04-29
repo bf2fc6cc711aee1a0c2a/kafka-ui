@@ -110,10 +110,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       .createTopic(topic)
       .then((res) => {
         if (res.status === 200) {
-          addAlert(
-            t('topic.topic_successfully_created'),
-            AlertVariant.success
-          );
+          addAlert(t('topic.topic_successfully_created'), AlertVariant.success);
         }
         closeWizard();
       })

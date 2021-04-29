@@ -121,9 +121,9 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
       setFilteredConsumerGroups((prevState) =>
         prevState
           ? {
-            ...prevState,
-            items: filterSearch,
-          }
+              ...prevState,
+              items: filterSearch,
+            }
           : undefined
       );
     } else {
@@ -149,7 +149,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
   const tableColumns = [
     { title: t('consumerGroup.consumer_group_id') },
     { title: t('consumerGroup.active_members') },
-    { title: t('consumerGroup.partitions_with_lag')},
+    { title: t('consumerGroup.partitions_with_lag') },
   ];
   const onDelete = (rowId: any) => {
     if (filteredConsumerGroups?.items) {

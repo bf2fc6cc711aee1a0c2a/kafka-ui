@@ -23,7 +23,6 @@ export const DeleteConsumerGroup: React.FunctionComponent<IDeleteConsumer> = ({
   consumerName,
   onDeleteConsumer,
 }) => {
-
   const { t } = useTranslation();
 
   const [verificationText, setVerificationText] = useState<string>('');
@@ -36,7 +35,9 @@ export const DeleteConsumerGroup: React.FunctionComponent<IDeleteConsumer> = ({
     try {
       consumerName && (await deleteConsumerGroup(consumerName, config));
       addAlert(
-        t('consumerGroup.consumergroup_successfully_deleted', { name: consumerName }),
+        t('consumerGroup.consumergroup_successfully_deleted', {
+          name: consumerName,
+        }),
         AlertVariant.success
       );
     } catch (err) {
@@ -78,8 +79,12 @@ export const DeleteConsumerGroup: React.FunctionComponent<IDeleteConsumer> = ({
     >
       <Text id='modal-message'>
         <label
-          htmlFor="instance-name-input"
-          dangerouslySetInnerHTML={{ __html: t('common.confirm_delete_modal_text', { name: consumerName }) }}
+          htmlFor='instance-name-input'
+          dangerouslySetInnerHTML={{
+            __html: t('common.confirm_delete_modal_text', {
+              name: consumerName,
+            }),
+          }}
         />
       </Text>
 

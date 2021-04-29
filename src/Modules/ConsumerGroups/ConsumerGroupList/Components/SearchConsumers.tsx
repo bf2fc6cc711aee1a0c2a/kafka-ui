@@ -11,7 +11,6 @@ const SearchConsumers: React.FunctionComponent<ISearchConsumerGroupProps> = ({
   search,
   setSearch,
 }) => {
-
   const { t } = useTranslation();
 
   const onChangeInput = (value: string) => {

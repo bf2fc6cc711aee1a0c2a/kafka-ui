@@ -42,11 +42,13 @@ const FederatedCreateTopic: FunctionComponent<FederatedCreateTopicProps> = ({
         value={{ basePath: apiBasePath, getToken } as IConfiguration}
       >
         <AlertContext.Provider value={alertContext}>
-          <CreateTopicPage setIsCreateTopic={setIsCreateTopic} 
+          <CreateTopicPage
+            setIsCreateTopic={setIsCreateTopic}
             kafkaName={kafkaName}
             kafkaPageLink={kafkaPageLink}
             kafkaInstanceLink={kafkaInatanceLink}
-            onCloseCreateTopic={onCloseCreateTopic} />
+            onCloseCreateTopic={onCloseCreateTopic}
+          />
         </AlertContext.Provider>
       </ConfigContext.Provider>
     </I18nextProvider>

@@ -12,9 +12,8 @@ const SearchTopics: React.FunctionComponent<ISearchTopicsProps> = ({
   setSearch,
   onClear,
 }) => {
-
   const { t } = useTranslation();
-  
+
   const onChangeInput = (value: string) => {
     setSearch(value);
   };
