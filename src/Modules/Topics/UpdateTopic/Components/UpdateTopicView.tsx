@@ -9,6 +9,7 @@ import { AlertContext } from '../../../../Contexts/Alert';
 import { ConfigContext } from '../../../../Contexts';
 import { IAdvancedTopic } from '../../CreateTopic/Components/CreateTopicWizard';
 import { convertUnits } from '../../CreateTopic/utils';
+import { isAxiosError } from '../../../../Utils/axios';
 
 export type UpdateTopicViewProps = {
   topicName: string;
@@ -38,27 +39,38 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   const config = useContext(ConfigContext);
   const { addAlert } = useContext(AlertContext);
   const fetchTopic = async (topicName) => {
-    const topicRes = await getTopic(topicName, config);
+    try {
+      const topicRes = await getTopic(topicName, config);
+      const configEntries: any = {};
+      topicRes.config?.forEach((configItem) => {
+        configEntries[configItem.key || ''] = configItem.value || '';
+      });
 
-    const configEntries: any = {};
-    topicRes.config?.forEach((configItem) => {
-      configEntries[configItem.key || ''] = configItem.value || '';
-    });
+      setTopicData({
+        ...topicData,
+        numPartitions: topicRes?.partitions?.length.toString() || '',
+        'cleanup.policy': configEntries['cleanup.policy'] || 'delete',
+        'retention.bytes': configEntries['retention.bytes'] || '-1',
+        'retention.ms': configEntries['retention.ms'] || '604800000',
+      });
 
-    setTopicData({
-      ...topicData,
-      numPartitions: topicRes?.partitions?.length.toString() || '',
-      'cleanup.policy': configEntries['cleanup.policy'] || 'delete',
-      'retention.bytes': configEntries['retention.bytes'] || '-1',
-      'retention.ms': configEntries['retention.ms'] || '604800000',
-    });
-  };
+    } catch (err) {
+      if (isAxiosError(err)) {
+        if (onError) {
+          onError(err.response?.data.code, err.response?.data.error_message);
+        }
+        if (err.response?.status === 404) {
+          // then it's a non-existent topic
+          addAlert(`Topic ${topicName} does not exist`, AlertVariant.danger);
+          onCancelUpdateTopic();
+        }
+      }
+    }
+  }
 
   useEffect(() => {
-    (async function () {
-      fetchTopic(topicName);
-    })();
-  }, []);
+    fetchTopic(topicName)
+  }, [topicName]);
 
   const saveTopic = async () => {
     const { name, ...configEntries } = convertUnits(topicData);
