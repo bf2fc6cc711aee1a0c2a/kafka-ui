@@ -18,6 +18,7 @@ export const StepPartitions: React.FC<IStepPartitions> = ({
   partitionTouchspinValue,
   setPartitionTouchspinValue,
 }) => {
+  const minValue = 1;
   const handleOnPlus = () => {
     setPartitionTouchspinValue(partitionTouchspinValue + 1);
   };
@@ -25,7 +26,11 @@ export const StepPartitions: React.FC<IStepPartitions> = ({
     setPartitionTouchspinValue(partitionTouchspinValue - 1);
   };
   const handlePartitionTouchspinChange = (event) => {
-    setPartitionTouchspinValue(Number(event.target.value));
+    let num = Number(event.target.value);
+    if (num < minValue) {
+      num = minValue;
+    }
+    setPartitionTouchspinValue(num);
   };
 
   return (
@@ -54,7 +59,7 @@ export const StepPartitions: React.FC<IStepPartitions> = ({
             inputName='input'
             onChange={handlePartitionTouchspinChange}
             widthChars={20}
-            min={1}
+            min={minValue}
           />
         </FormGroup>
       </Form>
