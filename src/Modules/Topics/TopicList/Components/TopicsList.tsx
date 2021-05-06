@@ -172,6 +172,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
             }
           : undefined
       );
+      setPage(1);
     } else {
       setFilteredTopics(topics);
     }
