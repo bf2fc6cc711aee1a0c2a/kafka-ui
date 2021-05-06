@@ -19,8 +19,10 @@ import {
 } from '@patternfly/react-table';
 import { useTimeout } from '../../../../Hooks/useTimeOut';
 import { SearchTopics } from './SearchTopics';
-import { EmptyTopics } from './EmptyTopics';
-import { EmptySearch } from './EmptySearch';
+import {
+  EmptyState,
+  MASEmptyStateVariant,
+} from '../../../../Components/EmptyState/EmptyState';
 import { getTopics } from '../../../../Services';
 import { DeleteTopics } from './DeleteTopicsModal';
 import { ConfigContext } from '../../../../Contexts';
@@ -269,7 +271,21 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
       )}
       <Card className='kafka-ui-m-full-height'>
       {rowData.length < 1 && search.length < 1 ? (
-        <EmptyTopics onCreateTopic={onCreateTopic} />
+        <EmptyState
+          emptyStateProps={{
+            variant: MASEmptyStateVariant.NoItems,
+          }}
+          titleProps={{
+            title: `You don't have any topics yet`,
+          }}
+          emptyStateBodyProps={{
+            body: 'Create a topic by clicking the button below to get started',
+          }}
+          buttonProps={{
+            title: 'Create Topic',
+            onClick: () => onCreateTopic(),
+          }}
+        />
       ) : (
         <Card>
           <Toolbar>
@@ -323,7 +339,19 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
         </Card>
       )}
       <Divider />
-      {rowData.length < 1 && search.length > 1 && <EmptySearch />}
+      {rowData.length < 1 && search.length > 1 && (
+        <EmptyState
+          emptyStateProps={{
+            variant: MASEmptyStateVariant.NoResult,
+          }}
+          titleProps={{
+            title: 'No results found',
+          }}
+          emptyStateBodyProps={{
+            body: 'Adjust your filters and try again',
+          }}
+        />
+      )}
       {rowData.length > 1 && (
         <Card>
           <Pagination
