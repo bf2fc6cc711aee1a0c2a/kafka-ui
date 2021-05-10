@@ -207,10 +207,10 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
       },
 
       consumer.consumers.reduce(function (prev, cur) {
-        return prev + cur.partition != -1 ? prev + 1 : 0;
+        return prev + (cur.partition != -1 ? 1 : 0);
       }, 0),
       consumer.consumers.reduce(function (prev, cur) {
-        return prev + cur.lag > 0 ? prev + 1 : 0;
+        return prev + (cur.lag > 0 ? 1 : 0);
       }, 0),
     ]) || [];
 
