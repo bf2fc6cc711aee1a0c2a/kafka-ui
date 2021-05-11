@@ -211,9 +211,9 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
       setFilteredTopics((prevState) =>
         prevState
           ? {
-            ...prevState,
-            items: filterSearch,
-          }
+              ...prevState,
+              items: filterSearch,
+            }
           : undefined
       );
     } else {
