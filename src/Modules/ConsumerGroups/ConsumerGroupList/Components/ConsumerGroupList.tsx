@@ -31,6 +31,7 @@ import { useTimeout } from '../../../../Hooks/useTimeOut';
 import { SearchConsumers } from './SearchConsumers';
 import { DeleteConsumerGroup } from './DeleteConsumerGroup';
 import { ConsumerGroupDetail } from './ConsumerGroupDetail';
+import { useTranslation } from 'react-i18next';
 export interface IConsumerGroupsList {
   onDeleteConsumerGroup: () => void;
   consumerGroupByTopic: boolean;
@@ -66,6 +67,8 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
 
   const config = useContext(ConfigContext);
   const { addAlert } = useContext(AlertContext);
+
+  const { t } = useTranslation();
 
   const fetchConsumerGroups = async () => {
     if (consumerGroupByTopic && topic) {
@@ -118,9 +121,9 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
       setFilteredConsumerGroups((prevState) =>
         prevState
           ? {
-            ...prevState,
-            items: filterSearch,
-          }
+              ...prevState,
+              items: filterSearch,
+            }
           : undefined
       );
     } else {
@@ -144,9 +147,9 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
   };
 
   const tableColumns = [
-    { title: 'Consumer Group ID' },
-    { title: 'Active Members' },
-    { title: 'Partitions with lag' },
+    { title: t('consumerGroup.consumer_group_id') },
+    { title: t('consumerGroup.active_members') },
+    { title: t('consumerGroup.partitions_with_lag') },
   ];
   const onDelete = (rowId: any) => {
     if (filteredConsumerGroups?.items) {
@@ -157,7 +160,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
 
   const actions = [
     {
-      title: 'Delete',
+      title: t('common.delete'),
       ['data-testid']: 'tableConsumers-actionDelete',
       onClick: (_, rowId) => onDelete(rowId),
     },
@@ -242,7 +245,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
           <Divider />
           {consumerGroupByTopic ? (
             <Table
-              aria-label='Compact Table'
+              aria-label={t('consumerGroup.topic_table_aria')}
               variant={TableVariant.compact}
               cells={tableColumns}
               rows={
@@ -256,7 +259,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
             </Table>
           ) : (
             <Table
-              aria-label='Compact Table'
+              aria-label={t('consumerGroup.topic_table_aria')}
               variant={TableVariant.compact}
               cells={tableColumns}
               rows={

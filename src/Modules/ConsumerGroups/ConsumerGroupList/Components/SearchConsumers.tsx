@@ -1,5 +1,6 @@
 import React from 'react';
 import { InputGroup, SearchInput } from '@patternfly/react-core';
+import { useTranslation } from 'react-i18next';
 
 export interface ISearchConsumerGroupProps {
   setSearch: (value: string) => void;
@@ -10,6 +11,8 @@ const SearchConsumers: React.FunctionComponent<ISearchConsumerGroupProps> = ({
   search,
   setSearch,
 }) => {
+  const { t } = useTranslation();
+
   const onChangeInput = (value: string) => {
     setSearch(value);
   };
@@ -22,8 +25,8 @@ const SearchConsumers: React.FunctionComponent<ISearchConsumerGroupProps> = ({
         name='searchName'
         id='search-consumers-input'
         type='search'
-        aria-label='search input '
-        placeholder='Search'
+        aria-label={t('consumerGroup.search')}
+        placeholder={t('common.search')}
         value={search}
         onChange={onChangeInput}
         onClear={onClear}

@@ -10,6 +10,7 @@ import {
 import { deleteTopic } from '../../../../Services/TopicServices';
 import { ConfigContext } from '../../../../Contexts';
 import { AlertContext } from '../../../../Contexts/Alert/Context';
+import { useTranslation } from 'react-i18next';
 export interface IDeleteTopics {
   setDeleteModal: (value: boolean) => void;
   deleteModal: boolean;
@@ -28,10 +29,15 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
     setDeleteModal(false);
   };
 
+  const { t } = useTranslation();
+
   const onDelete = async () => {
     try {
       topicName && (await deleteTopic(topicName, config));
-      addAlert(`Successfully deleted topic ${topicName}`, AlertVariant.success);
+      addAlert(
+        t('topic.topic_successfully_deleted', { name: topicName }),
+        AlertVariant.success
+      );
     } catch (err) {
       addAlert(err.response.data.error_message, AlertVariant.danger);
     }
@@ -49,8 +55,8 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
     <Modal
       variant={ModalVariant.small}
       isOpen={deleteModal}
-      aria-label='Delete topic?'
-      title='Delete topic?'
+      aria-label={t('topic.delete_modal_title')}
+      title={t('topic.delete_modal_title')}
       titleIconVariant='warning'
       showClose={true}
       aria-describedby='modal-message'
@@ -63,20 +69,25 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
           data-testid='modalDeleteTopic-buttonDelete'
           isDisabled={verificationText.toUpperCase() != 'DELETE'}
         >
-          Delete
+          {t('common.delete')}
         </Button>,
         <Button variant='link' onClick={onClose} key={2}>
-          Cancel
+          {t('common.cancel')}
         </Button>,
       ]}
     >
       <Text id='modal-message'>
         {' '}
-        <b>{topicName}</b> will be deleted.{' '}
+        <label
+          htmlFor='instance-name-input'
+          dangerouslySetInnerHTML={{
+            __html: t('common.confirm_delete_modal_text', { name: topicName }),
+          }}
+        />
       </Text>
 
       <br />
-      <label htmlFor='delete-text-input'>Type DELETE to confirm:</label>
+      <label htmlFor='delete-text-input'>{t('common.confirm_delete')}</label>
       <TextInput
         value={verificationText}
         id='delete-text-input'

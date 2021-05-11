@@ -8,6 +8,7 @@ import {
   PageSectionVariants,
 } from '@patternfly/react-core';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import './TopicDetailView.css';
 
 export type TopicDetailHeadProps = {
@@ -23,15 +24,17 @@ export const TopicDetailHead: React.FC<TopicDetailHeadProps> = ({
   kafkaInstanceLink,
   kafkaPageLink,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <>
       <section className='pf-c-page__main-breadcrumb'>
         <Breadcrumb>
           <BreadcrumbItem to={kafkaPageLink ? kafkaPageLink : '#'}>
-            Kafka Instances
+            {t('common.kafka_instance')}
           </BreadcrumbItem>
           <BreadcrumbItem to={kafkaInstanceLink ? kafkaInstanceLink : '#'}>
-            {kafkaName ? kafkaName : 'Kafka Instance Name'}
+            {kafkaName ? kafkaName : t('common.kafka_instance_name')}
           </BreadcrumbItem>
           <BreadcrumbItem>{topicName}</BreadcrumbItem>
         </Breadcrumb>

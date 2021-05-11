@@ -6,18 +6,18 @@ import {
   Title,
 } from '@patternfly/react-core';
 import SearchIcon from '@patternfly/react-icons/dist/js/icons/search-icon';
+import { useTranslation } from 'react-i18next';
 
 export const EmptySearch: React.FunctionComponent = () => {
+  const { t } = useTranslation();
+
   return (
     <EmptyState>
       <EmptyStateIcon icon={SearchIcon} />
       <Title headingLevel='h5' size='lg'>
-        No results found
+        {t('topic.no_result_head')}
       </Title>
-      <EmptyStateBody>
-        No result match the filter criteria. Remove filter or clear all filters
-        to show results
-      </EmptyStateBody>
+      <EmptyStateBody>{t('topic.no_result_body')}</EmptyStateBody>
     </EmptyState>
   );
 };

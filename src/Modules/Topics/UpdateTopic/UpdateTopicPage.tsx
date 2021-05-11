@@ -9,6 +9,7 @@ import {
 import { ConsumerGroupsList } from '../../ConsumerGroups/ConsumerGroupList/Components/ConsumerGroupList';
 import { UpdateTopicView } from './Components/UpdateTopicView';
 import { TopicDetailHead } from '../TopicDetails/Components/TopicDetailHead';
+import { useTranslation } from 'react-i18next';
 
 export interface UpdateTopicPageProps {
   topicName: string;
@@ -33,6 +34,8 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
   onError,
   onDeleteConsumer,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <>
       <TopicDetailHead
@@ -45,7 +48,6 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
         variant={PageSectionVariants.light}
         padding={{ default: 'noPadding' }}
       >
-        {/* <div> */}
         <Tabs
           activeKey={1}
           onSelect={() => {
@@ -56,7 +58,9 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
         >
           <Tab
             eventKey={0}
-            title={<TabTitleText>Consumer Groups</TabTitleText>}
+            title={
+              <TabTitleText>{t('consumerGroup.consumer_groups')}</TabTitleText>
+            }
           >
             <ConsumerGroupsList
               onDeleteConsumerGroup={onDeleteConsumer}
@@ -64,7 +68,10 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
               consumerGroupByTopic={true}
             />
           </Tab>
-          <Tab eventKey={1} title={<TabTitleText>Properties</TabTitleText>}>
+          <Tab
+            eventKey={1}
+            title={<TabTitleText>{t('common.properties')}</TabTitleText>}
+          >
             <PageSection variant='light' padding={{ default: 'noPadding' }}>
               <UpdateTopicView
                 topicName={topicName}

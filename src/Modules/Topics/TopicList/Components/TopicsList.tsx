@@ -28,6 +28,7 @@ import { TopicsList } from '../../../../OpenApi';
 import { Loading } from '../../../../Components/Loading/Loading';
 import { AlertContext } from '../../../../Contexts/Alert';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import './TopicList.css';
 
@@ -65,6 +66,8 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   const [filteredTopics, setFilteredTopics] = useState<TopicsList>();
   const [deleteModal, setDeleteModal] = useState(false);
   const [topicName, setTopicName] = useState<string | undefined>();
+
+  const { t } = useTranslation();
 
   const { addAlert } = useContext(AlertContext);
 
@@ -105,10 +108,10 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   };
 
   const tableColumns = [
-    { title: 'Name' },
-    { title: 'Partitions', transforms: [sortable] },
-    { title: 'Retention Time', transforms: [sortable] },
-    { title: 'Retention Size', transforms: [sortable] },
+    { title: t('common.name') },
+    { title: t('common.partitions'), transforms: [sortable] },
+    { title: t('topic.retention_time'), transforms: [sortable] },
+    { title: t('topic.retention_size'), transforms: [sortable] },
   ];
   const convertRetentionTime = (milliseconds: number) => {
     let convertedValue;
@@ -211,9 +214,9 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
       setFilteredTopics((prevState) =>
         prevState
           ? {
-            ...prevState,
-            items: filterSearch,
-          }
+              ...prevState,
+              items: filterSearch,
+            }
           : undefined
       );
     } else {
@@ -239,12 +242,12 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
 
   const actions = [
     {
-      title: 'Delete',
+      title: t('common.delete'),
       ['data-testid']: 'tableTopics-actionDelete',
       onClick: (_, rowId) => onDelete(rowId),
     },
     {
-      title: 'Edit',
+      title: t('common.edit'),
       ['data-testid']: 'tableTopics-actionEdit',
       onClick: (_, rowId) => onEdit(rowId),
     },
@@ -286,7 +289,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
                     onCreateTopic();
                   }}
                 >
-                  Create topic
+                  {t('topic.create_topic')}
                 </Button>
               </ToolbarItem>
               <ToolbarItem variant='pagination'>
@@ -303,7 +306,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
           </Toolbar>
 
           <Table
-            aria-label='Compact Table'
+            aria-label={t('topic.topic_list_table')}
             variant={TableVariant.compact}
             cells={tableColumns}
             rows={

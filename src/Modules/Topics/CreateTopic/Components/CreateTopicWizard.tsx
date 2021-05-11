@@ -19,6 +19,7 @@ import { convertUnits, formatTopicRequest } from '../utils';
 import { ConfigContext } from '../../../../Contexts';
 import { Configuration } from '../../../../OpenApi';
 import { AlertContext } from '../../../../Contexts/Alert/Context';
+import { useTranslation } from 'react-i18next';
 
 interface ICreateTopicWizard {
   isSwitchChecked: boolean;
@@ -39,7 +40,7 @@ export interface IAdvancedTopic {
   'retention.bytes'?: string;
   /** unit for retention bytes */
   'retention.bytes.unit'?: string;
-
+  /** determines whether messages that reach the retention window are deleted or compacted */
   'cleanup.policy'?: string;
 }
 
@@ -49,6 +50,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   onCloseCreateTopic,
 }) => {
   const config = useContext(ConfigContext);
+  const { t } = useTranslation();
   const { addAlert } = useContext(AlertContext);
   const [msgRetentionValue, setMsgRetentionValue] = useState(1);
   const [retentionSize, setRetentionSize] = useState(1);
@@ -108,10 +110,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       .createTopic(topic)
       .then((res) => {
         if (res.status === 200) {
-          addAlert(
-            'The topic was successfully created in the Kafka instance',
-            AlertVariant.success
-          );
+          addAlert(t('topic.topic_successfully_created'), AlertVariant.success);
         }
         closeWizard();
       })
@@ -123,7 +122,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
 
   const steps: WizardStep[] = [
     {
-      name: 'Topic name',
+      name: t('topic.topic_name'),
       enableNext:
         topicNameInput.trim() !== '' && topicNameValidated === 'default',
       component: (
@@ -136,7 +135,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       ),
     },
     {
-      name: 'Partitions',
+      name: t('common.partitions'),
       canJumpTo: topicNameInput.trim() !== '',
       component: (
         <StepPartitions
@@ -146,7 +145,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       ),
     },
     {
-      name: 'Message retention',
+      name: t('topic.message_retention'),
       canJumpTo: topicNameInput.trim() !== '',
       component: (
         <StepMessageRetention
@@ -160,7 +159,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       ),
     },
     {
-      name: 'Replicas',
+      name: t('common.replicas'),
       canJumpTo: topicNameInput.trim() !== '',
       component: (
         <StepReplicas
@@ -168,11 +167,11 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
           minInSyncReplica={minInSyncReplicaTouchspinValue}
         />
       ),
-      nextButtonText: 'Finish',
+      nextButtonText: t('common.finish'),
     },
   ];
 
-  const title = 'Create topics wizard';
+  const title = t('topic.wizard_title');
 
   return (
     <>

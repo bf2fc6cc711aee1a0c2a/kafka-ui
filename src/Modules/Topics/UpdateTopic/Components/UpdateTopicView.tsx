@@ -10,6 +10,7 @@ import { ConfigContext } from '../../../../Contexts';
 import { IAdvancedTopic } from '../../CreateTopic/Components/CreateTopicWizard';
 import { convertUnits } from '../../CreateTopic/utils';
 import { isAxiosError } from '../../../../Utils/axios';
+import { useTranslation } from 'react-i18next';
 
 export type UpdateTopicViewProps = {
   topicName: string;
@@ -25,6 +26,8 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   onSaveTopic,
   onError,
 }) => {
+  const { t } = useTranslation();
+
   const [deleteModal, setDeleteModal] = useState(false);
 
   const [topicData, setTopicData] = useState<IAdvancedTopic>({
@@ -97,10 +100,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
       const updateStatus = await updateTopicModel(name, topicSettings, config);
 
       if (updateStatus === 200) {
-        addAlert(
-          'The topic was successfully updated in the Kafka instance',
-          AlertVariant.success
-        );
+        addAlert(t('topic.topic_successfully_updated'), AlertVariant.success);
         onSaveTopic();
       }
     } catch (err) {

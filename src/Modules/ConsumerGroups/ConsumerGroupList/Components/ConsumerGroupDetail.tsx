@@ -18,6 +18,7 @@ import {
   TableVariant,
 } from '@patternfly/react-table';
 import { ConsumerGroup } from '../../../../OpenApi';
+import { useTranslation } from 'react-i18next';
 
 export interface IConsumerGroupDetailProps {
   setIsExpanded: (value: boolean) => void;
@@ -28,15 +29,17 @@ export const ConsumerGroupDetail: React.FunctionComponent<IConsumerGroupDetailPr
   setIsExpanded,
   consumerDetail,
 }) => {
+  const { t } = useTranslation();
+
   const columns = [
-    'Partition',
-    'Client ID + Customer ID',
-    'Current offset',
-    'Log end offset',
-    'Offset lag',
+    t('consumerGroup.partition'),
+    `${t('consumerGroup.client_id')} + ${t('consumerGroup.customer_id')}`,
+    t('consumerGroup.current_offset'),
+    t('consumerGroup.log_end_offset'),
+    t('consumerGroup.offset_lag'),
     {
       title: '',
-      dataLabel: 'Action',
+      dataLabel: t('common.action'),
     },
   ];
 
@@ -59,7 +62,7 @@ export const ConsumerGroupDetail: React.FunctionComponent<IConsumerGroupDetailPr
       <DrawerHead>
         <span>
           <TextContent>
-            <Text>Consumer group ID</Text>
+            <Text>{t('consumerGroup.consumer_group_id')}</Text>
             <Text component={TextVariants.h1}>
               {consumerDetail && consumerDetail.groupId}
             </Text>
@@ -74,7 +77,7 @@ export const ConsumerGroupDetail: React.FunctionComponent<IConsumerGroupDetailPr
           <Flex>
             <FlexItem>
               <Text component={TextVariants.h4} size={50}>
-                Active members
+                {t('consumerGroup.active_members')}
               </Text>
               <Text component={TextVariants.h2}>
                 {consumerDetail &&
@@ -84,7 +87,9 @@ export const ConsumerGroupDetail: React.FunctionComponent<IConsumerGroupDetailPr
               </Text>
             </FlexItem>
             <FlexItem>
-              <Text component={TextVariants.h4}>Partitions with lag</Text>
+              <Text component={TextVariants.h4}>
+                {t('consumerGroup.partitions_with_lag')}
+              </Text>
               <Text component={TextVariants.h2}>
                 {consumerDetail &&
                   consumerDetail.consumers.reduce(function (prev, cur) {
@@ -97,7 +102,7 @@ export const ConsumerGroupDetail: React.FunctionComponent<IConsumerGroupDetailPr
       </DrawerPanelBody>
 
       <Table
-        aria-label='Compact Table'
+        aria-label={t('consumerGroup.consumer_group_info_table_aria')}
         variant={TableVariant.compact}
         cells={columns}
         rows={rows}
