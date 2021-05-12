@@ -69,13 +69,13 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
             title={<TabTitleText>Consumer groups</TabTitleText>}
             tabContentId='kafka-ui-TabcontentConsumerGroups'
             tabContentRef={contentRefConsumerGroup}
-          ></Tab>
+          />
           <Tab
             eventKey={1}
             title={<TabTitleText>Properties</TabTitleText>}
             tabContentId='kafka-ui-TabcontentProperties'
             tabContentRef={contentRefProperties}
-          ></Tab>
+          />
         </Tabs>
       </PageSection>
       <PageSection
@@ -89,6 +89,7 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
           eventKey={0}
           id='kafka-ui-TabcontentConsumerGroups'
           ref={contentRefConsumerGroup}
+          className='kafka-ui-m-full-height'
         >
           <ConsumerGroupsList
             onDeleteConsumerGroup={onDeleteConsumer}
@@ -100,6 +101,7 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
           eventKey={1}
           id='kafka-ui-TabcontentProperties'
           ref={contentRefProperties}
+          className='kafka-ui-m-full-height'
           hidden
         >
           <UpdateTopicView

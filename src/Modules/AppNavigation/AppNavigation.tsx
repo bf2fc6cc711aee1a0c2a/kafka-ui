@@ -96,7 +96,7 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
             id='topics-tab-section'
             aria-label='Topics Tab'
             tabContentRef={contentRefTopics}
-          ></Tab>
+          />
           <Tab
             title={<TabTitleText>Consumer Groups</TabTitleText>}
             eventKey={2}
@@ -104,7 +104,7 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
             id='consumer-groups-tab-section'
             aria-label='Consumer Groups Tab'
             tabContentRef={contentRefConsumerGroups}
-          ></Tab>
+          />
         </Tabs>
       </PageSection>
       <PageSection isFilled>
@@ -112,6 +112,7 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
           eventKey={1}
           ref={contentRefTopics}
           id='kafka-ui-TabcontentTopicsList'
+          className='kafka-ui-m-full-height'
         >
           <TopicsListComponent
             onCreateTopic={onCreateTopic}
@@ -124,6 +125,7 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
           eventKey={2}
           ref={contentRefConsumerGroups}
           id='kafka-ui-TabcontentConsumersList'
+          className='kafka-ui-m-full-height'
           hidden
         >
           <ConsumerGroupsList
