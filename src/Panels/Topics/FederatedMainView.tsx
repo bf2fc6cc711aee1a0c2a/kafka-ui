@@ -106,16 +106,16 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
               title={<TabTitleText>Topics</TabTitleText>}
               eventKey={0}
               id='topics-tab-section'
-              aria-label='Topics Tab'
+              aria-label='Topics Tab.'
               data-testid='pageKafka-tabTopics'
-              tabContentId='kafka-ui-TabTopics'
+              tabContentId='kafka-ui-TabcontentTopics'
               tabContentRef={contentRefTopics}
             />
             <Tab
               title={<TabTitleText>Consumer groups</TabTitleText>}
               eventKey={1}
               id='consumer-groups-tab-section'
-              aria-label='Consumer Groups Tab'
+              aria-label='Consumer Groups Tab.'
               data-testid='pageKafka-tabConsumers'
               tabContentId='kafka-ui-TabcontentConsumers'
               tabContentRef={contentRefConsumers}
@@ -135,6 +135,7 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
             id='kafka-ui-TabcontentTopics'
             ref={contentRefTopics}
             className='kafka-ui-m-full-height'
+            aria-label='Topics.'
           >
             <TopicsListComponent
               onCreateTopic={onCreateTopic}
@@ -149,6 +150,7 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
             id='kafka-ui-TabcontentConsumers'
             ref={contentRefConsumers}
             className='kafka-ui-m-full-height'
+            aria-label='Consumer groups.'
             hidden
           >
             <ConsumerGroupsList

@@ -322,7 +322,6 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
         <Divider />
         {rowData.length < 1 && search.length > 1 && <EmptySearch />}
         {rowData.length > 1 && (
-          // <Card>
           <Pagination
             itemCount={rowData.length}
             perPage={perPage}
@@ -333,7 +332,6 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
             offset={0}
             variant={PaginationVariant.bottom}
           />
-          // </Card>
         )}
       </Card>
     </>

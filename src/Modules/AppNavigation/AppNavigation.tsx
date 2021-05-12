@@ -94,16 +94,18 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
             eventKey={1}
             data-testid='pageKafka-tabTopics'
             id='topics-tab-section'
-            aria-label='Topics Tab'
+            aria-label='Topics Tab.'
             tabContentRef={contentRefTopics}
+            tabContentId='kafka-ui-TabcontentTopicsList'
           />
           <Tab
             title={<TabTitleText>Consumer Groups</TabTitleText>}
             eventKey={2}
             data-testid='pageKafka-tabConsumers'
             id='consumer-groups-tab-section'
-            aria-label='Consumer Groups Tab'
+            aria-label='Consumer Groups Tab.'
             tabContentRef={contentRefConsumerGroups}
+            tabContentId='kafka-ui-TabcontentConsumersList'
           />
         </Tabs>
       </PageSection>
@@ -113,6 +115,7 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
           ref={contentRefTopics}
           id='kafka-ui-TabcontentTopicsList'
           className='kafka-ui-m-full-height'
+          aria-label='Topics.'
         >
           <TopicsListComponent
             onCreateTopic={onCreateTopic}
@@ -126,6 +129,7 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
           ref={contentRefConsumerGroups}
           id='kafka-ui-TabcontentConsumersList'
           className='kafka-ui-m-full-height'
+          aria-label='Consumer Groups.'
           hidden
         >
           <ConsumerGroupsList

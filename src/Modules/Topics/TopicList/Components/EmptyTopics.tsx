@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Bullseye,
   Button,
   EmptyState,
   EmptyStateIcon,
@@ -16,21 +17,23 @@ export const EmptyTopics: React.FunctionComponent<IEmptyTopic> = ({
   onCreateTopic,
 }) => {
   return (
-    <EmptyState>
-      <EmptyStateIcon icon={PlusIcon} />
-      <Title headingLevel='h5' size='lg'>
-        You don&apos;t have any topics yet
-      </Title>
-      <EmptyStateBody>
-        Create a topic by clicking the button below to get started
-      </EmptyStateBody>
-      <Button
-        variant='primary'
-        className='topics-empty-page'
-        onClick={onCreateTopic}
-      >
-        Create Topic
-      </Button>
-    </EmptyState>
+    <Bullseye>
+      <EmptyState>
+        <EmptyStateIcon icon={PlusIcon} />
+        <Title headingLevel='h5' size='lg'>
+          You don&apos;t have any topics yet
+        </Title>
+        <EmptyStateBody>
+          Create a topic by clicking the button below to get started
+        </EmptyStateBody>
+        <Button
+          variant='primary'
+          className='topics-empty-page'
+          onClick={onCreateTopic}
+        >
+          Create Topic
+        </Button>
+      </EmptyState>
+    </Bullseye>
   );
 };

@@ -90,6 +90,7 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
           id='kafka-ui-TabcontentConsumerGroups'
           ref={contentRefConsumerGroup}
           className='kafka-ui-m-full-height'
+          aria-label='Consumer groups.'
         >
           <ConsumerGroupsList
             onDeleteConsumerGroup={onDeleteConsumer}
@@ -102,6 +103,7 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
           id='kafka-ui-TabcontentProperties'
           ref={contentRefProperties}
           className='kafka-ui-m-full-height'
+          aria-label='Topic properties'
           hidden
         >
           <UpdateTopicView

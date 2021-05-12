@@ -134,6 +134,7 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
           id='kafka-ui-TabcontentConsumerGroupList'
           ref={contentRefConsumerGroup}
           className='kafka-ui-m-full-height'
+          aria-label='Consumer groups.'
           hidden
         >
           <ConsumerGroupsList
@@ -146,9 +147,10 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
         </TabContent>
         <TabContent
           eventKey={2}
-          id='kafka-ui-TabcontentConsumerGroups'
+          id='kafka-ui-TabcontentProperties'
           ref={contentRefProperties}
           className='kafka-ui-m-full-height'
+          aria-label='Topic properties.'
         >
           <TopicDetailView
             topic={topicDetail}
