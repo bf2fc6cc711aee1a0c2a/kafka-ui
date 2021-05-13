@@ -26,6 +26,7 @@ const UpdateTopic: FunctionComponent<TopicUseParams> = () => {
         history.push('/topics');
         return;
       }}
+      activeTab={1}
     />
   );
 };
