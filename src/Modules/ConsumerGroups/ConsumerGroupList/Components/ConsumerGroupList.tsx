@@ -240,7 +240,6 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
               </ToolbarItem>
             </ToolbarContent>
           </Toolbar>
-          <Divider />
           {consumerGroupByTopic ? (
             <Table
               aria-label='Compact Table'
