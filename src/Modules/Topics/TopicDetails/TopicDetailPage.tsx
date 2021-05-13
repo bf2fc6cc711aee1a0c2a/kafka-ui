@@ -7,6 +7,7 @@ import {
   PageSection,
   PageSectionVariants,
   Tab,
+  TabContent,
   Tabs,
   TabTitleText,
 } from '@patternfly/react-core';
@@ -66,6 +67,10 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
       }
     }
   };
+
+  const contentRefConsumerGroup = React.createRef<HTMLElement>();
+  const contentRefProperties = React.createRef<HTMLElement>();
+
   const handleTabClick = (event, tabIndex) => {
     setActiveTabKey(tabIndex);
   };
@@ -93,50 +98,75 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
       <PageSection
         variant={PageSectionVariants.light}
         padding={{ default: 'noPadding' }}
+        className='pf-c-page__main-tabs'
       >
         <Tabs
           activeKey={activeTabKey}
           onSelect={handleTabClick}
           isBox={false}
-          className='kafka-ui--tab-padding'
+          className='pf-m-page-insets'
         >
           <Tab
             eventKey={1}
             data-testid='pageTopic-tabConsumers'
-            title={<TabTitleText>Consumer Groups</TabTitleText>}
-            className={activeTabKey === 1 ? 'kafka-ui--consumer-content':''}
-          >
-            <ConsumerGroupsList
-              onDeleteConsumerGroup={onDeleteConsumer}
-              consumerGroupByTopic={true}
-              topic={topicName}
-              rowDataId='tableTopicConsumers-row'
-              detailsDataId='tableTopicConsumers-actionDetails'
-            />
-          </Tab>
+            title={<TabTitleText>Consumer groups</TabTitleText>}
+            tabContentId='kafka-ui-TabcontentConsumerGroupList'
+            tabContentRef={contentRefConsumerGroup}
+          />
           <Tab
             eventKey={2}
             title={<TabTitleText>Properties</TabTitleText>}
             data-testid='pageTopic-tabProperties'
-          >
-            <PageSection padding={{ default: 'noPadding' }}>
-              <TopicDetailView
-                topic={topicDetail}
-                deleteTopic={deleteTopic}
-                updateTopic={onUpdateTopic}
-              />
-            </PageSection>
-          </Tab>
-        </Tabs>
-        {deleteModal && (
-          <DeleteTopics
-            topicName={topicName}
-            deleteModal={deleteModal}
-            setDeleteModal={setDeleteModal}
-            onDeleteTopic={onDeleteTopic}
+            tabContentId='kafka-ui-TabcontentProperties'
+            tabContentRef={contentRefProperties}
           />
-        )}
+        </Tabs>
       </PageSection>
+      <PageSection
+        variant={
+          activeTabKey === 2
+            ? PageSectionVariants.light
+            : PageSectionVariants.default
+        }
+      >
+        <TabContent
+          eventKey={1}
+          id='kafka-ui-TabcontentConsumerGroupList'
+          ref={contentRefConsumerGroup}
+          className='kafka-ui-m-full-height'
+          aria-label='Consumer groups.'
+          hidden
+        >
+          <ConsumerGroupsList
+            onDeleteConsumerGroup={onDeleteConsumer}
+            consumerGroupByTopic={true}
+            topic={topicName}
+            rowDataId='tableTopicConsumers-row'
+            detailsDataId='tableTopicConsumers-actionDetails'
+          />
+        </TabContent>
+        <TabContent
+          eventKey={2}
+          id='kafka-ui-TabcontentProperties'
+          ref={contentRefProperties}
+          className='kafka-ui-m-full-height'
+          aria-label='Topic properties.'
+        >
+          <TopicDetailView
+            topic={topicDetail}
+            deleteTopic={deleteTopic}
+            updateTopic={onUpdateTopic}
+          />
+        </TabContent>
+      </PageSection>
+      {deleteModal && (
+        <DeleteTopics
+          topicName={topicName}
+          deleteModal={deleteModal}
+          setDeleteModal={setDeleteModal}
+          onDeleteTopic={onDeleteTopic}
+        />
+      )}
     </>
   );
 };

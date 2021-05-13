@@ -9,6 +9,7 @@ import {
   Button,
   Drawer,
   DrawerContent,
+  PaginationVariant,
 } from '@patternfly/react-core';
 import {
   Table,
@@ -118,9 +119,9 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
       setFilteredConsumerGroups((prevState) =>
         prevState
           ? {
-            ...prevState,
-            items: filterSearch,
-          }
+              ...prevState,
+              items: filterSearch,
+            }
           : undefined
       );
     } else {
@@ -239,7 +240,6 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
               </ToolbarItem>
             </ToolbarContent>
           </Toolbar>
-          <Divider />
           {consumerGroupByTopic ? (
             <Table
               aria-label='Compact Table'
@@ -270,6 +270,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
               <TableBody />
             </Table>
           )}
+          <Divider />
           {rowData.length < 1 ? (
             <EmptyConsumers />
           ) : (
@@ -281,6 +282,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
               widgetId='consumer-group-pagination-bottom'
               onPerPageSelect={onPerPageSelect}
               offset={0}
+              variant={PaginationVariant.bottom}
             />
           )}
         </DrawerContent>

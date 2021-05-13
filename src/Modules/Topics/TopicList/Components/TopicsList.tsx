@@ -211,9 +211,9 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
       setFilteredTopics((prevState) =>
         prevState
           ? {
-            ...prevState,
-            items: filterSearch,
-          }
+              ...prevState,
+              items: filterSearch,
+            }
           : undefined
       );
     } else {
@@ -264,64 +264,64 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
           onDeleteTopic={onDeleteTopic}
         />
       )}
-      {rowData.length < 1 && search.length < 1 ? (
-        <EmptyTopics onCreateTopic={onCreateTopic} />
-      ) : (
-        <Card>
-          <Toolbar>
-            <ToolbarContent>
-              <ToolbarItem className='pf-c-toolbar-item--search'>
-                <SearchTopics
-                  onClear={onClear}
-                  search={search}
-                  setSearch={setSearch}
-                />
-              </ToolbarItem>
-              <ToolbarItem>
-                <Button
-                  id='topic-list-create-topic-button'
-                  className='topics-per-page'
-                  data-testid='tabTopics-actionCreate'
-                  onClick={() => {
-                    onCreateTopic();
-                  }}
-                >
-                  Create topic
-                </Button>
-              </ToolbarItem>
-              <ToolbarItem variant='pagination'>
-                <Pagination
-                  itemCount={rowData.length}
-                  perPage={perPage}
-                  page={page}
-                  onSetPage={onSetPage}
-                  widgetId='topic-list-pagination-top'
-                  onPerPageSelect={onPerPageSelect}
-                />
-              </ToolbarItem>
-            </ToolbarContent>
-          </Toolbar>
+      <Card className='kafka-ui-m-full-height'>
+        {rowData.length < 1 && search.length < 1 ? (
+          <EmptyTopics onCreateTopic={onCreateTopic} />
+        ) : (
+          <>
+            <Toolbar>
+              <ToolbarContent>
+                <ToolbarItem className='pf-c-toolbar-item--search'>
+                  <SearchTopics
+                    onClear={onClear}
+                    search={search}
+                    setSearch={setSearch}
+                  />
+                </ToolbarItem>
+                <ToolbarItem>
+                  <Button
+                    id='topic-list-create-topic-button'
+                    className='topics-per-page'
+                    data-testid='tabTopics-actionCreate'
+                    onClick={() => {
+                      onCreateTopic();
+                    }}
+                  >
+                    Create topic
+                  </Button>
+                </ToolbarItem>
+                <ToolbarItem variant='pagination'>
+                  <Pagination
+                    itemCount={rowData.length}
+                    perPage={perPage}
+                    page={page}
+                    onSetPage={onSetPage}
+                    widgetId='topic-list-pagination-top'
+                    onPerPageSelect={onPerPageSelect}
+                  />
+                </ToolbarItem>
+              </ToolbarContent>
+            </Toolbar>
 
-          <Table
-            aria-label='Compact Table'
-            variant={TableVariant.compact}
-            cells={tableColumns}
-            rows={
-              page != 1
-                ? rowData.slice(offset, offset + perPage)
-                : rowData.slice(0, perPage)
-            }
-            actions={actions}
-          >
-            <TableHeader />
-            <TableBody />
-          </Table>
-        </Card>
-      )}
-      <Divider />
-      {rowData.length < 1 && search.length > 1 && <EmptySearch />}
-      {rowData.length > 1 && (
-        <Card>
+            <Table
+              aria-label='Compact Table'
+              variant={TableVariant.compact}
+              cells={tableColumns}
+              rows={
+                page != 1
+                  ? rowData.slice(offset, offset + perPage)
+                  : rowData.slice(0, perPage)
+              }
+              actions={actions}
+            >
+              <TableHeader />
+              <TableBody />
+            </Table>
+          </>
+        )}
+        <Divider />
+        {rowData.length < 1 && search.length > 1 && <EmptySearch />}
+        {rowData.length > 1 && (
           <Pagination
             itemCount={rowData.length}
             perPage={perPage}
@@ -332,8 +332,8 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
             offset={0}
             variant={PaginationVariant.bottom}
           />
-        </Card>
-      )}
+        )}
+      </Card>
     </>
   );
 };

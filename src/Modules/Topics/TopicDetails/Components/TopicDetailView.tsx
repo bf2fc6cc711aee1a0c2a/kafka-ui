@@ -37,7 +37,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
   const { t } = useTranslation();
 
   return (
-    <PageSection className='kafka-ui--page__main-section--adjust-padding'>
+    <PageSection padding={{ default: 'noPadding' }}>
       <Sidebar hasGutter>
         <SidebarPanel variant='sticky'>
           <JumpLinks

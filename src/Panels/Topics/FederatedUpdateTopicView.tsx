@@ -54,6 +54,7 @@ const FederatedUpdateTopicView: FunctionComponent<FederatedUpdateTopicProps> = (
               kafkaName={kafkaName}
               kafkaPageLink={kafkaPageLink}
               kafkaInstanceLink={kafkaInstanceLink}
+              activeTab={1}
             />
           </TopicContextProvider>
         </AlertContext.Provider>

@@ -13,6 +13,7 @@ import {
   TabTitleText,
   PageSection,
   PageSectionVariants,
+  TabContent,
 } from '@patternfly/react-core';
 import kafkai18n from '../../i18n';
 import { I18nextProvider } from 'react-i18next';
@@ -55,6 +56,9 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
 
   const [activeTabKey, setActiveTabKey] = useState(activeTab);
 
+  const contentRefTopics = React.createRef<HTMLElement>();
+  const contentRefConsumers = React.createRef<HTMLElement>();
+
   const handleTabClick = (event, tabIndex) => {
     setActiveTabKey(tabIndex);
   };
@@ -73,29 +77,65 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
 
     return (
       <>
-        {mainBreadcrumbs}
-     
-        <Level>
-          <Title headingLevel='h1'>
-            {kafkaName ? kafkaName : 'Kafka Instance Name'}
-          </Title>
-          {/* TODO: Add this back once we get the options available to us for this menu <Button variant='plain' iconPosition='right'>
+        <section className='pf-c-page__main-breadcrumb'>
+          {mainBreadcrumbs}
+        </section>
+        <PageSection variant='light' className='foobarfoobar'>
+          <Level>
+            <Title headingLevel='h1'>
+              {kafkaName ? kafkaName : 'Kafka Instance Name'}
+            </Title>
+            {/* TODO: Add this back once we get the options available to us for this menu <Button variant='plain' iconPosition='right'>
             <EllipsisVIcon />
           </Button> */}
-        </Level>
+          </Level>
+        </PageSection>
 
-        {/* <PageSection
-        variant={PageSectionVariants.light}
-        padding={{ default: 'noPadding' }}
-        > */}
-
-        <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
-          <Tab
-            title={<TabTitleText>Topics</TabTitleText>}
+        <PageSection
+          variant={PageSectionVariants.light}
+          className='pf-c-page__main-tabs'
+          isWidthLimited
+          padding={{ default: 'noPadding' }}
+        >
+          <Tabs
+            activeKey={activeTabKey}
+            onSelect={handleTabClick}
+            className='pf-m-page-insets'
+          >
+            <Tab
+              title={<TabTitleText>Topics</TabTitleText>}
+              eventKey={0}
+              id='topics-tab-section'
+              aria-label='Topics Tab.'
+              data-testid='pageKafka-tabTopics'
+              tabContentId='kafka-ui-TabcontentTopics'
+              tabContentRef={contentRefTopics}
+            />
+            <Tab
+              title={<TabTitleText>Consumer groups</TabTitleText>}
+              eventKey={1}
+              id='consumer-groups-tab-section'
+              aria-label='Consumer Groups Tab.'
+              data-testid='pageKafka-tabConsumers'
+              tabContentId='kafka-ui-TabcontentConsumers'
+              tabContentRef={contentRefConsumers}
+              className={activeTabKey === 1 ? 'kafka-ui--consumer-content' : ''}
+            />
+          </Tabs>
+        </PageSection>
+        <PageSection
+          variant={
+            activeTabKey === 1
+              ? PageSectionVariants.default
+              : PageSectionVariants.default
+          }
+        >
+          <TabContent
             eventKey={0}
-            id='topics-tab-section'
-            aria-label='Topics Tab'
-            data-testid='pageKafka-tabTopics'
+            id='kafka-ui-TabcontentTopics'
+            ref={contentRefTopics}
+            className='kafka-ui-m-full-height'
+            aria-label='Topics.'
           >
             <TopicsListComponent
               onCreateTopic={onCreateTopic}
@@ -104,22 +144,21 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
               onDeleteTopic={onDeleteTopic}
               onError={onError}
             />
-          </Tab>
-          <Tab
-            title={<TabTitleText>Consumer Groups</TabTitleText>}
+          </TabContent>
+          <TabContent
             eventKey={1}
-            id='consumer-groups-tab-section'
-            aria-label='Consumer Groups Tab'
-            data-testid='pageKafka-tabConsumers'
-            className={activeTabKey === 1 ? 'kafka-ui--consumer-content' : ''}
+            id='kafka-ui-TabcontentConsumers'
+            ref={contentRefConsumers}
+            className='kafka-ui-m-full-height'
+            aria-label='Consumer groups.'
+            hidden
           >
             <ConsumerGroupsList
               onDeleteConsumerGroup={onDeleteConsumer}
               consumerGroupByTopic={false}
             />
-          </Tab>
-        </Tabs>
-        {/* </PageSection> */}
+          </TabContent>
+        </PageSection>
       </>
     );
   };
@@ -130,9 +169,7 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
       <I18nextProvider i18n={kafkai18n}>
         <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
           <AlertContext.Provider value={alertContext}>
-            <PageSection variant={PageSectionVariants.light}>
-              {buildMainView()}
-            </PageSection>
+            {buildMainView()}
           </AlertContext.Provider>
         </ConfigContext.Provider>
       </I18nextProvider>

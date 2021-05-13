@@ -10,6 +10,7 @@ import {
   Level,
   Tab,
   TabTitleText,
+  TabContent,
 } from '@patternfly/react-core';
 import { TopicsListComponent } from '../Topics/TopicList/Components/TopicsList';
 import { ConsumerGroupsList } from '../ConsumerGroups/ConsumerGroupList/Components/ConsumerGroupList';
@@ -24,9 +25,12 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
   instanceName,
 }) => {
   const [activeTabKey, setActiveTabKey] = useState(eventKey);
+  const contentRefConsumerGroups = React.createRef<HTMLElement>();
+  const contentRefTopics = React.createRef<HTMLElement>();
   const handleTabClick = (event, tabIndex) => {
     setActiveTabKey(tabIndex);
   };
+
   const history = useHistory();
 
   const onCreateTopic = () => {
@@ -59,29 +63,59 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
   );
 
   return (
-    <PageSection variant={PageSectionVariants.light}>
-      {mainBreadcrumbs}
+    <>
+      <section className='pf-c-page__main-breadcrumb'>
+        {mainBreadcrumbs}
+      </section>
 
-      <Level>
-        <Title headingLevel='h1'>
-          {instanceName ? instanceName : 'Kafka Instance Name'}
-        </Title>
-        <Button variant='plain' iconPosition='right'>
-          <EllipsisVIcon />
-        </Button>
-      </Level>
-
-      <Tabs
-        activeKey={activeTabKey}
-        onSelect={handleTabClick}
-        data-testid='pageKafka-tabProperties'
+      <PageSection variant={PageSectionVariants.light}>
+        <Level>
+          <Title headingLevel='h1'>
+            {instanceName ? instanceName : 'Kafka Instance Name'}
+          </Title>
+          <Button variant='plain' iconPosition='right'>
+            <EllipsisVIcon />
+          </Button>
+        </Level>
+      </PageSection>
+      <PageSection
+        variant={PageSectionVariants.light}
+        padding={{ default: 'noPadding' }}
+        className='pf-c-page__main-tabs'
       >
-        <Tab
-          title={<TabTitleText>Topics</TabTitleText>}
+        <Tabs
+          activeKey={activeTabKey}
+          onSelect={handleTabClick}
+          data-testid='pageKafka-tabProperties'
+          className='pf-m-page-insets'
+        >
+          <Tab
+            title={<TabTitleText>Topics</TabTitleText>}
+            eventKey={1}
+            data-testid='pageKafka-tabTopics'
+            id='topics-tab-section'
+            aria-label='Topics Tab.'
+            tabContentRef={contentRefTopics}
+            tabContentId='kafka-ui-TabcontentTopicsList'
+          />
+          <Tab
+            title={<TabTitleText>Consumer Groups</TabTitleText>}
+            eventKey={2}
+            data-testid='pageKafka-tabConsumers'
+            id='consumer-groups-tab-section'
+            aria-label='Consumer Groups Tab.'
+            tabContentRef={contentRefConsumerGroups}
+            tabContentId='kafka-ui-TabcontentConsumersList'
+          />
+        </Tabs>
+      </PageSection>
+      <PageSection isFilled>
+        <TabContent
           eventKey={1}
-          data-testid='pageKafka-tabTopics'
-          id='topics-tab-section'
-          aria-label='Topics Tab'
+          ref={contentRefTopics}
+          id='kafka-ui-TabcontentTopicsList'
+          className='kafka-ui-m-full-height'
+          aria-label='Topics.'
         >
           <TopicsListComponent
             onCreateTopic={onCreateTopic}
@@ -89,20 +123,21 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
             getTopicDetailsPath={getTopicDetailsPath}
             onDeleteTopic={onDeleteTopic}
           />
-        </Tab>
-        <Tab
-          title={<TabTitleText>Consumer Groups</TabTitleText>}
+        </TabContent>
+        <TabContent
           eventKey={2}
-          data-testid='pageKafka-tabConsumers'
-          id='consumer-groups-tab-section'
-          aria-label='Consumer Groups Tab'
+          ref={contentRefConsumerGroups}
+          id='kafka-ui-TabcontentConsumersList'
+          className='kafka-ui-m-full-height'
+          aria-label='Consumer Groups.'
+          hidden
         >
           <ConsumerGroupsList
             onDeleteConsumerGroup={onDeleteConsumer}
             consumerGroupByTopic={false}
           />
-        </Tab>
-      </Tabs>
-    </PageSection>
+        </TabContent>
+      </PageSection>
+    </>
   );
 };
