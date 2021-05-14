@@ -227,10 +227,10 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
             variant: MASEmptyStateVariant.NoConsumerGroups,
           }}
           titleProps={{
-            title: `You don't have any Consumer groups `,
+            title: t('consumerGroup.empty_consumer_title'),
           }}
           emptyStateBodyProps={{
-            body: 'Create consumer groups to find them here',
+            body: t('consumerGroup.empty_consumer_body'),
           }}
         />
       ) : (
@@ -290,10 +290,10 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
                   variant: MASEmptyStateVariant.NoResult,
                 }}
                 titleProps={{
-                  title: 'No results found',
+                  title: t('common.no_results_title'),
                 }}
                 emptyStateBodyProps={{
-                  body: 'Adjust your filters and try again',
+                  body: t('common.no_results_body'),
                 }}
               />
             ) : (

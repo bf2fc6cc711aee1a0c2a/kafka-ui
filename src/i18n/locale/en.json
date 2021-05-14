@@ -24,10 +24,14 @@
     "kafka_instance": "Kafka Instances",
     "kafka_instance_name": "Kafka Instance Name",
     "confirm_delete": "Type DELETE to confirm:",
-    "confirm_delete_modal_text": "<b>{{name}}</b> will be deleted."
+    "confirm_delete_modal_text": "<b>{{name}}</b> will be deleted.",
+    "no_results_title": "No results found",
+    "no_results_body": "Adjust your filters and try again"
   },
   "topic": {
     "topics": "Topics",
+    "empty_topics_title": "You don't have any topics yet",
+    "empty_topics_body": "Create a topic by clicking the button below to get started",
     "core_configuration": "Core configuration",
     "flush": "Flush",
     "index": "Index",
@@ -149,6 +153,8 @@
     "consumergroup_successfully_deleted": "Successfully deleted consumer group {{name}}",
     "search": "Search consumer groups",
     "no_result": "No Consumer Groups Found",
-    "empty_list": "You have No Consumer Groups"
+    "empty_list": "You have No Consumer Groups",
+    "empty_consumer_title": "You don't have any Consumer groups",
+    "empty_consumer_body": "Create consumer groups to find them here"
   }
 }
