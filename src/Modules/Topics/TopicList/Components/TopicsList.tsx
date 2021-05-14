@@ -275,13 +275,13 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
             variant: MASEmptyStateVariant.NoItems,
           }}
           titleProps={{
-            title: `You don't have any topics yet`,
+            title: t('topic.empty_topics_title'),
           }}
           emptyStateBodyProps={{
-            body: 'Create a topic by clicking the button below to get started',
+            body: t('topic.empty_topics_body'),
           }}
           buttonProps={{
-            title: 'Create Topic',
+            title: t('topic.create_topic'),
             onClick: () => onCreateTopic(),
           }}
         />
@@ -344,10 +344,10 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
             variant: MASEmptyStateVariant.NoResult,
           }}
           titleProps={{
-            title: 'No results found',
+            title: t('common.no_results_title'),
           }}
           emptyStateBodyProps={{
-            body: 'Adjust your filters and try again',
+            body: t('common.no_results_body'),
           }}
         />
       )}
