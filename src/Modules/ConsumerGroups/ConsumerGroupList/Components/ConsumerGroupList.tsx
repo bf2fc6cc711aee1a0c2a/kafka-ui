@@ -9,7 +9,6 @@ import {
   Button,
   Drawer,
   DrawerContent,
-  PaginationVariant,
 } from '@patternfly/react-core';
 import {
   Table,

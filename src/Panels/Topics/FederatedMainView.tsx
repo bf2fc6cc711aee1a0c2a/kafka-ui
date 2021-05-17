@@ -78,17 +78,16 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
 
     return (
       <>
-      <section className='pf-c-page__main-breadcrumb'>
-
-        {mainBreadcrumbs}
+        <section className='pf-c-page__main-breadcrumb'>
+          {mainBreadcrumbs}
         </section>
-      
-      <PageSection variant='light' className='foobarfoobar'>
-        <Level>
-          <Title headingLevel='h1'>
-            {kafkaName ? kafkaName : t('common.kafka_instance_name')}
-          </Title>
-          {/* TODO: Add this back once we get the options available to us for this menu <Button variant='plain' iconPosition='right'>
+
+        <PageSection variant='light' className='foobarfoobar'>
+          <Level>
+            <Title headingLevel='h1'>
+              {kafkaName ? kafkaName : t('common.kafka_instance_name')}
+            </Title>
+            {/* TODO: Add this back once we get the options available to us for this menu <Button variant='plain' iconPosition='right'>
             <EllipsisVIcon />
           </Button> */}
           </Level>

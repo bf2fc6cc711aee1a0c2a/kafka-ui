@@ -32,11 +32,7 @@ ReactDOM.render(
               <Switch>
                 <Route path='/' component={Topics} exact />
                 <Route path='/topics' component={Topics} exact />
-                <Route
-                  path='/topic/:topicName'
-                  component={TopicDetail}
-                  exact
-                />
+                <Route path='/topic/:topicName' component={TopicDetail} exact />
                 <Route path='/topics/create' component={CreateTopic} exact />
                 <Route
                   path='/topics/update/:topicName'

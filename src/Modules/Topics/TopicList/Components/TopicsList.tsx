@@ -270,103 +270,103 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
         />
       )}
       <Card className='kafka-ui-m-full-height'>
-      {rowData.length < 1 && search.length < 1 ? (
-        <EmptyState
-          emptyStateProps={{
-            variant: MASEmptyStateVariant.NoItems,
-          }}
-          titleProps={{
-            title: t('topic.empty_topics_title'),
-          }}
-          emptyStateBodyProps={{
-            body: t('topic.empty_topics_body'),
-          }}
-          buttonProps={{
-            title: t('topic.create_topic'),
-            onClick: () => onCreateTopic(),
-          }}
-        />
-      ) : (
-        <Card>
-          <Toolbar>
-            <ToolbarContent>
-              <ToolbarItem className='pf-c-toolbar-item--search'>
-                <SearchTopics
-                  onClear={onClear}
-                  search={search}
-                  setSearch={setSearch}
-                />
-              </ToolbarItem>
-              <ToolbarItem>
-                <Button
-                  id='topic-list-create-topic-button'
-                  className='topics-per-page'
-                  data-testid='tabTopics-actionCreate'
-                  onClick={() => {
-                    onCreateTopic();
-                  }}
-                >
-                  {t('topic.create_topic')}
-                </Button>
-              </ToolbarItem>
-              <ToolbarItem variant='pagination'>
-                <Pagination
-                  itemCount={rowData.length}
-                  perPage={perPage}
-                  page={page}
-                  onSetPage={onSetPage}
-                  widgetId='topic-list-pagination-top'
-                  onPerPageSelect={onPerPageSelect}
-                />
-              </ToolbarItem>
-            </ToolbarContent>
-          </Toolbar>
-
-          <Table
-            aria-label={t('topic.topic_list_table')}
-            variant={TableVariant.compact}
-            cells={tableColumns}
-            rows={
-              page != 1
-                ? rowData.slice(offset, offset + perPage)
-                : rowData.slice(0, perPage)
-            }
-            actions={actions}
-          >
-            <TableHeader />
-            <TableBody />
-          </Table>
-        </Card>
-      )}
-      <Divider />
-      {rowData.length < 1 && search.length > 1 && (
-        <EmptyState
-          emptyStateProps={{
-            variant: MASEmptyStateVariant.NoResult,
-          }}
-          titleProps={{
-            title: t('common.no_results_title'),
-          }}
-          emptyStateBodyProps={{
-            body: t('common.no_results_body'),
-          }}
-        />
-      )}
-      {rowData.length > 1 && (
-        <Card>
-          <Pagination
-            itemCount={rowData.length}
-            perPage={perPage}
-            page={page}
-            onSetPage={onSetPage}
-            widgetId='topic-list-pagination-bottom'
-            onPerPageSelect={onPerPageSelect}
-            offset={0}
-            variant={PaginationVariant.bottom}
+        {rowData.length < 1 && search.length < 1 ? (
+          <EmptyState
+            emptyStateProps={{
+              variant: MASEmptyStateVariant.NoItems,
+            }}
+            titleProps={{
+              title: t('topic.empty_topics_title'),
+            }}
+            emptyStateBodyProps={{
+              body: t('topic.empty_topics_body'),
+            }}
+            buttonProps={{
+              title: t('topic.create_topic'),
+              onClick: () => onCreateTopic(),
+            }}
           />
-         </Card>
+        ) : (
+          <Card>
+            <Toolbar>
+              <ToolbarContent>
+                <ToolbarItem className='pf-c-toolbar-item--search'>
+                  <SearchTopics
+                    onClear={onClear}
+                    search={search}
+                    setSearch={setSearch}
+                  />
+                </ToolbarItem>
+                <ToolbarItem>
+                  <Button
+                    id='topic-list-create-topic-button'
+                    className='topics-per-page'
+                    data-testid='tabTopics-actionCreate'
+                    onClick={() => {
+                      onCreateTopic();
+                    }}
+                  >
+                    {t('topic.create_topic')}
+                  </Button>
+                </ToolbarItem>
+                <ToolbarItem variant='pagination'>
+                  <Pagination
+                    itemCount={rowData.length}
+                    perPage={perPage}
+                    page={page}
+                    onSetPage={onSetPage}
+                    widgetId='topic-list-pagination-top'
+                    onPerPageSelect={onPerPageSelect}
+                  />
+                </ToolbarItem>
+              </ToolbarContent>
+            </Toolbar>
+
+            <Table
+              aria-label={t('topic.topic_list_table')}
+              variant={TableVariant.compact}
+              cells={tableColumns}
+              rows={
+                page != 1
+                  ? rowData.slice(offset, offset + perPage)
+                  : rowData.slice(0, perPage)
+              }
+              actions={actions}
+            >
+              <TableHeader />
+              <TableBody />
+            </Table>
+          </Card>
         )}
-     </Card>
+        <Divider />
+        {rowData.length < 1 && search.length > 1 && (
+          <EmptyState
+            emptyStateProps={{
+              variant: MASEmptyStateVariant.NoResult,
+            }}
+            titleProps={{
+              title: t('common.no_results_title'),
+            }}
+            emptyStateBodyProps={{
+              body: t('common.no_results_body'),
+            }}
+          />
+        )}
+        {rowData.length > 1 && (
+          <Card>
+            <Pagination
+              itemCount={rowData.length}
+              perPage={perPage}
+              page={page}
+              onSetPage={onSetPage}
+              widgetId='topic-list-pagination-bottom'
+              onPerPageSelect={onPerPageSelect}
+              offset={0}
+              variant={PaginationVariant.bottom}
+            />
+          </Card>
+        )}
+      </Card>
     </>
   );
 };

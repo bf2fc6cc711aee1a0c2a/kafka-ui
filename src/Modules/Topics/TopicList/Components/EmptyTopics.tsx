@@ -21,20 +21,20 @@ export const EmptyTopics: React.FunctionComponent<IEmptyTopic> = ({
 
   return (
     <Bullseye>
-    <EmptyState>
-      <EmptyStateIcon icon={PlusIcon} />
-      <Title headingLevel='h5' size='lg'>
-        {t('topic.empty_list_head')}
-      </Title>
-      <EmptyStateBody>{t('topic.empty_list_body')}</EmptyStateBody>
-      <Button
-        variant='primary'
-        className='topics-empty-page'
-        onClick={onCreateTopic}
-      >
-        {t('topic.create_topic')}
-      </Button>
-    </EmptyState>
+      <EmptyState>
+        <EmptyStateIcon icon={PlusIcon} />
+        <Title headingLevel='h5' size='lg'>
+          {t('topic.empty_list_head')}
+        </Title>
+        <EmptyStateBody>{t('topic.empty_list_body')}</EmptyStateBody>
+        <Button
+          variant='primary'
+          className='topics-empty-page'
+          onClick={onCreateTopic}
+        >
+          {t('topic.create_topic')}
+        </Button>
+      </EmptyState>
     </Bullseye>
   );
 };

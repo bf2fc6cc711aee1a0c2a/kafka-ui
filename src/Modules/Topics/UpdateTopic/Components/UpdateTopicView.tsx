@@ -56,7 +56,6 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
         'retention.bytes': configEntries['retention.bytes'] || '-1',
         'retention.ms': configEntries['retention.ms'] || '604800000',
       });
-
     } catch (err) {
       if (isAxiosError(err)) {
         if (onError) {
@@ -69,10 +68,10 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
         }
       }
     }
-  }
+  };
 
   useEffect(() => {
-    fetchTopic(topicName)
+    fetchTopic(topicName);
   }, [topicName]);
 
   const saveTopic = async () => {
