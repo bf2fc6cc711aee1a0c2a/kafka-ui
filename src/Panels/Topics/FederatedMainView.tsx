@@ -56,6 +56,8 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
 
   const [activeTabKey, setActiveTabKey] = useState(activeTab);
 
+  const contentRefTopics = React.createRef<HTMLElement>();
+  const contentRefConsumers = React.createRef<HTMLElement>();
   const { t } = useTranslation();
 
   const handleTabClick = (event, tabIndex) => {
@@ -76,8 +78,12 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
 
     return (
       <>
-        {mainBreadcrumbs}
+      <section className='pf-c-page__main-breadcrumb'>
 
+        {mainBreadcrumbs}
+        </section>
+      
+      <PageSection variant='light' className='foobarfoobar'>
         <Level>
           <Title headingLevel='h1'>
             {kafkaName ? kafkaName : t('common.kafka_instance_name')}

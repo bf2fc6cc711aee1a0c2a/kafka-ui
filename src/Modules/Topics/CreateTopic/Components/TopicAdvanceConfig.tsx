@@ -532,31 +532,6 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                     popoverBody={t('topic.replicas_description')}
                     popoverHeader={t('topic.replicas')}
                   />
-                )}
-                { isCreate ? (<FormGroupWithPopover
-                  fieldId='create-topic-partitions'
-                  fieldLabel='Partitions'
-                  labelHead={t('createTopic.partitionsLabelHead')}
-                  labelBody={t('createTopic.partitionsLabelBody')}
-                  buttonAriaLabel='More info for partitions field'
-                  validated={partitionsValidated}
-                  helperText={
-                    warning
-                      ? `Increasing a topic's partitions might result in messages having the same key from two different partitions, which can potentially break the message ordering guarantees that apply to a single partition`
-                      : undefined
-                  }
-                >
-                  <NumberInput
-                    id='create-topic-partitions'
-                    inputName='num-partitions'
-                    onChange={onPartitionsChange}
-                    onPlus={handleTouchSpinPlusCamelCase}
-                    onMinus={handleTouchSpinMinusCamelCase}
-                    value={Number(topicData.numPartitions)}
-                    plusBtnProps={{ name: 'num-partitions' }}
-                    minusBtnProps={{ name: 'num-partitions' }}
-                    min={1}
-
                   <TextWithLabelPopover
                     btnAriaLabel='topic detail min-in-sync replica'
                     fieldLabel='Minimum in-sync replicas'
@@ -890,7 +865,6 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 />
               </StackItem>
             </Stack>
-          </PageSection>
           <ActionGroup className='kafka-ui--sticky-footer'>
             <Button
               onClick={onConfirm}

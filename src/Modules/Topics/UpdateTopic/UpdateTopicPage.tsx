@@ -37,7 +37,16 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
   onDeleteConsumer,
   activeTab = 0,
 }) => {
+  const [activeTabKey, setActiveTabKey] = useState(activeTab);
+
   const { t } = useTranslation();
+
+  const contentRefConsumerGroup = React.createRef<HTMLElement>();
+  const contentRefProperties = React.createRef<HTMLElement>();
+
+  const handleTabClick = (event, tabIndex) => {
+    setActiveTabKey(tabIndex);
+  };
 
   return (
     <>

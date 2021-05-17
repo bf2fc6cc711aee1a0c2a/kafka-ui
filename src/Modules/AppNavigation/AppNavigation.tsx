@@ -30,7 +30,8 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
   const [activeTabKey, setActiveTabKey] = useState(eventKey);
   const contentRefConsumerGroups = React.createRef<HTMLElement>();
   const contentRefTopics = React.createRef<HTMLElement>();
-  const handleTabClick = (event, tabIndex) => {
+
+  const handleTabClick = (_event, tabIndex) => {
     setActiveTabKey(tabIndex);
   };
 
@@ -71,15 +72,22 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
         {mainBreadcrumbs}
       </section>
 
-      <Level>
-        <Title headingLevel='h1'>
-          {instanceName ? instanceName : t('common.kafka_instance_name')}
-        </Title>
-        <Button variant='plain' iconPosition='right'>
-          <EllipsisVIcon />
-        </Button>
-      </Level>
+      <PageSection variant={PageSectionVariants.light}>
 
+        <Level>
+          <Title headingLevel='h1'>
+            {instanceName ? instanceName : t('common.kafka_instance_name')}
+          </Title>
+          <Button variant='plain' iconPosition='right'>
+            <EllipsisVIcon />
+          </Button>
+        </Level>
+      </PageSection>
+      <PageSection
+        variant={PageSectionVariants.light}
+        padding={{ default: 'noPadding' }}
+        className='pf-c-page__main-tabs'
+      >
       <Tabs
         activeKey={activeTabKey}
         onSelect={handleTabClick}
@@ -98,7 +106,7 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
             onClickTopic={onClickTopic}
             getTopicDetailsPath={getTopicDetailsPath}
             onDeleteTopic={onDeleteTopic}
-          />
+          />  
         </Tab>
         <Tab
           title={
@@ -110,12 +118,14 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
           aria-label={t('consumerGroup.consumer_groups')}
           className='kafka-ui-m-full-height'
         >
-          <ConsumerGroupsList
+           <ConsumerGroupsList
             onDeleteConsumerGroup={onDeleteConsumer}
             consumerGroupByTopic={false}
           />
-        </TabContent>
-      </PageSection>
+        </Tab>
+        </Tabs>
+        </PageSection>
+      
     </>
   );
 };

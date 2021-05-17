@@ -364,8 +364,9 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
             offset={0}
             variant={PaginationVariant.bottom}
           />
+         </Card>
         )}
-      </Card>
+     </Card>
     </>
   );
 };
