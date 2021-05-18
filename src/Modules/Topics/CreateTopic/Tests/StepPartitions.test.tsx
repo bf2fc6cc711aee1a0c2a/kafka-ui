@@ -2,7 +2,7 @@ import { render, RenderResult } from '@testing-library/react';
 import {
   StepPartitions,
   IStepPartitions,
-} from '../../../../Modules/Topics/CreateTopic/Components/StepPartitions';
+} from '../Components/StepPartitions';
 import React, { ReactElement } from 'react';
 import userEvent from '@testing-library/user-event';
 import { I18nextProvider } from 'react-i18next';

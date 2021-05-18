@@ -2,7 +2,7 @@ import { render, RenderResult } from '@testing-library/react';
 import {
   StepTopicName,
   IStepTopicName,
-} from '../../../../Modules/Topics/CreateTopic/Components/StepTopicName';
+} from '../Components/StepTopicName';
 import { I18nextProvider } from 'react-i18next';
 import React, { ReactElement } from 'react';
 import kafkai18n from '../../../../../test-utils/i18n';

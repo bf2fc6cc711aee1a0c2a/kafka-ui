@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import { EmptyTopics } from '../../../../Modules/Topics/TopicList/Components/EmptyTopics';
+import { EmptyTopics } from '../Components/EmptyTopics';
 import { MemoryRouter } from 'react-router';
 import { I18nextProvider } from 'react-i18next';
 import kafkai18n from '../../../../../test-utils/i18n';

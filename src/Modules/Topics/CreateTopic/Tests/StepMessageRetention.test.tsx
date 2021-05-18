@@ -2,7 +2,7 @@ import { render, RenderResult } from '@testing-library/react';
 import {
   StepMessageRetention,
   IStepMessageRetention,
-} from '../../../../Modules/Topics/CreateTopic/Components/StepMessageRetention';
+} from '../Components/StepMessageRetention';
 import React, { ReactElement } from 'react';
 import userEvent from '@testing-library/user-event';
 import { I18nextProvider } from 'react-i18next';

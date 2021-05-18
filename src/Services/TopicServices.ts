@@ -8,7 +8,7 @@ import {
 } from '../OpenApi/api';
 import { Configuration } from '../OpenApi';
 import { IConfiguration } from '../Contexts';
-import { IAdvancedTopic } from '../Modules/Topics/CreateTopic/Components/CreateTopicWizard';
+import { IAdvancedTopic } from 'src/Modules/Topics/CreateTopic/Components/CreateTopicWizard';
 
 export const getTopics = async (
   config: IConfiguration | undefined
