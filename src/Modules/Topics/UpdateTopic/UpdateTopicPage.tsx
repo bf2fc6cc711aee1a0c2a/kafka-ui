@@ -72,26 +72,17 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
             title={
               <TabTitleText>{t('consumerGroup.consumer_groups')}</TabTitleText>
             }
+            tabContentId='kafka-ui-TabcontentConsumerGroups'
+            tabContentRef={contentRefConsumerGroup}
           >
-            <ConsumerGroupsList
-              onDeleteConsumerGroup={onDeleteConsumer}
-              topic={topicName}
-              consumerGroupByTopic={true}
-            />
+
           </Tab>
           <Tab
             eventKey={1}
             title={<TabTitleText>{t('common.properties')}</TabTitleText>}
+            tabContentId='kafka-ui-TabcontentProperties'
+            tabContentRef={contentRefProperties}
           >
-            <PageSection variant='light' padding={{ default: 'noPadding' }}>
-              <UpdateTopicView
-                topicName={topicName}
-                onCancelUpdateTopic={onCancelUpdateTopic}
-                onDeleteTopic={onDeleteTopic}
-                onSaveTopic={onSaveTopic}
-                onError={onError}
-              />
-            </PageSection>
           </Tab>
         </Tabs>
       </PageSection>

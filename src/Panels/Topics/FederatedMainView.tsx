@@ -82,7 +82,7 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
           {mainBreadcrumbs}
         </section>
 
-        <PageSection variant='light' className='foobarfoobar'>
+        <PageSection variant='light'>
           <Level>
             <Title headingLevel='h1'>
               {kafkaName ? kafkaName : t('common.kafka_instance_name')}

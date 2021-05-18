@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import {
   Divider,
   Pagination,
+  PaginationVariant,
   Toolbar,
   ToolbarContent,
   ToolbarItem,
@@ -304,6 +305,7 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
                 widgetId='consumer-group-pagination-bottom'
                 onPerPageSelect={onPerPageSelect}
                 offset={0}
+                variant={PaginationVariant.bottom}
               />
             )}
           </DrawerContent>
@@ -317,7 +319,6 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
           onDeleteConsumer={onDeleteConsumerGroup}
         />
       )}
-      <Divider />
     </>
   );
 };

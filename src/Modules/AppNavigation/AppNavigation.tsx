@@ -10,6 +10,7 @@ import {
   Level,
   Tab,
   TabTitleText,
+  TabContent,
 } from '@patternfly/react-core';
 import { TopicsListComponent } from '../Topics/TopicList/Components/TopicsList';
 import { ConsumerGroupsList } from '../ConsumerGroups/ConsumerGroupList/Components/ConsumerGroupList';
@@ -27,6 +28,8 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
   const { t } = useTranslation();
 
   const [activeTabKey, setActiveTabKey] = useState(eventKey);
+  const contentRefConsumerGroups = React.createRef<HTMLElement>();
+  const contentRefTopics = React.createRef<HTMLElement>();
 
   const handleTabClick = (_event, tabIndex) => {
     setActiveTabKey(tabIndex);
@@ -88,6 +91,7 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
           activeKey={activeTabKey}
           onSelect={handleTabClick}
           data-testid='pageKafka-tabProperties'
+          className='pf-m-page-insets'
         >
           <Tab
             title={<TabTitleText>{t('topic.topics')}</TabTitleText>}
@@ -95,14 +99,10 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
             data-testid='pageKafka-tabTopics'
             id='topics-tab-section'
             aria-label={t('topic.topics')}
-            className='kafka-ui-m-full-height'
+            tabContentRef={contentRefTopics}
+            tabContentId='kafka-ui-TabcontentTopicsList'
+            // className='kafka-ui-m-full-height'
           >
-            <TopicsListComponent
-              onCreateTopic={onCreateTopic}
-              onClickTopic={onClickTopic}
-              getTopicDetailsPath={getTopicDetailsPath}
-              onDeleteTopic={onDeleteTopic}
-            />
           </Tab>
           <Tab
             title={
@@ -112,14 +112,40 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
             data-testid='pageKafka-tabConsumers'
             id='consumer-groups-tab-section'
             aria-label={t('consumerGroup.consumer_groups')}
-            className='kafka-ui-m-full-height'
+            tabContentRef={contentRefConsumerGroups}
+            tabContentId='kafka-ui-TabcontentConsumersList'
+            // className='kafka-ui-m-full-height'
           >
+          </Tab>
+        </Tabs>
+      </PageSection>
+      <PageSection isFilled>
+        <TabContent eventKey={1}
+        ref={contentRefTopics}
+        id='kafka-ui-TabcontentTopicsList'
+        className='kafka-ui-m-full-height'
+        aria-label={t('topic.topics')}
+        >
+        <TopicsListComponent
+                      onCreateTopic={onCreateTopic}
+                      onClickTopic={onClickTopic}
+                      getTopicDetailsPath={getTopicDetailsPath}
+                      onDeleteTopic={onDeleteTopic}
+                    />
+        </TabContent>
+        <TabContent
+          eventKey={2}
+          ref={contentRefConsumerGroups}
+          id='kafka-ui-TabcontentConsumersList'
+          className='kafka-ui-m-full-height'
+          aria-label={t('consumerGroup.consumer_groups')}
+          hidden
+        >
             <ConsumerGroupsList
               onDeleteConsumerGroup={onDeleteConsumer}
               consumerGroupByTopic={false}
             />
-          </Tab>
-        </Tabs>
+        </TabContent>
       </PageSection>
     </>
   );
