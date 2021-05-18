@@ -11,7 +11,8 @@ import { IConfiguration } from '../Contexts';
 import { IAdvancedTopic } from 'src/Modules/Topics/CreateTopic/Components/CreateTopicWizard';
 
 export const getTopics = async (
-  config: IConfiguration | undefined
+  config: IConfiguration | undefined,
+  filter?: string
 ): Promise<TopicsList> => {
   const accessToken = await config?.getToken();
 
@@ -21,7 +22,10 @@ export const getTopics = async (
       basePath: config?.basePath,
     })
   );
-  const response: AxiosResponse<TopicsList> = await api.getTopicsList();
+  const response: AxiosResponse<TopicsList> = await api.getTopicsList(
+    100,
+    filter
+  );
   return response.data;
 };
 

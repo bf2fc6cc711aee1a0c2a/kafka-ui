@@ -1,16 +1,24 @@
 import React from 'react';
-import { InputGroup, SearchInput } from '@patternfly/react-core';
+import {
+  Button,
+  ButtonVariant,
+  InputGroup,
+  TextInput,
+} from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
+import { SearchIcon } from '@patternfly/react-icons';
 
 export interface ISearchTopicsProps {
   setSearch: (value: string) => void;
+  setSearchTopicName: (value: string) => void;
   search: string;
-  onClear: () => void;
+  setFilteredTopics: (value: boolean) => void;
 }
 const SearchTopics: React.FunctionComponent<ISearchTopicsProps> = ({
   search,
   setSearch,
-  onClear,
+  setFilteredTopics,
+  setSearchTopicName,
 }) => {
   const { t } = useTranslation();
 
@@ -18,13 +26,15 @@ const SearchTopics: React.FunctionComponent<ISearchTopicsProps> = ({
     setSearch(value);
   };
 
-  const onClearHandler = () => {
-    onClear();
+  const onSearch = () => {
+    setSearchTopicName(search);
+    setFilteredTopics(true);
     setSearch('');
   };
+
   return (
     <InputGroup>
-      <SearchInput
+      <TextInput
         name='searchName'
         id='search-topics-input'
         type='search'
@@ -32,8 +42,15 @@ const SearchTopics: React.FunctionComponent<ISearchTopicsProps> = ({
         placeholder={t('common.search')}
         value={search}
         onChange={onChangeInput}
-        onClear={onClearHandler}
       />
+      <Button
+        variant={ButtonVariant.control}
+        isDisabled={search.length ? false : true}
+        onClick={onSearch}
+        aria-label={t('topic.topic_search')}
+      >
+        <SearchIcon />
+      </Button>
     </InputGroup>
   );
 };
