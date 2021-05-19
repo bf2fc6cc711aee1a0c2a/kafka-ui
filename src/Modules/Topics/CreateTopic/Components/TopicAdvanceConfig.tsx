@@ -113,6 +113,8 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     },
   ];
 
+  const minPartitionValue = 1;
+
   const config = useContext(ConfigContext);
   const fetchTopic = async (topicName) => {
     const topicRes = await getTopic(topicName, config);
@@ -200,7 +202,11 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
 
   const onPartitionsChange = (event: React.FormEvent<HTMLInputElement>) => {
     const { name: fieldName, value } = event.currentTarget;
-    setTopicData({ ...topicData, [kebabToCamel(fieldName)]: Number(value) });
+    let partitionValue = Number(value);
+    if (partitionValue < minPartitionValue) {
+      partitionValue = minPartitionValue;
+    }
+    setTopicData({ ...topicData, [kebabToCamel(fieldName)]: partitionValue });
   };
 
   const partitionsWarnigCheckPlus = () => {
