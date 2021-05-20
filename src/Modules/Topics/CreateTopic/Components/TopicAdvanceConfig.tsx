@@ -17,6 +17,22 @@ import {
   Form,
   Radio,
 } from '@patternfly/react-core';
+import {
+  DEFAULT_MESSAGE_TIMESTAMP_TYPE,
+  DEFAULT_DELETE_RETENTION_TIME,
+  DEFAULT_FILE_DELETE_DELAY,
+  DEFAULT_INDEX_INTERVAL_SIZE,
+  INT8_MAX,
+  DEFAULT_LOG_SEGMENT_SIZE,
+  DEFAULT_MAXIMUM_MESSAGE_BYTES,
+  DEFAULT_MINIMUM_COMPACTION_LAG_TIME,
+  DEFAULT_MIN_CLEANBLE_RATIO,
+  DEFAULT_MIN_INSYNC_REPLICAS,
+  DEFAULT_REPLICAS,
+  DEFAULT_SEGMENT_INDEX_SIZE,
+  DEFAULT_SEGMENT_JITTER_TIME,
+  DEFAULT_SEGMENT_TIME,
+} from '../../../../Constant/constants';
 import './CreateTopicWizard.css';
 
 import { useTranslation } from 'react-i18next';
@@ -33,7 +49,6 @@ import { IAdvancedTopic } from './CreateTopicWizard';
 
 import { getTopic } from '../../../../Services/index';
 import { ConfigContext } from '../../../../Contexts';
-import { DEFAULT_MESSAGE_TIMESTAMP_TYPE, DEFAULT_DELETE_RETENTION_TIME, DEFAULT_FILE_DELETE_DELAY, DEFAULT_INDEX_INTERVAL_SIZE, INT8_MAX, DEFAULT_LOG_SEGMENT_SIZE, DEFAULT_MAXIMUM_MESSAGE_BYTES, DEFAULT_MINIMUM_COMPACTION_LAG_TIME, DEFAULT_MIN_CLEANBLE_RATIO, DEFAULT_MIN_INSYNC_REPLICAS, DEFAULT_REPLICAS, DEFAULT_SEGMENT_INDEX_SIZE, DEFAULT_SEGMENT_JITTER_TIME, DEFAULT_SEGMENT_TIME } from 'src/Constant/constants';
 
 interface ITopicAdvanceConfig {
   isCreate: boolean;
@@ -333,38 +348,38 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     const { name } = event.target;
 
     switch (name) {
-      case 'custom-retention-time':
-        setIsCustomRetentionTimeSelected(true);
-        setTopicData({
-          ...topicData,
-          'retention.ms': customRetentionTime.toString(),
-          'retention.ms.unit': customRetentionTimeUnit,
-        });
-        break;
-      case 'unlimited-retention-time':
-        setIsCustomRetentionTimeSelected(false);
-        setTopicData({
-          ...topicData,
-          'retention.ms': '-1',
-          'retention.ms.unit': 'milliseconds',
-        });
-        break;
-      case 'custom-retention-size':
-        setIsCustomRetentionSizeSelected(true);
-        setTopicData({
-          ...topicData,
-          'retention.bytes': customRetentionSize.toString(),
-          'retention.bytes.unit': customRetentionSizeUnit,
-        });
-        break;
-      case 'unlimited-retention-size':
-        setIsCustomRetentionSizeSelected(false);
-        setTopicData({
-          ...topicData,
-          'retention.bytes': '-1',
-          'retention.bytes.unit': 'bytes',
-        });
-        break;
+    case 'custom-retention-time':
+      setIsCustomRetentionTimeSelected(true);
+      setTopicData({
+        ...topicData,
+        'retention.ms': customRetentionTime.toString(),
+        'retention.ms.unit': customRetentionTimeUnit,
+      });
+      break;
+    case 'unlimited-retention-time':
+      setIsCustomRetentionTimeSelected(false);
+      setTopicData({
+        ...topicData,
+        'retention.ms': '-1',
+        'retention.ms.unit': 'milliseconds',
+      });
+      break;
+    case 'custom-retention-size':
+      setIsCustomRetentionSizeSelected(true);
+      setTopicData({
+        ...topicData,
+        'retention.bytes': customRetentionSize.toString(),
+        'retention.bytes.unit': customRetentionSizeUnit,
+      });
+      break;
+    case 'unlimited-retention-size':
+      setIsCustomRetentionSizeSelected(false);
+      setTopicData({
+        ...topicData,
+        'retention.bytes': '-1',
+        'retention.bytes.unit': 'bytes',
+      });
+      break;
     }
   };
 

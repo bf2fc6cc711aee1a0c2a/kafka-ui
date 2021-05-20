@@ -15,11 +15,26 @@ import {
   SplitItem,
   Split,
 } from '@patternfly/react-core';
+import {
+  DEFAULT_MESSAGE_TIMESTAMP_TYPE,
+  DEFAULT_DELETE_RETENTION_TIME,
+  DEFAULT_FILE_DELETE_DELAY,
+  DEFAULT_INDEX_INTERVAL_SIZE,
+  INT8_MAX,
+  DEFAULT_LOG_SEGMENT_SIZE,
+  DEFAULT_MAXIMUM_MESSAGE_BYTES,
+  DEFAULT_MINIMUM_COMPACTION_LAG_TIME,
+  DEFAULT_MIN_CLEANBLE_RATIO,
+  DEFAULT_MIN_INSYNC_REPLICAS,
+  DEFAULT_REPLICAS,
+  DEFAULT_SEGMENT_INDEX_SIZE,
+  DEFAULT_SEGMENT_JITTER_TIME,
+  DEFAULT_SEGMENT_TIME
+} from '../../../../Constant';
 import './TopicDetailView.css';
 import { TextWithLabelPopover } from '../../../../Components/TextWithLabelPopover/TextWithLabelPopover';
 import { useTranslation } from 'react-i18next';
 import { IAdvancedTopic } from '../../CreateTopic/Components/CreateTopicWizard';
-import { DEFAULT_MESSAGE_TIMESTAMP_TYPE, DEFAULT_DELETE_RETENTION_TIME, DEFAULT_FILE_DELETE_DELAY, DEFAULT_INDEX_INTERVAL_SIZE, INT8_MAX, DEFAULT_LOG_SEGMENT_SIZE, DEFAULT_MAXIMUM_MESSAGE_BYTES, DEFAULT_MINIMUM_COMPACTION_LAG_TIME, DEFAULT_MIN_CLEANBLE_RATIO, DEFAULT_MIN_INSYNC_REPLICAS, DEFAULT_REPLICAS, DEFAULT_SEGMENT_INDEX_SIZE, DEFAULT_SEGMENT_JITTER_TIME, DEFAULT_SEGMENT_TIME } from 'src/Constant';
 import { convertRetentionSize, convertRetentionTime } from '../../CreateTopic/utils';
 
 export type TopicViewDetailProps = {
