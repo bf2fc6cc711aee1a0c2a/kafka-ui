@@ -1,8 +1,6 @@
 import { Popover, TextContent, Text } from '@patternfly/react-core';
 import React from 'react';
 import HelpIcon from '@patternfly/react-icons/dist/js/icons/help-icon';
-import bytes from 'bytes';
-import humanizeDuration from 'humanize-duration';
 
 import './TextWithLabelPopover.css';
 
@@ -17,8 +15,6 @@ export interface TextWithLabelPopoverProps {
   popoverBody: string;
   /** Aria label for popover button */
   btnAriaLabel: string;
-  /** Unit (if exists) for the field */
-  unit?: string;
   /** Indicates if unlimited should be shown for negative numbers */
   showUnlimited?: boolean;
 }
@@ -29,7 +25,6 @@ export const TextWithLabelPopover: React.FC<TextWithLabelPopoverProps> = ({
   fieldValue,
   popoverBody,
   popoverHeader,
-  unit,
   showUnlimited,
 }) => {
   const preventButtonSubmit = (event) => event.preventDefault();
@@ -43,16 +38,7 @@ export const TextWithLabelPopover: React.FC<TextWithLabelPopoverProps> = ({
   ) {
     displayText = 'Unlimited';
   } else if (fieldValue) {
-    if (unit) {
-      if (unit === 'ms') {
-        displayText = humanizeDuration(Number(fieldValue));
-      }
-      if (unit === 'bytes') {
-        displayText = bytes(Number(fieldValue), { unitSeparator: ' ' });
-      }
-    } else {
-      displayText = fieldValue;
-    }
+    displayText = fieldValue;
   }
 
   return (
