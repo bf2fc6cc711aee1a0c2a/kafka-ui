@@ -105,12 +105,6 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
       label: `${t('common.compact')}, ${t('common.delete')}`,
       isDisabled: false,
     },
-    {
-      key: 'delete-compact',
-      value: 'delete, compact',
-      label: `${t('common.delete')}, ${t('common.compact')}`,
-      isDisabled: false,
-    },
   ];
 
   const minPartitionValue = 1;
