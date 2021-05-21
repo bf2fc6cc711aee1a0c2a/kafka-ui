@@ -127,15 +127,9 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
             title={
               <TabTitleText>{t('consumerGroup.consumer_groups')}</TabTitleText>
             }
-            className={activeTabKey === 1 ? 'kafka-ui--consumer-content' : ''}
+            tabContentId='kafka-ui-TabcontentConsumerGroupList'
+            tabContentRef={contentRefConsumerGroup}
           >
-            <ConsumerGroupsList
-              onDeleteConsumerGroup={onDeleteConsumer}
-              consumerGroupByTopic={true}
-              topic={topicName}
-              rowDataId='tableTopicConsumers-row'
-              detailsDataId='tableTopicConsumers-actionDetails'
-            />
           </Tab>
           <Tab
             eventKey={2}
