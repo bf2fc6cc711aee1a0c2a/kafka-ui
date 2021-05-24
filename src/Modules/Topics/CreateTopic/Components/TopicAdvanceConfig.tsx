@@ -34,7 +34,7 @@ import { IAdvancedTopic } from './CreateTopicWizard';
 import { getTopic } from '../../../../Services/index';
 import { ConfigContext } from '../../../../Contexts';
 
-interface ITopicAdvanceConfig {
+export interface ITopicAdvanceConfig {
   isCreate: boolean;
   saveTopic: () => void;
   handleCancel: () => void;

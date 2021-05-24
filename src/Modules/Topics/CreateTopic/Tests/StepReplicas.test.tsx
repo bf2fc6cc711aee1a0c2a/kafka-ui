@@ -2,7 +2,7 @@ import { render, RenderResult } from '@testing-library/react';
 import {
   StepReplicas,
   IStepReplicas,
-} from '../../../../Modules/Topics/CreateTopic/Components/StepReplicas';
+} from '../Components/StepReplicas';
 import React, { ReactElement } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import kafkai18n from '../../../../../test-utils/i18n';

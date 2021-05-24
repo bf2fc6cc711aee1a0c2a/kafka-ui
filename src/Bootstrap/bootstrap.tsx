@@ -40,12 +40,12 @@ ReactDOM.render(
                   exact
                 />
                 <Route
-                  path='/consumerGroups'
+                  path='/consumer-groups'
                   component={ConsumerGroupsView}
                   exact
                 />
                 <Route
-                  path='/topics/consumerGroups/:topicName'
+                  path='/topics/consumer-groups/:topicName'
                   component={ConsumerGroupsByTopicView}
                   exact
                 />

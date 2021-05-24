@@ -7,6 +7,6 @@ describe('Loading Component', () => {
   test('should render cloud dot spinner in bullseye format', () => {
     const { getByRole } = render(<Loading />);
 
-    getByRole('status');
+    getByRole('progressbar');
   });
 });
