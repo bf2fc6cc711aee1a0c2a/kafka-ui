@@ -91,7 +91,7 @@ export const formatTopicRequest = (topic: IAdvancedTopic): NewTopicInput => {
   };
 };
 
-export const convertRetentionTime = (milliseconds: number) => {
+export const convertRetentionTime = (milliseconds: number): string => {
   let convertedValue;
   if (milliseconds === -1) {
     return 'Unlimited';
@@ -113,9 +113,10 @@ export const convertRetentionTime = (milliseconds: number) => {
     convertedValue = Math.round(convertedValue * 100) / 100;
     return convertedValue + ' ' + 'days';
   }
+  return milliseconds.toString();
 };
 
-export const convertRetentionSize = (byte: number) => {
+export const convertRetentionSize = (byte: number): string => {
   let convertedByteValue;
   if (byte === -1) {
     return 'Unlimited';
@@ -143,4 +144,5 @@ export const convertRetentionSize = (byte: number) => {
       return convertedByteValue + ' ' + 'terabyte';
     else return convertedByteValue + ' ' + 'terabytes';
   }
+  return byte.toString();
 };
