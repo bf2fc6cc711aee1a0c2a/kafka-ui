@@ -14,7 +14,13 @@ import {
   SidebarPanel,
   SplitItem,
   Split,
+  FormSection,
+  Form,
+  TitleSizes,
+  Stack,
+  StackItem,
 } from '@patternfly/react-core';
+import '@patternfly/react-styles';
 import './TopicDetailView.css';
 import { TextWithLabelPopover } from '../../../../Components/TextWithLabelPopover/TextWithLabelPopover';
 import { useTranslation } from 'react-i18next';
@@ -43,7 +49,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
           <JumpLinks
             isVertical
             label={t('topic.jump_to_section')}
-            scrollableSelector='#scrollablePageMain'
+            scrollableSelector='scrollablePageMain'
             offset={-164} // for header
             style={{ position: 'sticky' }}
           >
@@ -78,7 +84,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <PageSection padding={{ default: 'noPadding' }}>
               <Split>
                 <SplitItem isFilled>
-                  <TextContent>
+                  {/* <TextContent>
                     <Text
                       component={TextVariants.h2}
                       tabIndex={-1}
@@ -86,11 +92,17 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                     >
                       {t('topic.core_configuration')}
                     </Text>
-                    <Text component={TextVariants.p} className='section-info'>
+                    <Text component={TextVariants.p}>
                       {t('topic.core_config_info')}
                     </Text>
+                  </TextContent> */}
+              <Form>
+                <FormSection title={t('topic.core_configuration')} id='core-configuration' titleElement={'h3'}>
+                  <TextContent>
+                    <Text component={TextVariants.p}>
+                          {t('topic.core_config_info')}
+                    </Text>
                   </TextContent>
-
                   <TextWithLabelPopover
                     btnAriaLabel={t('common.name')}
                     fieldLabel={t('topic.topic_name')}
@@ -142,16 +154,11 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                     unit={'bytes'}
                     showUnlimited={true}
                   />
-
+  
+                </FormSection>
+                <FormSection title={t('topic.messages')} id='messages' titleElement={'h3'}>
                   <TextContent className='section-margin'>
-                    <Text
-                      component={TextVariants.h2}
-                      tabIndex={-1}
-                      id='messages'
-                    >
-                      {t('topic.messages')}
-                    </Text>
-                    <Text component={TextVariants.p} className='section-info'>
+                    <Text component={TextVariants.p}>
                       {t('topic.message_section_info')}
                     </Text>
                   </TextContent>
@@ -199,20 +206,17 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                     popoverBody={t('topic.message_format_description')}
                     popoverHeader={t('topic.message_format')}
                   />
+                </FormSection>
+                <FormSection title={t('topic.log')} id='log' titleElement={'h3'}>
 
                   <TextContent className='section-margin'>
-                    <Text component={TextVariants.h2} tabIndex={-1} id='log'>
-                      {t('topic.log')}
-                    </Text>
                     <Text
                       component={TextVariants.p}
-                      className='section-info-head'
                     >
                       {t('topic.log_section_info')}
                     </Text>
                     <Text
                       component={TextVariants.small}
-                      className='section-info-note'
                     >
                       {t('topic.log_section_info_note')}
                     </Text>
@@ -251,24 +255,17 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                     popoverHeader={t('topic.min_compaction_lag_time')}
                     unit={'ms'}
                   />
+                </FormSection>
+                <FormSection title={t('topic.replication')} id='replication' titleElement={'h3'}>
 
-                  <TextContent className='section-margin'>
-                    <Text
-                      component={TextVariants.h2}
-                      tabIndex={-1}
-                      id='replication'
-                    >
-                      {t('topic.replication')}
-                    </Text>
+                   <TextContent className='section-margin'>
                     <Text
                       component={TextVariants.p}
-                      className='section-info-head'
                     >
                       {t('topic.replication_section_info')}
                     </Text>
                     <Text
                       component={TextVariants.small}
-                      className='section-info-note'
                     >
                       {t('topic.replication_section_info_note')}
                     </Text>
@@ -281,16 +278,11 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                     popoverBody={t('topic.unclean_leader_election_description')}
                     popoverHeader={t('topic.unclean_leader_election')}
                   />
+                </FormSection>
+                <FormSection title={t('common.cleanup')} id='cleanup' titleElement={'h3'}>
 
                   <TextContent className='section-margin'>
-                    <Text
-                      component={TextVariants.h2}
-                      tabIndex={-1}
-                      id='cleanup'
-                    >
-                      {t('common.cleanup')}
-                    </Text>
-                    <Text component={TextVariants.p} className='section-info'>
+                    <Text component={TextVariants.p}>
                       {t('topic.cleanup_section_info')}
                     </Text>
                   </TextContent>
@@ -340,12 +332,11 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                     )}
                     popoverHeader={t('topic.preallocate_log_segment_files')}
                   />
+                </FormSection>
 
+                <FormSection title={t('topic.index')} id='index' titleElement={'h3'}>
                   <TextContent className='section-margin'>
-                    <Text component={TextVariants.h2} tabIndex={-1} id='index'>
-                      {t('topic.index')}
-                    </Text>
-                    <Text component={TextVariants.p} className='section-info'>
+                    <Text component={TextVariants.p}>
                       {t('topic.index_section_info')}
                     </Text>
                   </TextContent>
@@ -367,12 +358,11 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                     popoverHeader={t('topic.segment_index_size')}
                     unit={'bytes'}
                   />
+                </FormSection>
 
+                <FormSection title={t('topic.flush')} id='flush' titleElement={'h3'}>
                   <TextContent className='section-margin'>
-                    <Text component={TextVariants.h2} tabIndex={-1} id='flush'>
-                      {t('topic.flush')}
-                    </Text>
-                    <Text component={TextVariants.p} className='section-info'>
+                    <Text component={TextVariants.p}>
                       {t('topic.flush_section_info')}
                     </Text>
                   </TextContent>
@@ -394,26 +384,28 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                     popoverHeader={t('topic.flush_interval_time')}
                     unit={'ms'}
                   />
+                </FormSection>
+              </Form>
 
-                  <Divider />
+                  <Divider className="kafka-ui-divider__Margin"/>
 
-                  <TextContent className='section-margin'>
+                  <TextContent>
                     <Text component={TextVariants.h2} tabIndex={-1} id='delete'>
                       {t('topic.delete_topic')}
                     </Text>
-                    <Text component={TextVariants.p} className='section-info'>
+                    <Text component={TextVariants.p}>
                       {t('topic.delete_topic_info')}
                     </Text>
                   </TextContent>
 
                   <Button
                     variant='danger'
-                    className='section-margin'
                     onClick={deleteTopic}
                     data-testid='tabProperties-actionDelete'
                   >
                     {t('common.delete_topic')}
                   </Button>
+
                 </SplitItem>
                 <SplitItem>
                   <Button
@@ -423,8 +415,10 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   >
                     {t('common.edit_props')}
                   </Button>
+                  
                 </SplitItem>
               </Split>
+                    
             </PageSection>
           </PageGroup>
         </SidebarContent>

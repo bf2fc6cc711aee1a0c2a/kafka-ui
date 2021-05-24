@@ -1,4 +1,4 @@
-import { Popover, TextContent, Text } from '@patternfly/react-core';
+import { Popover, TextContent, Text, FormGroup, TextInput } from '@patternfly/react-core';
 import React from 'react';
 import HelpIcon from '@patternfly/react-icons/dist/js/icons/help-icon';
 import bytes from 'bytes';
@@ -56,22 +56,26 @@ export const TextWithLabelPopover: React.FC<TextWithLabelPopoverProps> = ({
   }
 
   return (
-    <TextContent className='text-content-padding'>
-      <Text style={{ fontWeight: 700, display: 'inline' }}>{fieldLabel}</Text>
+    <FormGroup
+    // fieldId={fieldId}
+    fieldId="DEBUG"
+    label={fieldLabel}
+    className="kafka-ui-form-group--readonly"
+    labelIcon={
       <Popover
-        headerContent={<div>{popoverHeader}</div>}
-        bodyContent={<div>{popoverBody}</div>}
+      headerContent={<div>{popoverHeader}</div>}
+      bodyContent={<div>{popoverBody}</div>}
+    >
+      <button
+        aria-label={btnAriaLabel}
+        onClick={preventButtonSubmit}
+        className='pf-c-form__group-label-help'
       >
-        <button
-          aria-label={btnAriaLabel}
-          onClick={preventButtonSubmit}
-          className='pf-c-form__group-label-help'
-          style={{ position: 'relative', left: '5px', top: '2px' }}
-        >
-          <HelpIcon noVerticalAlign />
-        </button>
-      </Popover>
-      <Text>{displayText}</Text>
-    </TextContent>
+        <HelpIcon noVerticalAlign />
+      </button>
+    </Popover>
+    }>
+      <TextInput isReadOnly type="text" id="simple-form-note-01" name="simple-form-number" value={displayText} />
+    </FormGroup>
   );
 };

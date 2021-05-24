@@ -1,11 +1,11 @@
-.section-info-head {
+/* .section-info-head {
   margin-bottom: 0 !important;
 }
 
 .section-info,
 .section-info-note {
   margin-bottom: 1rem;
-}
+} */
 
 .kafka-ui--tab-padding {
   --pf-c-tabs--inset: var(--pf-global--spacer--xl);
@@ -18,4 +18,9 @@ because the PatternFly CSS is being included again after the custom CSS */
   padding-right: var(--pf-global--spacer--lg);
   padding-bottom: var(--pf-global--spacer--lg);
   padding-left: var(--pf-global--spacer--lg);
+}
+
+.kafka-ui-divider__Margin {
+  margin-top: var(--pf-global--spacer--2xl);
+  margin-bottom: var(--pf-global--spacer--2xl);
 }
