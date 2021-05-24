@@ -15,10 +15,29 @@ import {
   SplitItem,
   Split,
 } from '@patternfly/react-core';
+import {
+  DEFAULT_MESSAGE_TIMESTAMP_TYPE,
+  DEFAULT_DELETE_RETENTION_TIME,
+  DEFAULT_FILE_DELETE_DELAY,
+  DEFAULT_INDEX_INTERVAL_SIZE,
+  DEFAULT_LOG_SEGMENT_SIZE,
+  DEFAULT_MAXIMUM_MESSAGE_BYTES,
+  DEFAULT_MINIMUM_COMPACTION_LAG_TIME,
+  DEFAULT_MIN_CLEANBLE_RATIO,
+  DEFAULT_MIN_INSYNC_REPLICAS,
+  DEFAULT_REPLICAS,
+  DEFAULT_SEGMENT_INDEX_SIZE,
+  DEFAULT_SEGMENT_JITTER_TIME,
+  DEFAULT_SEGMENT_TIME,
+  DEFAULT_MAX_MESSAGE_TIMESTAMP_DIFF,
+  DEFAULT_FLUSH_INTERVAL_MESSAGES,
+  DEFAULT_FLUSH_INTERVAL_TIME
+} from '../../../../Constant';
 import './TopicDetailView.css';
 import { TextWithLabelPopover } from '../../../../Components/TextWithLabelPopover/TextWithLabelPopover';
 import { useTranslation } from 'react-i18next';
 import { IAdvancedTopic } from '../../CreateTopic/Components/CreateTopicWizard';
+import { convertRetentionSize, convertRetentionTime } from '../../CreateTopic/utils';
 
 export type TopicViewDetailProps = {
   /** Topic details */
@@ -110,7 +129,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   <TextWithLabelPopover
                     btnAriaLabel={t('topic.replicas')}
                     fieldLabel={t('topic.replicas')}
-                    fieldValue={'3'}
+                    fieldValue={DEFAULT_REPLICAS}
                     popoverBody={t('topic.replicas_description')}
                     popoverHeader={t('topic.replicas')}
                   />
@@ -118,7 +137,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   <TextWithLabelPopover
                     btnAriaLabel={t('topic.min_insync_replicas')}
                     fieldLabel={t('topic.min_insync_replicas')}
-                    fieldValue={'2'}
+                    fieldValue={DEFAULT_MIN_INSYNC_REPLICAS}
                     popoverBody={t('topic.min_insync_replicas_description')}
                     popoverHeader={t('topic.min_insync_replicas')}
                   />
@@ -126,20 +145,18 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   <TextWithLabelPopover
                     btnAriaLabel={t('topic.retention_time')}
                     fieldLabel={t('topic.retention_time')}
-                    fieldValue={topic['retention.ms']}
+                    fieldValue={convertRetentionTime(Number(topic['retention.ms']))}
                     popoverBody={t('topic.retention_time_description')}
                     popoverHeader={t('topic.retention_time')}
-                    unit={'ms'}
                     showUnlimited={true}
                   />
 
                   <TextWithLabelPopover
                     btnAriaLabel={t('topic.retention_size')}
                     fieldLabel={t('topic.retention_size')}
-                    fieldValue={topic['retention.bytes']}
+                    fieldValue={convertRetentionSize(Number(topic['retention.bytes']))}
                     popoverHeader={t('topic.retention_size')}
                     popoverBody={t('topic.retention_size_description')}
-                    unit={'bytes'}
                     showUnlimited={true}
                   />
 
@@ -159,16 +176,15 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   <TextWithLabelPopover
                     btnAriaLabel={t('topic.max_message_size')}
                     fieldLabel={t('topic.max_message_size')}
-                    fieldValue={'1048588'}
+                    fieldValue={DEFAULT_MAXIMUM_MESSAGE_BYTES}
                     popoverBody={t('topic.max_message_size_description')}
                     popoverHeader={t('topic.max_message_size')}
-                    unit={'bytes'}
                   />
 
                   <TextWithLabelPopover
                     btnAriaLabel={t('topic.message_timestamp_type')}
                     fieldLabel={t('topic.message_timestamp_type')}
-                    fieldValue={'CreateTime'}
+                    fieldValue={DEFAULT_MESSAGE_TIMESTAMP_TYPE}
                     popoverBody={t('topic.message_timestamp_type_description')}
                     popoverHeader={t('topic.message_timestamp_type')}
                   />
@@ -176,12 +192,11 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   <TextWithLabelPopover
                     btnAriaLabel={t('topic.max_message_timestamp_diff')}
                     fieldLabel={t('topic.max_message_timestamp_diff')}
-                    fieldValue={'9223372036854775807'}
+                    fieldValue={DEFAULT_MAX_MESSAGE_TIMESTAMP_DIFF}
                     popoverBody={t(
                       'topic.max_message_timestamp_diff_description'
                     )}
                     popoverHeader={t('topic.max_message_timestamp_diff')}
-                    unit={'ms'}
                   />
 
                   <TextWithLabelPopover
@@ -229,16 +244,15 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   <TextWithLabelPopover
                     btnAriaLabel={t('topic.delete_retention_time')}
                     fieldLabel={t('topic.delete_retention_time')}
-                    fieldValue={'86400000'}
+                    fieldValue={DEFAULT_DELETE_RETENTION_TIME}
                     popoverBody={t('topic.delete_retention_time_description')}
                     popoverHeader={t('topic.delete_retention_time')}
-                    unit={'ms'}
                   />
 
                   <TextWithLabelPopover
                     btnAriaLabel={t('topic.min_cleanable_ratio')}
                     fieldLabel={t('topic.min_cleanable_ratio')}
-                    fieldValue={'0.5'}
+                    fieldValue={DEFAULT_MIN_CLEANBLE_RATIO}
                     popoverBody={t('topic.min_cleanable_ratio_description')}
                     popoverHeader={t('topic.min_cleanable_ratio')}
                   />
@@ -246,10 +260,9 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   <TextWithLabelPopover
                     btnAriaLabel={t('topic.min_compaction_lag_time')}
                     fieldLabel={t('topic.min_compaction_lag_time')}
-                    fieldValue={'0'}
+                    fieldValue={DEFAULT_MINIMUM_COMPACTION_LAG_TIME}
                     popoverBody={t('topic.min_compaction_lag_time_description')}
                     popoverHeader={t('topic.min_compaction_lag_time')}
-                    unit={'ms'}
                   />
 
                   <TextContent className='section-margin'>
@@ -277,7 +290,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   <TextWithLabelPopover
                     btnAriaLabel={t('topic.unclean_leader_election')}
                     fieldLabel={t('topic.unclean_leader_election')}
-                    fieldValue={'Disabled'}
+                    fieldValue={t('common.disabled')}
                     popoverBody={t('topic.unclean_leader_election_description')}
                     popoverHeader={t('topic.unclean_leader_election')}
                   />
@@ -298,43 +311,39 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   <TextWithLabelPopover
                     btnAriaLabel={t('topic.log_segment_size')}
                     fieldLabel={t('topic.log_segment_size')}
-                    fieldValue={'1073741824'}
+                    fieldValue={DEFAULT_LOG_SEGMENT_SIZE}
                     popoverBody={t('topic.log_segment_size_description')}
                     popoverHeader={t('topic.log_segment_size')}
-                    unit={'bytes'}
                   />
 
                   <TextWithLabelPopover
                     btnAriaLabel={t('topic.segement_time')}
                     fieldLabel={t('topic.segement_time')}
-                    fieldValue={'604800000'}
+                    fieldValue={DEFAULT_SEGMENT_TIME}
                     popoverBody={t('topic.segement_time_description')}
                     popoverHeader={t('topic.segement_time')}
-                    unit={'ms'}
                   />
 
                   <TextWithLabelPopover
                     btnAriaLabel={t('topic.segment_jitter_time')}
                     fieldLabel={t('topic.segment_jitter_time')}
-                    fieldValue={'0'}
+                    fieldValue={DEFAULT_SEGMENT_JITTER_TIME}
                     popoverBody={t('topic.segment_jitter_time_description')}
                     popoverHeader={t('topic.segment_jitter_time')}
-                    unit={'ms'}
                   />
 
                   <TextWithLabelPopover
                     btnAriaLabel={t('topic.file_delete_delay')}
                     fieldLabel={t('topic.file_delete_delay')}
-                    fieldValue={'60000'}
+                    fieldValue={DEFAULT_FILE_DELETE_DELAY}
                     popoverBody={t('topic.file_delete_delay_description')}
                     popoverHeader={t('topic.file_delete_delay')}
-                    unit={'ms'}
                   />
 
                   <TextWithLabelPopover
                     btnAriaLabel={t('topic.preallocate_log_segment_files')}
                     fieldLabel={t('topic.preallocate_log_segment_files')}
-                    fieldValue={'Disabled'}
+                    fieldValue={t('common.disabled')}
                     popoverBody={t(
                       'topic.preallocate_log_segment_files_description'
                     )}
@@ -353,19 +362,17 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   <TextWithLabelPopover
                     btnAriaLabel={t('topic.index_interval_size')}
                     fieldLabel={t('topic.index_interval_size')}
-                    fieldValue={'4096'}
+                    fieldValue={DEFAULT_INDEX_INTERVAL_SIZE}
                     popoverBody={t('topic.index_interval_size_description')}
                     popoverHeader={t('topic.index_interval_size')}
-                    unit={'bytes'}
                   />
 
                   <TextWithLabelPopover
                     btnAriaLabel={t('topic.segment_index_size')}
                     fieldLabel={t('topic.segment_index_size')}
-                    fieldValue={'10485760'}
+                    fieldValue={DEFAULT_SEGMENT_INDEX_SIZE}
                     popoverBody={t('topic.segment_index_size_description')}
                     popoverHeader={t('topic.segment_index_size')}
-                    unit={'bytes'}
                   />
 
                   <TextContent className='section-margin'>
@@ -380,19 +387,17 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   <TextWithLabelPopover
                     btnAriaLabel={t('topic.flush_interval_messages')}
                     fieldLabel={t('topic.flush_interval_messages')}
-                    fieldValue={'9223372036854775807'}
+                    fieldValue={DEFAULT_FLUSH_INTERVAL_MESSAGES}
                     popoverBody={t('topic.flush_interval_messages_description')}
                     popoverHeader={t('topic.flush_interval_messages')}
-                    unit={'ms'}
                   />
 
                   <TextWithLabelPopover
                     btnAriaLabel={t('topic.flush_interval_time')}
                     fieldLabel={t('topic.flush_interval_time')}
-                    fieldValue={'9223372036854775807'}
+                    fieldValue={DEFAULT_FLUSH_INTERVAL_TIME}
                     popoverBody={t('topic.flush_interval_time_description')}
                     popoverHeader={t('topic.flush_interval_time')}
-                    unit={'ms'}
                   />
 
                   <Divider />
