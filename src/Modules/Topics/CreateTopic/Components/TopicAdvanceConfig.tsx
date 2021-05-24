@@ -22,7 +22,6 @@ import {
   DEFAULT_DELETE_RETENTION_TIME,
   DEFAULT_FILE_DELETE_DELAY,
   DEFAULT_INDEX_INTERVAL_SIZE,
-  INT8_MAX,
   DEFAULT_LOG_SEGMENT_SIZE,
   DEFAULT_MAXIMUM_MESSAGE_BYTES,
   DEFAULT_MINIMUM_COMPACTION_LAG_TIME,
@@ -32,6 +31,9 @@ import {
   DEFAULT_SEGMENT_INDEX_SIZE,
   DEFAULT_SEGMENT_JITTER_TIME,
   DEFAULT_SEGMENT_TIME,
+  DEFAULT_MAX_MESSAGE_TIMESTAMP_DIFF,
+  DEFAULT_FLUSH_INTERVAL_MESSAGES,
+  DEFAULT_FLUSH_INTERVAL_TIME,
 } from '../../../../Constant/constants';
 import './CreateTopicWizard.css';
 
@@ -644,7 +646,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               <TextWithLabelPopover
                 btnAriaLabel={t('topic.max_message_timestamp_diff')}
                 fieldLabel={t('topic.max_message_timestamp_diff')}
-                fieldValue={INT8_MAX}
+                fieldValue={DEFAULT_MAX_MESSAGE_TIMESTAMP_DIFF}
                 popoverBody={t('topic.max_message_timestamp_diff_description')}
                 popoverHeader={t('topic.max_message_timestamp_diff')}
               />
@@ -847,7 +849,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               <TextWithLabelPopover
                 btnAriaLabel={t('topic.flush_interval_messages')}
                 fieldLabel={t('topic.flush_interval_messages')}
-                fieldValue={INT8_MAX}
+                fieldValue={DEFAULT_FLUSH_INTERVAL_MESSAGES}
                 popoverBody={t('topic.flush_interval_messages_description')}
                 popoverHeader={t('topic.flush_interval_messages')}
               />
@@ -855,7 +857,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               <TextWithLabelPopover
                 btnAriaLabel={t('topic.flush_interval_time')}
                 fieldLabel={t('topic.flush_interval_time')}
-                fieldValue={INT8_MAX}
+                fieldValue={DEFAULT_FLUSH_INTERVAL_TIME}
                 popoverBody={t('topic.flush_interval_time_description')}
                 popoverHeader={t('topic.flush_interval_time')}
               />
