@@ -1,5 +1,4 @@
 import { AxiosResponse } from 'axios';
-import { AdvancedTopic } from '../Contexts/Topic';
 import {
   ConfigEntry,
   DefaultApi,
@@ -9,6 +8,7 @@ import {
 } from '../OpenApi/api';
 import { Configuration } from '../OpenApi';
 import { IConfiguration } from '../Contexts';
+import { IAdvancedTopic } from 'src/Modules/Topics/CreateTopic/Components/CreateTopicWizard';
 
 export const getTopics = async (
   config: IConfiguration | undefined
@@ -28,7 +28,7 @@ export const getTopics = async (
 export const getTopicDetail = async (
   topicName: string,
   config: IConfiguration | undefined
-): Promise<AdvancedTopic> => {
+): Promise<IAdvancedTopic> => {
   const accessToken = await config?.getToken();
 
   const api = new DefaultApi(
@@ -42,7 +42,7 @@ export const getTopicDetail = async (
   return convertTopicResponse(data);
 };
 
-const convertTopicResponse = (topic: Topic): AdvancedTopic => {
+const convertTopicResponse = (topic: Topic): IAdvancedTopic => {
   const topicObj: any = {};
 
   topicObj.name = topic.name;

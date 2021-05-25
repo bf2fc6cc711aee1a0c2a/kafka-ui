@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import './style.scss';
 import { UpdateTopicPage } from '../../Modules/Topics/UpdateTopic/UpdateTopicPage';
-import { ConfigContext, TopicContextProvider } from '../../Contexts';
+import { ConfigContext } from '../../Contexts';
 import { AlertVariant } from '@patternfly/react-core';
 import kafkai18n from '../../i18n';
 import { I18nextProvider } from 'react-i18next';
@@ -43,20 +43,18 @@ const FederatedUpdateTopicView: FunctionComponent<FederatedUpdateTopicProps> = (
     <I18nextProvider i18n={kafkai18n}>
       <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
         <AlertContext.Provider value={alertContext}>
-          <TopicContextProvider>
-            <UpdateTopicPage
-              onDeleteConsumer={onDeleteConsumer}
-              topicName={currentTopic}
-              onCancelUpdateTopic={onCancelUpdateTopic}
-              onDeleteTopic={onDeleteTopic}
-              onSaveTopic={onSaveTopic}
-              onError={onError}
-              kafkaName={kafkaName}
-              kafkaPageLink={kafkaPageLink}
-              kafkaInstanceLink={kafkaInstanceLink}
-              activeTab={1}
-            />
-          </TopicContextProvider>
+          <UpdateTopicPage
+            onDeleteConsumer={onDeleteConsumer}
+            topicName={currentTopic}
+            onCancelUpdateTopic={onCancelUpdateTopic}
+            onDeleteTopic={onDeleteTopic}
+            onSaveTopic={onSaveTopic}
+            onError={onError}
+            kafkaName={kafkaName}
+            kafkaPageLink={kafkaPageLink}
+            kafkaInstanceLink={kafkaInstanceLink}
+            activeTab={1}
+          />
         </AlertContext.Provider>
       </ConfigContext.Provider>
     </I18nextProvider>

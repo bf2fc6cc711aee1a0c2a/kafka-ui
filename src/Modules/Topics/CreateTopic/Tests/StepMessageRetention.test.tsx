@@ -2,9 +2,11 @@ import { render, RenderResult } from '@testing-library/react';
 import {
   StepMessageRetention,
   IStepMessageRetention,
-} from '../../../../Modules/Topics/CreateTopic/Components/StepMessageRetention';
+} from '../Components/StepMessageRetention';
 import React, { ReactElement } from 'react';
 import userEvent from '@testing-library/user-event';
+import { I18nextProvider } from 'react-i18next';
+import kafkai18n from '../../../../../test-utils/i18n';
 
 const messageRetentionProps: IStepMessageRetention = {
   setMsgRetentionValue: jest.fn(),
@@ -17,7 +19,9 @@ const messageRetentionProps: IStepMessageRetention = {
 
 const setup = () => {
   const component: ReactElement = (
-    <StepMessageRetention {...messageRetentionProps} />
+    <I18nextProvider i18n={kafkai18n}>
+      <StepMessageRetention {...messageRetentionProps} />
+    </I18nextProvider>
   );
   const renderResult: RenderResult = render(component);
   return renderResult;

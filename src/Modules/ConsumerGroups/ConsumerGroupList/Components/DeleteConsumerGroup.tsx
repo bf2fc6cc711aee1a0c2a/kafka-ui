@@ -10,6 +10,7 @@ import {
 import { deleteConsumerGroup } from '../../../../Services/ConsumerGroupsServices';
 import { ConfigContext } from '../../../../Contexts';
 import { AlertContext } from '../../../../Contexts/Alert/Context';
+import { useTranslation } from 'react-i18next';
 export interface IDeleteConsumer {
   setDeleteModal: (value: boolean) => void;
   deleteModal: boolean;
@@ -22,6 +23,8 @@ export const DeleteConsumerGroup: React.FunctionComponent<IDeleteConsumer> = ({
   consumerName,
   onDeleteConsumer,
 }) => {
+  const { t } = useTranslation();
+
   const [verificationText, setVerificationText] = useState<string>('');
   const { addAlert } = useContext(AlertContext);
   const onClose = () => {
@@ -32,7 +35,9 @@ export const DeleteConsumerGroup: React.FunctionComponent<IDeleteConsumer> = ({
     try {
       consumerName && (await deleteConsumerGroup(consumerName, config));
       addAlert(
-        `Successfully deleted consumer group ${consumerName}`,
+        t('consumerGroup.consumergroup_successfully_deleted', {
+          name: consumerName,
+        }),
         AlertVariant.success
       );
     } catch (err) {
@@ -52,8 +57,8 @@ export const DeleteConsumerGroup: React.FunctionComponent<IDeleteConsumer> = ({
     <Modal
       variant={ModalVariant.small}
       isOpen={deleteModal}
-      aria-label='Delete consumer group?'
-      title='Delete Consumer Group?'
+      aria-label={t('consumerGroup.delete')}
+      title={t('consumerGroup.delete')}
       titleIconVariant='warning'
       showClose={true}
       aria-describedby='modal-message'
@@ -65,19 +70,26 @@ export const DeleteConsumerGroup: React.FunctionComponent<IDeleteConsumer> = ({
           key={1}
           isDisabled={verificationText.toUpperCase() != 'DELETE'}
         >
-          Delete
+          {t('common.delete')}
         </Button>,
         <Button variant='link' onClick={onClose} key={2}>
-          Cancel
+          {t('common.cancel')}
         </Button>,
       ]}
     >
       <Text id='modal-message'>
-        <b>{consumerName}</b> will be deleted.{' '}
+        <label
+          htmlFor='instance-name-input'
+          dangerouslySetInnerHTML={{
+            __html: t('common.confirm_delete_modal_text', {
+              name: consumerName,
+            }),
+          }}
+        />
       </Text>
 
       <br />
-      <label htmlFor='delete-text-input'>Type DELETE to confirm:</label>
+      <label htmlFor='delete-text-input'>{t('common.confirm_delete')}</label>
       <TextInput
         value={verificationText}
         id='delete-text-input'

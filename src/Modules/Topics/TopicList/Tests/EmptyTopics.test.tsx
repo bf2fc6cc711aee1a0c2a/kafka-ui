@@ -1,12 +1,15 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import { EmptyTopics } from '../../../../Modules/Topics/TopicList/Components/EmptyTopics';
+import { EmptyTopics } from '../Components/EmptyTopics';
 import { MemoryRouter } from 'react-router';
+import { I18nextProvider } from 'react-i18next';
+import kafkai18n from '../../../../../test-utils/i18n';
 
 describe('<EmptyTopics />', () => {
   it('should render an empty state if filters return no result', () => {
     const { getByText } = render(
       <MemoryRouter>
+        <I18nextProvider i18n={kafkai18n}></I18nextProvider>
         <EmptyTopics />
       </MemoryRouter>
     );
@@ -15,7 +18,7 @@ describe('<EmptyTopics />', () => {
     const bodyNode = getByText(
       'Create a topic by clicking the button below to get started'
     );
-    const clearBtn = getByText('Create Topic');
+    const clearBtn = getByText('Create topic');
 
     expect(titleNode).toBeInTheDocument();
     expect(bodyNode).toBeInTheDocument();

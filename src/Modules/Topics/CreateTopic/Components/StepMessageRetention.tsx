@@ -15,6 +15,7 @@ import {
   TextVariants,
 } from '@patternfly/react-core';
 import './CreateTopicWizard.css';
+import { useTranslation } from 'react-i18next';
 
 export interface IStepMessageRetention {
   setMsgRetentionValue: (value: number) => void;
@@ -33,6 +34,8 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
   setCurrentSize,
   setRetentionSize,
 }) => {
+  const { t } = useTranslation();
+
   enum RetentionTimeOption {
     MILLISECOND = 1,
     SECOND = 1000,
@@ -199,21 +202,21 @@ export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
     <>
       <Stack hasGutter className='kafka-ui--wizard-main-body__stack'>
         <TextContent>
-          <Text component={TextVariants.h2}>Message retention</Text>
+          <Text component={TextVariants.h2}>
+            {t('topic.message_retention')}
+          </Text>
           <Text component={TextVariants.p}>
-            How long messages are retained and the maximum total size of all log
-            segments in a partition before they are deleted to free up space
+            {t('topic.message_retention_info')}
           </Text>
           <Text component={TextVariants.small}>
-            Messages that aren't read by a consumer within this time will be
-            missed. By default, a limit is only applied to retention time.
+            {t('topic.message_retention_info_note')}
           </Text>
         </TextContent>
 
         <Form onSubmit={preventFormSubmit}>
           <FormGroup
             fieldId='form-group-retention-time-in-wizard'
-            label='Retention time'
+            label={t('topic.retention_time')}
             // className='form-group-radio'
           >
             <Stack hasGutter>

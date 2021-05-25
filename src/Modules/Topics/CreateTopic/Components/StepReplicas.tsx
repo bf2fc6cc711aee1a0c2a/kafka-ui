@@ -24,34 +24,25 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
   return (
     <Stack hasGutter className='kafka-ui--wizard-main-body__stack'>
       <TextContent>
-        <Text component={TextVariants.h2}>Replicas</Text>
-        <Text component={TextVariants.p}>
-          How many copies of a topic will be made for high availability.
-        </Text>
-        <Text component={TextVariants.small}>
-          The partitions of each topic can be replicated across a configurable
-          number of brokers.
-        </Text>
+        <Text component={TextVariants.h2}>{t('common.replicas')}</Text>
+        <Text component={TextVariants.p}>{t('topic.replicas_info')}</Text>
+        <Text component={TextVariants.small}>{t('topic.replicas_detail')}</Text>
       </TextContent>
-      <Alert
-        variant='info'
-        isInline
-        title='Streams for Apache Kafka only supports 3 replicas and a minimum in-sync replica factor of 2.'
-      />
+      <Alert variant='info' isInline title={t('topic.replicas_helper_text')} />
       <TextWithLabelPopover
-        btnAriaLabel='topic detail replicas'
-        fieldLabel='Replicas'
+        btnAriaLabel={t('common.replicas')}
+        fieldLabel={t('common.replicas')}
         fieldValue={replicationFactor.toString()}
-        popoverBody={t('createTopic.replicasLabelBody')}
-        popoverHeader={t('createTopic.replicasLabelHead')}
+        popoverBody={t('topic.replicas_description')}
+        popoverHeader={t('topic.replicas')}
       />
 
       <TextWithLabelPopover
         btnAriaLabel='topic detail min-in-sync replica'
         fieldLabel='Minimum in-sync replicas'
         fieldValue={minInSyncReplica.toString()}
-        popoverBody={t('createTopic.inSyncReplicasLabelBody')}
-        popoverHeader={t('createTopic.inSyncReplicasLabelHead')}
+        popoverBody={t('topic.min_insync_replicas_description')}
+        popoverHeader={t('topic.min_insync_replicas')}
       />
     </Stack>
   );

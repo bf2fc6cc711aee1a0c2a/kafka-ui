@@ -16,7 +16,7 @@ import {
   TabContent,
 } from '@patternfly/react-core';
 import kafkai18n from '../../i18n';
-import { I18nextProvider } from 'react-i18next';
+import { I18nextProvider, useTranslation } from 'react-i18next';
 import { AlertContext, AlertContextProps } from '../../Contexts/Alert';
 import { BrowserRouter } from 'react-router-dom';
 import { FederatedProps } from '../../Utils';
@@ -58,6 +58,7 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
 
   const contentRefTopics = React.createRef<HTMLElement>();
   const contentRefConsumers = React.createRef<HTMLElement>();
+  const { t } = useTranslation();
 
   const handleTabClick = (event, tabIndex) => {
     setActiveTabKey(tabIndex);
@@ -70,7 +71,7 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
           Kafka Instances
         </BreadcrumbItem>
         <BreadcrumbItem to='#' isActive>
-          {kafkaName ? kafkaName : 'Kafka Instance Name'}
+          {kafkaName ? kafkaName : t('common.kafka_instance_name')}
         </BreadcrumbItem>
       </Breadcrumb>
     );
@@ -80,10 +81,11 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
         <section className='pf-c-page__main-breadcrumb'>
           {mainBreadcrumbs}
         </section>
-        <PageSection variant='light' className='foobarfoobar'>
+
+        <PageSection variant='light'>
           <Level>
             <Title headingLevel='h1'>
-              {kafkaName ? kafkaName : 'Kafka Instance Name'}
+              {kafkaName ? kafkaName : t('common.kafka_instance_name')}
             </Title>
             {/* TODO: Add this back once we get the options available to us for this menu <Button variant='plain' iconPosition='right'>
             <EllipsisVIcon />

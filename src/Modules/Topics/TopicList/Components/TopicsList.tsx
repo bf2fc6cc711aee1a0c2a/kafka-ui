@@ -19,8 +19,10 @@ import {
 } from '@patternfly/react-table';
 import { useTimeout } from '../../../../Hooks/useTimeOut';
 import { SearchTopics } from './SearchTopics';
-import { EmptyTopics } from './EmptyTopics';
-import { EmptySearch } from './EmptySearch';
+import {
+  EmptyState,
+  MASEmptyStateVariant,
+} from '../../../../Components/EmptyState/EmptyState';
 import { getTopics } from '../../../../Services';
 import { DeleteTopics } from './DeleteTopicsModal';
 import { ConfigContext } from '../../../../Contexts';
@@ -28,8 +30,10 @@ import { TopicsList } from '../../../../OpenApi';
 import { Loading } from '../../../../Components/Loading/Loading';
 import { AlertContext } from '../../../../Contexts/Alert';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import './TopicList.css';
+import { convertRetentionSize, convertRetentionTime } from '../../CreateTopic/utils';
 
 export interface ITopic {
   name: string;
@@ -65,6 +69,8 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   const [filteredTopics, setFilteredTopics] = useState<TopicsList>();
   const [deleteModal, setDeleteModal] = useState(false);
   const [topicName, setTopicName] = useState<string | undefined>();
+
+  const { t } = useTranslation();
 
   const { addAlert } = useContext(AlertContext);
 
@@ -105,64 +111,12 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
   };
 
   const tableColumns = [
-    { title: 'Name' },
-    { title: 'Partitions', transforms: [sortable] },
-    { title: 'Retention Time', transforms: [sortable] },
-    { title: 'Retention Size', transforms: [sortable] },
+    { title: t('common.name') },
+    { title: t('common.partitions'), transforms: [sortable] },
+    { title: t('topic.retention_time'), transforms: [sortable] },
+    { title: t('topic.retention_size'), transforms: [sortable] },
   ];
-  const convertRetentionTime = (milliseconds: number) => {
-    let convertedValue;
-    if (milliseconds === -1) {
-      return 'Unlimited';
-    } else if (milliseconds < 60000) {
-      if (milliseconds === 1) return milliseconds + ' ' + 'millisecond';
-      else return milliseconds + ' ' + 'milliseconds';
-    } else if (milliseconds >= 60000 && milliseconds < 3.6e6) {
-      convertedValue = milliseconds / 60000;
-      convertedValue = Math.round(convertedValue * 100) / 100;
-      if (convertedValue === 1) return convertedValue + ' ' + 'minute';
-      else return convertedValue + ' ' + 'minutes';
-    } else if (milliseconds >= 3.6e6 && milliseconds < 1.728e8) {
-      convertedValue = milliseconds / 3.6e6;
-      convertedValue = Math.round(convertedValue * 100) / 100;
-      if (convertedValue === 1) return convertedValue + ' ' + 'hour';
-      else return convertedValue + ' ' + 'hours';
-    } else if (milliseconds >= 1.728e8) {
-      convertedValue = milliseconds / 8.64e7;
-      convertedValue = Math.round(convertedValue * 100) / 100;
-      return convertedValue + ' ' + 'days';
-    }
-  };
 
-  const convertRetentionSize = (byte: number) => {
-    let convertedByteValue;
-    if (byte === -1) {
-      return 'Unlimited';
-    } else if (Math.abs(byte) < 1000) {
-      if (byte === 1) return byte + ' ' + 'byte';
-      else return byte + ' ' + 'bytes';
-    } else if (Math.abs(byte) >= 1000 && Math.abs(byte) < 1000000) {
-      convertedByteValue = byte / 1000;
-      if (convertedByteValue === 1)
-        return convertedByteValue + ' ' + 'kilobyte';
-      else return convertedByteValue + ' ' + 'kilobytes';
-    } else if (Math.abs(byte) >= 1000000 && Math.abs(byte) < 1000000000) {
-      convertedByteValue = byte / 1000000;
-      if (convertedByteValue === 1)
-        return convertedByteValue + ' ' + 'megabyte';
-      else return convertedByteValue + ' ' + 'megabytes';
-    } else if (Math.abs(byte) >= 1000000000 && Math.abs(byte) < 1000000000000) {
-      convertedByteValue = byte / 1000000000;
-      if (convertedByteValue === 1)
-        return convertedByteValue + ' ' + 'gigabyte';
-      else return convertedByteValue + ' ' + 'gigabytes';
-    } else if (Math.abs(byte) >= 1000000000000) {
-      convertedByteValue = byte / 1000000000000;
-      if (convertedByteValue === 1)
-        return convertedByteValue + ' ' + 'terabyte';
-      else return convertedByteValue + ' ' + 'terabytes';
-    }
-  };
   const rowData =
     filteredTopics?.items?.map((topic) => [
       {
@@ -239,12 +193,12 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
 
   const actions = [
     {
-      title: 'Delete',
+      title: t('common.delete'),
       ['data-testid']: 'tableTopics-actionDelete',
       onClick: (_, rowId) => onDelete(rowId),
     },
     {
-      title: 'Edit',
+      title: t('common.edit'),
       ['data-testid']: 'tableTopics-actionEdit',
       onClick: (_, rowId) => onEdit(rowId),
     },
@@ -266,9 +220,23 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
       )}
       <Card className='kafka-ui-m-full-height'>
         {rowData.length < 1 && search.length < 1 ? (
-          <EmptyTopics onCreateTopic={onCreateTopic} />
+          <EmptyState
+            emptyStateProps={{
+              variant: MASEmptyStateVariant.NoItems,
+            }}
+            titleProps={{
+              title: t('topic.empty_topics_title'),
+            }}
+            emptyStateBodyProps={{
+              body: t('topic.empty_topics_body'),
+            }}
+            buttonProps={{
+              title: t('topic.create_topic'),
+              onClick: () => onCreateTopic(),
+            }}
+          />
         ) : (
-          <>
+          <Card>
             <Toolbar>
               <ToolbarContent>
                 <ToolbarItem className='pf-c-toolbar-item--search'>
@@ -287,7 +255,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
                       onCreateTopic();
                     }}
                   >
-                    Create topic
+                    {t('topic.create_topic')}
                   </Button>
                 </ToolbarItem>
                 <ToolbarItem variant='pagination'>
@@ -304,7 +272,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
             </Toolbar>
 
             <Table
-              aria-label='Compact Table'
+              aria-label={t('topic.topic_list_table')}
               variant={TableVariant.compact}
               cells={tableColumns}
               rows={
@@ -317,21 +285,35 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
               <TableHeader />
               <TableBody />
             </Table>
-          </>
+          </Card>
         )}
-        <Divider />
-        {rowData.length < 1 && search.length > 1 && <EmptySearch />}
-        {rowData.length > 1 && (
-          <Pagination
-            itemCount={rowData.length}
-            perPage={perPage}
-            page={page}
-            onSetPage={onSetPage}
-            widgetId='topic-list-pagination-bottom'
-            onPerPageSelect={onPerPageSelect}
-            offset={0}
-            variant={PaginationVariant.bottom}
+        {rowData.length < 1 && search.length > 1 && (
+          <EmptyState
+            emptyStateProps={{
+              variant: MASEmptyStateVariant.NoResult,
+            }}
+            titleProps={{
+              title: t('common.no_results_title'),
+            }}
+            emptyStateBodyProps={{
+              body: t('common.no_results_body'),
+            }}
           />
+        )}
+        {rowData.length > 1 && (
+          <Card>
+            <Divider />
+            <Pagination
+              itemCount={rowData.length}
+              perPage={perPage}
+              page={page}
+              onSetPage={onSetPage}
+              widgetId='topic-list-pagination-bottom'
+              onPerPageSelect={onPerPageSelect}
+              offset={0}
+              variant={PaginationVariant.bottom}
+            />
+          </Card>
         )}
       </Card>
     </>

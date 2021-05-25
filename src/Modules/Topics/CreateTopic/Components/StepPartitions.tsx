@@ -9,6 +9,7 @@ import {
   Stack,
 } from '@patternfly/react-core';
 import './CreateTopicWizard.css';
+import { useTranslation } from 'react-i18next';
 export interface IStepPartitions {
   setPartitionTouchspinValue: (value: number) => void;
   partitionTouchspinValue: number;
@@ -18,6 +19,10 @@ export const StepPartitions: React.FC<IStepPartitions> = ({
   partitionTouchspinValue,
   setPartitionTouchspinValue,
 }) => {
+  const minValue = 1;
+
+  const { t } = useTranslation();
+
   const handleOnPlus = () => {
     setPartitionTouchspinValue(partitionTouchspinValue + 1);
   };
@@ -25,26 +30,27 @@ export const StepPartitions: React.FC<IStepPartitions> = ({
     setPartitionTouchspinValue(partitionTouchspinValue - 1);
   };
   const handlePartitionTouchspinChange = (event) => {
-    setPartitionTouchspinValue(Number(event.target.value));
+    let num = Number(event.target.value);
+    if (num < minValue) {
+      num = minValue;
+    }
+    setPartitionTouchspinValue(num);
   };
 
   return (
     <Stack hasGutter className='kafka-ui--wizard-main-body__stack'>
       <TextContent>
         <Text component={TextVariants.h2}>Partitions</Text>
-        <Text component={TextVariants.p}>An ordered list of messages</Text>
+        <Text component={TextVariants.p}>{t('topic.partition_info')}</Text>
         <Text component={TextVariants.small}>
-          One or more partitions make up a topic. Partitions are distributed
-          across the brokers to increase the scalability of your topic. You can
-          also use them to distribute messages across the members of the
-          consumer group.
+          {t('topic.partition_info_note')}
         </Text>
       </TextContent>
       <Form>
         <FormGroup
           label='Partitions'
           fieldId='step-topic-name-form'
-          helperText='One partition is sufficient for getting started, but production systems often have more.'
+          helperText={t('topic.partition_helper_text')}
           isRequired
         >
           <NumberInput
@@ -54,7 +60,7 @@ export const StepPartitions: React.FC<IStepPartitions> = ({
             inputName='input'
             onChange={handlePartitionTouchspinChange}
             widthChars={20}
-            min={1}
+            min={minValue}
           />
         </FormGroup>
       </Form>

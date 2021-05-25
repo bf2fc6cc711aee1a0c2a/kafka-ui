@@ -7,6 +7,7 @@ import {
   BreadcrumbItem,
 } from '@patternfly/react-core';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 export interface ICreateTopicProps {
   isSwitchChecked: boolean;
@@ -22,16 +23,18 @@ export const CreateTopichead: React.FC<ICreateTopicProps> = ({
   kafkaName,
   kafkaPageLink,
 }) => {
+  const { t } = useTranslation();
+
   const mainBreadcrumbs = (
     <Breadcrumb>
       <BreadcrumbItem to={kafkaPageLink ? kafkaPageLink : '#'}>
         Kafka Instances
       </BreadcrumbItem>
       <BreadcrumbItem to='#' isActive>
-        {kafkaName ? kafkaName : 'Kafka Instance Name'}
+        {kafkaName ? kafkaName : t('common.kafka_instance_name')}
       </BreadcrumbItem>
       <BreadcrumbItem to='#' isActive>
-        Create topic
+        {t('topic.create_topic')}
       </BreadcrumbItem>
     </Breadcrumb>
   );
@@ -42,13 +45,13 @@ export const CreateTopichead: React.FC<ICreateTopicProps> = ({
       </section>
       <PageSection variant={PageSectionVariants.light}>
         <Title headingLevel='h1' size='2xl'>
-          Create topic
+          {t('topic.create_topic')}
         </Title>
         <br />
         <Switch
           id='simple-switch'
-          label='Show all available options'
-          labelOff='Show all available options'
+          label={t('topic.show_all_options')}
+          labelOff={t('topic.show_all_options')}
           isChecked={isSwitchChecked}
           onChange={setIsSwitchChecked}
           className='create-topic-wizard'

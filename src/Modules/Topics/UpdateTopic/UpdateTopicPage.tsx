@@ -10,6 +10,7 @@ import {
 import { ConsumerGroupsList } from '../../ConsumerGroups/ConsumerGroupList/Components/ConsumerGroupList';
 import { UpdateTopicView } from './Components/UpdateTopicView';
 import { TopicDetailHead } from '../TopicDetails/Components/TopicDetailHead';
+import { useTranslation } from 'react-i18next';
 
 export interface UpdateTopicPageProps {
   topicName: string;
@@ -37,6 +38,8 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
   activeTab = 0,
 }) => {
   const [activeTabKey, setActiveTabKey] = useState(activeTab);
+
+  const { t } = useTranslation();
 
   const contentRefConsumerGroup = React.createRef<HTMLElement>();
   const contentRefProperties = React.createRef<HTMLElement>();
@@ -66,16 +69,21 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
         >
           <Tab
             eventKey={0}
-            title={<TabTitleText>Consumer groups</TabTitleText>}
+            title={
+              <TabTitleText>{t('consumerGroup.consumer_groups')}</TabTitleText>
+            }
             tabContentId='kafka-ui-TabcontentConsumerGroups'
             tabContentRef={contentRefConsumerGroup}
-          />
+          >
+
+          </Tab>
           <Tab
             eventKey={1}
-            title={<TabTitleText>Properties</TabTitleText>}
+            title={<TabTitleText>{t('common.properties')}</TabTitleText>}
             tabContentId='kafka-ui-TabcontentProperties'
             tabContentRef={contentRefProperties}
-          />
+          >
+          </Tab>
         </Tabs>
       </PageSection>
       <PageSection

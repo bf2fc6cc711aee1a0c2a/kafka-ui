@@ -1,5 +1,6 @@
 import React from 'react';
 import { InputGroup, SearchInput } from '@patternfly/react-core';
+import { useTranslation } from 'react-i18next';
 
 export interface ISearchTopicsProps {
   setSearch: (value: string) => void;
@@ -11,6 +12,8 @@ const SearchTopics: React.FunctionComponent<ISearchTopicsProps> = ({
   setSearch,
   onClear,
 }) => {
+  const { t } = useTranslation();
+
   const onChangeInput = (value: string) => {
     setSearch(value);
   };
@@ -25,8 +28,8 @@ const SearchTopics: React.FunctionComponent<ISearchTopicsProps> = ({
         name='searchName'
         id='search-topics-input'
         type='search'
-        aria-label='search input '
-        placeholder='Search'
+        aria-label={t('topic.topic_search_input')}
+        placeholder={t('common.search')}
         value={search}
         onChange={onChangeInput}
         onClear={onClearHandler}

@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { TopicDetailHead } from '../../../Modules/Topics/TopicDetails/Components/TopicDetailHead';
 import { TopicDetailView } from './Components/TopicDetailView';
-import { AdvancedTopic, initialState } from '../../../Contexts/Topic';
 import {
   AlertVariant,
   PageSection,
@@ -18,6 +17,8 @@ import { DeleteTopics } from '../TopicList/Components/DeleteTopicsModal';
 import { isAxiosError } from '../../../Utils/axios';
 import { AlertContext } from '../../../Contexts/Alert';
 import { useHistory } from 'react-router';
+import { IAdvancedTopic } from '../CreateTopic/Components/CreateTopicWizard';
+import { useTranslation } from 'react-i18next';
 
 export type TopicDetailGroupProps = {
   topicName: string;
@@ -42,12 +43,23 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
   onError,
   eventKey,
 }) => {
-  const [topicDetail, setTopicDetail] = useState<AdvancedTopic>(initialState);
+  const [topicDetail, setTopicDetail] = useState<IAdvancedTopic>({
+    name: topicName,
+    numPartitions: '',
+    'retention.ms': '',
+    'retention.ms.unit': 'milliseconds',
+    'retention.bytes': '',
+    'retention.bytes.unit': 'bytes',
+    'cleanup.policy': '',
+  });
   const [activeTabKey, setActiveTabKey] = useState(eventKey);
   const config = useContext(ConfigContext);
   const [deleteModal, setDeleteModal] = useState(false);
   const { addAlert } = useContext(AlertContext);
   const history = useHistory();
+
+  const { t } = useTranslation();
+
   const fetchTopicDetail = async (topicName: string) => {
     if (eventKey === 2) {
       try {
@@ -60,7 +72,10 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
           }
           if (err.response?.status === 404) {
             // then it's a non-existent topic
-            addAlert(`Topic ${topicName} does not exist`, AlertVariant.danger);
+            addAlert(
+              t('topic.topic_not_found', { name: topicName }),
+              AlertVariant.danger
+            );
             onClickTopicList();
           }
         }
@@ -109,13 +124,16 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
           <Tab
             eventKey={1}
             data-testid='pageTopic-tabConsumers'
-            title={<TabTitleText>Consumer groups</TabTitleText>}
+            title={
+              <TabTitleText>{t('consumerGroup.consumer_groups')}</TabTitleText>
+            }
             tabContentId='kafka-ui-TabcontentConsumerGroupList'
             tabContentRef={contentRefConsumerGroup}
-          />
+          >
+          </Tab>
           <Tab
             eventKey={2}
-            title={<TabTitleText>Properties</TabTitleText>}
+            title={<TabTitleText>{t('common.properties')}</TabTitleText>}
             data-testid='pageTopic-tabProperties'
             tabContentId='kafka-ui-TabcontentProperties'
             tabContentRef={contentRefProperties}

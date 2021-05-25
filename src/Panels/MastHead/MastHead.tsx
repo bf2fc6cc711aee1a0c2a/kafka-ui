@@ -8,7 +8,7 @@ export type MastHeadProps = {
 
 export const MastHead: React.FC<MastHeadProps> = ({ children }) => {
   return (
-    <Page mainContainerId='main-container' header={<AppMastHead />}>
+    <Page mainContainerId='scrollablePageMain' header={<AppMastHead />}>
       {children}
     </Page>
   );
