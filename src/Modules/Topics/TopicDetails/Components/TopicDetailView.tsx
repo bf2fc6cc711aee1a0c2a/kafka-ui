@@ -396,15 +396,15 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                     <Text component={TextVariants.p}>
                       {t('topic.delete_topic_info')}
                     </Text>
-                  </TextContent>
 
-                  <Button
-                    variant='danger'
-                    onClick={deleteTopic}
-                    data-testid='tabProperties-actionDelete'
-                  >
-                    {t('common.delete_topic')}
-                  </Button>
+                    <Button
+                      variant='danger'
+                      onClick={deleteTopic}
+                      data-testid='tabProperties-actionDelete'
+                    >
+                      {t('common.delete_topic')}
+                    </Button>
+                  </TextContent>
 
                 </SplitItem>
                 <SplitItem>
