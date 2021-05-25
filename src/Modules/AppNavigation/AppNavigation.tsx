@@ -106,8 +106,7 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
             tabContentRef={contentRefTopics}
             tabContentId='kafka-ui-TabcontentTopicsList'
             // className='kafka-ui-m-full-height'
-          >
-          </Tab>
+          ></Tab>
           <Tab
             title={
               <TabTitleText>{t('consumerGroup.consumer_groups')}</TabTitleText>
@@ -119,23 +118,24 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
             tabContentRef={contentRefConsumerGroups}
             tabContentId='kafka-ui-TabcontentConsumersList'
             // className='kafka-ui-m-full-height'
-          >
-          </Tab>
+          ></Tab>
         </Tabs>
       </PageSection>
       <PageSection isFilled>
-        <TabContent eventKey={1}
-        ref={contentRefTopics}
-        id='kafka-ui-TabcontentTopicsList'
-        className='kafka-ui-m-full-height'
-        aria-label={t('topic.topics')}
+        <TabContent
+          eventKey={1}
+          ref={contentRefTopics}
+          id='kafka-ui-TabcontentTopicsList'
+          className='kafka-ui-m-full-height'
+          aria-label={t('topic.topics')}
         >
-        <TopicsListComponent
-                      onCreateTopic={onCreateTopic}
-                      onClickTopic={onClickTopic}
-                      getTopicDetailsPath={getTopicDetailsPath}
-                      onDeleteTopic={onDeleteTopic}
-                    />
+          <TopicsListComponent
+            onCreateTopic={onCreateTopic}
+            onClickTopic={onClickTopic}
+            getTopicDetailsPath={getTopicDetailsPath}
+            onDeleteTopic={onDeleteTopic}
+            onEditTopic={onEditTopic}
+          />
         </TabContent>
         <TabContent
           eventKey={2}
@@ -145,10 +145,10 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
           aria-label={t('consumerGroup.consumer_groups')}
           hidden
         >
-            <ConsumerGroupsList
-              onDeleteConsumerGroup={onDeleteConsumer}
-              consumerGroupByTopic={false}
-            />
+          <ConsumerGroupsList
+            onDeleteConsumerGroup={onDeleteConsumer}
+            consumerGroupByTopic={false}
+          />
         </TabContent>
       </PageSection>
     </>
