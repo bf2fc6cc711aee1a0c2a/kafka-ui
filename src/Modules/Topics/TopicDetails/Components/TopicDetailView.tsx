@@ -31,13 +31,16 @@ import {
   DEFAULT_SEGMENT_TIME,
   DEFAULT_MAX_MESSAGE_TIMESTAMP_DIFF,
   DEFAULT_FLUSH_INTERVAL_MESSAGES,
-  DEFAULT_FLUSH_INTERVAL_TIME
+  DEFAULT_FLUSH_INTERVAL_TIME,
 } from '../../../../Constant';
 import './TopicDetailView.css';
 import { TextWithLabelPopover } from '../../../../Components/TextWithLabelPopover/TextWithLabelPopover';
 import { useTranslation } from 'react-i18next';
 import { IAdvancedTopic } from '../../CreateTopic/Components/CreateTopicWizard';
-import { convertRetentionSize, convertRetentionTime } from '../../CreateTopic/utils';
+import {
+  convertRetentionSize,
+  convertRetentionTime,
+} from '../../CreateTopic/utils';
 
 export type TopicViewDetailProps = {
   /** Topic details */
@@ -145,7 +148,9 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   <TextWithLabelPopover
                     btnAriaLabel={t('topic.retention_time')}
                     fieldLabel={t('topic.retention_time')}
-                    fieldValue={convertRetentionTime(Number(topic['retention.ms']))}
+                    fieldValue={convertRetentionTime(
+                      Number(topic['retention.ms'])
+                    )}
                     popoverBody={t('topic.retention_time_description')}
                     popoverHeader={t('topic.retention_time')}
                     showUnlimited={true}
@@ -154,7 +159,9 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   <TextWithLabelPopover
                     btnAriaLabel={t('topic.retention_size')}
                     fieldLabel={t('topic.retention_size')}
-                    fieldValue={convertRetentionSize(Number(topic['retention.bytes']))}
+                    fieldValue={convertRetentionSize(
+                      Number(topic['retention.bytes'])
+                    )}
                     popoverHeader={t('topic.retention_size')}
                     popoverBody={t('topic.retention_size_description')}
                     showUnlimited={true}

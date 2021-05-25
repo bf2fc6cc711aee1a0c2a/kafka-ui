@@ -74,16 +74,13 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
             }
             tabContentId='kafka-ui-TabcontentConsumerGroups'
             tabContentRef={contentRefConsumerGroup}
-          >
-
-          </Tab>
+          ></Tab>
           <Tab
             eventKey={1}
             title={<TabTitleText>{t('common.properties')}</TabTitleText>}
             tabContentId='kafka-ui-TabcontentProperties'
             tabContentRef={contentRefProperties}
-          >
-          </Tab>
+          ></Tab>
         </Tabs>
       </PageSection>
       <PageSection

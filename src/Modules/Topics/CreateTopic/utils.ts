@@ -125,23 +125,19 @@ export const convertRetentionSize = (byte: number): string => {
     else return byte + ' ' + 'bytes';
   } else if (Math.abs(byte) >= 1000 && Math.abs(byte) < 1000000) {
     convertedByteValue = byte / 1000;
-    if (convertedByteValue === 1)
-      return convertedByteValue + ' ' + 'kilobyte';
+    if (convertedByteValue === 1) return convertedByteValue + ' ' + 'kilobyte';
     else return convertedByteValue + ' ' + 'kilobytes';
   } else if (Math.abs(byte) >= 1000000 && Math.abs(byte) < 1000000000) {
     convertedByteValue = byte / 1000000;
-    if (convertedByteValue === 1)
-      return convertedByteValue + ' ' + 'megabyte';
+    if (convertedByteValue === 1) return convertedByteValue + ' ' + 'megabyte';
     else return convertedByteValue + ' ' + 'megabytes';
   } else if (Math.abs(byte) >= 1000000000 && Math.abs(byte) < 1000000000000) {
     convertedByteValue = byte / 1000000000;
-    if (convertedByteValue === 1)
-      return convertedByteValue + ' ' + 'gigabyte';
+    if (convertedByteValue === 1) return convertedByteValue + ' ' + 'gigabyte';
     else return convertedByteValue + ' ' + 'gigabytes';
   } else if (Math.abs(byte) >= 1000000000000) {
     convertedByteValue = byte / 1000000000000;
-    if (convertedByteValue === 1)
-      return convertedByteValue + ' ' + 'terabyte';
+    if (convertedByteValue === 1) return convertedByteValue + ' ' + 'terabyte';
     else return convertedByteValue + ' ' + 'terabytes';
   }
   return byte.toString();

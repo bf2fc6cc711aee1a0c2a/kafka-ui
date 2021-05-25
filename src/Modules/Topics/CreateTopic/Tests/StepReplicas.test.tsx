@@ -1,8 +1,5 @@
 import { render, RenderResult } from '@testing-library/react';
-import {
-  StepReplicas,
-  IStepReplicas,
-} from '../Components/StepReplicas';
+import { StepReplicas, IStepReplicas } from '../Components/StepReplicas';
 import React, { ReactElement } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import kafkai18n from '../../../../../test-utils/i18n';

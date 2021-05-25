@@ -129,8 +129,7 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
             }
             tabContentId='kafka-ui-TabcontentConsumerGroupList'
             tabContentRef={contentRefConsumerGroup}
-          >
-          </Tab>
+          ></Tab>
           <Tab
             eventKey={2}
             title={<TabTitleText>{t('common.properties')}</TabTitleText>}

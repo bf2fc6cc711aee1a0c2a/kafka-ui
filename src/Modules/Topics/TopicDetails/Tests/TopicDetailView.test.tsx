@@ -13,7 +13,7 @@ const topic: IAdvancedTopic = {
   numPartitions: '52',
   'retention.ms': '78',
   'cleanup.policy': 'Delete',
-  'retention.bytes': '-1'
+  'retention.bytes': '-1',
 };
 
 const updateTopic = jest.fn();
@@ -35,10 +35,10 @@ const setup = () => {
   return renderResult;
 };
 
-describe("<TopicDetailView />", () => {
-  it("should render TopicDetailView", () => {
+describe('<TopicDetailView />', () => {
+  it('should render TopicDetailView', () => {
     const renderResult = setup();
     const { getByText } = renderResult;
     expect(getByText('JUMP TO SECTION')).toBeInTheDocument();
-  })
+  });
 });
