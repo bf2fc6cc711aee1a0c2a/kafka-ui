@@ -1,14 +1,14 @@
-import React, { FunctionComponent } from 'react';
-import './style.scss';
-import { UpdateTopicPage } from '../../Modules/Topics/UpdateTopic/UpdateTopicPage';
-import { ConfigContext } from '../../Contexts';
-import { AlertVariant } from '@patternfly/react-core';
-import kafkai18n from '../../i18n';
-import { I18nextProvider } from 'react-i18next';
-import { AlertContext, AlertContextProps } from '../../Contexts/Alert';
-import { FederatedProps } from '../../Utils';
+import React, { FunctionComponent } from "react";
+import { I18nextProvider } from "react-i18next";
+import { AlertVariant } from "@patternfly/react-core";
+import { UpdateTopicPage } from "@app/modules/Topics/UpdateTopic/UpdateTopicPage";
+import { ConfigContext } from "@app/contexts";
+import kafkai18n from "@app/i18n";
+import { AlertContext, AlertContextProps } from "@app/contexts/Alert";
+import { FederatedProps } from "@app/utils";
+import "./style.scss";
 
-export interface FederatedUpdateTopicProps extends FederatedProps {
+export type FederatedUpdateTopicProps = FederatedProps & {
   getToken: () => Promise<string>;
   apiBasePath: string;
   currentTopic: string;
@@ -20,7 +20,7 @@ export interface FederatedUpdateTopicProps extends FederatedProps {
   onDeleteTopic: () => void;
   onSaveTopic: () => void;
   onDeleteConsumer: () => void;
-}
+};
 
 const FederatedUpdateTopicView: FunctionComponent<FederatedUpdateTopicProps> = ({
   getToken,

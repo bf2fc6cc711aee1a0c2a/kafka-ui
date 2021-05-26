@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { useHistory, useParams } from 'react-router';
-import { TopicDetailGroup } from '../../Modules/Topics/TopicDetails/TopicDetailPage';
+import { TopicDetailGroup } from '@app/modules/Topics/TopicDetails/TopicDetailPage';
 
 type TopicUseParams = {
   topicName: string;

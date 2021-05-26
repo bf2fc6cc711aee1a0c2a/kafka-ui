@@ -1,7 +1,8 @@
-import React, { FunctionComponent, useState } from 'react';
-import './style.scss';
-import { TopicsListComponent } from '../../Modules/Topics/TopicList/Components/TopicsList';
-import { ConfigContext } from '../../Contexts';
+import React, { FunctionComponent, useState } from "react";
+import { BrowserRouter } from "react-router-dom";
+import { I18nextProvider, useTranslation } from "react-i18next";
+import { TopicsListComponent } from "@app/modules/Topics/TopicList/Components/TopicsList";
+import { ConfigContext } from "@app/contexts";
 import {
   AlertVariant,
   Breadcrumb,
@@ -14,13 +15,12 @@ import {
   PageSection,
   PageSectionVariants,
   TabContent,
-} from '@patternfly/react-core';
-import kafkai18n from '../../i18n';
-import { I18nextProvider, useTranslation } from 'react-i18next';
-import { AlertContext, AlertContextProps } from '../../Contexts/Alert';
-import { BrowserRouter } from 'react-router-dom';
-import { FederatedProps } from '../../Utils';
-import { ConsumerGroupsList } from '../../Modules/ConsumerGroups/ConsumerGroupList/Components/ConsumerGroupList';
+} from "@patternfly/react-core";
+import kafkai18n from "@app/i18n";
+import { AlertContext, AlertContextProps } from "@app/contexts/Alert";
+import { FederatedProps } from "@app/utils";
+import { ConsumerGroups } from "@app/modules/ConsumerGroups";
+import "./style.scss";
 
 export interface FederatedMainViewProps extends FederatedProps {
   getToken: () => Promise<string>;
@@ -67,25 +67,25 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
   const buildMainView = () => {
     const mainBreadcrumbs = (
       <Breadcrumb>
-        <BreadcrumbItem to={kafkaPageLink ? kafkaPageLink : '#'}>
+        <BreadcrumbItem to={kafkaPageLink ? kafkaPageLink : "#"}>
           Kafka Instances
         </BreadcrumbItem>
-        <BreadcrumbItem to='#' isActive>
-          {kafkaName ? kafkaName : t('common.kafka_instance_name')}
+        <BreadcrumbItem to="#" isActive>
+          {kafkaName ? kafkaName : t("common.kafka_instance_name")}
         </BreadcrumbItem>
       </Breadcrumb>
     );
 
     return (
       <>
-        <section className='pf-c-page__main-breadcrumb'>
+        <section className="pf-c-page__main-breadcrumb">
           {mainBreadcrumbs}
         </section>
 
-        <PageSection variant='light'>
+        <PageSection variant="light">
           <Level>
-            <Title headingLevel='h1'>
-              {kafkaName ? kafkaName : t('common.kafka_instance_name')}
+            <Title headingLevel="h1">
+              {kafkaName ? kafkaName : t("common.kafka_instance_name")}
             </Title>
             {/* TODO: Add this back once we get the options available to us for this menu <Button variant='plain' iconPosition='right'>
             <EllipsisVIcon />
@@ -95,49 +95,43 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
 
         <PageSection
           variant={PageSectionVariants.light}
-          className='pf-c-page__main-tabs'
+          className="pf-c-page__main-tabs"
           isWidthLimited
-          padding={{ default: 'noPadding' }}
+          padding={{ default: "noPadding" }}
         >
           <Tabs
             activeKey={activeTabKey}
             onSelect={handleTabClick}
-            className='pf-m-page-insets'
+            className="pf-m-page-insets"
           >
             <Tab
               title={<TabTitleText>Topics</TabTitleText>}
               eventKey={0}
-              id='topics-tab-section'
-              aria-label='Topics Tab.'
-              data-testid='pageKafka-tabTopics'
-              tabContentId='kafka-ui-TabcontentTopics'
+              id="topics-tab-section"
+              aria-label="Topics Tab."
+              data-testid="pageKafka-tabTopics"
+              tabContentId="kafka-ui-TabcontentTopics"
               tabContentRef={contentRefTopics}
             />
             <Tab
               title={<TabTitleText>Consumer groups</TabTitleText>}
               eventKey={1}
-              id='consumer-groups-tab-section'
-              aria-label='Consumer Groups Tab.'
-              data-testid='pageKafka-tabConsumers'
-              tabContentId='kafka-ui-TabcontentConsumers'
+              id="consumer-groups-tab-section"
+              aria-label="Consumer Groups Tab."
+              data-testid="pageKafka-tabConsumers"
+              tabContentId="kafka-ui-TabcontentConsumers"
               tabContentRef={contentRefConsumers}
-              className={activeTabKey === 1 ? 'kafka-ui--consumer-content' : ''}
+              className={activeTabKey === 1 ? "kafka-ui--consumer-content" : ""}
             />
           </Tabs>
         </PageSection>
-        <PageSection
-          variant={
-            activeTabKey === 1
-              ? PageSectionVariants.default
-              : PageSectionVariants.default
-          }
-        >
+        <PageSection variant={PageSectionVariants.default}>
           <TabContent
             eventKey={0}
-            id='kafka-ui-TabcontentTopics'
+            id="kafka-ui-TabcontentTopics"
             ref={contentRefTopics}
-            className='kafka-ui-m-full-height'
-            aria-label='Topics.'
+            className="kafka-ui-m-full-height"
+            aria-label="Topics."
           >
             <TopicsListComponent
               onCreateTopic={onCreateTopic}
@@ -149,13 +143,13 @@ const FederatedMainView: FunctionComponent<FederatedMainViewProps> = ({
           </TabContent>
           <TabContent
             eventKey={1}
-            id='kafka-ui-TabcontentConsumers'
+            id="kafka-ui-TabcontentConsumers"
             ref={contentRefConsumers}
-            className='kafka-ui-m-full-height'
-            aria-label='Consumer groups.'
+            className="kafka-ui-m-full-height"
+            aria-label="Consumer groups."
             hidden
           >
-            <ConsumerGroupsList
+            <ConsumerGroups
               onDeleteConsumerGroup={onDeleteConsumer}
               consumerGroupByTopic={false}
             />

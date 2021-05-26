@@ -1,14 +1,13 @@
-import React, { FunctionComponent } from 'react';
-import { TopicDetailGroup } from '../../Modules/Topics/TopicDetails/TopicDetailPage';
-import { ConfigContext } from '../../Contexts';
-import { AlertVariant } from '@patternfly/react-core';
-import kafkai18n from '../../i18n';
-import { I18nextProvider } from 'react-i18next';
-import { AlertContext, AlertContextProps } from '../../Contexts/Alert';
-import { FederatedProps } from '../../Utils';
-import './style.scss';
+import React, { FunctionComponent } from "react";
+import { I18nextProvider } from "react-i18next";
+import { AlertVariant } from "@patternfly/react-core";
+import { TopicDetailGroup } from "@app/modules/Topics/TopicDetails/TopicDetailPage";
+import { ConfigContext, AlertContext, AlertContextProps } from "@app/contexts";
+import kafkai18n from "@app/i18n";
+import { FederatedProps } from "@app/utils";
+import "./style.scss";
 
-export interface FederatedTopicDetailViewProps extends FederatedProps {
+export type FederatedTopicDetailViewProps = FederatedProps & {
   getToken: () => Promise<string>;
   apiBasePath: string;
   currentTopic: string;
@@ -19,7 +18,7 @@ export interface FederatedTopicDetailViewProps extends FederatedProps {
   kafkaPageLink?: string;
   kafkaInstanceLink?: string;
   onDeleteTopic: () => void;
-}
+};
 
 const FederatedTopicDetailView: FunctionComponent<FederatedTopicDetailViewProps> = ({
   getToken,

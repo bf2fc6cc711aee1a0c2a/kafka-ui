@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
-
 import './style.scss';
-import { AppNavigation } from '../../Modules/AppNavigation/AppNavigation';
+import { AppNavigation } from '@app/modules/AppNavigation/AppNavigation';
+
 const Topics: FunctionComponent = () => {
   return <AppNavigation eventKey={1} />;
 };

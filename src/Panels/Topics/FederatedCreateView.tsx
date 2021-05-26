@@ -1,12 +1,12 @@
-import React, { FunctionComponent } from 'react';
-import './style.scss';
-import { ConfigContext, IConfiguration } from '../../Contexts';
-import { AlertVariant } from '@patternfly/react-core';
-import { CreateTopicPage } from '../../Modules/Topics/CreateTopic/CreateTopicPage';
-import kafkai18n from '../../i18n';
-import { I18nextProvider } from 'react-i18next';
-import { AlertContext, AlertContextProps } from '../../Contexts/Alert';
-import { FederatedProps } from '../../Utils';
+import React, { FunctionComponent } from "react";
+import { I18nextProvider } from "react-i18next";
+import { AlertVariant } from "@patternfly/react-core";
+import { ConfigContext, IConfiguration } from "../../contexts";
+import { CreateTopicPage } from "@app/modules/Topics/CreateTopic/CreateTopicPage";
+import kafkai18n from "@app/i18n";
+import { AlertContext, AlertContextProps } from "@app/contexts/Alert";
+import { FederatedProps } from "../../utils";
+import "./style.scss";
 
 export interface FederatedCreateTopicProps extends FederatedProps {
   getToken: () => Promise<string>;
