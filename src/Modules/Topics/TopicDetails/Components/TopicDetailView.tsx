@@ -408,11 +408,6 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                       titleElement={'h2'}
                     >
                       <TextContent className='section-margin'>
-                        <Text
-                          component={TextVariants.h2}
-                          tabIndex={-1}
-                          id='flush'
-                        ></Text>
                         <Text component={TextVariants.p}>
                           {t('topic.flush_section_info')}
                         </Text>
