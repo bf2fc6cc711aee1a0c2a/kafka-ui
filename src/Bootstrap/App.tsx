@@ -4,7 +4,7 @@ import "@patternfly/react-core/dist/styles/base.css";
 import kafkai18n from "@app/i18n";
 import { ConfigContext, AlertProvider } from "@app/contexts";
 import { ErrorBoundary } from "@app/components";
-import { MastHead } from "../Panels/MastHead/MastHead";
+import { MastHead } from "@app/panels/MastHead/MastHead";
 import { Routes } from "./Routes";
 
 const App: React.FC = () => {

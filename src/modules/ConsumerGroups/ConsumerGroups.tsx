@@ -26,13 +26,12 @@ import {
   getConsumerGroupDetail,
   getConsumerGroupsByTopic,
 } from "@app/services";
-import { ConfigContext } from "@app/contexts";
+import { ConfigContext, AlertContext } from "@app/contexts";
 import { ConsumerGroupList, ConsumerGroup } from "@app/openapi";
-import { AlertContext } from "@app/contexts/Alert";
 import { useTimeout } from "@app/hooks/useTimeOut";
-import { SearchConsumers } from "./Components/SearchConsumers";
-import { DeleteConsumerGroup } from "./Components/DeleteConsumerGroup";
-import { ConsumerGroupDetail } from "./Components/ConsumerGroupDetail";
+import { SearchConsumers } from "./components/SearchConsumers/SearchConsumers";
+import { DeleteConsumerGroup } from "./components/DeleteConsumerGroup/DeleteConsumerGroup";
+import { ConsumerGroupDetail } from "./components/ConsumerGroupDetail/ConsumerGroupDetail";
 
 export type ConsumerGroupsProps = {
   onDeleteConsumerGroup: () => void;

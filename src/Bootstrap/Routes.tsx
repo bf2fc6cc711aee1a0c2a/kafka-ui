@@ -6,8 +6,8 @@ import {
   TopicDetail,
   ConsumerGroupsView,
   ConsumerGroupsByTopicView,
-} from "@app/Panels";
-import { UpdateTopicView } from "@app/modules/Topics/UpdateTopic/Components/UpdateTopicView";
+} from "@app/panels";
+import { UpdateTopicView } from "@app/modules/Topics/components/UpdateTopicView";
 
 const Routes = () => {
   return (
