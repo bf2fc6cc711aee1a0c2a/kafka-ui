@@ -14,14 +14,14 @@ module.exports = {
       });
     };
 
-    if (
-      consumerGroups &&
-      req?.query?.topic &&
-      req?.query?.topic?.trim() !== ''
-    ) {
-      consumerGroupList = filterConsumerGroups(req?.query?.topic);
-      count = consumerGroupList.length;
-    }
+    // if (
+    //   consumerGroups &&
+    //   req?.query?.topic &&
+    //   req?.query?.topic?.trim() !== ''
+    // ) {
+    //   consumerGroupList = filterConsumerGroups(req?.query?.topic);
+    //   count = consumerGroupList.length;
+    // }
 
     return res.status(200).json({
       limit: parseInt(req.query.limit, 10) || 100,

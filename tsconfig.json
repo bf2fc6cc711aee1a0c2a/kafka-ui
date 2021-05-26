@@ -1,22 +1,31 @@
 {
   "compilerOptions": {
-    "sourceMap": true,
+    "baseUrl": ".",
+    "rootDir": ".",
+    "outDir": "dist",
+    "module": "esnext",
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["es6", "dom"],
+    "sourceMap": true,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": false,
     "allowJs": true,
-    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "noImplicitAny": false,
-    "outDir": "./dist",
-    "module": "esnext",
-    "jsx": "react",
-    "baseUrl": "."
+    "paths": {
+      "@app/*": ["src/*"],
+      "@test-utils/*": ["test-utils/*"],
+      "@assets/*": ["node_modules/@patternfly/react-core/dist/styles/assets/*"]
+    },
+    "importHelpers": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true
   },
-  "exclude": ["**/test_common"],
-  "include": ["./src/*", "./src/**/*"]
+  "include": ["**/*.ts", "**/*.tsx", "**/*.jsx", "**/*.js"],
+  "exclude": ["node_modules"]
 }

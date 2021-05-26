@@ -1,3 +1,4 @@
+/// <reference types="cypress" />
 import { And, Given, Then } from 'cypress-cucumber-preprocessor/steps';
 
 Given('I am on the strimzi-ui homepage', () => {
