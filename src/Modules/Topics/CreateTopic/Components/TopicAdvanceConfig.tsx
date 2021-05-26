@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from 'react';
 import {
   ActionGroup,
   Button,
@@ -8,7 +8,6 @@ import {
   SidebarContent,
   SidebarPanel,
   Stack,
-  StackItem,
   TextContent,
   Text,
   TextVariants,
@@ -47,11 +46,11 @@ import { kebabToCamel, kebabToDotSeparated } from '../utils';
 import {
   DropdownWithToggle,
   IDropdownOption,
-} from "../../../../Components/DropdownWithToggle";
-import { IAdvancedTopic } from "./CreateTopicWizard";
+} from '../../../../Components/DropdownWithToggle';
+import { IAdvancedTopic } from './CreateTopicWizard';
 
-import { getTopic } from "../../../../Services/index";
-import { ConfigContext } from "../../../../Contexts";
+import { getTopic } from '../../../../Services/index';
+import { ConfigContext } from '../../../../Contexts';
 
 export interface ITopicAdvanceConfig {
   isCreate: boolean;
@@ -69,16 +68,16 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
   setTopicData,
 }) => {
   const [partitionsValidated, setPartitionsValidated] = useState<
-    "warning" | "default"
-  >("default");
+    'warning' | 'default'
+  >('default');
   const [warning, setWarning] = useState<boolean>(false);
   const [initialPartition, setInitialPartition] = useState<number | undefined>(
     0
   );
-  const [topicValidated, setTopicValidated] = useState<"error" | "default">(
-    "default"
+  const [topicValidated, setTopicValidated] = useState<'error' | 'default'>(
+    'default'
   );
-  const [invalidText, setInvalidText] = useState("This is a required field");
+  const [invalidText, setInvalidText] = useState('This is a required field');
   const [isWarningOpen, setIsWarningOpen] = useState<boolean>(false);
 
   const { t } = useTranslation();
@@ -96,7 +95,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
   const [
     customRetentionTimeUnit,
     setCustomRetentionTimeUnit,
-  ] = useState<string>("days");
+  ] = useState<string>('days');
   const [customRetentionSize, setCustomRetentionSize] = useState<number>(1);
   const [
     customRetentionSizeUnit,
@@ -134,7 +133,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
 
     const configEntries: any = {};
     topicRes.config?.forEach((configItem) => {
-      configEntries[configItem.key || ""] = configItem.value || "";
+      configEntries[configItem.key || ''] = configItem.value || '';
     });
 
     setInitialPartition(topicRes?.partitions?.length);
@@ -145,42 +144,42 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
       fetchTopic(topicData.name);
     })();
     if (!isCreate) {
-      setCustomRetentionTimeUnit("milliseconds");
+      setCustomRetentionTimeUnit('milliseconds');
     }
   }, []);
 
   useEffect(() => {
     if (!isCreate) {
-      if (topicData["retention.bytes"] === "-1") {
+      if (topicData['retention.bytes'] === '-1') {
         setIsCustomRetentionSizeSelected(false);
       } else {
         setIsCustomRetentionSizeSelected(true);
-        setCustomRetentionSize(Number(topicData["retention.bytes"]));
+        setCustomRetentionSize(Number(topicData['retention.bytes']));
       }
-      if (topicData["retention.ms"] === "-1") {
+      if (topicData['retention.ms'] === '-1') {
         setIsCustomRetentionTimeSelected(false);
       } else {
         setIsCustomRetentionTimeSelected(true);
-        setCustomRetentionTime(Number(topicData["retention.ms"]));
+        setCustomRetentionTime(Number(topicData['retention.ms']));
       }
     }
-  }, [topicData["retention.bytes"], topicData["retention.ms"]]);
+  }, [topicData['retention.bytes'], topicData['retention.ms']]);
 
   const validationCheck = (value: string) => {
-    const regexpInvalid = new RegExp("^[0-9A-Za-z_-]+$");
+    const regexpInvalid = new RegExp('^[0-9A-Za-z_-]+$');
 
     if (value.length && !regexpInvalid.test(value)) {
       setInvalidText(
         'Invalid input. Only letters (Aa-Zz) , numbers " _ " and " - " are accepted'
       );
-      setTopicValidated("error");
+      setTopicValidated('error');
     } else if (value.length < 1) {
-      setInvalidText("This is a required field");
-      setTopicValidated("error");
+      setInvalidText('This is a required field');
+      setTopicValidated('error');
     } else if (value.length > 249) {
-      setTopicValidated("error");
-      setInvalidText("Topic name cannot exceed 249 characters");
-    } else setTopicValidated("default");
+      setTopicValidated('error');
+      setInvalidText('Topic name cannot exceed 249 characters');
+    } else setTopicValidated('default');
   };
 
   const handleTextInputChange = (
@@ -195,20 +194,20 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
   const onDropdownChange = (value: string, event) => {
     const { name } = event.target;
 
-    if (name === "custom-retention-time-unit") {
+    if (name === 'custom-retention-time-unit') {
       setCustomRetentionTimeUnit(value);
       isCustomRetentionTimeSelected &&
         setTopicData({
           ...topicData,
-          "retention.ms.unit": value,
+          'retention.ms.unit': value,
         });
     }
-    if (name === "custom-retention-size-unit") {
+    if (name === 'custom-retention-size-unit') {
       setCustomRetentionSizeUnit(value);
       isCustomRetentionSizeSelected &&
         setTopicData({
           ...topicData,
-          "retention.bytes.unit": value,
+          'retention.bytes.unit': value,
         });
     }
   };
@@ -227,10 +226,10 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
       initialPartition &&
       Number(topicData.numPartitions + 1) > initialPartition
     ) {
-      setPartitionsValidated("warning");
+      setPartitionsValidated('warning');
       setWarning(true);
     } else {
-      setPartitionsValidated("default");
+      setPartitionsValidated('default');
       setWarning(false);
     }
   };
@@ -250,10 +249,10 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
       initialPartition &&
       Number(topicData.numPartitions + -1) > initialPartition
     ) {
-      setPartitionsValidated("warning");
+      setPartitionsValidated('warning');
       setWarning(true);
     } else {
-      setPartitionsValidated("default");
+      setPartitionsValidated('default');
       setWarning(false);
     }
   };
@@ -275,61 +274,61 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
   ) => {
     const { name, value } = event.currentTarget;
 
-    if (name === "custom-retention-time") {
+    if (name === 'custom-retention-time') {
       setCustomRetentionTime(Number(value));
       isCustomRetentionTimeSelected &&
         setTopicData({
           ...topicData,
-          "retention.ms": value,
+          'retention.ms': value,
         });
-    } else if (name === "custom-retention-size") {
+    } else if (name === 'custom-retention-size') {
       setCustomRetentionSize(Number(value));
       isCustomRetentionSizeSelected &&
         setTopicData({
           ...topicData,
-          "retention.bytes": value,
+          'retention.bytes': value,
         });
     }
   };
 
   const handleTouchSpinPlus = (event) => {
     const { name } = event.currentTarget;
-    if (name === "custom-retention-time") {
+    if (name === 'custom-retention-time') {
       const updatedRetentionTime = customRetentionTime + 1;
       setCustomRetentionTime(updatedRetentionTime);
       isCustomRetentionTimeSelected &&
         setTopicData({
           ...topicData,
-          "retention.ms": updatedRetentionTime.toString(),
+          'retention.ms': updatedRetentionTime.toString(),
         });
-    } else if (name === "custom-retention-size") {
+    } else if (name === 'custom-retention-size') {
       const updatedRetentionSize = customRetentionSize + 1;
       setCustomRetentionSize(updatedRetentionSize);
       isCustomRetentionSizeSelected &&
         setTopicData({
           ...topicData,
-          "retention.bytes": updatedRetentionSize.toString(),
+          'retention.bytes': updatedRetentionSize.toString(),
         });
     }
   };
 
   const handleTouchSpinMinus = (event) => {
     const { name } = event.currentTarget;
-    if (name === "custom-retention-time") {
+    if (name === 'custom-retention-time') {
       const updatedRetentionTime = customRetentionTime - 1;
       setCustomRetentionTime(updatedRetentionTime);
       isCustomRetentionTimeSelected &&
         setTopicData({
           ...topicData,
-          "retention.ms": updatedRetentionTime.toString(),
+          'retention.ms': updatedRetentionTime.toString(),
         });
-    } else if (name === "custom-retention-size") {
+    } else if (name === 'custom-retention-size') {
       const updatedRetentionSize = customRetentionSize - 1;
       setCustomRetentionSize(updatedRetentionSize);
       isCustomRetentionSizeSelected &&
         setTopicData({
           ...topicData,
-          "retention.bytes": updatedRetentionSize.toString(),
+          'retention.bytes': updatedRetentionSize.toString(),
         });
     }
   };
@@ -351,36 +350,36 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     const { name } = event.target;
 
     switch (name) {
-      case "custom-retention-time":
+      case 'custom-retention-time':
         setIsCustomRetentionTimeSelected(true);
         setTopicData({
           ...topicData,
-          "retention.ms": customRetentionTime.toString(),
-          "retention.ms.unit": customRetentionTimeUnit,
+          'retention.ms': customRetentionTime.toString(),
+          'retention.ms.unit': customRetentionTimeUnit,
         });
         break;
-      case "unlimited-retention-time":
+      case 'unlimited-retention-time':
         setIsCustomRetentionTimeSelected(false);
         setTopicData({
           ...topicData,
-          "retention.ms": "-1",
-          "retention.ms.unit": "milliseconds",
+          'retention.ms': '-1',
+          'retention.ms.unit': 'milliseconds',
         });
         break;
-      case "custom-retention-size":
+      case 'custom-retention-size':
         setIsCustomRetentionSizeSelected(true);
         setTopicData({
           ...topicData,
-          "retention.bytes": customRetentionSize.toString(),
-          "retention.bytes.unit": customRetentionSizeUnit,
+          'retention.bytes': customRetentionSize.toString(),
+          'retention.bytes.unit': customRetentionSizeUnit,
         });
         break;
-      case "unlimited-retention-size":
+      case 'unlimited-retention-size':
         setIsCustomRetentionSizeSelected(false);
         setTopicData({
           ...topicData,
-          "retention.bytes": "-1",
-          "retention.bytes.unit": "bytes",
+          'retention.bytes': '-1',
+          'retention.bytes.unit': 'bytes',
         });
         break;
     }
@@ -388,55 +387,55 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
 
   const retentionTimeInput = (
     <SizeTimeFormGroup
-      inputName="custom-retention-time"
+      inputName='custom-retention-time'
       onChange={handleTouchSpinInputChange}
       onPlus={handleTouchSpinPlus}
       onMinus={handleTouchSpinMinus}
       value={customRetentionTime}
-      plusBtnProps={{ name: "custom-retention-time" }}
-      minusBtnProps={{ name: "custom-retention-time" }}
-      id="core-config-retention-time-unit"
-      toggleId="core-config-retention-dropdowntoggle"
-      name="custom-retention-time-unit"
+      plusBtnProps={{ name: 'custom-retention-time' }}
+      minusBtnProps={{ name: 'custom-retention-time' }}
+      id='core-config-retention-time-unit'
+      toggleId='core-config-retention-dropdowntoggle'
+      name='custom-retention-time-unit'
       dropdownValue={customRetentionTimeUnit}
       ariaLabel={t('common.select_unit')}
       onSelectOption={onDropdownChange}
       min={0}
-      type="time"
+      type='time'
     />
   );
 
   const retentionSizeInput = (
     <SizeTimeFormGroup
-      inputName="custom-retention-size"
+      inputName='custom-retention-size'
       onChange={handleTouchSpinInputChange}
       onPlus={handleTouchSpinPlus}
       onMinus={handleTouchSpinMinus}
       value={customRetentionSize}
-      plusBtnProps={{ name: "custom-retention-size" }}
-      minusBtnProps={{ name: "custom-retention-size" }}
-      id="core-config-retention-size-unit"
-      toggleId="core-config-retention-size-dropdowntoggle"
-      name="custom-retention-size-unit"
+      plusBtnProps={{ name: 'custom-retention-size' }}
+      minusBtnProps={{ name: 'custom-retention-size' }}
+      id='core-config-retention-size-unit'
+      toggleId='core-config-retention-size-dropdowntoggle'
+      name='custom-retention-size-unit'
       dropdownValue={customRetentionSizeUnit}
       ariaLabel={t('common.select_unit')}
       onSelectOption={onDropdownChange}
       min={0}
-      type="memory"
+      type='memory'
     />
   );
 
   return (
     <>
       <Sidebar hasGutter>
-        <SidebarPanel variant="sticky">
+        <SidebarPanel variant='sticky'>
           <JumpLinks
             isVertical
             label={t('topic.jump_to_section')}
             scrollableSelector='#scrollablePageMain'
             style={{ position: 'sticky' }}
             offset={-164} // for header
-            expandable={{ default: "expandable", md: "nonExpandable" }}
+            expandable={{ default: 'expandable', md: 'nonExpandable' }}
             isExpanded={false}
           >
             <JumpLinksItem key={0} href='#core-configuration'>
@@ -467,53 +466,54 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
           {/* <StackItem> */}
           <Form>
             <FormSection
-              title={t("topic.core_configuration")}
-              id="core-configuration"
-              titleElement={"h3"}
+              title={t('topic.core_configuration')}
+              id='core-configuration'
+              titleElement={'h2'}
             >
               <TextContent>
                 <Text component={TextVariants.p}>
-                  {t("topic.core_config_info")}
+                  {t('topic.core_config_info')}
                 </Text>
               </TextContent>
               {isCreate ? (
                 <FormGroupWithPopover
-                  labelHead={t("topic.topic_name")}
-                  fieldId="create-topic-name"
-                  fieldLabel={t("topic.topic_name")}
-                  labelBody={t("topic.topic_name_description")}
-                  buttonAriaLabel="More info for topic name field"
+                  labelHead={t('topic.topic_name')}
+                  fieldId='create-topic-name'
+                  fieldLabel={t('topic.topic_name')}
+                  labelBody={t('topic.topic_name_description')}
+                  buttonAriaLabel='More info for topic name field'
                   helperTextInvalid={invalidText}
                   validated={topicValidated}
                 >
                   <TextInput
                     isRequired
-                    type="text"
-                    id="create-topic-name"
-                    name="name"
+                    type='text'
+                    id='create-topic-name'
+                    name='name'
                     value={topicData.name}
                     onChange={handleTextInputChange}
-                    label={t("topic.topic_name")}
-                    placeholder={t("topic.enter_name")}
+                    label={t('topic.topic_name')}
+                    placeholder={t('topic.enter_name')}
                     validated={topicValidated}
                   />
                 </FormGroupWithPopover>
               ) : (
                 <TextWithLabelPopover
-                  btnAriaLabel="topic detail name"
-                  fieldLabel="Name"
+                  fieldId='"topic-name"'
+                  btnAriaLabel='topic detail name'
+                  fieldLabel='Name'
                   fieldValue={topicData.name}
-                  popoverBody={t("topic.topic_name_description")}
-                  popoverHeader={t("topic.topic_name")}
+                  popoverBody={t('topic.topic_name_description')}
+                  popoverHeader={t('topic.topic_name')}
                 />
               )}
               {isCreate ? (
                 <FormGroupWithPopover
-                  fieldId="create-topic-partitions"
-                  fieldLabel="Partitions"
-                  labelHead={t("topic.partitions")}
-                  labelBody={t("topic.partitions_description")}
-                  buttonAriaLabel="More info for partitions field"
+                  fieldId='create-topic-partitions'
+                  fieldLabel='Partitions'
+                  labelHead={t('topic.partitions')}
+                  labelBody={t('topic.partitions_description')}
+                  buttonAriaLabel='More info for partitions field'
                   validated={partitionsValidated}
                   helperText={
                     warning
@@ -522,219 +522,231 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                   }
                 >
                   <NumberInput
-                    id="create-topic-partitions"
-                    inputName="num-partitions"
+                    id='create-topic-partitions'
+                    inputName='num-partitions'
                     onChange={onPartitionsChange}
                     onPlus={handleTouchSpinPlusCamelCase}
                     onMinus={handleTouchSpinMinusCamelCase}
                     value={Number(topicData.numPartitions)}
-                    plusBtnProps={{ name: "num-partitions" }}
-                    minusBtnProps={{ name: "num-partitions" }}
+                    plusBtnProps={{ name: 'num-partitions' }}
+                    minusBtnProps={{ name: 'num-partitions' }}
                     min={1}
                   />
                 </FormGroupWithPopover>
               ) : (
                 <TextWithLabelPopover
-                  btnAriaLabel="More info for partitions field"
-                  fieldLabel="Partitions"
+                  fieldId='partitions'
+                  btnAriaLabel='More info for partitions field'
+                  fieldLabel='Partitions'
                   fieldValue={topicData.numPartitions}
-                  popoverBody={t("topic.partitions_description")}
-                  popoverHeader={t("topic.partitions")}
+                  popoverBody={t('topic.partitions_description')}
+                  popoverHeader={t('topic.partitions')}
                 />
               )}
               <TextWithLabelPopover
-                btnAriaLabel={t("topic.replicas")}
-                fieldLabel={t("topic.replicas")}
+                fieldId='replicas'
+                btnAriaLabel={t('topic.replicas')}
+                fieldLabel={t('topic.replicas')}
                 fieldValue={DEFAULT_REPLICAS}
-                popoverBody={t("topic.replicas_description")}
-                popoverHeader={t("topic.replicas")}
+                popoverBody={t('topic.replicas_description')}
+                popoverHeader={t('topic.replicas')}
               />
               <TextWithLabelPopover
-                btnAriaLabel="topic detail min-in-sync replica"
-                fieldLabel="Minimum in-sync replicas"
+                fieldId='min-insync-replicas'
+                btnAriaLabel='topic detail min-in-sync replica'
+                fieldLabel='Minimum in-sync replicas'
                 fieldValue={DEFAULT_MIN_INSYNC_REPLICAS}
-                popoverBody={t("topic.min_insync_replicas_description")}
-                popoverHeader={t("topic.min_insync_replicas")}
+                popoverBody={t('topic.min_insync_replicas_description')}
+                popoverHeader={t('topic.min_insync_replicas')}
               />
               <FormGroupWithPopover
-                fieldId="retention"
-                fieldLabel="Retention time"
-                labelHead={t("topic.retention_time")}
-                labelBody={t("topic.retention_time_description")}
-                buttonAriaLabel="More info for retention time field"
+                fieldId='retention'
+                fieldLabel='Retention time'
+                labelHead={t('topic.retention_time')}
+                labelBody={t('topic.retention_time_description')}
+                buttonAriaLabel='More info for retention time field'
               >
                 <Stack hasGutter>
                   <Radio
                     isChecked={isCustomRetentionTimeSelected}
-                    name="custom-retention-time"
+                    name='custom-retention-time'
                     onChange={handleRadioChange}
                     label={retentionTimeInput}
-                    className="kafka-ui--radio-label__number-input"
-                    aria-label="custom duration"
-                    id="custom-retention-time"
-                    value="custom"
+                    className='kafka-ui--radio-label__number-input'
+                    aria-label='custom duration'
+                    id='custom-retention-time'
+                    value='custom'
                   />
                   <Radio
                     isChecked={!isCustomRetentionTimeSelected}
-                    name="unlimited-retention-time"
+                    name='unlimited-retention-time'
                     onChange={handleRadioChange}
-                    label="Unlimited"
-                    aria-label="Unlimited"
-                    id="unlimited-retention-time"
-                    value="unlimited"
+                    label='Unlimited'
+                    aria-label='Unlimited'
+                    id='unlimited-retention-time'
+                    value='unlimited'
                   />
                 </Stack>
               </FormGroupWithPopover>
               <FormGroupWithPopover
-                fieldId="retention-size"
-                fieldLabel="Retention size"
-                labelHead={t("topic.retention_size")}
-                labelBody={t("topic.retention_size_description")}
-                buttonAriaLabel="More info for retention size field"
+                fieldId='retention-size'
+                fieldLabel='Retention size'
+                labelHead={t('topic.retention_size')}
+                labelBody={t('topic.retention_size_description')}
+                buttonAriaLabel='More info for retention size field'
               >
                 <Stack hasGutter>
                   <Radio
                     isChecked={isCustomRetentionSizeSelected}
-                    name="custom-retention-size"
+                    name='custom-retention-size'
                     onChange={handleRadioChange}
                     label={retentionSizeInput}
-                    className="kafka-ui--radio-label__number-input"
-                    aria-label="custom size"
-                    id="custom-retention-size"
-                    value="custom"
+                    className='kafka-ui--radio-label__number-input'
+                    aria-label='custom size'
+                    id='custom-retention-size'
+                    value='custom'
                   />
                   <Radio
                     isChecked={!isCustomRetentionSizeSelected}
-                    name="unlimited-retention-size"
+                    name='unlimited-retention-size'
                     onChange={handleRadioChange}
-                    label="Unlimited"
-                    aria-label="Unlimited"
-                    id="unlimited-retention-size"
-                    value="unlimited"
+                    label='Unlimited'
+                    aria-label='Unlimited'
+                    id='unlimited-retention-size'
+                    value='unlimited'
                   />
                 </Stack>
               </FormGroupWithPopover>
             </FormSection>
             <FormSection
-              title={t("topic.messages")}
-              id="messages"
-              titleElement={"h2"}
+              title={t('topic.messages')}
+              id='messages'
+              titleElement={'h2'}
             >
               <TextContent>
                 <Text component={TextVariants.p}>
-                  {t("topic.message_section_info")}
+                  {t('topic.message_section_info')}
                 </Text>
               </TextContent>
 
               <TextWithLabelPopover
-                btnAriaLabel={t("topic.max_message_size")}
-                fieldLabel={t("topic.max_message_size")}
+                fieldId='max-message-size'
+                btnAriaLabel={t('topic.max_message_size')}
+                fieldLabel={t('topic.max_message_size')}
                 fieldValue={DEFAULT_MAXIMUM_MESSAGE_BYTES}
-                popoverBody={t("topic.max_message_size_description")}
-                popoverHeader={t("topic.max_message_size")}
+                popoverBody={t('topic.max_message_size_description')}
+                popoverHeader={t('topic.max_message_size')}
               />
 
               <TextWithLabelPopover
-                btnAriaLabel={t("topic.message_timestamp_type")}
-                fieldLabel={t("topic.message_timestamp_type")}
+                fieldId='message-timestamp-type'
+                btnAriaLabel={t('topic.message_timestamp_type')}
+                fieldLabel={t('topic.message_timestamp_type')}
                 fieldValue={DEFAULT_MESSAGE_TIMESTAMP_TYPE}
-                popoverBody={t("topic.message_timestamp_type_description")}
-                popoverHeader={t("topic.message_timestamp_type")}
+                popoverBody={t('topic.message_timestamp_type_description')}
+                popoverHeader={t('topic.message_timestamp_type')}
               />
 
               <TextWithLabelPopover
-                btnAriaLabel={t("topic.max_message_timestamp_diff")}
-                fieldLabel={t("topic.max_message_timestamp_diff")}
+                fieldId='max-message-timestamp-diff'
+                btnAriaLabel={t('topic.max_message_timestamp_diff')}
+                fieldLabel={t('topic.max_message_timestamp_diff')}
                 fieldValue={DEFAULT_MAX_MESSAGE_TIMESTAMP_DIFF}
-                popoverBody={t("topic.max_message_timestamp_diff_description")}
-                popoverHeader={t("topic.max_message_timestamp_diff")}
+                popoverBody={t('topic.max_message_timestamp_diff_description')}
+                popoverHeader={t('topic.max_message_timestamp_diff')}
               />
 
               <TextWithLabelPopover
-                btnAriaLabel={t("topic.compression_type")}
-                fieldLabel={t("topic.compression_type")}
-                fieldValue={"Producer"}
-                popoverBody={t("topic.compression_type_description")}
-                popoverHeader={t("topic.compression_type")}
+                fieldId='compression-type'
+                btnAriaLabel={t('topic.compression_type')}
+                fieldLabel={t('topic.compression_type')}
+                fieldValue={'Producer'}
+                popoverBody={t('topic.compression_type_description')}
+                popoverHeader={t('topic.compression_type')}
               />
 
               <TextWithLabelPopover
-                btnAriaLabel={t("topic.message_format")}
-                fieldLabel={t("topic.message_format")}
-                fieldValue={"2.7-IV2"}
-                popoverBody={t("topic.message_format_description")}
-                popoverHeader={t("topic.message_format")}
+                fieldId='message-format'
+                btnAriaLabel={t('topic.message_format')}
+                fieldLabel={t('topic.message_format')}
+                fieldValue={'2.7-IV2'}
+                popoverBody={t('topic.message_format_description')}
+                popoverHeader={t('topic.message_format')}
               />
             </FormSection>
 
-            <FormSection title={t("topic.log")} id="log" titleElement={"h2"}>
-              <TextContent className="section-margin">
+            <FormSection title={t('topic.log')} id='log' titleElement={'h2'}>
+              <TextContent className='section-margin'>
                 <Text component={TextVariants.p}>
-                  {t("topic.log_section_info")}
+                  {t('topic.log_section_info')}
                 </Text>
                 <Text component={TextVariants.small}>
-                  {t("topic.log_section_info_note")}
+                  {t('topic.log_section_info_note')}
                 </Text>
               </TextContent>
 
               <FormGroupWithPopover
-                fieldId="cleanup-policy"
-                fieldLabel={t("topic.cleanup_policy")}
-                labelHead={t("topic.cleanup_policy")}
-                labelBody={t("topic.cleanup_policy_description")}
-                buttonAriaLabel={t("topic.cleanup_policy")}
+                fieldId='cleanup-policy'
+                fieldLabel={t('topic.cleanup_policy')}
+                labelHead={t('topic.cleanup_policy')}
+                labelBody={t('topic.cleanup_policy_description')}
+                buttonAriaLabel={t('topic.cleanup_policy')}
               >
                 <DropdownWithToggle
-                  id="log-section-policy-type-dropdown"
-                  toggleId="log-section-policy-type-dropdowntoggle"
-                  ariaLabel={t("common.select_policy")}
+                  id='log-section-policy-type-dropdown'
+                  toggleId='log-section-policy-type-dropdowntoggle'
+                  ariaLabel={t('common.select_policy')}
                   onSelectOption={onDropdownChangeDotSeparated}
                   items={clearOptions}
-                  name="cleanup-policy"
-                  value={topicData["cleanup.policy"] || ""}
+                  name='cleanup-policy'
+                  value={topicData['cleanup.policy'] || ''}
                 />
               </FormGroupWithPopover>
 
               <TextWithLabelPopover
-                btnAriaLabel={t("topic.delete_retention_time")}
-                fieldLabel={t("topic.delete_retention_time")}
+                fieldId='delete-retention-time'
+                btnAriaLabel={t('topic.delete_retention_time')}
+                fieldLabel={t('topic.delete_retention_time')}
                 fieldValue={DEFAULT_DELETE_RETENTION_TIME}
-                popoverBody={t("topic.delete_retention_time_description")}
-                popoverHeader={t("topic.delete_retention_time")}
+                popoverBody={t('topic.delete_retention_time_description')}
+                popoverHeader={t('topic.delete_retention_time')}
               />
 
               <TextWithLabelPopover
-                btnAriaLabel={t("topic.min_cleanable_ratio")}
-                fieldLabel={t("topic.min_cleanable_ratio")}
+                fieldId='min-cleanable-ratio'
+                btnAriaLabel={t('topic.min_cleanable_ratio')}
+                fieldLabel={t('topic.min_cleanable_ratio')}
                 fieldValue={DEFAULT_MIN_CLEANBLE_RATIO}
-                popoverBody={t("topic.min_cleanable_ratio_description")}
-                popoverHeader={t("topic.min_cleanable_ratio")}
+                popoverBody={t('topic.min_cleanable_ratio_description')}
+                popoverHeader={t('topic.min_cleanable_ratio')}
               />
 
               <TextWithLabelPopover
-                btnAriaLabel={t("topic.min_compaction_lag_time")}
-                fieldLabel={t("topic.min_compaction_lag_time")}
+                fieldId='min-compaction-lag-time'
+                btnAriaLabel={t('topic.min_compaction_lag_time')}
+                fieldLabel={t('topic.min_compaction_lag_time')}
                 fieldValue={DEFAULT_MINIMUM_COMPACTION_LAG_TIME}
-                popoverBody={t("topic.min_compaction_lag_time_description")}
-                popoverHeader={t("topic.min_compaction_lag_time")}
+                popoverBody={t('topic.min_compaction_lag_time_description')}
+                popoverHeader={t('topic.min_compaction_lag_time')}
               />
             </FormSection>
 
             <FormSection
-              title={t("topic.replication")}
-              id="replication"
-              titleElement={"h2"}
+              title={t('topic.replication')}
+              id='replication'
+              titleElement={'h2'}
             >
-              <TextContent className="section-margin">
+              <TextContent className='section-margin'>
                 <Text component={TextVariants.p}>
-                  {t("topic.replication_section_info")}
+                  {t('topic.replication_section_info')}
                 </Text>
                 <Text component={TextVariants.small}>
-                  {t("topic.replication_section_info_note")}
+                  {t('topic.replication_section_info_note')}
                 </Text>
               </TextContent>
 
               <TextWithLabelPopover
+                fieldId='unclean-leader-election'
                 btnAriaLabel={t('topic.unclean_leader_election')}
                 fieldLabel={t('topic.unclean_leader_election')}
                 fieldValue={t('common.disabled')}
@@ -744,17 +756,18 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
             </FormSection>
 
             <FormSection
-              title={t("common.cleanup")}
-              id="cleanup"
-              titleElement={"h2"}
+              title={t('common.cleanup')}
+              id='cleanup'
+              titleElement={'h2'}
             >
-              <TextContent className="section-margin">
+              <TextContent className='section-margin'>
                 <Text component={TextVariants.p}>
-                  {t("topic.cleanup_section_info")}
+                  {t('topic.cleanup_section_info')}
                 </Text>
               </TextContent>
 
               <TextWithLabelPopover
+                fieldId='log-segment-size'
                 btnAriaLabel={t('topic.log_segment_size')}
                 fieldLabel={t('topic.log_segment_size')}
                 fieldValue={DEFAULT_LOG_SEGMENT_SIZE}
@@ -763,6 +776,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               />
 
               <TextWithLabelPopover
+                fieldId='segement-time'
                 btnAriaLabel={t('topic.segement_time')}
                 fieldLabel={t('topic.segement_time')}
                 fieldValue={DEFAULT_SEGMENT_TIME}
@@ -771,6 +785,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               />
 
               <TextWithLabelPopover
+                fieldId='segment-jitter-time'
                 btnAriaLabel={t('topic.segment_jitter_time')}
                 fieldLabel={t('topic.segment_jitter_time')}
                 fieldValue={DEFAULT_SEGMENT_JITTER_TIME}
@@ -779,6 +794,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               />
 
               <TextWithLabelPopover
+                fieldId='file-delete-delay'
                 btnAriaLabel={t('topic.file_delete_delay')}
                 fieldLabel={t('topic.file_delete_delay')}
                 fieldValue={DEFAULT_FILE_DELETE_DELAY}
@@ -787,6 +803,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               />
 
               <TextWithLabelPopover
+                fieldId='preallocate-log-segment-files'
                 btnAriaLabel={t('topic.preallocate_log_segment_files')}
                 fieldLabel={t('topic.preallocate_log_segment_files')}
                 fieldValue={t('common.disabled')}
@@ -798,17 +815,18 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
             </FormSection>
 
             <FormSection
-              title={t("topic.index")}
-              id="index"
-              titleElement={"h2"}
+              title={t('topic.index')}
+              id='index'
+              titleElement={'h2'}
             >
-              <TextContent className="section-margin">
+              <TextContent className='section-margin'>
                 <Text component={TextVariants.p}>
-                  {t("topic.index_section_info")}
+                  {t('topic.index_section_info')}
                 </Text>
               </TextContent>
 
               <TextWithLabelPopover
+                fieldId='index-interval-size'
                 btnAriaLabel={t('topic.index_interval_size')}
                 fieldLabel={t('topic.index_interval_size')}
                 fieldValue={DEFAULT_INDEX_INTERVAL_SIZE}
@@ -817,6 +835,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               />
 
               <TextWithLabelPopover
+                fieldId='segment-index-size'
                 btnAriaLabel={t('topic.segment_index_size')}
                 fieldLabel={t('topic.segment_index_size')}
                 fieldValue={DEFAULT_SEGMENT_INDEX_SIZE}
@@ -826,17 +845,18 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
             </FormSection>
 
             <FormSection
-              title={t("topic.flush")}
-              id="flush"
-              titleElement={"h2"}
+              title={t('topic.flush')}
+              id='flush'
+              titleElement={'h2'}
             >
-              <TextContent className="section-margin">
+              <TextContent className='section-margin'>
                 <Text component={TextVariants.p}>
-                  {t("topic.flush_section_info")}
+                  {t('topic.flush_section_info')}
                 </Text>
               </TextContent>
 
               <TextWithLabelPopover
+                fieldId='flush-interval-messages'
                 btnAriaLabel={t('topic.flush_interval_messages')}
                 fieldLabel={t('topic.flush_interval_messages')}
                 fieldValue={DEFAULT_FLUSH_INTERVAL_MESSAGES}
@@ -845,6 +865,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               />
 
               <TextWithLabelPopover
+                fieldId='flush-interval-time'
                 btnAriaLabel={t('topic.flush_interval_time')}
                 fieldLabel={t('topic.flush_interval_time')}
                 fieldValue={DEFAULT_FLUSH_INTERVAL_TIME}
@@ -853,17 +874,17 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               />
             </FormSection>
           </Form>
-          <ActionGroup className="kafka-ui--sticky-footer">
+          <ActionGroup className='kafka-ui--sticky-footer'>
             <Button
               onClick={onConfirm}
-              variant="primary"
+              variant='primary'
               data-testid={
                 isCreate
-                  ? "topicAdvanceCreate-actionCreate"
-                  : "tabProperties-actionSave"
+                  ? 'topicAdvanceCreate-actionCreate'
+                  : 'tabProperties-actionSave'
               }
               isDisabled={
-                topicData.name.length > 0 && topicValidated == "default"
+                topicData.name.length > 0 && topicValidated == 'default'
                   ? false
                   : true
               }
@@ -872,11 +893,11 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
             </Button>
             <Button
               onClick={handleCancel}
-              variant="link"
+              variant='link'
               data-testid={
                 isCreate
-                  ? "topicAdvanceCreate-actionCancel"
-                  : "tabProperties-actionCancel"
+                  ? 'topicAdvanceCreate-actionCancel'
+                  : 'tabProperties-actionCancel'
               }
             >
               {t('common.cancel')}

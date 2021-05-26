@@ -30,6 +30,7 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
       </TextContent>
       <Alert variant='info' isInline title={t('topic.replicas_helper_text')} />
       <TextWithLabelPopover
+        fieldId='replicas'
         btnAriaLabel={t('common.replicas')}
         fieldLabel={t('common.replicas')}
         fieldValue={replicationFactor.toString()}
@@ -38,6 +39,7 @@ export const StepReplicas: React.FC<IStepReplicas> = ({
       />
 
       <TextWithLabelPopover
+        fieldId='min-insync-replicas'
         btnAriaLabel='topic detail min-in-sync replica'
         fieldLabel='Minimum in-sync replicas'
         fieldValue={minInSyncReplica.toString()}

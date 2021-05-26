@@ -7,5 +7,5 @@
 }
 
 .kafka-ui-form-group--readonly .pf-c-form__group-label {
---pf-c-form__group-label--PaddingBottom: 0;
+  --pf-c-form__group-label--PaddingBottom: 0;
 }

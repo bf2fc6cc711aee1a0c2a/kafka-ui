@@ -5,6 +5,8 @@ import HelpIcon from '@patternfly/react-icons/dist/js/icons/help-icon';
 import './TextWithLabelPopover.css';
 
 export interface TextWithLabelPopoverProps {
+  /** Field id */
+  fieldId: string;
   /** Field label */
   fieldLabel: string;
   /** Field value */
@@ -20,6 +22,7 @@ export interface TextWithLabelPopoverProps {
 }
 
 export const TextWithLabelPopover: React.FC<TextWithLabelPopoverProps> = ({
+  fieldId,
   fieldLabel,
   btnAriaLabel,
   fieldValue,
@@ -43,25 +46,31 @@ export const TextWithLabelPopover: React.FC<TextWithLabelPopoverProps> = ({
 
   return (
     <FormGroup
-    // fieldId={fieldId}
-    fieldId="DEBUG"
-    label={fieldLabel}
-    className="kafka-ui-form-group--readonly"
-    labelIcon={
-      <Popover
-      headerContent={<div>{popoverHeader}</div>}
-      bodyContent={<div>{popoverBody}</div>}
+      fieldId={fieldId}
+      label={fieldLabel}
+      className='kafka-ui-form-group--readonly'
+      labelIcon={
+        <Popover
+          headerContent={<div>{popoverHeader}</div>}
+          bodyContent={<div>{popoverBody}</div>}
+        >
+          <button
+            aria-label={btnAriaLabel}
+            onClick={preventButtonSubmit}
+            className='pf-c-form__group-label-help'
+          >
+            <HelpIcon noVerticalAlign />
+          </button>
+        </Popover>
+      }
     >
-      <button
-        aria-label={btnAriaLabel}
-        onClick={preventButtonSubmit}
-        className='pf-c-form__group-label-help'
-      >
-        <HelpIcon noVerticalAlign />
-      </button>
-    </Popover>
-    }>
-      <TextInput isReadOnly type="text" id="simple-form-note-01" name="simple-form-number" value={displayText} />
+      <TextInput
+        isReadOnly
+        type='text'
+        id={fieldId}
+        name={fieldId}
+        value={displayText}
+      />
     </FormGroup>
   );
 };
