@@ -41,3 +41,22 @@
 .kafka-ui--divider--FlexShrink {
   flex-shrink: 0;
 }
+
+.kafka-ui--sticky-footer {
+  position: sticky;
+  right: 100%;
+  bottom: 0;
+  background-color: var(--pf-global--BackgroundColor--100);
+  box-shadow: var(--pf-global--spacer--xs) -0.125rem 0.25rem -0.0625rem rgb(3 3 3 / 16%);
+  padding: var(--pf-global--spacer--md)  var(--pf-global--spacer--md) var(--pf-global--spacer--md) var(--pf-global--spacer--md);
+  z-index: var(--pf-global--ZIndex--xs);
+
+  /* move left to align then pad to put back into alignment */
+  transform: translateX(calc(-1 * var(--pf-global--spacer--md))); 
+
+  /* push margin right to hide shadow */
+  margin-right: calc(-1 * var(--pf-global--spacer--2xl)); 
+
+  /* give some space above */
+  --pf-c-form__group--m-action--MarginTop: var(--pf-global--spacer--lg);
+}

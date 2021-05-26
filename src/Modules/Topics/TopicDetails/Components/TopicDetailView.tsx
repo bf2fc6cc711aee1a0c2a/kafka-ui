@@ -238,7 +238,6 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                         </Text>
                         <Text
                           component={TextVariants.small}
-                          className="section-info-note"
                         >
                           {t("topic.log_section_info_note")}
                         </Text>
@@ -312,7 +311,6 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                       <TextContent>
                         <Text
                           component={TextVariants.p}
-                          className="section-info"
                         >
                           {t("topic.cleanup_section_info")}
                         </Text>
@@ -369,7 +367,6 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                       <TextContent className="section-margin">
                         <Text
                           component={TextVariants.p}
-                          className="section-info"
                         >
                           {t("topic.index_section_info")}
                         </Text>
@@ -404,7 +401,6 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                         ></Text>
                         <Text
                           component={TextVariants.p}
-                          className="section-info"
                         >
                           {t("topic.flush_section_info")}
                         </Text>
@@ -429,16 +425,16 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                       />
                     </FormSection>
                   </Form>
+
                   <Divider className="kafka-ui-divider__Margin" />
 
                   <TextContent>
                     <Text component={TextVariants.h2} tabIndex={-1} id="delete">
                       {t("topic.delete_topic")}
                     </Text>
-                    <Text component={TextVariants.p} className="section-info">
+                    <Text component={TextVariants.p}>
                       {t("topic.delete_topic_info")}
                     </Text>
-                  </TextContent>
 
                   <Button
                     variant="danger"
@@ -447,6 +443,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   >
                     {t("common.delete_topic")}
                   </Button>
+                  </TextContent>
                 </SplitItem>
                 <SplitItem>
                   <Button
