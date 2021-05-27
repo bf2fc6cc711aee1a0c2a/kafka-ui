@@ -18,9 +18,7 @@ import {
   TableHeader,
   TableVariant,
 } from "@patternfly/react-table";
-
 import { EmptyState, MASEmptyStateVariant, Loading } from "@app/components";
-
 import {
   getConsumerGroups,
   getConsumerGroupDetail,
@@ -29,9 +27,8 @@ import {
 import { ConfigContext, AlertContext } from "@app/contexts";
 import { ConsumerGroupList, ConsumerGroup } from "@app/openapi";
 import { useTimeout } from "@app/hooks/useTimeOut";
-import { SearchConsumers } from "./components/SearchConsumers/SearchConsumers";
-import { DeleteConsumerGroup } from "./components/DeleteConsumerGroup/DeleteConsumerGroup";
-import { ConsumerGroupDetail } from "./components/ConsumerGroupDetail/ConsumerGroupDetail";
+import { SearchConsumers, ConsumerGroupDetail } from "./components";
+import { DeleteConsumerGroup } from "./dialogs/DeleteConsumerGroup";
 
 export type ConsumerGroupsProps = {
   onDeleteConsumerGroup: () => void;

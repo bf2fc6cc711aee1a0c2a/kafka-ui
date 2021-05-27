@@ -27,10 +27,7 @@ import { DeleteTopics } from "./dialogs/DeleteTopicsModal";
 import { ConfigContext, AlertContext } from "@app/contexts";
 import { TopicsList } from "@app/openapi";
 import "./Topics.css";
-import {
-  convertRetentionSize,
-  convertRetentionTime,
-} from "./utils/utils";
+import { convertRetentionSize, convertRetentionTime } from "./utils";
 
 export type ITopic = {
   name: string;
@@ -229,7 +226,7 @@ export const Topics: React.FunctionComponent<ITopics> = ({
             }}
             buttonProps={{
               title: t("topic.create_topic"),
-              onClick: () => onCreateTopic(),
+              onClick: onCreateTopic,
             }}
           />
         ) : (

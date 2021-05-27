@@ -11,7 +11,7 @@ import { DeleteTopics } from "@app/modules/Topics/dialogs";
 import { AlertContext, ConfigContext } from "@app/contexts";
 import { convertUnits } from "@app/modules/Topics/utils";
 import { isAxiosError } from "@app/utils/axios";
-import "@app/modules/Topics/components/CreateTopicWizard/CreateTopicWizard.css";
+import "../CreateTopicWizard/CreateTopicWizard.css";
 
 export type UpdateTopicViewProps = {
   topicName: string;

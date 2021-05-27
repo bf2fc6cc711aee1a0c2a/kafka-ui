@@ -871,7 +871,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                   : "tabProperties-actionSave"
               }
               isDisabled={
-                topicData.name.length > 0 && topicValidated == "default"
+                topicData?.name?.length > 0 && topicValidated == "default"
                   ? false
                   : true
               }
