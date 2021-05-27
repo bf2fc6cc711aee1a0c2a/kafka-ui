@@ -6,8 +6,8 @@ import {
   TopicDetail,
   ConsumerGroupsView,
   ConsumerGroupsByTopicView,
+  UpdateTopic,
 } from "@app/panels";
-import { UpdateTopicView } from "@app/modules/Topics/components/UpdateTopicView";
 
 const Routes = () => {
   return (
@@ -17,11 +17,7 @@ const Routes = () => {
         <Route path="/topics" component={Topics} exact />
         <Route path="/topic/:topicName" component={TopicDetail} exact />
         <Route path="/topics/create" component={CreateTopic} exact />
-        <Route
-          path="/topics/update/:topicName"
-          component={UpdateTopicView}
-          exact
-        />
+        <Route path="/topics/update/:topicName" component={UpdateTopic} exact />
         <Route path="/consumerGroups" component={ConsumerGroupsView} exact />
         <Route
           path="/topics/consumerGroups/:topicName"
