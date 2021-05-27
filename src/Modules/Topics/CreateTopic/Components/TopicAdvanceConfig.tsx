@@ -8,14 +8,15 @@ import {
   SidebarContent,
   SidebarPanel,
   Stack,
+  StackItem,
   TextContent,
   Text,
   TextVariants,
   TextInput,
   NumberInput,
   Form,
-  FormSection,
   Radio,
+  FormSection,
 } from '@patternfly/react-core';
 import {
   DEFAULT_MESSAGE_TIMESTAMP_TYPE,
@@ -67,17 +68,18 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
   topicData,
   setTopicData,
 }) => {
+  const [topicValidated, setTopicValidated] = useState<'error' | 'default'>(
+    'default'
+  );
+  const [invalidText, setInvalidText] = useState('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [partitionsValidated, setPartitionsValidated] = useState<
     'warning' | 'default'
   >('default');
   const [warning, setWarning] = useState<boolean>(false);
   const [initialPartition, setInitialPartition] = useState<number | undefined>(
-    0
+    Number(topicData.numPartitions)
   );
-  const [topicValidated, setTopicValidated] = useState<'error' | 'default'>(
-    'default'
-  );
-  const [invalidText, setInvalidText] = useState('This is a required field');
   const [isWarningOpen, setIsWarningOpen] = useState<boolean>(false);
 
   const { t } = useTranslation();
@@ -129,21 +131,31 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
 
   const config = useContext(ConfigContext);
   const fetchTopic = async (topicName) => {
-    const topicRes = await getTopic(topicName, config);
-
-    const configEntries: any = {};
-    topicRes.config?.forEach((configItem) => {
-      configEntries[configItem.key || ''] = configItem.value || '';
-    });
-
-    setInitialPartition(topicRes?.partitions?.length);
+    try {
+      const topicRes = await getTopic(topicName, config);
+      if (topicRes) {
+        if (isCreate) {
+          setInvalidText(t('topic.already_exists', { name: topicName }));
+          setTopicValidated('error');
+          setIsLoading(false);
+        } else {
+          setInitialPartition(topicRes?.partitions?.length);
+        }
+      }
+    } catch (err) {
+      if (isCreate && err.response.status == '404') {
+        setTopicValidated('default');
+        setIsLoading(false);
+        saveTopic();
+      }
+    }
   };
 
   useEffect(() => {
-    (async function () {
-      fetchTopic(topicData.name);
-    })();
     if (!isCreate) {
+      (async function () {
+        fetchTopic(topicData.name);
+      })();
       setCustomRetentionTimeUnit('milliseconds');
     }
   }, []);
@@ -169,17 +181,25 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     const regexpInvalid = new RegExp('^[0-9A-Za-z_-]+$');
 
     if (value.length && !regexpInvalid.test(value)) {
-      setInvalidText(
-        'Invalid input. Only letters (Aa-Zz) , numbers " _ " and " - " are accepted'
-      );
-      setTopicValidated('error');
-    } else if (value.length < 1) {
-      setInvalidText('This is a required field');
+      setInvalidText(t('topic.topic_name_helper_text'));
       setTopicValidated('error');
     } else if (value.length > 249) {
       setTopicValidated('error');
-      setInvalidText('Topic name cannot exceed 249 characters');
+      setInvalidText(t('topic.cannot_exceed_characters'));
     } else setTopicValidated('default');
+  };
+
+  const partitionsWarnigCheckPlus = () => {
+    if (
+      initialPartition &&
+      Number(topicData.numPartitions + 1) > initialPartition
+    ) {
+      setPartitionsValidated('warning');
+      setWarning(true);
+    } else {
+      setPartitionsValidated('default');
+      setWarning(false);
+    }
   };
 
   const handleTextInputChange = (
@@ -221,18 +241,6 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     setTopicData({ ...topicData, [kebabToCamel(fieldName)]: partitionValue });
   };
 
-  const partitionsWarnigCheckPlus = () => {
-    if (
-      initialPartition &&
-      Number(topicData.numPartitions + 1) > initialPartition
-    ) {
-      setPartitionsValidated('warning');
-      setWarning(true);
-    } else {
-      setPartitionsValidated('default');
-      setWarning(false);
-    }
-  };
   const handleTouchSpinPlusCamelCase = (event) => {
     const { name } = event.currentTarget;
     const fieldName = kebabToCamel(name);
@@ -338,8 +346,18 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     setTopicData({ ...topicData, [kebabToDotSeparated(fieldName)]: value });
   };
   const onConfirm = () => {
-    if (warning) setIsWarningOpen(true);
-    else saveTopic();
+    if (!isCreate) {
+      if (warning) setIsWarningOpen(true);
+      else saveTopic();
+    } else {
+      if (topicData.name.length < 1) {
+        setInvalidText(t('topic.required'));
+        setTopicValidated('error');
+      } else {
+        setIsLoading(true);
+        fetchTopic(topicData.name);
+      }
+    }
   };
   const onSaveClick = () => {
     setIsWarningOpen(false);
@@ -350,38 +368,38 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     const { name } = event.target;
 
     switch (name) {
-      case 'custom-retention-time':
-        setIsCustomRetentionTimeSelected(true);
-        setTopicData({
-          ...topicData,
-          'retention.ms': customRetentionTime.toString(),
-          'retention.ms.unit': customRetentionTimeUnit,
-        });
-        break;
-      case 'unlimited-retention-time':
-        setIsCustomRetentionTimeSelected(false);
-        setTopicData({
-          ...topicData,
-          'retention.ms': '-1',
-          'retention.ms.unit': 'milliseconds',
-        });
-        break;
-      case 'custom-retention-size':
-        setIsCustomRetentionSizeSelected(true);
-        setTopicData({
-          ...topicData,
-          'retention.bytes': customRetentionSize.toString(),
-          'retention.bytes.unit': customRetentionSizeUnit,
-        });
-        break;
-      case 'unlimited-retention-size':
-        setIsCustomRetentionSizeSelected(false);
-        setTopicData({
-          ...topicData,
-          'retention.bytes': '-1',
-          'retention.bytes.unit': 'bytes',
-        });
-        break;
+    case 'custom-retention-time':
+      setIsCustomRetentionTimeSelected(true);
+      setTopicData({
+        ...topicData,
+        'retention.ms': customRetentionTime.toString(),
+        'retention.ms.unit': customRetentionTimeUnit,
+      });
+      break;
+    case 'unlimited-retention-time':
+      setIsCustomRetentionTimeSelected(false);
+      setTopicData({
+        ...topicData,
+        'retention.ms': '-1',
+        'retention.ms.unit': 'milliseconds',
+      });
+      break;
+    case 'custom-retention-size':
+      setIsCustomRetentionSizeSelected(true);
+      setTopicData({
+        ...topicData,
+        'retention.bytes': customRetentionSize.toString(),
+        'retention.bytes.unit': customRetentionSizeUnit,
+      });
+      break;
+    case 'unlimited-retention-size':
+      setIsCustomRetentionSizeSelected(false);
+      setTopicData({
+        ...topicData,
+        'retention.bytes': '-1',
+        'retention.bytes.unit': 'bytes',
+      });
+      break;
     }
   };
 
@@ -462,9 +480,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
           </JumpLinks>
         </SidebarPanel>
         <SidebarContent>
-          {/* <Stack hasGutter> */}
-          {/* <StackItem> */}
-          <Form>
+        <Form>
             <FormSection
               title={t('topic.core_configuration')}
               id='core-configuration'
@@ -497,8 +513,8 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                     validated={topicValidated}
                   />
                 </FormGroupWithPopover>
-              ) : (
-                <TextWithLabelPopover
+                ) : (
+                  <TextWithLabelPopover
                   fieldId='"topic-name"'
                   btnAriaLabel='topic detail name'
                   fieldLabel='Name'
@@ -506,33 +522,33 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                   popoverBody={t('topic.topic_name_description')}
                   popoverHeader={t('topic.topic_name')}
                 />
-              )}
-              {isCreate ? (
+                )}
+                {isCreate ? (
                 <FormGroupWithPopover
-                  fieldId='create-topic-partitions'
-                  fieldLabel='Partitions'
-                  labelHead={t('topic.partitions')}
-                  labelBody={t('topic.partitions_description')}
-                  buttonAriaLabel='More info for partitions field'
-                  validated={partitionsValidated}
-                  helperText={
-                    warning
-                      ? `Increasing a topic's partitions might result in messages having the same key from two different partitions, which can potentially break the message ordering guarantees that apply to a single partition`
-                      : undefined
-                  }
-                >
-                  <NumberInput
-                    id='create-topic-partitions'
-                    inputName='num-partitions'
-                    onChange={onPartitionsChange}
-                    onPlus={handleTouchSpinPlusCamelCase}
-                    onMinus={handleTouchSpinMinusCamelCase}
-                    value={Number(topicData.numPartitions)}
-                    plusBtnProps={{ name: 'num-partitions' }}
-                    minusBtnProps={{ name: 'num-partitions' }}
-                    min={1}
-                  />
-                </FormGroupWithPopover>
+                fieldId='create-topic-partitions'
+                fieldLabel='Partitions'
+                labelHead={t('topic.partitions')}
+                labelBody={t('topic.partitions_description')}
+                buttonAriaLabel='More info for partitions field'
+                validated={partitionsValidated}
+                helperText={
+                  warning
+                    ? `Increasing a topic's partitions might result in messages having the same key from two different partitions, which can potentially break the message ordering guarantees that apply to a single partition`
+                    : undefined
+                }
+              >
+                <NumberInput
+                  id='create-topic-partitions'
+                  inputName='num-partitions'
+                  onChange={onPartitionsChange}
+                  onPlus={handleTouchSpinPlusCamelCase}
+                  onMinus={handleTouchSpinMinusCamelCase}
+                  value={Number(topicData.numPartitions)}
+                  plusBtnProps={{ name: 'num-partitions' }}
+                  minusBtnProps={{ name: 'num-partitions' }}
+                  min={1}
+                />
+              </FormGroupWithPopover>
               ) : (
                 <TextWithLabelPopover
                   fieldId='partitions'
@@ -542,7 +558,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                   popoverBody={t('topic.partitions_description')}
                   popoverHeader={t('topic.partitions')}
                 />
-              )}
+                )}
               <TextWithLabelPopover
                 fieldId='replicas'
                 btnAriaLabel={t('topic.replicas')}
