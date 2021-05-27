@@ -7,7 +7,8 @@ describe('<SearchTopics />', () => {
   const props: ISearchTopicsProps = {
     setSearch: jest.fn(),
     search: 'Search',
-    onClear: jest.fn(),
+    setFilteredTopics: jest.fn(),
+    setSearchTopicName: jest.fn(),
   };
   xit('should render a search input', () => {
     const { getByText } = render(<SearchTopics {...props} />);

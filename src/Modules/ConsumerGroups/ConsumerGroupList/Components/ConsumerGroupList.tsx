@@ -221,7 +221,9 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
 
   return (
     <>
-      {rowData.length < 1 && search.length < 1 ? (
+      {consumerGroups?.count &&
+      consumerGroups.count < 1 &&
+      search.length < 1 ? (
         <EmptyState
           emptyStateProps={{
             variant: MASEmptyStateVariant.NoConsumerGroups,
