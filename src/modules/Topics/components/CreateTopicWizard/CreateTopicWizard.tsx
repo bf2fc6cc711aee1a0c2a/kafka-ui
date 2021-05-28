@@ -15,11 +15,13 @@ import {
   StepMessageRetention,
   StepReplicas,
   TopicAdvanceConfig,
+  WizardCustomFooter,
 } from "@app/modules/Topics/components";
 import { DefaultApi, NewTopicInput } from "@app/openapi/api";
 import { convertUnits, formatTopicRequest } from "@app/modules/Topics/utils";
 import { ConfigContext, AlertContext } from "@app/contexts";
 import { Configuration } from "@app/openapi";
+import { getTopic } from "@app/services";
 import "./CreateTopicWizard.css";
 
 type ICreateTopicWizard = {
@@ -62,6 +64,8 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   const [topicNameValidated, setTopicNameValidated] = useState<
     "error" | "default"
   >("default");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [invalidText, setInvalidText] = useState<string>("");
   const [topicData, setTopicData] = useState<IAdvancedTopic>({
     name: "",
     numPartitions: "1",
@@ -121,6 +125,23 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
       });
   };
 
+  const fetchTopic = async (topicName, onNext) => {
+    try {
+      const topicRes = await getTopic(topicName, config);
+      if (topicRes) {
+        setInvalidText(t("topic.already_exists", { name: topicName }));
+        setTopicNameValidated("error");
+        setIsLoading(false);
+      }
+    } catch (error) {
+      if (error.response.status == "404") {
+        setTopicNameValidated("default");
+        setIsLoading(false);
+        onNext();
+      }
+    }
+  };
+
   const steps: WizardStep[] = [
     {
       name: t("topic.topic_name"),
@@ -132,6 +153,8 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
           setTopicNameInput={setTopicNameInput}
           topicNameValidated={topicNameValidated}
           setTopicNameValidated={setTopicNameValidated}
+          invalidText={invalidText}
+          setInvalidText={setInvalidText}
         />
       ),
     },
@@ -174,6 +197,16 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
 
   const title = t("topic.wizard_title");
 
+  const onValidate = (onNext) => {
+    if (topicNameInput.length < 1) {
+      setInvalidText(t("topic.required"));
+      setTopicNameValidated("error");
+    } else {
+      setIsLoading(true);
+      fetchTopic(topicNameInput, onNext);
+    }
+  };
+
   return (
     <>
       {isSwitchChecked ? (
@@ -202,6 +235,14 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
             onClose={closeWizard}
             onSave={saveTopic}
             data-testid="topicBasicCreate-Wizard"
+            footer={
+              <WizardCustomFooter
+                isLoading={isLoading}
+                onValidate={onValidate}
+                topicNameValidated={topicNameValidated}
+                closeWizard={closeWizard}
+              />
+            }
           />
         </PageSection>
       )}

@@ -10,6 +10,8 @@ const setup = () => {
     setTopicNameInput: jest.fn(),
     topicNameValidated: "default",
     setTopicNameValidated: jest.fn(),
+    invalidText: "",
+    setInvalidText: jest.fn(),
   };
   const component: ReactElement = (
     <I18nextProvider i18n={kafkai18n}>

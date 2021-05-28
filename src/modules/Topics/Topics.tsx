@@ -5,6 +5,7 @@ import {
   AlertVariant,
   Button,
   Card,
+  Chip,
   Divider,
   Pagination,
   PaginationVariant,
@@ -60,8 +61,9 @@ export const Topics: React.FunctionComponent<ITopics> = ({
   const [offset, setOffset] = useState<number>(0);
   const [search, setSearch] = useState("");
   const [topics, setTopics] = useState<TopicsList>();
-  const [filteredTopics, setFilteredTopics] = useState<TopicsList>();
   const [deleteModal, setDeleteModal] = useState(false);
+  const [filteredTopics, setFilteredTopics] = useState<boolean>(false);
+  const [searchTopicName, setSearchTopicName] = useState<string>("");
   const [topicName, setTopicName] = useState<string | undefined>();
 
   const { t } = useTranslation();
@@ -72,10 +74,16 @@ export const Topics: React.FunctionComponent<ITopics> = ({
 
   const fetchTopic = async () => {
     try {
-      const topicsList = await getTopics(config);
-      if (topicsList) {
-        setTopics(topicsList);
-        setFilteredTopics(topicsList);
+      if (!filteredTopics) {
+        const topicsList = await getTopics(config);
+        if (topicsList) {
+          setTopics(topicsList);
+        }
+      } else {
+        const topicsList = await getTopics(config, searchTopicName);
+        if (topicsList) {
+          setTopics(topicsList);
+        }
       }
     } catch (err) {
       //TODO: Update the api to allow suppress alerts if the application does not want to show them as well.
@@ -89,9 +97,8 @@ export const Topics: React.FunctionComponent<ITopics> = ({
   };
 
   useEffect(() => {
-    setLoading(true);
     fetchTopic();
-  }, [deleteModal]);
+  }, [deleteModal, searchTopicName]);
 
   useTimeout(() => fetchTopic(), 5000);
 
@@ -111,8 +118,13 @@ export const Topics: React.FunctionComponent<ITopics> = ({
     { title: t("topic.retention_size"), transforms: [sortable] },
   ];
 
+  const onChipDelete = () => {
+    setFilteredTopics(false);
+    setSearchTopicName("");
+  };
+
   const rowData =
-    filteredTopics?.items?.map((topic) => [
+    topics?.items?.map((topic) => [
       {
         title: (
           <Link
@@ -145,43 +157,16 @@ export const Topics: React.FunctionComponent<ITopics> = ({
       ),
     ]) || [];
 
-  useEffect(() => {
-    if (
-      search &&
-      search.trim() != "" &&
-      topics?.items &&
-      topics.items.length > 0
-    ) {
-      const filterSearch = topics?.items.filter(
-        (topicsFiltered) =>
-          topicsFiltered?.name && topicsFiltered.name.includes(search)
-      );
-      setFilteredTopics((prevState) =>
-        prevState
-          ? {
-              ...prevState,
-              items: filterSearch,
-            }
-          : undefined
-      );
-    } else {
-      setFilteredTopics(topics);
-    }
-  }, [search, topics]);
-
-  const onClear = () => {
-    setFilteredTopics(topics);
-  };
   const onDelete = (rowId: any) => {
-    if (filteredTopics?.items) {
-      setTopicName(filteredTopics.items[rowId].name);
+    if (topics?.items) {
+      setTopicName(topics.items[rowId].name);
     }
     setDeleteModal(true);
   };
 
   const onEdit = (rowId: any) => {
-    if (filteredTopics?.items) {
-      onClickTopic(filteredTopics.items[rowId].name);
+    if (topics?.items) {
+      onClickTopic(topics.items[rowId].name);
     }
   };
 
@@ -213,7 +198,7 @@ export const Topics: React.FunctionComponent<ITopics> = ({
         />
       )}
       <Card className="kafka-ui-m-full-height">
-        {rowData.length < 1 && search.length < 1 ? (
+        {rowData.length < 1 && searchTopicName.length < 1 ? (
           <EmptyState
             emptyStateProps={{
               variant: MASEmptyStateVariant.NoItems,
@@ -235,9 +220,10 @@ export const Topics: React.FunctionComponent<ITopics> = ({
               <ToolbarContent>
                 <ToolbarItem className="pf-c-toolbar-item--search">
                   <SearchTopics
-                    onClear={onClear}
                     search={search}
                     setSearch={setSearch}
+                    setFilteredTopics={setFilteredTopics}
+                    setSearchTopicName={setSearchTopicName}
                   />
                 </ToolbarItem>
                 <ToolbarItem>
@@ -264,7 +250,24 @@ export const Topics: React.FunctionComponent<ITopics> = ({
                 </ToolbarItem>
               </ToolbarContent>
             </Toolbar>
-
+            {filteredTopics && (
+              <Toolbar>
+                <ToolbarContent>
+                  <ToolbarItem>
+                    <Chip key="topicFilterChip" onClick={onChipDelete}>
+                      {searchTopicName}
+                    </Chip>
+                    <Button
+                      variant="link"
+                      onClick={onChipDelete}
+                      aria-label="clear-filters"
+                    >
+                      {t("common.clear_filters")}
+                    </Button>
+                  </ToolbarItem>
+                </ToolbarContent>
+              </Toolbar>
+            )}
             <Table
               aria-label={t("topic.topic_list_table")}
               variant={TableVariant.compact}
@@ -281,7 +284,8 @@ export const Topics: React.FunctionComponent<ITopics> = ({
             </Table>
           </Card>
         )}
-        {rowData.length < 1 && search.length > 1 && (
+        <Divider />
+        {rowData.length < 1 && searchTopicName.length > 0 && (
           <EmptyState
             emptyStateProps={{
               variant: MASEmptyStateVariant.NoResult,
@@ -294,7 +298,7 @@ export const Topics: React.FunctionComponent<ITopics> = ({
             }}
           />
         )}
-        {rowData.length > 1 && (
+        {rowData.length > 0 && (
           <Card>
             <Divider />
             <Pagination
