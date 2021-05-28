@@ -29,7 +29,7 @@ const ChunkMapper = require('@redhat-cloud-services/frontend-components-config/c
 module.exports = (_env, argv) => {
   const isProduction = argv.mode === 'production';
   // Moved multiple entries to index.tsx in order to help speed up webpack
-  const entry = path.join(srcDir, 'Bootstrap', 'index.tsx');
+  const entry = path.join(srcDir, 'bootstrap', 'index.tsx');
 
   return {
     stats: {
@@ -68,7 +68,7 @@ module.exports = (_env, argv) => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: path.join(srcDir, 'Bootstrap', 'index.html'),
+        template: path.join(srcDir, 'bootstrap', 'index.html'),
       }),
       new MiniCssExtractPlugin({
         filename: isProduction ? '[id].[contenthash:8].css' : '[name].css',

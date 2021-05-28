@@ -5,7 +5,7 @@ import kafkai18n from "@app/i18n";
 import { ConfigContext, AlertProvider } from "@app/contexts";
 import { ErrorBoundary } from "@app/components";
 import { MastHead } from "@app/panels/MastHead/MastHead";
-import { Routes } from "./Routes";
+import { Routes } from "@app/Routes";
 
 const App: React.FC = () => {
   return (
