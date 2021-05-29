@@ -3,12 +3,12 @@
   color: #182c46;
   display: flex;
   flex-direction: column;
-  font-family: 'Nunito', 'Open Sans', sans-serif;
+  font-family: "Nunito", "Open Sans", sans-serif;
   height: 98vh;
   justify-content: center;
 }
 
-// Needed for federated modules
+/* Needed for federated modules */
 /* stylelint-disable-next-line */
 main#root {
   display: contents !important;
@@ -20,7 +20,7 @@ main#root {
   height: 100%;
 }
 
-// This is used on TabContent to make it the full height of the content area
+/*This is used on TabContent to make it the full height of the content area*/
 .kafka-ui-m-full-height {
   height: 100%;
 }

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
 import {
   Breadcrumb,
@@ -15,20 +14,18 @@ import {
   TabContent,
 } from "@patternfly/react-core";
 import EllipsisVIcon from "@patternfly/react-icons/dist/js/icons/ellipsis-v-icon";
-import { Topics } from "@app/modules/Topics/Topics";
+import { Topics, TopicsProps } from "@app/modules/Topics/Topics";
 import { ConsumerGroups } from "@app/modules/ConsumerGroups";
+import { useFederated } from "@app/contexts";
+import "../style.css";
 
-interface ITabHeaderProps {
-  eventKey: number;
-  instanceName?: string;
-}
-export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
-  eventKey,
-  instanceName,
-}) => {
+export type MainViewProps = TopicsProps;
+
+export const MainView: React.FC<MainViewProps> = ({ onCreateTopic }) => {
   const { t } = useTranslation();
+  const { activeTab, kafkaPageLink, kafkaName } = useFederated();
 
-  const [activeTabKey, setActiveTabKey] = useState(eventKey);
+  const [activeTabKey, setActiveTabKey] = useState(activeTab);
   const contentRefConsumerGroups = React.createRef<HTMLElement>();
   const contentRefTopics = React.createRef<HTMLElement>();
 
@@ -36,33 +33,13 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
     setActiveTabKey(tabIndex);
   };
 
-  const history = useHistory();
-
-  const onCreateTopic = () => {
-    history.push("/topics/create");
-  };
-
-  const getTopicDetailsPath = (topic: string | undefined) => {
-    return `/topic/${topic}`;
-  };
-
-  const onClickTopic = (topic: string | undefined) => {
-    history.push(`/topic/${topic}`);
-  };
-
-  const onDeleteTopic = () => {
-    history.push("/topics");
-  };
-
-  const onDeleteConsumer = () => {
-    history.push("/consumerGroups");
-  };
-
   const mainBreadcrumbs = (
     <Breadcrumb>
-      <BreadcrumbItem to="#">{t("common.kafka_instance")}</BreadcrumbItem>
+      <BreadcrumbItem to={kafkaPageLink || "#"}>
+        {t("common.kafka_instance")}
+      </BreadcrumbItem>
       <BreadcrumbItem to="#" isActive>
-        {instanceName ? instanceName : t("common.kafka_instance_name")}
+        {kafkaName || t("common.kafka_instance_name")}
       </BreadcrumbItem>
     </Breadcrumb>
   );
@@ -76,7 +53,7 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
       <PageSection variant={PageSectionVariants.light}>
         <Level>
           <Title headingLevel="h1">
-            {instanceName ? instanceName : t("common.kafka_instance_name")}
+            {kafkaName ? kafkaName : t("common.kafka_instance_name")}
           </Title>
           <Button variant="plain" iconPosition="right">
             <EllipsisVIcon />
@@ -126,7 +103,7 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
           className="kafka-ui-m-full-height"
           aria-label={t("topic.topics")}
         >
-          <Topics />
+          <Topics onCreateTopic={onCreateTopic} />
         </TabContent>
         <TabContent
           eventKey={2}

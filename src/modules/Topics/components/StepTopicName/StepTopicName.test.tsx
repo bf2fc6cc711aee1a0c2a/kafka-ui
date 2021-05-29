@@ -6,12 +6,12 @@ import kafkai18n from "@test-utils/i18n";
 
 const setup = () => {
   const topicNameProps: IStepTopicName = {
-    topicNameInput: "",
-    setTopicNameInput: jest.fn(),
     topicNameValidated: "default",
     setTopicNameValidated: jest.fn(),
     invalidText: "",
     setInvalidText: jest.fn(),
+    setTopicData: jest.fn(),
+    topicData: "",
   };
   const component: ReactElement = (
     <I18nextProvider i18n={kafkai18n}>

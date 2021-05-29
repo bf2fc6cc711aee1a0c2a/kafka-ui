@@ -126,8 +126,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
         <DeleteTopics
           deleteModal={deleteModal}
           setDeleteModal={setDeleteModal}
-          topicName={topicName}
-          onDeleteTopic={onDeleteTopic}
+          topicName={topicName}         
         />
       )}
     </>

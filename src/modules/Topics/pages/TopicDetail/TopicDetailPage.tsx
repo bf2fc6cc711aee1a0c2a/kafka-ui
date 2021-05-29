@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
 import {
   AlertVariant,
@@ -20,30 +19,25 @@ import { ConfigContext, AlertContext } from "@app/contexts";
 import { ConsumerGroups } from "@app/modules/ConsumerGroups";
 import { DeleteTopics } from "@app/modules/Topics/dialogs";
 import { isAxiosError } from "@app/utils/axios";
+import { useFederated } from "@app/contexts";
+import "../style.css";
 
 export type TopicDetailGroupProps = {
-  topicName: string;
-  kafkaName?: string;
-  kafkaPageLink?: string;
-  kafkaInstanceLink?: string;
-  onUpdateTopic: () => void;
-  onClickTopicList: () => void;
-  onDeleteTopic: () => void;
-  onError?: (errorCode: number, message: string) => void;
-  eventKey: number;
+  updateTopic: () => void;
 };
 
-export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
-  topicName,
-  kafkaName,
-  kafkaPageLink,
-  kafkaInstanceLink,
-  onUpdateTopic,
-  onClickTopicList,
-  onDeleteTopic,
-  onError,
-  eventKey,
+export const TopicDetailPage: React.FC<TopicDetailGroupProps> = ({
+  updateTopic,
 }) => {
+  const {
+    activeTab,
+    kafkaName,
+    kafkaPageLink,
+    kafkaInstanceLink,
+    topicName = "",
+    onError,
+  } = useFederated();
+
   const [topicDetail, setTopicDetail] = useState<IAdvancedTopic>({
     name: topicName,
     numPartitions: "",
@@ -53,16 +47,16 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
     "retention.bytes.unit": "bytes",
     "cleanup.policy": "",
   });
-  const [activeTabKey, setActiveTabKey] = useState(eventKey);
+  const [activeTabKey, setActiveTabKey] = useState(activeTab);
   const config = useContext(ConfigContext);
   const [deleteModal, setDeleteModal] = useState(false);
   const { addAlert } = useContext(AlertContext);
-  const history = useHistory();
-
   const { t } = useTranslation();
+  const contentRefConsumerGroup = React.createRef<HTMLElement>();
+  const contentRefProperties = React.createRef<HTMLElement>();
 
   const fetchTopicDetail = async (topicName: string) => {
-    if (eventKey === 2) {
+    if (activeTab === 2) {
       try {
         const response = await getTopicDetail(topicName, config);
         setTopicDetail(response);
@@ -77,15 +71,11 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
               t("topic.topic_not_found", { name: topicName }),
               AlertVariant.danger
             );
-            onClickTopicList();
           }
         }
       }
     }
   };
-
-  const contentRefConsumerGroup = React.createRef<HTMLElement>();
-  const contentRefProperties = React.createRef<HTMLElement>();
 
   const handleTabClick = (event, tabIndex) => {
     setActiveTabKey(tabIndex);
@@ -98,9 +88,6 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
 
   const deleteTopic = () => {
     setDeleteModal(true);
-  };
-  const onDeleteConsumer = () => {
-    history.push("/consumerGroups");
   };
 
   return (
@@ -156,7 +143,6 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
           hidden
         >
           <ConsumerGroups
-            onDeleteConsumerGroup={onDeleteConsumer}
             consumerGroupByTopic={true}
             topic={topicName}
             rowDataId="tableTopicConsumers-row"
@@ -173,7 +159,7 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
           <TopicDetailView
             topic={topicDetail}
             deleteTopic={deleteTopic}
-            updateTopic={onUpdateTopic}
+            updateTopic={updateTopic}
           />
         </TabContent>
       </PageSection>
@@ -182,7 +168,6 @@ export const TopicDetailGroup: React.FC<TopicDetailGroupProps> = ({
           topicName={topicName}
           deleteModal={deleteModal}
           setDeleteModal={setDeleteModal}
-          onDeleteTopic={onDeleteTopic}
         />
       )}
     </>

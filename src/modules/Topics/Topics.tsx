@@ -25,7 +25,7 @@ import { SearchTopics } from "./components/SearchTopics/SearchTopics";
 import { EmptyState, MASEmptyStateVariant, Loading } from "@app/components";
 import { getTopics } from "@app/services";
 import { DeleteTopics } from "./dialogs/DeleteTopicsModal";
-import { ConfigContext, AlertContext } from "@app/contexts";
+import { ConfigContext, AlertContext, useFederated } from "@app/contexts";
 import { TopicsList } from "@app/openapi";
 import "./Topics.css";
 import { convertRetentionSize, convertRetentionTime } from "./utils";
@@ -40,21 +40,18 @@ export type ITopicProps = {
   rows: ITopic[];
 };
 
-export type ITopics = {
-  onCreateTopic: () => void;
-  onClickTopic: (topicName: string | undefined) => void;
-  getTopicDetailsPath: (topic: string | undefined) => string;
-  onDeleteTopic: () => void;
-  onError?: (errorCode: number, message: string) => void;
+export type TopicsProps = {
+  onCreateTopic?: () => void;
 };
 
-export const Topics: React.FunctionComponent<ITopics> = ({
-  onCreateTopic,
-  getTopicDetailsPath,
-  onClickTopic,
-  onDeleteTopic,
-  onError,
-}) => {
+export const Topics: React.FC<TopicsProps> = ({ onCreateTopic }) => {
+  const {
+    onConnectToRoute,
+    getConnectToRoutePath,
+    dispatchKafkaAction,
+    onError,
+  } = useFederated();
+
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(10);
@@ -71,6 +68,11 @@ export const Topics: React.FunctionComponent<ITopics> = ({
   const { addAlert } = useContext(AlertContext);
 
   const config = useContext(ConfigContext);
+
+  const onClickCreateTopic = () => {
+    onCreateTopic && onCreateTopic();
+    dispatchKafkaAction && dispatchKafkaAction("topic-create");
+  };
 
   const fetchTopic = async () => {
     try {
@@ -129,10 +131,14 @@ export const Topics: React.FunctionComponent<ITopics> = ({
         title: (
           <Link
             data-testid="tableTopics-linkTopic"
-            to={getTopicDetailsPath(topic.name)}
+            to={
+              (getConnectToRoutePath &&
+                getConnectToRoutePath(`topics/${topic.name}`, topic.name)) ||
+              ""
+            }
             onClick={(e) => {
               e.preventDefault();
-              onClickTopic(topic.name);
+              onConnectToRoute && onConnectToRoute(`topics/${topic.name}`);
             }}
           >
             {topic?.name}
@@ -166,7 +172,8 @@ export const Topics: React.FunctionComponent<ITopics> = ({
 
   const onEdit = (rowId: any) => {
     if (topics?.items) {
-      onClickTopic(topics.items[rowId].name);
+      const topicName = topics.items[rowId].name;
+      onConnectToRoute && onConnectToRoute(`topics/${topicName}`);
     }
   };
 
@@ -194,7 +201,6 @@ export const Topics: React.FunctionComponent<ITopics> = ({
           topicName={topicName}
           setDeleteModal={setDeleteModal}
           deleteModal={deleteModal}
-          onDeleteTopic={onDeleteTopic}
         />
       )}
       <Card className="kafka-ui-m-full-height">
@@ -211,7 +217,7 @@ export const Topics: React.FunctionComponent<ITopics> = ({
             }}
             buttonProps={{
               title: t("topic.create_topic"),
-              onClick: onCreateTopic,
+              onClick: onClickCreateTopic,
             }}
           />
         ) : (
@@ -231,9 +237,7 @@ export const Topics: React.FunctionComponent<ITopics> = ({
                     id="topic-list-create-topic-button"
                     className="topics-per-page"
                     data-testid="tabTopics-actionCreate"
-                    onClick={() => {
-                      onCreateTopic();
-                    }}
+                    onClick={onCreateTopic}
                   >
                     {t("topic.create_topic")}
                   </Button>

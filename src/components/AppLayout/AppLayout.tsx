@@ -8,12 +8,13 @@ import {
   PageHeader,
   Brand,
   PageHeaderTools,
+  Page,
 } from "@patternfly/react-core";
 import { CaretDownIcon } from "@patternfly/react-icons";
 import avatarImg from "../../images/img_avatar.svg";
 import brandImg from "../../images/brandImg.png";
 
-export const AppLayout: React.FC = () => {
+export const AppLayout: React.FC = ({ children }) => {
   const { t } = useTranslation();
 
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
@@ -61,11 +62,17 @@ export const AppLayout: React.FC = () => {
     </PageHeaderTools>
   );
 
-  return (
+  const AppMastHead = () => (
     <PageHeader
       logo={brandImgLogo}
       logoComponent="h1"
       headerTools={HeaderTools}
     />
+  );
+
+  return (
+    <Page mainContainerId="scrollablePageMain" header={<AppMastHead />}>
+      {children}
+    </Page>
   );
 };

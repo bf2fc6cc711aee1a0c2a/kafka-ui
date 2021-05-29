@@ -3,23 +3,19 @@ import {
   CreateTopichead,
   CreateTopicWizard,
 } from "@app/modules/Topics/components";
+import { useFederated } from "@app/contexts";
+import "../style.css";
 
-type ICreateTopicPageProps = {
-  kafkaName?: string;
-  kafkaPageLink?: string;
-  kafkaInstanceLink?: string;
-  setIsCreateTopic?: (value: boolean) => void;
+export type CreateTopicPageProps = {
   onCloseCreateTopic: () => void;
 };
 
-export const CreateTopicPage: React.FC<ICreateTopicPageProps> = ({
-  setIsCreateTopic,
-  kafkaInstanceLink,
-  kafkaName,
-  kafkaPageLink,
+export const CreateTopicPage: React.FC<CreateTopicPageProps> = ({
   onCloseCreateTopic,
 }) => {
+  const { kafkaName, kafkaPageLink, kafkaInstanceLink } = useFederated();
   const [isSwitchChecked, setIsSwitchChecked] = useState<boolean>(false);
+
   return (
     <>
       <CreateTopichead
@@ -31,7 +27,6 @@ export const CreateTopicPage: React.FC<ICreateTopicPageProps> = ({
       />
       <CreateTopicWizard
         isSwitchChecked={isSwitchChecked}
-        setIsCreateTopic={setIsCreateTopic}
         onCloseCreateTopic={onCloseCreateTopic}
       />
     </>

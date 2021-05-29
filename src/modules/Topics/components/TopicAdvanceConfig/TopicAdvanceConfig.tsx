@@ -440,6 +440,16 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     />
   );
 
+  const jumpLinkItems = [
+    { href: "#core-configuration", label: t("topic.core_configuration") },
+    { href: "#messages", label: t("topic.messages") },
+    { href: "#log", label: t("topic.log") },
+    { href: "#replication", label: t("topic.replication") },
+    { href: "#cleanup", label: t("common.cleanup") },
+    { href: "#index", label: t("topic.index") },
+    { href: "#flush", label: t("topic.flush") },
+  ];
+
   return (
     <>
       <Sidebar hasGutter>
@@ -453,27 +463,11 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
             expandable={{ default: "expandable", md: "nonExpandable" }}
             isExpanded={false}
           >
-            <JumpLinksItem key={0} href="#core-configuration">
-              {t("topic.core_configuration")}
-            </JumpLinksItem>
-            <JumpLinksItem key={1} href="#messages">
-              {t("topic.messages")}
-            </JumpLinksItem>
-            <JumpLinksItem key={2} href="#log">
-              {t("topic.log")}
-            </JumpLinksItem>
-            <JumpLinksItem key={3} href="#replication">
-              {t("topic.replication")}
-            </JumpLinksItem>
-            <JumpLinksItem key={4} href="#cleanup">
-              {t("common.cleanup")}
-            </JumpLinksItem>
-            <JumpLinksItem key={5} href="#index">
-              {t("topic.index")}
-            </JumpLinksItem>
-            <JumpLinksItem key={6} href="#flush">
-              {t("topic.flush")}
-            </JumpLinksItem>
+            {jumpLinkItems?.map((item, index) => (
+              <JumpLinksItem key={`${item.href}${index}`} href={item.href}>
+                {item.label}
+              </JumpLinksItem>
+            ))}
           </JumpLinks>
         </SidebarPanel>
         <SidebarContent>

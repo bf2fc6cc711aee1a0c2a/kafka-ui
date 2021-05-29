@@ -15,13 +15,13 @@ export type IDeleteTopics = {
   setDeleteModal: (value: boolean) => void;
   deleteModal: boolean;
   topicName?: string;
-  onDeleteTopic: () => void;
+  //onDeleteTopic: () => void;
 };
 export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
   setDeleteModal,
   deleteModal,
   topicName,
-  onDeleteTopic,
+  //onDeleteTopic,
 }) => {
   const [verificationText, setVerificationText] = useState<string>("");
   const { addAlert } = useContext(AlertContext);
@@ -41,7 +41,7 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
     } catch (err) {
       addAlert(err.response.data.error_message, AlertVariant.danger);
     }
-    onDeleteTopic();
+    //onDeleteTopic();
     setDeleteModal(false);
   };
 

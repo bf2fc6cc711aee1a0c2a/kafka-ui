@@ -47,7 +47,6 @@ export type TopicViewDetailProps = {
   topic: IAdvancedTopic;
   /** Method to delete topic */
   deleteTopic: () => void;
-  /** Method to update topic */
   updateTopic: () => void;
 };
 

@@ -31,7 +31,6 @@ import { SearchConsumers, ConsumerGroupDetail } from "./components";
 import { DeleteConsumerGroup } from "./dialogs/DeleteConsumerGroup";
 
 export type ConsumerGroupsProps = {
-  onDeleteConsumerGroup: () => void;
   consumerGroupByTopic: boolean;
   topic?: string;
   rowDataId?: string;
@@ -39,7 +38,6 @@ export type ConsumerGroupsProps = {
 };
 
 export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
-  onDeleteConsumerGroup,
   consumerGroupByTopic,
   topic,
   rowDataId,
@@ -310,7 +308,6 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
           consumerName={consumerGroupId}
           setDeleteModal={setDeleteModal}
           deleteModal={deleteModal}
-          onDeleteConsumer={onDeleteConsumerGroup}
         />
       )}
     </>

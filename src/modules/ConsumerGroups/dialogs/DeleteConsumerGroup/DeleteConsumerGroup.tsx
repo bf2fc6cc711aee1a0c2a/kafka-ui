@@ -14,13 +14,11 @@ export type IDeleteConsumer = {
   setDeleteModal: (value: boolean) => void;
   deleteModal: boolean;
   consumerName?: string;
-  onDeleteConsumer: () => void;
 };
 export const DeleteConsumerGroup: React.FunctionComponent<IDeleteConsumer> = ({
   setDeleteModal,
   deleteModal,
   consumerName,
-  onDeleteConsumer,
 }) => {
   const { t } = useTranslation();
 
@@ -42,7 +40,6 @@ export const DeleteConsumerGroup: React.FunctionComponent<IDeleteConsumer> = ({
     } catch (err) {
       addAlert(err.response.data.error_message, AlertVariant.danger);
     }
-    onDeleteConsumer();
     setDeleteModal(false);
   };
 

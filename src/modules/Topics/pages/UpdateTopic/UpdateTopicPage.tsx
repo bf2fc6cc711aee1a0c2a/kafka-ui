@@ -13,35 +13,30 @@ import {
   UpdateTopicView,
   TopicDetailHead,
 } from "@app/modules/Topics/components";
+import { useFederated } from "@app/contexts";
+import "../style.css";
 
-export interface UpdateTopicPageProps {
-  topicName: string;
-  kafkaName?: string;
-  kafkaPageLink?: string;
-  kafkaInstanceLink?: string;
+export type UpdateTopicPageProps = {
   onCancelUpdateTopic: () => void;
   onDeleteTopic: () => void;
   onSaveTopic: () => void;
-  onDeleteConsumer: () => void;
-  onError?: (errorCode: number, message: string) => void;
-  activeTab?: number;
-}
+};
 
 export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
-  topicName,
-  kafkaName,
-  kafkaPageLink,
-  kafkaInstanceLink,
   onCancelUpdateTopic,
   onDeleteTopic,
   onSaveTopic,
-  onError,
-  onDeleteConsumer,
-  activeTab = 0,
 }) => {
-  const [activeTabKey, setActiveTabKey] = useState(activeTab);
-
   const { t } = useTranslation();
+  const {
+    topicName = "",
+    kafkaName,
+    kafkaPageLink,
+    kafkaInstanceLink,
+    onError,
+    activeTab = 0,
+  } = useFederated();
+  const [activeTabKey, setActiveTabKey] = useState(activeTab);
 
   const contentRefConsumerGroup = React.createRef<HTMLElement>();
   const contentRefProperties = React.createRef<HTMLElement>();
@@ -100,11 +95,7 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
           aria-label="Consumer groups."
           hidden={activeTab !== 0 ? true : false}
         >
-          <ConsumerGroups
-            onDeleteConsumerGroup={onDeleteConsumer}
-            topic={topicName}
-            consumerGroupByTopic={true}
-          />
+          <ConsumerGroups topic={topicName} consumerGroupByTopic={true} />
         </TabContent>
         <TabContent
           eventKey={1}

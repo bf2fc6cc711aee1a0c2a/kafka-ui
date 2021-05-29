@@ -48,7 +48,6 @@ export interface IAdvancedTopic {
 }
 
 export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
-  setIsCreateTopic,
   isSwitchChecked,
   onCloseCreateTopic,
 }) => {
@@ -82,9 +81,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   const [currentSize, setCurrentSize] = React.useState<string | number>(-1);
 
   const closeWizard = () => {
-    if (setIsCreateTopic) {
-      setIsCreateTopic(false);
-    }
+    onCloseCreateTopic && onCloseCreateTopic();
   };
 
   const saveTopic = () => {
@@ -149,8 +146,8 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
         topicNameInput.trim() !== "" && topicNameValidated === "default",
       component: (
         <StepTopicName
-          topicNameInput={topicNameInput}
-          setTopicNameInput={setTopicNameInput}
+          topicData={topicData}
+          setTopicData={setTopicData}
           topicNameValidated={topicNameValidated}
           setTopicNameValidated={setTopicNameValidated}
           invalidText={invalidText}

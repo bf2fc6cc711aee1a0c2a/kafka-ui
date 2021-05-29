@@ -81,12 +81,12 @@ module.exports = (_env, argv) => {
           isProduction ? '.[chunkhash:8]' : ''
         }.js`,
         exposes: {
-          './Panels/KafkaMainView': './src/panels/Topics/FederatedMainView',
+          './Panels/KafkaMainView': './src/modules/Topics/pages/MainView/MainViewFederated',
           './Panels/TopicDetails':
-            './src/panels/Topics/FederatedTopicDetailView',
-          './Panels/CreateTopic': './src/panels/Topics/FederatedCreateView',
+            './src/modules/Topics/pages/TopicDetail/TopicDetailFederated',
+          './Panels/CreateTopic': './src/modules/Topics/pages/CreateTopic/CreateTopicFederated',
           './Panels/UpdateTopic':
-            './src/panels/Topics/FederatedUpdateTopicView',
+            './src/modules/Topics/pages/UpdateTopic/UpdateTopicFederated',
         },
         shared: {
           ...dependencies,

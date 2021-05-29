@@ -1,6 +1,6 @@
-import React, { FunctionComponent } from 'react';
-import { useHistory, useParams } from 'react-router';
-import { TopicDetailGroup } from '@app/modules/Topics/pages/TopicDetailPage';
+import React, { FunctionComponent } from "react";
+import { useHistory, useParams } from "react-router";
+import { TopicDetailPage } from "@app/modules/Topics/pages/TopicDetail/TopicDetailPage";
 
 type TopicUseParams = {
   topicName: string;
@@ -16,19 +16,11 @@ const ConsumerGroupsByTopicView: FunctionComponent<TopicDetailParams> = ({
   const { topicName } = useParams<TopicUseParams>();
   const history = useHistory();
 
-  const useUpdateTopic = () => {
+  const updateTopic = () => {
     history.push(`/topics/update/${topicName}`);
   };
 
-  return (
-    <TopicDetailGroup
-      topicName={topicName}
-      onUpdateTopic={useUpdateTopic}
-      onClickTopicList={() => history.push('/topics')}
-      onDeleteTopic={onDeleteTopic}
-      eventKey={1}
-    />
-  );
+  return <TopicDetailPage updateTopic={updateTopic} />;
 };
 
 export { ConsumerGroupsByTopicView };

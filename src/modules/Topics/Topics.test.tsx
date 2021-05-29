@@ -27,20 +27,7 @@ describe("<Topics />", () => {
     await waitFor(() => {
       const { getByText } = render(
         <Router>
-          <Topics
-            onCreateTopic={() => {
-              return;
-            }}
-            onClickTopic={() => {
-              return;
-            }}
-            getTopicDetailsPath={() => {
-              return "";
-            }}
-            onDeleteTopic={() => {
-              return;
-            }}
-          />
+          <Topics />
         </Router>
       );
 

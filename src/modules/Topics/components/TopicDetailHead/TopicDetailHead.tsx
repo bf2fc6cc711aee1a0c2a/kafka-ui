@@ -30,10 +30,10 @@ export const TopicDetailHead: React.FC<TopicDetailHeadProps> = ({
     <>
       <section className="pf-c-page__main-breadcrumb">
         <Breadcrumb>
-          <BreadcrumbItem to={kafkaPageLink ? kafkaPageLink : "#"}>
+          <BreadcrumbItem to={kafkaPageLink || "#"}>
             {t("common.kafka_instance")}
           </BreadcrumbItem>
-          <BreadcrumbItem to={kafkaInstanceLink ? kafkaInstanceLink : "#"}>
+          <BreadcrumbItem to={kafkaInstanceLink || "#"}>
             {kafkaName ? kafkaName : t("common.kafka_instance_name")}
           </BreadcrumbItem>
           <BreadcrumbItem>{topicName}</BreadcrumbItem>

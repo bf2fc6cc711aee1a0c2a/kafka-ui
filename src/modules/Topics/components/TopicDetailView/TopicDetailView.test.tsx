@@ -13,13 +13,12 @@ const topic: IAdvancedTopic = {
   "retention.bytes": "-1",
 };
 
-const updateTopic = jest.fn();
 const deleteTopic = jest.fn();
-
+const updateTopic = jest.fn();
 const props: TopicViewDetailProps = {
   topic,
-  updateTopic,
   deleteTopic,
+  updateTopic,
 };
 
 const setup = () => {
