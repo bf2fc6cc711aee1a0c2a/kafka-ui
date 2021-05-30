@@ -10,22 +10,17 @@ import {
 } from "@patternfly/react-core";
 import { deleteConsumerGroup } from "@app/services";
 import { ConfigContext, AlertContext } from "@app/contexts";
-export type IDeleteConsumer = {
-  setDeleteModal: (value: boolean) => void;
-  deleteModal: boolean;
-  consumerName?: string;
-};
-export const DeleteConsumerGroup: React.FunctionComponent<IDeleteConsumer> = ({
-  setDeleteModal,
-  deleteModal,
-  consumerName,
-}) => {
-  const { t } = useTranslation();
+import { useRootModalContext } from "@app/components/RootModal";
 
+export const DeleteConsumerGroup: React.FC = () => {
+  const { t } = useTranslation();
+  const { store, hideModal } = useRootModalContext();
+  const { consumerName, refreshConsumerGroups } = store?.modalProps || {};
   const [verificationText, setVerificationText] = useState<string>("");
   const { addAlert } = useContext(AlertContext);
+
   const onClose = () => {
-    setDeleteModal(false);
+    hideModal();
   };
 
   const onDelete = async () => {
@@ -37,10 +32,11 @@ export const DeleteConsumerGroup: React.FunctionComponent<IDeleteConsumer> = ({
         }),
         AlertVariant.success
       );
+      refreshConsumerGroups && refreshConsumerGroups();
     } catch (err) {
       addAlert(err.response.data.error_message, AlertVariant.danger);
     }
-    setDeleteModal(false);
+    onClose();
   };
 
   const config = useContext(ConfigContext);
@@ -52,7 +48,7 @@ export const DeleteConsumerGroup: React.FunctionComponent<IDeleteConsumer> = ({
   return (
     <Modal
       variant={ModalVariant.small}
-      isOpen={deleteModal}
+      isOpen={true}
       aria-label={t("consumerGroup.delete")}
       title={t("consumerGroup.delete")}
       titleIconVariant="warning"

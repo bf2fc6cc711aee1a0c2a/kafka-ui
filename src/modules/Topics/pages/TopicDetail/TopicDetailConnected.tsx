@@ -12,7 +12,7 @@ const TopicDetailConnected: React.FC = () => {
   const { topicName } = useParams<TopicUseParams>();
 
   const updateTopic = () => {
-    history.push(`/topics/update/${topicName}`);
+    history.push(`/topic/update/${topicName}`);
   };
 
   const onDeleteTopic = () => {

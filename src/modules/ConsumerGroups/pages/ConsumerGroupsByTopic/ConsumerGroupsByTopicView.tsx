@@ -17,7 +17,7 @@ const ConsumerGroupsByTopicView: FunctionComponent<TopicDetailParams> = ({
   const history = useHistory();
 
   const updateTopic = () => {
-    history.push(`/topics/update/${topicName}`);
+    history.push(`/topic/update/${topicName}`);
   };
 
   return <TopicDetailPage updateTopic={updateTopic} />;

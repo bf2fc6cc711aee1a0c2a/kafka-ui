@@ -1,9 +1,10 @@
 import React from "react";
 import { I18nextProvider } from "react-i18next";
+import { BrowserRouter as Router } from "react-router-dom";
 import "@patternfly/react-core/dist/styles/base.css";
 import kafkai18n from "@app/i18n";
 import { ConfigContext, AlertProvider } from "@app/contexts";
-import { ErrorBoundary, AppLayout } from "@app/components";
+import { ErrorBoundary, AppLayout, RootModal } from "@app/components";
 import { Routes } from "@app/Routes";
 
 const App: React.FC = () => {
@@ -16,13 +17,17 @@ const App: React.FC = () => {
           getToken: async () => "",
         }}
       >
-        <ErrorBoundary>
-          <AlertProvider>
-            <AppLayout>
-              <Routes />
-            </AppLayout>
-          </AlertProvider>
-        </ErrorBoundary>
+        <Router>
+          <ErrorBoundary>
+            <AlertProvider>
+              <RootModal>
+                <AppLayout>
+                  <Routes />
+                </AppLayout>
+              </RootModal>
+            </AlertProvider>
+          </ErrorBoundary>
+        </Router>
       </ConfigContext.Provider>
     </I18nextProvider>
   );

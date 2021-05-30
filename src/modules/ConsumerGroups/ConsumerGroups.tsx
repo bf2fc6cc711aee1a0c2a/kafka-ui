@@ -19,7 +19,13 @@ import {
   TableHeader,
   TableVariant,
 } from "@patternfly/react-table";
-import { EmptyState, MASEmptyStateVariant, Loading } from "@app/components";
+import {
+  EmptyState,
+  MASEmptyStateVariant,
+  Loading,
+  useRootModalContext,
+  MODAL_TYPES,
+} from "@app/components";
 import {
   getConsumerGroups,
   getConsumerGroupDetail,
@@ -29,7 +35,6 @@ import { ConfigContext, AlertContext } from "@app/contexts";
 import { ConsumerGroupList, ConsumerGroup } from "@app/openapi";
 import { useTimeout } from "@app/hooks/useTimeOut";
 import { SearchConsumers, ConsumerGroupDetail } from "./components";
-import { DeleteConsumerGroup } from "./dialogs/DeleteConsumerGroup";
 
 export type ConsumerGroupsProps = {
   consumerGroupByTopic: boolean;
@@ -44,6 +49,7 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
   rowDataId,
   detailsDataId,
 }) => {
+  const { showModal } = useRootModalContext();
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(10);
   const [offset, setOffset] = useState<number>(0);
@@ -55,8 +61,6 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
     consumerGroupDetail,
     setConsumerGroupDetail,
   ] = useState<ConsumerGroup>();
-  const [consumerGroupId, setConsumerGroupId] = useState<string | undefined>();
-  const [deleteModal, setDeleteModal] = useState(false);
   const [
     filteredConsumerGroups,
     setFilteredConsumerGroups,
@@ -101,7 +105,7 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
   useEffect(() => {
     setLoading(true);
     fetchConsumerGroups();
-  }, [deleteModal]);
+  }, []);
 
   useEffect(() => {
     if (
@@ -118,9 +122,9 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
       setFilteredConsumerGroups((prevState) =>
         prevState
           ? {
-            ...prevState,
-            items: filterSearch,
-          }
+              ...prevState,
+              items: filterSearch,
+            }
           : undefined
       );
     } else {
@@ -150,8 +154,10 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
   ];
   const onDelete = (rowId: any) => {
     if (filteredConsumerGroups?.items) {
-      setConsumerGroupId(filteredConsumerGroups.items[rowId].groupId);
-      setDeleteModal(true);
+      showModal(MODAL_TYPES.DELETE_CONSUMER_GROUP, {
+        consumerName: filteredConsumerGroups?.items[rowId].groupId,
+        refreshConsumerGroups: fetchConsumerGroups,
+      });
     }
   };
 
@@ -303,13 +309,6 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
             )}
           </DrawerContent>
         </Drawer>
-      )}
-      {deleteModal && (
-        <DeleteConsumerGroup
-          consumerName={consumerGroupId}
-          setDeleteModal={setDeleteModal}
-          deleteModal={deleteModal}
-        />
       )}
     </>
   );

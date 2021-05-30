@@ -1,31 +1,30 @@
 import React from "react";
 import { Modal, ModalVariant, Button } from "@patternfly/react-core";
+import { useRootModalContext } from "@app/components/RootModal";
 
-export type IPartitionsChangeModal = {
-  onSaveClick: () => void;
-  isWarningOpen: boolean;
-  setIsWarningOpen: (value: boolean) => void;
-};
-export const PartitionsChangeModal: React.FunctionComponent<IPartitionsChangeModal> = ({
-  onSaveClick,
-  isWarningOpen,
-  setIsWarningOpen,
-}) => {
+export const PartitionsChange: React.FC = () => {
+  const { store, hideModal } = useRootModalContext();
+  const { onSaveTopic } = store?.modalProps || {};
+
+  const onClose = () => {
+    hideModal();
+  };
+
   return (
     <Modal
       variant={ModalVariant.small}
-      isOpen={isWarningOpen}
+      isOpen={true}
       aria-label="Confirm change of partitions"
       title="Increase the number of partitions?"
       titleIconVariant="warning"
       showClose={true}
       aria-describedby="modal-message"
-      onClose={() => setIsWarningOpen(false)}
+      onClose={onClose}
       actions={[
-        <Button variant="primary" onClick={onSaveClick} key={1}>
+        <Button variant="primary" onClick={onSaveTopic} key={1}>
           Yes
         </Button>,
-        <Button variant="link" onClick={() => setIsWarningOpen(false)} key={2}>
+        <Button variant="link" onClick={onClose} key={2}>
           No, return to form
         </Button>,
       ]}

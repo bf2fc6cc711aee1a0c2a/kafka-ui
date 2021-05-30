@@ -17,9 +17,9 @@ import {
 import { getTopicDetail } from "@app/services";
 import { ConfigContext, AlertContext } from "@app/contexts";
 import { ConsumerGroups } from "@app/modules/ConsumerGroups";
-import { DeleteTopics } from "@app/modules/Topics/dialogs";
 import { isAxiosError } from "@app/utils/axios";
 import { useFederated } from "@app/contexts";
+import { useRootModalContext, MODAL_TYPES } from "@app/components/RootModal";
 import "../style.css";
 
 export type TopicDetailGroupProps = {
@@ -51,11 +51,11 @@ export const TopicDetailPage: React.FC<TopicDetailGroupProps> = ({
   });
   const [activeTabKey, setActiveTabKey] = useState(activeTab);
   const config = useContext(ConfigContext);
-  const [deleteModal, setDeleteModal] = useState(false);
   const { addAlert } = useContext(AlertContext);
   const { t } = useTranslation();
   const contentRefConsumerGroup = React.createRef<HTMLElement>();
   const contentRefProperties = React.createRef<HTMLElement>();
+  const { showModal } = useRootModalContext();
 
   const fetchTopicDetail = async (topicName: string) => {
     if (activeTab === 2) {
@@ -89,7 +89,10 @@ export const TopicDetailPage: React.FC<TopicDetailGroupProps> = ({
   }, [topicName]);
 
   const deleteTopic = () => {
-    setDeleteModal(true);
+    showModal(MODAL_TYPES.DELETE_TOPIC, {
+      topicName,
+      onDeleteTopic,
+    });
   };
 
   return (
@@ -165,14 +168,6 @@ export const TopicDetailPage: React.FC<TopicDetailGroupProps> = ({
           />
         </TabContent>
       </PageSection>
-      {deleteModal && (
-        <DeleteTopics
-          topicName={topicName}
-          deleteModal={deleteModal}
-          setDeleteModal={setDeleteModal}
-          onDeleteTopic={onDeleteTopic}
-        />
-      )}
     </>
   );
 };

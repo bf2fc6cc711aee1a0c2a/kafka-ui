@@ -10,6 +10,7 @@ import {
 import kafkai18n from "@app/i18n";
 import { AlertContext, AlertContextProps } from "@app/contexts/Alert";
 import { KafkaActions } from "@app/utils";
+import { RootModal } from "@app/components/RootModal";
 
 export type UpdateTopicFederatedProps = FederatedProps &
   IConfiguration & {
@@ -58,11 +59,13 @@ const UpdateTopicFederated: FunctionComponent<UpdateTopicFederatedProps> = ({
               onError,
             }}
           >
-            <UpdateTopicPage
-              onCancelUpdateTopic={onCancelUpdateTopic}
-              onDeleteTopic={onDeleteTopic}
-              onSaveTopic={onSaveTopic}
-            />
+            <RootModal>
+              <UpdateTopicPage
+                onCancelUpdateTopic={onCancelUpdateTopic}
+                onDeleteTopic={onDeleteTopic}
+                onSaveTopic={onSaveTopic}
+              />
+            </RootModal>
           </FederatedContext.Provider>
         </AlertContext.Provider>
       </ConfigContext.Provider>

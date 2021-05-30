@@ -1,2 +1,2 @@
-export * from './DeleteTopicsModal';
-export * from './PartitionsChangeModal';
+export * from './DeleteTopic';
+export * from './PartitionsChange';

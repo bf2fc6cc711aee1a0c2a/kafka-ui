@@ -7,3 +7,4 @@ export * from './ServerAlertGroup';
 export * from './SizeTimeFormGroup';
 export * from './TextWithLabelPopover';
 export * from './AppLayout';
+export * from './RootModal';

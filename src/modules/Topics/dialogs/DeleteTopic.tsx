@@ -10,26 +10,18 @@ import {
 } from "@patternfly/react-core";
 import { deleteTopic } from "@app/services";
 import { ConfigContext, AlertContext } from "@app/contexts";
+import { useRootModalContext } from "@app/components/RootModal";
 
-export type IDeleteTopics = {
-  setDeleteModal: (value: boolean) => void;
-  deleteModal: boolean;
-  topicName?: string;
-  onDeleteTopic?: () => void;
-};
-export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
-  setDeleteModal,
-  deleteModal,
-  topicName,
-  onDeleteTopic,
-}) => {
+export const DeleteTopic: React.FC = () => {
+  const { store, hideModal } = useRootModalContext();
+  const { t } = useTranslation();
+  const { topicName, onDeleteTopic, refreshTopics } = store?.modalProps || {};
   const [verificationText, setVerificationText] = useState<string>("");
   const { addAlert } = useContext(AlertContext);
-  const onClose = () => {
-    setDeleteModal(false);
-  };
 
-  const { t } = useTranslation();
+  const onClose = () => {
+    hideModal();
+  };
 
   const onDelete = async () => {
     try {
@@ -38,11 +30,12 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
         t("topic.topic_successfully_deleted", { name: topicName }),
         AlertVariant.success
       );
+      refreshTopics && refreshTopics();
     } catch (err) {
       addAlert(err.response.data.error_message, AlertVariant.danger);
     }
     onDeleteTopic && onDeleteTopic();
-    setDeleteModal(false);
+    onClose();
   };
 
   const config = useContext(ConfigContext);
@@ -54,7 +47,7 @@ export const DeleteTopics: React.FunctionComponent<IDeleteTopics> = ({
   return (
     <Modal
       variant={ModalVariant.small}
-      isOpen={deleteModal}
+      isOpen={true}
       aria-label={t("topic.delete_modal_title")}
       title={t("topic.delete_modal_title")}
       titleIconVariant="warning"

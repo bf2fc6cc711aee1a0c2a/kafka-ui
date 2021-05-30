@@ -36,13 +36,14 @@ import {
   DEFAULT_FLUSH_INTERVAL_MESSAGES,
   DEFAULT_FLUSH_INTERVAL_TIME,
 } from "@app/constant";
-import { PartitionsChangeModal } from "@app/modules/Topics/dialogs/PartitionsChangeModal";
 import {
   TextWithLabelPopover,
   FormGroupWithPopover,
   SizeTimeFormGroup,
   DropdownWithToggle,
   IDropdownOption,
+  useRootModalContext,
+  MODAL_TYPES,
 } from "@app/components";
 import { kebabToCamel, kebabToDotSeparated } from "@app/modules/Topics/utils";
 import { IAdvancedTopic } from "../CreateTopicWizard/CreateTopicWizard";
@@ -77,8 +78,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
   const [initialPartition, setInitialPartition] = useState<number | undefined>(
     Number(topicData.numPartitions)
   );
-  const [isWarningOpen, setIsWarningOpen] = useState<boolean>(false);
-
+  const { showModal } = useRootModalContext();
   const { t } = useTranslation();
 
   const [
@@ -344,8 +344,13 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
   };
   const onConfirm = () => {
     if (!isCreate) {
-      if (warning) setIsWarningOpen(true);
-      else saveTopic();
+      if (warning) {
+        showModal(MODAL_TYPES.UPDATE_PARTITIONS, {
+          onSaveTopic: saveTopic,
+        });
+      } else {
+        saveTopic();
+      }
     } else {
       if (topicData.name.length < 1) {
         setInvalidText(t("topic.required"));
@@ -356,47 +361,43 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
       }
     }
   };
-  const onSaveClick = () => {
-    setIsWarningOpen(false);
-    saveTopic();
-  };
 
   const handleRadioChange = (_, event) => {
     const { name } = event.target;
 
     switch (name) {
-    case "custom-retention-time":
-      setIsCustomRetentionTimeSelected(true);
-      setTopicData({
-        ...topicData,
-        "retention.ms": customRetentionTime.toString(),
-        "retention.ms.unit": customRetentionTimeUnit,
-      });
-      break;
-    case "unlimited-retention-time":
-      setIsCustomRetentionTimeSelected(false);
-      setTopicData({
-        ...topicData,
-        "retention.ms": "-1",
-        "retention.ms.unit": "milliseconds",
-      });
-      break;
-    case "custom-retention-size":
-      setIsCustomRetentionSizeSelected(true);
-      setTopicData({
-        ...topicData,
-        "retention.bytes": customRetentionSize.toString(),
-        "retention.bytes.unit": customRetentionSizeUnit,
-      });
-      break;
-    case "unlimited-retention-size":
-      setIsCustomRetentionSizeSelected(false);
-      setTopicData({
-        ...topicData,
-        "retention.bytes": "-1",
-        "retention.bytes.unit": "bytes",
-      });
-      break;
+      case "custom-retention-time":
+        setIsCustomRetentionTimeSelected(true);
+        setTopicData({
+          ...topicData,
+          "retention.ms": customRetentionTime.toString(),
+          "retention.ms.unit": customRetentionTimeUnit,
+        });
+        break;
+      case "unlimited-retention-time":
+        setIsCustomRetentionTimeSelected(false);
+        setTopicData({
+          ...topicData,
+          "retention.ms": "-1",
+          "retention.ms.unit": "milliseconds",
+        });
+        break;
+      case "custom-retention-size":
+        setIsCustomRetentionSizeSelected(true);
+        setTopicData({
+          ...topicData,
+          "retention.bytes": customRetentionSize.toString(),
+          "retention.bytes.unit": customRetentionSizeUnit,
+        });
+        break;
+      case "unlimited-retention-size":
+        setIsCustomRetentionSizeSelected(false);
+        setTopicData({
+          ...topicData,
+          "retention.bytes": "-1",
+          "retention.bytes.unit": "bytes",
+        });
+        break;
     }
   };
 
@@ -898,13 +899,6 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               {t("common.cancel")}
             </Button>
           </ActionGroup>
-          {isWarningOpen && (
-            <PartitionsChangeModal
-              isWarningOpen={isWarningOpen}
-              onSaveClick={onSaveClick}
-              setIsWarningOpen={setIsWarningOpen}
-            />
-          )}
         </SidebarContent>
       </Sidebar>
     </>

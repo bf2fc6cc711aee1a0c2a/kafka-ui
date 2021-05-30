@@ -11,6 +11,7 @@ import {
 } from "@app/contexts";
 import kafkai18n from "@app/i18n";
 import { KafkaActions } from "@app/utils";
+import { RootModal } from "@app/components/RootModal";
 
 export type TopicDetailFederatedProps = FederatedProps &
   IConfiguration & {
@@ -55,7 +56,9 @@ const TopicDetailFederated: FunctionComponent<TopicDetailFederatedProps> = ({
               dispatchKafkaAction,
             }}
           >
-            <TopicDetailPage updateTopic={updateTopic} />
+            <RootModal>
+              <TopicDetailPage updateTopic={updateTopic} />
+            </RootModal>
           </FederatedContext.Provider>
         </AlertContext.Provider>
       </ConfigContext.Provider>

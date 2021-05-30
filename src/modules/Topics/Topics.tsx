@@ -22,9 +22,14 @@ import {
 } from "@patternfly/react-table";
 import { useTimeout } from "@app/hooks/useTimeOut";
 import { SearchTopics } from "./components/SearchTopics/SearchTopics";
-import { EmptyState, MASEmptyStateVariant, Loading } from "@app/components";
+import {
+  EmptyState,
+  MASEmptyStateVariant,
+  Loading,
+  useRootModalContext,
+  MODAL_TYPES,
+} from "@app/components";
 import { getTopics } from "@app/services";
-import { DeleteTopics } from "./dialogs/DeleteTopicsModal";
 import { ConfigContext, AlertContext, useFederated } from "@app/contexts";
 import { TopicsList } from "@app/openapi";
 import "./Topics.css";
@@ -56,6 +61,10 @@ export const Topics: React.FC<TopicsProps> = ({
     dispatchKafkaAction,
     onError,
   } = useFederated();
+  const { showModal } = useRootModalContext();
+  const { t } = useTranslation();
+  const { addAlert } = useContext(AlertContext);
+  const config = useContext(ConfigContext);
 
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState<number>(1);
@@ -63,16 +72,8 @@ export const Topics: React.FC<TopicsProps> = ({
   const [offset, setOffset] = useState<number>(0);
   const [search, setSearch] = useState("");
   const [topics, setTopics] = useState<TopicsList>();
-  const [deleteModal, setDeleteModal] = useState(false);
   const [filteredTopics, setFilteredTopics] = useState<boolean>(false);
   const [searchTopicName, setSearchTopicName] = useState<string>("");
-  const [topicName, setTopicName] = useState<string | undefined>();
-
-  const { t } = useTranslation();
-
-  const { addAlert } = useContext(AlertContext);
-
-  const config = useContext(ConfigContext);
 
   const onClickCreateTopic = () => {
     onCreateTopic && onCreateTopic();
@@ -105,7 +106,7 @@ export const Topics: React.FC<TopicsProps> = ({
 
   useEffect(() => {
     fetchTopic();
-  }, [deleteModal, searchTopicName]);
+  }, [searchTopicName]);
 
   useTimeout(() => fetchTopic(), 5000);
 
@@ -130,10 +131,6 @@ export const Topics: React.FC<TopicsProps> = ({
     setSearchTopicName("");
   };
 
-  const updateRoute = async (routePath: string) => {
-    onConnectToRoute && onConnectToRoute(routePath);
-  };
-
   const rowData =
     topics?.items?.map((topic) => [
       {
@@ -147,7 +144,7 @@ export const Topics: React.FC<TopicsProps> = ({
             }
             onClick={(e) => {
               e.preventDefault();
-              updateRoute(`topics/${topic.name}`);
+              onConnectToRoute && onConnectToRoute(`topics/${topic.name}`);
             }}
           >
             {topic?.name}
@@ -173,16 +170,15 @@ export const Topics: React.FC<TopicsProps> = ({
     ]) || [];
 
   const onDelete = (rowId: any) => {
-    if (topics?.items) {
-      setTopicName(topics.items[rowId].name);
-    }
-    setDeleteModal(true);
+    showModal(MODAL_TYPES.DELETE_TOPIC, {
+      topicName: topics?.items[rowId].name,
+      refreshTopics: fetchTopic,
+    });
   };
 
   const onEdit = (rowId: any) => {
     if (topics?.items) {
       const topicName = topics.items[rowId].name;
-      //onConnectToRoute && onConnectToRoute(`topics/update/${topicName}`);
       onEditTopic && onEditTopic(topicName);
     }
   };
@@ -206,13 +202,6 @@ export const Topics: React.FC<TopicsProps> = ({
 
   return (
     <>
-      {deleteModal && (
-        <DeleteTopics
-          topicName={topicName}
-          setDeleteModal={setDeleteModal}
-          deleteModal={deleteModal}
-        />
-      )}
       <Card className="kafka-ui-m-full-height">
         {rowData.length < 1 && searchTopicName.length < 1 ? (
           <EmptyState

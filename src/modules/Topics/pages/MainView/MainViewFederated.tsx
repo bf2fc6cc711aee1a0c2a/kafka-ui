@@ -12,6 +12,7 @@ import {
 import kafkai18n from "@app/i18n";
 import { MainView } from "./MainView";
 import { KafkaActions } from "@app/utils";
+import { RootModal } from "@app/components/RootModal";
 
 export type MainViewFederatedProps = FederatedProps &
   IConfiguration & {
@@ -50,7 +51,7 @@ const MainViewFederated: FunctionComponent<MainViewFederatedProps> = ({
         <AlertContext.Provider value={alertContext}>
           <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
             <FederatedContext.Provider
-              value={{               
+              value={{
                 kafkaName,
                 kafkaPageLink,
                 addAlert,
@@ -62,11 +63,13 @@ const MainViewFederated: FunctionComponent<MainViewFederatedProps> = ({
                 dispatchKafkaAction,
               }}
             >
-              <MainView
-                onCreateTopic={onCreateTopic}
-                onEditTopic={onEditTopic}
-                activeTab={1}
-              />
+              <RootModal>
+                <MainView
+                  onCreateTopic={onCreateTopic}
+                  onEditTopic={onEditTopic}
+                  activeTab={1}
+                />
+              </RootModal>
             </FederatedContext.Provider>
           </ConfigContext.Provider>
         </AlertContext.Provider>

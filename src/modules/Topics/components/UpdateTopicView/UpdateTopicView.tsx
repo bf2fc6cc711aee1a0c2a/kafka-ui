@@ -7,7 +7,6 @@ import {
 } from "@app/modules/Topics/components";
 import { getTopic, updateTopicModel } from "@app/services";
 import { ConfigEntry, TopicSettings } from "@app/openapi/api";
-import { DeleteTopics } from "@app/modules/Topics/dialogs";
 import { AlertContext, ConfigContext } from "@app/contexts";
 import { convertUnits } from "@app/modules/Topics/utils";
 import { isAxiosError } from "@app/utils/axios";
@@ -28,10 +27,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   onError,
 }) => {
   const { t } = useTranslation();
-
-  const [deleteModal, setDeleteModal] = useState(false);
-
-  const [topicData, setTopicData] = useState<IAdvancedTopic>({
+  const initialState = {
     name: topicName,
     numPartitions: "",
     "retention.ms": "",
@@ -39,9 +35,11 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
     "retention.bytes": "",
     "retention.bytes.unit": "bytes",
     "cleanup.policy": "",
-  });
+  };
+  const [topicData, setTopicData] = useState<IAdvancedTopic>(initialState);
   const config = useContext(ConfigContext);
   const { addAlert } = useContext(AlertContext);
+
   const fetchTopic = async (topicName) => {
     try {
       const topicRes = await getTopic(topicName, config);
@@ -122,14 +120,6 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
       />
       <br />
       <br />
-      {deleteModal && (
-        <DeleteTopics
-          deleteModal={deleteModal}
-          setDeleteModal={setDeleteModal}
-          topicName={topicName}
-          onDeleteTopic={onDeleteTopic}
-        />
-      )}
     </>
   );
 };
