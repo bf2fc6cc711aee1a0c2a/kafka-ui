@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from "react";
 import { I18nextProvider } from "react-i18next";
-import { ConfigContext, IConfiguration } from "@app/contexts";
 import { CreateTopicPage } from "@app/modules/Topics/pages/CreateTopic/CreateTopicPage";
 import kafkai18n from "@app/i18n";
 import {
@@ -8,9 +7,15 @@ import {
   AlertContextProps,
   FederatedContext,
   FederatedProps,
+  ConfigContext,
+  IConfiguration,
 } from "@app/contexts";
+import { KafkaActions } from "@app/utils";
 
-export type CreateTopicFederatedProps = FederatedProps;
+export type CreateTopicFederatedProps = FederatedProps &
+  IConfiguration & {
+    apiBasePath: string;
+  };
 
 const CreateTopicFederated: FunctionComponent<CreateTopicFederatedProps> = ({
   getToken,
@@ -26,14 +31,12 @@ const CreateTopicFederated: FunctionComponent<CreateTopicFederatedProps> = ({
   } as AlertContextProps;
 
   const onCloseCreateTopic = () => {
-    dispatchKafkaAction && dispatchKafkaAction("main-view");
+    dispatchKafkaAction && dispatchKafkaAction(KafkaActions.ViewTopics);
   };
 
   return (
     <I18nextProvider i18n={kafkai18n}>
-      <ConfigContext.Provider
-        value={{ basePath: apiBasePath, getToken } as IConfiguration}
-      >
+      <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
         <AlertContext.Provider value={alertContext}>
           <FederatedContext.Provider
             value={{

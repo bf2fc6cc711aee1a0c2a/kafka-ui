@@ -68,39 +68,39 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
     let varaintConfig: any = {};
 
     switch (masEmptyStateVariant) {
-      case MASEmptyStateVariant.NoConsumerGroups:
-        varaintConfig = {
-          variant: EmptyStateVariant.large,
-          icon: CubesIcon,
-          titleSize: TitleSizes.xl,
-          headingLevel: 'h2',
-        };
-        break;
-      case MASEmptyStateVariant.NoItems:
-        varaintConfig = {
-          variant: EmptyStateVariant.large,
-          icon: PlusCircleIcon,
-          titleSize: TitleSizes.xl,
-          headingLevel: 'h2',
-        };
-        break;
-      case MASEmptyStateVariant.NoResult:
-        varaintConfig = {
-          variant: EmptyStateVariant.large,
-          icon: SearchIcon,
-          titleSize: TitleSizes.lg,
-          headingLevel: 'h2',
-        };
-        break;
+    case MASEmptyStateVariant.NoConsumerGroups:
+      varaintConfig = {
+        variant: EmptyStateVariant.large,
+        icon: CubesIcon,
+        titleSize: TitleSizes.xl,
+        headingLevel: 'h2',
+      };
+      break;
+    case MASEmptyStateVariant.NoItems:
+      varaintConfig = {
+        variant: EmptyStateVariant.large,
+        icon: PlusCircleIcon,
+        titleSize: TitleSizes.xl,
+        headingLevel: 'h2',
+      };
+      break;
+    case MASEmptyStateVariant.NoResult:
+      varaintConfig = {
+        variant: EmptyStateVariant.large,
+        icon: SearchIcon,
+        titleSize: TitleSizes.lg,
+        headingLevel: 'h2',
+      };
+      break;
 
-      default:
-        varaintConfig = {
-          variant: masEmptyStateVariant || EmptyStateVariant.full,
-          icon: emptyStateIconProps?.icon,
-          titleSize: titleProps?.size,
-          headingLevel: titleProps?.headingLevel,
-        };
-        break;
+    default:
+      varaintConfig = {
+        variant: masEmptyStateVariant || EmptyStateVariant.full,
+        icon: emptyStateIconProps?.icon,
+        titleSize: titleProps?.size,
+        headingLevel: titleProps?.headingLevel,
+      };
+      break;
     }
 
     return varaintConfig;

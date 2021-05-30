@@ -1,12 +1,20 @@
 import React, { FunctionComponent } from "react";
 import { I18nextProvider } from "react-i18next";
 import { UpdateTopicPage } from "@app/modules/Topics/pages/UpdateTopic";
-import { FederatedContext, FederatedProps } from "@app/contexts";
+import {
+  FederatedContext,
+  FederatedProps,
+  ConfigContext,
+  IConfiguration,
+} from "@app/contexts";
 import kafkai18n from "@app/i18n";
 import { AlertContext, AlertContextProps } from "@app/contexts/Alert";
-import { kafkaActions } from "@app/utils";
+import { KafkaActions } from "@app/utils";
 
-export type UpdateTopicFederatedProps = FederatedProps;
+export type UpdateTopicFederatedProps = FederatedProps &
+  IConfiguration & {
+    apiBasePath: string;
+  };
 
 const UpdateTopicFederated: FunctionComponent<UpdateTopicFederatedProps> = ({
   getToken,
@@ -25,7 +33,7 @@ const UpdateTopicFederated: FunctionComponent<UpdateTopicFederatedProps> = ({
   } as AlertContextProps;
 
   const onCancelUpdateTopic = () => {
-    dispatchKafkaAction && dispatchKafkaAction(kafkaActions.TOPIC_UPDATE);
+    dispatchKafkaAction && dispatchKafkaAction(KafkaActions.UpdateTopic);
   };
 
   const onDeleteTopic = () => {
@@ -33,31 +41,31 @@ const UpdateTopicFederated: FunctionComponent<UpdateTopicFederatedProps> = ({
   };
 
   const onSaveTopic = () => {
-    dispatchKafkaAction && dispatchKafkaAction(kafkaActions.TOPIC_UPDATE);
+    dispatchKafkaAction && dispatchKafkaAction(KafkaActions.UpdateTopic);
   };
 
   return (
     <I18nextProvider i18n={kafkai18n}>
-      <AlertContext.Provider value={alertContext}>
-        <FederatedContext.Provider
-          value={{
-            activeTab: 1,
-            topicName,
-            kafkaName,
-            kafkaPageLink,
-            kafkaInstanceLink,
-            onError,
-            apiBasePath,
-            getToken,
-          }}
-        >
-          <UpdateTopicPage
-            onCancelUpdateTopic={onCancelUpdateTopic}
-            onDeleteTopic={onDeleteTopic}
-            onSaveTopic={onSaveTopic}
-          />
-        </FederatedContext.Provider>
-      </AlertContext.Provider>
+      <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
+        <AlertContext.Provider value={alertContext}>
+          <FederatedContext.Provider
+            value={{
+              activeTab: 1,
+              topicName,
+              kafkaName,
+              kafkaPageLink,
+              kafkaInstanceLink,
+              onError,
+            }}
+          >
+            <UpdateTopicPage
+              onCancelUpdateTopic={onCancelUpdateTopic}
+              onDeleteTopic={onDeleteTopic}
+              onSaveTopic={onSaveTopic}
+            />
+          </FederatedContext.Provider>
+        </AlertContext.Provider>
+      </ConfigContext.Provider>
     </I18nextProvider>
   );
 };

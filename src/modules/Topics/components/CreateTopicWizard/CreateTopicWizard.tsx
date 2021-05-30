@@ -56,7 +56,6 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   const { addAlert } = useContext(AlertContext);
   const [msgRetentionValue, setMsgRetentionValue] = useState(1);
   const [retentionSize, setRetentionSize] = useState(1);
-  const [topicNameInput, setTopicNameInput] = useState("");
   const [partitionTouchspinValue, setPartitionTouchspinValue] = useState(1);
   const [replicationFactorTouchspinValue] = useState(3);
   const [minInSyncReplicaTouchspinValue] = useState(2);
@@ -90,18 +89,18 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     const topic: NewTopicInput = isSwitchChecked
       ? formatTopicRequest(convertUnits(topicData))
       : {
-          name: topicNameInput,
-          settings: {
-            numPartitions: partitionTouchspinValue,
-            config: [
-              {
-                key: "retention.ms",
-                value: msgRetentionValue.toString(),
-              },
-              { key: "retention.bytes", value: retentionSize.toString() },
-            ],
-          },
-        };
+        name: topicData?.name,
+        settings: {
+          numPartitions: partitionTouchspinValue,
+          config: [
+            {
+              key: "retention.ms",
+              value: msgRetentionValue.toString(),
+            },
+            { key: "retention.bytes", value: retentionSize.toString() },
+          ],
+        },
+      };
 
     new DefaultApi(
       new Configuration({
@@ -143,7 +142,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     {
       name: t("topic.topic_name"),
       enableNext:
-        topicNameInput.trim() !== "" && topicNameValidated === "default",
+        topicData?.name.trim() !== "" && topicNameValidated === "default",
       component: (
         <StepTopicName
           topicData={topicData}
@@ -157,7 +156,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     },
     {
       name: t("common.partitions"),
-      canJumpTo: topicNameInput.trim() !== "",
+      canJumpTo: topicData?.name.trim() !== "",
       component: (
         <StepPartitions
           partitionTouchspinValue={partitionTouchspinValue}
@@ -167,7 +166,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     },
     {
       name: t("topic.message_retention"),
-      canJumpTo: topicNameInput.trim() !== "",
+      canJumpTo: topicData?.name.trim() !== "",
       component: (
         <StepMessageRetention
           setMsgRetentionValue={setMsgRetentionValue}
@@ -181,7 +180,7 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     },
     {
       name: t("common.replicas"),
-      canJumpTo: topicNameInput.trim() !== "",
+      canJumpTo: topicData?.name.trim() !== "",
       component: (
         <StepReplicas
           replicationFactor={replicationFactorTouchspinValue}
@@ -195,12 +194,12 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
   const title = t("topic.wizard_title");
 
   const onValidate = (onNext) => {
-    if (topicNameInput.length < 1) {
+    if (topicData?.name.length < 1) {
       setInvalidText(t("topic.required"));
       setTopicNameValidated("error");
     } else {
       setIsLoading(true);
-      fetchTopic(topicNameInput, onNext);
+      fetchTopic(topicData?.name, onNext);
     }
   };
 

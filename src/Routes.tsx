@@ -6,7 +6,10 @@ import {
   TopicDetailConnected,
   UpdateTopicConnected,
 } from "@app/modules/Topics/pages";
-import { ConsumerGroupsView, ConsumerGroupsByTopicView } from "@app/panels";
+import {
+  ConsumerGroupsView,
+  ConsumerGroupsByTopicView,
+} from "@app/modules/ConsumerGroups/pages";
 
 const Routes = () => {
   return (
@@ -21,7 +24,7 @@ const Routes = () => {
         />
         <Route path="/topic/create" component={CreateTopicConnected} />
         <Route
-          path="/topics/update/:topicName"
+          path="/topic/update/:topicName"
           component={UpdateTopicConnected}
           exact
         />

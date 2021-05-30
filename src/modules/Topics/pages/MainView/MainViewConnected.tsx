@@ -17,20 +17,27 @@ const MainViewConnected: React.FC = () => {
     history.push(`/${routePath}`);
   };
 
-  const onCreateTopic = () => {    
-    history.push("/topic/create");
+  const onCreateTopic = () => {
+    onConnectToRoute("topic/create");
+  };
+
+  const onEditTopic = (topicName: string | undefined) => {
+    onConnectToRoute(`topic/update/${topicName}`);
   };
 
   return (
     <FederatedContext.Provider
       value={{
-        activeTab: 1,
         onConnectToRoute,
         getConnectToRoutePath,
       }}
     >
       <AlertProvider>
-        <MainView onCreateTopic={onCreateTopic} />
+        <MainView
+          onCreateTopic={onCreateTopic}
+          onEditTopic={onEditTopic}
+          activeTab={1}
+        />
       </AlertProvider>
     </FederatedContext.Provider>
   );

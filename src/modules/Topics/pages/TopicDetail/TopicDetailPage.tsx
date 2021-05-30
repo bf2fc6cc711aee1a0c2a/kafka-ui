@@ -24,10 +24,12 @@ import "../style.css";
 
 export type TopicDetailGroupProps = {
   updateTopic: () => void;
+  onDeleteTopic?: () => void;
 };
 
 export const TopicDetailPage: React.FC<TopicDetailGroupProps> = ({
   updateTopic,
+  onDeleteTopic,
 }) => {
   const {
     activeTab,
@@ -168,6 +170,7 @@ export const TopicDetailPage: React.FC<TopicDetailGroupProps> = ({
           topicName={topicName}
           deleteModal={deleteModal}
           setDeleteModal={setDeleteModal}
+          onDeleteTopic={onDeleteTopic}
         />
       )}
     </>

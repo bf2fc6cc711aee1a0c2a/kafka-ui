@@ -6,15 +6,20 @@ import {
   AlertContextProps,
   FederatedContext,
   FederatedProps,
+  ConfigContext,
+  IConfiguration,
 } from "@app/contexts";
 import kafkai18n from "@app/i18n";
 import { MainView } from "./MainView";
+import { KafkaActions } from "@app/utils";
 
-export type MainViewFederatedProps = FederatedProps;
+export type MainViewFederatedProps = FederatedProps &
+  IConfiguration & {
+    apiBasePath: string;
+  };
 
 const MainViewFederated: FunctionComponent<MainViewFederatedProps> = ({
   getToken,
-  activeTab = 0,
   apiBasePath,
   kafkaName,
   kafkaPageLink,
@@ -30,29 +35,40 @@ const MainViewFederated: FunctionComponent<MainViewFederatedProps> = ({
     addAlert,
   } as AlertContextProps;
 
+  const onCreateTopic = () => {
+    dispatchKafkaAction && dispatchKafkaAction(KafkaActions.CreateTopic);
+  };
+
+  const onEditTopic = () => {
+    dispatchKafkaAction && dispatchKafkaAction(KafkaActions.UpdateTopic);
+  };
+
   return (
     // TODO don't add BrowserRouter here - see  https://github.com/bf2fc6cc711aee1a0c2a/mk-ui-frontend/issues/74
     <BrowserRouter>
       <I18nextProvider i18n={kafkai18n}>
         <AlertContext.Provider value={alertContext}>
-          <FederatedContext.Provider
-            value={{
-              getToken,
-              apiBasePath,
-              activeTab,
-              kafkaName,
-              kafkaPageLink,
-              addAlert,
-              onError,
-              onConnectToRoute,
-              getConnectToRoutePath,
-              handleInstanceDrawer,
-              setIsOpenDeleteInstanceModal,
-              dispatchKafkaAction,
-            }}
-          >
-            <MainView />
-          </FederatedContext.Provider>
+          <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
+            <FederatedContext.Provider
+              value={{               
+                kafkaName,
+                kafkaPageLink,
+                addAlert,
+                onError,
+                onConnectToRoute,
+                getConnectToRoutePath,
+                handleInstanceDrawer,
+                setIsOpenDeleteInstanceModal,
+                dispatchKafkaAction,
+              }}
+            >
+              <MainView
+                onCreateTopic={onCreateTopic}
+                onEditTopic={onEditTopic}
+                activeTab={1}
+              />
+            </FederatedContext.Provider>
+          </ConfigContext.Provider>
         </AlertContext.Provider>
       </I18nextProvider>
     </BrowserRouter>

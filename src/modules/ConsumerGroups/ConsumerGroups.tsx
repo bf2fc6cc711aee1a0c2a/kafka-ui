@@ -11,6 +11,7 @@ import {
   Button,
   Drawer,
   DrawerContent,
+  PageSection,
 } from "@patternfly/react-core";
 import {
   Table,
@@ -117,9 +118,9 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
       setFilteredConsumerGroups((prevState) =>
         prevState
           ? {
-              ...prevState,
-              items: filterSearch,
-            }
+            ...prevState,
+            items: filterSearch,
+          }
           : undefined
       );
     } else {
@@ -211,20 +212,20 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
 
   return (
     <>
-      {consumerGroups?.count &&
-      consumerGroups.count < 1 &&
-      search.length < 1 ? (
-        <EmptyState
-          emptyStateProps={{
-            variant: MASEmptyStateVariant.NoConsumerGroups,
-          }}
-          titleProps={{
-            title: t("consumerGroup.empty_consumer_title"),
-          }}
-          emptyStateBodyProps={{
-            body: t("consumerGroup.empty_consumer_body"),
-          }}
-        />
+      {consumerGroups && consumerGroups?.count < 1 && search.length < 1 ? (
+        <PageSection padding={{ default: "noPadding" }} isFilled>
+          <EmptyState
+            emptyStateProps={{
+              variant: MASEmptyStateVariant.NoConsumerGroups,
+            }}
+            titleProps={{
+              title: t("consumerGroup.empty_consumer_title"),
+            }}
+            emptyStateBodyProps={{
+              body: t("consumerGroup.empty_consumer_body"),
+            }}
+          />
+        </PageSection>
       ) : (
         <Drawer isExpanded={isExpanded}>
           <DrawerContent panelContent={panelContent}>

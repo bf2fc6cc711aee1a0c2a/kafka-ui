@@ -13,7 +13,7 @@ const UpdateTopicConnected: React.FC = () => {
   const { topicName } = useParams<TopicUseParams>();
 
   const onSaveTopic = () => {
-    history.push("/topics");
+    history.push(`/topics/${topicName}`);
   };
 
   const onCancelUpdateTopic = () => {

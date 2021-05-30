@@ -19,11 +19,17 @@ import { ConsumerGroups } from "@app/modules/ConsumerGroups";
 import { useFederated } from "@app/contexts";
 import "../style.css";
 
-export type MainViewProps = TopicsProps;
+export type MainViewProps = TopicsProps & {
+  activeTab?: number;
+};
 
-export const MainView: React.FC<MainViewProps> = ({ onCreateTopic }) => {
+export const MainView: React.FC<MainViewProps> = ({
+  onCreateTopic,
+  onEditTopic,
+  activeTab,
+}) => {
   const { t } = useTranslation();
-  const { activeTab, kafkaPageLink, kafkaName } = useFederated();
+  const { kafkaPageLink, kafkaName } = useFederated();
 
   const [activeTabKey, setActiveTabKey] = useState(activeTab);
   const contentRefConsumerGroups = React.createRef<HTMLElement>();
@@ -103,7 +109,7 @@ export const MainView: React.FC<MainViewProps> = ({ onCreateTopic }) => {
           className="kafka-ui-m-full-height"
           aria-label={t("topic.topics")}
         >
-          <Topics onCreateTopic={onCreateTopic} />
+          <Topics onCreateTopic={onCreateTopic} onEditTopic={onEditTopic} />
         </TabContent>
         <TabContent
           eventKey={2}

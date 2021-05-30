@@ -365,38 +365,38 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     const { name } = event.target;
 
     switch (name) {
-      case "custom-retention-time":
-        setIsCustomRetentionTimeSelected(true);
-        setTopicData({
-          ...topicData,
-          "retention.ms": customRetentionTime.toString(),
-          "retention.ms.unit": customRetentionTimeUnit,
-        });
-        break;
-      case "unlimited-retention-time":
-        setIsCustomRetentionTimeSelected(false);
-        setTopicData({
-          ...topicData,
-          "retention.ms": "-1",
-          "retention.ms.unit": "milliseconds",
-        });
-        break;
-      case "custom-retention-size":
-        setIsCustomRetentionSizeSelected(true);
-        setTopicData({
-          ...topicData,
-          "retention.bytes": customRetentionSize.toString(),
-          "retention.bytes.unit": customRetentionSizeUnit,
-        });
-        break;
-      case "unlimited-retention-size":
-        setIsCustomRetentionSizeSelected(false);
-        setTopicData({
-          ...topicData,
-          "retention.bytes": "-1",
-          "retention.bytes.unit": "bytes",
-        });
-        break;
+    case "custom-retention-time":
+      setIsCustomRetentionTimeSelected(true);
+      setTopicData({
+        ...topicData,
+        "retention.ms": customRetentionTime.toString(),
+        "retention.ms.unit": customRetentionTimeUnit,
+      });
+      break;
+    case "unlimited-retention-time":
+      setIsCustomRetentionTimeSelected(false);
+      setTopicData({
+        ...topicData,
+        "retention.ms": "-1",
+        "retention.ms.unit": "milliseconds",
+      });
+      break;
+    case "custom-retention-size":
+      setIsCustomRetentionSizeSelected(true);
+      setTopicData({
+        ...topicData,
+        "retention.bytes": customRetentionSize.toString(),
+        "retention.bytes.unit": customRetentionSizeUnit,
+      });
+      break;
+    case "unlimited-retention-size":
+      setIsCustomRetentionSizeSelected(false);
+      setTopicData({
+        ...topicData,
+        "retention.bytes": "-1",
+        "retention.bytes.unit": "bytes",
+      });
+      break;
     }
   };
 

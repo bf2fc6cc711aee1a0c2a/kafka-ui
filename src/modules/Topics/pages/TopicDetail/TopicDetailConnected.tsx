@@ -15,10 +15,17 @@ const TopicDetailConnected: React.FC = () => {
     history.push(`/topics/update/${topicName}`);
   };
 
+  const onDeleteTopic = () => {
+    history.push("/topics");
+  };
+
   return (
     <AlertProvider>
       <FederatedContext.Provider value={{ topicName, activeTab: 2 }}>
-        <TopicDetailPage updateTopic={updateTopic} />
+        <TopicDetailPage
+          updateTopic={updateTopic}
+          onDeleteTopic={onDeleteTopic}
+        />
       </FederatedContext.Provider>
     </AlertProvider>
   );

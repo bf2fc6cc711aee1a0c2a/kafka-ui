@@ -29,6 +29,7 @@ import { ConfigContext, AlertContext, useFederated } from "@app/contexts";
 import { TopicsList } from "@app/openapi";
 import "./Topics.css";
 import { convertRetentionSize, convertRetentionTime } from "./utils";
+import { KafkaActions } from "@app/utils";
 
 export type ITopic = {
   name: string;
@@ -42,9 +43,13 @@ export type ITopicProps = {
 
 export type TopicsProps = {
   onCreateTopic?: () => void;
+  onEditTopic?: (topicName?: string | undefined) => void;
 };
 
-export const Topics: React.FC<TopicsProps> = ({ onCreateTopic }) => {
+export const Topics: React.FC<TopicsProps> = ({
+  onCreateTopic,
+  onEditTopic,
+}) => {
   const {
     onConnectToRoute,
     getConnectToRoutePath,
@@ -71,7 +76,7 @@ export const Topics: React.FC<TopicsProps> = ({ onCreateTopic }) => {
 
   const onClickCreateTopic = () => {
     onCreateTopic && onCreateTopic();
-    dispatchKafkaAction && dispatchKafkaAction("topic-create");
+    dispatchKafkaAction && dispatchKafkaAction(KafkaActions.CreateTopic);
   };
 
   const fetchTopic = async () => {
@@ -125,6 +130,10 @@ export const Topics: React.FC<TopicsProps> = ({ onCreateTopic }) => {
     setSearchTopicName("");
   };
 
+  const updateRoute = async (routePath: string) => {
+    onConnectToRoute && onConnectToRoute(routePath);
+  };
+
   const rowData =
     topics?.items?.map((topic) => [
       {
@@ -138,7 +147,7 @@ export const Topics: React.FC<TopicsProps> = ({ onCreateTopic }) => {
             }
             onClick={(e) => {
               e.preventDefault();
-              onConnectToRoute && onConnectToRoute(`topics/${topic.name}`);
+              updateRoute(`topics/${topic.name}`);
             }}
           >
             {topic?.name}
@@ -173,7 +182,8 @@ export const Topics: React.FC<TopicsProps> = ({ onCreateTopic }) => {
   const onEdit = (rowId: any) => {
     if (topics?.items) {
       const topicName = topics.items[rowId].name;
-      onConnectToRoute && onConnectToRoute(`topics/${topicName}`);
+      //onConnectToRoute && onConnectToRoute(`topics/update/${topicName}`);
+      onEditTopic && onEditTopic(topicName);
     }
   };
 
