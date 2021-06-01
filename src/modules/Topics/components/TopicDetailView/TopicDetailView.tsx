@@ -37,10 +37,7 @@ import {
 import "./TopicDetailView.css";
 import { TextWithLabelPopover } from "@app/components/TextWithLabelPopover";
 import { IAdvancedTopic } from "@app/modules/Topics/components/CreateTopicWizard";
-import {
-  convertRetentionSize,
-  convertRetentionTime,
-} from "@app/modules/Topics/utils";
+import { convertRetentionSize, convertRetentionTime } from "@app/utils";
 
 export type TopicViewDetailProps = {
   /** Topic details */

@@ -64,7 +64,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
             return prev + (cur.lag > 0 ? 1 : 0);
           }, 0),
         ],
-        originalData: row,
+        originalData: { ...row, rowId: groupId },
       });
     });
     return tableRow;

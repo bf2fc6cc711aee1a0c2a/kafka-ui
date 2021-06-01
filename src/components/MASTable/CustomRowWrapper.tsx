@@ -34,7 +34,7 @@ export const CustomRowWrapper = (rowWrapperProps) => {
         className,
         "pf-c-table-row__item",
         activeRow &&
-          activeRow === originalData?.groupId &&
+          activeRow === originalData?.rowId &&
           "pf-m-selected pf-m-selectable"
       )}
       hidden={isExpanded !== undefined && !isExpanded}

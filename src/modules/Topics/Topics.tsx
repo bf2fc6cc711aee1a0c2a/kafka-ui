@@ -1,39 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
-import {
-  AlertVariant,
-  Button,
-  Card,
-  Chip,
-  Divider,
-  Pagination,
-  PaginationVariant,
-  Toolbar,
-  ToolbarContent,
-  ToolbarItem,
-} from "@patternfly/react-core";
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableVariant,
-  sortable,
-} from "@patternfly/react-table";
+import { AlertVariant, Card } from "@patternfly/react-core";
 import { useTimeout } from "@app/hooks/useTimeOut";
-import { SearchTopics } from "./components/SearchTopics/SearchTopics";
-import {
-  EmptyState,
-  MASEmptyStateVariant,
-  Loading,
-  useRootModalContext,
-  MODAL_TYPES,
-} from "@app/components";
+import { TopicsTable } from "./components";
+import { EmptyState, MASEmptyStateVariant, MASLoading } from "@app/components";
 import { getTopics } from "@app/services";
 import { ConfigContext, AlertContext, useFederated } from "@app/contexts";
-import { TopicsList } from "@app/openapi";
+import { TopicsList, Topic } from "@app/openapi";
 import "./Topics.css";
-import { convertRetentionSize, convertRetentionTime } from "./utils";
 import { KafkaActions } from "@app/utils";
 
 export type ITopic = {
@@ -55,24 +30,17 @@ export const Topics: React.FC<TopicsProps> = ({
   onCreateTopic,
   onEditTopic,
 }) => {
-  const {
-    onConnectToRoute,
-    getConnectToRoutePath,
-    dispatchKafkaAction,
-    onError,
-  } = useFederated();
-  const { showModal } = useRootModalContext();
+  const { dispatchKafkaAction, onError } = useFederated();
   const { t } = useTranslation();
   const { addAlert } = useContext(AlertContext);
   const config = useContext(ConfigContext);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const page = parseInt(searchParams.get("page") || "", 10) || 1;
+  const perPage = parseInt(searchParams.get("perPage") || "", 10) || 10;
 
-  const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState<number>(1);
-  const [perPage, setPerPage] = useState<number>(10);
-  const [offset, setOffset] = useState<number>(0);
-  const [search, setSearch] = useState("");
   const [topics, setTopics] = useState<TopicsList>();
-  const [filteredTopics, setFilteredTopics] = useState<boolean>(false);
+  const [topicItems, setTopicItems] = useState<Topic[]>();
   const [searchTopicName, setSearchTopicName] = useState<string>("");
 
   const onClickCreateTopic = () => {
@@ -84,6 +52,7 @@ export const Topics: React.FC<TopicsProps> = ({
     try {
       await getTopics(config, searchTopicName).then((response) => {
         setTopics(response);
+        setTopicItems(response?.items);
       });
     } catch (err) {
       //TODO: Update the api to allow suppress alerts if the application does not want to show them as well.
@@ -93,7 +62,6 @@ export const Topics: React.FC<TopicsProps> = ({
         addAlert(err.response.data.error_message, AlertVariant.danger);
       }
     }
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -102,100 +70,12 @@ export const Topics: React.FC<TopicsProps> = ({
 
   useTimeout(() => fetchTopic(), 5000);
 
-  const onSetPage = (_event, pageNumber: number) => {
-    setPage(pageNumber);
-    setOffset(page * perPage);
-  };
-
-  const onPerPageSelect = (_event, perPage: number) => {
-    setPerPage(perPage);
-  };
-
-  const tableColumns = [
-    { title: t("common.name") },
-    { title: t("common.partitions"), transforms: [sortable] },
-    { title: t("topic.retention_time"), transforms: [sortable] },
-    { title: t("topic.retention_size"), transforms: [sortable] },
-  ];
-
-  const onChipDelete = () => {
-    setFilteredTopics(false);
-    setSearchTopicName("");
-  };
-
-  const rowData =
-    topics?.items?.map((topic) => [
-      {
-        title: (
-          <Link
-            data-testid="tableTopics-linkTopic"
-            to={
-              (getConnectToRoutePath &&
-                getConnectToRoutePath(`topics/${topic.name}`, topic.name)) ||
-              ""
-            }
-            onClick={(e) => {
-              e.preventDefault();
-              onConnectToRoute && onConnectToRoute(`topics/${topic.name}`);
-            }}
-          >
-            {topic?.name}
-          </Link>
-        ),
-      },
-      topic.partitions?.length,
-
-      convertRetentionTime(
-        Number(
-          topic.config?.filter((element) => element.key === "retention.ms")[0]
-            ?.value || 0
-        )
-      ),
-
-      convertRetentionSize(
-        Number(
-          topic.config?.filter(
-            (element) => element.key === "retention.bytes"
-          )[0]?.value || 0
-        )
-      ),
-    ]) || [];
-
-  const onDelete = (rowId: any) => {
-    showModal(MODAL_TYPES.DELETE_TOPIC, {
-      topicName: topics?.items[rowId].name,
-      refreshTopics: fetchTopic,
-    });
-  };
-
-  const onEdit = (rowId: any) => {
-    if (topics?.items) {
-      const topicName = topics.items[rowId].name;
-      onEditTopic && onEditTopic(topicName);
-    }
-  };
-
-  const actions = [
-    {
-      title: t("common.delete"),
-      ["data-testid"]: "tableTopics-actionDelete",
-      onClick: (_, rowId) => onDelete(rowId),
-    },
-    {
-      title: t("common.edit"),
-      ["data-testid"]: "tableTopics-actionEdit",
-      onClick: (_, rowId) => onEdit(rowId),
-    },
-  ];
-
-  if (loading) {
-    return <Loading />;
-  }
-
-  return (
-    <>
-      <Card className="kafka-ui-m-full-height">
-        {rowData.length < 1 && searchTopicName.length < 1 ? (
+  const renderTopicsTable = () => {
+    if (topicItems === undefined) {
+      return <MASLoading />;
+    } else if (topicItems.length < 1 && searchTopicName.length < 1) {
+      return (
+        <Card className="kafka-ui-m-full-height">
           <EmptyState
             emptyStateProps={{
               variant: MASEmptyStateVariant.NoItems,
@@ -211,104 +91,29 @@ export const Topics: React.FC<TopicsProps> = ({
               onClick: onClickCreateTopic,
             }}
           />
-        ) : (
-          <Card>
-            <Toolbar>
-              <ToolbarContent>
-                <ToolbarItem className="pf-c-toolbar-item--search">
-                  <SearchTopics
-                    search={search}
-                    setSearch={setSearch}
-                    setFilteredTopics={setFilteredTopics}
-                    setSearchTopicName={setSearchTopicName}
-                  />
-                </ToolbarItem>
-                <ToolbarItem>
-                  <Button
-                    id="topic-list-create-topic-button"
-                    className="topics-per-page"
-                    data-testid="tabTopics-actionCreate"
-                    onClick={onCreateTopic}
-                  >
-                    {t("topic.create_topic")}
-                  </Button>
-                </ToolbarItem>
-                <ToolbarItem variant="pagination">
-                  <Pagination
-                    itemCount={rowData.length}
-                    perPage={perPage}
-                    page={page}
-                    onSetPage={onSetPage}
-                    widgetId="topic-list-pagination-top"
-                    onPerPageSelect={onPerPageSelect}
-                  />
-                </ToolbarItem>
-              </ToolbarContent>
-            </Toolbar>
-            {filteredTopics && (
-              <Toolbar>
-                <ToolbarContent>
-                  <ToolbarItem>
-                    <Chip key="topicFilterChip" onClick={onChipDelete}>
-                      {searchTopicName}
-                    </Chip>
-                    <Button
-                      variant="link"
-                      onClick={onChipDelete}
-                      aria-label="clear-filters"
-                    >
-                      {t("common.clear_filters")}
-                    </Button>
-                  </ToolbarItem>
-                </ToolbarContent>
-              </Toolbar>
-            )}
-            <Table
-              aria-label={t("topic.topic_list_table")}
-              variant={TableVariant.compact}
-              cells={tableColumns}
-              rows={
-                page != 1
-                  ? rowData.slice(offset, offset + perPage)
-                  : rowData.slice(0, perPage)
-              }
-              actions={actions}
-            >
-              <TableHeader />
-              <TableBody />
-            </Table>
-          </Card>
-        )}
-        <Divider />
-        {rowData.length < 1 && searchTopicName.length > 0 && (
-          <EmptyState
-            emptyStateProps={{
-              variant: MASEmptyStateVariant.NoResult,
-            }}
-            titleProps={{
-              title: t("common.no_results_title"),
-            }}
-            emptyStateBodyProps={{
-              body: t("common.no_results_body"),
-            }}
-          />
-        )}
-        {rowData.length > 0 && (
-          <Card>
-            <Divider />
-            <Pagination
-              itemCount={rowData.length}
-              perPage={perPage}
-              page={page}
-              onSetPage={onSetPage}
-              widgetId="topic-list-pagination-bottom"
-              onPerPageSelect={onPerPageSelect}
-              offset={0}
-              variant={PaginationVariant.bottom}
-            />
-          </Card>
-        )}
-      </Card>
+        </Card>
+      );
+    } else if (topicItems) {
+      return (
+        <TopicsTable
+          total={topics?.count || 0}
+          page={page}
+          perPage={perPage}
+          onCreateTopic={onCreateTopic}
+          topicItems={topicItems}
+          filteredValue={searchTopicName}
+          setFilteredValue={setSearchTopicName}
+          refreshTopics={fetchTopic}
+          onEdit={onEditTopic}
+        />
+      );
+    }
+    return <></>;
+  };
+
+  return (
+    <>
+      <Card className="kafka-ui-m-full-height">{renderTopicsTable()}</Card>
     </>
   );
 };
