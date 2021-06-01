@@ -24,7 +24,7 @@ import { Configuration } from "@app/openapi";
 import { getTopic } from "@app/services";
 import "./CreateTopicWizard.css";
 
-type ICreateTopicWizard = {
+export type CreateTopicWizardProps = {
   isSwitchChecked: boolean;
   setIsCreateTopic?: (value: boolean) => void;
   onCloseCreateTopic: () => void;
@@ -47,7 +47,7 @@ export interface IAdvancedTopic {
   "cleanup.policy"?: string;
 }
 
-export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
+export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
   isSwitchChecked,
   onCloseCreateTopic,
 }) => {
@@ -89,18 +89,18 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
     const topic: NewTopicInput = isSwitchChecked
       ? formatTopicRequest(convertUnits(topicData))
       : {
-        name: topicData?.name,
-        settings: {
-          numPartitions: partitionTouchspinValue,
-          config: [
-            {
-              key: "retention.ms",
-              value: msgRetentionValue.toString(),
-            },
-            { key: "retention.bytes", value: retentionSize.toString() },
-          ],
-        },
-      };
+          name: topicData?.name,
+          settings: {
+            numPartitions: partitionTouchspinValue,
+            config: [
+              {
+                key: "retention.ms",
+                value: msgRetentionValue.toString(),
+              },
+              { key: "retention.bytes", value: retentionSize.toString() },
+            ],
+          },
+        };
 
     new DefaultApi(
       new Configuration({

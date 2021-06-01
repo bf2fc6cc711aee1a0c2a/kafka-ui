@@ -46,12 +46,12 @@ import {
   MODAL_TYPES,
 } from "@app/components";
 import { kebabToCamel, kebabToDotSeparated } from "@app/modules/Topics/utils";
-import { IAdvancedTopic } from "../CreateTopicWizard/CreateTopicWizard";
+import { IAdvancedTopic } from "@app/modules/Topics/components";
 import { getTopic } from "@app/services";
 import { ConfigContext } from "@app/contexts";
 import "../CreateTopicWizard/CreateTopicWizard.css";
 
-export type ITopicAdvanceConfig = {
+export type TopicAdvanceConfigProps = {
   isCreate: boolean;
   saveTopic: () => void;
   handleCancel: () => void;
@@ -59,7 +59,7 @@ export type ITopicAdvanceConfig = {
   setTopicData: (val: IAdvancedTopic) => void;
 };
 
-export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = ({
+export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps> = ({
   isCreate,
   saveTopic,
   handleCancel,

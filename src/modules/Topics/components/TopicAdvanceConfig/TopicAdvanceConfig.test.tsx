@@ -1,7 +1,10 @@
 import React, { ReactElement } from "react";
 import { I18nextProvider } from "react-i18next";
 import { render, RenderResult } from "@testing-library/react";
-import { ITopicAdvanceConfig, TopicAdvanceConfig } from "./TopicAdvanceConfig";
+import {
+  TopicAdvanceConfigProps,
+  TopicAdvanceConfig,
+} from "./TopicAdvanceConfig";
 import kafkai18n from "@test-utils/i18n";
 import { IAdvancedTopic } from "@app/modules/Topics/components/CreateTopicWizard";
 
@@ -13,7 +16,7 @@ const setup = () => {
     "retention.ms": "1000",
     "retention.bytes": "-1",
   };
-  const topicadvanceConfigProps: ITopicAdvanceConfig = {
+  const topicadvanceConfigProps: TopicAdvanceConfigProps = {
     isCreate: true,
     saveTopic: jest.fn(),
     handleCancel: jest.fn(),

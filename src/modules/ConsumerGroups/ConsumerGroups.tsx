@@ -1,40 +1,18 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router";
 import {
-  Divider,
-  Pagination,
-  PaginationVariant,
-  Toolbar,
-  ToolbarContent,
-  ToolbarItem,
   AlertVariant,
-  Button,
   Drawer,
   DrawerContent,
   PageSection,
 } from "@patternfly/react-core";
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableVariant,
-} from "@patternfly/react-table";
-import {
-  EmptyState,
-  MASEmptyStateVariant,
-  Loading,
-  useRootModalContext,
-  MODAL_TYPES,
-} from "@app/components";
-import {
-  getConsumerGroups,
-  getConsumerGroupDetail,
-  getConsumerGroupsByTopic,
-} from "@app/services";
+import { EmptyState, MASEmptyStateVariant, MASLoading } from "@app/components";
+import { getConsumerGroups, getConsumerGroupDetail } from "@app/services";
 import { ConfigContext, AlertContext } from "@app/contexts";
 import { ConsumerGroupList, ConsumerGroup } from "@app/openapi";
 import { useTimeout } from "@app/hooks/useTimeOut";
-import { SearchConsumers, ConsumerGroupDetail } from "./components";
+import { ConsumerGroupDetail, ConsumerGroupsTable } from "./components";
 
 export type ConsumerGroupsProps = {
   consumerGroupByTopic: boolean;
@@ -49,12 +27,10 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
   rowDataId,
   detailsDataId,
 }) => {
-  const { showModal } = useRootModalContext();
-  const [page, setPage] = useState<number>(1);
-  const [perPage, setPerPage] = useState<number>(10);
   const [offset, setOffset] = useState<number>(0);
-  const [consumerGroups, setConsumerGroups] = useState<ConsumerGroupList>();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [consumerGroups, setConsumerGroups] = useState<
+    ConsumerGroupList | undefined
+  >();
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
   const [
@@ -68,46 +44,47 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
 
   const config = useContext(ConfigContext);
   const { addAlert } = useContext(AlertContext);
-
   const { t } = useTranslation();
 
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const page = parseInt(searchParams.get("page") || "", 10) || 1;
+  const perPage = parseInt(searchParams.get("perPage") || "", 10) || 10;
+
+  useEffect(() => {
+    setOffset(page * perPage);
+  }, [page, perPage]);
+
   const fetchConsumerGroups = async () => {
+    let limit: number | undefined = undefined;
+    let offsetVal: number | undefined = undefined;
+    let topicName: string | undefined = undefined;
+    /**
+     * limit, offset and topic will pass for consumer groups for topic
+     */
     if (consumerGroupByTopic && topic) {
-      try {
-        const consumerGroupsData = await getConsumerGroupsByTopic(
-          config,
-          100,
-          offset,
-          topic
-        );
-        if (consumerGroupsData) {
-          setConsumerGroups(consumerGroupsData);
-          setFilteredConsumerGroups(consumerGroupsData);
+      limit = 100;
+      offsetVal = offset;
+      topicName = topic;
+    }
+
+    try {
+      await getConsumerGroups(config, limit, offsetVal, topicName).then(
+        (response) => {
+          setConsumerGroups(response);
+          setFilteredConsumerGroups(response);
         }
-      } catch (err) {
-        addAlert(err.response.data.error_message, AlertVariant.danger);
-      }
-      setLoading(false);
-    } else {
-      try {
-        const consumerGroupsData = await getConsumerGroups(config);
-        if (consumerGroupsData) {
-          setConsumerGroups(consumerGroupsData);
-          setFilteredConsumerGroups(consumerGroupsData);
-        }
-      } catch (err) {
-        addAlert(err.response.data.error_message, AlertVariant.danger);
-      }
-      setLoading(false);
+      );
+    } catch (err) {
+      addAlert(err.response.data.error_message, AlertVariant.danger);
     }
   };
 
   useEffect(() => {
-    setLoading(true);
     fetchConsumerGroups();
   }, []);
 
-  useEffect(() => {
+  const filterConsumerGroups = () => {
     if (
       search &&
       search.trim() != "" &&
@@ -130,44 +107,13 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
     } else {
       setFilteredConsumerGroups(consumerGroups);
     }
+  };
+
+  useEffect(() => {
+    filterConsumerGroups();
   }, [search, consumerGroups]);
 
   useTimeout(() => fetchConsumerGroups(), 5000);
-
-  if (loading) {
-    return <Loading />;
-  }
-
-  const onSetPage = (_event, pageNumber: number) => {
-    setPage(pageNumber);
-    setOffset(page * perPage);
-  };
-
-  const onPerPageSelect = (_event, perPage: number) => {
-    setPerPage(perPage);
-  };
-
-  const tableColumns = [
-    { title: t("consumerGroup.consumer_group_id") },
-    { title: t("consumerGroup.active_members") },
-    { title: t("consumerGroup.partitions_with_lag") },
-  ];
-  const onDelete = (rowId: any) => {
-    if (filteredConsumerGroups?.items) {
-      showModal(MODAL_TYPES.DELETE_CONSUMER_GROUP, {
-        consumerName: filteredConsumerGroups?.items[rowId].groupId,
-        refreshConsumerGroups: fetchConsumerGroups,
-      });
-    }
-  };
-
-  const actions = [
-    {
-      title: t("common.delete"),
-      ["data-testid"]: "tableConsumers-actionDelete",
-      onClick: (_, rowId) => onDelete(rowId),
-    },
-  ];
 
   const fetchConsumerGroupDetail = async (consumerGroupId) => {
     try {
@@ -190,35 +136,18 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
       consumerDetail={consumerGroupDetail}
     />
   );
-  const rowData =
-    filteredConsumerGroups?.items.map((consumer) => [
-      {
-        title: (
-          <Button
-            variant="link"
-            isInline
-            onClick={() => fetchConsumerGroupDetail(consumer.groupId)}
-            data-testid={
-              detailsDataId ? detailsDataId : "tableConsumers-actionDetails"
-            }
-          >
-            {consumer.groupId}
-          </Button>
-        ),
-        props: { "data-testid": rowDataId ? rowDataId : "tableConsumers-row" },
-      },
 
-      consumer.consumers.reduce(function (prev, cur) {
-        return prev + (cur.partition != -1 ? 1 : 0);
-      }, 0),
-      consumer.consumers.reduce(function (prev, cur) {
-        return prev + (cur.lag > 0 ? 1 : 0);
-      }, 0),
-    ]) || [];
+  const onViewConsumerGroup = () => {};
 
-  return (
-    <>
-      {consumerGroups && consumerGroups?.count < 1 && search.length < 1 ? (
+  const renderConsumerTable = () => {
+    if (consumerGroups === undefined) {
+      return <MASLoading />;
+    } else if (
+      consumerGroups &&
+      consumerGroups?.count < 1 &&
+      search.length < 1
+    ) {
+      return (
         <PageSection padding={{ default: "noPadding" }} isFilled>
           <EmptyState
             emptyStateProps={{
@@ -232,84 +161,27 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
             }}
           />
         </PageSection>
-      ) : (
+      );
+    } else if (filteredConsumerGroups) {
+      return (
         <Drawer isExpanded={isExpanded}>
           <DrawerContent panelContent={panelContent}>
-            <Toolbar>
-              <ToolbarContent>
-                <ToolbarItem>
-                  <SearchConsumers search={search} setSearch={setSearch} />
-                </ToolbarItem>
-                <ToolbarItem variant="pagination">
-                  <Pagination
-                    itemCount={rowData.length}
-                    perPage={perPage}
-                    page={page}
-                    onSetPage={onSetPage}
-                    widgetId="consumer-group-pagination-top"
-                    onPerPageSelect={onPerPageSelect}
-                  />
-                </ToolbarItem>
-              </ToolbarContent>
-            </Toolbar>
-            <Divider />
-            {consumerGroupByTopic ? (
-              <Table
-                aria-label="Compact Table"
-                variant={TableVariant.compact}
-                cells={tableColumns}
-                rows={
-                  page != 1
-                    ? rowData.slice(offset, offset + perPage)
-                    : rowData.slice(0, perPage)
-                }
-              >
-                <TableHeader />
-                <TableBody />
-              </Table>
-            ) : (
-              <Table
-                aria-label="Compact Table"
-                variant={TableVariant.compact}
-                cells={tableColumns}
-                rows={
-                  page != 1
-                    ? rowData.slice(offset, offset + perPage)
-                    : rowData.slice(0, perPage)
-                }
-                actions={actions}
-              >
-                <TableHeader />
-                <TableBody />
-              </Table>
-            )}
-            {rowData.length < 1 && search.length > 0 ? (
-              <EmptyState
-                emptyStateProps={{
-                  variant: MASEmptyStateVariant.NoResult,
-                }}
-                titleProps={{
-                  title: t("common.no_results_title"),
-                }}
-                emptyStateBodyProps={{
-                  body: t("common.no_results_body"),
-                }}
-              />
-            ) : (
-              <Pagination
-                itemCount={rowData.length}
-                perPage={perPage}
-                page={page}
-                onSetPage={onSetPage}
-                widgetId="consumer-group-pagination-bottom"
-                onPerPageSelect={onPerPageSelect}
-                offset={0}
-                variant={PaginationVariant.bottom}
-              />
-            )}
+            <ConsumerGroupsTable
+              consumerGroups={filteredConsumerGroups?.items}
+              total={filteredConsumerGroups?.items?.length}
+              page={page}
+              perPage={perPage}
+              search={search}
+              setSearch={setSearch}
+              fetchConsumerGroupDetail={fetchConsumerGroupDetail}
+              onViewConsumerGroup={onViewConsumerGroup}
+            />
           </DrawerContent>
         </Drawer>
-      )}
-    </>
-  );
+      );
+    }
+    return <></>;
+  };
+
+  return <>{renderConsumerTable()}</>;
 };

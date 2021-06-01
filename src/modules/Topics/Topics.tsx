@@ -82,17 +82,9 @@ export const Topics: React.FC<TopicsProps> = ({
 
   const fetchTopic = async () => {
     try {
-      if (!filteredTopics) {
-        const topicsList = await getTopics(config);
-        if (topicsList) {
-          setTopics(topicsList);
-        }
-      } else {
-        const topicsList = await getTopics(config, searchTopicName);
-        if (topicsList) {
-          setTopics(topicsList);
-        }
-      }
+      await getTopics(config, searchTopicName).then((response) => {
+        setTopics(response);
+      });
     } catch (err) {
       //TODO: Update the api to allow suppress alerts if the application does not want to show them as well.
       if (onError && err.response.data.code === 401) {

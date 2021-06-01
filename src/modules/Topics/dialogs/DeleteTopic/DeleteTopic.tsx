@@ -14,6 +14,7 @@ import { useRootModalContext } from "@app/components/RootModal";
 
 export const DeleteTopic: React.FC = () => {
   const { store, hideModal } = useRootModalContext();
+  const config = useContext(ConfigContext);
   const { t } = useTranslation();
   const { topicName, onDeleteTopic, refreshTopics } = store?.modalProps || {};
   const [verificationText, setVerificationText] = useState<string>("");
@@ -25,20 +26,21 @@ export const DeleteTopic: React.FC = () => {
 
   const onDelete = async () => {
     try {
-      topicName && (await deleteTopic(topicName, config));
-      addAlert(
-        t("topic.topic_successfully_deleted", { name: topicName }),
-        AlertVariant.success
-      );
-      refreshTopics && refreshTopics();
+      if (topicName) {
+        await deleteTopic(topicName, config).then(() => {
+          addAlert(
+            t("topic.topic_successfully_deleted", { name: topicName }),
+            AlertVariant.success
+          );
+          refreshTopics && refreshTopics();
+        });
+      }
     } catch (err) {
       addAlert(err.response.data.error_message, AlertVariant.danger);
     }
     onDeleteTopic && onDeleteTopic();
     onClose();
   };
-
-  const config = useContext(ConfigContext);
 
   const handleVerificationTextChange = (value) => {
     setVerificationText(value);

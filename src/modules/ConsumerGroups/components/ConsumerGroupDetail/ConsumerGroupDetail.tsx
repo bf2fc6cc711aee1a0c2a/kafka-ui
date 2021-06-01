@@ -20,12 +20,12 @@ import {
 } from "@patternfly/react-table";
 import { ConsumerGroup } from "@app/openapi";
 
-export interface IConsumerGroupDetailProps {
+export type ConsumerGroupDetailProps = {
   setIsExpanded: (value: boolean) => void;
   consumerDetail: ConsumerGroup | undefined;
-}
+};
 
-export const ConsumerGroupDetail: React.FunctionComponent<IConsumerGroupDetailProps> = ({
+export const ConsumerGroupDetail: React.FunctionComponent<ConsumerGroupDetailProps> = ({
   setIsExpanded,
   consumerDetail,
 }) => {

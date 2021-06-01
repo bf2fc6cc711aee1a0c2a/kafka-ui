@@ -1,17 +1,17 @@
-import React, { ReactElement } from 'react';
-import userEvent from '@testing-library/user-event';
-import { I18nextProvider } from 'react-i18next';
-import kafkai18n from '@test-utils/i18n';
-import { render, RenderResult } from '@testing-library/react';
+import React, { ReactElement } from "react";
+import userEvent from "@testing-library/user-event";
+import { I18nextProvider } from "react-i18next";
+import kafkai18n from "@test-utils/i18n";
+import { render, RenderResult } from "@testing-library/react";
 import {
   StepMessageRetention,
-  IStepMessageRetention,
-} from './StepMessageRetention';
+  StepMessageRetentionProps,
+} from "./StepMessageRetention";
 
-const messageRetentionProps: IStepMessageRetention = {
+const messageRetentionProps: StepMessageRetentionProps = {
   setMsgRetentionValue: jest.fn(),
   currentPeriod: 1,
-  currentSize: 'custom',
+  currentSize: "custom",
   setCurrentPeriod: jest.fn(),
   setCurrentSize: jest.fn(),
   setRetentionSize: jest.fn(),
@@ -27,12 +27,12 @@ const setup = () => {
   return renderResult;
 };
 
-describe('Step Message Retention', () => {
-  it('should render Message Retention step component', () => {
+describe("Step Message Retention", () => {
+  it("should render Message Retention step component", () => {
     const { getByText } = setup();
     expect(
       getByText(
-        'How long messages are retained and the maximum total size of all log segments in a partition before they are deleted to free up space'
+        "How long messages are retained and the maximum total size of all log segments in a partition before they are deleted to free up space"
       )
     ).toBeInTheDocument();
     expect(
@@ -42,25 +42,25 @@ describe('Step Message Retention', () => {
     ).toBeInTheDocument();
   });
 
-  xit('should handle plus and minus actions', () => {
+  xit("should handle plus and minus actions", () => {
     const renderResult = setup();
     const { setMsgRetentionValue } = messageRetentionProps;
     const { getByRole } = renderResult;
-    userEvent.click(getByRole('button', { name: /Plus/i }));
+    userEvent.click(getByRole("button", { name: /Plus/i }));
     expect(setMsgRetentionValue).toHaveBeenCalled();
     expect(setMsgRetentionValue).toBeCalledTimes(2);
-    userEvent.click(getByRole('button', { name: /Minus/i }));
+    userEvent.click(getByRole("button", { name: /Minus/i }));
     expect(setMsgRetentionValue).toHaveBeenCalled();
     expect(setMsgRetentionValue).toBeCalledTimes(3);
   });
 
-  it('should handle message retention radio clicks ', () => {
+  it("should handle message retention radio clicks ", () => {
     const { getByLabelText } = setup();
     const { setCurrentPeriod } = messageRetentionProps;
-    userEvent.click(getByLabelText('A day'));
+    userEvent.click(getByLabelText("A day"));
     expect(setCurrentPeriod).toHaveBeenCalled();
     expect(setCurrentPeriod).toBeCalledTimes(1);
-    userEvent.click(getByLabelText('A week'));
+    userEvent.click(getByLabelText("A week"));
     expect(setCurrentPeriod).toHaveBeenCalled();
     expect(setCurrentPeriod).toBeCalledTimes(2);
   });

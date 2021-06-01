@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import {
   Flex,
   FlexItem,
@@ -17,16 +17,16 @@ import {
 } from "@patternfly/react-core";
 import "../CreateTopicWizard/CreateTopicWizard.css";
 
-export interface IStepMessageRetention {
+export type StepMessageRetentionProps = {
   setMsgRetentionValue: (value: number) => void;
   currentPeriod: string | number;
   currentSize: string | number;
   setCurrentPeriod: (value: string | number) => void;
   setCurrentSize: (value: string | number) => void;
   setRetentionSize: (value: number) => void;
-}
+};
 
-export const StepMessageRetention: React.FC<IStepMessageRetention> = ({
+export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
   setMsgRetentionValue,
   currentPeriod,
   currentSize,

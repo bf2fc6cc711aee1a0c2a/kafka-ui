@@ -60,8 +60,9 @@ export const TopicDetailPage: React.FC<TopicDetailGroupProps> = ({
   const fetchTopicDetail = async (topicName: string) => {
     if (activeTab === 2) {
       try {
-        const response = await getTopicDetail(topicName, config);
-        setTopicDetail(response);
+        await getTopicDetail(topicName, config).then((response) => {
+          setTopicDetail(response);
+        });
       } catch (err) {
         if (isAxiosError(err)) {
           if (onError) {

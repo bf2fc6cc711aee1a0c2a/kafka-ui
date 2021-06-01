@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { I18nextProvider } from "react-i18next";
+import { BrowserRouter } from "react-router-dom";
 import { UpdateTopicPage } from "@app/modules/Topics/pages/UpdateTopic";
 import {
   FederatedContext,
@@ -46,30 +47,32 @@ const UpdateTopicFederated: FunctionComponent<UpdateTopicFederatedProps> = ({
   };
 
   return (
-    <I18nextProvider i18n={kafkai18n}>
-      <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
-        <AlertContext.Provider value={alertContext}>
-          <FederatedContext.Provider
-            value={{
-              activeTab: 1,
-              topicName,
-              kafkaName,
-              kafkaPageLink,
-              kafkaInstanceLink,
-              onError,
-            }}
-          >
-            <RootModal>
-              <UpdateTopicPage
-                onCancelUpdateTopic={onCancelUpdateTopic}
-                onDeleteTopic={onDeleteTopic}
-                onSaveTopic={onSaveTopic}
-              />
-            </RootModal>
-          </FederatedContext.Provider>
-        </AlertContext.Provider>
-      </ConfigContext.Provider>
-    </I18nextProvider>
+    <BrowserRouter>
+      <I18nextProvider i18n={kafkai18n}>
+        <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
+          <AlertContext.Provider value={alertContext}>
+            <FederatedContext.Provider
+              value={{
+                activeTab: 1,
+                topicName,
+                kafkaName,
+                kafkaPageLink,
+                kafkaInstanceLink,
+                onError,
+              }}
+            >
+              <RootModal>
+                <UpdateTopicPage
+                  onCancelUpdateTopic={onCancelUpdateTopic}
+                  onDeleteTopic={onDeleteTopic}
+                  onSaveTopic={onSaveTopic}
+                />
+              </RootModal>
+            </FederatedContext.Provider>
+          </AlertContext.Provider>
+        </ConfigContext.Provider>
+      </I18nextProvider>
+    </BrowserRouter>
   );
 };
 

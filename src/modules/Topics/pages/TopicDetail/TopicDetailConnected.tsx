@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory, useParams } from "react-router";
 import { TopicDetailPage } from "@app/modules/Topics/pages/TopicDetail";
-import { AlertProvider, FederatedContext } from "@app/contexts";
+import { FederatedContext } from "@app/contexts";
 
 type TopicUseParams = {
   topicName: string;
@@ -20,14 +20,12 @@ const TopicDetailConnected: React.FC = () => {
   };
 
   return (
-    <AlertProvider>
-      <FederatedContext.Provider value={{ topicName, activeTab: 2 }}>
-        <TopicDetailPage
-          updateTopic={updateTopic}
-          onDeleteTopic={onDeleteTopic}
-        />
-      </FederatedContext.Provider>
-    </AlertProvider>
+    <FederatedContext.Provider value={{ topicName, activeTab: 2 }}>
+      <TopicDetailPage
+        updateTopic={updateTopic}
+        onDeleteTopic={onDeleteTopic}
+      />
+    </FederatedContext.Provider>
   );
 };
 

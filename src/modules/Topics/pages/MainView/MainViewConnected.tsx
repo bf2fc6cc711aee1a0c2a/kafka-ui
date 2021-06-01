@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router";
 import { MainView } from "./MainView";
-import { FederatedContext, AlertProvider } from "@app/contexts";
+import { FederatedContext } from "@app/contexts";
 
 const MainViewConnected: React.FC = () => {
   const history = useHistory();
@@ -32,13 +32,11 @@ const MainViewConnected: React.FC = () => {
         getConnectToRoutePath,
       }}
     >
-      <AlertProvider>
-        <MainView
-          onCreateTopic={onCreateTopic}
-          onEditTopic={onEditTopic}
-          activeTab={1}
-        />
-      </AlertProvider>
+      <MainView
+        onCreateTopic={onCreateTopic}
+        onEditTopic={onEditTopic}
+        activeTab={1}
+      />
     </FederatedContext.Provider>
   );
 };

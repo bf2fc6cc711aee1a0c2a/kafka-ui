@@ -1,13 +1,13 @@
-import React from 'react';
-import { InputGroup, SearchInput } from '@patternfly/react-core';
-import { useTranslation } from 'react-i18next';
+import React from "react";
+import { InputGroup, SearchInput } from "@patternfly/react-core";
+import { useTranslation } from "react-i18next";
 
-export interface ISearchConsumerGroupProps {
+export type SearchConsumerGroupProps = {
   setSearch: (value: string) => void;
   search: string;
-}
+};
 
-const SearchConsumers: React.FunctionComponent<ISearchConsumerGroupProps> = ({
+const SearchConsumers: React.FunctionComponent<SearchConsumerGroupProps> = ({
   search,
   setSearch,
 }) => {
@@ -17,16 +17,16 @@ const SearchConsumers: React.FunctionComponent<ISearchConsumerGroupProps> = ({
     setSearch(value);
   };
   const onClear = () => {
-    setSearch('');
+    setSearch("");
   };
   return (
     <InputGroup>
       <SearchInput
-        name='searchName'
-        id='search-consumers-input'
-        type='search'
-        aria-label={t('consumerGroup.search')}
-        placeholder={t('common.search')}
+        name="searchName"
+        id="search-consumers-input"
+        type="search"
+        aria-label={t("consumerGroup.search")}
+        placeholder={t("common.search")}
         value={search}
         onChange={onChangeInput}
         onClear={onClear}

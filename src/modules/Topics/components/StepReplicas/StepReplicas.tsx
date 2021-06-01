@@ -10,12 +10,12 @@ import {
 import "../CreateTopicWizard/CreateTopicWizard.css";
 import { TextWithLabelPopover } from "@app/components/TextWithLabelPopover";
 
-export type IStepReplicas = {
+export type StepReplicasProps = {
   replicationFactor: number;
   minInSyncReplica: number;
 };
 
-export const StepReplicas: React.FC<IStepReplicas> = ({
+export const StepReplicas: React.FC<StepReplicasProps> = ({
   replicationFactor,
   minInSyncReplica,
 }) => {

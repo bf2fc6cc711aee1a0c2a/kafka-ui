@@ -14,6 +14,7 @@ import { useRootModalContext } from "@app/components/RootModal";
 
 export const DeleteConsumerGroup: React.FC = () => {
   const { t } = useTranslation();
+  const config = useContext(ConfigContext);
   const { store, hideModal } = useRootModalContext();
   const { consumerName, refreshConsumerGroups } = store?.modalProps || {};
   const [verificationText, setVerificationText] = useState<string>("");
@@ -25,21 +26,22 @@ export const DeleteConsumerGroup: React.FC = () => {
 
   const onDelete = async () => {
     try {
-      consumerName && (await deleteConsumerGroup(consumerName, config));
-      addAlert(
-        t("consumerGroup.consumergroup_successfully_deleted", {
-          name: consumerName,
-        }),
-        AlertVariant.success
-      );
-      refreshConsumerGroups && refreshConsumerGroups();
+      if (consumerName) {
+        await deleteConsumerGroup(consumerName, config).then(() => {
+          addAlert(
+            t("consumerGroup.consumergroup_successfully_deleted", {
+              name: consumerName,
+            }),
+            AlertVariant.success
+          );
+          refreshConsumerGroups && refreshConsumerGroups();
+        });
+      }
     } catch (err) {
       addAlert(err.response.data.error_message, AlertVariant.danger);
     }
     onClose();
   };
-
-  const config = useContext(ConfigContext);
 
   const handleVerificationTextChange = (value) => {
     setVerificationText(value);

@@ -1,3 +1,5 @@
+import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,8 +9,6 @@ import {
   PageSection,
   PageSectionVariants,
 } from "@patternfly/react-core";
-import React from "react";
-import { useTranslation } from "react-i18next";
 import "../TopicDetailView/TopicDetailView.css";
 
 export type TopicDetailHeadProps = {

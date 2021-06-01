@@ -1,4 +1,5 @@
-import React from 'react';
+import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   TextContent,
   Text,
@@ -7,15 +8,15 @@ import {
   FormGroup,
   Form,
   Stack,
-} from '@patternfly/react-core';
+} from "@patternfly/react-core";
 import "../CreateTopicWizard/CreateTopicWizard.css";
-import { useTranslation } from 'react-i18next';
-export interface IStepPartitions {
+
+export type StepPartitionsProps = {
   setPartitionTouchspinValue: (value: number) => void;
   partitionTouchspinValue: number;
-}
+};
 
-export const StepPartitions: React.FC<IStepPartitions> = ({
+export const StepPartitions: React.FC<StepPartitionsProps> = ({
   partitionTouchspinValue,
   setPartitionTouchspinValue,
 }) => {
@@ -38,26 +39,26 @@ export const StepPartitions: React.FC<IStepPartitions> = ({
   };
 
   return (
-    <Stack hasGutter className='kafka-ui--wizard-main-body__stack'>
+    <Stack hasGutter className="kafka-ui--wizard-main-body__stack">
       <TextContent>
         <Text component={TextVariants.h2}>Partitions</Text>
-        <Text component={TextVariants.p}>{t('topic.partition_info')}</Text>
+        <Text component={TextVariants.p}>{t("topic.partition_info")}</Text>
         <Text component={TextVariants.small}>
-          {t('topic.partition_info_note')}
+          {t("topic.partition_info_note")}
         </Text>
       </TextContent>
       <Form>
         <FormGroup
-          label='Partitions'
-          fieldId='step-topic-name-form'
-          helperText={t('topic.partition_helper_text')}
+          label="Partitions"
+          fieldId="step-topic-name-form"
+          helperText={t("topic.partition_helper_text")}
           isRequired
         >
           <NumberInput
             onPlus={handleOnPlus}
             onMinus={handleOnMinus}
             value={partitionTouchspinValue}
-            inputName='input'
+            inputName="input"
             onChange={handlePartitionTouchspinChange}
             widthChars={20}
             min={minValue}

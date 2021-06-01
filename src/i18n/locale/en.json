@@ -13,7 +13,7 @@
     "save": "Save",
     "finish": "Finish",
     "cleanup": "Cleanup",
-    "disabled" : "Disabled",
+    "disabled": "Disabled",
     "select_unit": "select unit from dropdown",
     "select_policy": "select policy type from dropdown",
     "action": "Action",
@@ -30,7 +30,16 @@
     "confirm_delete_modal_text": "<b>{{name}}</b> will be deleted.",
     "no_results_title": "No results found",
     "no_results_body": "Adjust your filters and try again",
-    "clear_filters": "Clear all filters"
+    "clear_filters": "Clear all filters",
+    "minimal_pagination": "Minimal pagination",
+    "full_pagination": "Full pagination",
+    "per_page_suffix": "per page",
+    "to_first_page": "Go to first page",
+    "to_previous_page": "Go to previous page",
+    "to_last_page": "Go to last page",
+    "to_next_page": "Go to next page",
+    "options_toggle": "Items per page",
+    "curr_page": "Current page"
   },
   "topic": {
     "topics": "Topics",

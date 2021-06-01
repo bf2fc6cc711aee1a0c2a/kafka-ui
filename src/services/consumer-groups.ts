@@ -1,10 +1,9 @@
 import { AxiosResponse } from 'axios';
-
 import { DefaultApi, ConsumerGroupList, ConsumerGroup } from '@app/openapi/api';
 import { Configuration } from '@app/openapi';
 import { IConfiguration } from '@app/contexts';
 
-export const getConsumerGroups = async (
+const getConsumerGroups = async (
   config: IConfiguration | undefined,
   limit?: number,
   offset?: number,
@@ -26,7 +25,7 @@ export const getConsumerGroups = async (
   return response.data;
 };
 
-export const deleteConsumerGroup = async (
+const deleteConsumerGroup = async (
   consumerGroupId: string,
   config: IConfiguration | undefined
 ): Promise<void> => {
@@ -41,7 +40,8 @@ export const deleteConsumerGroup = async (
   await api.deleteConsumerGroupById(consumerGroupId);
   return;
 };
-export const getConsumerGroupDetail = async (
+
+const getConsumerGroupDetail = async (
   consumerGroupId: string,
   config: IConfiguration | undefined
 ): Promise<ConsumerGroup> => {
@@ -58,24 +58,10 @@ export const getConsumerGroupDetail = async (
   );
   return response.data;
 };
-export const getConsumerGroupsByTopic = async (
-  config: IConfiguration | undefined,
-  limit: number,
-  offset: number,
-  topic: string
-): Promise<ConsumerGroupList> => {
-  const accessToken = await config?.getToken();
 
-  const api = new DefaultApi(
-    new Configuration({
-      accessToken,
-      basePath: config?.basePath,
-    })
-  );
-  const response: AxiosResponse<ConsumerGroupList> = await api.getConsumerGroupList(
-    limit,
-    offset,
-    topic
-  );
-  return response.data;
+
+export {
+  getConsumerGroups,
+  deleteConsumerGroup,
+  getConsumerGroupDetail
 };

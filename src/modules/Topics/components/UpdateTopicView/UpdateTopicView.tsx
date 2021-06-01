@@ -95,12 +95,10 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
     };
 
     try {
-      const updateStatus = await updateTopicModel(name, topicSettings, config);
-
-      if (updateStatus === 200) {
+      await updateTopicModel(name, topicSettings, config).then(() => {
         addAlert(t("topic.topic_successfully_updated"), AlertVariant.success);
         onSaveTopic();
-      }
+      });
     } catch (err) {
       if (onError) {
         onError(err.response.data.code, err.response.data.error_message);

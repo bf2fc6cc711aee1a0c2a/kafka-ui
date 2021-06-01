@@ -1,11 +1,11 @@
 import React, { ReactElement } from "react";
 import { I18nextProvider } from "react-i18next";
 import { render, RenderResult } from "@testing-library/react";
-import { StepTopicName, IStepTopicName } from ".";
+import { StepTopicName, StepTopicNameProps } from ".";
 import kafkai18n from "@test-utils/i18n";
 
 const setup = () => {
-  const topicNameProps: IStepTopicName = {
+  const topicNameProps: StepTopicNameProps = {
     topicNameValidated: "default",
     setTopicNameValidated: jest.fn(),
     invalidText: "",

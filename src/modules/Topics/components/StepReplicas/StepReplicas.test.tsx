@@ -1,10 +1,10 @@
 import React, { ReactElement } from "react";
 import { I18nextProvider } from "react-i18next";
 import { render, RenderResult } from "@testing-library/react";
-import { StepReplicas, IStepReplicas } from "./StepReplicas";
+import { StepReplicas, StepReplicasProps } from "./StepReplicas";
 import kafkai18n from "@test-utils/i18n";
 
-const replicasProps: IStepReplicas = {
+const replicasProps: StepReplicasProps = {
   minInSyncReplica: 1,
   replicationFactor: 1,
 };

@@ -2,11 +2,11 @@ import React from "react";
 import { render } from "@testing-library/react";
 import {
   SearchTopics,
-  ISearchTopicsProps,
+  SearchTopicsProps,
 } from "@app/modules/Topics/components/SearchTopics/SearchTopics";
 
 describe("<SearchTopics />", () => {
-  const props: ISearchTopicsProps = {
+  const props: SearchTopicsProps = {
     setSearch: jest.fn(),
     search: "Search",
     setFilteredTopics: jest.fn(),

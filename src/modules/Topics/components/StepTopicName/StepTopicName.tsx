@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   Form,
   FormGroup,
@@ -9,17 +10,16 @@ import {
   Stack,
 } from "@patternfly/react-core";
 import "../CreateTopicWizard/CreateTopicWizard.css";
-import { useTranslation } from "react-i18next";
-export interface IStepTopicName {
+export type StepTopicNameProps = {
   topicData: any;
   setTopicData: (value: any) => void;
   topicNameValidated: "error" | "default";
   setTopicNameValidated: (value: "error" | "default") => void;
   invalidText: string;
   setInvalidText: (value: string) => void;
-}
+};
 
-export const StepTopicName: React.FC<IStepTopicName> = ({
+export const StepTopicName: React.FC<StepTopicNameProps> = ({
   topicData,
   setTopicData,
   topicNameValidated,
