@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, PaginationVariant } from "@patternfly/react-core";
-import { IActions, TableVariant, IRowData } from "@patternfly/react-table";
+import { PaginationVariant } from "@patternfly/react-core";
+import { TableVariant, IRowData } from "@patternfly/react-table";
 import { ConsumerGroup } from "@app/openapi";
 import {
   MASTable,
@@ -18,21 +18,20 @@ import {
 
 export type ConsumerGroupsTableProps = ConsumerGroupToolbarProps & {
   consumerGroups: ConsumerGroup[];
-  detailsDataId?: string;
-  rowDataId?: string;
-  fetchConsumerGroupDetail: (groupId: string) => void;
+  rowDataTestId?: string;
+  isDrawerOpen?: boolean;
   onViewConsumerGroup: (consumerGroup: ConsumerGroup) => void;
 };
 
 const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
   consumerGroups,
-  detailsDataId,
   total,
   page,
   perPage,
   search,
   setSearch,
-  fetchConsumerGroupDetail,
+  rowDataTestId,
+  isDrawerOpen,
   onViewConsumerGroup,
 }) => {
   const { t } = useTranslation();
@@ -45,31 +44,30 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
     { title: t("consumerGroup.partitions_with_lag") },
   ];
 
-  const preparedTableCells = () => {
-    const rowData =
-      consumerGroups?.map((consumer) => [
-        {
-          title: (
-            <Button
-              variant="link"
-              isInline
-              onClick={() => fetchConsumerGroupDetail(consumer.groupId)}
-              data-testid={detailsDataId || "tableConsumers-actionDetails"}
-            >
-              {consumer.groupId}
-            </Button>
-          ),
-          originalData: consumer,
-        },
+  useEffect(() => {
+    if (!isDrawerOpen) {
+      setActiveRow("");
+    }
+  }, [isDrawerOpen]);
 
-        consumer.consumers.reduce(function (prev, cur) {
-          return prev + (cur.partition != -1 ? 1 : 0);
-        }, 0),
-        consumer.consumers.reduce(function (prev, cur) {
-          return prev + (cur.lag > 0 ? 1 : 0);
-        }, 0),
-      ]) || [];
-    return rowData;
+  const preparedTableCells = () => {
+    const tableRow: (IRowData | string[])[] | undefined = [];
+    consumerGroups?.map((row: IRowData) => {
+      const { groupId, consumers } = row;
+      tableRow.push({
+        cells: [
+          groupId,
+          consumers.reduce(function (prev, cur) {
+            return prev + (cur.partition != -1 ? 1 : 0);
+          }, 0),
+          consumers.reduce(function (prev, cur) {
+            return prev + (cur.lag > 0 ? 1 : 0);
+          }, 0),
+        ],
+        originalData: row,
+      });
+    });
+    return tableRow;
   };
 
   const onSelectDeleteConsumerGroup = (groupId: string) => {
@@ -79,7 +77,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
   };
 
   const onSelectKebabDropdownOption = (
-    event: React.ChangeEvent<HTMLSelectElement>,
+    event: any,
     originalData: ConsumerGroup
   ) => {
     const { groupId } = originalData;
@@ -87,17 +85,17 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
     setActiveRow(groupId);
     onSelectDeleteConsumerGroup(groupId);
     // Set focus back on previous selected element i.e. kebab button
-    //event?.target?.parentElement?.parentElement?.previousSibling?.focus();
+    event?.target?.parentElement?.parentElement?.previousSibling?.focus();
   };
 
   const actionResolver = (rowData: IRowData) => {
     const originalData: ConsumerGroup = rowData.originalData;
-    const resolver: IActions = [
+    const resolver = [
       {
         title: t("common.delete"),
-        // ["data-testid"]: "tableConsumers-actionDelete",
-        // onClick: (event: React.ChangeEvent<HTMLSelectElement>) =>
-        //   onSelectKebabDropdownOption(event, originalData),
+        ["data-testid"]: "tableConsumers-actionDelete",
+        onClick: (event: any) =>
+          onSelectKebabDropdownOption(event, originalData),
       },
     ];
     return resolver;
@@ -105,11 +103,12 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
 
   const onRowClick = (event: any, rowIndex: number, row: IRowData) => {
     const { originalData } = row;
+    const clickedEventType = event?.target?.type;
     const tagName = event?.target?.tagName;
     // Open modal on row click except kebab button click
-    if (tagName?.toLowerCase() !== "a") {
+    if (clickedEventType !== "button" && tagName?.toLowerCase() !== "a") {
       onViewConsumerGroup(originalData);
-      setActiveRow(originalData?.name);
+      setActiveRow(originalData?.groupId);
     }
   };
 
@@ -133,7 +132,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
         }}
         activeRow={activeRow}
         onRowClick={onRowClick}
-        rowDataTestId="tableConsumers-row"
+        rowDataTestId={rowDataTestId || "tableConsumers-row"}
       />
       {consumerGroups?.length < 1 && (
         <EmptyState

@@ -1,14 +1,14 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
+import { AlertVariant, PageSection } from "@patternfly/react-core";
 import {
-  AlertVariant,
-  Drawer,
-  DrawerContent,
-  PageSection,
-} from "@patternfly/react-core";
-import { EmptyState, MASEmptyStateVariant, MASLoading } from "@app/components";
-import { getConsumerGroups, getConsumerGroupDetail } from "@app/services";
+  EmptyState,
+  MASEmptyStateVariant,
+  MASLoading,
+  MASDrawer,
+} from "@app/components";
+import { getConsumerGroups } from "@app/services";
 import { ConfigContext, AlertContext } from "@app/contexts";
 import { ConsumerGroupList, ConsumerGroup } from "@app/openapi";
 import { useTimeout } from "@app/hooks/useTimeOut";
@@ -17,15 +17,13 @@ import { ConsumerGroupDetail, ConsumerGroupsTable } from "./components";
 export type ConsumerGroupsProps = {
   consumerGroupByTopic: boolean;
   topic?: string;
-  rowDataId?: string;
-  detailsDataId?: string;
+  rowDataTestId?: string;
 };
 
 export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
   consumerGroupByTopic,
   topic,
-  rowDataId,
-  detailsDataId,
+  rowDataTestId,
 }) => {
   const [offset, setOffset] = useState<number>(0);
   const [consumerGroups, setConsumerGroups] = useState<
@@ -115,29 +113,18 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
 
   useTimeout(() => fetchConsumerGroups(), 5000);
 
-  const fetchConsumerGroupDetail = async (consumerGroupId) => {
-    try {
-      const consumerData = await getConsumerGroupDetail(
-        consumerGroupId,
-        config
-      );
-      if (consumerData) {
-        setConsumerGroupDetail(consumerData);
-      }
-    } catch (err) {
-      addAlert(err.response.data.error_message, AlertVariant.danger);
-    }
-    setIsExpanded(true);
-  };
-
-  const panelContent = (
-    <ConsumerGroupDetail
-      setIsExpanded={setIsExpanded}
-      consumerDetail={consumerGroupDetail}
-    />
+  const panelBodyContent = (
+    <ConsumerGroupDetail consumerDetail={consumerGroupDetail} />
   );
 
-  const onViewConsumerGroup = () => {};
+  const onClose = () => {
+    setIsExpanded(false);
+  };
+
+  const onViewConsumerGroup = (consumerGroup) => {
+    setIsExpanded(true);
+    setConsumerGroupDetail(consumerGroup);
+  };
 
   const renderConsumerTable = () => {
     if (consumerGroups === undefined) {
@@ -164,24 +151,34 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
       );
     } else if (filteredConsumerGroups) {
       return (
-        <Drawer isExpanded={isExpanded}>
-          <DrawerContent panelContent={panelContent}>
-            <ConsumerGroupsTable
-              consumerGroups={filteredConsumerGroups?.items}
-              total={filteredConsumerGroups?.items?.length}
-              page={page}
-              perPage={perPage}
-              search={search}
-              setSearch={setSearch}
-              fetchConsumerGroupDetail={fetchConsumerGroupDetail}
-              onViewConsumerGroup={onViewConsumerGroup}
-            />
-          </DrawerContent>
-        </Drawer>
+        <ConsumerGroupsTable
+          consumerGroups={filteredConsumerGroups?.items}
+          total={filteredConsumerGroups?.items?.length}
+          page={page}
+          perPage={perPage}
+          search={search}
+          setSearch={setSearch}
+          rowDataTestId={rowDataTestId}
+          onViewConsumerGroup={onViewConsumerGroup}
+          isDrawerOpen={isExpanded}
+        />
       );
     }
     return <></>;
   };
 
-  return <>{renderConsumerTable()}</>;
+  return (
+    <MASDrawer
+      isExpanded={isExpanded}
+      onClose={onClose}
+      panelBodyContent={panelBodyContent}
+      drawerHeaderProps={{
+        text: { label: t("consumerGroup.consumer_group_id") },
+        title: { value: consumerGroupDetail?.groupId, headingLevel: "h1" },
+      }}
+      data-ouia-app-id="dataPlane-consumerGroupDetails"
+    >
+      {renderConsumerTable()}
+    </MASDrawer>
+  );
 };

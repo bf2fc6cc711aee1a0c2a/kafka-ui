@@ -42,7 +42,7 @@ export type MASDrawerProps = DrawerProps & {
 
 export const MASDrawer: React.FC<MASDrawerProps> = ({
   onClose,
-  isLoading = true,
+  isLoading = false,
   drawerPanelContentProps,
   drawerHeaderProps,
   isExpanded,
@@ -112,7 +112,6 @@ export const MASDrawer: React.FC<MASDrawerProps> = ({
         }
       >
         <DrawerContentBody className="pf-u-display-flex pf-u-flex-direction-column">
-          {" "}
           {children}
         </DrawerContentBody>
       </DrawerContent>

@@ -151,8 +151,7 @@ export const TopicDetailPage: React.FC<TopicDetailGroupProps> = ({
           <ConsumerGroups
             consumerGroupByTopic={true}
             topic={topicName}
-            rowDataId="tableTopicConsumers-row"
-            detailsDataId="tableTopicConsumers-actionDetails"
+            rowDataTestId="tableTopicConsumers-row"           
           />
         </TabContent>
         <TabContent
