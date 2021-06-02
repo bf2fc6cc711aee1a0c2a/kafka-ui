@@ -8,15 +8,14 @@ import {
   SidebarContent,
   SidebarPanel,
   Stack,
-  StackItem,
   TextContent,
   Text,
   TextVariants,
   TextInput,
   NumberInput,
   Form,
-  Radio,
   FormSection,
+  Radio,
 } from '@patternfly/react-core';
 import {
   DEFAULT_MESSAGE_TIMESTAMP_TYPE,
@@ -68,18 +67,17 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
   topicData,
   setTopicData,
 }) => {
-  const [topicValidated, setTopicValidated] = useState<'error' | 'default'>(
-    'default'
-  );
-  const [invalidText, setInvalidText] = useState('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [partitionsValidated, setPartitionsValidated] = useState<
     'warning' | 'default'
   >('default');
   const [warning, setWarning] = useState<boolean>(false);
   const [initialPartition, setInitialPartition] = useState<number | undefined>(
-    Number(topicData.numPartitions)
+    0
   );
+  const [topicValidated, setTopicValidated] = useState<'error' | 'default'>(
+    'default'
+  );
+  const [invalidText, setInvalidText] = useState('This is a required field');
   const [isWarningOpen, setIsWarningOpen] = useState<boolean>(false);
 
   const { t } = useTranslation();
@@ -131,31 +129,21 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
 
   const config = useContext(ConfigContext);
   const fetchTopic = async (topicName) => {
-    try {
-      const topicRes = await getTopic(topicName, config);
-      if (topicRes) {
-        if (isCreate) {
-          setInvalidText(t('topic.already_exists', { name: topicName }));
-          setTopicValidated('error');
-          setIsLoading(false);
-        } else {
-          setInitialPartition(topicRes?.partitions?.length);
-        }
-      }
-    } catch (err) {
-      if (isCreate && err.response.status == '404') {
-        setTopicValidated('default');
-        setIsLoading(false);
-        saveTopic();
-      }
-    }
+    const topicRes = await getTopic(topicName, config);
+
+    const configEntries: any = {};
+    topicRes.config?.forEach((configItem) => {
+      configEntries[configItem.key || ''] = configItem.value || '';
+    });
+
+    setInitialPartition(topicRes?.partitions?.length);
   };
 
   useEffect(() => {
+    (async function () {
+      fetchTopic(topicData.name);
+    })();
     if (!isCreate) {
-      (async function () {
-        fetchTopic(topicData.name);
-      })();
       setCustomRetentionTimeUnit('milliseconds');
     }
   }, []);
@@ -181,25 +169,17 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     const regexpInvalid = new RegExp('^[0-9A-Za-z_-]+$');
 
     if (value.length && !regexpInvalid.test(value)) {
-      setInvalidText(t('topic.topic_name_helper_text'));
+      setInvalidText(
+        'Invalid input. Only letters (Aa-Zz) , numbers " _ " and " - " are accepted'
+      );
+      setTopicValidated('error');
+    } else if (value.length < 1) {
+      setInvalidText('This is a required field');
       setTopicValidated('error');
     } else if (value.length > 249) {
       setTopicValidated('error');
-      setInvalidText(t('topic.cannot_exceed_characters'));
+      setInvalidText('Topic name cannot exceed 249 characters');
     } else setTopicValidated('default');
-  };
-
-  const partitionsWarnigCheckPlus = () => {
-    if (
-      initialPartition &&
-      Number(topicData.numPartitions + 1) > initialPartition
-    ) {
-      setPartitionsValidated('warning');
-      setWarning(true);
-    } else {
-      setPartitionsValidated('default');
-      setWarning(false);
-    }
   };
 
   const handleTextInputChange = (
@@ -241,6 +221,18 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     setTopicData({ ...topicData, [kebabToCamel(fieldName)]: partitionValue });
   };
 
+  const partitionsWarnigCheckPlus = () => {
+    if (
+      initialPartition &&
+      Number(topicData.numPartitions + 1) > initialPartition
+    ) {
+      setPartitionsValidated('warning');
+      setWarning(true);
+    } else {
+      setPartitionsValidated('default');
+      setWarning(false);
+    }
+  };
   const handleTouchSpinPlusCamelCase = (event) => {
     const { name } = event.currentTarget;
     const fieldName = kebabToCamel(name);
@@ -346,18 +338,8 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     setTopicData({ ...topicData, [kebabToDotSeparated(fieldName)]: value });
   };
   const onConfirm = () => {
-    if (!isCreate) {
-      if (warning) setIsWarningOpen(true);
-      else saveTopic();
-    } else {
-      if (topicData.name.length < 1) {
-        setInvalidText(t('topic.required'));
-        setTopicValidated('error');
-      } else {
-        setIsLoading(true);
-        fetchTopic(topicData.name);
-      }
-    }
+    if (warning) setIsWarningOpen(true);
+    else saveTopic();
   };
   const onSaveClick = () => {
     setIsWarningOpen(false);
@@ -368,38 +350,38 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
     const { name } = event.target;
 
     switch (name) {
-    case 'custom-retention-time':
-      setIsCustomRetentionTimeSelected(true);
-      setTopicData({
-        ...topicData,
-        'retention.ms': customRetentionTime.toString(),
-        'retention.ms.unit': customRetentionTimeUnit,
-      });
-      break;
-    case 'unlimited-retention-time':
-      setIsCustomRetentionTimeSelected(false);
-      setTopicData({
-        ...topicData,
-        'retention.ms': '-1',
-        'retention.ms.unit': 'milliseconds',
-      });
-      break;
-    case 'custom-retention-size':
-      setIsCustomRetentionSizeSelected(true);
-      setTopicData({
-        ...topicData,
-        'retention.bytes': customRetentionSize.toString(),
-        'retention.bytes.unit': customRetentionSizeUnit,
-      });
-      break;
-    case 'unlimited-retention-size':
-      setIsCustomRetentionSizeSelected(false);
-      setTopicData({
-        ...topicData,
-        'retention.bytes': '-1',
-        'retention.bytes.unit': 'bytes',
-      });
-      break;
+      case 'custom-retention-time':
+        setIsCustomRetentionTimeSelected(true);
+        setTopicData({
+          ...topicData,
+          'retention.ms': customRetentionTime.toString(),
+          'retention.ms.unit': customRetentionTimeUnit,
+        });
+        break;
+      case 'unlimited-retention-time':
+        setIsCustomRetentionTimeSelected(false);
+        setTopicData({
+          ...topicData,
+          'retention.ms': '-1',
+          'retention.ms.unit': 'milliseconds',
+        });
+        break;
+      case 'custom-retention-size':
+        setIsCustomRetentionSizeSelected(true);
+        setTopicData({
+          ...topicData,
+          'retention.bytes': customRetentionSize.toString(),
+          'retention.bytes.unit': customRetentionSizeUnit,
+        });
+        break;
+      case 'unlimited-retention-size':
+        setIsCustomRetentionSizeSelected(false);
+        setTopicData({
+          ...topicData,
+          'retention.bytes': '-1',
+          'retention.bytes.unit': 'bytes',
+        });
+        break;
     }
   };
 
@@ -480,159 +462,161 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
           </JumpLinks>
         </SidebarPanel>
         <SidebarContent>
+          {/* <Stack hasGutter> */}
+          {/* <StackItem> */}
           <Form>
-              <FormSection
-                title={t('topic.core_configuration')}
-                id='core-configuration'
-                titleElement={'h2'}
-              >
-                <TextContent>
-                  <Text component={TextVariants.p} className='section-info'>
-                    {t('topic.core_config_info')}
-                  </Text>
-                </TextContent>
-                {isCreate ? (
-                  <FormGroupWithPopover
-                    labelHead={t('topic.topic_name')}
-                    fieldId='create-topic-name'
-                    fieldLabel={t('topic.topic_name')}
-                    labelBody={t('topic.topic_name_description')}
-                    buttonAriaLabel='More info for topic name field'
-                    helperTextInvalid={invalidText}
+            <FormSection
+              title={t('topic.core_configuration')}
+              id='core-configuration'
+              titleElement={'h2'}
+            >
+              <TextContent>
+                <Text component={TextVariants.p}>
+                  {t('topic.core_config_info')}
+                </Text>
+              </TextContent>
+              {isCreate ? (
+                <FormGroupWithPopover
+                  labelHead={t('topic.topic_name')}
+                  fieldId='create-topic-name'
+                  fieldLabel={t('topic.topic_name')}
+                  labelBody={t('topic.topic_name_description')}
+                  buttonAriaLabel='More info for topic name field'
+                  helperTextInvalid={invalidText}
+                  validated={topicValidated}
+                >
+                  <TextInput
+                    isRequired
+                    type='text'
+                    id='create-topic-name'
+                    name='name'
+                    value={topicData.name}
+                    onChange={handleTextInputChange}
+                    label={t('topic.topic_name')}
+                    placeholder={t('topic.enter_name')}
                     validated={topicValidated}
-                    isRequired={true}
-                    helperText={t('topic.topic_name_helper_text')}
-                  >
-                    <TextInput
-                      isRequired
-                      type='text'
-                      id='create-topic-name'
-                      name='name'
-                      value={topicData.name}
-                      onChange={handleTextInputChange}
-                      label={t('topic.topic_name')}
-                      placeholder={t('topic.enter_name')}
-                      validated={topicValidated}
-                    />
-                  </FormGroupWithPopover>
-                ) : (
-                  <TextWithLabelPopover
-                    fieldId='topic-name'
-                    btnAriaLabel='topic detail name'
-                    fieldLabel='Name'
-                    fieldValue={topicData.name}
-                    popoverBody={t('topic.topic_name_description')}
-                    popoverHeader={t('topic.topic_name')}
                   />
-                )}
-                {isCreate ? (
-                  <FormGroupWithPopover
-                    fieldId='create-topic-partitions'
-                    fieldLabel='Partitions'
-                    labelHead={t('topic.partitions')}
-                    labelBody={t('topic.partitions_description')}
-                    buttonAriaLabel='More info for partitions field'
-                    validated={partitionsValidated}
-                    helperText={
-                      warning ? t('topic.partitions_warning') : undefined
-                    }
-                  >
-                    <NumberInput
-                      id='create-topic-partitions'
-                      inputName='num-partitions'
-                      onChange={onPartitionsChange}
-                      onPlus={handleTouchSpinPlusCamelCase}
-                      onMinus={handleTouchSpinMinusCamelCase}
-                      value={Number(topicData.numPartitions)}
-                      plusBtnProps={{ name: 'num-partitions' }}
-                      minusBtnProps={{ name: 'num-partitions' }}
-                      min={1}
-                    />
-                  </FormGroupWithPopover>
-                ) : (
-                  <TextWithLabelPopover
+                </FormGroupWithPopover>
+              ) : (
+                <TextWithLabelPopover
+                  fieldId='"topic-name"'
+                  btnAriaLabel='topic detail name'
+                  fieldLabel='Name'
+                  fieldValue={topicData.name}
+                  popoverBody={t('topic.topic_name_description')}
+                  popoverHeader={t('topic.topic_name')}
+                />
+              )}
+              {isCreate ? (
+                <FormGroupWithPopover
+                  fieldId='create-topic-partitions'
+                  fieldLabel='Partitions'
+                  labelHead={t('topic.partitions')}
+                  labelBody={t('topic.partitions_description')}
+                  buttonAriaLabel='More info for partitions field'
+                  validated={partitionsValidated}
+                  helperText={
+                    warning
+                      ? `Increasing a topic's partitions might result in messages having the same key from two different partitions, which can potentially break the message ordering guarantees that apply to a single partition`
+                      : undefined
+                  }
+                >
+                  <NumberInput
+                    id='create-topic-partitions'
+                    inputName='num-partitions'
+                    onChange={onPartitionsChange}
+                    onPlus={handleTouchSpinPlusCamelCase}
+                    onMinus={handleTouchSpinMinusCamelCase}
+                    value={Number(topicData.numPartitions)}
+                    plusBtnProps={{ name: 'num-partitions' }}
+                    minusBtnProps={{ name: 'num-partitions' }}
+                    min={1}
+                  />
+                </FormGroupWithPopover>
+              ) : (
+                <TextWithLabelPopover
                   fieldId='partitions'
-                    btnAriaLabel='More info for partitions field'
-                    fieldLabel='Partitions'
-                    fieldValue={topicData.numPartitions}
-                    popoverBody={t('topic.partitions_description')}
-                    popoverHeader={t('topic.partitions')}
+                  btnAriaLabel='More info for partitions field'
+                  fieldLabel='Partitions'
+                  fieldValue={topicData.numPartitions}
+                  popoverBody={t('topic.partitions_description')}
+                  popoverHeader={t('topic.partitions')}
+                />
+              )}
+              <TextWithLabelPopover
+                fieldId='replicas'
+                btnAriaLabel={t('topic.replicas')}
+                fieldLabel={t('topic.replicas')}
+                fieldValue={DEFAULT_REPLICAS}
+                popoverBody={t('topic.replicas_description')}
+                popoverHeader={t('topic.replicas')}
+              />
+              <TextWithLabelPopover
+                fieldId='min-insync-replicas'
+                btnAriaLabel='topic detail min-in-sync replica'
+                fieldLabel='Minimum in-sync replicas'
+                fieldValue={DEFAULT_MIN_INSYNC_REPLICAS}
+                popoverBody={t('topic.min_insync_replicas_description')}
+                popoverHeader={t('topic.min_insync_replicas')}
+              />
+              <FormGroupWithPopover
+                fieldId='retention'
+                fieldLabel='Retention time'
+                labelHead={t('topic.retention_time')}
+                labelBody={t('topic.retention_time_description')}
+                buttonAriaLabel='More info for retention time field'
+              >
+                <Stack hasGutter>
+                  <Radio
+                    isChecked={isCustomRetentionTimeSelected}
+                    name='custom-retention-time'
+                    onChange={handleRadioChange}
+                    label={retentionTimeInput}
+                    className='kafka-ui--radio-label__number-input'
+                    aria-label='custom duration'
+                    id='custom-retention-time'
+                    value='custom'
                   />
-                )}
-                <TextWithLabelPopover
-                  fieldId='replicas'
-                  btnAriaLabel={t('topic.replicas')}
-                  fieldLabel={t('topic.replicas')}
-                  fieldValue={DEFAULT_REPLICAS}
-                  popoverBody={t('topic.replicas_description')}
-                  popoverHeader={t('topic.replicas')}
-                />
-                <TextWithLabelPopover
-                  fieldId='min-insync-replicas'
-                  btnAriaLabel='topic detail min-in-sync replica'
-                  fieldLabel='Minimum in-sync replicas'
-                  fieldValue={DEFAULT_MIN_INSYNC_REPLICAS}
-                  popoverBody={t('topic.min_insync_replicas_description')}
-                  popoverHeader={t('topic.min_insync_replicas')}
-                />
-                <FormGroupWithPopover
-                  fieldId='retention'
-                  fieldLabel='Retention time'
-                  labelHead={t('topic.retention_time')}
-                  labelBody={t('topic.retention_time_description')}
-                  buttonAriaLabel='More info for retention time field'
-                >
-                  <Stack hasGutter>
-                    <Radio
-                      isChecked={isCustomRetentionTimeSelected}
-                      name='custom-retention-time'
-                      onChange={handleRadioChange}
-                      label={retentionTimeInput}
-                      className='kafka-ui--radio-label__number-input'
-                      aria-label='custom duration'
-                      id='custom-retention-time'
-                      value='custom'
-                    />
-                    <Radio
-                      isChecked={!isCustomRetentionTimeSelected}
-                      name='unlimited-retention-time'
-                      onChange={handleRadioChange}
-                      label='Unlimited'
-                      aria-label='Unlimited'
-                      id='unlimited-retention-time'
-                      value='unlimited'
-                    />
-                  </Stack>
-                </FormGroupWithPopover>
-                <FormGroupWithPopover
-                  fieldId='retention-size'
-                  fieldLabel='Retention size'
-                  labelHead={t('topic.retention_size')}
-                  labelBody={t('topic.retention_size_description')}
-                  buttonAriaLabel='More info for retention size field'
-                >
-                  <Stack hasGutter>
-                    <Radio
-                      isChecked={isCustomRetentionSizeSelected}
-                      name='custom-retention-size'
-                      onChange={handleRadioChange}
-                      label={retentionSizeInput}
-                      className='kafka-ui--radio-label__number-input'
-                      aria-label='custom size'
-                      id='custom-retention-size'
-                      value='custom'
-                    />
-                    <Radio
-                      isChecked={!isCustomRetentionSizeSelected}
-                      name='unlimited-retention-size'
-                      onChange={handleRadioChange}
-                      label='Unlimited'
-                      aria-label='Unlimited'
-                      id='unlimited-retention-size'
-                      value='unlimited'
-                    />
-                  </Stack>
-                </FormGroupWithPopover>
+                  <Radio
+                    isChecked={!isCustomRetentionTimeSelected}
+                    name='unlimited-retention-time'
+                    onChange={handleRadioChange}
+                    label='Unlimited'
+                    aria-label='Unlimited'
+                    id='unlimited-retention-time'
+                    value='unlimited'
+                  />
+                </Stack>
+              </FormGroupWithPopover>
+              <FormGroupWithPopover
+                fieldId='retention-size'
+                fieldLabel='Retention size'
+                labelHead={t('topic.retention_size')}
+                labelBody={t('topic.retention_size_description')}
+                buttonAriaLabel='More info for retention size field'
+              >
+                <Stack hasGutter>
+                  <Radio
+                    isChecked={isCustomRetentionSizeSelected}
+                    name='custom-retention-size'
+                    onChange={handleRadioChange}
+                    label={retentionSizeInput}
+                    className='kafka-ui--radio-label__number-input'
+                    aria-label='custom size'
+                    id='custom-retention-size'
+                    value='custom'
+                  />
+                  <Radio
+                    isChecked={!isCustomRetentionSizeSelected}
+                    name='unlimited-retention-size'
+                    onChange={handleRadioChange}
+                    label='Unlimited'
+                    aria-label='Unlimited'
+                    id='unlimited-retention-size'
+                    value='unlimited'
+                  />
+                </Stack>
+              </FormGroupWithPopover>
             </FormSection>
             <FormSection
               title={t('topic.messages')}
@@ -640,7 +624,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               titleElement={'h2'}
             >
               <TextContent>
-                <Text component={TextVariants.p} className='section-info'>
+                <Text component={TextVariants.p}>
                   {t('topic.message_section_info')}
                 </Text>
               </TextContent>
@@ -691,19 +675,12 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               />
             </FormSection>
 
-            <FormSection
-              title={t('topic.log')}
-              id='log'
-              titleElement={'h2'}
-            >
+            <FormSection title={t('topic.log')} id='log' titleElement={'h2'}>
               <TextContent>
                 <Text component={TextVariants.p}>
                   {t('topic.log_section_info')}
                 </Text>
-                <Text
-                  component={TextVariants.small}
-                  className='section-info-note'
-                >
+                <Text component={TextVariants.small}>
                   {t('topic.log_section_info_note')}
                 </Text>
               </TextContent>
@@ -745,7 +722,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               />
 
               <TextWithLabelPopover
-                fieldId='min-compaction-lag-time-description'
+                fieldId='min-compaction-lag-time'
                 btnAriaLabel={t('topic.min_compaction_lag_time')}
                 fieldLabel={t('topic.min_compaction_lag_time')}
                 fieldValue={DEFAULT_MINIMUM_COMPACTION_LAG_TIME}
@@ -763,10 +740,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 <Text component={TextVariants.p}>
                   {t('topic.replication_section_info')}
                 </Text>
-                <Text
-                  component={TextVariants.small}
-                  className='section-info-note'
-                >
+                <Text component={TextVariants.small}>
                   {t('topic.replication_section_info_note')}
                 </Text>
               </TextContent>
@@ -787,7 +761,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               titleElement={'h2'}
             >
               <TextContent>
-                <Text component={TextVariants.p} className='section-info'>
+                <Text component={TextVariants.p}>
                   {t('topic.cleanup_section_info')}
                 </Text>
               </TextContent>
@@ -846,7 +820,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               titleElement={'h2'}
             >
               <TextContent>
-                <Text component={TextVariants.p} className='section-info'>
+                <Text component={TextVariants.p}>
                   {t('topic.index_section_info')}
                 </Text>
               </TextContent>
@@ -876,7 +850,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               titleElement={'h2'}
             >
               <TextContent>
-                <Text component={TextVariants.p} className='section-info'>
+                <Text component={TextVariants.p}>
                   {t('topic.flush_section_info')}
                 </Text>
               </TextContent>
@@ -902,7 +876,6 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
           </Form>
           <ActionGroup className='kafka-ui--sticky-footer'>
             <Button
-              isLoading={isLoading}
               onClick={onConfirm}
               variant='primary'
               data-testid={
@@ -910,7 +883,11 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                   ? 'topicAdvanceCreate-actionCreate'
                   : 'tabProperties-actionSave'
               }
-              isDisabled={topicValidated == 'default' ? false : true}
+              isDisabled={
+                topicData.name.length > 0 && topicValidated == 'default'
+                  ? false
+                  : true
+              }
             >
               {actionText}
             </Button>
