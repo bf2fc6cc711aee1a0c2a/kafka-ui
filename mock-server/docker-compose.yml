@@ -49,7 +49,7 @@ services:
       POSTGRES_USER: keycloak
       POSTGRES_PASSWORD: password
   keycloak:
-    image: quay.io/keycloak/keycloak:11.0.3
+    image: quay.io/keycloak/keycloak:13.0.1
     environment:
       DB_VENDOR: h2
       DB_USER: keycloak
