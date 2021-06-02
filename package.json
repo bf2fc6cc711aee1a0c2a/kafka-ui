@@ -3,9 +3,8 @@
   "federatedModuleName": "kafka",
   "private": true,
   "version": "0.0.1",
-  "description": "Strimzi UI provides a way for managing Strimzi and Kafka clusters (+ other components) deployed by it using a graphical user interface.",
+  "description": "Kafka UI provides a way for managing Strimzi and Kafka clusters (+ other components) deployed by it using a graphical user interface.",
   "scripts": {
-    "api:generate": "openapi-generator-cli generate -i mock-server/kafka-admin.yaml -g typescript-axios -o src/openapi --additional-properties=ngVersion=6.1.7,npmName=restClient,supportsES6=true,npmVersion=6.9.0,withInterfaces=true",
     "clean": "rm -rf dist/ && rm -rf js/ && rm -rf .out/ && rm -rf generated/ && rm -rf coverage/ && npx jest --clear-cache",
     "start:restmockserver": "node mock-server/src/index.js",
     "start": "npm-run-all --parallel --race start:client start:restmockserver",

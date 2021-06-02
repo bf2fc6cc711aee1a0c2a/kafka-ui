@@ -94,7 +94,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
 
     const topicSettings: TopicSettings = {
       // TODO Re-enable when the API supports setting the number of partition
-      // numPartitions: Number(topicData.numPartitions),
+      numPartitions: Number(topicData.numPartitions),
       config: newConfig,
     };
 
