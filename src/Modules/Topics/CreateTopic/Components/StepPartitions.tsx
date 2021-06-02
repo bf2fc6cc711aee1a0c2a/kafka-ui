@@ -6,7 +6,6 @@ import {
   NumberInput,
   FormGroup,
   Form,
-  Stack,
   FormSection,
 } from '@patternfly/react-core';
 import './CreateTopicWizard.css';

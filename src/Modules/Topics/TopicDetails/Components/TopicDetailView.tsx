@@ -16,7 +16,6 @@ import {
   Split,
   Form,
   FormSection,
-  ActionGroup
 } from '@patternfly/react-core';
 import {
   DEFAULT_MESSAGE_TIMESTAMP_TYPE,
@@ -449,7 +448,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                       />
                     </FormSection>
                   </Form>
-                  
+
                   <Divider className='kafka-ui-divider__Margin' />
 
                   <TextContent>

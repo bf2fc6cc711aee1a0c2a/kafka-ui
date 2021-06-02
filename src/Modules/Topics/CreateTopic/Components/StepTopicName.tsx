@@ -6,7 +6,6 @@ import {
   Text,
   TextVariants,
   TextInput,
-  Stack,
   FormSection,
 } from '@patternfly/react-core';
 import './CreateTopicWizard.css';

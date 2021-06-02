@@ -8,7 +8,6 @@ import {
   SidebarContent,
   SidebarPanel,
   Stack,
-  StackItem,
   TextContent,
   Text,
   TextVariants,
