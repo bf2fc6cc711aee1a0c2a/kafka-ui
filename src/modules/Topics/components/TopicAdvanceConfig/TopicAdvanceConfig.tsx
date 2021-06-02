@@ -57,6 +57,7 @@ export type TopicAdvanceConfigProps = {
   handleCancel: () => void;
   topicData: IAdvancedTopic;
   setTopicData: (val: IAdvancedTopic) => void;
+  isLoadingSave?:boolean;
 };
 
 export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps> = ({
@@ -65,6 +66,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
   handleCancel,
   topicData,
   setTopicData,
+  isLoadingSave
 }) => {
   const [topicValidated, setTopicValidated] = useState<"error" | "default">(
     "default"
@@ -875,7 +877,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
           </Stack>
           <ActionGroup className="kafka-ui--sticky-footer">
             <Button
-              isLoading={isLoading}
+              isLoading={isLoading || isLoadingSave}
               onClick={onConfirm}
               variant="primary"
               data-testid={

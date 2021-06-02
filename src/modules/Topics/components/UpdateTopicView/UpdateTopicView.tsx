@@ -27,6 +27,8 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   onError,
 }) => {
   const { t } = useTranslation();
+  const config = useContext(ConfigContext);
+  const { addAlert } = useContext(AlertContext);
   const initialState = {
     name: topicName,
     numPartitions: "",
@@ -37,8 +39,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
     "cleanup.policy": "",
   };
   const [topicData, setTopicData] = useState<IAdvancedTopic>(initialState);
-  const config = useContext(ConfigContext);
-  const { addAlert } = useContext(AlertContext);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const fetchTopic = async (topicName) => {
     try {
@@ -75,8 +76,8 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
 
   const saveTopic = async () => {
     const { name, ...configEntries } = convertUnits(topicData);
-
     const newConfig: ConfigEntry[] = [];
+    setIsLoading(true);
 
     for (const key in configEntries) {
       // TODO Remove check when API supports setting the number of partition
@@ -97,12 +98,14 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
     try {
       await updateTopicModel(name, topicSettings, config).then(() => {
         addAlert(t("topic.topic_successfully_updated"), AlertVariant.success);
+        setIsLoading(false);
         onSaveTopic();
       });
     } catch (err) {
       if (onError) {
         onError(err.response.data.code, err.response.data.error_message);
       }
+      setIsLoading(false);
       addAlert(err.response.data.error_message, AlertVariant.danger);
     }
   };
@@ -115,6 +118,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
         handleCancel={onCancelUpdateTopic}
         topicData={topicData}
         setTopicData={setTopicData}
+        isLoadingSave={isLoading}
       />
       <br />
       <br />

@@ -24,3 +24,7 @@ main#root {
 .kafka-ui-m-full-height {
   height: 100%;
 }
+
+.kafka-section-m-full-height {
+  height: 80%;
+}

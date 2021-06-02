@@ -85,7 +85,7 @@ export const MainView: React.FC<MainViewProps> = ({
             aria-label={t("topic.topics")}
             tabContentRef={contentRefTopics}
             tabContentId="kafka-ui-TabcontentTopicsList"
-            // className='kafka-ui-m-full-height'
+            // className="kafka-ui-m-full-height"
           ></Tab>
           <Tab
             title={
@@ -101,7 +101,7 @@ export const MainView: React.FC<MainViewProps> = ({
           ></Tab>
         </Tabs>
       </PageSection>
-      <PageSection isFilled>
+      <PageSection isFilled className="kafka-section-m-full-height">
         <TabContent
           eventKey={1}
           ref={contentRefTopics}

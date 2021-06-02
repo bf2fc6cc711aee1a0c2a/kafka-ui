@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory, useParams } from "react-router";
+import { useHistory, useParams } from "react-router-dom";
 import { TopicDetailPage } from "@app/modules/Topics/pages/TopicDetail";
 import { FederatedContext } from "@app/contexts";
 

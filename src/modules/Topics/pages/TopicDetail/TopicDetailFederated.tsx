@@ -40,6 +40,12 @@ const TopicDetailFederated: FunctionComponent<TopicDetailFederatedProps> = ({
     dispatchKafkaAction && dispatchKafkaAction(KafkaActions.UpdateTopic);
   };
 
+  const onDeleteTopic = () => {
+    //Redirect on topics  viewpage after delete topic successfuly
+    //onConnectToRoute && onConnectToRoute("");
+    dispatchKafkaAction && dispatchKafkaAction(KafkaActions.ViewTopics);
+  };
+
   return (
     <BrowserRouter>
       <I18nextProvider i18n={kafkai18n}>
@@ -59,7 +65,10 @@ const TopicDetailFederated: FunctionComponent<TopicDetailFederatedProps> = ({
               }}
             >
               <RootModal>
-                <TopicDetailPage updateTopic={updateTopic} />
+                <TopicDetailPage
+                  updateTopic={updateTopic}
+                  onDeleteTopic={onDeleteTopic}
+                />
               </RootModal>
             </FederatedContext.Provider>
           </AlertContext.Provider>

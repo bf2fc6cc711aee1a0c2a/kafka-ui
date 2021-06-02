@@ -21,6 +21,7 @@ export type ConsumerGroupsTableProps = ConsumerGroupToolbarProps & {
   rowDataTestId?: string;
   isDrawerOpen?: boolean;
   onViewConsumerGroup: (consumerGroup: ConsumerGroup) => void;
+  refreshConsumerGroups?: () => void;
 };
 
 const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
@@ -33,6 +34,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
   rowDataTestId,
   isDrawerOpen,
   onViewConsumerGroup,
+  refreshConsumerGroups,
 }) => {
   const { t } = useTranslation();
   const { showModal } = useRootModalContext();
@@ -73,6 +75,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
   const onSelectDeleteConsumerGroup = (groupId: string) => {
     showModal(MODAL_TYPES.DELETE_CONSUMER_GROUP, {
       consumerName: groupId,
+      refreshConsumerGroups,
     });
   };
 

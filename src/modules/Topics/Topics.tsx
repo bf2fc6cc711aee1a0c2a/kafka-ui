@@ -1,7 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation } from "react-router";
+import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { AlertVariant, Card } from "@patternfly/react-core";
+import {
+  AlertVariant,
+  Card,
+  PageSectionVariants,
+  PageSection,
+} from "@patternfly/react-core";
 import { useTimeout } from "@app/hooks/useTimeOut";
 import { TopicsTable } from "./components";
 import { EmptyState, MASEmptyStateVariant, MASLoading } from "@app/components";
@@ -72,7 +77,15 @@ export const Topics: React.FC<TopicsProps> = ({
 
   const renderTopicsTable = () => {
     if (topicItems === undefined) {
-      return <MASLoading />;
+      return (
+        <PageSection
+          className="kafka-ui-m-full-height"
+          variant={PageSectionVariants.light}
+          padding={{ default: "noPadding" }}
+        >
+          <MASLoading />
+        </PageSection>
+      );
     } else if (topicItems.length < 1 && searchTopicName.length < 1) {
       return (
         <Card className="kafka-ui-m-full-height">

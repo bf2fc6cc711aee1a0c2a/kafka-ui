@@ -85,7 +85,7 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
 
   const saveTopic = () => {
     // Object may change based on schema
-
+    setIsLoading(true);
     const topic: NewTopicInput = isSwitchChecked
       ? formatTopicRequest(convertUnits(topicData))
       : {
@@ -113,9 +113,11 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
         if (res.status === 200) {
           addAlert(t("topic.topic_successfully_created"), AlertVariant.success);
         }
+        setIsLoading(false);
         closeWizard();
       })
       .catch((err) => {
+        setIsLoading(false);
         addAlert(err.response.data.error_message, AlertVariant.danger);
         closeWizard();
       });

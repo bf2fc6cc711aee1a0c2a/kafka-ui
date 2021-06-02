@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import { CreateTopicPage } from "@app/modules/Topics/pages";
 
 const CreateTopicConnected: React.FC = () => {

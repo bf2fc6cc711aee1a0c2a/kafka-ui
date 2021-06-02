@@ -1,7 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
-import { AlertVariant, PageSection } from "@patternfly/react-core";
+import { useLocation } from "react-router-dom";
+import {
+  AlertVariant,
+  Card,
+  PageSection,
+  PageSectionVariants,
+} from "@patternfly/react-core";
 import {
   EmptyState,
   MASEmptyStateVariant,
@@ -128,14 +133,22 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
 
   const renderConsumerTable = () => {
     if (consumerGroups === undefined) {
-      return <MASLoading />;
+      return (
+        <PageSection
+          className="kafka-ui-m-full-height"
+          variant={PageSectionVariants.light}
+          padding={{ default: "noPadding" }}
+        >
+          <MASLoading />
+        </PageSection>
+      );
     } else if (
       consumerGroups &&
       consumerGroups?.count < 1 &&
       search.length < 1
     ) {
       return (
-        <PageSection padding={{ default: "noPadding" }} isFilled>
+        <Card className="kafka-ui-m-full-height">
           <EmptyState
             emptyStateProps={{
               variant: MASEmptyStateVariant.NoConsumerGroups,
@@ -147,7 +160,7 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
               body: t("consumerGroup.empty_consumer_body"),
             }}
           />
-        </PageSection>
+        </Card>
       );
     } else if (filteredConsumerGroups) {
       return (
@@ -161,6 +174,7 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
           rowDataTestId={rowDataTestId}
           onViewConsumerGroup={onViewConsumerGroup}
           isDrawerOpen={isExpanded}
+          refreshConsumerGroups={fetchConsumerGroups}
         />
       );
     }
@@ -178,7 +192,7 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
       }}
       data-ouia-app-id="dataPlane-consumerGroupDetails"
     >
-      {renderConsumerTable()}
+      <Card className="kafka-ui-m-full-height">{renderConsumerTable()}</Card>
     </MASDrawer>
   );
 };

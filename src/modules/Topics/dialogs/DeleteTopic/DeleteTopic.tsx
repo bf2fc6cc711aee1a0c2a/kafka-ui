@@ -19,6 +19,7 @@ export const DeleteTopic: React.FC = () => {
   const { topicName, onDeleteTopic, refreshTopics } = store?.modalProps || {};
   const [verificationText, setVerificationText] = useState<string>("");
   const { addAlert } = useContext(AlertContext);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onClose = () => {
     hideModal();
@@ -27,18 +28,20 @@ export const DeleteTopic: React.FC = () => {
   const onDelete = async () => {
     try {
       if (topicName) {
+        setIsLoading(true);
         await deleteTopic(topicName, config).then(() => {
           addAlert(
             t("topic.topic_successfully_deleted", { name: topicName }),
             AlertVariant.success
           );
+          onDeleteTopic && onDeleteTopic();
           refreshTopics && refreshTopics();
         });
       }
     } catch (err) {
+      setIsLoading(false);
       addAlert(err.response.data.error_message, AlertVariant.danger);
     }
-    onDeleteTopic && onDeleteTopic();
     onClose();
   };
 
@@ -63,6 +66,7 @@ export const DeleteTopic: React.FC = () => {
           key={1}
           data-testid="modalDeleteTopic-buttonDelete"
           isDisabled={verificationText.toUpperCase() != "DELETE"}
+          isLoading={isLoading}
         >
           {t("common.delete")}
         </Button>,

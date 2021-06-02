@@ -40,8 +40,9 @@ const MainViewFederated: FunctionComponent<MainViewFederatedProps> = ({
     dispatchKafkaAction && dispatchKafkaAction(KafkaActions.CreateTopic);
   };
 
-  const onEditTopic = () => {
-    dispatchKafkaAction && dispatchKafkaAction(KafkaActions.UpdateTopic);
+  const onEditTopic = (topicName?: string | undefined) => {
+    dispatchKafkaAction &&
+      dispatchKafkaAction(KafkaActions.UpdateTopic, topicName);
   };
 
   return (

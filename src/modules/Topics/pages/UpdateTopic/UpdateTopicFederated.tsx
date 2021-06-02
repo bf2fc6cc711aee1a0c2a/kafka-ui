@@ -35,7 +35,7 @@ const UpdateTopicFederated: FunctionComponent<UpdateTopicFederatedProps> = ({
   } as AlertContextProps;
 
   const onCancelUpdateTopic = () => {
-    dispatchKafkaAction && dispatchKafkaAction(KafkaActions.UpdateTopic);
+    dispatchKafkaAction && dispatchKafkaAction(KafkaActions.DetailsTopic);
   };
 
   const onDeleteTopic = () => {
@@ -43,7 +43,7 @@ const UpdateTopicFederated: FunctionComponent<UpdateTopicFederatedProps> = ({
   };
 
   const onSaveTopic = () => {
-    dispatchKafkaAction && dispatchKafkaAction(KafkaActions.UpdateTopic);
+    dispatchKafkaAction && dispatchKafkaAction(KafkaActions.DetailsTopic);
   };
 
   return (
