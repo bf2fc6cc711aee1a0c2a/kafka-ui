@@ -1,4 +1,4 @@
-FROM node:10 as compile-server
+FROM node:16 as compile-server
 WORKDIR /usr/src/app
 COPY . .
 RUN npm install
