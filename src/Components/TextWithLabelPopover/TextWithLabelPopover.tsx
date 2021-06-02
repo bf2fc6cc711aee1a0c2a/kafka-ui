@@ -1,10 +1,12 @@
-import { Popover, TextContent, Text } from '@patternfly/react-core';
+import { Popover, FormGroup, TextInput } from '@patternfly/react-core';
 import React from 'react';
 import HelpIcon from '@patternfly/react-icons/dist/js/icons/help-icon';
 
 import './TextWithLabelPopover.css';
 
 export interface TextWithLabelPopoverProps {
+  /** Field id */
+  fieldId: string;
   /** Field label */
   fieldLabel: string;
   /** Field value */
@@ -20,6 +22,7 @@ export interface TextWithLabelPopoverProps {
 }
 
 export const TextWithLabelPopover: React.FC<TextWithLabelPopoverProps> = ({
+  fieldId,
   fieldLabel,
   btnAriaLabel,
   fieldValue,
@@ -42,22 +45,32 @@ export const TextWithLabelPopover: React.FC<TextWithLabelPopoverProps> = ({
   }
 
   return (
-    <TextContent className='text-content-padding'>
-      <Text style={{ fontWeight: 700, display: 'inline' }}>{fieldLabel}</Text>
-      <Popover
-        headerContent={<div>{popoverHeader}</div>}
-        bodyContent={<div>{popoverBody}</div>}
-      >
-        <button
-          aria-label={btnAriaLabel}
-          onClick={preventButtonSubmit}
-          className='pf-c-form__group-label-help'
-          style={{ position: 'relative', left: '5px', top: '2px' }}
+    <FormGroup
+      fieldId={fieldId}
+      label={fieldLabel}
+      className='kafka-ui-form-group--readonly'
+      labelIcon={
+        <Popover
+          headerContent={<div>{popoverHeader}</div>}
+          bodyContent={<div>{popoverBody}</div>}
         >
-          <HelpIcon noVerticalAlign />
-        </button>
-      </Popover>
-      <Text>{displayText}</Text>
-    </TextContent>
+          <button
+            aria-label={btnAriaLabel}
+            onClick={preventButtonSubmit}
+            className='pf-c-form__group-label-help'
+          >
+            <HelpIcon noVerticalAlign />
+          </button>
+        </Popover>
+      }
+    >
+      <TextInput
+        isReadOnly
+        type='text'
+        id={fieldId}
+        name={fieldId}
+        value={displayText}
+      />
+    </FormGroup>
   );
 };
