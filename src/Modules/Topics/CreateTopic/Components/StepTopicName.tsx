@@ -7,6 +7,7 @@ import {
   TextVariants,
   TextInput,
   Stack,
+  FormSection,
 } from '@patternfly/react-core';
 import './CreateTopicWizard.css';
 import { useTranslation } from 'react-i18next';
@@ -48,35 +49,38 @@ export const StepTopicName: React.FC<IStepTopicName> = ({
   const preventFormSubmit = (event) => event.preventDefault();
 
   return (
-    <Stack hasGutter className='kafka-ui--wizard-main-body__stack'>
-      <TextContent>
-        <Text component={TextVariants.h2}>{t('topic.topic_name')}</Text>
-        <Text component={TextVariants.p}>{t('topic.topic_name_info')}</Text>
-        <Text component={TextVariants.small}>
-          {t('topic.topic_name_info_note')}
-        </Text>
-      </TextContent>
       <Form onSubmit={preventFormSubmit}>
-        <FormGroup
-          label={t('topic.topic_name')}
-          fieldId='step-topic-name-form'
-          helperText={t('topic.topic_name_helper_text')}
-          helperTextInvalid={invalidText}
-          validated={topicNameValidated}
-          isRequired
+        <FormSection
+          title={t('topic.topic_name')}
+          id='topic-name'
+          titleElement={'h2'}
         >
-          <TextInput
-            isRequired
-            type='text'
-            id='step-topic-name-input'
-            name='step-topic-name'
-            value={topicNameInput}
-            onChange={handleTopicNameChange}
-            placeholder={t('topic.enter_name')}
+          <TextContent>
+            <Text component={TextVariants.p}>{t('topic.topic_name_info')}</Text>
+            <Text component={TextVariants.small}>
+              {t('topic.topic_name_info_note')}
+            </Text>
+          </TextContent>
+          <FormGroup
+            label={t('topic.topic_name')}
+            fieldId='step-topic-name-form'
+            helperText={t('topic.topic_name_helper_text')}
+            helperTextInvalid={invalidText}
             validated={topicNameValidated}
-          />
-        </FormGroup>
+            isRequired
+          >
+            <TextInput
+              isRequired
+              type='text'
+              id='step-topic-name-input'
+              name='step-topic-name'
+              value={topicNameInput}
+              onChange={handleTopicNameChange}
+              placeholder={t('topic.enter_name')}
+              validated={topicNameValidated}
+            />
+          </FormGroup>
+        </FormSection>
       </Form>
-    </Stack>
   );
 };

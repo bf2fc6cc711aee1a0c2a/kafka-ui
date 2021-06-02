@@ -702,7 +702,6 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
                 </Text>
                 <Text
                   component={TextVariants.small}
-                  className='section-info-note'
                 >
                   {t('topic.log_section_info_note')}
                 </Text>
@@ -762,12 +761,11 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
               <TextContent>
                 <Text component={TextVariants.p}>
                   {t('topic.replication_section_info')}
-                </Text>
-                <Text
-                  component={TextVariants.small}
-                  className='section-info-note'
-                >
-                  {t('topic.replication_section_info_note')}
+                  <Text
+                    component={TextVariants.small}
+                  >
+                    {t('topic.replication_section_info_note')}
+                  </Text>
                 </Text>
               </TextContent>
 
