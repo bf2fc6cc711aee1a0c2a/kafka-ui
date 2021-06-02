@@ -255,7 +255,6 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
                 </ToolbarItem>
               </ToolbarContent>
             </Toolbar>
-            <Divider />
             {consumerGroupByTopic ? (
               <Table
                 aria-label='Compact Table'
@@ -299,16 +298,19 @@ export const ConsumerGroupsList: React.FunctionComponent<IConsumerGroupsList> = 
                 }}
               />
             ) : (
-              <Pagination
-                itemCount={rowData.length}
-                perPage={perPage}
-                page={page}
-                onSetPage={onSetPage}
-                widgetId='consumer-group-pagination-bottom'
-                onPerPageSelect={onPerPageSelect}
-                offset={0}
-                variant={PaginationVariant.bottom}
+              <>
+                <Divider />
+                <Pagination
+                  itemCount={rowData.length}
+                  perPage={perPage}
+                  page={page}
+                  onSetPage={onSetPage}
+                  widgetId='consumer-group-pagination-bottom'
+                  onPerPageSelect={onPerPageSelect}
+                  offset={0}
+                  variant={PaginationVariant.bottom}
               />
+              </>
             )}
           </DrawerContent>
         </Drawer>

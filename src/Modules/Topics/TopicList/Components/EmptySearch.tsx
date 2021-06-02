@@ -12,12 +12,12 @@ export const EmptySearch: React.FunctionComponent = () => {
   const { t } = useTranslation();
 
   return (
-    <EmptyState>
-      <EmptyStateIcon icon={SearchIcon} />
-      <Title headingLevel='h5' size='lg'>
-        {t('topic.no_result_head')}
-      </Title>
-      <EmptyStateBody>{t('topic.no_result_body')}</EmptyStateBody>
-    </EmptyState>
+      <EmptyState>
+        <EmptyStateIcon icon={SearchIcon} />
+        <Title headingLevel='h4' size='lg'>
+          {t('topic.no_result_head')}
+        </Title>
+        <EmptyStateBody>{t('topic.no_result_body')}</EmptyStateBody>
+      </EmptyState>
   );
 };

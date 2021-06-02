@@ -293,7 +293,6 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
             </Table>
           </Card>
         )}
-        <Divider />
         {rowData.length < 1 && searchTopicName.length > 0 && (
           <EmptyState
             emptyStateProps={{
@@ -308,7 +307,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
           />
         )}
         {rowData.length > 0 && (
-          <Card>
+          <>
             <Divider />
             <Pagination
               itemCount={rowData.length}
@@ -320,7 +319,7 @@ export const TopicsListComponent: React.FunctionComponent<ITopicList> = ({
               offset={0}
               variant={PaginationVariant.bottom}
             />
-          </Card>
+          </>
         )}
       </Card>
     </>

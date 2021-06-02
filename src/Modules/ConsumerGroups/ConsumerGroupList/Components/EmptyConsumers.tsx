@@ -13,12 +13,13 @@ export const EmptyConsumers: React.FunctionComponent = () => {
   const { t } = useTranslation();
 
   return (
-    <EmptyState variant={EmptyStateVariant.xl}>
-      <EmptyStateIcon icon={CubesIcon} />
-      <Title headingLevel='h5' size='4xl'>
-        {t('consumerGroup.no_result')}
-      </Title>
-      <EmptyStateBody>{t('consumerGroup.empty_list')}</EmptyStateBody>
-    </EmptyState>
+      <EmptyState variant={EmptyStateVariant.small}>
+        <EmptyStateIcon icon={CubesIcon} />
+        <Title headingLevel='h4' size='lg'>
+          {t('consumerGroup.empty_consumer_title')}
+        </Title>
+        <EmptyStateBody>{t('consumerGroup.empty_consumer_body')}</EmptyStateBody>
+      </EmptyState>
+
   );
 };

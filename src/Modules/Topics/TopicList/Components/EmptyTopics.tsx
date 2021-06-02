@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Bullseye,
   Button,
   EmptyState,
   EmptyStateIcon,
@@ -20,10 +19,9 @@ export const EmptyTopics: React.FunctionComponent<IEmptyTopic> = ({
   const { t } = useTranslation();
 
   return (
-    <Bullseye>
       <EmptyState>
         <EmptyStateIcon icon={PlusIcon} />
-        <Title headingLevel='h5' size='lg'>
+        <Title headingLevel='h4' size='lg'>
           {t('topic.empty_list_head')}
         </Title>
         <EmptyStateBody>{t('topic.empty_list_body')}</EmptyStateBody>
@@ -35,6 +33,5 @@ export const EmptyTopics: React.FunctionComponent<IEmptyTopic> = ({
           {t('topic.create_topic')}
         </Button>
       </EmptyState>
-    </Bullseye>
   );
 };

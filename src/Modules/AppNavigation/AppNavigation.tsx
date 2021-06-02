@@ -101,7 +101,6 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
             aria-label={t('topic.topics')}
             tabContentRef={contentRefTopics}
             tabContentId='kafka-ui-TabcontentTopicsList'
-            // className='kafka-ui-m-full-height'
           >
           </Tab>
           <Tab
@@ -114,7 +113,6 @@ export const AppNavigation: React.FunctionComponent<ITabHeaderProps> = ({
             aria-label={t('consumerGroup.consumer_groups')}
             tabContentRef={contentRefConsumerGroups}
             tabContentId='kafka-ui-TabcontentConsumersList'
-            // className='kafka-ui-m-full-height'
           >
           </Tab>
         </Tabs>

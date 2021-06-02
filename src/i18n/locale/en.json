@@ -49,7 +49,7 @@
     "empty_list_head": "You don't have any topics yet",
     "empty_list_body": "Create a topic by clicking the button below to get started",
     "no_result_head": "No results found",
-    "no_result_body": "No result match the filter criteria. Remove filter or clear all filters to show results",
+    "no_result_body": "No result match the filter criteria. Remove filter or clear all filters to show results.",
     "delete_modal_title": "Delete Topic  ?",
     "create_topic": "Create topic",
     "enter_name": "Enter topic name",
@@ -142,12 +142,12 @@
     "cannot_exceed_characters": "Cannot exceed 249 characters"
   },
   "consumerGroup": {
-    "consumer_groups": "Consumer Groups",
-    "consumer_group_id": "Consumer Group ID",
-    "active_members": "Active Members",
+    "consumer_groups": "Consumer groups",
+    "consumer_group_id": "Consumer group ID",
+    "active_members": "Active members",
     "partitions_with_lag": "Partitions with lag",
-    "uncosumed_partitions": "Unconsumed Partitions",
-    "uncosumed_partitions_for_topic": "Unconsumed Partitions for this topic",
+    "uncosumed_partitions": "Unconsumed partitions",
+    "uncosumed_partitions_for_topic": "Unconsumed partitions for this topic",
     "state": "State",
     "partition": "Partition",
     "client_id": "Client ID",
@@ -161,9 +161,9 @@
     "delete": "Delete consumer group?",
     "consumergroup_successfully_deleted": "Successfully deleted consumer group {{name}}",
     "search": "Search consumer groups",
-    "no_result": "No Consumer Groups Found",
-    "empty_list": "You have No Consumer Groups",
-    "empty_consumer_title": "You don't have any Consumer groups",
-    "empty_consumer_body": "Create consumer groups to find them here"
+    "no_result": "No consumer groups yet",
+    "empty_list": "You have no consumer groups",
+    "empty_consumer_title": "No consumer groups yet",
+    "empty_consumer_body": "When configuring an application client to access Kafka, assign a group ID to associate the consumer with a consumer group."
   }
 }
