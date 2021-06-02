@@ -4,11 +4,6 @@
   max-width: 600px;
 }
 
-/* stack provides the vertical spacing */
-.kafka-ui--wizard-main-body__stack {
-  --pf-l-stack--m-gutter--MarginBottom: var(--pf-global--spacer--lg);
-}
-
 .kafka-ui--radio__parameters {
   padding-left: var(--pf-global--spacer--lg);
 }
