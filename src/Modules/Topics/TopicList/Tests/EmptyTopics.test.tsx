@@ -14,9 +14,9 @@ describe('<EmptyTopics />', () => {
       </MemoryRouter>
     );
 
-    const titleNode = getByText("You don't have any topics yet");
+    const titleNode = getByText("No topics yet");
     const bodyNode = getByText(
-      'Create a topic by clicking the button below to get started'
+      'Create a topic by clicking the button below to get started.'
     );
     const clearBtn = getByText('Create topic');
 

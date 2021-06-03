@@ -46,7 +46,7 @@
     "topic_list_table": "Topic list table",
     "topic_search_input": "Topic search input",
     "topic_search": "Search topics button",
-    "empty_list_head": "You don't have any topics yet",
+    "empty_list_head": "No topics yet",
     "empty_list_body": "Create a topic by clicking the button below to get started.",
     "no_result_head": "No results found",
     "no_result_body": "No results match the filter criteria. Remove filter or clear all filters to show results.",
