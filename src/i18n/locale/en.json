@@ -34,7 +34,7 @@
   },
   "topic": {
     "topics": "Topics",
-    "empty_topics_title": "You don't have any topics yet",
+    "empty_topics_title": "No topics yet",
     "empty_topics_body": "Create a topic by clicking the button below to get started.",
     "core_configuration": "Core configuration",
     "flush": "Flush",
