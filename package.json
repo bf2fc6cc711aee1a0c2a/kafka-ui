@@ -6,7 +6,7 @@
   "description": "Kafka UI provides a way for managing Strimzi and Kafka clusters (+ other components) deployed by it using a graphical user interface.",
   "scripts": {
     "clean": "rm -rf dist/ && rm -rf js/ && rm -rf .out/ && rm -rf generated/ && rm -rf coverage/ && npx jest --clear-cache",
-    "start:restmockserver": "node mock-server/src/index.js",
+    "start:restmockserver": "asapi",
     "start": "npm-run-all --parallel --race start:client start:restmockserver",
     "start:client": "webpack serve --config webpack.config.js",
     "build": "webpack --config webpack.config.js --mode production",
@@ -78,6 +78,7 @@
     "ws": "7.4.6"
   },
   "devDependencies": {
+    "@rhoas/api-mock": "0.1.0",
     "@openapitools/openapi-generator-cli": "2.3.3",
     "@testing-library/dom": "7.31.2",
     "@testing-library/jest-dom": "5.13.0",
