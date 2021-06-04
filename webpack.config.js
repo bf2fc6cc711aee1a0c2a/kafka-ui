@@ -29,7 +29,7 @@ const ChunkMapper = require('@redhat-cloud-services/frontend-components-config/c
 module.exports = (_env, argv) => {
   const isProduction = argv.mode === 'production';
   // Moved multiple entries to index.tsx in order to help speed up webpack
-  const entry = path.join(srcDir, 'Bootstrap', 'index.tsx');
+  const entry = path.join(srcDir, 'bootstrap', 'index.tsx');
 
   return {
     stats: {
@@ -68,7 +68,7 @@ module.exports = (_env, argv) => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: path.join(srcDir, 'Bootstrap', 'index.html'),
+        template: path.join(srcDir, 'bootstrap', 'index.html'),
       }),
       new MiniCssExtractPlugin({
         filename: isProduction ? '[id].[contenthash:8].css' : '[name].css',
@@ -81,12 +81,12 @@ module.exports = (_env, argv) => {
           isProduction ? '.[chunkhash:8]' : ''
         }.js`,
         exposes: {
-          './Panels/KafkaMainView': './src/Panels/Topics/FederatedMainView',
+          './Panels/KafkaMainView': './src/modules/Topics/pages/MainView/MainViewFederated',
           './Panels/TopicDetails':
-            './src/Panels/Topics/FederatedTopicDetailView',
-          './Panels/CreateTopic': './src/Panels/Topics/FederatedCreateView',
+            './src/modules/Topics/pages/TopicDetail/TopicDetailFederated',
+          './Panels/CreateTopic': './src/modules/Topics/pages/CreateTopic/CreateTopicFederated',
           './Panels/UpdateTopic':
-            './src/Panels/Topics/FederatedUpdateTopicView',
+            './src/modules/Topics/pages/UpdateTopic/UpdateTopicFederated',
         },
         shared: {
           ...dependencies,
