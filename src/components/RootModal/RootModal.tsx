@@ -30,7 +30,7 @@ const RootModalContext = createContext(initalState);
 export const useRootModalContext = (): RootModalContext =>
   useContext(RootModalContext);
 
-export const RootModal = ({ children }) => {
+export const RootModal: React.FC = ({ children }) => {
   const [store, setStore] = useState<any>();
   const { modalType, modalProps } = store || { modalType: "", modalProps: "" };
 

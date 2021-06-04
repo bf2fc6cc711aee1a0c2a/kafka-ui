@@ -11,7 +11,7 @@ import {
   ConsumerGroupsByTopicView,
 } from "@app/modules/ConsumerGroups/pages";
 
-const Routes = () => {
+const Routes: React.FC = () => {
   return (
     <Router>
       <Switch>

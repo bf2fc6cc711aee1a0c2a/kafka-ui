@@ -7,12 +7,7 @@ import {
   Text,
   TextVariants,
 } from "@patternfly/react-core";
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableVariant,
-} from "@patternfly/react-table";
+import { TableVariant } from "@patternfly/react-table";
 import { ConsumerGroup } from "@app/openapi";
 import { MASTable } from "@app/components";
 

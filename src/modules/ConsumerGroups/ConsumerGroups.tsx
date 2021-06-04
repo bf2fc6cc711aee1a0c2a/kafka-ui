@@ -1,12 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
-import {
-  AlertVariant,
-  Card,
-  PageSection,
-  PageSectionVariants,
-} from "@patternfly/react-core";
+import { Card, PageSection, PageSectionVariants } from "@patternfly/react-core";
 import {
   EmptyState,
   MASEmptyStateVariant,
@@ -14,7 +9,7 @@ import {
   MASDrawer,
 } from "@app/components";
 import { getConsumerGroups } from "@app/services";
-import { ConfigContext, AlertContext } from "@app/contexts";
+import { ConfigContext } from "@app/contexts";
 import { ConsumerGroupList, ConsumerGroup } from "@app/openapi";
 import { useTimeout } from "@app/hooks/useTimeOut";
 import { ConsumerGroupDetail, ConsumerGroupsTable } from "./components";
@@ -46,7 +41,6 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
   ] = useState<ConsumerGroupList>();
 
   const config = useContext(ConfigContext);
-  const { addAlert } = useContext(AlertContext);
   const { t } = useTranslation();
 
   const location = useLocation();
@@ -102,9 +96,9 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
       setFilteredConsumerGroups((prevState) =>
         prevState
           ? {
-              ...prevState,
-              items: filterSearch,
-            }
+            ...prevState,
+            items: filterSearch,
+          }
           : undefined
       );
     } else {

@@ -10,9 +10,7 @@ type TopicDetailParams = {
   onDeleteTopic: () => void;
 };
 
-const ConsumerGroupsByTopicView: FunctionComponent<TopicDetailParams> = ({
-  onDeleteTopic,
-}) => {
+const ConsumerGroupsByTopicView: FunctionComponent<TopicDetailParams> = () => {
   const { topicName } = useParams<TopicUseParams>();
   const history = useHistory();
 
