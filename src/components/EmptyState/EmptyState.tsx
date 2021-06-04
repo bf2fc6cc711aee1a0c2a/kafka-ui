@@ -65,11 +65,11 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   } = emptyStateProps || {};
 
   const getVariantConfig = () => {
-    let varaintConfig: any = {};
+    let variantConfig: any = {};
 
     switch (masEmptyStateVariant) {
     case MASEmptyStateVariant.NoConsumerGroups:
-      varaintConfig = {
+      variantConfig = {
         variant: EmptyStateVariant.large,
         icon: CubesIcon,
         titleSize: TitleSizes.xl,
@@ -77,7 +77,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       };
       break;
     case MASEmptyStateVariant.NoItems:
-      varaintConfig = {
+      variantConfig = {
         variant: EmptyStateVariant.large,
         icon: PlusCircleIcon,
         titleSize: TitleSizes.xl,
@@ -85,7 +85,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       };
       break;
     case MASEmptyStateVariant.NoResult:
-      varaintConfig = {
+      variantConfig = {
         variant: EmptyStateVariant.large,
         icon: SearchIcon,
         titleSize: TitleSizes.lg,
@@ -94,7 +94,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       break;
 
     default:
-      varaintConfig = {
+      variantConfig = {
         variant: masEmptyStateVariant || EmptyStateVariant.full,
         icon: emptyStateIconProps?.icon,
         titleSize: titleProps?.size,
@@ -103,7 +103,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       break;
     }
 
-    return varaintConfig;
+    return variantConfig;
   };
 
   const { variant, icon, titleSize, headingLevel } = getVariantConfig();
