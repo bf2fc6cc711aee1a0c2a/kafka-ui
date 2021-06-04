@@ -7,7 +7,7 @@ import {
   NumberInput,
   FormGroup,
   Form,
-  Stack,
+  FormSection,
 } from "@patternfly/react-core";
 import "../CreateTopicWizard/CreateTopicWizard.css";
 
@@ -39,15 +39,19 @@ export const StepPartitions: React.FC<StepPartitionsProps> = ({
   };
 
   return (
-    <Stack hasGutter className="kafka-ui--wizard-main-body__stack">
-      <TextContent>
-        <Text component={TextVariants.h2}>Partitions</Text>
-        <Text component={TextVariants.p}>{t("topic.partition_info")}</Text>
-        <Text component={TextVariants.small}>
-          {t("topic.partition_info_note")}
-        </Text>
-      </TextContent>
-      <Form>
+    <Form>
+      <FormSection
+        title={t("topic.partitions")}
+        id="partitions"
+        titleElement={"h2"}
+      >
+        <TextContent>
+          <Text component={TextVariants.p}>{t("topic.partition_info")}</Text>
+          <Text component={TextVariants.small}>
+            {t("topic.partition_info_note")}
+          </Text>
+        </TextContent>
+
         <FormGroup
           label="Partitions"
           fieldId="step-topic-name-form"
@@ -64,7 +68,7 @@ export const StepPartitions: React.FC<StepPartitionsProps> = ({
             min={minValue}
           />
         </FormGroup>
-      </Form>
-    </Stack>
+      </FormSection>
+    </Form>
   );
 };

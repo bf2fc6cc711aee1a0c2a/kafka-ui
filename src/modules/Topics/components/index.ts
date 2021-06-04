@@ -1,6 +1,5 @@
 export * from './CreateTopicHead';
 export * from './CreateTopicWizard';
-export * from './SearchTopics';
 export * from './StepMessageRetention';
 export * from './StepPartitions';
 export * from './StepReplicas';

@@ -5,6 +5,7 @@ import {
   FlexItem,
   Form,
   FormGroup,
+  FormSection,
   NumberInput,
   Radio,
   Select,
@@ -200,24 +201,24 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
 
   return (
     <>
-      <Stack hasGutter className="kafka-ui--wizard-main-body__stack">
-        <TextContent>
-          <Text component={TextVariants.h2}>
-            {t("topic.message_retention")}
-          </Text>
-          <Text component={TextVariants.p}>
-            {t("topic.message_retention_info")}
-          </Text>
-          <Text component={TextVariants.small}>
-            {t("topic.message_retention_info_note")}
-          </Text>
-        </TextContent>
+      <Form onSubmit={preventFormSubmit}>
+        <FormSection
+          title={t("topic.message_retention")}
+          id="message-retention"
+          titleElement={"h2"}
+        >
+          <TextContent>
+            <Text component={TextVariants.p}>
+              {t("topic.message_retention_info")}
+            </Text>
+            <Text component={TextVariants.small}>
+              {t("topic.message_retention_info_note")}
+            </Text>
+          </TextContent>
 
-        <Form onSubmit={preventFormSubmit}>
           <FormGroup
             fieldId="form-group-retention-time-in-wizard"
             label={t("topic.retention_time")}
-            // className='form-group-radio'
           >
             <Stack hasGutter>
               <Radio
@@ -343,8 +344,8 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
               </div>
             </Stack>
           </FormGroup>
-        </Form>
-      </Stack>
+        </FormSection>
+      </Form>
     </>
   );
 };

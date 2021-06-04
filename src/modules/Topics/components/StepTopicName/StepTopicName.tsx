@@ -7,7 +7,7 @@ import {
   Text,
   TextVariants,
   TextInput,
-  Stack,
+  FormSection,
 } from "@patternfly/react-core";
 import "../CreateTopicWizard/CreateTopicWizard.css";
 export type StepTopicNameProps = {
@@ -50,15 +50,18 @@ export const StepTopicName: React.FC<StepTopicNameProps> = ({
   const preventFormSubmit = (event) => event.preventDefault();
 
   return (
-    <Stack hasGutter className="kafka-ui--wizard-main-body__stack">
-      <TextContent>
-        <Text component={TextVariants.h2}>{t("topic.topic_name")}</Text>
-        <Text component={TextVariants.p}>{t("topic.topic_name_info")}</Text>
-        <Text component={TextVariants.small}>
-          {t("topic.topic_name_info_note")}
-        </Text>
-      </TextContent>
-      <Form onSubmit={preventFormSubmit}>
+    <Form onSubmit={preventFormSubmit}>
+      <FormSection
+        title={t("topic.topic_name")}
+        id="topic-name"
+        titleElement={"h2"}
+      >
+        <TextContent>
+          <Text component={TextVariants.p}>{t("topic.topic_name_info")}</Text>
+          <Text component={TextVariants.small}>
+            {t("topic.topic_name_info_note")}
+          </Text>
+        </TextContent>
         <FormGroup
           label={t("topic.topic_name")}
           fieldId="step-topic-name-form"
@@ -71,14 +74,14 @@ export const StepTopicName: React.FC<StepTopicNameProps> = ({
             isRequired
             type="text"
             id="step-topic-name-input"
-            name="name"
+            name="step-topic-name"
             value={topicNameInput}
             onChange={handleTopicNameChange}
             placeholder={t("topic.enter_name")}
             validated={topicNameValidated}
           />
         </FormGroup>
-      </Form>
-    </Stack>
+      </FormSection>
+    </Form>
   );
 };
