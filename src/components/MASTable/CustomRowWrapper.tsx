@@ -11,7 +11,7 @@ export type CustomRowWrapperContextProps = {
 
 const CustomRowWrapperContext = createContext<CustomRowWrapperContextProps>({
   activeRow: "",
-  onRowClick: () => {},
+  onRowClick: () => "",
   loggedInUser: "",
 });
 

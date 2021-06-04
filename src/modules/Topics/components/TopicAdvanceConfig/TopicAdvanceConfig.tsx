@@ -368,38 +368,38 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
     const { name } = event.target;
 
     switch (name) {
-      case "custom-retention-time":
-        setIsCustomRetentionTimeSelected(true);
-        setTopicData({
-          ...topicData,
-          "retention.ms": customRetentionTime.toString(),
-          "retention.ms.unit": customRetentionTimeUnit,
-        });
-        break;
-      case "unlimited-retention-time":
-        setIsCustomRetentionTimeSelected(false);
-        setTopicData({
-          ...topicData,
-          "retention.ms": "-1",
-          "retention.ms.unit": "milliseconds",
-        });
-        break;
-      case "custom-retention-size":
-        setIsCustomRetentionSizeSelected(true);
-        setTopicData({
-          ...topicData,
-          "retention.bytes": customRetentionSize.toString(),
-          "retention.bytes.unit": customRetentionSizeUnit,
-        });
-        break;
-      case "unlimited-retention-size":
-        setIsCustomRetentionSizeSelected(false);
-        setTopicData({
-          ...topicData,
-          "retention.bytes": "-1",
-          "retention.bytes.unit": "bytes",
-        });
-        break;
+    case "custom-retention-time":
+      setIsCustomRetentionTimeSelected(true);
+      setTopicData({
+        ...topicData,
+        "retention.ms": customRetentionTime.toString(),
+        "retention.ms.unit": customRetentionTimeUnit,
+      });
+      break;
+    case "unlimited-retention-time":
+      setIsCustomRetentionTimeSelected(false);
+      setTopicData({
+        ...topicData,
+        "retention.ms": "-1",
+        "retention.ms.unit": "milliseconds",
+      });
+      break;
+    case "custom-retention-size":
+      setIsCustomRetentionSizeSelected(true);
+      setTopicData({
+        ...topicData,
+        "retention.bytes": customRetentionSize.toString(),
+        "retention.bytes.unit": customRetentionSizeUnit,
+      });
+      break;
+    case "unlimited-retention-size":
+      setIsCustomRetentionSizeSelected(false);
+      setTopicData({
+        ...topicData,
+        "retention.bytes": "-1",
+        "retention.bytes.unit": "bytes",
+      });
+      break;
     }
   };
 
@@ -466,27 +466,14 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
             expandable={{ default: "expandable", md: "nonExpandable" }}
             isExpanded={false}
           >
-            <JumpLinksItem key={0} href="#core-configuration">
-              {t("topic.core_configuration")}
-            </JumpLinksItem>
-            <JumpLinksItem key={1} href="#messages">
-              {t("topic.messages")}
-            </JumpLinksItem>
-            <JumpLinksItem key={2} href="#log">
-              {t("topic.log")}
-            </JumpLinksItem>
-            <JumpLinksItem key={3} href="#replication">
-              {t("topic.replication")}
-            </JumpLinksItem>
-            <JumpLinksItem key={4} href="#cleanup">
-              {t("common.cleanup")}
-            </JumpLinksItem>
-            <JumpLinksItem key={5} href="#index">
-              {t("topic.index")}
-            </JumpLinksItem>
-            <JumpLinksItem key={6} href="#flush">
-              {t("topic.flush")}
-            </JumpLinksItem>
+            {jumpLinkItems?.map((item, index) => {
+              const { href, label } = item;
+              return (
+                <JumpLinksItem key={index} href={href}>
+                  {label}
+                </JumpLinksItem>
+              );
+            })}
           </JumpLinks>
         </SidebarPanel>
         <SidebarContent>

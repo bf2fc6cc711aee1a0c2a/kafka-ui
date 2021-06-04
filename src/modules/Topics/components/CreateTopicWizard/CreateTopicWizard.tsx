@@ -89,18 +89,18 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
     const topic: NewTopicInput = isSwitchChecked
       ? formatTopicRequest(convertUnits(topicData))
       : {
-          name: topicData?.name,
-          settings: {
-            numPartitions: partitionTouchspinValue,
-            config: [
-              {
-                key: "retention.ms",
-                value: msgRetentionValue.toString(),
-              },
-              { key: "retention.bytes", value: retentionSize.toString() },
-            ],
-          },
-        };
+        name: topicData?.name,
+        settings: {
+          numPartitions: partitionTouchspinValue,
+          config: [
+            {
+              key: "retention.ms",
+              value: msgRetentionValue.toString(),
+            },
+            { key: "retention.bytes", value: retentionSize.toString() },
+          ],
+        },
+      };
 
     new DefaultApi(
       new Configuration({

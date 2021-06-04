@@ -22,7 +22,6 @@ export type UpdateTopicViewProps = {
 export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   topicName,
   onCancelUpdateTopic,
-  onDeleteTopic,
   onSaveTopic,
   onError,
 }) => {
