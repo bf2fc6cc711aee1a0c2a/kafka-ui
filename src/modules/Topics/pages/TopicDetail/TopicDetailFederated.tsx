@@ -42,8 +42,8 @@ const TopicDetailFederated: FunctionComponent<TopicDetailFederatedProps> = ({
 
   const onDeleteTopic = () => {
     //Redirect on topics  viewpage after delete topic successfuly
-    //onConnectToRoute && onConnectToRoute("");
-    dispatchKafkaAction && dispatchKafkaAction(KafkaActions.ViewTopics);
+    onConnectToRoute && onConnectToRoute("");
+    //dispatchKafkaAction && dispatchKafkaAction(KafkaActions.ViewTopics);
   };
 
   return (

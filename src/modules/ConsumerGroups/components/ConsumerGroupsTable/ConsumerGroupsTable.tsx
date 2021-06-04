@@ -22,6 +22,7 @@ export type ConsumerGroupsTableProps = ConsumerGroupToolbarProps & {
   isDrawerOpen?: boolean;
   onViewConsumerGroup: (consumerGroup: ConsumerGroup) => void;
   refreshConsumerGroups?: () => void;
+  consumerGroupByTopic: boolean;
 };
 
 const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
@@ -35,6 +36,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
   isDrawerOpen,
   onViewConsumerGroup,
   refreshConsumerGroups,
+  consumerGroupByTopic,
 }) => {
   const { t } = useTranslation();
   const { showModal } = useRootModalContext();
@@ -92,6 +94,9 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
   };
 
   const actionResolver = (rowData: IRowData) => {
+    if (consumerGroupByTopic) {
+      return [];
+    }
     const originalData: ConsumerGroup = rowData.originalData;
     const resolver = [
       {

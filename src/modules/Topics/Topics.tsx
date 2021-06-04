@@ -119,7 +119,11 @@ export const Topics: React.FC<TopicsProps> = ({
           page={page}
           perPage={perPage}
           onCreateTopic={onCreateTopic}
-          topicItems={topicItems?.slice(offset, offset + perPage)}
+          topicItems={
+            searchTopicName
+              ? topicItems?.slice(0, perPage)
+              : topicItems?.slice(offset, offset + perPage)
+          }
           filteredValue={searchTopicName}
           setFilteredValue={setSearchTopicName}
           refreshTopics={fetchTopic}

@@ -59,9 +59,9 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
   }, [page, perPage]);
 
   const fetchConsumerGroups = async () => {
-    let limit: number | undefined = undefined;
-    let offset: number | undefined = undefined;
-    let topicName: string | undefined = undefined;
+    let limit: number | undefined;
+    let offset: number | undefined;
+    let topicName: string | undefined;
     /**
      * limit, offset and topic will pass for consumer groups for topic
      */
@@ -79,7 +79,7 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
         }
       );
     } catch (err) {
-      addAlert(err.response.data.error_message, AlertVariant.danger);
+      //addAlert(err.response.data.error_message, AlertVariant.danger);
     }
   };
 
@@ -178,6 +178,7 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
           onViewConsumerGroup={onViewConsumerGroup}
           isDrawerOpen={isExpanded}
           refreshConsumerGroups={fetchConsumerGroups}
+          consumerGroupByTopic={consumerGroupByTopic}
         />
       );
     }
