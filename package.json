@@ -13,7 +13,6 @@
     "build": "webpack --config webpack.config.js --mode production",
     "build:bundle-profile": "webpack --config webpack.config.js --mode production --profile --json > stats.json",
     "bundle-profile:analyze": "npm run build:bundle-profile && webpack-bundle-analyzer ./stats.json",
-    "pretest": "prettier --config ./linting/prettier.config.js --check .",
     "test": "npm-run-all test:jest",
     "test:jest": "npm-run-all \"test:jest:* -- {1}\" --",
     "test:jest:client": "jest --collectCoverage --config src/jest.config.js",

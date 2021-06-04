@@ -6,7 +6,7 @@ import { Topic, TopicsList } from "@app/openapi";
 import { IConfiguration } from "@app/contexts";
 import { getTopics } from "@app/services";
 
-jest.mock("Services");
+jest.mock("services");
 
 describe("<Topics />", () => {
   // Skipped as this test suite wastaking an unusuallly long time.
