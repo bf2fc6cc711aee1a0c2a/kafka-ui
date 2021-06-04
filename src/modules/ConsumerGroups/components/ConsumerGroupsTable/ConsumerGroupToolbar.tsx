@@ -53,7 +53,6 @@ const ConsumerGroupToolbar: React.FC<ConsumerGroupToolbarProps> = ({
           itemCount={total}
           page={page}
           perPage={perPage}
-          isCompact={true}
           titles={{
             paginationTitle: t("common.minimal_pagination"),
             perPageSuffix: t("common.per_page_suffix"),

@@ -47,6 +47,18 @@ export const Topics: React.FC<TopicsProps> = ({
   const [topics, setTopics] = useState<TopicsList>();
   const [topicItems, setTopicItems] = useState<Topic[]>();
   const [searchTopicName, setSearchTopicName] = useState<string>("");
+  const [offset, setOffset] = useState<number>(0);
+
+  useEffect(() => {
+    fetchTopic();
+  }, [searchTopicName]);
+
+  useTimeout(() => fetchTopic(), 5000);
+
+  useEffect(() => {
+    const offset = Number(perPage) * Number(page - 1);
+    setOffset(offset);
+  }, [page, perPage]);
 
   const onClickCreateTopic = () => {
     onCreateTopic && onCreateTopic();
@@ -68,12 +80,6 @@ export const Topics: React.FC<TopicsProps> = ({
       }
     }
   };
-
-  useEffect(() => {
-    fetchTopic();
-  }, [searchTopicName]);
-
-  useTimeout(() => fetchTopic(), 5000);
 
   const renderTopicsTable = () => {
     if (topicItems === undefined) {
@@ -113,7 +119,7 @@ export const Topics: React.FC<TopicsProps> = ({
           page={page}
           perPage={perPage}
           onCreateTopic={onCreateTopic}
-          topicItems={topicItems}
+          topicItems={topicItems?.slice(offset, offset + perPage)}
           filteredValue={searchTopicName}
           setFilteredValue={setSearchTopicName}
           refreshTopics={fetchTopic}

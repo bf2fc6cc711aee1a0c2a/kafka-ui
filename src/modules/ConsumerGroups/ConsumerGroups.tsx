@@ -55,24 +55,24 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
   const perPage = parseInt(searchParams.get("perPage") || "", 10) || 10;
 
   useEffect(() => {
-    setOffset(page * perPage);
+    setOffset(perPage * (page - 1));
   }, [page, perPage]);
 
   const fetchConsumerGroups = async () => {
     let limit: number | undefined = undefined;
-    let offsetVal: number | undefined = undefined;
+    let offset: number | undefined = undefined;
     let topicName: string | undefined = undefined;
     /**
      * limit, offset and topic will pass for consumer groups for topic
      */
     if (consumerGroupByTopic && topic) {
       limit = 100;
-      offsetVal = offset;
+      offset = page * perPage;
       topicName = topic;
     }
 
     try {
-      await getConsumerGroups(config, limit, offsetVal, topicName).then(
+      await getConsumerGroups(config, limit, offset, topicName).then(
         (response) => {
           setConsumerGroups(response);
           setFilteredConsumerGroups(response);
@@ -165,7 +165,10 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
     } else if (filteredConsumerGroups) {
       return (
         <ConsumerGroupsTable
-          consumerGroups={filteredConsumerGroups?.items}
+          consumerGroups={filteredConsumerGroups?.items?.slice(
+            offset,
+            offset + perPage
+          )}
           total={filteredConsumerGroups?.items?.length}
           page={page}
           perPage={perPage}

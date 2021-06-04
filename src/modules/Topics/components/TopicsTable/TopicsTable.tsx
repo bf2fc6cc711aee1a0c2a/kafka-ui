@@ -134,6 +134,8 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
     return tableRow;
   };
 
+  const rows = preparedTableCells();
+
   return (
     <>
       <TopicsToolbar
@@ -147,7 +149,7 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
       <MASTable
         tableProps={{
           cells: tableColumns,
-          rows: preparedTableCells(),
+          rows,
           "aria-label": t("topic.topic_list_table"),
           actionResolver: actionResolver,
           shouldDefaultCustomRowWrapper: true,
