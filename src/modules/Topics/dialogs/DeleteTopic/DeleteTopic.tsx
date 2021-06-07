@@ -9,8 +9,9 @@ import {
   TextInput,
 } from "@patternfly/react-core";
 import { deleteTopic } from "@app/services";
-import { ConfigContext, AlertContext } from "@app/contexts";
+import { ConfigContext } from "@app/contexts";
 import { useRootModalContext } from "@app/components/RootModal";
+import { useAlert } from "@bf2/ui-shared";
 
 export const DeleteTopic: React.FC = () => {
   const { store, hideModal } = useRootModalContext();
@@ -18,7 +19,7 @@ export const DeleteTopic: React.FC = () => {
   const { t } = useTranslation();
   const { topicName, onDeleteTopic, refreshTopics } = store?.modalProps || {};
   const [verificationText, setVerificationText] = useState<string>("");
-  const { addAlert } = useContext(AlertContext);
+  const { addAlert } = useAlert();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onClose = () => {
@@ -30,17 +31,20 @@ export const DeleteTopic: React.FC = () => {
       if (topicName) {
         setIsLoading(true);
         await deleteTopic(topicName, config).then(() => {
-          addAlert(
-            t("topic.topic_successfully_deleted", { name: topicName }),
-            AlertVariant.success
-          );
+          addAlert({
+            title: t("topic.topic_successfully_deleted", { name: topicName }),
+            variant: AlertVariant.success,
+          });
           onDeleteTopic && onDeleteTopic();
           refreshTopics && refreshTopics();
         });
       }
     } catch (err) {
       setIsLoading(false);
-      addAlert(err.response.data.error_message, AlertVariant.danger);
+      addAlert({
+        title: err.response.data.error_message,
+        variant: AlertVariant.danger,
+      });
     }
     onClose();
   };

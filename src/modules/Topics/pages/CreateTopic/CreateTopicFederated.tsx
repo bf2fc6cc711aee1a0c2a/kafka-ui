@@ -3,8 +3,6 @@ import { I18nextProvider } from "react-i18next";
 import { CreateTopicPage } from "@app/modules/Topics/pages/CreateTopic/CreateTopicPage";
 import kafkai18n from "@app/i18n";
 import {
-  AlertContext,
-  AlertContextProps,
   FederatedContext,
   FederatedProps,
   ConfigContext,
@@ -23,12 +21,8 @@ const CreateTopicFederated: FunctionComponent<CreateTopicFederatedProps> = ({
   kafkaName,
   kafkaPageLink,
   kafkaInstanceLink,
-  addAlert,
   dispatchKafkaAction,
 }) => {
-  const alertContext = {
-    addAlert,
-  } as AlertContextProps;
 
   const onCloseCreateTopic = () => {
     dispatchKafkaAction && dispatchKafkaAction(KafkaActions.ViewTopics);
@@ -36,8 +30,7 @@ const CreateTopicFederated: FunctionComponent<CreateTopicFederatedProps> = ({
 
   return (
     <I18nextProvider i18n={kafkai18n}>
-      <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
-        <AlertContext.Provider value={alertContext}>
+      <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>       
           <FederatedContext.Provider
             value={{
               kafkaName,
@@ -47,8 +40,7 @@ const CreateTopicFederated: FunctionComponent<CreateTopicFederatedProps> = ({
             }}
           >
             <CreateTopicPage onCloseCreateTopic={onCloseCreateTopic} />
-          </FederatedContext.Provider>
-        </AlertContext.Provider>
+          </FederatedContext.Provider>       
       </ConfigContext.Provider>
     </I18nextProvider>
   );

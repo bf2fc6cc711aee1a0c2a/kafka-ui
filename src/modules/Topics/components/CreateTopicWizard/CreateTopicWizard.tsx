@@ -19,9 +19,10 @@ import {
 } from "@app/modules/Topics/components";
 import { DefaultApi, NewTopicInput } from "@app/openapi/api";
 import { convertUnits, formatTopicRequest } from "@app/modules/Topics/utils";
-import { ConfigContext, AlertContext } from "@app/contexts";
+import { ConfigContext } from "@app/contexts";
 import { Configuration } from "@app/openapi";
 import { getTopic } from "@app/services";
+import { useAlert } from "@bf2/ui-shared";
 import "./CreateTopicWizard.css";
 
 export type CreateTopicWizardProps = {
@@ -53,15 +54,14 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
 }) => {
   const config = useContext(ConfigContext);
   const { t } = useTranslation();
-  const { addAlert } = useContext(AlertContext);
+  const { addAlert } = useAlert();
   const [msgRetentionValue, setMsgRetentionValue] = useState(1);
   const [retentionSize, setRetentionSize] = useState(1);
   const [partitionTouchspinValue, setPartitionTouchspinValue] = useState(1);
   const [replicationFactorTouchspinValue] = useState(3);
   const [minInSyncReplicaTouchspinValue] = useState(2);
-  const [topicNameValidated, setTopicNameValidated] = useState<
-    "error" | "default"
-  >("default");
+  const [topicNameValidated, setTopicNameValidated] =
+    useState<"error" | "default">("default");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [invalidText, setInvalidText] = useState<string>("");
   const [topicData, setTopicData] = useState<IAdvancedTopic>({
@@ -74,9 +74,8 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
     "cleanup.policy": "delete",
   });
 
-  const [currentPeriod, setCurrentPeriod] = React.useState<string | number>(
-    604800000
-  );
+  const [currentPeriod, setCurrentPeriod] =
+    React.useState<string | number>(604800000);
   const [currentSize, setCurrentSize] = React.useState<string | number>(-1);
 
   const closeWizard = () => {
@@ -89,18 +88,18 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
     const topic: NewTopicInput = isSwitchChecked
       ? formatTopicRequest(convertUnits(topicData))
       : {
-        name: topicData?.name,
-        settings: {
-          numPartitions: partitionTouchspinValue,
-          config: [
-            {
-              key: "retention.ms",
-              value: msgRetentionValue.toString(),
-            },
-            { key: "retention.bytes", value: retentionSize.toString() },
-          ],
-        },
-      };
+          name: topicData?.name,
+          settings: {
+            numPartitions: partitionTouchspinValue,
+            config: [
+              {
+                key: "retention.ms",
+                value: msgRetentionValue.toString(),
+              },
+              { key: "retention.bytes", value: retentionSize.toString() },
+            ],
+          },
+        };
 
     new DefaultApi(
       new Configuration({
@@ -110,15 +109,19 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
     )
       .createTopic(topic)
       .then((res) => {
-        if (res.status === 200) {
-          addAlert(t("topic.topic_successfully_created"), AlertVariant.success);
-        }
+        addAlert({
+          variant: AlertVariant.success,
+          title: t("topic.topic_successfully_created"),
+        });
         setIsLoading(false);
         closeWizard();
       })
       .catch((err) => {
         setIsLoading(false);
-        addAlert(err.response.data.error_message, AlertVariant.danger);
+        addAlert({
+          variant: AlertVariant.danger,
+          title: err.response.data.error_message,
+        });
         closeWizard();
       });
   };

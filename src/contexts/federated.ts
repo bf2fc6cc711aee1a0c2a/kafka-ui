@@ -8,7 +8,6 @@ export type FederatedProps = {
   kafkaPageLink?: string;
   kafkaInstanceLink?: string;
   topicName?: string;
-  addAlert?: (message: string, variant?: any) => void;
   onError?: (errorCode: number, message?: string) => void;
   handleInstanceDrawer?: (isOpen: boolean, activeTab?: string) => void;
   setIsOpenDeleteInstanceModal?: (isOpenModal: boolean) => void;
@@ -22,8 +21,7 @@ const initialState: FederatedProps = {
   kafkaName: "",
   kafkaPageLink: "",
   kafkaInstanceLink: "",
-  topicName: "",
-  addAlert: () => "",
+  topicName: "", 
   onError: () => "",
   handleInstanceDrawer: () => "",
   setIsOpenDeleteInstanceModal: () => "",

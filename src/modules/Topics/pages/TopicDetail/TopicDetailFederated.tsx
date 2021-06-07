@@ -3,8 +3,6 @@ import { I18nextProvider } from "react-i18next";
 import { BrowserRouter } from "react-router-dom";
 import { TopicDetailPage } from "@app/modules/Topics/pages/TopicDetail";
 import {
-  AlertContext,
-  AlertContextProps,
   FederatedContext,
   FederatedProps,
   ConfigContext,
@@ -24,7 +22,6 @@ const TopicDetailFederated: FunctionComponent<TopicDetailFederatedProps> = ({
   apiBasePath,
   kafkaName,
   onError,
-  addAlert,
   topicName,
   kafkaPageLink,
   kafkaInstanceLink,
@@ -32,10 +29,6 @@ const TopicDetailFederated: FunctionComponent<TopicDetailFederatedProps> = ({
   getConnectToRoutePath,
   dispatchKafkaAction,
 }) => {
-  const alertContext = {
-    addAlert,
-  } as AlertContextProps;
-
   const updateTopic = () => {
     dispatchKafkaAction && dispatchKafkaAction(KafkaActions.UpdateTopic);
   };
@@ -50,28 +43,26 @@ const TopicDetailFederated: FunctionComponent<TopicDetailFederatedProps> = ({
     <BrowserRouter>
       <I18nextProvider i18n={kafkai18n}>
         <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
-          <AlertContext.Provider value={alertContext}>
-            <FederatedContext.Provider
-              value={{
-                activeTab: 2,
-                onError,
-                kafkaName,
-                kafkaPageLink,
-                kafkaInstanceLink,
-                topicName,
-                onConnectToRoute,
-                getConnectToRoutePath,
-                dispatchKafkaAction,
-              }}
-            >
-              <RootModal>
-                <TopicDetailPage
-                  updateTopic={updateTopic}
-                  onDeleteTopic={onDeleteTopic}
-                />
-              </RootModal>
-            </FederatedContext.Provider>
-          </AlertContext.Provider>
+          <FederatedContext.Provider
+            value={{
+              activeTab: 2,
+              onError,
+              kafkaName,
+              kafkaPageLink,
+              kafkaInstanceLink,
+              topicName,
+              onConnectToRoute,
+              getConnectToRoutePath,
+              dispatchKafkaAction,
+            }}
+          >
+            <RootModal>
+              <TopicDetailPage
+                updateTopic={updateTopic}
+                onDeleteTopic={onDeleteTopic}
+              />
+            </RootModal>
+          </FederatedContext.Provider>
         </ConfigContext.Provider>
       </I18nextProvider>
     </BrowserRouter>
