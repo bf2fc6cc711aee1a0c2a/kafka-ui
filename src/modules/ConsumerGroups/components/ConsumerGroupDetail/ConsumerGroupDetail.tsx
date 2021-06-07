@@ -6,6 +6,7 @@ import {
   TextContent,
   Text,
   TextVariants,
+  Stack,
 } from "@patternfly/react-core";
 import { TableVariant } from "@patternfly/react-table";
 import { ConsumerGroup } from "@app/openapi";
@@ -47,7 +48,7 @@ export const ConsumerGroupDetail: React.FunctionComponent<ConsumerGroupDetailPro
   };
 
   return (
-    <>
+    <Stack hasGutter>
       <TextContent>
         <Flex>
           <FlexItem>
@@ -82,6 +83,6 @@ export const ConsumerGroupDetail: React.FunctionComponent<ConsumerGroupDetailPro
           variant: TableVariant.compact,
         }}
       />
-    </>
+    </Stack>
   );
 };
