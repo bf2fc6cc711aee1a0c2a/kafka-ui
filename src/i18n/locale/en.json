@@ -147,7 +147,7 @@
     "topic_successfully_deleted": "Successfully deleted topic {{name}}",
     "partitions_warning": "Increasing a topic's partitions might result in messages having the same key from two different partitions, which can potentially break the message ordering guarantees that apply to a single partition",
     "required": "Required",
-    "already_exists": "{{name}} already exists . Try a different name",
+    "already_exists": "{{name}} already exists. Try a different name",
     "cannot_exceed_characters": "Cannot exceed 249 characters"
   },
   "consumerGroup": {
@@ -160,7 +160,7 @@
     "state": "State",
     "partition": "Partition",
     "client_id": "Client ID",
-    "customer_id": "Customer ID",
+    "member_id": "Member ID",
     "current_offset": "Current offset",
     "log_end_offset": "Log end offset",
     "offset_lag": "Offset lag",
