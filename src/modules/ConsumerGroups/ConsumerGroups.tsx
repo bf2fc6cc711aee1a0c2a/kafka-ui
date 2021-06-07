@@ -142,7 +142,6 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
       search.length < 1
     ) {
       return (
-        <Card className="kafka-ui-m-full-height">
           <EmptyState
             emptyStateProps={{
               variant: MASEmptyStateVariant.NoConsumerGroups,
@@ -154,7 +153,6 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
               body: t("consumerGroup.empty_consumer_body"),
             }}
           />
-        </Card>
       );
     } else if (filteredConsumerGroups) {
       return (
@@ -190,7 +188,9 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
       }}
       data-ouia-app-id="dataPlane-consumerGroupDetails"
     >
-      <Card className="kafka-ui-m-full-height">{renderConsumerTable()}</Card>
+      {/* <Card className="kafka-ui-m-full-height"> */}
+        {renderConsumerTable()}
+        {/* </Card> */}
     </MASDrawer>
   );
 };
