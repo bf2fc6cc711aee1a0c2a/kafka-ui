@@ -21,6 +21,7 @@ const singletonDeps = [
   '@redhat-cloud-services/frontend-components',
   '@redhat-cloud-services/frontend-components-utilities',
   '@redhat-cloud-services/frontend-components-notifications',
+  '@bf2/ui-shared'
 ];
 const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
 const srcDir = path.resolve(__dirname, './src');

@@ -37,6 +37,7 @@
   "bugs": {},
   "homepage": "https://github.com/strimzi/strimzi-ui#readme",
   "dependencies": {
+    "@bf2/ui-shared": "^0.1.2",
     "@patternfly/react-core": "4.121.1",
     "@patternfly/react-icons": "4.10.7",
     "@patternfly/react-table": "4.27.7",

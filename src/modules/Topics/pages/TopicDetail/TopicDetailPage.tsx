@@ -15,11 +15,12 @@ import {
   IAdvancedTopic,
 } from "@app/modules/Topics/components";
 import { getTopicDetail } from "@app/services";
-import { ConfigContext, AlertContext } from "@app/contexts";
+import { ConfigContext } from "@app/contexts";
 import { ConsumerGroups } from "@app/modules/ConsumerGroups";
 import { isAxiosError } from "@app/utils/axios";
 import { useFederated } from "@app/contexts";
 import { useRootModalContext, MODAL_TYPES } from "@app/components/RootModal";
+import { useAlert } from "@bf2/ui-shared";
 import "../style.css";
 
 export type TopicDetailGroupProps = {
@@ -51,7 +52,7 @@ export const TopicDetailPage: React.FC<TopicDetailGroupProps> = ({
   });
   const [activeTabKey, setActiveTabKey] = useState(activeTab);
   const config = useContext(ConfigContext);
-  const { addAlert } = useContext(AlertContext);
+  const { addAlert } = useAlert();
   const { t } = useTranslation();
   const contentRefConsumerGroup = React.createRef<HTMLElement>();
   const contentRefProperties = React.createRef<HTMLElement>();
@@ -70,10 +71,10 @@ export const TopicDetailPage: React.FC<TopicDetailGroupProps> = ({
           }
           if (err.response?.status === 404) {
             // then it's a non-existent topic
-            addAlert(
-              t("topic.topic_not_found", { name: topicName }),
-              AlertVariant.danger
-            );
+            addAlert({
+              title: t("topic.topic_not_found", { name: topicName }),
+              variant: AlertVariant.danger,
+            });
           }
         }
       }

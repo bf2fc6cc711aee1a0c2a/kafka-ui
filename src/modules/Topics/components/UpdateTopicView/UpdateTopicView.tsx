@@ -7,9 +7,10 @@ import {
 } from "@app/modules/Topics/components";
 import { getTopic, updateTopicModel } from "@app/services";
 import { ConfigEntry, TopicSettings } from "@app/openapi/api";
-import { AlertContext, ConfigContext } from "@app/contexts";
+import { ConfigContext } from "@app/contexts";
 import { convertUnits } from "@app/modules/Topics/utils";
 import { isAxiosError } from "@app/utils/axios";
+import { useAlert } from "@bf2/ui-shared";
 import "../CreateTopicWizard/CreateTopicWizard.css";
 
 export type UpdateTopicViewProps = {
@@ -27,7 +28,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
 }) => {
   const { t } = useTranslation();
   const config = useContext(ConfigContext);
-  const { addAlert } = useContext(AlertContext);
+  const { addAlert } = useAlert();
   const initialState = {
     name: topicName,
     numPartitions: "",
@@ -62,7 +63,10 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
         }
         if (err.response?.status === 404) {
           // then it's a non-existent topic
-          addAlert(`Topic ${topicName} does not exist`, AlertVariant.danger);
+          addAlert({
+            variant: AlertVariant.danger,
+            title: `Topic ${topicName} does not exist`,
+          });
           onCancelUpdateTopic();
         }
       }
@@ -96,7 +100,10 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
 
     try {
       await updateTopicModel(name, topicSettings, config).then(() => {
-        addAlert(t("topic.topic_successfully_updated"), AlertVariant.success);
+        addAlert({
+          title: t("topic.topic_successfully_updated"),
+          variant: AlertVariant.success,
+        });
         setIsLoading(false);
         onSaveTopic();
       });
@@ -105,7 +112,10 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
         onError(err.response.data.code, err.response.data.error_message);
       }
       setIsLoading(false);
-      addAlert(err.response.data.error_message, AlertVariant.danger);
+      addAlert({
+        title: err.response.data.error_message,
+        variant: AlertVariant.danger,
+      });
     }
   };
 
