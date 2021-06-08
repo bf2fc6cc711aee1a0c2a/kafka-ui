@@ -8,7 +8,7 @@ import {
   TextVariants,
 } from "@patternfly/react-core";
 import { TableVariant } from "@patternfly/react-table";
-import { ConsumerGroup } from "@app/openapi";
+import { ConsumerGroup } from "@rhoas/kafka-admin-sdk";
 import { MASTable } from "@app/components";
 
 export type ConsumerGroupDetailProps = {

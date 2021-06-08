@@ -6,7 +6,7 @@ import {
   IAdvancedTopic,
 } from "@app/modules/Topics/components";
 import { getTopic, updateTopicModel } from "@app/services";
-import { ConfigEntry, TopicSettings } from "@app/openapi/api";
+import { ConfigEntry, TopicSettings } from "@rhoas/kafka-admin-sdk/api";
 import { ConfigContext } from "@app/contexts";
 import { convertUnits } from "@app/modules/Topics/utils";
 import { isAxiosError } from "@app/utils/axios";
