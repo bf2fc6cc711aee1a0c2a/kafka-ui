@@ -80,8 +80,9 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
     'cleanup.policy': 'delete',
   });
 
-  const [currentPeriod, setCurrentPeriod] =
-    React.useState<string | number>(604800000);
+  const [currentPeriod, setCurrentPeriod] = React.useState<string | number>(
+    604800000
+  );
   const [currentSize, setCurrentSize] = React.useState<string | number>(-1);
 
   const closeWizard = () => {
@@ -116,7 +117,10 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
       .createTopic(topic)
       .then((res) => {
         if (res.status === 200) {
-          addAlert(t('topic.topic_successfully_created'), AlertVariant.success);
+          addAlert({
+            variant: AlertVariant.success,
+            title: t('topic.topic_successfully_created'),
+          });
         }
         setIsLoading(false);
         closeWizard();
