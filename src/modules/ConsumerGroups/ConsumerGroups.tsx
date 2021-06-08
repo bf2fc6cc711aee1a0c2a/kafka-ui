@@ -10,7 +10,7 @@ import {
 } from "@app/components";
 import { getConsumerGroups } from "@app/services";
 import { ConfigContext } from "@app/contexts";
-import { ConsumerGroupList, ConsumerGroup } from "@rhoas/kafka-admin-sdk";
+import { ConsumerGroupList, ConsumerGroup } from "@rhoas/kafka-instance-sdk";
 import { useTimeout } from "@app/hooks/useTimeOut";
 import { ConsumerGroupDetail, ConsumerGroupsTable } from "./components";
 

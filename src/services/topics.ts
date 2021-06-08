@@ -5,8 +5,8 @@ import {
   Topic,
   TopicSettings,
   TopicsList,
-} from '@rhoas/kafka-admin-sdk/api';
-import { Configuration } from '@rhoas/kafka-admin-sdk';
+} from '@rhoas/kafka-instance-sdk';
+import { Configuration } from '@rhoas/kafka-instance-sdk';
 import { IConfiguration } from '@app/contexts';
 import { IAdvancedTopic } from '@app/modules/Topics/components/CreateTopicWizard/CreateTopicWizard';
 

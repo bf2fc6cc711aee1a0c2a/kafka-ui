@@ -17,10 +17,10 @@ import {
   TopicAdvanceConfig,
   WizardCustomFooter,
 } from "@app/modules/Topics/components";
-import { DefaultApi, NewTopicInput } from "@rhoas/kafka-admin-sdk/api";
+import { DefaultApi, NewTopicInput } from "@rhoas/kafka-instance-sdk";
 import { convertUnits, formatTopicRequest } from "@app/modules/Topics/utils";
 import { ConfigContext } from "@app/contexts";
-import { Configuration } from "@rhoas/kafka-admin-sdk";
+import { Configuration } from "@rhoas/kafka-instance-sdk";
 import { getTopic } from "@app/services";
 import { useAlert } from "@bf2/ui-shared";
 import "./CreateTopicWizard.css";

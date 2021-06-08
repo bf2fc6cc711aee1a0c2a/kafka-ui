@@ -1,4 +1,4 @@
-import { ConfigEntry, NewTopicInput } from '@rhoas/kafka-admin-sdk';
+import { ConfigEntry, NewTopicInput } from '@rhoas/kafka-instance-sdk';
 import { IAdvancedTopic } from '@app/modules/Topics/components/CreateTopicWizard';
 
 const capitalizeText = (text: string) => {

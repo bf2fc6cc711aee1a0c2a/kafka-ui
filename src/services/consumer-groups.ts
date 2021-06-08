@@ -1,7 +1,6 @@
 import { AxiosResponse } from 'axios';
-import { DefaultApi, ConsumerGroupList, ConsumerGroup } from '@rhoas/kafka-admin-sdk/api';
 import { Configuration, DefaultApi, ConsumerGroupList, ConsumerGroup } from '@rhoas/kafka-instance-sdk';
-import { IConfiguration } from '../Contexts';
+import { IConfiguration } from '@app/contexts';
 
 const getConsumerGroups = async (
   config: IConfiguration | undefined,

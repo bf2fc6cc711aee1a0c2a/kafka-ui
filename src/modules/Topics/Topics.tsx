@@ -12,7 +12,7 @@ import { TopicsTable } from "./components";
 import { EmptyState, MASEmptyStateVariant, MASLoading } from "@app/components";
 import { getTopics } from "@app/services";
 import { ConfigContext, useFederated } from "@app/contexts";
-import { TopicsList, Topic } from "@rhoas/kafka-admin-sdk";
+import { TopicsList, Topic } from "@rhoas/kafka-instance-sdk";
 import { KafkaActions } from "@app/utils";
 import { useAlert } from "@bf2/ui-shared";
 import "./Topics.css";
