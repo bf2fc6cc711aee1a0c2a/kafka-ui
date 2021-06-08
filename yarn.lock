@@ -1640,14 +1640,14 @@
     "webpack-dev-server" "^3.11.0"
     "write-file-webpack-plugin" "^4.5.1"
 
-"@rhoas/api-mock@0.1.0":
-  "integrity" "sha512-mx8sgzxVtn8ZFNchFFJREsl+Ba+mFs6ypg1e4I9iyY78QmCvzqLjf8WvRcHEqUmqcZrC88XPb7+lCUD5RRry2w=="
-  "resolved" "https://registry.npmjs.org/@rhoas/api-mock/-/api-mock-0.1.0.tgz"
-  "version" "0.1.0"
+"@rhoas/api-mock@0.2.2":
+  "integrity" "sha512-g8Tqyifil4bsb71H/5SVPg6nrWwVlt+ex9hY8BS21R2QWSEsaq5/jRsnGG45lhHjwcDjXppChZlCjTpyqffloQ=="
+  "resolved" "https://registry.npmjs.org/@rhoas/api-mock/-/api-mock-0.2.2.tgz"
+  "version" "0.2.2"
   dependencies:
     "cors" "2.8.5"
     "express" "4.17.1"
-    "nanoid" "^3.1.23"
+    "nanoid" "3.1.23"
     "openapi-backend" "3.9.2"
 
 "@rhoas/kafka-instance-sdk@^0.1.0":
@@ -9748,7 +9748,7 @@
   "resolved" "https://registry.npmjs.org/nan/-/nan-2.14.2.tgz"
   "version" "2.14.2"
 
-"nanoid@^3.1.23":
+"nanoid@^3.1.23", "nanoid@3.1.23":
   "integrity" "sha512-FiB0kzdP0FFVGDKlRLEQ1BgDzU87dy5NnzjeW9YZNt+/c3+q82EQDUwniSAUxp/F0gFNI1ZhKU1FqYsMuqZVnw=="
   "resolved" "https://registry.npmjs.org/nanoid/-/nanoid-3.1.23.tgz"
   "version" "3.1.23"
