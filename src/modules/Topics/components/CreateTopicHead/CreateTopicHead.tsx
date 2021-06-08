@@ -16,22 +16,28 @@ export type CreateTopicProps = {
   kafkaInstanceLink?: string;
   setIsSwitchChecked: (value: boolean) => void;
   setExitFormModal: (value: boolean) => void;
+  setKafkaPageLinkRedirect: (value: boolean) => void;
 };
 
 export const CreateTopichead: React.FC<CreateTopicProps> = ({
   isSwitchChecked,
   setIsSwitchChecked,
   kafkaName,
-  kafkaPageLink,
   setExitFormModal,
+  setKafkaPageLinkRedirect,
 }) => {
   const { t } = useTranslation();
+
+  const kafkaInstanceBreadcrumbClick = () => {
+    setExitFormModal(true);
+    setKafkaPageLinkRedirect(true);
+  };
 
   const mainBreadcrumbs = (
     <Breadcrumb>
       <BreadcrumbItem
-        onClick={() => setExitFormModal(true)}
-        to={kafkaPageLink ? kafkaPageLink : '#/topic/create'}
+        onClick={kafkaInstanceBreadcrumbClick}
+        to={'#/topic/create'}
       >
         Kafka Instances
       </BreadcrumbItem>

@@ -28,7 +28,9 @@ import { ConfirmFormExit } from '@app/components/ConfirmFormExit';
 
 export type CreateTopicWizardProps = {
   isSwitchChecked: boolean;
+  kafkaPageLinkRedirect: boolean;
   exitFormModal: boolean;
+  kafkaPageLink?: string;
   setIsCreateTopic?: (value: boolean) => void;
   onCloseCreateTopic: () => void;
   setExitFormModal: (value: boolean) => void;
@@ -56,6 +58,8 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
   onCloseCreateTopic,
   exitFormModal,
   setExitFormModal,
+  kafkaPageLinkRedirect,
+  kafkaPageLink,
 }) => {
   const config = useContext(ConfigContext);
   const { t } = useTranslation();
@@ -263,6 +267,8 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
         <ConfirmFormExit
           setExitFormModal={setExitFormModal}
           exitFormModal={exitFormModal}
+          kafkaPageLinkRedirect={kafkaPageLinkRedirect}
+          kafkaPageLink={kafkaPageLink}
         />
       )}
     </>

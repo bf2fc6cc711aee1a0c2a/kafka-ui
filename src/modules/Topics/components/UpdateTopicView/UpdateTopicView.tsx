@@ -22,6 +22,8 @@ export type UpdateTopicViewProps = {
   exitFormModal: boolean;
   setExitFormModal: (value: boolean) => void;
   onError?: (errorCode: number, message: string) => void;
+  kafkaPageLinkRedirect: boolean;
+  kafkaPageLink: string | undefined;
 };
 export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   topicName,
@@ -30,6 +32,8 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   onError,
   exitFormModal,
   setExitFormModal,
+  kafkaPageLink,
+  kafkaPageLinkRedirect,
 }) => {
   const { t } = useTranslation();
   const config = useContext(ConfigContext);
@@ -106,7 +110,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
     try {
       await updateTopicModel(name, topicSettings, config).then(() => {
         addAlert({
-          title: t("topic.topic_successfully_updated"),
+          title: t('topic.topic_successfully_updated'),
           variant: AlertVariant.success,
         });
         setIsLoading(false);
@@ -138,6 +142,8 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
         <ConfirmFormExit
           setExitFormModal={setExitFormModal}
           exitFormModal={exitFormModal}
+          kafkaPageLinkRedirect={kafkaPageLinkRedirect}
+          kafkaPageLink={kafkaPageLink}
         />
       )}
 

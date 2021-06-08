@@ -18,28 +18,38 @@ export type TopicDetailHeadProps = {
   kafkaPageLink?: string;
   updateTopic?: boolean;
   setExitFormModal?: (value: boolean) => void;
+  setKafkaPageLinkRedirect?: (value: boolean) => void;
 };
 
 export const TopicDetailHead: React.FC<TopicDetailHeadProps> = ({
   topicName,
   kafkaName,
-  kafkaInstanceLink,
   kafkaPageLink,
   updateTopic,
   setExitFormModal,
+  setKafkaPageLinkRedirect,
 }) => {
   const { t } = useTranslation();
+
+  const kafkaInstanceBreadcrumbClick = () => {
+    if (updateTopic) {
+      setExitFormModal && setExitFormModal(true);
+      setKafkaPageLinkRedirect && setKafkaPageLinkRedirect(true);
+    }
+  };
 
   return (
     <>
       <section className='pf-c-page__main-breadcrumb'>
         <Breadcrumb>
           <BreadcrumbItem
-            onClick={() =>
-              updateTopic && setExitFormModal && setExitFormModal(true)
-            }
+            onClick={kafkaInstanceBreadcrumbClick}
             to={
-              updateTopic ? kafkaPageLink || `#/topic/update/${topicName}` : '#'
+              updateTopic
+                ? `#/topic/update/${topicName}`
+                : kafkaPageLink
+                ? kafkaPageLink
+                : '#'
             }
           >
             {t('common.kafka_instance')}
@@ -48,11 +58,7 @@ export const TopicDetailHead: React.FC<TopicDetailHeadProps> = ({
             onClick={() =>
               updateTopic && setExitFormModal && setExitFormModal(true)
             }
-            to={
-              updateTopic
-                ? kafkaInstanceLink || `#/topic/update/${topicName}`
-                : '#'
-            }
+            to={updateTopic ? `#/topic/update/${topicName}` : '#'}
           >
             {kafkaName ? kafkaName : t('common.kafka_instance_name')}
           </BreadcrumbItem>

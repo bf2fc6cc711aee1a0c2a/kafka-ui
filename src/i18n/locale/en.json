@@ -49,6 +49,8 @@
     "flush": "Flush",
     "index": "Index",
     "log": "Log",
+    "stay": "Stay",
+    "leave": "Leave",
     "messages": "Messages",
     "replication": "Replication",
     "jump_to_section": "JUMP TO SECTION",
@@ -149,7 +151,8 @@
     "required": "Required",
     "already_exists": "{{name}} already exists. Try a different name",
     "cannot_exceed_characters": "Cannot exceed 249 characters",
-    "invalid_name_with_dot": "Topic name cannot be `.` or `..`"
+    "invalid_name_with_dot": "Topic name cannot be `.` or `..`",
+    "changes_lost": "Changes you made to the topic properties will be lost"
   },
   "consumerGroup": {
     "consumer_groups": "Consumer groups",

@@ -38,6 +38,8 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
   } = useFederated();
   const [activeTabKey, setActiveTabKey] = useState(activeTab);
   const [exitFormModal, setExitFormModal] = useState<boolean>(false);
+  const [kafkaPageLinkRedirect, setKafkaPageLinkRedirect] =
+    useState<boolean>(false);
 
   const contentRefConsumerGroup = React.createRef<HTMLElement>();
   const contentRefProperties = React.createRef<HTMLElement>();
@@ -55,6 +57,7 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
         kafkaInstanceLink={kafkaInstanceLink}
         updateTopic={true}
         setExitFormModal={setExitFormModal}
+        setKafkaPageLinkRedirect={setKafkaPageLinkRedirect}
       />
       <PageSection
         variant={PageSectionVariants.light}
@@ -116,6 +119,8 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
             onError={onError}
             exitFormModal={exitFormModal}
             setExitFormModal={setExitFormModal}
+            kafkaPageLinkRedirect={kafkaPageLinkRedirect}
+            kafkaPageLink={kafkaPageLink}
           />
         </TabContent>
       </PageSection>

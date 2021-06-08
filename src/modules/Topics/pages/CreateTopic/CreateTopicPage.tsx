@@ -16,6 +16,8 @@ export const CreateTopicPage: React.FC<CreateTopicPageProps> = ({
   const { kafkaName, kafkaPageLink, kafkaInstanceLink } = useFederated();
   const [isSwitchChecked, setIsSwitchChecked] = useState<boolean>(false);
   const [exitFormModal, setExitFormModal] = useState<boolean>(false);
+  const [kafkaPageLinkRedirect, setKafkaPageLinkRedirect] =
+    useState<boolean>(false);
 
   return (
     <>
@@ -26,12 +28,15 @@ export const CreateTopicPage: React.FC<CreateTopicPageProps> = ({
         kafkaInstanceLink={kafkaInstanceLink}
         kafkaPageLink={kafkaPageLink}
         setExitFormModal={setExitFormModal}
+        setKafkaPageLinkRedirect={setKafkaPageLinkRedirect}
       />
       <CreateTopicWizard
         exitFormModal={exitFormModal}
         setExitFormModal={setExitFormModal}
         isSwitchChecked={isSwitchChecked}
         onCloseCreateTopic={onCloseCreateTopic}
+        kafkaPageLinkRedirect={kafkaPageLinkRedirect}
+        kafkaPageLink={kafkaPageLink}
       />
     </>
   );

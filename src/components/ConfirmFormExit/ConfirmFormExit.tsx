@@ -1,20 +1,28 @@
 import React from 'react';
 import { Modal, Button, ModalVariant } from '@patternfly/react-core';
 import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export type ConfirmFormExitProps = {
   exitFormModal: boolean;
+  kafkaPageLink: string | undefined;
+  kafkaPageLinkRedirect: boolean;
   setExitFormModal: (value: boolean) => void;
 };
 
 export const ConfirmFormExit: React.FunctionComponent<ConfirmFormExitProps> = ({
   exitFormModal,
   setExitFormModal,
+  kafkaPageLinkRedirect,
+  kafkaPageLink,
 }) => {
   const history = useHistory();
+  const { t } = useTranslation();
 
   const onLeave = () => {
-    history.push('/topics');
+    if (kafkaPageLinkRedirect)
+      kafkaPageLink ? history.push(kafkaPageLink) : history.push('/topics');
+    else history.push('/topics');
   };
   return (
     <>
@@ -25,18 +33,18 @@ export const ConfirmFormExit: React.FunctionComponent<ConfirmFormExitProps> = ({
         onClose={() => setExitFormModal(false)}
         actions={[
           <Button key='cancel' variant='link' onClick={onLeave}>
-            Leave
+            {t('topic.leave')}
           </Button>,
           <Button
             key='confirm'
             variant='primary'
             onClick={() => setExitFormModal(false)}
           >
-            Stay
+            {t('topic.stay')}
           </Button>,
         ]}
       >
-        Changes you made to the topic properties will be lost
+        {t('topic.changes_lost')}
       </Modal>
     </>
   );
