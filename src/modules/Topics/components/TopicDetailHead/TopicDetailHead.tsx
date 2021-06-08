@@ -1,5 +1,5 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,14 +8,16 @@ import {
   TextVariants,
   PageSection,
   PageSectionVariants,
-} from "@patternfly/react-core";
-import "../TopicDetailView/TopicDetailView.css";
+} from '@patternfly/react-core';
+import '../TopicDetailView/TopicDetailView.css';
 
 export type TopicDetailHeadProps = {
   topicName: string;
   kafkaName?: string;
   kafkaInstanceLink?: string;
   kafkaPageLink?: string;
+  updateTopic?: boolean;
+  setExitFormModal?: (value: boolean) => void;
 };
 
 export const TopicDetailHead: React.FC<TopicDetailHeadProps> = ({
@@ -23,18 +25,36 @@ export const TopicDetailHead: React.FC<TopicDetailHeadProps> = ({
   kafkaName,
   kafkaInstanceLink,
   kafkaPageLink,
+  updateTopic,
+  setExitFormModal,
 }) => {
   const { t } = useTranslation();
 
   return (
     <>
-      <section className="pf-c-page__main-breadcrumb">
+      <section className='pf-c-page__main-breadcrumb'>
         <Breadcrumb>
-          <BreadcrumbItem to={kafkaPageLink || "#"}>
-            {t("common.kafka_instance")}
+          <BreadcrumbItem
+            onClick={() =>
+              updateTopic && setExitFormModal && setExitFormModal(true)
+            }
+            to={
+              updateTopic ? kafkaPageLink || `#/topic/update/${topicName}` : '#'
+            }
+          >
+            {t('common.kafka_instance')}
           </BreadcrumbItem>
-          <BreadcrumbItem to={kafkaInstanceLink || "#"}>
-            {kafkaName ? kafkaName : t("common.kafka_instance_name")}
+          <BreadcrumbItem
+            onClick={() =>
+              updateTopic && setExitFormModal && setExitFormModal(true)
+            }
+            to={
+              updateTopic
+                ? kafkaInstanceLink || `#/topic/update/${topicName}`
+                : '#'
+            }
+          >
+            {kafkaName ? kafkaName : t('common.kafka_instance_name')}
           </BreadcrumbItem>
           <BreadcrumbItem>{topicName}</BreadcrumbItem>
         </Breadcrumb>
