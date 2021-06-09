@@ -101,7 +101,7 @@ export const MainView: React.FC<MainViewProps> = ({
           ></Tab>
         </Tabs>
       </PageSection>
-      <PageSection isFilled className="kafka-section-m-full-height">
+      <PageSection isFilled>
         <TabContent
           eventKey={1}
           ref={contentRefTopics}
