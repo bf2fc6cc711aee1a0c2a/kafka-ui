@@ -140,7 +140,6 @@ export const TopicDetailPage: React.FC<TopicDetailGroupProps> = ({
             ? PageSectionVariants.light
             : PageSectionVariants.default
         }
-        className="kafka-section-m-full-height"
       >
         <TabContent
           eventKey={1}
