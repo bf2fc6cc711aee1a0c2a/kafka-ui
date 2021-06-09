@@ -1,5 +1,10 @@
 import { AxiosResponse } from 'axios';
-import { Configuration, DefaultApi, ConsumerGroupList, ConsumerGroup } from '@rhoas/kafka-instance-sdk';
+import {
+  Configuration,
+  DefaultApi,
+  ConsumerGroupList,
+  ConsumerGroup,
+} from '@rhoas/kafka-instance-sdk';
 import { IConfiguration } from '@app/contexts';
 
 const getConsumerGroups = async (
@@ -16,11 +21,8 @@ const getConsumerGroups = async (
       basePath: config?.basePath,
     })
   );
-  const response: AxiosResponse<ConsumerGroupList> = await api.getConsumerGroups(
-    limit,
-    offset,
-    topic
-  );
+  const response: AxiosResponse<ConsumerGroupList> =
+    await api.getConsumerGroups(limit, offset, topic);
   return response.data;
 };
 
@@ -58,8 +60,4 @@ const getConsumerGroupDetail = async (
   return response.data;
 };
 
-export {
-  getConsumerGroups,
-  deleteConsumerGroup,
-  getConsumerGroupDetail
-};
+export { getConsumerGroups, deleteConsumerGroup, getConsumerGroupDetail };

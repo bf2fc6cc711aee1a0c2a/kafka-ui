@@ -1,21 +1,21 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import React, { useContext, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   AlertVariant,
   Card,
   PageSectionVariants,
   PageSection,
-} from "@patternfly/react-core";
-import { useTimeout } from "@app/hooks/useTimeOut";
-import { TopicsTable } from "./components";
-import { EmptyState, MASEmptyStateVariant, MASLoading } from "@app/components";
-import { getTopics } from "@app/services";
-import { ConfigContext, useFederated } from "@app/contexts";
-import { TopicsList, Topic } from "@rhoas/kafka-instance-sdk";
-import { KafkaActions } from "@app/utils";
-import { useAlert } from "@bf2/ui-shared";
-import "./Topics.css";
+} from '@patternfly/react-core';
+import { useTimeout } from '@app/hooks/useTimeOut';
+import { TopicsTable } from './components';
+import { EmptyState, MASEmptyStateVariant, MASLoading } from '@app/components';
+import { getTopics } from '@app/services';
+import { ConfigContext, useFederated } from '@app/contexts';
+import { TopicsList, Topic } from '@rhoas/kafka-instance-sdk';
+import { KafkaActions } from '@app/utils';
+import { useAlert } from '@bf2/ui-shared';
+import './Topics.css';
 
 export type ITopic = {
   name: string;
@@ -42,12 +42,12 @@ export const Topics: React.FC<TopicsProps> = ({
   const config = useContext(ConfigContext);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const page = parseInt(searchParams.get("page") || "", 10) || 1;
-  const perPage = parseInt(searchParams.get("perPage") || "", 10) || 10;
+  const page = parseInt(searchParams.get('page') || '', 10) || 1;
+  const perPage = parseInt(searchParams.get('perPage') || '', 10) || 10;
 
   const [topics, setTopics] = useState<TopicsList>();
   const [topicItems, setTopicItems] = useState<Topic[]>();
-  const [searchTopicName, setSearchTopicName] = useState<string>("");
+  const [searchTopicName, setSearchTopicName] = useState<string>('');
   const [offset, setOffset] = useState<number>(0);
 
   useEffect(() => {
@@ -89,34 +89,34 @@ export const Topics: React.FC<TopicsProps> = ({
     if (topicItems === undefined) {
       return (
         <PageSection
-          className="kafka-ui-m-full-height"
+          className='kafka-ui-m-full-height'
           variant={PageSectionVariants.light}
-          padding={{ default: "noPadding" }}
+          padding={{ default: 'noPadding' }}
         >
           <MASLoading />
         </PageSection>
       );
     } else if (topicItems.length < 1 && searchTopicName.length < 1) {
       return (
-          <EmptyState
-            emptyStateProps={{
-              variant: MASEmptyStateVariant.NoItems,
-            }}
-            titleProps={{
-              title: t("topic.empty_topics_title"),
-            }}
-            emptyStateBodyProps={{
-              body: t("topic.empty_topics_body"),
-            }}
-            buttonProps={{
-              title: t("topic.create_topic"),
-              onClick: onClickCreateTopic,
-            }}
-          />
+        <EmptyState
+          emptyStateProps={{
+            variant: MASEmptyStateVariant.NoItems,
+          }}
+          titleProps={{
+            title: t('topic.empty_topics_title'),
+          }}
+          emptyStateBodyProps={{
+            body: t('topic.empty_topics_body'),
+          }}
+          buttonProps={{
+            title: t('topic.create_topic'),
+            onClick: onClickCreateTopic,
+          }}
+        />
       );
     } else if (topicItems) {
       return (
-          <TopicsTable
+        <TopicsTable
           total={topics?.count || 0}
           page={page}
           perPage={perPage}
@@ -130,7 +130,7 @@ export const Topics: React.FC<TopicsProps> = ({
           setFilteredValue={setSearchTopicName}
           refreshTopics={fetchTopic}
           onEdit={onEditTopic}
-          />
+        />
       );
     }
     return <></>;
@@ -138,9 +138,7 @@ export const Topics: React.FC<TopicsProps> = ({
 
   return (
     <>
-      <Card className="kafka-ui-m-full-height">
-        {renderTopicsTable()}
-      </Card>
+      <Card className='kafka-ui-m-full-height'>{renderTopicsTable()}</Card>
     </>
   );
 };

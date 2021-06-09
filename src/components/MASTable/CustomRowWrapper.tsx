@@ -1,6 +1,6 @@
-import React, { createContext, useContext } from "react";
-import { css } from "@patternfly/react-styles";
-import "./CustomRowWrapper.css";
+import React, { createContext, useContext } from 'react';
+import { css } from '@patternfly/react-styles';
+import './CustomRowWrapper.css';
 
 export type CustomRowWrapperContextProps = {
   activeRow?: string;
@@ -10,9 +10,9 @@ export type CustomRowWrapperContextProps = {
 };
 
 const CustomRowWrapperContext = createContext<CustomRowWrapperContextProps>({
-  activeRow: "",
-  onRowClick: () => "",
-  loggedInUser: "",
+  activeRow: '',
+  onRowClick: () => '',
+  loggedInUser: '',
 });
 
 export const CustomRowWrapperProvider = CustomRowWrapperContext.Provider;
@@ -32,10 +32,10 @@ export const CustomRowWrapper = (rowWrapperProps) => {
       ref={trRef}
       className={css(
         className,
-        "pf-c-table-row__item",
+        'pf-c-table-row__item',
         activeRow &&
           activeRow === originalData?.rowId &&
-          "pf-m-selected pf-m-selectable"
+          'pf-m-selected pf-m-selectable'
       )}
       hidden={isExpanded !== undefined && !isExpanded}
       onClick={(event: MouseEvent) =>

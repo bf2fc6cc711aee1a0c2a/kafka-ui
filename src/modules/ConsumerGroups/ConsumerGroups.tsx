@@ -1,18 +1,18 @@
-import React, { useContext, useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
-import { Card, PageSection, PageSectionVariants } from "@patternfly/react-core";
+import React, { useContext, useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
+import { Card, PageSection, PageSectionVariants } from '@patternfly/react-core';
 import {
   EmptyState,
   MASEmptyStateVariant,
   MASLoading,
   MASDrawer,
-} from "@app/components";
-import { getConsumerGroups } from "@app/services";
-import { ConfigContext } from "@app/contexts";
-import { ConsumerGroupList, ConsumerGroup } from "@rhoas/kafka-instance-sdk";
-import { useTimeout } from "@app/hooks/useTimeOut";
-import { ConsumerGroupDetail, ConsumerGroupsTable } from "./components";
+} from '@app/components';
+import { getConsumerGroups } from '@app/services';
+import { ConfigContext } from '@app/contexts';
+import { ConsumerGroupList, ConsumerGroup } from '@rhoas/kafka-instance-sdk';
+import { useTimeout } from '@app/hooks/useTimeOut';
+import { ConsumerGroupDetail, ConsumerGroupsTable } from './components';
 
 export type ConsumerGroupsProps = {
   consumerGroupByTopic: boolean;
@@ -30,23 +30,19 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
     ConsumerGroupList | undefined
   >();
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const [search, setSearch] = useState<string>("");
-  const [
-    consumerGroupDetail,
-    setConsumerGroupDetail,
-  ] = useState<ConsumerGroup>();
-  const [
-    filteredConsumerGroups,
-    setFilteredConsumerGroups,
-  ] = useState<ConsumerGroupList>();
+  const [search, setSearch] = useState<string>('');
+  const [consumerGroupDetail, setConsumerGroupDetail] =
+    useState<ConsumerGroup>();
+  const [filteredConsumerGroups, setFilteredConsumerGroups] =
+    useState<ConsumerGroupList>();
 
   const config = useContext(ConfigContext);
   const { t } = useTranslation();
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const page = parseInt(searchParams.get("page") || "", 10) || 1;
-  const perPage = parseInt(searchParams.get("perPage") || "", 10) || 10;
+  const page = parseInt(searchParams.get('page') || '', 10) || 1;
+  const perPage = parseInt(searchParams.get('perPage') || '', 10) || 10;
 
   useEffect(() => {
     setOffset(perPage * (page - 1));
@@ -84,7 +80,7 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
   const filterConsumerGroups = () => {
     if (
       search &&
-      search.trim() != "" &&
+      search.trim() != '' &&
       consumerGroups?.items &&
       consumerGroups.items.length > 0
     ) {
@@ -96,9 +92,9 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
       setFilteredConsumerGroups((prevState) =>
         prevState
           ? {
-            ...prevState,
-            items: filterSearch,
-          }
+              ...prevState,
+              items: filterSearch,
+            }
           : undefined
       );
     } else {
@@ -129,9 +125,9 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
     if (consumerGroups === undefined) {
       return (
         <PageSection
-          className="kafka-ui-m-full-height"
+          className='kafka-ui-m-full-height'
           variant={PageSectionVariants.light}
-          padding={{ default: "noPadding" }}
+          padding={{ default: 'noPadding' }}
         >
           <MASLoading />
         </PageSection>
@@ -142,17 +138,17 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
       search.length < 1
     ) {
       return (
-          <EmptyState
-            emptyStateProps={{
-              variant: MASEmptyStateVariant.NoConsumerGroups,
-            }}
-            titleProps={{
-              title: t("consumerGroup.empty_consumer_title"),
-            }}
-            emptyStateBodyProps={{
-              body: t("consumerGroup.empty_consumer_body"),
-            }}
-          />
+        <EmptyState
+          emptyStateProps={{
+            variant: MASEmptyStateVariant.NoConsumerGroups,
+          }}
+          titleProps={{
+            title: t('consumerGroup.empty_consumer_title'),
+          }}
+          emptyStateBodyProps={{
+            body: t('consumerGroup.empty_consumer_body'),
+          }}
+        />
       );
     } else if (filteredConsumerGroups) {
       return (
@@ -183,14 +179,14 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
       onClose={onClose}
       panelBodyContent={panelBodyContent}
       drawerHeaderProps={{
-        text: { label: t("consumerGroup.consumer_group_id") },
-        title: { value: consumerGroupDetail?.groupId, headingLevel: "h1" },
+        text: { label: t('consumerGroup.consumer_group_id') },
+        title: { value: consumerGroupDetail?.groupId, headingLevel: 'h1' },
       }}
-      data-ouia-app-id="dataPlane-consumerGroupDetails"
+      data-ouia-app-id='dataPlane-consumerGroupDetails'
     >
       {/* <Card className="kafka-ui-m-full-height"> */}
-        {renderConsumerTable()}
-        {/* </Card> */}
+      {renderConsumerTable()}
+      {/* </Card> */}
     </MASDrawer>
   );
 };

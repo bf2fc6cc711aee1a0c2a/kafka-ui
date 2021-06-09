@@ -2,7 +2,8 @@ export const DEFAULT_REPLICAS = '3';
 export const DEFAULT_MIN_CLEANBLE_RATIO = '0.5';
 export const DEFAULT_MIN_INSYNC_REPLICAS = '2';
 export const DEFAULT_SEGMENT_TIME = '604800000 milliseconds (7 days)';
-export const DEFAULT_MAX_MESSAGE_TIMESTAMP_DIFF = '9223372036854775807 milliseconds';
+export const DEFAULT_MAX_MESSAGE_TIMESTAMP_DIFF =
+  '9223372036854775807 milliseconds';
 export const DEFAULT_SEGMENT_INDEX_SIZE = '10485760 bytes (10 mebibytes)';
 export const DEFAULT_INDEX_INTERVAL_SIZE = '4096 bytes (4 kibibytes)';
 export const DEFAULT_LOG_SEGMENT_SIZE = '1073741824 bytes (1 gibibyte)';

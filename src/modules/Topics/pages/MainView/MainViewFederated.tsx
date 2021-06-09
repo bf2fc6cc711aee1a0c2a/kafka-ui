@@ -1,16 +1,16 @@
-import React, { FunctionComponent } from "react";
-import { BrowserRouter } from "react-router-dom";
-import { I18nextProvider } from "react-i18next";
+import React, { FunctionComponent } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { I18nextProvider } from 'react-i18next';
 import {
   FederatedContext,
   FederatedProps,
   ConfigContext,
   IConfiguration,
-} from "@app/contexts";
-import kafkai18n from "@app/i18n";
-import { MainView } from "./MainView";
-import { KafkaActions } from "@app/utils";
-import { RootModal } from "@app/components/RootModal";
+} from '@app/contexts';
+import kafkai18n from '@app/i18n';
+import { MainView } from './MainView';
+import { KafkaActions } from '@app/utils';
+import { RootModal } from '@app/components/RootModal';
 
 export type MainViewFederatedProps = FederatedProps &
   IConfiguration & {
@@ -46,7 +46,7 @@ const MainViewFederated: FunctionComponent<MainViewFederatedProps> = ({
           <FederatedContext.Provider
             value={{
               kafkaName,
-              kafkaPageLink,             
+              kafkaPageLink,
               onError,
               onConnectToRoute,
               getConnectToRoutePath,

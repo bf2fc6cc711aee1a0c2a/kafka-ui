@@ -22,10 +22,7 @@ export const getTopics = async (
       basePath: config?.basePath,
     })
   );
-  const response: AxiosResponse<TopicsList> = await api.getTopics(
-    100,
-    filter
-  );
+  const response: AxiosResponse<TopicsList> = await api.getTopics(100, filter);
   return response.data;
 };
 

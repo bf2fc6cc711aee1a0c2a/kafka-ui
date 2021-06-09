@@ -1,7 +1,7 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
-import { MainView } from "./MainView";
-import { FederatedContext } from "@app/contexts";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { MainView } from './MainView';
+import { FederatedContext } from '@app/contexts';
 
 const MainViewConnected: React.FC = () => {
   const history = useHistory();
@@ -18,7 +18,7 @@ const MainViewConnected: React.FC = () => {
   };
 
   const onCreateTopic = () => {
-    onConnectToRoute("topic/create");
+    onConnectToRoute('topic/create');
   };
 
   const onEditTopic = (topicName: string | undefined) => {

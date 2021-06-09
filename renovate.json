@@ -1,7 +1,4 @@
 {
-"extends": [
-    "config:base",
-    ":pinAllExceptPeerDependencies"
-  ],
+  "extends": ["config:base", ":pinAllExceptPeerDependencies"],
   "groupName": "all"
 }

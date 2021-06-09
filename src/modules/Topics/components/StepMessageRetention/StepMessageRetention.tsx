@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Flex,
   FlexItem,
@@ -15,8 +15,8 @@ import {
   Text,
   TextContent,
   TextVariants,
-} from "@patternfly/react-core";
-import "../CreateTopicWizard/CreateTopicWizard.css";
+} from '@patternfly/react-core';
+import '../CreateTopicWizard/CreateTopicWizard.css';
 
 export type StepMessageRetentionProps = {
   setMsgRetentionValue: (value: number) => void;
@@ -44,7 +44,7 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
     HOUR = 3600000,
     DAY = 86400000,
     WEEK = 604800000,
-    CUSTOM = "custom",
+    CUSTOM = 'custom',
     UNLIMITED = -1,
   }
 
@@ -54,25 +54,17 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
     MEGABYTE = 1000000,
     GIGABYTE = 1000000000,
     TERABYTE = 1000000000000,
-    CUSTOM = "custom",
+    CUSTOM = 'custom',
     UNLIMITED = -1,
   }
-  const [
-    retentionTimeTouchspinValue,
-    setRetentionTimeTouchspinValue,
-  ] = useState<number>(7);
-  const [
-    retentionSizeTouchspinValue,
-    setRetentionSizeTouchspinValue,
-  ] = useState<number>(1);
-  const [
-    isRetentionTimeSelectOpen,
-    setIsRetentionTimeSelectOpen,
-  ] = useState<boolean>(false);
-  const [
-    isRetentionSizeSelectOpen,
-    setIsRetentionSizeSelectOpen,
-  ] = useState<boolean>(false);
+  const [retentionTimeTouchspinValue, setRetentionTimeTouchspinValue] =
+    useState<number>(7);
+  const [retentionSizeTouchspinValue, setRetentionSizeTouchspinValue] =
+    useState<number>(1);
+  const [isRetentionTimeSelectOpen, setIsRetentionTimeSelectOpen] =
+    useState<boolean>(false);
+  const [isRetentionSizeSelectOpen, setIsRetentionSizeSelectOpen] =
+    useState<boolean>(false);
   const [selectedTime, setSelectedTime] = useState<boolean>(false);
   const [selectedSize, setSelectedSize] = useState<boolean>(false);
   const [retentionTimeFactor, setRetentionTimeFactor] = useState<number>(
@@ -112,19 +104,19 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
     const target = event.target;
     const name = target.name;
 
-    if (name === "radioDay") {
+    if (name === 'radioDay') {
       setCurrentPeriod(RetentionTimeOption.DAY);
-    } else if (name === "radioWeek") {
+    } else if (name === 'radioWeek') {
       setCurrentPeriod(RetentionTimeOption.WEEK);
-    } else if (name === "radioUnlimitedTime") {
+    } else if (name === 'radioUnlimitedTime') {
       setCurrentPeriod(RetentionTimeOption.UNLIMITED);
-    } else if (name === "radioCustomTime") {
+    } else if (name === 'radioCustomTime') {
       setCurrentPeriod(RetentionTimeOption.CUSTOM);
     }
 
-    if (name === "radioCustomSize") {
+    if (name === 'radioCustomSize') {
       setCurrentSize(RetentionSizeOption.CUSTOM);
-    } else if (name === "radioUnlimitedSize") {
+    } else if (name === 'radioUnlimitedSize') {
       setCurrentSize(RetentionSizeOption.UNLIMITED);
     }
   };
@@ -138,17 +130,17 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
   };
 
   const onRetentionTimeSelect = (event, selection) => {
-    if (selection === "days") {
+    if (selection === 'days') {
       setRetentionTimeFactor(RetentionTimeOption.DAY);
-    } else if (selection === "unlimited") {
+    } else if (selection === 'unlimited') {
       setRetentionTimeFactor(RetentionTimeOption.UNLIMITED);
-    } else if (selection === "milliseconds") {
+    } else if (selection === 'milliseconds') {
       setRetentionTimeFactor(RetentionTimeOption.MILLISECOND);
-    } else if (selection === "seconds") {
+    } else if (selection === 'seconds') {
       setRetentionTimeFactor(RetentionTimeOption.SECOND);
-    } else if (selection === "minutes") {
+    } else if (selection === 'minutes') {
       setRetentionTimeFactor(RetentionTimeOption.MINUTE);
-    } else if (selection === "hours") {
+    } else if (selection === 'hours') {
       setRetentionTimeFactor(RetentionTimeOption.HOUR);
     }
     setSelectedTime(selection);
@@ -156,17 +148,17 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
   };
 
   const onRetentionSizeSelect = (event, selection) => {
-    if (selection === "unlimited") {
+    if (selection === 'unlimited') {
       setRetentionSizeFactor(RetentionSizeOption.UNLIMITED);
-    } else if (selection === "bytes") {
+    } else if (selection === 'bytes') {
       setRetentionSizeFactor(RetentionSizeOption.BYTE);
-    } else if (selection === "kilobytes") {
+    } else if (selection === 'kilobytes') {
       setRetentionSizeFactor(RetentionSizeOption.KILOBYTE);
-    } else if (selection === "megabytes") {
+    } else if (selection === 'megabytes') {
       setRetentionSizeFactor(RetentionSizeOption.MEGABYTE);
-    } else if (selection === "gigabytes") {
+    } else if (selection === 'gigabytes') {
       setRetentionSizeFactor(RetentionSizeOption.GIGABYTE);
-    } else if (selection === "terabytes") {
+    } else if (selection === 'terabytes') {
       setRetentionSizeFactor(RetentionSizeOption.TERABYTE);
     }
     setSelectedSize(selection);
@@ -203,52 +195,52 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
     <>
       <Form onSubmit={preventFormSubmit}>
         <FormSection
-          title={t("topic.message_retention")}
-          id="message-retention"
-          titleElement={"h2"}
+          title={t('topic.message_retention')}
+          id='message-retention'
+          titleElement={'h2'}
         >
           <TextContent>
             <Text component={TextVariants.p}>
-              {t("topic.message_retention_info")}
+              {t('topic.message_retention_info')}
             </Text>
             <Text component={TextVariants.small}>
-              {t("topic.message_retention_info_note")}
+              {t('topic.message_retention_info_note')}
             </Text>
           </TextContent>
 
           <FormGroup
-            fieldId="form-group-retention-time-in-wizard"
-            label={t("topic.retention_time")}
+            fieldId='form-group-retention-time-in-wizard'
+            label={t('topic.retention_time')}
           >
             <Stack hasGutter>
               <Radio
                 isChecked={currentPeriod === RetentionTimeOption.DAY}
-                name="radioDay"
+                name='radioDay'
                 onChange={handleMessageRetention}
-                label="A day"
-                aria-label="A day"
-                id="radio-controlled-1"
-                value="day"
+                label='A day'
+                aria-label='A day'
+                id='radio-controlled-1'
+                value='day'
               />
               <Radio
                 isChecked={currentPeriod === RetentionTimeOption.WEEK}
-                name="radioWeek"
+                name='radioWeek'
                 onChange={handleMessageRetention}
-                label="A week"
-                aria-label="A week"
-                id="radio-controlled-2"
-                value="week"
+                label='A week'
+                aria-label='A week'
+                id='radio-controlled-2'
+                value='week'
               />
               <Radio
                 isChecked={currentPeriod === RetentionTimeOption.CUSTOM}
-                name="radioCustomTime"
+                name='radioCustomTime'
                 onChange={handleMessageRetention}
-                label="Custom duration"
-                aria-label="custom input"
-                id="radio-controlled-4"
-                value="custom"
+                label='Custom duration'
+                aria-label='custom input'
+                id='radio-controlled-4'
+                value='custom'
               />
-              <div className="kafka-ui--radio__parameters">
+              <div className='kafka-ui--radio__parameters'>
                 <Flex>
                   <FlexItem>
                     <NumberInput
@@ -262,57 +254,57 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
                   <FlexItem>
                     <Select
                       variant={SelectVariant.single}
-                      aria-label="Select Input"
+                      aria-label='Select Input'
                       onToggle={onRetentionTimeToggle}
                       onSelect={onRetentionTimeSelect}
                       selections={selectedTime}
                       isOpen={isRetentionTimeSelectOpen}
                       // aria-labelledby={titleId}
                     >
-                      <SelectOption key={0} value="days" isPlaceholder />
-                      <SelectOption key={1} value="seconds" />
-                      <SelectOption key={2} value="minutes" />
-                      <SelectOption key={3} value="hours" />
-                      <SelectOption key={4} value="milliseconds" />
+                      <SelectOption key={0} value='days' isPlaceholder />
+                      <SelectOption key={1} value='seconds' />
+                      <SelectOption key={2} value='minutes' />
+                      <SelectOption key={3} value='hours' />
+                      <SelectOption key={4} value='milliseconds' />
                     </Select>
                   </FlexItem>
                 </Flex>
               </div>
               <Radio
                 isChecked={currentPeriod === RetentionTimeOption.UNLIMITED}
-                name="radioUnlimitedTime"
+                name='radioUnlimitedTime'
                 onChange={handleMessageRetention}
-                label="Unlimited"
-                aria-label="Unlimited"
-                id="radio-controlled-3"
-                value="unlimited"
+                label='Unlimited'
+                aria-label='Unlimited'
+                id='radio-controlled-3'
+                value='unlimited'
               />
             </Stack>
           </FormGroup>
           <FormGroup
-            fieldId="form-group-retention-size-in-wizard"
-            label="Retention size"
+            fieldId='form-group-retention-size-in-wizard'
+            label='Retention size'
           >
             <Stack hasGutter>
               <Radio
                 isChecked={currentSize === RetentionSizeOption.UNLIMITED}
-                name="radioUnlimitedSize"
+                name='radioUnlimitedSize'
                 onChange={handleMessageRetention}
-                label="Unlimited"
-                aria-label="Unlimited"
-                id="radio-controlled-6"
-                value="unlimited"
+                label='Unlimited'
+                aria-label='Unlimited'
+                id='radio-controlled-6'
+                value='unlimited'
               />
               <Radio
                 isChecked={currentSize === RetentionSizeOption.CUSTOM}
-                name="radioCustomSize"
+                name='radioCustomSize'
                 onChange={handleMessageRetention}
-                label="Custom size"
-                aria-label="custom input"
-                id="radio-controlled-5"
-                value="custom"
+                label='Custom size'
+                aria-label='custom input'
+                id='radio-controlled-5'
+                value='custom'
               />
-              <div className="kafka-ui--radio__parameters">
+              <div className='kafka-ui--radio__parameters'>
                 <Flex>
                   <FlexItem>
                     <NumberInput
@@ -326,18 +318,18 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
                   <FlexItem>
                     <Select
                       variant={SelectVariant.single}
-                      aria-label="Select Input"
+                      aria-label='Select Input'
                       onToggle={onRetentionSizeToggle}
                       onSelect={onRetentionSizeSelect}
                       selections={selectedSize}
                       isOpen={isRetentionSizeSelectOpen}
                       // aria-labelledby={titleId}
                     >
-                      <SelectOption key={5} value="bytes" isPlaceholder />
-                      <SelectOption key={6} value="kilobytes" />
-                      <SelectOption key={7} value="megabytes" />
-                      <SelectOption key={8} value="gigabytes" />
-                      <SelectOption key={9} value="terabytes" />
+                      <SelectOption key={5} value='bytes' isPlaceholder />
+                      <SelectOption key={6} value='kilobytes' />
+                      <SelectOption key={7} value='megabytes' />
+                      <SelectOption key={8} value='gigabytes' />
+                      <SelectOption key={9} value='terabytes' />
                     </Select>
                   </FlexItem>
                 </Flex>

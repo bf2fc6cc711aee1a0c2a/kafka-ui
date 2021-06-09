@@ -42,7 +42,7 @@ export const convertUnits = (topicData: IAdvancedTopic): IAdvancedTopic => {
     if (key.split('.').pop() === 'ms') {
       topic[key] = String(
         Number(topic[key]) *
-        unitsToMilliSecond[topic[`${key}.unit`] || 'milliseconds']
+          unitsToMilliSecond[topic[`${key}.unit`] || 'milliseconds']
       );
     }
     if (key.split('.').pop() === 'bytes') {
@@ -55,7 +55,7 @@ export const convertUnits = (topicData: IAdvancedTopic): IAdvancedTopic => {
   if (topic['flush.messages']) {
     topic['flush.messages'] = String(
       Number(topic['flush.messages']) *
-      unitsToMilliSecond[topic['flush.messages.unit'] || 'milliseconds']
+        unitsToMilliSecond[topic['flush.messages.unit'] || 'milliseconds']
     );
   }
 

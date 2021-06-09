@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { PaginationVariant } from "@patternfly/react-core";
-import { TableVariant, IRowData } from "@patternfly/react-table";
-import { ConsumerGroup } from "@rhoas/kafka-instance-sdk";
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { PaginationVariant } from '@patternfly/react-core';
+import { TableVariant, IRowData } from '@patternfly/react-table';
+import { ConsumerGroup } from '@rhoas/kafka-instance-sdk';
 import {
   MASTable,
   useRootModalContext,
@@ -10,11 +10,11 @@ import {
   MASPagination,
   EmptyState,
   MASEmptyStateVariant,
-} from "@app/components";
+} from '@app/components';
 import {
   ConsumerGroupToolbar,
   ConsumerGroupToolbarProps,
-} from "./ConsumerGroupToolbar";
+} from './ConsumerGroupToolbar';
 
 export type ConsumerGroupsTableProps = ConsumerGroupToolbarProps & {
   consumerGroups: ConsumerGroup[];
@@ -43,14 +43,14 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
   const [activeRow, setActiveRow] = useState<string>();
 
   const tableColumns = [
-    { title: t("consumerGroup.consumer_group_id") },
-    { title: t("consumerGroup.active_members") },
-    { title: t("consumerGroup.partitions_with_lag") },
+    { title: t('consumerGroup.consumer_group_id') },
+    { title: t('consumerGroup.active_members') },
+    { title: t('consumerGroup.partitions_with_lag') },
   ];
 
   useEffect(() => {
     if (!isDrawerOpen) {
-      setActiveRow("");
+      setActiveRow('');
     }
   }, [isDrawerOpen]);
 
@@ -100,8 +100,8 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
     const originalData: ConsumerGroup = rowData.originalData;
     const resolver = [
       {
-        title: t("common.delete"),
-        ["data-testid"]: "tableConsumers-actionDelete",
+        title: t('common.delete'),
+        ['data-testid']: 'tableConsumers-actionDelete',
         onClick: (event: any) =>
           onSelectKebabDropdownOption(event, originalData),
       },
@@ -114,7 +114,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
     const clickedEventType = event?.target?.type;
     const tagName = event?.target?.tagName;
     // Open modal on row click except kebab button click
-    if (clickedEventType !== "button" && tagName?.toLowerCase() !== "a") {
+    if (clickedEventType !== 'button' && tagName?.toLowerCase() !== 'a') {
       onViewConsumerGroup(originalData);
       setActiveRow(originalData?.groupId);
     }
@@ -133,14 +133,14 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
         tableProps={{
           cells: tableColumns,
           rows: preparedTableCells(),
-          "aria-label": t("cluster_instance_list"),
+          'aria-label': t('cluster_instance_list'),
           actionResolver: actionResolver,
           shouldDefaultCustomRowWrapper: true,
           variant: TableVariant.compact,
         }}
         activeRow={activeRow}
         onRowClick={onRowClick}
-        rowDataTestId={rowDataTestId || "tableConsumers-row"}
+        rowDataTestId={rowDataTestId || 'tableConsumers-row'}
       />
       {consumerGroups?.length < 1 && (
         <EmptyState
@@ -148,30 +148,30 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
             variant: MASEmptyStateVariant.NoResult,
           }}
           titleProps={{
-            title: t("common.no_results_title"),
+            title: t('common.no_results_title'),
           }}
           emptyStateBodyProps={{
-            body: t("common.no_results_body"),
+            body: t('common.no_results_body'),
           }}
         />
       )}
 
       {total > 0 && (
         <MASPagination
-          widgetId="consumer-group-pagination-options-menu-bottom"
+          widgetId='consumer-group-pagination-options-menu-bottom'
           itemCount={total}
           variant={PaginationVariant.bottom}
           page={page}
           perPage={perPage}
           titles={{
-            paginationTitle: t("common.full_pagination"),
-            perPageSuffix: t("common.per_page_suffix"),
-            toFirstPage: t("common.to_first_page"),
-            toPreviousPage: t("common.to_previous_page"),
-            toLastPage: t("common.to_last_page"),
-            toNextPage: t("common.to_next_page"),
-            optionsToggle: t("common.options_toggle"),
-            currPage: t("common.curr_page"),
+            paginationTitle: t('common.full_pagination'),
+            perPageSuffix: t('common.per_page_suffix'),
+            toFirstPage: t('common.to_first_page'),
+            toPreviousPage: t('common.to_previous_page'),
+            toLastPage: t('common.to_last_page'),
+            toNextPage: t('common.to_next_page'),
+            optionsToggle: t('common.options_toggle'),
+            currPage: t('common.curr_page'),
           }}
         />
       )}
