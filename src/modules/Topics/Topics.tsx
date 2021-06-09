@@ -98,7 +98,6 @@ export const Topics: React.FC<TopicsProps> = ({
       );
     } else if (topicItems.length < 1 && searchTopicName.length < 1) {
       return (
-        <Card className="kafka-ui-m-full-height">
           <EmptyState
             emptyStateProps={{
               variant: MASEmptyStateVariant.NoItems,
@@ -114,11 +113,10 @@ export const Topics: React.FC<TopicsProps> = ({
               onClick: onClickCreateTopic,
             }}
           />
-        </Card>
       );
     } else if (topicItems) {
       return (
-        <TopicsTable
+          <TopicsTable
           total={topics?.count || 0}
           page={page}
           perPage={perPage}
@@ -132,7 +130,7 @@ export const Topics: React.FC<TopicsProps> = ({
           setFilteredValue={setSearchTopicName}
           refreshTopics={fetchTopic}
           onEdit={onEditTopic}
-        />
+          />
       );
     }
     return <></>;
@@ -140,7 +138,9 @@ export const Topics: React.FC<TopicsProps> = ({
 
   return (
     <>
-      <Card className="kafka-ui-m-full-height">{renderTopicsTable()}</Card>
+      <Card className="kafka-ui-m-full-height">
+        {renderTopicsTable()}
+      </Card>
     </>
   );
 };

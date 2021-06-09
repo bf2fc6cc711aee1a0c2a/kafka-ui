@@ -72,7 +72,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       variantConfig = {
         variant: EmptyStateVariant.large,
         icon: CubesIcon,
-        titleSize: TitleSizes.xl,
+        titleSize: TitleSizes.lg,
         headingLevel: 'h2',
       };
       break;
@@ -80,7 +80,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       variantConfig = {
         variant: EmptyStateVariant.large,
         icon: PlusCircleIcon,
-        titleSize: TitleSizes.xl,
+        titleSize: TitleSizes.lg,
         headingLevel: 'h2',
       };
       break;

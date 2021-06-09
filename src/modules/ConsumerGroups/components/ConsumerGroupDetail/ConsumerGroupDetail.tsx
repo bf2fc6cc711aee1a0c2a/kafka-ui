@@ -23,7 +23,7 @@ export const ConsumerGroupDetail: React.FunctionComponent<ConsumerGroupDetailPro
 
   const columns = [
     t("consumerGroup.partition"),
-    `${t("consumerGroup.client_id")} + ${t("consumerGroup.customer_id")}`,
+    `${t("consumerGroup.client_id")} + ${t("consumerGroup.member_id")}`,
     t("consumerGroup.current_offset"),
     t("consumerGroup.log_end_offset"),
     t("consumerGroup.offset_lag"),
