@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { PaginationVariant } from "@patternfly/react-core";
 import { TableVariant, IRowData } from "@patternfly/react-table";
-import { ConsumerGroup } from "@app/openapi";
+import { ConsumerGroup } from "@rhoas/kafka-instance-sdk";
 import {
   MASTable,
   useRootModalContext,

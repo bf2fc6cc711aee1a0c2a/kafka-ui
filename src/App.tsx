@@ -23,7 +23,7 @@ const App: React.FC = () => {
       <ConfigContext.Provider
         value={{
           basePath:
-            "http://localhost:8000/api/managed-services-strimzi-ui/v1/api",
+            "http://localhost:8000/data/kafka",
           getToken: async () => "",
         }}
       >

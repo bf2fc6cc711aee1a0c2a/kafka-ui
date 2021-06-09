@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import { Topics } from "@app/modules/Topics";
-import { Topic, TopicsList } from "@app/openapi";
+import { Topic, TopicsList } from "@rhoas/kafka-instance-sdk";
 import { IConfiguration } from "@app/contexts";
 import { getTopics } from "@app/services";
 

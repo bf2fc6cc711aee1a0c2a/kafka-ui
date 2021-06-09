@@ -6,7 +6,7 @@ import {
   IAdvancedTopic,
 } from "@app/modules/Topics/components";
 import { getTopic, updateTopicModel } from "@app/services";
-import { ConfigEntry, TopicSettings } from "@app/openapi/api";
+import { ConfigEntry, TopicSettings } from "@rhoas/kafka-instance-sdk";
 import { ConfigContext } from "@app/contexts";
 import { convertUnits } from "@app/modules/Topics/utils";
 import { isAxiosError } from "@app/utils/axios";
@@ -94,7 +94,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
 
     const topicSettings: TopicSettings = {
       // TODO Re-enable when the API supports setting the number of partition
-      // numPartitions: Number(topicData.numPartitions),
+      numPartitions: Number(topicData.numPartitions),
       config: newConfig,
     };
 
