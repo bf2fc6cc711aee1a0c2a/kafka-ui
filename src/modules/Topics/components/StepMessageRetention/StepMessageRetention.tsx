@@ -248,36 +248,37 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
                 id="radio-controlled-4"
                 value="custom"
               />
-              <div className="kafka-ui--radio__parameters">
-                <Flex>
-                  <FlexItem>
-                    <NumberInput
-                      onMinus={handleRetentionTimeMinusClick}
-                      onPlus={handleRetentionTimePlusClick}
-                      value={retentionTimeTouchspinValue}
-                      onChange={handleRetentionTimeTouchSpinChange}
-                      min={0}
-                    />
-                  </FlexItem>
-                  <FlexItem>
-                    <Select
-                      variant={SelectVariant.single}
-                      aria-label="Select Input"
-                      onToggle={onRetentionTimeToggle}
-                      onSelect={onRetentionTimeSelect}
-                      selections={selectedTime}
-                      isOpen={isRetentionTimeSelectOpen}
-                      // aria-labelledby={titleId}
-                    >
-                      <SelectOption key={0} value="days" isPlaceholder />
-                      <SelectOption key={1} value="seconds" />
-                      <SelectOption key={2} value="minutes" />
-                      <SelectOption key={3} value="hours" />
-                      <SelectOption key={4} value="milliseconds" />
-                    </Select>
-                  </FlexItem>
-                </Flex>
-              </div>
+              {currentPeriod === RetentionTimeOption.CUSTOM && (
+                <div className="kafka-ui--radio__parameters">
+                  <Flex>
+                    <FlexItem>
+                      <NumberInput
+                        onMinus={handleRetentionTimeMinusClick}
+                        onPlus={handleRetentionTimePlusClick}
+                        value={retentionTimeTouchspinValue}
+                        onChange={handleRetentionTimeTouchSpinChange}
+                        min={0}
+                      />
+                    </FlexItem>
+                    <FlexItem>
+                      <Select
+                        variant={SelectVariant.single}
+                        aria-label="Select Input"
+                        onToggle={onRetentionTimeToggle}
+                        onSelect={onRetentionTimeSelect}
+                        selections={selectedTime}
+                        isOpen={isRetentionTimeSelectOpen}
+                      >
+                        <SelectOption key={0} value="days" isPlaceholder />
+                        <SelectOption key={1} value="seconds" />
+                        <SelectOption key={2} value="minutes" />
+                        <SelectOption key={3} value="hours" />
+                        <SelectOption key={4} value="milliseconds" />
+                      </Select>
+                    </FlexItem>
+                  </Flex>
+                </div>
+              )}
               <Radio
                 isChecked={currentPeriod === RetentionTimeOption.UNLIMITED}
                 name="radioUnlimitedTime"
@@ -312,36 +313,37 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
                 id="radio-controlled-5"
                 value="custom"
               />
-              <div className="kafka-ui--radio__parameters">
-                <Flex>
-                  <FlexItem>
-                    <NumberInput
-                      onMinus={handleRetentionSizeMinusClick}
-                      onPlus={handleRetentionSizePlusClick}
-                      value={retentionSizeTouchspinValue}
-                      onChange={handleRetentionSizeTouchSpinChange}
-                      min={0}
-                    />
-                  </FlexItem>
-                  <FlexItem>
-                    <Select
-                      variant={SelectVariant.single}
-                      aria-label="Select Input"
-                      onToggle={onRetentionSizeToggle}
-                      onSelect={onRetentionSizeSelect}
-                      selections={selectedSize}
-                      isOpen={isRetentionSizeSelectOpen}
-                      // aria-labelledby={titleId}
-                    >
-                      <SelectOption key={5} value="bytes" isPlaceholder />
-                      <SelectOption key={6} value="kilobytes" />
-                      <SelectOption key={7} value="megabytes" />
-                      <SelectOption key={8} value="gigabytes" />
-                      <SelectOption key={9} value="terabytes" />
-                    </Select>
-                  </FlexItem>
-                </Flex>
-              </div>
+              {currentSize === RetentionSizeOption.CUSTOM && (
+                <div className="kafka-ui--radio__parameters">
+                  <Flex>
+                    <FlexItem>
+                      <NumberInput
+                        onMinus={handleRetentionSizeMinusClick}
+                        onPlus={handleRetentionSizePlusClick}
+                        value={retentionSizeTouchspinValue}
+                        onChange={handleRetentionSizeTouchSpinChange}
+                        min={0}
+                      />
+                    </FlexItem>
+                    <FlexItem>
+                      <Select
+                        variant={SelectVariant.single}
+                        aria-label="Select Input"
+                        onToggle={onRetentionSizeToggle}
+                        onSelect={onRetentionSizeSelect}
+                        selections={selectedSize}
+                        isOpen={isRetentionSizeSelectOpen}
+                      >
+                        <SelectOption key={5} value="bytes" isPlaceholder />
+                        <SelectOption key={6} value="kilobytes" />
+                        <SelectOption key={7} value="megabytes" />
+                        <SelectOption key={8} value="gigabytes" />
+                        <SelectOption key={9} value="terabytes" />
+                      </Select>
+                    </FlexItem>
+                  </Flex>
+                </div>
+              )}
             </Stack>
           </FormGroup>
         </FormSection>
