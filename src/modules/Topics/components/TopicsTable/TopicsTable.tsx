@@ -9,7 +9,7 @@ import {
   EmptyState,
   MASEmptyStateVariant,
 } from "@app/components";
-import { Topic } from "@app/openapi";
+import { Topic } from "@rhoas/kafka-instance-sdk";
 import { useFederated } from "@app/contexts";
 import { TopicsToolbar, TopicsToolbarProps } from "./TopicsToolbar";
 import { convertRetentionSize, convertRetentionTime } from "@app/utils";

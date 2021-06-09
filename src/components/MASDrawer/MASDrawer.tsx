@@ -19,6 +19,7 @@ import {
   DrawerContentBody,
 } from "@patternfly/react-core";
 import { MASLoading } from "@app/components";
+import "./MASDrawer.css";
 
 export type MASDrawerProps = DrawerProps & {
   children: React.ReactNode;
@@ -71,7 +72,7 @@ export const MASDrawer: React.FC<MASDrawerProps> = ({
               {text?.label && (
                 <Text
                   component={text?.component || TextVariants.small}
-                  className={text?.className || "pf-u-mb-0"}
+                  className={text?.className || "kafka-ui-mas-drawer__top-label"}
                 >
                   {text?.label}
                 </Text>
@@ -80,7 +81,7 @@ export const MASDrawer: React.FC<MASDrawerProps> = ({
                 <Title
                   headingLevel={title?.headingLevel || "h2"}
                   size={title?.size || TitleSizes["xl"]}
-                  className={title?.className || "pf-u-mt-0"}
+                  className={title?.className || "kafka-ui-mas-drawer__title"}
                 >
                   {title?.value}
                 </Title>
@@ -111,7 +112,7 @@ export const MASDrawer: React.FC<MASDrawerProps> = ({
           notRequiredDrawerContentBackground ? "pf-m-no-background" : ""
         }
       >
-        <DrawerContentBody className="pf-u-display-flex pf-u-flex-direction-column">
+        <DrawerContentBody className="kafka-ui-mas-drawer__drawer-content-body">
           {children}
         </DrawerContentBody>
       </DrawerContent>

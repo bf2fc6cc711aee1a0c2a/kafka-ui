@@ -5,5 +5,4 @@
 !.storybook/
 !.github/
 dist
-openapi
 mock-server

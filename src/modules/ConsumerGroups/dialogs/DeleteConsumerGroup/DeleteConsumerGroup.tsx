@@ -9,8 +9,9 @@ import {
   TextInput,
 } from "@patternfly/react-core";
 import { deleteConsumerGroup } from "@app/services";
-import { ConfigContext, AlertContext } from "@app/contexts";
+import { ConfigContext } from "@app/contexts";
 import { useRootModalContext } from "@app/components/RootModal";
+import { useAlert } from "@bf2/ui-shared";
 
 export const DeleteConsumerGroup: React.FC = () => {
   const { t } = useTranslation();
@@ -18,7 +19,7 @@ export const DeleteConsumerGroup: React.FC = () => {
   const { store, hideModal } = useRootModalContext();
   const { consumerName, refreshConsumerGroups } = store?.modalProps || {};
   const [verificationText, setVerificationText] = useState<string>("");
-  const { addAlert } = useContext(AlertContext);
+  const { addAlert } = useAlert();
 
   const onClose = () => {
     hideModal();
@@ -28,17 +29,21 @@ export const DeleteConsumerGroup: React.FC = () => {
     try {
       if (consumerName) {
         await deleteConsumerGroup(consumerName, config).then(() => {
-          addAlert(
-            t("consumerGroup.consumergroup_successfully_deleted", {
+          addAlert({
+            variant: AlertVariant.success,
+            title: t("consumerGroup.consumergroup_successfully_deleted", {
               name: consumerName,
             }),
-            AlertVariant.success
-          );
+          });
+
           refreshConsumerGroups && refreshConsumerGroups();
         });
       }
     } catch (err) {
-      addAlert(err.response.data.error_message, AlertVariant.danger);
+      addAlert({
+        variant: AlertVariant.danger,
+        title: err.response.data.error_message,
+      });
     }
     onClose();
   };

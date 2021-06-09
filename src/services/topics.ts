@@ -5,8 +5,8 @@ import {
   Topic,
   TopicSettings,
   TopicsList,
-} from '@app/openapi/api';
-import { Configuration } from '@app/openapi';
+} from '@rhoas/kafka-instance-sdk';
+import { Configuration } from '@rhoas/kafka-instance-sdk';
 import { IConfiguration } from '@app/contexts';
 import { IAdvancedTopic } from '@app/modules/Topics/components/CreateTopicWizard/CreateTopicWizard';
 
@@ -22,7 +22,7 @@ export const getTopics = async (
       basePath: config?.basePath,
     })
   );
-  const response: AxiosResponse<TopicsList> = await api.getTopicsList(
+  const response: AxiosResponse<TopicsList> = await api.getTopics(
     100,
     filter
   );

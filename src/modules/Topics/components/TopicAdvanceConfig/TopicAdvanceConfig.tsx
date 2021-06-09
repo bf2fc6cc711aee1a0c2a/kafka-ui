@@ -177,14 +177,17 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
   }, [topicData["retention.bytes"], topicData["retention.ms"]]);
 
   const validationCheck = (value: string) => {
-    const regexpInvalid = new RegExp("^[0-9A-Za-z_-]+$");
+    const legalNameChars = new RegExp('^[a-zA-Z0-9._-]+$');
 
-    if (value.length && !regexpInvalid.test(value)) {
+    if (value.length && !legalNameChars.test(value)) {
       setInvalidText(t("topic.topic_name_helper_text"));
       setTopicValidated("error");
     } else if (value.length > 249) {
       setTopicValidated("error");
       setInvalidText(t("topic.cannot_exceed_characters"));
+    } else if (value === '.' || value === '..') {
+      setTopicValidated('error');
+      setInvalidText(t('topic.invalid_name_with_dot'));
     } else setTopicValidated("default");
   };
 

@@ -80,6 +80,7 @@ export const SizeTimeFormGroup: React.FC<SizeTimeFormGroup> = ({
           plusBtnProps={plusBtnProps}
           minusBtnProps={minusBtnProps}
           min={min}
+          widthChars={10}
         />
       </FlexItem>
       <FlexItem>

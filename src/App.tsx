@@ -2,9 +2,19 @@ import React from "react";
 import { I18nextProvider } from "react-i18next";
 import { BrowserRouter as Router } from "react-router-dom";
 import "@patternfly/react-core/dist/styles/base.css";
+import "@patternfly/patternfly/utilities/Display/display.css";
+import "@patternfly/patternfly/utilities/Flex/flex.css";
+import "@patternfly/patternfly/utilities/Accessibility/accessibility.css";
+import "@patternfly/patternfly/utilities/Sizing/sizing.css";
+import "@patternfly/patternfly/utilities/Spacing/spacing.css";
 import kafkai18n from "@app/i18n";
-import { ConfigContext, AlertProvider } from "@app/contexts";
-import { ErrorBoundary, AppLayout, RootModal } from "@app/components";
+import { ConfigContext } from "@app/contexts";
+import {
+  ErrorBoundary,
+  AppLayout,
+  RootModal,
+  AlertProvider,
+} from "@app/components";
 import { Routes } from "@app/Routes";
 
 const App: React.FC = () => {
@@ -13,7 +23,7 @@ const App: React.FC = () => {
       <ConfigContext.Provider
         value={{
           basePath:
-            "http://localhost:8000/api/managed-services-strimzi-ui/v1/api",
+            "http://localhost:8000/data/kafka",
           getToken: async () => "",
         }}
       >

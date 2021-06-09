@@ -11,10 +11,11 @@ import { useTimeout } from "@app/hooks/useTimeOut";
 import { TopicsTable } from "./components";
 import { EmptyState, MASEmptyStateVariant, MASLoading } from "@app/components";
 import { getTopics } from "@app/services";
-import { ConfigContext, AlertContext, useFederated } from "@app/contexts";
-import { TopicsList, Topic } from "@app/openapi";
-import "./Topics.css";
+import { ConfigContext, useFederated } from "@app/contexts";
+import { TopicsList, Topic } from "@rhoas/kafka-instance-sdk";
 import { KafkaActions } from "@app/utils";
+import { useAlert } from "@bf2/ui-shared";
+import "./Topics.css";
 
 export type ITopic = {
   name: string;
@@ -37,7 +38,7 @@ export const Topics: React.FC<TopicsProps> = ({
 }) => {
   const { dispatchKafkaAction, onError } = useFederated();
   const { t } = useTranslation();
-  const { addAlert } = useContext(AlertContext);
+  const { addAlert } = useAlert();
   const config = useContext(ConfigContext);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -76,7 +77,10 @@ export const Topics: React.FC<TopicsProps> = ({
       if (onError && err.response.data.code === 401) {
         onError(err.response.data.code, err.response.data.error_message);
       } else {
-        addAlert(err.response.data.error_message, AlertVariant.danger);
+        addAlert({
+          title: err.response.data.error_message,
+          variant: AlertVariant.danger,
+        });
       }
     }
   };

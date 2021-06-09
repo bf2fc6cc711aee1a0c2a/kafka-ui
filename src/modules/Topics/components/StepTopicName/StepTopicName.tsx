@@ -32,13 +32,16 @@ export const StepTopicName: React.FC<StepTopicNameProps> = ({
   const topicNameInput = topicData && topicData["name"];
 
   const validationCheck = (topicNameInput) => {
-    const regexpInvalid = new RegExp("^[0-9A-Za-z_-]+$");
-    if (topicNameInput.length && !regexpInvalid.test(topicNameInput)) {
+    const legalNameChars = new RegExp('^[a-zA-Z0-9._-]+$');
+    if (topicNameInput.length && !legalNameChars.test(topicNameInput)) {
       setInvalidText(t("topic.topic_name_helper_text"));
       setTopicNameValidated("error");
     } else if (topicNameInput.length > 249) {
       setTopicNameValidated("error");
       setInvalidText(t("topic.cannot_exceed_characters"));
+    } else if (topicNameInput === '.' || topicNameInput === '..') {
+      setTopicNameValidated('error');
+      setInvalidText(t('topic.invalid_name_with_dot'));
     } else setTopicNameValidated("default");
   };
 
