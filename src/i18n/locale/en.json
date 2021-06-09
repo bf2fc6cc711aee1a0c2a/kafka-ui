@@ -64,7 +64,7 @@
     "enter_name": "Enter topic name",
     "topic_name": "Topic name",
     "topic_name_description": "Topic name is the unique identifier for this topic within this cluster. You need this to set up your producers and consumers, so make it something memorable.",
-    "topic_name_helper_text": "Must be letters (Aa-Zz), numbers, underscores( _ ), or hyphens ( - ).",
+    "topic_name_helper_text": "Must be letters (Aa-Zz), numbers, underscores ( _ ), periods ( . ), or hyphens ( - )",
     "topic_not_found": "Topic {{name}} does not exist",
     "partitions": "Partitions",
     "partitions_description": "Partitions are distinct lists of messages within a topic. Partitions are the main concurrency mechanism in Kafka and enable parts of a topic to be distributed over multiple brokers in the cluster.  A topic can contain one or more partitions, enabling producer and consumer loads to be scaled. The number of partitions in a topic cannot be changed once the topic is created. (num.partitions)",
@@ -148,7 +148,8 @@
     "partitions_warning": "Increasing a topic's partitions might result in messages having the same key from two different partitions, which can potentially break the message ordering guarantees that apply to a single partition",
     "required": "Required",
     "already_exists": "{{name}} already exists . Try a different name",
-    "cannot_exceed_characters": "Cannot exceed 249 characters"
+    "cannot_exceed_characters": "Cannot exceed 249 characters",
+    "invalid_name_with_dot": "Topic name cannot be `.` or `..`"
   },
   "consumerGroup": {
     "consumer_groups": "Consumer Groups",

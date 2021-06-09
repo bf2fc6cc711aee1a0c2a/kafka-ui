@@ -200,8 +200,11 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
 
   const onValidate = (onNext) => {
     if (topicData?.name.length < 1) {
-      setInvalidText(t("topic.required"));
-      setTopicNameValidated("error");
+      setInvalidText(t('topic.required'));
+      setTopicNameValidated('error');
+    } else if (topicData?.name === '.' || topicData?.name === '..') {
+      setInvalidText(t('topic.invalid_name_with_dot'));
+      setTopicNameValidated('error');
     } else {
       setIsLoading(true);
       fetchTopic(topicData?.name, onNext);
