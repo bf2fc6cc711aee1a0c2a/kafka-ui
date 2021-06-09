@@ -148,7 +148,7 @@
     "partitions_warning": "Increasing a topic's partitions might result in messages having the same key from two different partitions, which can potentially break the message ordering guarantees that apply to a single partition",
     "required": "Required",
     "already_exists": "{{name}} already exists. Try a different name",
-    "cannot_exceed_characters": "Cannot exceed 249 characters"
+    "cannot_exceed_characters": "Cannot exceed 249 characters",
     "invalid_name_with_dot": "Topic name cannot be `.` or `..`"
   },
   "consumerGroup": {
