@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  Button,
   PageSection,
   PageSectionVariants,
   Title,
@@ -12,8 +11,11 @@ import {
   Tab,
   TabTitleText,
   TabContent,
+  DropdownItem,
+  Dropdown,
+  KebabToggle,
+  DropdownPosition,
 } from "@patternfly/react-core";
-import EllipsisVIcon from "@patternfly/react-icons/dist/js/icons/ellipsis-v-icon";
 import { Topics, TopicsProps } from "@app/modules/Topics/Topics";
 import { ConsumerGroups } from "@app/modules/ConsumerGroups";
 import { useFederated } from "@app/contexts";
@@ -29,11 +31,51 @@ export const MainView: React.FC<MainViewProps> = ({
   activeTab,
 }) => {
   const { t } = useTranslation();
-  const { kafkaPageLink, kafkaName } = useFederated();
+  const {
+    kafkaPageLink,
+    kafkaName,
+    handleInstanceDrawer,
+    setIsOpenDeleteInstanceModal,
+  } = useFederated();
 
   const [activeTabKey, setActiveTabKey] = useState(activeTab);
   const contentRefConsumerGroups = React.createRef<HTMLElement>();
   const contentRefTopics = React.createRef<HTMLElement>();
+  const [isOpen, setIsOpen] = useState<boolean>();
+
+  const onToggle = (isOpen: boolean) => {
+    setIsOpen(isOpen);
+  };
+
+  const onSelect = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const onSelectKebabOption = (activeTab: string) => {
+    handleInstanceDrawer && handleInstanceDrawer(true, activeTab);
+  };
+
+  const onDeleteInstance = () => {
+    setIsOpenDeleteInstanceModal && setIsOpenDeleteInstanceModal(true);
+  };
+
+  const dropdownItems = [
+    <DropdownItem
+      key="view-instance-details"
+      onClick={() => onSelectKebabOption("details")}
+    >
+      {t("common.view_details")}
+    </DropdownItem>,
+    <DropdownItem
+      key="view-instance-connection"
+      onClick={() => onSelectKebabOption("connection")}
+    >
+      {t("common.view_connection")}
+    </DropdownItem>,
+    <DropdownItem key="delete-instance" onClick={onDeleteInstance}>
+      {t("common.delete_instance")}
+    </DropdownItem>,
+  ];
 
   const handleTabClick = (_event, tabIndex) => {
     setActiveTabKey(tabIndex);
@@ -61,9 +103,16 @@ export const MainView: React.FC<MainViewProps> = ({
           <Title headingLevel="h1">
             {kafkaName ? kafkaName : t("common.kafka_instance_name")}
           </Title>
-          <Button variant="plain" iconPosition="right">
-            <EllipsisVIcon />
-          </Button>
+          <Dropdown
+            onSelect={onSelect}
+            toggle={
+              <KebabToggle onToggle={onToggle} id="kafka-actions-toggle" />
+            }
+            isOpen={isOpen}
+            isPlain
+            dropdownItems={dropdownItems}
+            position={DropdownPosition.right}
+          />
         </Level>
       </PageSection>
       <PageSection
@@ -85,7 +134,6 @@ export const MainView: React.FC<MainViewProps> = ({
             aria-label={t("topic.topics")}
             tabContentRef={contentRefTopics}
             tabContentId="kafka-ui-TabcontentTopicsList"
-            // className="kafka-ui-m-full-height"
           ></Tab>
           <Tab
             title={
@@ -97,7 +145,6 @@ export const MainView: React.FC<MainViewProps> = ({
             aria-label={t("consumerGroup.consumer_groups")}
             tabContentRef={contentRefConsumerGroups}
             tabContentId="kafka-ui-TabcontentConsumersList"
-            // className='kafka-ui-m-full-height'
           ></Tab>
         </Tabs>
       </PageSection>
