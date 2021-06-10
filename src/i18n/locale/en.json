@@ -39,10 +39,7 @@
     "to_last_page": "Go to last page",
     "to_next_page": "Go to next page",
     "options_toggle": "Items per page",
-    "curr_page": "Current page",
-    "view_details": "View details",
-    "view_connection": "View connection",
-    "delete_instance": "Delete instance"
+    "curr_page": "Current page"
   },
   "topic": {
     "topics": "Topics",
