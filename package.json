@@ -78,7 +78,7 @@
   },
   "devDependencies": {
     "@rhoas/api-mock": "0.2.2",
-    "@rhoas/kafka-instance-sdk": "^0.1.0",
+    "@rhoas/kafka-instance-sdk": "^0.3.1",
     "@testing-library/dom": "7.31.2",
     "@testing-library/jest-dom": "5.13.0",
     "@testing-library/react": "11.2.7",
