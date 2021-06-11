@@ -154,7 +154,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
         tableProps={{
           cells: tableColumns,
           rows: preparedTableCells(),
-          'aria-label': t('cluster_instance_list'),
+          "aria-label": t("consumerGroup.consumer_group_list"),
           actionResolver: actionResolver,
           shouldDefaultCustomRowWrapper: true,
           variant: TableVariant.compact,
