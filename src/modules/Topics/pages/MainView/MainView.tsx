@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  Button,
   PageSection,
   PageSectionVariants,
   Title,
@@ -12,8 +11,11 @@ import {
   Tab,
   TabTitleText,
   TabContent,
+  Dropdown,
+  DropdownPosition,
+  KebabToggle,
+  DropdownItem,
 } from "@patternfly/react-core";
-import EllipsisVIcon from "@patternfly/react-icons/dist/js/icons/ellipsis-v-icon";
 import { Topics, TopicsProps } from "@app/modules/Topics/Topics";
 import { ConsumerGroups } from "@app/modules/ConsumerGroups";
 import { useFederated } from "@app/contexts";
@@ -29,7 +31,12 @@ export const MainView: React.FC<MainViewProps> = ({
   activeTab,
 }) => {
   const { t } = useTranslation();
-  const { kafkaPageLink, kafkaName } = useFederated();
+  const {
+    kafkaPageLink,
+    kafkaName,
+    handleInstanceDrawer,
+    setIsOpenDeleteInstanceModal,
+  } = useFederated();
 
   const [activeTabKey, setActiveTabKey] = useState(activeTab);
   const contentRefConsumerGroups = React.createRef<HTMLElement>();
@@ -38,6 +45,42 @@ export const MainView: React.FC<MainViewProps> = ({
   const handleTabClick = (_event, tabIndex) => {
     setActiveTabKey(tabIndex);
   };
+
+  const [isOpen, setIsOpen] = useState<boolean>();
+
+  const onToggle = (isOpen: boolean) => {
+    setIsOpen(isOpen);
+  };
+
+  const onSelect = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const onSelectKebabOption = (activeTab: string) => {
+    handleInstanceDrawer && handleInstanceDrawer(true, activeTab);
+  };
+
+  const onDeleteInstance = () => {
+    setIsOpenDeleteInstanceModal && setIsOpenDeleteInstanceModal(true);
+  };
+
+  const dropdownItems = [
+    <DropdownItem
+      key="view-kafka"
+      onClick={() => onSelectKebabOption("details")}
+    >
+      {t("common.view_instance")}
+    </DropdownItem>,
+    <DropdownItem
+      key="connect-kafka"
+      onClick={() => onSelectKebabOption("connection")}
+    >
+      {t("common.view_connection")}
+    </DropdownItem>,
+    <DropdownItem key="delete-kafka" onClick={onDeleteInstance}>
+      {t("common.delete_instance")}
+    </DropdownItem>,
+  ];
 
   const mainBreadcrumbs = (
     <Breadcrumb>
@@ -61,9 +104,14 @@ export const MainView: React.FC<MainViewProps> = ({
           <Title headingLevel="h1">
             {kafkaName ? kafkaName : t("common.kafka_instance_name")}
           </Title>
-          <Button variant="plain" iconPosition="right">
-            <EllipsisVIcon />
-          </Button>
+          <Dropdown
+            onSelect={onSelect}
+            toggle={<KebabToggle onToggle={onToggle} id="toggle-data-plane" />}
+            isOpen={isOpen}
+            isPlain
+            dropdownItems={dropdownItems}
+            position={DropdownPosition.right}
+          />
         </Level>
       </PageSection>
       <PageSection
