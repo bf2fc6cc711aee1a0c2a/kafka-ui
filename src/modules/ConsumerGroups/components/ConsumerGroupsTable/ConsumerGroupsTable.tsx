@@ -93,7 +93,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
     event?.target?.parentElement?.parentElement?.previousSibling?.focus();
   };
 
-  const onDrawerButtonClick = (row: IRowData) => {
+  const onClickDrawerButton = (row: IRowData) => {
     const { originalData } = row;
     onViewConsumerGroup(originalData);
     setActiveRow(originalData?.groupId);
@@ -114,7 +114,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
       {
         title: t('consumerGroup.view_partitions'),
         ['data-testid']: 'tableConsumers-actionOpenDrawer',
-        onClick: (_, __, row: IRowData) => onDrawerButtonClick(row),
+        onClick: (_, __, row: IRowData) => onClickDrawerButton(row),
       },
     ];
     return resolver;
