@@ -112,7 +112,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
           onSelectKebabDropdownOption(event, originalData),
       },
       {
-        title: t('consumerGroup.view_partitions'),
+        title: t('consumerGroup.view_partitions_offsets'),
         ['data-testid']: 'tableConsumers-actionOpenDrawer',
         onClick: (_, __, row: IRowData) => onClickDrawerButton(row),
       },
