@@ -83,7 +83,6 @@ const TopicsToolbar: React.FC<TopicsToolbarProps> = ({
         <Button
           id="topic-list-create-topic-button"
           className="topics-per-page"
-          data-ouia-page-id="topics-table"
           data-testid="tabTopics-actionCreate"
           onClick={onCreateTopic}
         >
