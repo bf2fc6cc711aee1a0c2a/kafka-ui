@@ -57,7 +57,6 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
   const { addAlert } = useAlert();
   const [msgRetentionValue, setMsgRetentionValue] = useState(1);
   const [retentionSize, setRetentionSize] = useState(1);
-  const [partitionTouchspinValue, setPartitionTouchspinValue] = useState(1);
   const [replicationFactorTouchspinValue] = useState(3);
   const [minInSyncReplicaTouchspinValue] = useState(2);
   const [topicNameValidated, setTopicNameValidated] = useState<
@@ -92,7 +91,7 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
       : {
           name: topicData?.name,
           settings: {
-            numPartitions: partitionTouchspinValue,
+            numPartitions: Number(topicData?.numPartitions),
             config: [
               {
                 key: 'retention.ms',
@@ -165,10 +164,7 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
       name: t('common.partitions'),
       canJumpTo: topicData?.name.trim() !== '',
       component: (
-        <StepPartitions
-          partitionTouchspinValue={partitionTouchspinValue}
-          setPartitionTouchspinValue={setPartitionTouchspinValue}
-        />
+        <StepPartitions topicData={topicData} setTopicData={setTopicData} />
       ),
     },
     {
