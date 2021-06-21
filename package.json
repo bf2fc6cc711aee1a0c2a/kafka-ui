@@ -41,7 +41,7 @@
     "@patternfly/react-core": "4.121.1",
     "@patternfly/react-icons": "4.10.7",
     "@patternfly/react-table": "4.27.7",
-    "@redhat-cloud-services/frontend-components-config": "4.1.9",
+    "@redhat-cloud-services/frontend-components-config": "4.2.0",
     "@types/express-session": "1.17.3",
     "cors": "2.8.5",
     "express": "4.17.1",
