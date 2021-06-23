@@ -60,7 +60,7 @@
     "lodash.set": "4.3.2",
     "mini-css-extract-plugin": "1.6.0",
     "mustache": "4.2.0",
-    "optimize-css-assets-webpack-plugin": "6.0.0",
+    "optimize-css-assets-webpack-plugin": "6.0.1",
     "pino": "6.11.3",
     "pino-filter": "1.0.0",
     "pino-http": "5.5.0",
