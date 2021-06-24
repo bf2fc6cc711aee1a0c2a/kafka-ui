@@ -54,19 +54,19 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
 
   const fetchConsumerGroups = async () => {
     let limit: number | undefined;
-    let offset: number | undefined;
+    let offsetValue: number | undefined;
     let topicName: string | undefined;
     /**
      * limit, offset and topic will pass for consumer groups for topic
      */
     if (consumerGroupByTopic && topic) {
       limit = 100;
-      offset = page * perPage;
+      offsetValue =offset;
       topicName = topic;
     }
 
     try {
-      await getConsumerGroups(config, limit, offset, topicName).then(
+      await getConsumerGroups(config, limit, offsetValue, topicName).then(
         (response) => {
           setConsumerGroups(response);
           setFilteredConsumerGroups(response);
