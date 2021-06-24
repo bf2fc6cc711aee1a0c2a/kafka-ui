@@ -16,20 +16,16 @@ import {
   KebabToggle,
   DropdownItem,
 } from "@patternfly/react-core";
-import { Topics, TopicsProps } from "@app/modules/Topics/Topics";
+import { Topics } from "@app/modules/Topics/Topics";
 import { ConsumerGroups } from "@app/modules/ConsumerGroups";
 import { useFederated } from "@app/contexts";
 import "../style.css";
 
-export type MainViewProps = TopicsProps & {
+export type MainViewProps = {
   activeTab?: number;
 };
 
-export const MainView: React.FC<MainViewProps> = ({
-  onCreateTopic,
-  onEditTopic,
-  activeTab,
-}) => {
+export const MainView: React.FC<MainViewProps> = ({ activeTab }) => {
   const { t } = useTranslation();
   const {
     kafkaPageLink,
@@ -157,7 +153,7 @@ export const MainView: React.FC<MainViewProps> = ({
           className="kafka-ui-m-full-height"
           aria-label={t("topic.topics")}
         >
-          <Topics onCreateTopic={onCreateTopic} onEditTopic={onEditTopic} />
+          <Topics />
         </TabContent>
         <TabContent
           eventKey={2}

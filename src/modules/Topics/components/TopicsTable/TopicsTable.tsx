@@ -39,8 +39,7 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
 }) => {
   const { t } = useTranslation();
   const { showModal } = useRootModalContext();
-  const { onConnectToRoute, getConnectToRoutePath } = useFederated();
-
+ 
   const tableColumns = [
     { title: t("common.name") },
     { title: t("common.partitions"), transforms: [sortable] },
@@ -98,18 +97,7 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
         cells: [
           {
             title: (
-              <Link
-                data-testid="tableTopics-linkTopic"
-                to={
-                  (getConnectToRoutePath &&
-                    getConnectToRoutePath(`topics/${name}`, name)) ||
-                  ""
-                }
-                onClick={(e) => {
-                  e.preventDefault();
-                  onConnectToRoute && onConnectToRoute(`topics/${name}`);
-                }}
-              >
+              <Link data-testid="tableTopics-linkTopic" to={`/topics/${name}`}>
                 {name}
               </Link>
             ),

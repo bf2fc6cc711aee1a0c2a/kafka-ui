@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
   PageSection,
@@ -46,15 +47,18 @@ export type TopicViewDetailProps = {
   topic: IAdvancedTopic;
   /** Method to delete topic */
   deleteTopic: () => void;
-  updateTopic: () => void;
 };
 
 export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
   topic,
   deleteTopic,
-  updateTopic,
 }) => {
   const { t } = useTranslation();
+  const history = useHistory();
+
+  const updateTopic = (topicName: string | undefined) => {
+    history.push(`topic/update/${topicName}`);
+  };
 
   return (
     <PageSection padding={{ default: "noPadding" }}>
@@ -469,7 +473,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                 <SplitItem>
                   <Button
                     variant="primary"
-                    onClick={updateTopic}
+                    onClick={() => updateTopic(topic?.name)}
                     data-testid="tabProperties-actionEdit"
                   >
                     {t("common.edit_props")}

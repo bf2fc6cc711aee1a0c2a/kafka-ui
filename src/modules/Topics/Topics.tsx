@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
   AlertVariant,
@@ -13,8 +13,7 @@ import { EmptyState, MASEmptyStateVariant, MASLoading } from "@app/components";
 import { getTopics } from "@app/services";
 import { ConfigContext, useFederated } from "@app/contexts";
 import { TopicsList, Topic } from "@rhoas/kafka-instance-sdk";
-import { KafkaActions } from "@app/utils";
-import { useAlert } from "@bf2/ui-shared";
+import { useAlert, useBasename } from "@bf2/ui-shared";
 import "./Topics.css";
 
 export type ITopic = {
@@ -27,16 +26,12 @@ export type ITopicProps = {
   rows: ITopic[];
 };
 
-export type TopicsProps = {
-  onCreateTopic?: () => void;
-  onEditTopic?: (topicName?: string | undefined) => void;
-};
-
-export const Topics: React.FC<TopicsProps> = ({
-  onCreateTopic,
-  onEditTopic,
-}) => {
-  const { dispatchKafkaAction, onError } = useFederated();
+export const Topics: React.FC = () => {
+  const { getBasename } = useBasename();
+  const basename = getBasename();
+  const { id } = useParams<{ id: string }>();
+  const history = useHistory();
+  const { onError } = useFederated();
   const { t } = useTranslation();
   const { addAlert } = useAlert();
   const config = useContext(ConfigContext);
@@ -62,8 +57,11 @@ export const Topics: React.FC<TopicsProps> = ({
   }, [page, perPage]);
 
   const onClickCreateTopic = () => {
-    onCreateTopic && onCreateTopic();
-    dispatchKafkaAction && dispatchKafkaAction(KafkaActions.CreateTopic);
+    history.push(`${id}/topic/create`);
+  };
+
+  const onEditTopic = (topicName: string | undefined) => {
+    history.push(`topic/update/${topicName}`);
   };
 
   const fetchTopic = async () => {
@@ -98,29 +96,29 @@ export const Topics: React.FC<TopicsProps> = ({
       );
     } else if (topicItems.length < 1 && searchTopicName.length < 1) {
       return (
-          <EmptyState
-            emptyStateProps={{
-              variant: MASEmptyStateVariant.NoItems,
-            }}
-            titleProps={{
-              title: t("topic.empty_topics_title"),
-            }}
-            emptyStateBodyProps={{
-              body: t("topic.empty_topics_body"),
-            }}
-            buttonProps={{
-              title: t("topic.create_topic"),
-              onClick: onClickCreateTopic,
-            }}
-          />
+        <EmptyState
+          emptyStateProps={{
+            variant: MASEmptyStateVariant.NoItems,
+          }}
+          titleProps={{
+            title: t("topic.empty_topics_title"),
+          }}
+          emptyStateBodyProps={{
+            body: t("topic.empty_topics_body"),
+          }}
+          buttonProps={{
+            title: t("topic.create_topic"),
+            onClick: onClickCreateTopic,
+          }}
+        />
       );
     } else if (topicItems) {
       return (
-          <TopicsTable
+        <TopicsTable
           total={topics?.count || 0}
           page={page}
           perPage={perPage}
-          onCreateTopic={onCreateTopic}
+          onCreateTopic={onClickCreateTopic}
           topicItems={
             searchTopicName
               ? topicItems?.slice(0, perPage)
@@ -130,7 +128,7 @@ export const Topics: React.FC<TopicsProps> = ({
           setFilteredValue={setSearchTopicName}
           refreshTopics={fetchTopic}
           onEdit={onEditTopic}
-          />
+        />
       );
     }
     return <></>;
@@ -138,9 +136,7 @@ export const Topics: React.FC<TopicsProps> = ({
 
   return (
     <>
-      <Card className="kafka-ui-m-full-height">
-        {renderTopicsTable()}
-      </Card>
+      <Card className="kafka-ui-m-full-height">{renderTopicsTable()}</Card>
     </>
   );
 };

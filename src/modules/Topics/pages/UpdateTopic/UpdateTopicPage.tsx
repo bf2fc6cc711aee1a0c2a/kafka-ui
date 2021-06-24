@@ -17,13 +17,11 @@ import { useFederated } from "@app/contexts";
 import "../style.css";
 
 export type UpdateTopicPageProps = {
-  onCancelUpdateTopic: () => void;
   onDeleteTopic: () => void;
   onSaveTopic: () => void;
 };
 
 export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
-  onCancelUpdateTopic,
   onDeleteTopic,
   onSaveTopic,
 }) => {
@@ -107,7 +105,6 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
         >
           <UpdateTopicView
             topicName={topicName}
-            onCancelUpdateTopic={onCancelUpdateTopic}
             onDeleteTopic={onDeleteTopic}
             onSaveTopic={onSaveTopic}
             onError={onError}

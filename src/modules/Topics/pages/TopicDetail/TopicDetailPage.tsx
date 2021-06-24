@@ -24,12 +24,10 @@ import { useAlert } from "@bf2/ui-shared";
 import "../style.css";
 
 export type TopicDetailGroupProps = {
-  updateTopic: () => void;
   onDeleteTopic?: () => void;
 };
 
 export const TopicDetailPage: React.FC<TopicDetailGroupProps> = ({
-  updateTopic,
   onDeleteTopic,
 }) => {
   const {
@@ -162,11 +160,7 @@ export const TopicDetailPage: React.FC<TopicDetailGroupProps> = ({
           className="kafka-ui-m-full-height"
           aria-label="Topic properties."
         >
-          <TopicDetailView
-            topic={topicDetail}
-            deleteTopic={deleteTopic}
-            updateTopic={updateTopic}
-          />
+          <TopicDetailView topic={topicDetail} deleteTopic={deleteTopic} />
         </TabContent>
       </PageSection>
     </>

@@ -11,20 +11,13 @@ const TopicDetailConnected: React.FC = () => {
   const history = useHistory();
   const { topicName } = useParams<TopicUseParams>();
 
-  const updateTopic = () => {
-    history.push(`/topic/update/${topicName}`);
-  };
-
   const onDeleteTopic = () => {
     history.push("/topics");
   };
 
   return (
     <FederatedContext.Provider value={{ topicName, activeTab: 2 }}>
-      <TopicDetailPage
-        updateTopic={updateTopic}
-        onDeleteTopic={onDeleteTopic}
-      />
+      <TopicDetailPage onDeleteTopic={onDeleteTopic} />
     </FederatedContext.Provider>
   );
 };

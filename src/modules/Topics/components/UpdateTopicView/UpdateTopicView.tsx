@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { AlertVariant } from "@patternfly/react-core";
 import {
@@ -15,17 +16,16 @@ import "../CreateTopicWizard/CreateTopicWizard.css";
 
 export type UpdateTopicViewProps = {
   topicName: string;
-  onCancelUpdateTopic: () => void;
   onDeleteTopic: () => void;
   onSaveTopic: () => void;
   onError?: (errorCode: number, message: string) => void;
 };
 export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   topicName,
-  onCancelUpdateTopic,
   onSaveTopic,
   onError,
 }) => {
+  const history = useHistory();
   const { t } = useTranslation();
   const config = useContext(ConfigContext);
   const { addAlert } = useAlert();
@@ -40,6 +40,10 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   };
   const [topicData, setTopicData] = useState<IAdvancedTopic>(initialState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const onCancelUpdateTopic = () => {
+    history.push(`topic/update/${topicName}`);
+  };
 
   const fetchTopic = async (topicName) => {
     try {
