@@ -66,7 +66,7 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
     }
 
     try {
-      await getConsumerGroups(config,offset,limit,perPage,page,topicName).then(
+      await getConsumerGroups(config, offset, limit, perPage, page, topicName).then(
         (response) => {
           setConsumerGroups(response);
           setFilteredConsumerGroups(response);

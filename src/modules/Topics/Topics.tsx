@@ -68,7 +68,7 @@ export const Topics: React.FC<TopicsProps> = ({
 
   const fetchTopic = async () => {
     try {
-      await getTopics(config,100,perPage, searchTopicName).then((response) => {
+      await getTopics(config, 100, perPage, searchTopicName).then((response) => {
         setTopics(response);
         setTopicItems(response?.items);
       });

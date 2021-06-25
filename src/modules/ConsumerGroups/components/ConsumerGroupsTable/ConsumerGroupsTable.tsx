@@ -17,7 +17,7 @@ import {
 } from './ConsumerGroupToolbar';
 
 export type ConsumerGroupsTableProps = ConsumerGroupToolbarProps & {
-  consumerGroups: ConsumerGroup[] | undefined;
+  consumerGroups?: ConsumerGroup[];
   rowDataTestId?: string;
   isDrawerOpen?: boolean;
   onViewConsumerGroup: (consumerGroup: ConsumerGroup) => void;
