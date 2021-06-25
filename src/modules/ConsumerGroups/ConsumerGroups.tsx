@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
-import {PageSection, PageSectionVariants } from "@patternfly/react-core";
+import { PageSection, PageSectionVariants } from "@patternfly/react-core";
 import {
   EmptyState,
   MASEmptyStateVariant,
@@ -120,8 +120,7 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
         </PageSection>
       );
     } else if (
-      (!consumerGroups?.total ||
-        (consumerGroups?.total && consumerGroups?.total < 1)) &&
+      (!consumerGroups?.items?.length || consumerGroups?.items?.length < 1) &&
       search.length < 1
     ) {
       return (
@@ -170,8 +169,8 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
         title: { value: consumerGroupDetail?.groupId, headingLevel: "h1" },
       }}
       data-ouia-app-id="dataPlane-consumerGroupDetails"
-    >   
-      {renderConsumerTable()}      
+    >
+      {renderConsumerTable()}
     </MASDrawer>
   );
 };
