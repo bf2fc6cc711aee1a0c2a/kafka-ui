@@ -153,7 +153,6 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
         onRowClick={onRowClick}
         rowDataTestId={rowDataTestId || 'tableConsumers-row'}
       />
-      {console.log(total)}
       {total<1 && search.length > 0 && (
         <EmptyState
           emptyStateProps={{
