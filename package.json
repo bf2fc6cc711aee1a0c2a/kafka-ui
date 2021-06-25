@@ -77,8 +77,8 @@
     "ws": "7.5.0"
   },
   "devDependencies": {
-    "@rhoas/api-mock": "0.5.1",
-    "@rhoas/kafka-instance-sdk": "0.5.1",
+    "@rhoas/api-mock": "0.7.2",
+    "@rhoas/kafka-instance-sdk": "0.7.0",
     "@testing-library/dom": "7.31.2",
     "@testing-library/jest-dom": "5.14.1",
     "@testing-library/react": "11.2.7",
@@ -106,7 +106,7 @@
     "babel-jest": "27.0.5",
     "compression-webpack-plugin": "8.0.0",
     "css-loader": "5.2.6",
-    "css-minimizer-webpack-plugin": "3.0.1",
+    "css-minimizer-webpack-plugin": "3.0.2",
     "cypress": "7.6.0",
     "cypress-cucumber-preprocessor": "4.1.2",
     "eslint": "7.29.0",
