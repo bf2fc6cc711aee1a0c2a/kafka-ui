@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
-import { Card, PageSection, PageSectionVariants } from "@patternfly/react-core";
+import {PageSection, PageSectionVariants } from "@patternfly/react-core";
 import {
   EmptyState,
   MASEmptyStateVariant,
@@ -170,10 +170,8 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
         title: { value: consumerGroupDetail?.groupId, headingLevel: "h1" },
       }}
       data-ouia-app-id="dataPlane-consumerGroupDetails"
-    >
-      {/* <Card className="kafka-ui-m-full-height"> */}
-      {renderConsumerTable()}
-      {/* </Card> */}
+    >   
+      {renderConsumerTable()}      
     </MASDrawer>
   );
 };
