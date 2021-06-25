@@ -26,19 +26,13 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
   rowDataTestId,
 }) => {
   const [offset, setOffset] = useState<number>(0);
-  const [consumerGroups, setConsumerGroups] = useState<
-    ConsumerGroupList | undefined
-  >();
+  const [consumerGroups, setConsumerGroups] = useState<ConsumerGroupList>();
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
-  const [
-    consumerGroupDetail,
-    setConsumerGroupDetail,
-  ] = useState<ConsumerGroup>();
-  const [
-    filteredConsumerGroups,
-    setFilteredConsumerGroups,
-  ] = useState<ConsumerGroupList>();
+  const [consumerGroupDetail, setConsumerGroupDetail] =
+    useState<ConsumerGroup>();
+  const [filteredConsumerGroups, setFilteredConsumerGroups] =
+    useState<ConsumerGroupList>();
 
   const config = useContext(ConfigContext);
   const { t } = useTranslation();
@@ -53,20 +47,9 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
   }, [page, perPage]);
 
   const fetchConsumerGroups = async () => {
-    let limit: number | undefined;
-    let offsetValue: number | undefined;
-    let topicName: string | undefined;
-    /**
-     * limit, offset and topic will pass for consumer groups for topic
-     */
-    if (consumerGroupByTopic && topic) {
-      limit = 100;
-      offsetValue =offset;
-      topicName = topic;
-    }
-
+    let limit = 100;
     try {
-      await getConsumerGroups(config,offset,limit,perPage,page,topicName).then(
+      await getConsumerGroups(config, offset, limit, perPage, page, topic).then(
         (response) => {
           setConsumerGroups(response);
           setFilteredConsumerGroups(response);
@@ -96,9 +79,9 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
       setFilteredConsumerGroups((prevState) =>
         prevState
           ? {
-            ...prevState,
-            items: filterSearch,
-          }
+              ...prevState,
+              items: filterSearch,
+            }
           : undefined
       );
     } else {
@@ -137,21 +120,22 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
         </PageSection>
       );
     } else if (
-      consumerGroups?.total && consumerGroups?.total < 1 &&
+      (!consumerGroups?.total ||
+        (consumerGroups?.total && consumerGroups?.total < 1)) &&
       search.length < 1
     ) {
       return (
-          <EmptyState
-            emptyStateProps={{
-              variant: MASEmptyStateVariant.NoConsumerGroups,
-            }}
-            titleProps={{
-              title: t("consumerGroup.empty_consumer_title"),
-            }}
-            emptyStateBodyProps={{
-              body: t("consumerGroup.empty_consumer_body"),
-            }}
-          />
+        <EmptyState
+          emptyStateProps={{
+            variant: MASEmptyStateVariant.NoConsumerGroups,
+          }}
+          titleProps={{
+            title: t("consumerGroup.empty_consumer_title"),
+          }}
+          emptyStateBodyProps={{
+            body: t("consumerGroup.empty_consumer_body"),
+          }}
+        />
       );
     } else if (filteredConsumerGroups) {
       return (
@@ -188,8 +172,8 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
       data-ouia-app-id="dataPlane-consumerGroupDetails"
     >
       {/* <Card className="kafka-ui-m-full-height"> */}
-        {renderConsumerTable()}
-        {/* </Card> */}
+      {renderConsumerTable()}
+      {/* </Card> */}
     </MASDrawer>
   );
 };

@@ -51,7 +51,7 @@ export const Topics: React.FC<TopicsProps> = ({
   const [offset, setOffset] = useState<number>(0);
 
   useEffect(() => {
-     fetchTopic();
+    fetchTopic();
   }, [searchTopicName]);
 
   useTimeout(() => fetchTopic(), 5000);
@@ -68,10 +68,12 @@ export const Topics: React.FC<TopicsProps> = ({
 
   const fetchTopic = async () => {
     try {
-      await getTopics(config,100,perPage, searchTopicName).then((response) => {
-        setTopics(response);
-        setTopicItems(response?.items);
-      });
+      await getTopics(config, 100, perPage, searchTopicName, offset).then(
+        (response) => {
+          setTopics(response);
+          setTopicItems(response?.items);
+        }
+      );
     } catch (err) {
       //TODO: Update the api to allow suppress alerts if the application does not want to show them as well.
       if (onError && err.response.data.code === 401) {
@@ -98,27 +100,26 @@ export const Topics: React.FC<TopicsProps> = ({
       );
     } else if (topicItems.length < 1 && searchTopicName.length < 1) {
       return (
-          <EmptyState
-            emptyStateProps={{
-              variant: MASEmptyStateVariant.NoItems,
-            }}
-            titleProps={{
-              title: t("topic.empty_topics_title"),
-            }}
-            emptyStateBodyProps={{
-              body: t("topic.empty_topics_body"),
-            }}
-            buttonProps={{
-              title: t("topic.create_topic"),
-              onClick: onClickCreateTopic,
-            }}
-          />
+        <EmptyState
+          emptyStateProps={{
+            variant: MASEmptyStateVariant.NoItems,
+          }}
+          titleProps={{
+            title: t("topic.empty_topics_title"),
+          }}
+          emptyStateBodyProps={{
+            body: t("topic.empty_topics_body"),
+          }}
+          buttonProps={{
+            title: t("topic.create_topic"),
+            onClick: onClickCreateTopic,
+          }}
+        />
       );
     } else if (topicItems) {
       return (
-        
-          <TopicsTable
-          total={topicItems.length || 0 }
+        <TopicsTable
+          total={topicItems.length || 0}
           page={page}
           perPage={perPage}
           onCreateTopic={onCreateTopic}
@@ -131,7 +132,7 @@ export const Topics: React.FC<TopicsProps> = ({
           setFilteredValue={setSearchTopicName}
           refreshTopics={fetchTopic}
           onEdit={onEditTopic}
-          />
+        />
       );
     }
     return <></>;
@@ -139,9 +140,7 @@ export const Topics: React.FC<TopicsProps> = ({
 
   return (
     <>
-      <Card className="kafka-ui-m-full-height">
-        {renderTopicsTable()}
-      </Card>
+      <Card className="kafka-ui-m-full-height">{renderTopicsTable()}</Card>
     </>
   );
 };
