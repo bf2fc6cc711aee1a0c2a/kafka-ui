@@ -45,7 +45,7 @@ const ConsumerGroupToolbar: React.FC<ConsumerGroupToolbarProps> = ({
 
   const toolbarItems: ToolbarItemProps[] = [];
 
-  if (total > 0) {
+  if (total && total > 0) {
     toolbarItems.push({
       item: (
         <MASPagination
