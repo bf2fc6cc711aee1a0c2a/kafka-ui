@@ -4,9 +4,12 @@ import { IConfiguration } from '@app/contexts';
 
 const getConsumerGroups = async (
   config: IConfiguration | undefined,
-  limit?: number,
-  offset?: number,
-  topic?: string
+  offset?:number,
+  limit?:number,
+  size?:number,
+  page?:number,
+  topic?:string,
+  groupIdFilter?:string
 ): Promise<ConsumerGroupList> => {
   const accessToken = await config?.getToken();
 
@@ -17,9 +20,12 @@ const getConsumerGroups = async (
     })
   );
   const response: AxiosResponse<ConsumerGroupList> = await api.getConsumerGroups(
-    limit,
     offset,
-    topic
+    limit,
+    size,
+    page,
+    topic,
+    groupIdFilter
   );
   return response.data;
 };

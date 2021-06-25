@@ -51,7 +51,7 @@ export const Topics: React.FC<TopicsProps> = ({
   const [offset, setOffset] = useState<number>(0);
 
   useEffect(() => {
-    fetchTopic();
+     fetchTopic();
   }, [searchTopicName]);
 
   useTimeout(() => fetchTopic(), 5000);
@@ -68,7 +68,7 @@ export const Topics: React.FC<TopicsProps> = ({
 
   const fetchTopic = async () => {
     try {
-      await getTopics(config, searchTopicName).then((response) => {
+      await getTopics(config,100,perPage, searchTopicName).then((response) => {
         setTopics(response);
         setTopicItems(response?.items);
       });
@@ -116,8 +116,9 @@ export const Topics: React.FC<TopicsProps> = ({
       );
     } else if (topicItems) {
       return (
+        
           <TopicsTable
-          total={topics?.count || 0}
+          total={topicItems.length || 0 }
           page={page}
           perPage={perPage}
           onCreateTopic={onCreateTopic}

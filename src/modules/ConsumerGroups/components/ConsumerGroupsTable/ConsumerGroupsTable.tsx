@@ -17,7 +17,7 @@ import {
 } from './ConsumerGroupToolbar';
 
 export type ConsumerGroupsTableProps = ConsumerGroupToolbarProps & {
-  consumerGroups: ConsumerGroup[];
+  consumerGroups: ConsumerGroup[] | undefined;
   rowDataTestId?: string;
   isDrawerOpen?: boolean;
   onViewConsumerGroup: (consumerGroup: ConsumerGroup) => void;
@@ -153,7 +153,8 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
         onRowClick={onRowClick}
         rowDataTestId={rowDataTestId || 'tableConsumers-row'}
       />
-      {consumerGroups?.length < 1 && (
+      {console.log(total)}
+      {total<1 && search.length > 0 && (
         <EmptyState
           emptyStateProps={{
             variant: MASEmptyStateVariant.NoResult,
@@ -166,9 +167,8 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
           }}
         />
       )}
-
-      {total > 0 && (
-        <MASPagination
+      {  total > 0 && (
+      <MASPagination
           widgetId='consumer-group-pagination-options-menu-bottom'
           itemCount={total}
           variant={PaginationVariant.bottom}

@@ -66,7 +66,7 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
     }
 
     try {
-      await getConsumerGroups(config, limit, offsetValue, topicName).then(
+      await getConsumerGroups(config,offset,limit,perPage,page,topicName).then(
         (response) => {
           setConsumerGroups(response);
           setFilteredConsumerGroups(response);
@@ -137,8 +137,7 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
         </PageSection>
       );
     } else if (
-      consumerGroups &&
-      consumerGroups?.count < 1 &&
+      consumerGroups?.total && consumerGroups?.total < 1 &&
       search.length < 1
     ) {
       return (
@@ -161,7 +160,7 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
             offset,
             offset + perPage
           )}
-          total={filteredConsumerGroups?.items?.length}
+          total={filteredConsumerGroups?.items?.length || 0}
           page={page}
           perPage={perPage}
           search={search}
