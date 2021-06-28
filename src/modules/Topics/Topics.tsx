@@ -103,6 +103,7 @@ export const Topics: React.FC<TopicsProps> = ({
         <EmptyState
           emptyStateProps={{
             variant: MASEmptyStateVariant.NoItems,
+            "data-ouia-page-id":"topics-emptyState"
           }}
           titleProps={{
             title: t("topic.empty_topics_title"),
@@ -113,6 +114,7 @@ export const Topics: React.FC<TopicsProps> = ({
           buttonProps={{
             title: t("topic.create_topic"),
             onClick: onClickCreateTopic,
+            "data-testid": "tabTopics-actionCreate"
           }}
         />
       );
