@@ -137,7 +137,7 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
   const rows = preparedTableCells();
 
   return (
-    <>
+    <div data-ouia-page-id="topics-table">
       <TopicsToolbar
         total={total}
         page={page}
@@ -189,7 +189,7 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
           }}
         />
       )}
-    </>
+    </div>
   );
 };
 

@@ -31,6 +31,7 @@ export type EmptyStateProps = {
   };
   emptyStateProps?: Omit<PFEmptyStateProps, 'children' | 'variant'> & {
     variant?: MASEmptyStateVariant | EmptyStateVariant;
+    'data-ouia-page-id'?: string;
   };
   emptyStateIconProps?: EmptyStateIconProps;
   emptyStateBodyProps?: Omit<EmptyStateBodyProps, 'children'> & {
