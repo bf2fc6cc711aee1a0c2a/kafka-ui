@@ -66,10 +66,12 @@ export const Topics: React.FC = () => {
 
   const fetchTopic = async () => {
     try {
-      await getTopics(config, searchTopicName).then((response) => {
-        setTopics(response);
-        setTopicItems(response?.items);
-      });
+      await getTopics(config, 100, perPage, searchTopicName, offset).then(
+        (response) => {
+          setTopics(response);
+          setTopicItems(response?.items);
+        }
+      );
     } catch (err) {
       //TODO: Update the api to allow suppress alerts if the application does not want to show them as well.
       if (onError && err.response.data.code === 401) {
@@ -115,7 +117,7 @@ export const Topics: React.FC = () => {
     } else if (topicItems) {
       return (
         <TopicsTable
-          total={topics?.count || 0}
+          total={topicItems.length || 0}
           page={page}
           perPage={perPage}
           onCreateTopic={onClickCreateTopic}
