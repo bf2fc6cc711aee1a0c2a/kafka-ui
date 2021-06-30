@@ -7,12 +7,13 @@ import {
   MASEmptyStateVariant,
   MASLoading,
   MASDrawer,
-} from "@app/components";
-import { getConsumerGroups } from "@app/services";
-import { ConfigContext } from "@app/contexts";
-import { ConsumerGroupList, ConsumerGroup } from "@rhoas/kafka-instance-sdk";
-import { useTimeout } from "@app/hooks/useTimeOut";
-import { ConsumerGroupDetail, ConsumerGroupsTable } from "./components";
+} from '@app/components';
+import { getConsumerGroups } from '@app/services';
+import { ConfigContext } from '@app/contexts';
+import { ConsumerGroupList, ConsumerGroup } from '@rhoas/kafka-instance-sdk';
+import { useTimeout } from '@app/hooks/useTimeOut';
+import { ConsumerGroupDetail, ConsumerGroupsTable } from './components';
+import { ISortBy, OnSort, SortByDirection } from '@patternfly/react-table';
 
 export type ConsumerGroupsProps = {
   consumerGroupByTopic: boolean;
@@ -26,6 +27,12 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
   rowDataTestId,
 }) => {
   const [offset, setOffset] = useState<number>(0);
+  const [order, setOrder] = useState<SortByDirection>();
+  const [orderKey, setOrderKey] = useState<'name' | undefined>();
+  const [sortBy, setSortBy] = useState<ISortBy>({
+    index: undefined,
+    direction: 'asc',
+  });
   const [consumerGroups, setConsumerGroups] = useState<ConsumerGroupList>();
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
@@ -46,15 +53,28 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
     setOffset(perPage * (page - 1));
   }, [page, perPage]);
 
+  const onSort: OnSort = (_event, index, direction) => {
+    setOrder(direction);
+    setOrderKey('name');
+    setSortBy({ index, direction });
+  };
+
   const fetchConsumerGroups = async () => {
     let limit = 100;
     try {
-      await getConsumerGroups(config, offset, limit, perPage, page, topic).then(
-        (response) => {
-          setConsumerGroups(response);
-          setFilteredConsumerGroups(response);
-        }
-      );
+      await getConsumerGroups(
+        config,
+        offset,
+        limit,
+        perPage,
+        page,
+        topic,
+        search,
+        order,
+        orderKey
+      ).then((response) => {
+        setConsumerGroups(response);
+      });
     } catch (err) {
       //addAlert(err.response.data.error_message, AlertVariant.danger);
     }
@@ -62,36 +82,7 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
 
   useEffect(() => {
     fetchConsumerGroups();
-  }, []);
-
-  const filterConsumerGroups = () => {
-    if (
-      search &&
-      search.trim() != "" &&
-      consumerGroups?.items &&
-      consumerGroups.items.length > 0
-    ) {
-      const filterSearch = consumerGroups?.items.filter(
-        (consumerGroupsFiltered) =>
-          consumerGroupsFiltered?.groupId &&
-          consumerGroupsFiltered.groupId.includes(search)
-      );
-      setFilteredConsumerGroups((prevState) =>
-        prevState
-          ? {
-              ...prevState,
-              items: filterSearch,
-            }
-          : undefined
-      );
-    } else {
-      setFilteredConsumerGroups(consumerGroups);
-    }
-  };
-
-  useEffect(() => {
-    filterConsumerGroups();
-  }, [search, consumerGroups]);
+  }, [search, order]);
 
   useTimeout(() => fetchConsumerGroups(), 5000);
 
@@ -153,6 +144,8 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
           isDrawerOpen={isExpanded}
           refreshConsumerGroups={fetchConsumerGroups}
           consumerGroupByTopic={consumerGroupByTopic}
+          onSort={onSort}
+          sortBy={sortBy}
         />
       );
     }

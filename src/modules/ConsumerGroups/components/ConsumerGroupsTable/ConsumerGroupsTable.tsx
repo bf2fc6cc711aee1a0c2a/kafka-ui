@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PaginationVariant } from '@patternfly/react-core';
-import { TableVariant, IRowData } from '@patternfly/react-table';
+import {
+  TableVariant,
+  IRowData,
+  OnSort,
+  ISortBy,
+  sortable,
+} from '@patternfly/react-table';
 import { ConsumerGroup } from '@rhoas/kafka-instance-sdk';
 import {
   MASTable,
@@ -23,6 +29,8 @@ export type ConsumerGroupsTableProps = ConsumerGroupToolbarProps & {
   onViewConsumerGroup: (consumerGroup: ConsumerGroup) => void;
   refreshConsumerGroups?: () => void;
   consumerGroupByTopic: boolean;
+  onSort: OnSort;
+  sortBy: ISortBy;
 };
 
 const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
@@ -37,13 +45,15 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
   onViewConsumerGroup,
   refreshConsumerGroups,
   consumerGroupByTopic,
+  onSort,
+  sortBy,
 }) => {
   const { t } = useTranslation();
   const { showModal } = useRootModalContext();
   const [activeRow, setActiveRow] = useState<string>();
 
   const tableColumns = [
-    { title: t('consumerGroup.consumer_group_id') },
+    { title: t('consumerGroup.consumer_group_id'), transforms: [sortable] },
     { title: t('consumerGroup.active_members') },
     { title: t('consumerGroup.partitions_with_lag') },
   ];
@@ -148,12 +158,14 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
           actionResolver: actionResolver,
           shouldDefaultCustomRowWrapper: true,
           variant: TableVariant.compact,
+          onSort,
+          sortBy,
         }}
         activeRow={activeRow}
         onRowClick={onRowClick}
         rowDataTestId={rowDataTestId || 'tableConsumers-row'}
       />
-      {total<1 && search.length > 0 && (
+      {total < 1 && search.length > 0 && (
         <EmptyState
           emptyStateProps={{
             variant: MASEmptyStateVariant.NoResult,
@@ -166,8 +178,8 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
           }}
         />
       )}
-      {  total > 0 && (
-      <MASPagination
+      {total > 0 && (
+        <MASPagination
           widgetId='consumer-group-pagination-options-menu-bottom'
           itemCount={total}
           variant={PaginationVariant.bottom}
