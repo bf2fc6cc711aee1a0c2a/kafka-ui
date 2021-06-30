@@ -56,7 +56,7 @@ export const Topics: React.FC<TopicsProps> = ({
 
   useEffect(() => {
     fetchTopic();
-  }, [searchTopicName]);
+  }, [searchTopicName, order, orderKey]);
 
   useTimeout(() => fetchTopic(), 5000);
 
