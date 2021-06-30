@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
-import { PageSection, PageSectionVariants } from "@patternfly/react-core";
+import React, { useContext, useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
+import { PageSection, PageSectionVariants } from '@patternfly/react-core';
 import {
   EmptyState,
   MASEmptyStateVariant,
@@ -35,19 +35,16 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
   });
   const [consumerGroups, setConsumerGroups] = useState<ConsumerGroupList>();
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const [search, setSearch] = useState<string>("");
+  const [search, setSearch] = useState<string>('');
   const [consumerGroupDetail, setConsumerGroupDetail] =
     useState<ConsumerGroup>();
-  const [filteredConsumerGroups, setFilteredConsumerGroups] =
-    useState<ConsumerGroupList>();
-
   const config = useContext(ConfigContext);
   const { t } = useTranslation();
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const page = parseInt(searchParams.get("page") || "", 10) || 1;
-  const perPage = parseInt(searchParams.get("perPage") || "", 10) || 10;
+  const page = parseInt(searchParams.get('page') || '', 10) || 1;
+  const perPage = parseInt(searchParams.get('perPage') || '', 10) || 10;
 
   useEffect(() => {
     setOffset(perPage * (page - 1));
@@ -60,7 +57,7 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
   };
 
   const fetchConsumerGroups = async () => {
-    let limit = 100;
+    const limit = 100;
     try {
       await getConsumerGroups(
         config,
@@ -103,9 +100,9 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
     if (consumerGroups === undefined) {
       return (
         <PageSection
-          className="kafka-ui-m-full-height"
+          className='kafka-ui-m-full-height'
           variant={PageSectionVariants.light}
-          padding={{ default: "noPadding" }}
+          padding={{ default: 'noPadding' }}
         >
           <MASLoading />
         </PageSection>
@@ -120,21 +117,21 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
             variant: MASEmptyStateVariant.NoConsumerGroups,
           }}
           titleProps={{
-            title: t("consumerGroup.empty_consumer_title"),
+            title: t('consumerGroup.empty_consumer_title'),
           }}
           emptyStateBodyProps={{
-            body: t("consumerGroup.empty_consumer_body"),
+            body: t('consumerGroup.empty_consumer_body'),
           }}
         />
       );
-    } else if (filteredConsumerGroups) {
+    } else if (consumerGroups) {
       return (
         <ConsumerGroupsTable
-          consumerGroups={filteredConsumerGroups?.items?.slice(
+          consumerGroups={consumerGroups?.items?.slice(
             offset,
             offset + perPage
           )}
-          total={filteredConsumerGroups?.items?.length || 0}
+          total={consumerGroups?.items?.length || 0}
           page={page}
           perPage={perPage}
           search={search}
@@ -158,10 +155,10 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
       onClose={onClose}
       panelBodyContent={panelBodyContent}
       drawerHeaderProps={{
-        text: { label: t("consumerGroup.consumer_group_id") },
-        title: { value: consumerGroupDetail?.groupId, headingLevel: "h1" },
+        text: { label: t('consumerGroup.consumer_group_id') },
+        title: { value: consumerGroupDetail?.groupId, headingLevel: 'h1' },
       }}
-      data-ouia-app-id="dataPlane-consumerGroupDetails"
+      data-ouia-app-id='dataPlane-consumerGroupDetails'
     >
       {renderConsumerTable()}
     </MASDrawer>
