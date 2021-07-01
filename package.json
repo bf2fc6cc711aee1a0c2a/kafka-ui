@@ -79,7 +79,7 @@
   "devDependencies": {
     "@rhoas/api-mock": "0.8.3",
     "@rhoas/kafka-instance-sdk": "0.8.3",
-    "@testing-library/dom": "8.0.0",
+    "@testing-library/dom": "8.1.0",
     "@testing-library/jest-dom": "5.14.1",
     "@testing-library/react": "12.0.0",
     "@testing-library/react-hooks": "7.0.1",
