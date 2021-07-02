@@ -96,7 +96,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
     const [customRetentionSizeUnit, setCustomRetentionSizeUnit] =
       useState<string>('bytes');
     const actionText =
-      isCreate === true ? t('topic.create_topic') : t('common.save');
+      isCreate ? t('topic.create_topic') : t('common.save');
 
     const clearOptions: IDropdownOption[] = [
       {
@@ -145,9 +145,8 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
 
     useEffect(() => {
       if (!isCreate) {
-        (async function () {
+        
           fetchTopic(topicData.name);
-        })();
         setCustomRetentionTimeUnit('milliseconds');
       }
     }, []);
