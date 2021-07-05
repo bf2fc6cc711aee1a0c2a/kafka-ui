@@ -1,9 +1,9 @@
-const { dependencies, federatedModuleName } = require("./package.json");
-const path = require("path");
-const webpack = require("webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+const { dependencies, federatedModuleName } = require('./package.json');
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const singletonDeps = [
   'lodash',
   'axios',
@@ -29,9 +29,9 @@ const srcDir = path.resolve(__dirname, './src');
 const ChunkMapper = require('@redhat-cloud-services/frontend-components-config/chunk-mapper');
 
 module.exports = (_env, argv) => {
-  const isProduction = argv.mode === "production";
+  const isProduction = argv.mode === 'production';
   // Moved multiple entries to index.tsx in order to help speed up webpack
-  const entry = path.join(srcDir, "bootstrap", "index.tsx");
+  const entry = path.join(srcDir, 'bootstrap', 'index.tsx');
 
   return {
     stats: {
@@ -39,48 +39,48 @@ module.exports = (_env, argv) => {
       colors: true,
       modules: false,
     },
-    mode: isProduction ? "production" : "development",
-    devtool: isProduction ? "source-map" : "eval-source-map",
+    mode: isProduction ? 'production' : 'development',
+    devtool: isProduction ? 'source-map' : 'eval-source-map',
     entry,
     output: {
-      filename: isProduction ? "[contenthash:8].bundle.js" : "[name].bundle.js",
-      publicPath: "auto",
+      filename: isProduction ? '[contenthash:8].bundle.js' : '[name].bundle.js',
+      publicPath: 'auto',
     },
     module: {
       rules: [
         {
           test: /\.tsx?$/,
-          include: path.join(__dirname, "src"),
+          include: path.join(__dirname, 'src'),
           use: [
             {
-              loader: "ts-loader",
+              loader: 'ts-loader',
             },
           ],
         },
         {
           test: /\.css|s[ac]ss$/i,
-          use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
           sideEffects: true,
         },
         {
           test: fileRegEx,
-          type: "asset/resource",
+          type: 'asset/resource',
         },
       ],
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: path.join(srcDir, "bootstrap", "index.html"),
+        template: path.join(srcDir, 'bootstrap', 'index.html'),
       }),
       new MiniCssExtractPlugin({
-        filename: isProduction ? "[id].[contenthash:8].css" : "[name].css",
-        chunkFilename: isProduction ? "[id].[contenthash:8].css" : "[id].css",
+        filename: isProduction ? '[id].[contenthash:8].css' : '[name].css',
+        chunkFilename: isProduction ? '[id].[contenthash:8].css' : '[id].css',
         ignoreOrder: true, // Enable to remove warnings about conflicting order
       }),
       new webpack.container.ModuleFederationPlugin({
         name: federatedModuleName,
         filename: `${federatedModuleName}${
-          isProduction ? ".[chunkhash:8]" : ""
+          isProduction ? '.[chunkhash:8]' : ''
         }.js`,
         exposes: {
           './Panels/KafkaMainView':
@@ -106,14 +106,14 @@ module.exports = (_env, argv) => {
     ],
     optimization: {
       splitChunks: {
-        chunks: "all",
+        chunks: 'all',
       },
     },
     resolve: {
-      extensions: [".tsx", ".ts", ".js"],
+      extensions: ['.tsx', '.ts', '.js'],
       plugins: [
         new TsconfigPathsPlugin({
-          configFile: path.resolve(__dirname, "./tsconfig.json"),
+          configFile: path.resolve(__dirname, './tsconfig.json'),
         }),
       ],
     },
@@ -124,11 +124,11 @@ module.exports = (_env, argv) => {
       progress: true,
       hot: true,
       headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods":
-          "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-        "Access-Control-Allow-Headers":
-          "X-Requested-With, content-type, Authorization",
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods':
+          'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+        'Access-Control-Allow-Headers':
+          'X-Requested-With, content-type, Authorization',
       },
     },
   };
