@@ -35,6 +35,8 @@ import {
   DEFAULT_MAX_MESSAGE_TIMESTAMP_DIFF,
   DEFAULT_FLUSH_INTERVAL_MESSAGES,
   DEFAULT_FLUSH_INTERVAL_TIME,
+  MIN_PARTITIONS,
+  MAX_PARTITIONS
 } from "@app/constant";
 import {
   TextWithLabelPopover,
@@ -125,8 +127,6 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
       isDisabled: false,
     },
   ];
-
-  const minPartitionValue = 1;
 
   const config = useContext(ConfigContext);
   const fetchTopic = async (topicName) => {
@@ -237,8 +237,10 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
   const onPartitionsChange = (event: React.FormEvent<HTMLInputElement>) => {
     const { name: fieldName, value } = event.currentTarget;
     let partitionValue = Number(value);
-    if (partitionValue < minPartitionValue) {
-      partitionValue = minPartitionValue;
+    if (partitionValue < MIN_PARTITIONS) {
+      partitionValue = MIN_PARTITIONS;
+    } else if (partitionValue > MAX_PARTITIONS) {
+      partitionValue = MAX_PARTITIONS;
     }
     setTopicData({ ...topicData, [kebabToCamel(fieldName)]: partitionValue });
   };
@@ -546,7 +548,8 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
                     value={Number(topicData.numPartitions)}
                     plusBtnProps={{ name: "num-partitions" }}
                     minusBtnProps={{ name: "num-partitions" }}
-                    min={1}
+                    min={MIN_PARTITIONS}
+                    max={MAX_PARTITIONS}
                   />
                 </FormGroupWithPopover>
               ) : (
