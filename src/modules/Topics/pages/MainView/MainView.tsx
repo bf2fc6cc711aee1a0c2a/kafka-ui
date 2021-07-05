@@ -41,6 +41,7 @@ export const MainView: React.FC<MainViewProps> = ({
   const [activeTabKey, setActiveTabKey] = useState(activeTab);
   const contentRefConsumerGroups = React.createRef<HTMLElement>();
   const contentRefTopics = React.createRef<HTMLElement>();
+  const contentRefDashboard = React.createRef<HTMLElement>();
 
   const handleTabClick = (_event, tabIndex) => {
     setActiveTabKey(tabIndex);
@@ -126,7 +127,17 @@ export const MainView: React.FC<MainViewProps> = ({
           className='pf-m-page-insets'
         >
           <Tab
-            title={<TabTitleText>{t('topic.topics')}</TabTitleText>}
+            title={<TabTitleText>{t("dashboard.dashboard")}</TabTitleText>}
+            eventKey={0}
+            data-testid="pageKafka-tabDashboard"
+            id="dashboard-tab-section"
+            aria-label={t("dashboard.dashboard")}
+            tabContentRef={contentRefDashboard}
+            tabContentId="kafka-ui-TabcontentDashboard"
+            // className="kafka-ui-m-full-height"
+          ></Tab>
+          <Tab
+            title={<TabTitleText>{t("topic.topics")}</TabTitleText>}
             eventKey={1}
             data-testid='pageKafka-tabTopics'
             id='topics-tab-section'
@@ -150,6 +161,15 @@ export const MainView: React.FC<MainViewProps> = ({
         </Tabs>
       </PageSection>
       <PageSection isFilled>
+        <TabContent
+          eventKey={0}
+          ref={contentRefDashboard}
+          id="kafka-ui-TabcontentDashboard"
+          className="kafka-ui-m-full-height"
+          aria-label={t("dashboard.dashboard")}
+        >
+
+        </TabContent>
         <TabContent
           eventKey={1}
           ref={contentRefTopics}
