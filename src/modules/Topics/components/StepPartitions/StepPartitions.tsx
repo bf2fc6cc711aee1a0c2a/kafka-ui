@@ -10,6 +10,7 @@ import {
   FormSection,
 } from "@patternfly/react-core";
 import "../CreateTopicWizard/CreateTopicWizard.css";
+import { MIN_PARTITIONS, MAX_PARTITIONS } from "@app/constant";
 
 export type StepPartitionsProps = {
   setPartitionTouchspinValue: (value: number) => void;
@@ -20,7 +21,6 @@ export const StepPartitions: React.FC<StepPartitionsProps> = ({
   partitionTouchspinValue,
   setPartitionTouchspinValue,
 }) => {
-  const minValue = 1;
 
   const { t } = useTranslation();
 
@@ -32,8 +32,10 @@ export const StepPartitions: React.FC<StepPartitionsProps> = ({
   };
   const handlePartitionTouchspinChange = (event) => {
     let num = Number(event.target.value);
-    if (num < minValue) {
-      num = minValue;
+    if (num < MIN_PARTITIONS) {
+      num = MIN_PARTITIONS;
+    } else if (num > MAX_PARTITIONS) {
+      num = MAX_PARTITIONS;
     }
     setPartitionTouchspinValue(num);
   };
@@ -65,7 +67,8 @@ export const StepPartitions: React.FC<StepPartitionsProps> = ({
             inputName="input"
             onChange={handlePartitionTouchspinChange}
             widthChars={20}
-            min={minValue}
+            min={MIN_PARTITIONS}
+            max={MAX_PARTITIONS}
           />
         </FormGroup>
       </FormSection>
