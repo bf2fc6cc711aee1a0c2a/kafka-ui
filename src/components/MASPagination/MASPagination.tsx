@@ -1,12 +1,12 @@
-import React, { useCallback, FunctionComponent } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import React, { useCallback, FunctionComponent } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import {
   Pagination as PFPagination,
   PaginationProps as PFPaginationProps,
   PaginationVariant,
-} from "@patternfly/react-core";
+} from '@patternfly/react-core';
 
-export type PaginationProps = Omit<PFPaginationProps, "children" | "ref">;
+export type PaginationProps = Omit<PFPaginationProps, 'children' | 'ref'>;
 
 const MASPagination: FunctionComponent<PaginationProps> = ({
   page,
@@ -30,7 +30,7 @@ const MASPagination: FunctionComponent<PaginationProps> = ({
 
   const onSetPage = useCallback(
     (_: unknown, newPage: number) => {
-      setSearchParam("page", newPage.toString());
+      setSearchParam('page', newPage.toString());
       history.push({
         search: searchParams.toString(),
       });
@@ -40,8 +40,8 @@ const MASPagination: FunctionComponent<PaginationProps> = ({
 
   const onPerPageSelect = useCallback(
     (_: unknown, newPerPage: number) => {
-      setSearchParam("page", "1");
-      setSearchParam("perPage", newPerPage.toString());
+      setSearchParam('page', '1');
+      setSearchParam('perPage', newPerPage.toString());
       history.push({
         search: searchParams.toString(),
       });

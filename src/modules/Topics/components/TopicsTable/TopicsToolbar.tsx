@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Button,
   ButtonVariant,
   InputGroup,
   TextInput,
   ToolbarFilter,
-} from "@patternfly/react-core";
-import { SearchIcon } from "@patternfly/react-icons";
-import { MASToolbar, ToolbarItemProps, MASPagination } from "@app/components";
+} from '@patternfly/react-core';
+import { SearchIcon } from '@patternfly/react-icons';
+import { MASToolbar, ToolbarItemProps, MASPagination } from '@app/components';
 
 export type TopicsToolbarProps = {
   total: number;
@@ -24,14 +24,14 @@ const TopicsToolbar: React.FC<TopicsToolbarProps> = ({
   page,
   perPage,
   setFilteredValue,
-  filteredValue = "",
+  filteredValue = '',
   onCreateTopic,
 }) => {
   const { t } = useTranslation();
-  const [topicInputValue, setTopicInputValue] = useState<string>("");
+  const [topicInputValue, setTopicInputValue] = useState<string>('');
 
   const onClear = () => {
-    setFilteredValue("");
+    setFilteredValue('');
   };
 
   const onChangeInput = (value: string) => {
@@ -40,11 +40,11 @@ const TopicsToolbar: React.FC<TopicsToolbarProps> = ({
 
   const onSearch = () => {
     setFilteredValue(topicInputValue);
-    setTopicInputValue("");
+    setTopicInputValue('');
   };
 
   const onDeleteChip = () => {
-    setFilteredValue("");
+    setFilteredValue('');
   };
 
   const toggleGroupItems = (
@@ -52,15 +52,15 @@ const TopicsToolbar: React.FC<TopicsToolbarProps> = ({
       <ToolbarFilter
         chips={filteredValue ? [filteredValue] : []}
         deleteChip={onDeleteChip}
-        categoryName={""}
+        categoryName={''}
       >
         <InputGroup>
           <TextInput
-            name="searchName"
-            id="search-topics-input"
-            type="search"
-            aria-label={t("topic.topic_search_input")}
-            placeholder={t("common.search")}
+            name='searchName'
+            id='search-topics-input'
+            type='search'
+            aria-label={t('topic.topic_search_input')}
+            placeholder={t('common.search')}
             value={topicInputValue}
             onChange={onChangeInput}
           />
@@ -68,7 +68,7 @@ const TopicsToolbar: React.FC<TopicsToolbarProps> = ({
             variant={ButtonVariant.control}
             isDisabled={topicInputValue.length ? false : true}
             onClick={onSearch}
-            aria-label={t("topic.topic_search")}
+            aria-label={t('topic.topic_search')}
           >
             <SearchIcon />
           </Button>
@@ -81,12 +81,12 @@ const TopicsToolbar: React.FC<TopicsToolbarProps> = ({
     {
       item: (
         <Button
-          id="topic-list-create-topic-button"
-          className="topics-per-page"
-          data-testid="tabTopics-actionCreate"
+          id='topic-list-create-topic-button'
+          className='topics-per-page'
+          data-testid='tabTopics-actionCreate'
           onClick={onCreateTopic}
         >
-          {t("topic.create_topic")}
+          {t('topic.create_topic')}
         </Button>
       ),
     },
@@ -96,36 +96,36 @@ const TopicsToolbar: React.FC<TopicsToolbarProps> = ({
     toolbarItems.push({
       item: (
         <MASPagination
-          widgetId="consumer-group-pagination-options-menu-top"
+          widgetId='consumer-group-pagination-options-menu-top'
           itemCount={total}
           page={page}
           perPage={perPage}
           titles={{
-            paginationTitle: t("common.minimal_pagination"),
-            perPageSuffix: t("common.per_page_suffix"),
-            toFirstPage: t("common.to_first_page"),
-            toPreviousPage: t("common.to_previous_page"),
-            toLastPage: t("common.to_last_page"),
-            toNextPage: t("common.to_next_page"),
-            optionsToggle: t("common.options_toggle"),
-            currPage: t("common.curr_page"),
+            paginationTitle: t('common.minimal_pagination'),
+            perPageSuffix: t('common.per_page_suffix'),
+            toFirstPage: t('common.to_first_page'),
+            toPreviousPage: t('common.to_previous_page'),
+            toLastPage: t('common.to_last_page'),
+            toNextPage: t('common.to_next_page'),
+            optionsToggle: t('common.options_toggle'),
+            currPage: t('common.curr_page'),
           }}
         />
       ),
-      variant: "pagination",
-      alignment: { default: "alignRight" },
+      variant: 'pagination',
+      alignment: { default: 'alignRight' },
     });
   }
 
   return (
     <MASToolbar
       toolbarProps={{
-        id: "instance-toolbar",
+        id: 'instance-toolbar',
         clearAllFilters: onClear,
-        collapseListedFiltersBreakpoint: "md",
-        inset: { xl: "insetLg" },
+        collapseListedFiltersBreakpoint: 'md',
+        inset: { xl: 'insetLg' },
       }}
-      toggleGroupProps={{ toggleIcon: "", breakpoint: "md" }}
+      toggleGroupProps={{ toggleIcon: '', breakpoint: 'md' }}
       toggleGroupItems={toggleGroupItems}
       toolbarItems={toolbarItems}
     />

@@ -1,16 +1,16 @@
-import React, { FunctionComponent } from "react";
-import { I18nextProvider } from "react-i18next";
-import { BrowserRouter } from "react-router-dom";
-import { UpdateTopicPage } from "@app/modules/Topics/pages/UpdateTopic";
+import React, { FunctionComponent } from 'react';
+import { I18nextProvider } from 'react-i18next';
+import { BrowserRouter } from 'react-router-dom';
+import { UpdateTopicPage } from '@app/modules/Topics/pages/UpdateTopic';
 import {
   FederatedContext,
   FederatedProps,
   ConfigContext,
   IConfiguration,
-} from "@app/contexts";
-import kafkai18n from "@app/i18n";
-import { KafkaActions } from "@app/utils";
-import { RootModal } from "@app/components/RootModal";
+} from '@app/contexts';
+import kafkai18n from '@app/i18n';
+import { KafkaActions } from '@app/utils';
+import { RootModal } from '@app/components/RootModal';
 
 export type UpdateTopicFederatedProps = FederatedProps &
   IConfiguration & {
@@ -33,7 +33,7 @@ const UpdateTopicFederated: FunctionComponent<UpdateTopicFederatedProps> = ({
   };
 
   const onDeleteTopic = () => {
-    onConnectToRoute && onConnectToRoute("");
+    onConnectToRoute && onConnectToRoute('');
   };
 
   const onSaveTopic = () => {

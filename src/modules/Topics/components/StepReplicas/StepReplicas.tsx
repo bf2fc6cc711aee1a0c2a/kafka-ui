@@ -1,5 +1,5 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Alert,
   Text,
@@ -7,9 +7,9 @@ import {
   TextVariants,
   Form,
   FormSection,
-} from "@patternfly/react-core";
-import "../CreateTopicWizard/CreateTopicWizard.css";
-import { TextWithLabelPopover } from "@app/components/TextWithLabelPopover";
+} from '@patternfly/react-core';
+import '../CreateTopicWizard/CreateTopicWizard.css';
+import { TextWithLabelPopover } from '@app/components/TextWithLabelPopover';
 
 export type StepReplicasProps = {
   replicationFactor: number;
@@ -25,38 +25,38 @@ export const StepReplicas: React.FC<StepReplicasProps> = ({
   return (
     <Form>
       <FormSection
-        title={t("common.replicas")}
-        id="replica-section"
-        titleElement={"h2"}
+        title={t('common.replicas')}
+        id='replica-section'
+        titleElement={'h2'}
       >
         <TextContent>
-          <Text component={TextVariants.p}>{t("topic.replicas_info")}</Text>
+          <Text component={TextVariants.p}>{t('topic.replicas_info')}</Text>
           <Text component={TextVariants.small}>
-            {t("topic.replicas_detail")}
+            {t('topic.replicas_detail')}
           </Text>
         </TextContent>
         <Alert
-          variant="info"
+          variant='info'
           isInline
-          title={t("topic.replicas_helper_text")}
+          title={t('topic.replicas_helper_text')}
         />
 
         <TextWithLabelPopover
-          fieldId="replicas"
-          btnAriaLabel={t("common.replicas")}
-          fieldLabel={t("common.replicas")}
+          fieldId='replicas'
+          btnAriaLabel={t('common.replicas')}
+          fieldLabel={t('common.replicas')}
           fieldValue={replicationFactor.toString()}
-          popoverBody={t("topic.replicas_description")}
-          popoverHeader={t("topic.replicas")}
+          popoverBody={t('topic.replicas_description')}
+          popoverHeader={t('topic.replicas')}
         />
 
         <TextWithLabelPopover
-          fieldId="min-insync-replicas"
-          btnAriaLabel="topic detail min-in-sync replica"
-          fieldLabel="Minimum in-sync replicas"
+          fieldId='min-insync-replicas'
+          btnAriaLabel='topic detail min-in-sync replica'
+          fieldLabel='Minimum in-sync replicas'
           fieldValue={minInSyncReplica.toString()}
-          popoverBody={t("topic.min_insync_replicas_description")}
-          popoverHeader={t("topic.min_insync_replicas")}
+          popoverBody={t('topic.min_insync_replicas_description')}
+          popoverHeader={t('topic.min_insync_replicas')}
         />
       </FormSection>
     </Form>

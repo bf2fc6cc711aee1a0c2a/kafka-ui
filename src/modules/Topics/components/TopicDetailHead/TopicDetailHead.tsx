@@ -1,5 +1,5 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,8 +8,8 @@ import {
   TextVariants,
   PageSection,
   PageSectionVariants,
-} from "@patternfly/react-core";
-import "../TopicDetailView/TopicDetailView.css";
+} from '@patternfly/react-core';
+import '../TopicDetailView/TopicDetailView.css';
 
 export type TopicDetailHeadProps = {
   topicName: string;
@@ -28,13 +28,13 @@ export const TopicDetailHead: React.FC<TopicDetailHeadProps> = ({
 
   return (
     <>
-      <section className="pf-c-page__main-breadcrumb">
+      <section className='pf-c-page__main-breadcrumb'>
         <Breadcrumb>
-          <BreadcrumbItem to={kafkaPageLink || "#"}>
-            {t("common.kafka_instance")}
+          <BreadcrumbItem to={kafkaPageLink || '#'}>
+            {t('common.kafka_instance')}
           </BreadcrumbItem>
-          <BreadcrumbItem to={kafkaInstanceLink || "#"}>
-            {kafkaName ? kafkaName : t("common.kafka_instance_name")}
+          <BreadcrumbItem to={kafkaInstanceLink || '#'}>
+            {kafkaName ? kafkaName : t('common.kafka_instance_name')}
           </BreadcrumbItem>
           <BreadcrumbItem>{topicName}</BreadcrumbItem>
         </Breadcrumb>

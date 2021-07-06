@@ -1,19 +1,19 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
-import { PaginationVariant } from "@patternfly/react-core";
-import { TableVariant, sortable, IRowData } from "@patternfly/react-table";
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import { PaginationVariant } from '@patternfly/react-core';
+import { TableVariant, sortable, IRowData } from '@patternfly/react-table';
 import {
   MASTable,
   MASPagination,
   EmptyState,
   MASEmptyStateVariant,
-} from "@app/components";
-import { Topic } from "@rhoas/kafka-instance-sdk";
-import { useFederated } from "@app/contexts";
-import { TopicsToolbar, TopicsToolbarProps } from "./TopicsToolbar";
-import { convertRetentionSize, convertRetentionTime } from "@app/utils";
-import { useRootModalContext, MODAL_TYPES } from "@app/components";
+} from '@app/components';
+import { Topic } from '@rhoas/kafka-instance-sdk';
+import { useFederated } from '@app/contexts';
+import { TopicsToolbar, TopicsToolbarProps } from './TopicsToolbar';
+import { convertRetentionSize, convertRetentionTime } from '@app/utils';
+import { useRootModalContext, MODAL_TYPES } from '@app/components';
 
 export type TopicsTableProps = TopicsToolbarProps & {
   topicItems: Topic[];
@@ -42,10 +42,10 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
   const { onConnectToRoute, getConnectToRoutePath } = useFederated();
 
   const tableColumns = [
-    { title: t("common.name") },
-    { title: t("common.partitions"), transforms: [sortable] },
-    { title: t("topic.retention_time"), transforms: [sortable] },
-    { title: t("topic.retention_size"), transforms: [sortable] },
+    { title: t('common.name') },
+    { title: t('common.partitions'), transforms: [sortable] },
+    { title: t('topic.retention_time'), transforms: [sortable] },
+    { title: t('topic.retention_size'), transforms: [sortable] },
   ];
 
   const onDelete = (topicName: string) => {
@@ -61,10 +61,10 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
     originalData: Topic,
     action: string
   ) => {
-    const { name = "" } = originalData;
-    if (action === "delete") {
+    const { name = '' } = originalData;
+    if (action === 'delete') {
       onDelete(name);
-    } else if (action === "edit") {
+    } else if (action === 'edit') {
       onEdit && onEdit(name);
     }
     // Set focus back on previous selected element i.e. kebab button
@@ -75,16 +75,16 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
     const originalData: Topic = rowData.originalData;
     const resolver = [
       {
-        title: t("common.delete"),
-        ["data-testid"]: "tableTopics-actionDelete",
+        title: t('common.delete'),
+        ['data-testid']: 'tableTopics-actionDelete',
         onClick: (event: any) =>
-          onSelectKebabDropdownOption(event, originalData, "delete"),
+          onSelectKebabDropdownOption(event, originalData, 'delete'),
       },
       {
-        title: t("common.edit"),
-        ["data-testid"]: "tableTopics-actionEdit",
+        title: t('common.edit'),
+        ['data-testid']: 'tableTopics-actionEdit',
         onClick: (event: any) =>
-          onSelectKebabDropdownOption(event, originalData, "edit"),
+          onSelectKebabDropdownOption(event, originalData, 'edit'),
       },
     ];
     return resolver;
@@ -99,11 +99,11 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
           {
             title: (
               <Link
-                data-testid="tableTopics-linkTopic"
+                data-testid='tableTopics-linkTopic'
                 to={
                   (getConnectToRoutePath &&
                     getConnectToRoutePath(`topics/${name}`, name)) ||
-                  ""
+                  ''
                 }
                 onClick={(e) => {
                   e.preventDefault();
@@ -117,13 +117,13 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
           partitions?.length,
           convertRetentionTime(
             Number(
-              config?.filter((element) => element.key === "retention.ms")[0]
+              config?.filter((element) => element.key === 'retention.ms')[0]
                 ?.value || 0
             )
           ),
           convertRetentionSize(
             Number(
-              config?.filter((element) => element.key === "retention.bytes")[0]
+              config?.filter((element) => element.key === 'retention.bytes')[0]
                 ?.value || 0
             )
           ),
@@ -137,7 +137,7 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
   const rows = preparedTableCells();
 
   return (
-    <div data-ouia-page-id="topics-table">
+    <div data-ouia-page-id='topics-table'>
       <TopicsToolbar
         total={total}
         page={page}
@@ -150,12 +150,12 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
         tableProps={{
           cells: tableColumns,
           rows,
-          "aria-label": t("topic.topic_list_table"),
+          'aria-label': t('topic.topic_list_table'),
           actionResolver: actionResolver,
           shouldDefaultCustomRowWrapper: true,
           variant: TableVariant.compact,
         }}
-        rowDataTestId={rowDataTestId || "tableTopics-row"}
+        rowDataTestId={rowDataTestId || 'tableTopics-row'}
       />
       {topicItems?.length < 1 && filteredValue.length > 0 && (
         <EmptyState
@@ -163,29 +163,29 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
             variant: MASEmptyStateVariant.NoResult,
           }}
           titleProps={{
-            title: t("common.no_results_title"),
+            title: t('common.no_results_title'),
           }}
           emptyStateBodyProps={{
-            body: t("common.no_results_body"),
+            body: t('common.no_results_body'),
           }}
         />
       )}
       {total > 0 && (
         <MASPagination
-          widgetId="consumer-group-pagination-options-menu-bottom"
+          widgetId='consumer-group-pagination-options-menu-bottom'
           itemCount={total}
           variant={PaginationVariant.bottom}
           page={page}
           perPage={perPage}
           titles={{
-            paginationTitle: t("common.full_pagination"),
-            perPageSuffix: t("common.per_page_suffix"),
-            toFirstPage: t("common.to_first_page"),
-            toPreviousPage: t("common.to_previous_page"),
-            toLastPage: t("common.to_last_page"),
-            toNextPage: t("common.to_next_page"),
-            optionsToggle: t("common.options_toggle"),
-            currPage: t("common.curr_page"),
+            paginationTitle: t('common.full_pagination'),
+            perPageSuffix: t('common.per_page_suffix'),
+            toFirstPage: t('common.to_first_page'),
+            toPreviousPage: t('common.to_previous_page'),
+            toLastPage: t('common.to_last_page'),
+            toNextPage: t('common.to_next_page'),
+            optionsToggle: t('common.options_toggle'),
+            currPage: t('common.curr_page'),
           }}
         />
       )}

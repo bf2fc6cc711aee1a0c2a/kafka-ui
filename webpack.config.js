@@ -21,9 +21,10 @@ const singletonDeps = [
   '@redhat-cloud-services/frontend-components',
   '@redhat-cloud-services/frontend-components-utilities',
   '@redhat-cloud-services/frontend-components-notifications',
-  '@bf2/ui-shared'
+  '@bf2/ui-shared',
 ];
-const fileRegEx = /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
+const fileRegEx =
+  /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
 const srcDir = path.resolve(__dirname, './src');
 const ChunkMapper = require('@redhat-cloud-services/frontend-components-config/chunk-mapper');
 
@@ -82,10 +83,12 @@ module.exports = (_env, argv) => {
           isProduction ? '.[chunkhash:8]' : ''
         }.js`,
         exposes: {
-          './Panels/KafkaMainView': './src/modules/Topics/pages/MainView/MainViewFederated',
+          './Panels/KafkaMainView':
+            './src/modules/Topics/pages/MainView/MainViewFederated',
           './Panels/TopicDetails':
             './src/modules/Topics/pages/TopicDetail/TopicDetailFederated',
-          './Panels/CreateTopic': './src/modules/Topics/pages/CreateTopic/CreateTopicFederated',
+          './Panels/CreateTopic':
+            './src/modules/Topics/pages/CreateTopic/CreateTopicFederated',
           './Panels/UpdateTopic':
             './src/modules/Topics/pages/UpdateTopic/UpdateTopicFederated',
         },

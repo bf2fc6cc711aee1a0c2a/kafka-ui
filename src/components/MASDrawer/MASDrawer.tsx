@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Drawer,
   DrawerProps,
@@ -17,9 +17,9 @@ import {
   TextProps,
   TitleProps,
   DrawerContentBody,
-} from "@patternfly/react-core";
-import { MASLoading } from "@app/components";
-import "./MASDrawer.css";
+} from '@patternfly/react-core';
+import { MASLoading } from '@app/components';
+import './MASDrawer.css';
 
 export type MASDrawerProps = DrawerProps & {
   children: React.ReactNode;
@@ -27,16 +27,16 @@ export type MASDrawerProps = DrawerProps & {
   onClose: () => void;
   drawerData?: any;
   isLoading?: boolean;
-  drawerPanelContentProps?: Omit<DrawerPanelContentProps, "children">;
+  drawerPanelContentProps?: Omit<DrawerPanelContentProps, 'children'>;
   drawerHeaderProps?: {
-    text?: Omit<TextProps, "children" | "ref"> & {
+    text?: Omit<TextProps, 'children' | 'ref'> & {
       label: string | undefined;
     };
-    title?: Omit<TitleProps, "children"> & {
+    title?: Omit<TitleProps, 'children'> & {
       value: string | undefined;
     };
   };
-  ["data-ouia-app-id"]?: string;
+  ['data-ouia-app-id']?: string;
   notRequiredDrawerContentBackground?: boolean | undefined;
   inlineAlertMessage?: React.ReactNode;
 };
@@ -51,7 +51,7 @@ export const MASDrawer: React.FC<MASDrawerProps> = ({
   panelBodyContent,
   onExpand,
   notRequiredDrawerContentBackground,
-  "data-ouia-app-id": dataOuiaAppId,
+  'data-ouia-app-id': dataOuiaAppId,
   inlineAlertMessage,
 }: MASDrawerProps) => {
   const { widths, ...restDrawerPanelContentProps } =
@@ -60,7 +60,7 @@ export const MASDrawer: React.FC<MASDrawerProps> = ({
 
   const panelContent = (
     <DrawerPanelContent
-      widths={widths || { default: "width_50" }}
+      widths={widths || { default: 'width_50' }}
       {...restDrawerPanelContentProps}
     >
       {isLoading ? (
@@ -72,16 +72,18 @@ export const MASDrawer: React.FC<MASDrawerProps> = ({
               {text?.label && (
                 <Text
                   component={text?.component || TextVariants.small}
-                  className={text?.className || "kafka-ui-mas-drawer__top-label"}
+                  className={
+                    text?.className || 'kafka-ui-mas-drawer__top-label'
+                  }
                 >
                   {text?.label}
                 </Text>
               )}
               {title?.value && (
                 <Title
-                  headingLevel={title?.headingLevel || "h2"}
-                  size={title?.size || TitleSizes["xl"]}
-                  className={title?.className || "kafka-ui-mas-drawer__title"}
+                  headingLevel={title?.headingLevel || 'h2'}
+                  size={title?.size || TitleSizes['xl']}
+                  className={title?.className || 'kafka-ui-mas-drawer__title'}
                 >
                   {title?.value}
                 </Title>
@@ -109,10 +111,10 @@ export const MASDrawer: React.FC<MASDrawerProps> = ({
       <DrawerContent
         panelContent={panelContent}
         className={
-          notRequiredDrawerContentBackground ? "pf-m-no-background" : ""
+          notRequiredDrawerContentBackground ? 'pf-m-no-background' : ''
         }
       >
-        <DrawerContentBody className="kafka-ui-mas-drawer__drawer-content-body">
+        <DrawerContentBody className='kafka-ui-mas-drawer__drawer-content-body'>
           {children}
         </DrawerContentBody>
       </DrawerContent>
