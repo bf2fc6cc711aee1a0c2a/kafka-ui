@@ -15,4 +15,5 @@ export const DEFAULT_MESSAGE_TIMESTAMP_TYPE = 'CreateTime';
 export const DEFAULT_MINIMUM_COMPACTION_LAG_TIME = '0 milliseconds';
 export const DEFAULT_FLUSH_INTERVAL_MESSAGES = '9223372036854775807 messages';
 export const DEFAULT_FLUSH_INTERVAL_TIME = '9223372036854775807 milliseconds';
+export const MIN_PARTITIONS = 1;
 export const MAX_PARTITIONS = 100;
