@@ -81,9 +81,9 @@ const TopicsToolbar: React.FC<TopicsToolbarProps> = ({
     {
       item: (
         <Button
-          id="topic-list-create-topic-button"
-          className="topics-per-page"
-          data-testid="actionCreateTopic"
+          id='topic-list-create-topic-button'
+          className='topics-per-page'
+          data-testid='actionCreateTopic'
           onClick={onCreateTopic}
         >
           {t('topic.create_topic')}

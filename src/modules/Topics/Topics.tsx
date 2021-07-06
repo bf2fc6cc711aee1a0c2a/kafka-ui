@@ -103,7 +103,7 @@ export const Topics: React.FC<TopicsProps> = ({
         <EmptyState
           emptyStateProps={{
             variant: MASEmptyStateVariant.NoItems,
-            "data-ouia-page-id":"emptyStateTopics"
+            'data-ouia-page-id': 'emptyStateTopics',
           }}
           titleProps={{
             title: t('topic.empty_topics_title'),
@@ -114,7 +114,7 @@ export const Topics: React.FC<TopicsProps> = ({
           buttonProps={{
             title: t('topic.create_topic'),
             onClick: onClickCreateTopic,
-            "data-testid": "actionCreateTopic"
+            'data-testid': 'actionCreateTopic',
           }}
         />
       );
@@ -142,7 +142,9 @@ export const Topics: React.FC<TopicsProps> = ({
 
   return (
     <>
-      <Card className="kafka-ui-m-full-height" data-ouia-page-id='tableTopics'>{renderTopicsTable()}</Card>
+      <Card className='kafka-ui-m-full-height' data-ouia-page-id='tableTopics'>
+        {renderTopicsTable()}
+      </Card>
     </>
   );
 };
