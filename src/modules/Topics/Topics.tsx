@@ -10,12 +10,13 @@ import {
 import { useTimeout } from '@app/hooks/useTimeOut';
 import { TopicsTable } from './components';
 import { EmptyState, MASEmptyStateVariant, MASLoading } from '@app/components';
-import { getTopics } from '@app/services';
+import { getTopics, OrderKey } from '@app/services';
 import { ConfigContext, useFederated } from '@app/contexts';
 import { TopicsList, Topic } from '@rhoas/kafka-instance-sdk';
 import { KafkaActions } from '@app/utils';
 import { useAlert } from '@bf2/ui-shared';
 import './Topics.css';
+import { ISortBy, OnSort, SortByDirection } from '@patternfly/react-table';
 
 export type ITopic = {
   name: string;
@@ -49,10 +50,13 @@ export const Topics: React.FC<TopicsProps> = ({
   const [topicItems, setTopicItems] = useState<Topic[]>();
   const [searchTopicName, setSearchTopicName] = useState<string>('');
   const [offset, setOffset] = useState<number>(0);
+  const [order, setOrder]= useState<SortByDirection>();
+  const [orderKey, setOrderKey] = useState<OrderKey>();
+  const [sortBy, setSortBy] = useState<ISortBy>({ index: 0, direction: 'asc'});
 
   useEffect(() => {
     fetchTopic();
-  }, [searchTopicName]);
+  }, [searchTopicName, order, orderKey]);
 
   useTimeout(() => fetchTopic(), 5000);
 
@@ -66,9 +70,23 @@ export const Topics: React.FC<TopicsProps> = ({
     dispatchKafkaAction && dispatchKafkaAction(KafkaActions.CreateTopic);
   };
 
+  const onSort: OnSort = (_event, index, direction) => {
+
+    const sortableCols = {
+      '0': 'name',
+      '1': 'partitions',
+      '2': 'retention.ms',
+      '3': 'retention.bytes'
+    }
+
+    setOrderKey(sortableCols[index])
+    setOrder(direction);
+    setSortBy({ index, direction });
+  }
+
   const fetchTopic = async () => {
     try {
-      await getTopics(config, 100, perPage, searchTopicName, offset).then(
+      await getTopics(config, 100, perPage, searchTopicName, offset, order, orderKey).then(
         (response) => {
           setTopics(response);
           setTopicItems(response?.items);
@@ -134,6 +152,8 @@ export const Topics: React.FC<TopicsProps> = ({
           setFilteredValue={setSearchTopicName}
           refreshTopics={fetchTopic}
           onEdit={onEditTopic}
+          onSort={onSort}
+          sortBy={sortBy}
         />
       );
     }

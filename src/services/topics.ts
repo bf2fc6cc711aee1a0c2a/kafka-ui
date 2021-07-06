@@ -9,13 +9,23 @@ import {
 import { Configuration } from '@rhoas/kafka-instance-sdk';
 import { IConfiguration } from '@app/contexts';
 import { IAdvancedTopic } from '@app/modules/Topics/components/CreateTopicWizard/CreateTopicWizard';
+import { SortByDirection } from '@patternfly/react-table';
+
+export enum OrderKey {
+  name = 'name',
+  partitions = 'partitions',
+  retentionMs = 'retention.ms',
+  retentionSize = 'retention.bytes'
+}
 
 export const getTopics = async (
   config: IConfiguration | undefined,
   limit?: number,
   size?: number,
   filter?: string,
-  offset?: number | undefined
+  offset?: number | undefined,
+  order: SortByDirection = SortByDirection.asc,
+  orderKey?: OrderKey
 ): Promise<TopicsList> => {
   const accessToken = await config?.getToken();
 
@@ -29,7 +39,10 @@ export const getTopics = async (
     offset,
     limit,
     size,
-    filter
+    filter,
+    undefined,
+    order,
+    orderKey
   );
   return response.data;
 };

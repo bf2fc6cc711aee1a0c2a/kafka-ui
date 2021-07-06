@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { PaginationVariant } from '@patternfly/react-core';
-import { TableVariant, sortable, IRowData } from '@patternfly/react-table';
+import { TableVariant, sortable, IRowData, OnSort, ISortBy } from '@patternfly/react-table';
 import {
   MASTable,
   MASPagination,
@@ -22,6 +22,8 @@ export type TopicsTableProps = TopicsToolbarProps & {
   onEdit?: (topicName?: string | undefined) => void;
   onDeleteTopic?: () => void;
   refreshTopics: () => void;
+  onSort: OnSort;
+  sortBy: ISortBy;
 };
 
 const TopicsTable: React.FC<TopicsTableProps> = ({
@@ -36,6 +38,8 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
   onEdit,
   onDeleteTopic,
   refreshTopics,
+  onSort,
+  sortBy
 }) => {
   const { t } = useTranslation();
   const { showModal } = useRootModalContext();
@@ -154,6 +158,8 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
           actionResolver: actionResolver,
           shouldDefaultCustomRowWrapper: true,
           variant: TableVariant.compact,
+          onSort,
+          sortBy
         }}
         rowDataTestId={rowDataTestId || 'tableTopics-row'}
       />
