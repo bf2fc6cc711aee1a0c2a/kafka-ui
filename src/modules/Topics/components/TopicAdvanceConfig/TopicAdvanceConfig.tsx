@@ -35,7 +35,6 @@ import {
   DEFAULT_MAX_MESSAGE_TIMESTAMP_DIFF,
   DEFAULT_FLUSH_INTERVAL_MESSAGES,
   DEFAULT_FLUSH_INTERVAL_TIME,
-  MIN_PARTITIONS,
   MAX_PARTITIONS,
 } from '@app/constant';
 import {
@@ -97,8 +96,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
     const [customRetentionSize, setCustomRetentionSize] = useState<number>(1);
     const [customRetentionSizeUnit, setCustomRetentionSizeUnit] =
       useState<string>('bytes');
-    const actionText =
-      isCreate === true ? t('topic.create_topic') : t('common.save');
+    const actionText = isCreate ? t('topic.create_topic') : t('common.save');
 
     const clearOptions: IDropdownOption[] = [
       {
@@ -145,11 +143,9 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
 
     useEffect(() => {
       if (!isCreate) {
-        (async function () {
-          fetchTopic(topicData.name);
-        })();
-        setCustomRetentionTimeUnit('milliseconds');
+        fetchTopic(topicData.name);
       }
+      setCustomRetentionTimeUnit('milliseconds');
     }, []);
 
     useEffect(() => {
@@ -230,10 +226,19 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
     const onPartitionsChange = (event: React.FormEvent<HTMLInputElement>) => {
       const { name: fieldName, value } = event.currentTarget;
       let partitionValue = Number(value);
-      if (partitionValue < MIN_PARTITIONS) {
-        partitionValue = MIN_PARTITIONS;
-      } else if (partitionValue > MAX_PARTITIONS) {
-        partitionValue = MAX_PARTITIONS;
+      if (initialPartition) {
+        if (partitionValue > initialPartition) {
+          setPartitionsValidated('warning');
+          setWarning(true);
+        }
+
+        if (partitionValue < initialPartition) {
+          partitionValue = initialPartition;
+          setPartitionsValidated('default');
+          setWarning(false);
+        } else if (partitionValue > MAX_PARTITIONS) {
+          partitionValue = MAX_PARTITIONS;
+        }
       }
       setTopicData({ ...topicData, [kebabToCamel(fieldName)]: partitionValue });
     };
@@ -520,41 +525,32 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
                     popoverHeader={t('topic.topic_name')}
                   />
                 )}
-                {isCreate ? (
-                  <FormGroupWithPopover
-                    fieldId='create-topic-partitions'
-                    fieldLabel='Partitions'
-                    labelHead={t('topic.partitions')}
-                    labelBody={t('topic.partitions_description')}
-                    buttonAriaLabel='More info for partitions field'
-                    validated={partitionsValidated}
-                    helperText={
-                      warning ? t('topic.partitions_warning') : undefined
-                    }
-                  >
-                    <NumberInput
-                      id='create-topic-partitions'
-                      inputName='num-partitions'
-                      onChange={onPartitionsChange}
-                      onPlus={handleTouchSpinPlusCamelCase}
-                      onMinus={handleTouchSpinMinusCamelCase}
-                      value={Number(topicData.numPartitions)}
-                      plusBtnProps={{ name: 'num-partitions' }}
-                      minusBtnProps={{ name: 'num-partitions' }}
-                      min={MIN_PARTITIONS}
-                      max={MAX_PARTITIONS}
-                    />
-                  </FormGroupWithPopover>
-                ) : (
-                  <TextWithLabelPopover
-                    fieldId='partitions'
-                    btnAriaLabel='More info for partitions field'
-                    fieldLabel='Partitions'
-                    fieldValue={topicData.numPartitions}
-                    popoverBody={t('topic.partitions_description')}
-                    popoverHeader={t('topic.partitions')}
+
+                <FormGroupWithPopover
+                  fieldId='create-topic-partitions'
+                  fieldLabel='Partitions'
+                  labelHead={t('topic.partitions')}
+                  labelBody={t('topic.partitions_description')}
+                  buttonAriaLabel='More info for partitions field'
+                  validated={partitionsValidated}
+                  helperText={
+                    warning ? t('topic.partitions_warning') : undefined
+                  }
+                >
+                  <NumberInput
+                    id='create-topic-partitions'
+                    inputName='num-partitions'
+                    onChange={onPartitionsChange}
+                    onPlus={handleTouchSpinPlusCamelCase}
+                    onMinus={handleTouchSpinMinusCamelCase}
+                    value={Number(topicData.numPartitions)}
+                    plusBtnProps={{ name: 'num-partitions' }}
+                    minusBtnProps={{ name: 'num-partitions' }}
+                    min={initialPartition}
+                    max={MAX_PARTITIONS}
                   />
-                )}
+                </FormGroupWithPopover>
+
                 <TextWithLabelPopover
                   fieldId='replicas'
                   btnAriaLabel={t('topic.replicas')}
