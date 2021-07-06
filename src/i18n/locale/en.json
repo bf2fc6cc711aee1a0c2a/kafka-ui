@@ -157,6 +157,7 @@
   "consumerGroup": {
     "consumer_groups": "Consumer groups",
     "consumer_group_id": "Consumer group ID",
+    "consumer_group_list": "Consumer group list",
     "active_members": "Active members for this topic",
     "partitions_with_lag": "Partitions with lag",
     "uncosumed_partitions": "Unconsumed partitions",
