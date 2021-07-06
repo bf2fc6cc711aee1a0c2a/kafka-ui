@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   CreateTopichead,
   CreateTopicWizard,
-} from "@app/modules/Topics/components";
-import { useFederated } from "@app/contexts";
-import "../style.css";
+} from '@app/modules/Topics/components';
+import { useFederated } from '@app/contexts';
+import '../style.css';
 
 export type CreateTopicPageProps = {
   onCloseCreateTopic: () => void;

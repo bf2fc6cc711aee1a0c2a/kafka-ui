@@ -1,17 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { AlertVariant } from "@patternfly/react-core";
+import React, { useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { AlertVariant } from '@patternfly/react-core';
 import {
   TopicAdvanceConfig,
   IAdvancedTopic,
-} from "@app/modules/Topics/components";
-import { getTopic, updateTopicModel } from "@app/services";
-import { ConfigEntry, TopicSettings } from "@rhoas/kafka-instance-sdk";
-import { ConfigContext } from "@app/contexts";
-import { convertUnits } from "@app/modules/Topics/utils";
-import { isAxiosError } from "@app/utils/axios";
-import { useAlert } from "@bf2/ui-shared";
-import "../CreateTopicWizard/CreateTopicWizard.css";
+} from '@app/modules/Topics/components';
+import { getTopic, updateTopicModel } from '@app/services';
+import { ConfigEntry, TopicSettings } from '@rhoas/kafka-instance-sdk';
+import { ConfigContext } from '@app/contexts';
+import { convertUnits } from '@app/modules/Topics/utils';
+import { isAxiosError } from '@app/utils/axios';
+import { useAlert } from '@bf2/ui-shared';
+import '../CreateTopicWizard/CreateTopicWizard.css';
 
 export type UpdateTopicViewProps = {
   topicName: string;
@@ -31,12 +31,12 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   const { addAlert } = useAlert();
   const initialState = {
     name: topicName,
-    numPartitions: "",
-    "retention.ms": "",
-    "retention.ms.unit": "milliseconds",
-    "retention.bytes": "",
-    "retention.bytes.unit": "bytes",
-    "cleanup.policy": "",
+    numPartitions: '',
+    'retention.ms': '',
+    'retention.ms.unit': 'milliseconds',
+    'retention.bytes': '',
+    'retention.bytes.unit': 'bytes',
+    'cleanup.policy': '',
   };
   const [topicData, setTopicData] = useState<IAdvancedTopic>(initialState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -46,15 +46,15 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
       const topicRes = await getTopic(topicName, config);
       const configEntries: any = {};
       topicRes.config?.forEach((configItem) => {
-        configEntries[configItem.key || ""] = configItem.value || "";
+        configEntries[configItem.key || ''] = configItem.value || '';
       });
 
       setTopicData({
         ...topicData,
-        numPartitions: topicRes?.partitions?.length.toString() || "",
-        "cleanup.policy": configEntries["cleanup.policy"] || "delete",
-        "retention.bytes": configEntries["retention.bytes"] || "-1",
-        "retention.ms": configEntries["retention.ms"] || "604800000",
+        numPartitions: topicRes?.partitions?.length.toString() || '',
+        'cleanup.policy': configEntries['cleanup.policy'] || 'delete',
+        'retention.bytes': configEntries['retention.bytes'] || '-1',
+        'retention.ms': configEntries['retention.ms'] || '604800000',
       });
     } catch (err) {
       if (isAxiosError(err)) {
@@ -84,7 +84,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
 
     for (const key in configEntries) {
       // TODO Remove check when API supports setting the number of partition
-      if (key && key !== "numPartitions") {
+      if (key && key !== 'numPartitions') {
         newConfig.push({
           key,
           value: configEntries[key].toString().toLowerCase(),
@@ -101,7 +101,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
     try {
       await updateTopicModel(name, topicSettings, config).then(() => {
         addAlert({
-          title: t("topic.topic_successfully_updated"),
+          title: t('topic.topic_successfully_updated'),
           variant: AlertVariant.success,
         });
         setIsLoading(false);

@@ -30,9 +30,13 @@ export const worldGenerator: <T extends genericWorldType>(
     resetWorld: () => {
       worldInstance = { ...world };
     },
-    stepWhichUpdatesWorld: (callback) => async (...stepArguments) =>
-      (worldInstance = await callback(worldInstance, ...stepArguments)),
-    stepWithWorld: (callback) => async (...stepArguments) =>
-      callback(worldInstance, ...stepArguments),
+    stepWhichUpdatesWorld:
+      (callback) =>
+      async (...stepArguments) =>
+        (worldInstance = await callback(worldInstance, ...stepArguments)),
+    stepWithWorld:
+      (callback) =>
+      async (...stepArguments) =>
+        callback(worldInstance, ...stepArguments),
   };
 };

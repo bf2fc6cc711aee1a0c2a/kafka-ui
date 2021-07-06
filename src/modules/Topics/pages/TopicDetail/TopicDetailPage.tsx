@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import React, { useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   AlertVariant,
   PageSection,
@@ -8,20 +8,20 @@ import {
   TabContent,
   Tabs,
   TabTitleText,
-} from "@patternfly/react-core";
+} from '@patternfly/react-core';
 import {
   TopicDetailHead,
   TopicDetailView,
   IAdvancedTopic,
-} from "@app/modules/Topics/components";
-import { getTopicDetail } from "@app/services";
-import { ConfigContext } from "@app/contexts";
-import { ConsumerGroups } from "@app/modules/ConsumerGroups";
-import { isAxiosError } from "@app/utils/axios";
-import { useFederated } from "@app/contexts";
-import { useRootModalContext, MODAL_TYPES } from "@app/components/RootModal";
-import { useAlert } from "@bf2/ui-shared";
-import "../style.css";
+} from '@app/modules/Topics/components';
+import { getTopicDetail } from '@app/services';
+import { ConfigContext } from '@app/contexts';
+import { ConsumerGroups } from '@app/modules/ConsumerGroups';
+import { isAxiosError } from '@app/utils/axios';
+import { useFederated } from '@app/contexts';
+import { useRootModalContext, MODAL_TYPES } from '@app/components/RootModal';
+import { useAlert } from '@bf2/ui-shared';
+import '../style.css';
 
 export type TopicDetailGroupProps = {
   updateTopic: () => void;
@@ -37,18 +37,18 @@ export const TopicDetailPage: React.FC<TopicDetailGroupProps> = ({
     kafkaName,
     kafkaPageLink,
     kafkaInstanceLink,
-    topicName = "",
+    topicName = '',
     onError,
   } = useFederated();
 
   const [topicDetail, setTopicDetail] = useState<IAdvancedTopic>({
     name: topicName,
-    numPartitions: "",
-    "retention.ms": "",
-    "retention.ms.unit": "milliseconds",
-    "retention.bytes": "",
-    "retention.bytes.unit": "bytes",
-    "cleanup.policy": "",
+    numPartitions: '',
+    'retention.ms': '',
+    'retention.ms.unit': 'milliseconds',
+    'retention.bytes': '',
+    'retention.bytes.unit': 'bytes',
+    'cleanup.policy': '',
   });
   const [activeTabKey, setActiveTabKey] = useState(activeTab);
   const config = useContext(ConfigContext);
@@ -72,7 +72,7 @@ export const TopicDetailPage: React.FC<TopicDetailGroupProps> = ({
           if (err.response?.status === 404) {
             // then it's a non-existent topic
             addAlert({
-              title: t("topic.topic_not_found", { name: topicName }),
+              title: t('topic.topic_not_found', { name: topicName }),
               variant: AlertVariant.danger,
             });
           }
@@ -107,29 +107,29 @@ export const TopicDetailPage: React.FC<TopicDetailGroupProps> = ({
       />
       <PageSection
         variant={PageSectionVariants.light}
-        padding={{ default: "noPadding" }}
-        className="pf-c-page__main-tabs"
+        padding={{ default: 'noPadding' }}
+        className='pf-c-page__main-tabs'
       >
         <Tabs
           activeKey={activeTabKey}
           onSelect={handleTabClick}
           isBox={false}
-          className="pf-m-page-insets"
+          className='pf-m-page-insets'
         >
           <Tab
             eventKey={1}
-            data-testid="pageTopic-tabConsumers"
+            data-testid='pageTopic-tabConsumers'
             title={
-              <TabTitleText>{t("consumerGroup.consumer_groups")}</TabTitleText>
+              <TabTitleText>{t('consumerGroup.consumer_groups')}</TabTitleText>
             }
-            tabContentId="kafka-ui-TabcontentConsumerGroupList"
+            tabContentId='kafka-ui-TabcontentConsumerGroupList'
             tabContentRef={contentRefConsumerGroup}
           ></Tab>
           <Tab
             eventKey={2}
-            title={<TabTitleText>{t("common.properties")}</TabTitleText>}
-            data-testid="pageTopic-tabProperties"
-            tabContentId="kafka-ui-TabcontentProperties"
+            title={<TabTitleText>{t('common.properties')}</TabTitleText>}
+            data-testid='pageTopic-tabProperties'
+            tabContentId='kafka-ui-TabcontentProperties'
             tabContentRef={contentRefProperties}
           />
         </Tabs>
@@ -143,24 +143,24 @@ export const TopicDetailPage: React.FC<TopicDetailGroupProps> = ({
       >
         <TabContent
           eventKey={1}
-          id="kafka-ui-TabcontentConsumerGroupList"
+          id='kafka-ui-TabcontentConsumerGroupList'
           ref={contentRefConsumerGroup}
-          className="kafka-ui-m-full-height"
-          aria-label="Consumer groups."
+          className='kafka-ui-m-full-height'
+          aria-label='Consumer groups.'
           hidden
         >
           <ConsumerGroups
             consumerGroupByTopic={true}
             topic={topicName}
-            rowDataTestId="tableTopicConsumers-row"
+            rowDataTestId='tableTopicConsumers-row'
           />
         </TabContent>
         <TabContent
           eventKey={2}
-          id="kafka-ui-TabcontentProperties"
+          id='kafka-ui-TabcontentProperties'
           ref={contentRefProperties}
-          className="kafka-ui-m-full-height"
-          aria-label="Topic properties."
+          className='kafka-ui-m-full-height'
+          aria-label='Topic properties.'
         >
           <TopicDetailView
             topic={topicDetail}

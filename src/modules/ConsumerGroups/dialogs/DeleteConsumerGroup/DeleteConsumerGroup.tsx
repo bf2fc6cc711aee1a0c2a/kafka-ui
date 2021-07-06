@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { useTranslation } from "react-i18next";
+import React, { useContext, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Modal,
   ModalVariant,
@@ -7,18 +7,18 @@ import {
   Text,
   AlertVariant,
   TextInput,
-} from "@patternfly/react-core";
-import { deleteConsumerGroup } from "@app/services";
-import { ConfigContext } from "@app/contexts";
-import { useRootModalContext } from "@app/components/RootModal";
-import { useAlert } from "@bf2/ui-shared";
+} from '@patternfly/react-core';
+import { deleteConsumerGroup } from '@app/services';
+import { ConfigContext } from '@app/contexts';
+import { useRootModalContext } from '@app/components/RootModal';
+import { useAlert } from '@bf2/ui-shared';
 
 export const DeleteConsumerGroup: React.FC = () => {
   const { t } = useTranslation();
   const config = useContext(ConfigContext);
   const { store, hideModal } = useRootModalContext();
   const { consumerName, refreshConsumerGroups } = store?.modalProps || {};
-  const [verificationText, setVerificationText] = useState<string>("");
+  const [verificationText, setVerificationText] = useState<string>('');
   const { addAlert } = useAlert();
 
   const onClose = () => {
@@ -31,7 +31,7 @@ export const DeleteConsumerGroup: React.FC = () => {
         await deleteConsumerGroup(consumerName, config).then(() => {
           addAlert({
             variant: AlertVariant.success,
-            title: t("consumerGroup.consumergroup_successfully_deleted", {
+            title: t('consumerGroup.consumergroup_successfully_deleted', {
               name: consumerName,
             }),
           });
@@ -56,31 +56,31 @@ export const DeleteConsumerGroup: React.FC = () => {
     <Modal
       variant={ModalVariant.small}
       isOpen={true}
-      aria-label={t("consumerGroup.delete")}
-      title={t("consumerGroup.delete")}
-      titleIconVariant="warning"
+      aria-label={t('consumerGroup.delete')}
+      title={t('consumerGroup.delete')}
+      titleIconVariant='warning'
       showClose={true}
-      aria-describedby="modal-message"
+      aria-describedby='modal-message'
       onClose={onClose}
       actions={[
         <Button
-          variant="danger"
+          variant='danger'
           onClick={onDelete}
           key={1}
-          isDisabled={verificationText.toUpperCase() != "DELETE"}
+          isDisabled={verificationText.toUpperCase() != 'DELETE'}
         >
-          {t("common.delete")}
+          {t('common.delete')}
         </Button>,
-        <Button variant="link" onClick={onClose} key={2}>
-          {t("common.cancel")}
+        <Button variant='link' onClick={onClose} key={2}>
+          {t('common.cancel')}
         </Button>,
       ]}
     >
-      <Text id="modal-message">
+      <Text id='modal-message'>
         <label
-          htmlFor="instance-name-input"
+          htmlFor='instance-name-input'
           dangerouslySetInnerHTML={{
-            __html: t("common.confirm_delete_modal_text", {
+            __html: t('common.confirm_delete_modal_text', {
               name: consumerName,
             }),
           }}
@@ -88,12 +88,12 @@ export const DeleteConsumerGroup: React.FC = () => {
       </Text>
 
       <br />
-      <label htmlFor="delete-text-input">{t("common.confirm_delete")}</label>
+      <label htmlFor='delete-text-input'>{t('common.confirm_delete')}</label>
       <TextInput
         value={verificationText}
-        id="delete-text-input"
-        name="delete-text-input"
-        type="text"
+        id='delete-text-input'
+        name='delete-text-input'
+        type='text'
         onChange={handleVerificationTextChange}
         autoFocus={true}
       />

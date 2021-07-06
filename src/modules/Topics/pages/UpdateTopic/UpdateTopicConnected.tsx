@@ -1,7 +1,7 @@
-import React from "react";
-import { useHistory, useParams } from "react-router-dom";
-import { UpdateTopicPage } from "@app/modules/Topics/pages/UpdateTopic";
-import { FederatedContext } from "@app/contexts";
+import React from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import { UpdateTopicPage } from '@app/modules/Topics/pages/UpdateTopic';
+import { FederatedContext } from '@app/contexts';
 // import "../style.css";
 
 type TopicUseParams = {
@@ -21,7 +21,7 @@ const UpdateTopicConnected: React.FC = () => {
   };
 
   const onDeleteTopic = () => {
-    history.push("/topics");
+    history.push('/topics');
   };
 
   return (

@@ -1,5 +1,5 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   TextContent,
   Text,
@@ -8,9 +8,9 @@ import {
   FormGroup,
   Form,
   FormSection,
-} from "@patternfly/react-core";
-import "../CreateTopicWizard/CreateTopicWizard.css";
-import { MIN_PARTITIONS, MAX_PARTITIONS } from "@app/constant";
+} from '@patternfly/react-core';
+import '../CreateTopicWizard/CreateTopicWizard.css';
+import { MIN_PARTITIONS, MAX_PARTITIONS } from '@app/constant';
 
 export type StepPartitionsProps = {
   setPartitionTouchspinValue: (value: number) => void;
@@ -21,7 +21,6 @@ export const StepPartitions: React.FC<StepPartitionsProps> = ({
   partitionTouchspinValue,
   setPartitionTouchspinValue,
 }) => {
-
   const { t } = useTranslation();
 
   const handleOnPlus = () => {
@@ -43,28 +42,28 @@ export const StepPartitions: React.FC<StepPartitionsProps> = ({
   return (
     <Form>
       <FormSection
-        title={t("topic.partitions")}
-        id="partitions"
-        titleElement={"h2"}
+        title={t('topic.partitions')}
+        id='partitions'
+        titleElement={'h2'}
       >
         <TextContent>
-          <Text component={TextVariants.p}>{t("topic.partition_info")}</Text>
+          <Text component={TextVariants.p}>{t('topic.partition_info')}</Text>
           <Text component={TextVariants.small}>
-            {t("topic.partition_info_note")}
+            {t('topic.partition_info_note')}
           </Text>
         </TextContent>
 
         <FormGroup
-          label="Partitions"
-          fieldId="step-topic-name-form"
-          helperText={t("topic.partition_helper_text")}
+          label='Partitions'
+          fieldId='step-topic-name-form'
+          helperText={t('topic.partition_helper_text')}
           isRequired
         >
           <NumberInput
             onPlus={handleOnPlus}
             onMinus={handleOnMinus}
             value={partitionTouchspinValue}
-            inputName="input"
+            inputName='input'
             onChange={handlePartitionTouchspinChange}
             widthChars={20}
             min={MIN_PARTITIONS}

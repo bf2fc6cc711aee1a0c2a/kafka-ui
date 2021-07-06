@@ -1,21 +1,21 @@
-import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
-import { render, fireEvent, waitFor } from "@testing-library/react";
-import { Topics } from "@app/modules/Topics";
-import { Topic, TopicsList } from "@rhoas/kafka-instance-sdk";
-import { IConfiguration } from "@app/contexts";
-import { getTopics } from "@app/services";
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { render, fireEvent, waitFor } from '@testing-library/react';
+import { Topics } from '@app/modules/Topics';
+import { Topic, TopicsList } from '@rhoas/kafka-instance-sdk';
+import { IConfiguration } from '@app/contexts';
+import { getTopics } from '@app/services';
 
-jest.mock("services");
+jest.mock('services');
 
-describe("<Topics />", () => {
+describe('<Topics />', () => {
   // Skipped as this test suite wastaking an unusuallly long time.
   // TODO: re-instate this test case
-  xit("should render a list of topics", async () => {
+  xit('should render a list of topics', async () => {
     const topics = {
       items: [
         {
-          name: "foo",
+          name: 'foo',
         },
       ] as Topic[],
     } as TopicsList;
@@ -31,7 +31,7 @@ describe("<Topics />", () => {
         </Router>
       );
 
-      const createBtn = getByText("Create topic");
+      const createBtn = getByText('Create topic');
 
       fireEvent.click(createBtn);
     });

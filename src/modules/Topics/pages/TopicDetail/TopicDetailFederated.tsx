@@ -1,16 +1,16 @@
-import React, { FunctionComponent } from "react";
-import { I18nextProvider } from "react-i18next";
-import { BrowserRouter } from "react-router-dom";
-import { TopicDetailPage } from "@app/modules/Topics/pages/TopicDetail";
+import React, { FunctionComponent } from 'react';
+import { I18nextProvider } from 'react-i18next';
+import { BrowserRouter } from 'react-router-dom';
+import { TopicDetailPage } from '@app/modules/Topics/pages/TopicDetail';
 import {
   FederatedContext,
   FederatedProps,
   ConfigContext,
   IConfiguration,
-} from "@app/contexts";
-import kafkai18n from "@app/i18n";
-import { KafkaActions } from "@app/utils";
-import { RootModal } from "@app/components/RootModal";
+} from '@app/contexts';
+import kafkai18n from '@app/i18n';
+import { KafkaActions } from '@app/utils';
+import { RootModal } from '@app/components/RootModal';
 
 export type TopicDetailFederatedProps = FederatedProps &
   IConfiguration & {
@@ -35,7 +35,7 @@ const TopicDetailFederated: FunctionComponent<TopicDetailFederatedProps> = ({
 
   const onDeleteTopic = () => {
     //Redirect on topics  viewpage after delete topic successfuly
-    onConnectToRoute && onConnectToRoute("");
+    onConnectToRoute && onConnectToRoute('');
     //dispatchKafkaAction && dispatchKafkaAction(KafkaActions.ViewTopics);
   };
 

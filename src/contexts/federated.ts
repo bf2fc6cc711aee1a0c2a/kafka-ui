@@ -11,22 +11,26 @@ export type FederatedProps = {
   onError?: (errorCode: number, message?: string) => void;
   handleInstanceDrawer?: (isOpen: boolean, activeTab?: string) => void;
   setIsOpenDeleteInstanceModal?: (isOpenModal: boolean) => void;
-  dispatchKafkaAction?: (action: string, topicName?: string | undefined) => void;
-}
-
-const initialState: FederatedProps = {
-  onConnectToRoute: () => "",
-  getConnectToRoutePath: () => "",
-  activeTab: 0,
-  kafkaName: "",
-  kafkaPageLink: "",
-  kafkaInstanceLink: "",
-  topicName: "", 
-  onError: () => "",
-  handleInstanceDrawer: () => "",
-  setIsOpenDeleteInstanceModal: () => "",
-  dispatchKafkaAction: () => ""
+  dispatchKafkaAction?: (
+    action: string,
+    topicName?: string | undefined
+  ) => void;
 };
 
-export const FederatedContext = React.createContext<FederatedProps>(initialState);
+const initialState: FederatedProps = {
+  onConnectToRoute: () => '',
+  getConnectToRoutePath: () => '',
+  activeTab: 0,
+  kafkaName: '',
+  kafkaPageLink: '',
+  kafkaInstanceLink: '',
+  topicName: '',
+  onError: () => '',
+  handleInstanceDrawer: () => '',
+  setIsOpenDeleteInstanceModal: () => '',
+  dispatchKafkaAction: () => '',
+};
+
+export const FederatedContext =
+  React.createContext<FederatedProps>(initialState);
 export const useFederated = (): FederatedProps => useContext(FederatedContext);

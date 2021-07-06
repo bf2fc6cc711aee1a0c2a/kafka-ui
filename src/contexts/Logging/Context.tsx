@@ -6,9 +6,8 @@ const initialState: LoggingStateType = {
   messageBuffer: [],
 };
 
-const LoggingContext = createContext<React.MutableRefObject<LoggingStateType> | null>(
-  null
-);
+const LoggingContext =
+  createContext<React.MutableRefObject<LoggingStateType> | null>(null);
 
 const LoggingProvider: FunctionComponent = ({ children, ...others }) => {
   // Use a ref to store the state as it needs to be immutable

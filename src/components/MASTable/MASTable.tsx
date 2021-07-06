@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent } from 'react';
 import {
   TableHeader,
   Table as PFTable,
@@ -6,20 +6,20 @@ import {
   TableProps as PFTableProps,
   HeaderProps,
   TableBodyProps,
-} from "@patternfly/react-table";
-import { css } from "@patternfly/react-styles";
+} from '@patternfly/react-table';
+import { css } from '@patternfly/react-styles';
 import {
   CustomRowWrapper,
   CustomRowWrapperProvider,
   CustomRowWrapperContextProps,
-} from "./CustomRowWrapper";
+} from './CustomRowWrapper';
 
 export type MASTableProps = CustomRowWrapperContextProps & {
-  tableProps: Omit<PFTableProps, "children"> & {
+  tableProps: Omit<PFTableProps, 'children'> & {
     shouldDefaultCustomRowWrapper?: boolean;
   };
-  tableHeaderProps?: Omit<HeaderProps, "children">;
-  tableBodyProps?: Omit<TableBodyProps, "children">;
+  tableHeaderProps?: Omit<HeaderProps, 'children'>;
+  tableBodyProps?: Omit<TableBodyProps, 'children'>;
   children?: React.ReactNode;
 };
 
@@ -39,7 +39,7 @@ const MASTable: FunctionComponent<MASTableProps> = ({
     actionResolver,
     onSort,
     sortBy,
-    "aria-label": ariaLabel,
+    'aria-label': ariaLabel,
     variant,
     className,
     shouldDefaultCustomRowWrapper = false,
@@ -50,7 +50,7 @@ const MASTable: FunctionComponent<MASTableProps> = ({
    * Handle CustomRowWrapper
    */
   if (shouldDefaultCustomRowWrapper) {
-    restProps["rowWrapper"] = CustomRowWrapper;
+    restProps['rowWrapper'] = CustomRowWrapper;
   }
 
   return (
@@ -64,7 +64,7 @@ const MASTable: FunctionComponent<MASTableProps> = ({
     >
       <PFTable
         className={css(
-          shouldDefaultCustomRowWrapper && "mas--table-view__table",
+          shouldDefaultCustomRowWrapper && 'mas--table-view__table',
           className
         )}
         cells={cells}

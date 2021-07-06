@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react';
 import {
   WizardContextConsumer,
   Button,
   WizardFooter,
-} from "@patternfly/react-core";
-import { useTranslation } from "react-i18next";
+} from '@patternfly/react-core';
+import { useTranslation } from 'react-i18next';
 
 export interface IWizardFooter {
   isLoading: boolean;
   onValidate: (value: () => void) => void;
-  topicNameValidated: "error" | "default";
+  topicNameValidated: 'error' | 'default';
   closeWizard: () => void;
 }
 export const WizardCustomFooter: React.FC<IWizardFooter> = ({
@@ -24,58 +24,58 @@ export const WizardCustomFooter: React.FC<IWizardFooter> = ({
     <WizardFooter>
       <WizardContextConsumer>
         {({ activeStep, onNext, onBack }) => {
-          if (activeStep.name == t("topic.topic_name")) {
+          if (activeStep.name == t('topic.topic_name')) {
             return (
               <>
                 <Button
-                  variant="primary"
-                  type="submit"
+                  variant='primary'
+                  type='submit'
                   isLoading={isLoading}
                   onClick={() => onValidate(onNext)}
-                  isDisabled={topicNameValidated == "default" ? false : true}
+                  isDisabled={topicNameValidated == 'default' ? false : true}
                 >
-                  {t("common.next")}
+                  {t('common.next')}
                 </Button>
-                <Button variant="secondary" isDisabled={true}>
-                  {t("common.back")}
+                <Button variant='secondary' isDisabled={true}>
+                  {t('common.back')}
                 </Button>
-                <Button variant="link" onClick={closeWizard}>
-                  {t("common.cancel")}
+                <Button variant='link' onClick={closeWizard}>
+                  {t('common.cancel')}
                 </Button>
               </>
             );
           }
 
-          if (activeStep.name == "Replicas") {
+          if (activeStep.name == 'Replicas') {
             return (
               <>
                 <Button
-                  variant="primary"
-                  type="submit"
+                  variant='primary'
+                  type='submit'
                   onClick={onNext}
                   isLoading={isLoading}
                 >
-                  {t("common.finish")}
+                  {t('common.finish')}
                 </Button>
-                <Button variant="secondary" onClick={onBack}>
-                  {t("common.back")}
+                <Button variant='secondary' onClick={onBack}>
+                  {t('common.back')}
                 </Button>
-                <Button variant="link" onClick={closeWizard}>
-                  {t("common.cancel")}
+                <Button variant='link' onClick={closeWizard}>
+                  {t('common.cancel')}
                 </Button>
               </>
             );
           }
           return (
             <>
-              <Button variant="primary" type="submit" onClick={onNext}>
-                {t("common.next")}
+              <Button variant='primary' type='submit' onClick={onNext}>
+                {t('common.next')}
               </Button>
-              <Button variant="secondary" onClick={onBack}>
-                {t("common.back")}
+              <Button variant='secondary' onClick={onBack}>
+                {t('common.back')}
               </Button>
-              <Button variant="link" onClick={closeWizard}>
-                {t("common.cancel")}
+              <Button variant='link' onClick={closeWizard}>
+                {t('common.cancel')}
               </Button>
             </>
           );

@@ -1,11 +1,11 @@
-import React, { useState, createContext, useContext } from "react";
-import { DeleteTopic, PartitionsChange } from "@app/modules/Topics/dialogs";
-import { DeleteConsumerGroup } from "@app/modules/ConsumerGroups/dialogs";
+import React, { useState, createContext, useContext } from 'react';
+import { DeleteTopic, PartitionsChange } from '@app/modules/Topics/dialogs';
+import { DeleteConsumerGroup } from '@app/modules/ConsumerGroups/dialogs';
 
 export const MODAL_TYPES = {
-  DELETE_TOPIC: "DELETE_TOPIC",
-  DELETE_CONSUMER_GROUP: "DELETE_CONSUMER_GROUP",
-  UPDATE_PARTITIONS: "UPDATE_PARTITIONS",
+  DELETE_TOPIC: 'DELETE_TOPIC',
+  DELETE_CONSUMER_GROUP: 'DELETE_CONSUMER_GROUP',
+  UPDATE_PARTITIONS: 'UPDATE_PARTITIONS',
 };
 
 const MODAL_COMPONENTS: any = {
@@ -21,9 +21,9 @@ type RootModalContext = {
 };
 
 const initalState: RootModalContext = {
-  showModal: () => "",
-  hideModal: () => "",
-  store: "",
+  showModal: () => '',
+  hideModal: () => '',
+  store: '',
 };
 
 const RootModalContext = createContext(initalState);
@@ -32,7 +32,7 @@ export const useRootModalContext = (): RootModalContext =>
 
 export const RootModal: React.FC = ({ children }) => {
   const [store, setStore] = useState<any>();
-  const { modalType, modalProps } = store || { modalType: "", modalProps: "" };
+  const { modalType, modalProps } = store || { modalType: '', modalProps: '' };
 
   const showModal = (modalType: string, modalProps: any) => {
     const newState = Object.assign({}, store);
@@ -48,7 +48,7 @@ export const RootModal: React.FC = ({ children }) => {
     setStore({
       newState,
       modalType: null,
-      modalProps: "",
+      modalProps: '',
     });
   };
 
@@ -57,7 +57,7 @@ export const RootModal: React.FC = ({ children }) => {
     if (!modalType || !ModalComponent) {
       return null;
     }
-    return <ModalComponent id="root-modal" {...modalProps} />;
+    return <ModalComponent id='root-modal' {...modalProps} />;
   };
 
   return (
