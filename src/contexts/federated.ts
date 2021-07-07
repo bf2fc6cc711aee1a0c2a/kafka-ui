@@ -15,6 +15,7 @@ export type FederatedProps = {
     action: string,
     topicName?: string | undefined
   ) => void;
+  showMetrics?: () => JSX.Element | string;
 };
 
 const initialState: FederatedProps = {
@@ -29,6 +30,7 @@ const initialState: FederatedProps = {
   handleInstanceDrawer: () => '',
   setIsOpenDeleteInstanceModal: () => '',
   dispatchKafkaAction: () => '',
+  showMetrics: () => '',
 };
 
 export const FederatedContext =

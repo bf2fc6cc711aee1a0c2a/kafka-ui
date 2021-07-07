@@ -36,6 +36,7 @@ export const MainView: React.FC<MainViewProps> = ({
     kafkaName,
     handleInstanceDrawer,
     setIsOpenDeleteInstanceModal,
+    showMetrics,
   } = useFederated();
 
   const [activeTabKey, setActiveTabKey] = useState(activeTab);
@@ -167,7 +168,9 @@ export const MainView: React.FC<MainViewProps> = ({
           id='kafka-ui-TabcontentDashboard'
           className='kafka-ui-m-full-height'
           aria-label={t('dashboard.dashboard')}
-        ></TabContent>
+        >
+          {showMetrics}
+        </TabContent>
         <TabContent
           eventKey={1}
           ref={contentRefTopics}

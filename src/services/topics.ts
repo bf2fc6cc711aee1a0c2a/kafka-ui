@@ -15,7 +15,7 @@ export enum OrderKey {
   name = 'name',
   partitions = 'partitions',
   retentionMs = 'retention.ms',
-  retentionSize = 'retention.bytes'
+  retentionSize = 'retention.bytes',
 }
 
 export const getTopics = async (
