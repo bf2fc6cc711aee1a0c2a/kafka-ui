@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { InputGroup, SearchInput } from '@patternfly/react-core';
+import {
+  Button,
+  ButtonVariant,
+  InputGroup,
+  TextInput,
+  ToolbarFilter,
+} from '@patternfly/react-core';
 import { MASToolbar, ToolbarItemProps, MASPagination } from '@app/components';
+import { SearchIcon } from '@patternfly/react-icons';
 
 export type ConsumerGroupToolbarProps = {
   setSearch: (value: string) => void;
@@ -19,28 +26,53 @@ const ConsumerGroupToolbar: React.FC<ConsumerGroupToolbarProps> = ({
   perPage,
 }) => {
   const { t } = useTranslation();
+  const [searchInputValue, setSearchInputValue] = useState<string>('');
 
   const onClear = () => {
     setSearch('');
   };
 
   const onChangeInput = (value: string) => {
-    setSearch(value);
+    setSearchInputValue(value);
+  };
+
+  const onSearch = () => {
+    setSearch(searchInputValue);
+    setSearchInputValue('');
+  };
+
+  const onDeleteChip = () => {
+    setSearch('');
   };
 
   const toggleGroupItems = (
-    <InputGroup>
-      <SearchInput
-        name='searchName'
-        id='search-consumers-input'
-        type='search'
-        aria-label={t('consumerGroup.search')}
-        placeholder={t('common.search')}
-        value={search}
-        onChange={onChangeInput}
-        onClear={onClear}
-      />
-    </InputGroup>
+    <>
+      <ToolbarFilter
+        chips={search ? [search] : []}
+        deleteChip={onDeleteChip}
+        categoryName={''}
+      >
+        <InputGroup>
+          <TextInput
+            name='searchConsumerGroups'
+            id='search-consumer-groups-input'
+            type='search'
+            aria-label={t('consumerGroup.consumer_group_search_input')}
+            placeholder={t('common.search')}
+            value={searchInputValue}
+            onChange={onChangeInput}
+          />
+          <Button
+            variant={ButtonVariant.control}
+            isDisabled={searchInputValue.length ? false : true}
+            onClick={onSearch}
+            aria-label={t('consumerGroup.consumer_group_search')}
+          >
+            <SearchIcon />
+          </Button>
+        </InputGroup>
+      </ToolbarFilter>
+    </>
   );
 
   const toolbarItems: ToolbarItemProps[] = [];

@@ -158,6 +158,8 @@
     "consumer_groups": "Consumer groups",
     "consumer_group_id": "Consumer group ID",
     "consumer_group_list": "Consumer group list",
+    "consumer_group_search_input": "Consumer group search input",
+    "consumer_group_search": "Search consumer group button",
     "active_members": "Active members for this topic",
     "partitions_with_lag": "Partitions with lag",
     "uncosumed_partitions": "Unconsumed partitions",
