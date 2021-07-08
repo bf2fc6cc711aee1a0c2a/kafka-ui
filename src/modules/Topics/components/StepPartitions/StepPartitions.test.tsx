@@ -6,8 +6,8 @@ import { render, RenderResult } from '@testing-library/react';
 import { StepPartitions, StepPartitionsProps } from './StepPartitions';
 
 const partitionsProps: StepPartitionsProps = {
-  partitionTouchspinValue: 1,
-  setPartitionTouchspinValue: jest.fn(),
+  topicData: {},
+  setTopicData: jest.fn(),
 };
 
 const setup = () => {
@@ -34,13 +34,13 @@ describe('Step Partitions', () => {
 
   it('should handle plus and minus actions', () => {
     const renderResult = setup();
-    const { setPartitionTouchspinValue } = partitionsProps;
+    const { setTopicData } = partitionsProps;
     const { getByRole } = renderResult;
     userEvent.click(getByRole('button', { name: /Plus/i }));
-    expect(setPartitionTouchspinValue).toHaveBeenCalled();
-    expect(setPartitionTouchspinValue).toBeCalledTimes(1);
+    expect(setTopicData).toHaveBeenCalled();
+    expect(setTopicData).toBeCalledTimes(1);
     userEvent.click(getByRole('button', { name: /Minus/i }));
-    expect(setPartitionTouchspinValue).toHaveBeenCalled();
-    expect(setPartitionTouchspinValue).toBeCalledTimes(1);
+    expect(setTopicData).toHaveBeenCalled();
+    expect(setTopicData).toBeCalledTimes(2);
   });
 });

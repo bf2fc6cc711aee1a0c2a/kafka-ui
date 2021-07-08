@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Form,
@@ -30,6 +30,10 @@ export const StepTopicName: React.FC<StepTopicNameProps> = ({
   const { t } = useTranslation();
 
   const topicNameInput = topicData && topicData['name'];
+
+  useEffect(() => {
+    validationCheck(topicNameInput);
+  }, []);
 
   const validationCheck = (topicNameInput) => {
     const legalNameChars = new RegExp('^[a-zA-Z0-9._-]+$');

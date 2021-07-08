@@ -13,22 +13,30 @@ import '../CreateTopicWizard/CreateTopicWizard.css';
 import { MIN_PARTITIONS, MAX_PARTITIONS } from '@app/constant';
 
 export type StepPartitionsProps = {
-  setPartitionTouchspinValue: (value: number) => void;
-  partitionTouchspinValue: number;
+  topicData: any;
+  setTopicData: (value: any) => void;
 };
 
 export const StepPartitions: React.FC<StepPartitionsProps> = ({
-  partitionTouchspinValue,
-  setPartitionTouchspinValue,
+  topicData,
+  setTopicData,
 }) => {
   const { t } = useTranslation();
 
   const handleOnPlus = () => {
-    setPartitionTouchspinValue(partitionTouchspinValue + 1);
+    setTopicData({
+      ...topicData,
+      numPartitions: Number(topicData['numPartitions']) + 1,
+    });
   };
+
   const handleOnMinus = () => {
-    setPartitionTouchspinValue(partitionTouchspinValue - 1);
+    setTopicData({
+      ...topicData,
+      numPartitions: Number(topicData['numPartitions']) - 1,
+    });
   };
+
   const handlePartitionTouchspinChange = (event) => {
     let num = Number(event.target.value);
     if (num < MIN_PARTITIONS) {
@@ -36,8 +44,10 @@ export const StepPartitions: React.FC<StepPartitionsProps> = ({
     } else if (num > MAX_PARTITIONS) {
       num = MAX_PARTITIONS;
     }
-    setPartitionTouchspinValue(num);
+    setTopicData({ ...topicData, numPartitions: num });
   };
+
+  const partitionsInput = topicData && topicData['numPartitions'];
 
   return (
     <Form>
@@ -62,7 +72,7 @@ export const StepPartitions: React.FC<StepPartitionsProps> = ({
           <NumberInput
             onPlus={handleOnPlus}
             onMinus={handleOnMinus}
-            value={partitionTouchspinValue}
+            value={partitionsInput}
             inputName='input'
             onChange={handlePartitionTouchspinChange}
             widthChars={20}

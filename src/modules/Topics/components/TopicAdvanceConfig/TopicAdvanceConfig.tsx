@@ -145,6 +145,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
       if (!isCreate) {
         fetchTopic(topicData.name);
       }
+      validationCheck(topicData.name);
       setCustomRetentionTimeUnit('milliseconds');
     }, []);
 
