@@ -36,7 +36,7 @@
   "bugs": {},
   "homepage": "https://github.com/strimzi/strimzi-ui#readme",
   "dependencies": {
-    "@bf2/ui-shared": "0.3.0",
+    "@bf2/ui-shared": "0.4.0",
     "@patternfly/patternfly": "4.115.2",
     "@patternfly/react-core": "4.135.0",
     "@patternfly/react-icons": "4.11.0",
@@ -108,7 +108,7 @@
     "css-loader": "5.2.6",
     "css-minimizer-webpack-plugin": "3.0.2",
     "cypress": "7.7.0",
-    "cypress-cucumber-preprocessor": "4.1.3",
+    "cypress-cucumber-preprocessor": "4.1.4",
     "eslint": "7.30.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-cypress": "2.11.3",
