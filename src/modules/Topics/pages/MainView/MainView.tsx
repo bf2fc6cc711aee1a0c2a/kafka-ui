@@ -129,7 +129,7 @@ export const MainView: React.FC<MainViewProps> = ({
         >
           <Tab
             title={<TabTitleText>{t('dashboard.dashboard')}</TabTitleText>}
-            eventKey={0}
+            eventKey={3}
             data-testid='pageKafka-tabDashboard'
             id='dashboard-tab-section'
             aria-label={t('dashboard.dashboard')}
@@ -163,7 +163,7 @@ export const MainView: React.FC<MainViewProps> = ({
       </PageSection>
       <PageSection isFilled>
         <TabContent
-          eventKey={0}
+          eventKey={3}
           ref={contentRefDashboard}
           id='kafka-ui-TabcontentDashboard'
           className='kafka-ui-m-full-height'
