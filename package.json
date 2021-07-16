@@ -67,7 +67,7 @@
     "pino-pretty": "5.1.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "react-i18next": "11.11.2",
+    "react-i18next": "11.11.3",
     "react-router-dom": "5.2.0",
     "sass": "1.35.2",
     "subscriptions-transport-ws": "0.9.19",
