@@ -84,7 +84,10 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
   useTimeout(() => fetchConsumerGroups(), 5000);
 
   const panelBodyContent = (
-    <ConsumerGroupDetail consumerDetail={consumerGroupDetail} />
+    <ConsumerGroupDetail
+      consumerDetail={consumerGroupDetail}
+      consumerGroupByTopic={consumerGroupByTopic}
+    />
   );
 
   const onClose = () => {
