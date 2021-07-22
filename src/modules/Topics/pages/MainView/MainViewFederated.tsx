@@ -28,8 +28,8 @@ const MainViewFederated: FunctionComponent<MainViewFederatedProps> = ({
   handleInstanceDrawer,
   setIsOpenDeleteInstanceModal,
   dispatchKafkaAction,
-  showMetrics
-
+  showMetrics,
+  activeTab
 }) => {
   const onCreateTopic = () => {
     dispatchKafkaAction && dispatchKafkaAction(KafkaActions.CreateTopic);
@@ -62,7 +62,7 @@ const MainViewFederated: FunctionComponent<MainViewFederatedProps> = ({
               <MainView
                 onCreateTopic={onCreateTopic}
                 onEditTopic={onEditTopic}
-                activeTab={1}
+                activeTab={activeTab || 1}
               />
             </RootModal>
           </FederatedContext.Provider>
