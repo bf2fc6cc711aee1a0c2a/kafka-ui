@@ -36,11 +36,13 @@ export const MainView: React.FC<MainViewProps> = ({
     kafkaName,
     handleInstanceDrawer,
     setIsOpenDeleteInstanceModal,
+    showMetrics,
   } = useFederated();
 
   const [activeTabKey, setActiveTabKey] = useState(activeTab);
   const contentRefConsumerGroups = React.createRef<HTMLElement>();
   const contentRefTopics = React.createRef<HTMLElement>();
+  const contentRefDashboard = React.createRef<HTMLElement>();
 
   const handleTabClick = (_event, tabIndex) => {
     setActiveTabKey(tabIndex);
@@ -126,41 +128,61 @@ export const MainView: React.FC<MainViewProps> = ({
           className='pf-m-page-insets'
         >
           <Tab
-            title={<TabTitleText>{t('topic.topics')}</TabTitleText>}
+            title={<TabTitleText>{t('dashboard.dashboard')}</TabTitleText>}
             eventKey={1}
+            data-testid='pageKafka-tabDashboard'
+            id='dashboard-tab-section'
+            aria-label={t('dashboard.dashboard')}
+            tabContentRef={contentRefDashboard}
+            tabContentId='kafka-ui-TabcontentDashboard'
+            // className="kafka-ui-m-full-height"
+          />
+          <Tab
+            title={<TabTitleText>{t('topic.topics')}</TabTitleText>}
+            eventKey={2}
             data-testid='pageKafka-tabTopics'
             id='topics-tab-section'
             aria-label={t('topic.topics')}
             tabContentRef={contentRefTopics}
             tabContentId='kafka-ui-TabcontentTopicsList'
             // className="kafka-ui-m-full-height"
-          ></Tab>
+          />
           <Tab
             title={
               <TabTitleText>{t('consumerGroup.consumer_groups')}</TabTitleText>
             }
-            eventKey={2}
+            eventKey={3}
             data-testid='pageKafka-tabConsumers'
             id='consumer-groups-tab-section'
             aria-label={t('consumerGroup.consumer_groups')}
             tabContentRef={contentRefConsumerGroups}
             tabContentId='kafka-ui-TabcontentConsumersList'
             // className='kafka-ui-m-full-height'
-          ></Tab>
+          />
         </Tabs>
       </PageSection>
       <PageSection isFilled>
         <TabContent
           eventKey={1}
+          ref={contentRefDashboard}
+          id='kafka-ui-TabcontentDashboard'
+          className='kafka-ui-m-full-height'
+          aria-label={t('dashboard.dashboard')}
+        >
+          {showMetrics}
+        </TabContent>
+        <TabContent
+          eventKey={2}
           ref={contentRefTopics}
           id='kafka-ui-TabcontentTopicsList'
           className='kafka-ui-m-full-height'
           aria-label={t('topic.topics')}
+          hidden
         >
           <Topics onCreateTopic={onCreateTopic} onEditTopic={onEditTopic} />
         </TabContent>
         <TabContent
-          eventKey={2}
+          eventKey={3}
           ref={contentRefConsumerGroups}
           id='kafka-ui-TabcontentConsumersList'
           className='kafka-ui-m-full-height'

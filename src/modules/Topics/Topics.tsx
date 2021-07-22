@@ -50,9 +50,9 @@ export const Topics: React.FC<TopicsProps> = ({
   const [topicItems, setTopicItems] = useState<Topic[]>();
   const [searchTopicName, setSearchTopicName] = useState<string>('');
   const [offset, setOffset] = useState<number>(0);
-  const [order, setOrder]= useState<SortByDirection>();
+  const [order, setOrder] = useState<SortByDirection>();
   const [orderKey, setOrderKey] = useState<OrderKey>();
-  const [sortBy, setSortBy] = useState<ISortBy>({ index: 0, direction: 'asc'});
+  const [sortBy, setSortBy] = useState<ISortBy>({ index: 0, direction: 'asc' });
 
   useEffect(() => {
     fetchTopic();
@@ -71,27 +71,32 @@ export const Topics: React.FC<TopicsProps> = ({
   };
 
   const onSort: OnSort = (_event, index, direction) => {
-
     const sortableCols = {
       '0': 'name',
       '1': 'partitions',
       '2': 'retention.ms',
-      '3': 'retention.bytes'
-    }
+      '3': 'retention.bytes',
+    };
 
-    setOrderKey(sortableCols[index])
+    setOrderKey(sortableCols[index]);
     setOrder(direction);
     setSortBy({ index, direction });
-  }
+  };
 
   const fetchTopic = async () => {
     try {
-      await getTopics(config, 100, perPage, searchTopicName, offset, order, orderKey).then(
-        (response) => {
-          setTopics(response);
-          setTopicItems(response?.items);
-        }
-      );
+      await getTopics(
+        config,
+        100,
+        perPage,
+        searchTopicName,
+        offset,
+        order,
+        orderKey
+      ).then((response) => {
+        setTopics(response);
+        setTopicItems(response?.items);
+      });
     } catch (err) {
       //TODO: Update the api to allow suppress alerts if the application does not want to show them as well.
       if (onError && err.response.data.code === 401) {
