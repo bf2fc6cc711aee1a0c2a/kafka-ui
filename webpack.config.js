@@ -76,6 +76,14 @@ module.exports = (_env, argv) => {
         filename: isProduction ? '[id].[contenthash:8].css' : '[name].css',
         chunkFilename: isProduction ? '[id].[contenthash:8].css' : '[id].css',
         ignoreOrder: true, // Enable to remove warnings about conflicting order
+        insert: (linkTag) => {
+          const preloadLinkTag = document.createElement('link');
+          preloadLinkTag.rel = 'preload';
+          preloadLinkTag.as = 'style';
+          preloadLinkTag.href = linkTag.href;
+          document.head.appendChild(preloadLinkTag);
+          document.head.appendChild(linkTag);
+        }
       }),
       new webpack.container.ModuleFederationPlugin({
         name: federatedModuleName,
