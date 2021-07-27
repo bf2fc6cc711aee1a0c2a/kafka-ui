@@ -202,3 +202,4 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
 };
 
 export { ConsumerGroupsTable };
+export default ConsumerGroupsTable;

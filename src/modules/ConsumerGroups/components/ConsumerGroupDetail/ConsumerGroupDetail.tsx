@@ -17,7 +17,7 @@ export type ConsumerGroupDetailProps = {
   consumerGroupByTopic: boolean;
 };
 
-export const ConsumerGroupDetail: React.FunctionComponent<ConsumerGroupDetailProps> =
+const ConsumerGroupDetail: React.FunctionComponent<ConsumerGroupDetailProps> =
   ({ consumerDetail, consumerGroupByTopic }) => {
     const { t } = useTranslation();
 
@@ -150,3 +150,6 @@ export const ConsumerGroupDetail: React.FunctionComponent<ConsumerGroupDetailPro
       </Stack>
     );
   };
+
+export { ConsumerGroupDetail };
+export default ConsumerGroupDetail;

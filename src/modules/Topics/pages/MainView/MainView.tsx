@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, lazy } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Breadcrumb,
@@ -16,10 +16,15 @@ import {
   KebabToggle,
   DropdownItem,
 } from '@patternfly/react-core';
-import { Topics, TopicsProps } from '@app/modules/Topics/Topics';
-import { ConsumerGroups } from '@app/modules/ConsumerGroups';
+import { TopicsProps } from '@app/modules/Topics/Topics';
 import { useFederated } from '@app/contexts';
+import { MASLoading } from '@app/components';
 import '../style.css';
+
+const Topics = lazy(() => import('@app/modules/Topics/Topics'));
+const ConsumerGroups = lazy(
+  () => import('@app/modules/ConsumerGroups/ConsumerGroups')
+);
 
 export type MainViewProps = TopicsProps & {
   activeTab?: number;
@@ -116,82 +121,86 @@ export const MainView: React.FC<MainViewProps> = ({
           />
         </Level>
       </PageSection>
-      <PageSection
-        variant={PageSectionVariants.light}
-        padding={{ default: 'noPadding' }}
-        className='pf-c-page__main-tabs'
-      >
-        <Tabs
-          activeKey={activeTabKey}
-          onSelect={handleTabClick}
-          data-testid='pageKafka-tabProperties'
-          className='pf-m-page-insets'
+      <React.Suspense fallback={<MASLoading />}>
+        <PageSection
+          variant={PageSectionVariants.light}
+          padding={{ default: 'noPadding' }}
+          className='pf-c-page__main-tabs'
         >
-          <Tab
-            title={<TabTitleText>{t('dashboard.dashboard')}</TabTitleText>}
+          <Tabs
+            activeKey={activeTabKey}
+            onSelect={handleTabClick}
+            data-testid='pageKafka-tabProperties'
+            className='pf-m-page-insets'
+          >
+            <Tab
+              title={<TabTitleText>{t('dashboard.dashboard')}</TabTitleText>}
+              eventKey={1}
+              data-testid='pageKafka-tabDashboard'
+              id='dashboard-tab-section'
+              aria-label={t('dashboard.dashboard')}
+              tabContentRef={contentRefDashboard}
+              tabContentId='kafka-ui-TabcontentDashboard'
+              // className="kafka-ui-m-full-height"
+            />
+            <Tab
+              title={<TabTitleText>{t('topic.topics')}</TabTitleText>}
+              eventKey={2}
+              data-testid='pageKafka-tabTopics'
+              id='topics-tab-section'
+              aria-label={t('topic.topics')}
+              tabContentRef={contentRefTopics}
+              tabContentId='kafka-ui-TabcontentTopicsList'
+              // className="kafka-ui-m-full-height"
+            />
+            <Tab
+              title={
+                <TabTitleText>
+                  {t('consumerGroup.consumer_groups')}
+                </TabTitleText>
+              }
+              eventKey={3}
+              data-testid='pageKafka-tabConsumers'
+              id='consumer-groups-tab-section'
+              aria-label={t('consumerGroup.consumer_groups')}
+              tabContentRef={contentRefConsumerGroups}
+              tabContentId='kafka-ui-TabcontentConsumersList'
+              // className='kafka-ui-m-full-height'
+            />
+          </Tabs>
+        </PageSection>
+        <PageSection isFilled>
+          <TabContent
             eventKey={1}
-            data-testid='pageKafka-tabDashboard'
-            id='dashboard-tab-section'
+            ref={contentRefDashboard}
+            id='kafka-ui-TabcontentDashboard'
+            className='kafka-ui-m-full-height'
             aria-label={t('dashboard.dashboard')}
-            tabContentRef={contentRefDashboard}
-            tabContentId='kafka-ui-TabcontentDashboard'
-            // className="kafka-ui-m-full-height"
-          />
-          <Tab
-            title={<TabTitleText>{t('topic.topics')}</TabTitleText>}
+          >
+            {showMetrics}
+          </TabContent>
+          <TabContent
             eventKey={2}
-            data-testid='pageKafka-tabTopics'
-            id='topics-tab-section'
+            ref={contentRefTopics}
+            id='kafka-ui-TabcontentTopicsList'
+            className='kafka-ui-m-full-height'
             aria-label={t('topic.topics')}
-            tabContentRef={contentRefTopics}
-            tabContentId='kafka-ui-TabcontentTopicsList'
-            // className="kafka-ui-m-full-height"
-          />
-          <Tab
-            title={
-              <TabTitleText>{t('consumerGroup.consumer_groups')}</TabTitleText>
-            }
+            hidden
+          >
+            <Topics onCreateTopic={onCreateTopic} onEditTopic={onEditTopic} />
+          </TabContent>
+          <TabContent
             eventKey={3}
-            data-testid='pageKafka-tabConsumers'
-            id='consumer-groups-tab-section'
+            ref={contentRefConsumerGroups}
+            id='kafka-ui-TabcontentConsumersList'
+            className='kafka-ui-m-full-height'
             aria-label={t('consumerGroup.consumer_groups')}
-            tabContentRef={contentRefConsumerGroups}
-            tabContentId='kafka-ui-TabcontentConsumersList'
-            // className='kafka-ui-m-full-height'
-          />
-        </Tabs>
-      </PageSection>
-      <PageSection isFilled>
-        <TabContent
-          eventKey={1}
-          ref={contentRefDashboard}
-          id='kafka-ui-TabcontentDashboard'
-          className='kafka-ui-m-full-height'
-          aria-label={t('dashboard.dashboard')}
-        >
-          {showMetrics}
-        </TabContent>
-        <TabContent
-          eventKey={2}
-          ref={contentRefTopics}
-          id='kafka-ui-TabcontentTopicsList'
-          className='kafka-ui-m-full-height'
-          aria-label={t('topic.topics')}
-          hidden
-        >
-          <Topics onCreateTopic={onCreateTopic} onEditTopic={onEditTopic} />
-        </TabContent>
-        <TabContent
-          eventKey={3}
-          ref={contentRefConsumerGroups}
-          id='kafka-ui-TabcontentConsumersList'
-          className='kafka-ui-m-full-height'
-          aria-label={t('consumerGroup.consumer_groups')}
-          hidden
-        >
-          <ConsumerGroups consumerGroupByTopic={false} />
-        </TabContent>
-      </PageSection>
+            hidden
+          >
+            <ConsumerGroups consumerGroupByTopic={false} />
+          </TabContent>
+        </PageSection>
+      </React.Suspense>
     </>
   );
 };

@@ -13,7 +13,7 @@ import { ConfigContext } from '@app/contexts';
 import { useRootModalContext } from '@app/components/RootModal';
 import { useAlert } from '@bf2/ui-shared';
 
-export const DeleteConsumerGroup: React.FC = () => {
+const DeleteConsumerGroup: React.FC = () => {
   const { t } = useTranslation();
   const config = useContext(ConfigContext);
   const { store, hideModal } = useRootModalContext();
@@ -100,3 +100,5 @@ export const DeleteConsumerGroup: React.FC = () => {
     </Modal>
   );
 };
+
+export default DeleteConsumerGroup;

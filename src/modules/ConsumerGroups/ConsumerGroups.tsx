@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, lazy, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { PageSection, PageSectionVariants } from '@patternfly/react-core';
@@ -12,8 +12,14 @@ import { getConsumerGroups } from '@app/services';
 import { ConfigContext } from '@app/contexts';
 import { ConsumerGroupList, ConsumerGroup } from '@rhoas/kafka-instance-sdk';
 import { useTimeout } from '@app/hooks/useTimeOut';
-import { ConsumerGroupDetail, ConsumerGroupsTable } from './components';
 import { ISortBy, OnSort, SortByDirection } from '@patternfly/react-table';
+
+const ConsumerGroupDetail = lazy(
+  () => import('./components/ConsumerGroupDetail/ConsumerGroupDetail')
+);
+const ConsumerGroupsTable = lazy(
+  () => import('./components/ConsumerGroupsTable/ConsumerGroupsTable')
+);
 
 export type ConsumerGroupsProps = {
   consumerGroupByTopic: boolean;
@@ -21,7 +27,7 @@ export type ConsumerGroupsProps = {
   rowDataTestId?: string;
 };
 
-export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
+const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
   consumerGroupByTopic,
   topic,
   rowDataTestId,
@@ -153,17 +159,22 @@ export const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
   };
 
   return (
-    <MASDrawer
-      isExpanded={isExpanded}
-      onClose={onClose}
-      panelBodyContent={panelBodyContent}
-      drawerHeaderProps={{
-        text: { label: t('consumerGroup.consumer_group_id') },
-        title: { value: consumerGroupDetail?.groupId, headingLevel: 'h1' },
-      }}
-      data-ouia-app-id='dataPlane-consumerGroupDetails'
-    >
-      {renderConsumerTable()}
-    </MASDrawer>
+    <Suspense fallback={<MASLoading />}>
+      <MASDrawer
+        isExpanded={isExpanded}
+        onClose={onClose}
+        panelBodyContent={panelBodyContent}
+        drawerHeaderProps={{
+          text: { label: t('consumerGroup.consumer_group_id') },
+          title: { value: consumerGroupDetail?.groupId, headingLevel: 'h1' },
+        }}
+        data-ouia-app-id='dataPlane-consumerGroupDetails'
+      >
+        {renderConsumerTable()}
+      </MASDrawer>
+    </Suspense>
   );
 };
+
+export { ConsumerGroups };
+export default ConsumerGroups;
