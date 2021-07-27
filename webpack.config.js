@@ -4,6 +4,9 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const ChunkMapper = require('@redhat-cloud-services/frontend-components-config/chunk-mapper');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const TerserJSPlugin = require('terser-webpack-plugin');
 const singletonDeps = [
   'lodash',
   'axios',
@@ -26,7 +29,8 @@ const singletonDeps = [
 const fileRegEx =
   /\.(png|woff|woff2|eot|ttf|svg|gif|jpe?g|png)(\?[a-z0-9=.]+)?$/;
 const srcDir = path.resolve(__dirname, './src');
-const ChunkMapper = require('@redhat-cloud-services/frontend-components-config/chunk-mapper');
+
+const isPatternflyStyles = (stylesheet) => stylesheet.includes('@patternfly/react-styles/css/') || stylesheet.includes('@patternfly/react-core/');
 
 module.exports = (_env, argv) => {
   const isProduction = argv.mode === 'production';
@@ -60,6 +64,13 @@ module.exports = (_env, argv) => {
         {
           test: /\.css|s[ac]ss$/i,
           use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+          include: (stylesheet => !isPatternflyStyles(stylesheet)),
+          sideEffects: true,
+        },
+        {
+          test: /\.css$/,
+          include: isPatternflyStyles,
+          use: ['null-loader'],
           sideEffects: true,
         },
         {
@@ -108,6 +119,16 @@ module.exports = (_env, argv) => {
       splitChunks: {
         chunks: 'all',
       },
+      minimizer: [
+        new TerserJSPlugin({}),
+        new CssMinimizerPlugin({
+          minimizerOptions: {
+            processorOptions: {
+              preset: ['default', {mergeLonghand: false}] // Fixes bug in PF Select component https://github.com/patternfly/patternfly-react/issues/5650#issuecomment-822667560
+            }
+          },
+        })
+      ]
     },
     resolve: {
       extensions: ['.tsx', '.ts', '.js'],
