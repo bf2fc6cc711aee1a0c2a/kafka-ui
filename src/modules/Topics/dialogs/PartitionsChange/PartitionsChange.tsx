@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, ModalVariant, Button } from '@patternfly/react-core';
 import { useRootModalContext } from '@app/components/RootModal';
 
-export const PartitionsChange: React.FC = () => {
+const PartitionsChange: React.FC = () => {
   const { store, hideModal } = useRootModalContext();
   const { onSaveTopic } = store?.modalProps || {};
 
@@ -35,3 +35,6 @@ export const PartitionsChange: React.FC = () => {
     </Modal>
   );
 };
+
+export { PartitionsChange };
+export default PartitionsChange;

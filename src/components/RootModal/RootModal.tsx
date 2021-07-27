@@ -1,6 +1,17 @@
-import React, { useState, createContext, useContext } from 'react';
-import { DeleteTopic, PartitionsChange } from '@app/modules/Topics/dialogs';
-import { DeleteConsumerGroup } from '@app/modules/ConsumerGroups/dialogs';
+import React, { useState, createContext, useContext, lazy } from 'react';
+import { MASLoading } from '@app/components';
+const DeleteTopic = lazy(
+  () => import('@app/modules/Topics/dialogs/DeleteTopic/DeleteTopic')
+);
+const PartitionsChange = lazy(
+  () => import('@app/modules/Topics/dialogs/PartitionsChange/PartitionsChange')
+);
+const DeleteConsumerGroup = lazy(
+  () =>
+    import(
+      '@app/modules/ConsumerGroups/dialogs/DeleteConsumerGroup/DeleteConsumerGroup'
+    )
+);
 
 export const MODAL_TYPES = {
   DELETE_TOPIC: 'DELETE_TOPIC',
@@ -61,9 +72,11 @@ export const RootModal: React.FC = ({ children }) => {
   };
 
   return (
-    <RootModalContext.Provider value={{ store, showModal, hideModal }}>
-      {renderComponent()}
-      {children}
-    </RootModalContext.Provider>
+    <React.Suspense fallback={<MASLoading />}>
+      <RootModalContext.Provider value={{ store, showModal, hideModal }}>
+        {renderComponent()}
+        {children}
+      </RootModalContext.Provider>
+    </React.Suspense>
   );
 };

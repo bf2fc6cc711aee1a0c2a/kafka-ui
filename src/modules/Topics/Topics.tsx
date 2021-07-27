@@ -33,10 +33,7 @@ export type TopicsProps = {
   onEditTopic?: (topicName?: string | undefined) => void;
 };
 
-export const Topics: React.FC<TopicsProps> = ({
-  onCreateTopic,
-  onEditTopic,
-}) => {
+const Topics: React.FC<TopicsProps> = ({ onCreateTopic, onEditTopic }) => {
   const { dispatchKafkaAction, onError } = useFederated();
   const { t } = useTranslation();
   const { addAlert } = useAlert();
@@ -173,3 +170,6 @@ export const Topics: React.FC<TopicsProps> = ({
     </>
   );
 };
+
+export { Topics };
+export default Topics;
