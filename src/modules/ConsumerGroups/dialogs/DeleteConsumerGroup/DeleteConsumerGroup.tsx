@@ -11,7 +11,7 @@ import {
 import { deleteConsumerGroup } from '@app/services';
 import { ConfigContext } from '@app/contexts';
 import { useAlert } from '@bf2/ui-shared';
-import { BaseModalProps } from '@app/components/KafkaModal/ModalTypes';
+import { BaseModalProps } from '@app/components';
 
 export type DeleteConsumerGroupProps = {
   consumerName: string;

@@ -13,3 +13,4 @@ export * from './MASTable';
 export * from './MASDrawer';
 export * from './MASLoading';
 export * from './MASAlerts';
+export * from './MASModal';

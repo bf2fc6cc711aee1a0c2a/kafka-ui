@@ -1,2 +1,1 @@
-export * from './ModalContext';
-export { ModalType } from './ModalTypes';
+export { ModalType, useModal, ModalProvider, ModalContext } from './KafkaModal';
