@@ -1,17 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {
-  Modal,
-  ModalVariant,
-  Button,
   Alert,
-  Checkbox,
-  Title,
-  TextInput,
   AlertVariant,
+  Button,
+  Checkbox,
   Form,
   FormGroup,
+  Modal,
+  ModalVariant,
   Stack,
   StackItem,
+  TextInput,
+  Title,
 } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import { ConfigContext } from '@app/contexts';
@@ -25,6 +25,7 @@ import {
   Consumer,
   ConsumerGroup,
   ConsumerGroupResetOffsetParametersOffsetEnum,
+  ConsumerGroupStateEnum,
 } from '@rhoas/kafka-instance-sdk';
 import './ConsumerGroupResetOffset.css';
 import { BaseModalProps } from '@app/components/KafkaModal/ModalTypes';
@@ -59,7 +60,11 @@ const ConsumerGroupResetOffset: React.FC<
     useState<ConsumerGroupResetOffsetParametersOffsetEnum>();
   const [customOffsetValue, setCustomOffsetValue] = useState<string>('');
   const [consumers, setConsumers] = useState<ConsumerRow[]>([]);
-  const { addAlert } = useAlert();
+  const { addAlert } = useAlert() || {
+    addAlert: () => {
+      // No-op
+    },
+  };
 
   const onCustomOffsetChange = (value: string) => {
     setCustomOffsetValue(value);

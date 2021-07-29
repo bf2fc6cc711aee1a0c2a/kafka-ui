@@ -159,6 +159,57 @@
     "cannot_exceed_characters": "Cannot exceed 249 characters",
     "invalid_name_with_dot": "Must contain at least 3 periods ( ... ) if periods are the only characters used "
   },
+  "permission": {
+    "tab": {
+      "label": "Permissions"
+    },
+    "table": {
+      "manage_button": "Manage Permissions",
+      "no_results_title": "No permissions defined",
+      "no_results_body": "The Kafka instance owner and organization administrators have access to resources in this instance. Give other accounts access by managing permissions.",
+      "manage_permissions_button": "Manage permissions",
+      "all_accounts": "All accounts",
+      "all_accounts_help": "Uses a wildcard (*) to assign permission to all user and service accounts.",
+      "delete_selected": "Delete selected permissions",
+      "row_kebab": {
+        "delete": "Delete",
+        "manage": "Manage"
+      }
+    },
+    "manage_permissions_dialog": {
+      "title": "Manage permissions",
+      "aria_label": "Manage permissions dialog",
+      "main_help": "Manage access to resources in this Kafka instance by assigning permissions to an account.",
+      "update_button": "Update",
+      "cancel_button": "Cancel",
+      "kafka_instance_title": "Kafka instance",
+      "account_id_title": "Account id",
+      "account_id_aria": "The account id",
+      "account_id_help": "A service account enables your application or tool to connect securely to your resources. A user account enables users in your organization to access resources.",
+      "account_id_typeahead_aria": "Select an account",
+      "account_id_typeahead_placeholder": "Select an account",
+      "must_select_account_error": "You must choose an account",
+
+      "edit_existing": {
+        "title": "Edit existing resource permissions",
+        "all_accounts_title": "All accounts",
+        "all_accounts_help": "Permissions assigned to all user and service accounts using a wildcard (*). To edit, select wildcard (*) as the account ID.",
+        "all_accounts_table_aria": "Permissions assigned to all accounts",
+        "selected_account_help": "Edit all permissions assigned to this ID."
+      },
+      "create_permissions": {
+        "title": "Create resource permissions",
+        "help": "Create new permissions assigned to this account ID.",
+        "placeholder": "Choose...",
+        "resource_name_typeahead_placeholder": "Choose...",
+        "must_select_resource_error": "You must choose a resource",
+        "must_select_pattern_type_error": "You must choose a pattern type",
+        "must_select_permission_error": "You must choose a permission",
+        "must_select_resource_type_error": "You must choose a resource type",
+        "must_select_operation_error": "You must choose an operation"
+      }
+    }
+  },
   "consumerGroup": {
     "consumer_groups": "Consumer groups",
     "consumer_group_id": "Consumer group ID",

@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import {
   AlertVariant,
   Card,
-  PageSectionVariants,
   PageSection,
+  PageSectionVariants,
 } from '@patternfly/react-core';
 import { useTimeout } from '@app/hooks/useTimeOut';
 import { TopicsTable } from './components';
@@ -35,11 +35,15 @@ export type ITopicProps = {
 const Topics: React.FC = () => {
   const { onError } = useFederated() || {};
   const { t } = useTranslation();
-  const { addAlert } = useAlert();
+  const { addAlert } = useAlert() || {
+    addAlert: () => {
+      // No-op
+    },
+  };
   const config = useContext(ConfigContext);
   const { page = 1, perPage = 10 } = usePaginationParams() || {};
   const history = useHistory();
-  const { getBasename } = useBasename();
+  const { getBasename } = useBasename() || { getBasename: () => '' };
   const basename = getBasename();
 
   const [topicItems, setTopicItems] = useState<Topic[]>();

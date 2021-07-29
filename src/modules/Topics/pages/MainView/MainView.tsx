@@ -19,6 +19,8 @@ import {
 import { useFederated } from '@app/contexts';
 import { MASLoading } from '@app/components';
 import '../style.css';
+import PermissionsTableView from '@app/modules/Permissions/pages/PermissionsTable/PermissionsTableView';
+import { usePrincipals } from '@bf2/ui-shared';
 
 const Topics = lazy(() => import('@app/modules/Topics/Topics'));
 const ConsumerGroups = lazy(
@@ -36,10 +38,13 @@ export const MainView: React.FC = () => {
     activeTab,
   } = useFederated() || {};
 
+  const principals = usePrincipals();
+
   const [activeTabKey, setActiveTabKey] = useState(activeTab || 1);
   const contentRefConsumerGroups = React.createRef<HTMLElement>();
   const contentRefTopics = React.createRef<HTMLElement>();
   const contentRefDashboard = React.createRef<HTMLElement>();
+  const contentRefPermissions = React.createRef<HTMLElement>();
 
   const handleTabClick = (_event, tabIndex) => {
     setActiveTabKey(tabIndex);
@@ -156,6 +161,20 @@ export const MainView: React.FC = () => {
               tabContentRef={contentRefConsumerGroups}
               tabContentId='kafka-ui-TabcontentConsumersList'
             />
+            {principals !== undefined ? (
+              <Tab
+                title={<TabTitleText>{t('permission.tab.label')}</TabTitleText>}
+                eventKey={4}
+                data-testid='pageKafka-tabPermissions'
+                id='permissions-tab-section'
+                aria-label={t('permission.tab.label')}
+                tabContentRef={contentRefPermissions}
+                tabContentId='kafka-ui-TabcontentPermissions'
+                // className='kafka-ui-m-full-height'
+              />
+            ) : (
+              <></>
+            )}
           </Tabs>
         </PageSection>
         <PageSection isFilled>
@@ -189,6 +208,20 @@ export const MainView: React.FC = () => {
           >
             <ConsumerGroups consumerGroupByTopic={false} />
           </TabContent>
+          {principals !== undefined ? (
+            <TabContent
+              eventKey={4}
+              ref={contentRefPermissions}
+              id='kafka-ui-TabcontentPermissions'
+              className='kafka-ui-m-full-height'
+              aria-label={t('permission.tab.label')}
+              hidden
+            >
+              <PermissionsTableView kafkaName={kafkaName} />
+            </TabContent>
+          ) : (
+            <></>
+          )}
         </PageSection>
       </React.Suspense>
     </>

@@ -11,7 +11,7 @@ import '../style.css';
 export const CreateTopicPage: React.FC = () => {
   const { kafkaName, kafkaPageLink, kafkaInstanceLink } = useFederated() || {};
   const history = useHistory();
-  const { getBasename } = useBasename();
+  const { getBasename } = useBasename() || { getBasename: () => '' };
   const basename = getBasename();
 
   const [isSwitchChecked, setIsSwitchChecked] = useState<boolean>(false);

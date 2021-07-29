@@ -11,16 +11,15 @@ import {
   TabTitleText,
 } from '@patternfly/react-core';
 import {
+  IAdvancedTopic,
   TopicDetailHead,
   TopicDetailView,
-  IAdvancedTopic,
 } from '@app/modules/Topics/components';
 import { getTopicDetail } from '@app/services';
-import { ConfigContext } from '@app/contexts';
+import { ConfigContext, useFederated } from '@app/contexts';
 import { ConsumerGroups } from '@app/modules/ConsumerGroups';
 import { isAxiosError } from '@app/utils/axios';
-import { useFederated } from '@app/contexts';
-import { useModal, ModalType } from '@app/components/KafkaModal';
+import { ModalType, useModal } from '@app/components/KafkaModal';
 import { useAlert, useBasename } from '@bf2/ui-shared';
 import '../style.css';
 
@@ -35,7 +34,7 @@ export const TopicDetailPage: React.FC = () => {
 
   const history = useHistory();
   const { topicName } = useParams<{ topicName: string }>();
-  const { getBasename } = useBasename();
+  const { getBasename } = useBasename() || { getBasename: () => '' };
   const basename = getBasename();
 
   const [topicDetail, setTopicDetail] = useState<IAdvancedTopic>({
@@ -49,7 +48,11 @@ export const TopicDetailPage: React.FC = () => {
   });
   const [activeTabKey, setActiveTabKey] = useState(activeTab);
   const config = useContext(ConfigContext);
-  const { addAlert } = useAlert();
+  const { addAlert } = useAlert() || {
+    addAlert: () => {
+      // No-op
+    },
+  };
   const { t } = useTranslation();
   const contentRefConsumerGroup = React.createRef<HTMLElement>();
   const contentRefProperties = React.createRef<HTMLElement>();

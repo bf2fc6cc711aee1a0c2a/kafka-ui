@@ -2,9 +2,9 @@ import React, { FunctionComponent } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { TopicDetailPage } from '@app/modules/Topics/pages/TopicDetail';
 import {
+  ConfigContext,
   FederatedContext,
   FederatedProps,
-  ConfigContext,
   IConfiguration,
 } from '@app/contexts';
 import kafkai18n from '@app/i18n';

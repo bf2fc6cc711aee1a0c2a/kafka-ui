@@ -1,11 +1,11 @@
 import { AxiosResponse } from 'axios';
 import {
   Configuration,
-  GroupsApi,
-  ConsumerGroupList,
   ConsumerGroup,
+  ConsumerGroupList,
   ConsumerGroupResetOffsetParametersOffsetEnum,
   ConsumerGroupResetOffsetResult,
+  GroupsApi,
 } from '@rhoas/kafka-instance-sdk';
 import { IConfiguration } from '@app/contexts';
 import { SortByDirection } from '@patternfly/react-table';

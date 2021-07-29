@@ -21,7 +21,7 @@ import '../style.css';
 export const UpdateTopicPage: React.FunctionComponent = () => {
   const { t } = useTranslation();
   const history = useHistory();
-  const { getBasename } = useBasename();
+  const { getBasename } = useBasename() || { getBasename: () => '' };
   const basename = getBasename();
   const { topicName } = useParams<{ topicName: string }>();
   const {

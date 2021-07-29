@@ -55,7 +55,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
 }) => {
   const history = useHistory();
   const { topicName } = useParams<{ topicName: string }>();
-  const { getBasename } = useBasename();
+  const { getBasename } = useBasename() || { getBasename: () => '' };
   const basename = getBasename();
   const { t } = useTranslation();
 
