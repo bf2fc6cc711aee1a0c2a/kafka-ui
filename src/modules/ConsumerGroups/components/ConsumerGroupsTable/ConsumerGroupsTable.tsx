@@ -11,8 +11,8 @@ import {
 import { ConsumerGroup } from '@rhoas/kafka-instance-sdk';
 import {
   MASTable,
-  useRootModalContext,
-  MODAL_TYPES,
+  useModal,
+  ModalType,
   MASPagination,
   EmptyState,
   MASEmptyStateVariant,
@@ -49,7 +49,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
   sortBy,
 }) => {
   const { t } = useTranslation();
-  const { showModal } = useRootModalContext();
+  const { showModal } = useModal<ModalType.DeleteConsumerGroup>();
   const [activeRow, setActiveRow] = useState<string>();
 
   const tableColumns = [
@@ -85,7 +85,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
   };
 
   const onSelectDeleteConsumerGroup = (groupId: string) => {
-    showModal(MODAL_TYPES.DELETE_CONSUMER_GROUP, {
+    showModal(ModalType.DeleteConsumerGroup, {
       consumerName: groupId,
       refreshConsumerGroups,
     });

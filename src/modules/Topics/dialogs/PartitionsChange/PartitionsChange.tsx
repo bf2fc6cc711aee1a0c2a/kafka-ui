@@ -1,11 +1,14 @@
 import React from 'react';
 import { Modal, ModalVariant, Button } from '@patternfly/react-core';
-import { useRootModalContext } from '@app/components/RootModal';
+import { BaseModalProps } from '@app/components/KafkaModal/ModalTypes';
 
-const PartitionsChange: React.FC = () => {
-  const { store, hideModal } = useRootModalContext();
-  const { onSaveTopic } = store?.modalProps || {};
+export type PartitionsChangeProps = {
+  onSaveTopic: React.MouseEventHandler<HTMLButtonElement>;
+};
 
+export const PartitionsChange: React.FC<
+  PartitionsChangeProps & BaseModalProps
+> = ({ hideModal, onSaveTopic }) => {
   const onClose = () => {
     hideModal();
   };
@@ -36,5 +39,4 @@ const PartitionsChange: React.FC = () => {
   );
 };
 
-export { PartitionsChange };
 export default PartitionsChange;

@@ -19,7 +19,7 @@ import { ConfigContext } from '@app/contexts';
 import { ConsumerGroups } from '@app/modules/ConsumerGroups';
 import { isAxiosError } from '@app/utils/axios';
 import { useFederated } from '@app/contexts';
-import { useRootModalContext, MODAL_TYPES } from '@app/components/RootModal';
+import { useModal, ModalType } from '@app/components/KafkaModal';
 import { useAlert } from '@bf2/ui-shared';
 import '../style.css';
 
@@ -56,7 +56,7 @@ export const TopicDetailPage: React.FC<TopicDetailGroupProps> = ({
   const { t } = useTranslation();
   const contentRefConsumerGroup = React.createRef<HTMLElement>();
   const contentRefProperties = React.createRef<HTMLElement>();
-  const { showModal } = useRootModalContext();
+  const { showModal } = useModal<ModalType.DeleteTopic>();
 
   const fetchTopicDetail = async (topicName: string) => {
     if (activeTab === 2) {
@@ -91,7 +91,7 @@ export const TopicDetailPage: React.FC<TopicDetailGroupProps> = ({
   }, [topicName]);
 
   const deleteTopic = () => {
-    showModal(MODAL_TYPES.DELETE_TOPIC, {
+    showModal(ModalType.DeleteTopic, {
       topicName,
       onDeleteTopic,
     });
