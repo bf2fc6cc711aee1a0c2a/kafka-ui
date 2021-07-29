@@ -19,7 +19,7 @@ import { Topic } from '@rhoas/kafka-instance-sdk';
 import { useFederated } from '@app/contexts';
 import { TopicsToolbar, TopicsToolbarProps } from './TopicsToolbar';
 import { convertRetentionSize, convertRetentionTime } from '@app/utils';
-import { useRootModalContext, MODAL_TYPES } from '@app/components';
+import { useModal, ModalType } from '@app/components';
 
 export type TopicsTableProps = TopicsToolbarProps & {
   topicItems: Topic[];
@@ -48,7 +48,7 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
   sortBy,
 }) => {
   const { t } = useTranslation();
-  const { showModal } = useRootModalContext();
+  const { showModal } = useModal<ModalType.DeleteTopic>();
   const { onConnectToRoute, getConnectToRoutePath } = useFederated();
 
   const tableColumns = [
@@ -59,7 +59,7 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
   ];
 
   const onDelete = (topicName: string) => {
-    showModal(MODAL_TYPES.DELETE_TOPIC, {
+    showModal(ModalType.DeleteTopic, {
       topicName,
       onDeleteTopic,
       refreshTopics,

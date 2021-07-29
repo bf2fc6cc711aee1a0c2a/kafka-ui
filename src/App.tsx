@@ -12,7 +12,7 @@ import { ConfigContext } from '@app/contexts';
 import {
   ErrorBoundary,
   AppLayout,
-  RootModal,
+  ModalProvider,
   AlertProvider,
 } from '@app/components';
 import { Routes } from '@app/Routes';
@@ -29,11 +29,11 @@ const App: React.FC = () => {
         <Router>
           <ErrorBoundary>
             <AlertProvider>
-              <RootModal>
+              <ModalProvider>
                 <AppLayout>
                   <Routes />
                 </AppLayout>
-              </RootModal>
+              </ModalProvider>
             </AlertProvider>
           </ErrorBoundary>
         </Router>

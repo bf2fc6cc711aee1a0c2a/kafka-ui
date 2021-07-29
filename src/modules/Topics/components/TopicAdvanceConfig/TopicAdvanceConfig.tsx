@@ -43,8 +43,8 @@ import {
   SizeTimeFormGroup,
   DropdownWithToggle,
   IDropdownOption,
-  useRootModalContext,
-  MODAL_TYPES,
+  useModal,
+  ModalType,
 } from '@app/components';
 import { kebabToCamel, kebabToDotSeparated } from '@app/modules/Topics/utils';
 import { IAdvancedTopic } from '@app/modules/Topics/components';
@@ -82,7 +82,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
     const [initialPartition, setInitialPartition] = useState<
       number | undefined
     >(Number(topicData.numPartitions));
-    const { showModal } = useRootModalContext();
+    const { showModal } = useModal<ModalType.UpdatePartitions>();
     const { t } = useTranslation();
 
     const [isCustomRetentionTimeSelected, setIsCustomRetentionTimeSelected] =
@@ -351,7 +351,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
     const onConfirm = () => {
       if (!isCreate) {
         if (warning) {
-          showModal(MODAL_TYPES.UPDATE_PARTITIONS, {
+          showModal(ModalType.UpdatePartitions, {
             onSaveTopic: saveTopic,
           });
         } else {

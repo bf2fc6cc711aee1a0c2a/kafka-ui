@@ -10,7 +10,7 @@ import {
 import kafkai18n from '@app/i18n';
 import { MainView } from './MainView';
 import { KafkaActions } from '@app/utils';
-import { RootModal } from '@app/components/RootModal';
+import { ModalProvider } from '@app/components/KafkaModal';
 
 export type MainViewFederatedProps = FederatedProps &
   IConfiguration & {
@@ -28,8 +28,7 @@ const MainViewFederated: FunctionComponent<MainViewFederatedProps> = ({
   handleInstanceDrawer,
   setIsOpenDeleteInstanceModal,
   dispatchKafkaAction,
-  showMetrics
-
+  showMetrics,
 }) => {
   const onCreateTopic = () => {
     dispatchKafkaAction && dispatchKafkaAction(KafkaActions.CreateTopic);
@@ -55,16 +54,16 @@ const MainViewFederated: FunctionComponent<MainViewFederatedProps> = ({
               handleInstanceDrawer,
               setIsOpenDeleteInstanceModal,
               dispatchKafkaAction,
-              showMetrics
+              showMetrics,
             }}
           >
-            <RootModal>
+            <ModalProvider>
               <MainView
                 onCreateTopic={onCreateTopic}
                 onEditTopic={onEditTopic}
                 activeTab={1}
               />
-            </RootModal>
+            </ModalProvider>
           </FederatedContext.Provider>
         </ConfigContext.Provider>
       </I18nextProvider>

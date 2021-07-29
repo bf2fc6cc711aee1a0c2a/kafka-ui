@@ -10,14 +10,23 @@ import {
 } from '@patternfly/react-core';
 import { deleteTopic } from '@app/services';
 import { ConfigContext } from '@app/contexts';
-import { useRootModalContext } from '@app/components/RootModal';
 import { useAlert } from '@bf2/ui-shared';
+import { BaseModalProps } from '@app/components/KafkaModal/ModalTypes';
 
-const DeleteTopic: React.FC = () => {
-  const { store, hideModal } = useRootModalContext();
+export type DeleteTopicProps = {
+  topicName?: string;
+  onDeleteTopic?: () => void;
+  refreshTopics?: () => void;
+};
+
+const DeleteTopic: React.FC<DeleteTopicProps & BaseModalProps> = ({
+  topicName,
+  onDeleteTopic,
+  refreshTopics,
+  hideModal,
+}) => {
   const config = useContext(ConfigContext);
   const { t } = useTranslation();
-  const { topicName, onDeleteTopic, refreshTopics } = store?.modalProps || {};
   const [verificationText, setVerificationText] = useState<string>('');
   const { addAlert } = useAlert();
   const [isLoading, setIsLoading] = useState<boolean>(false);

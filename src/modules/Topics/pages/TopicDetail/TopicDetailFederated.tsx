@@ -10,7 +10,7 @@ import {
 } from '@app/contexts';
 import kafkai18n from '@app/i18n';
 import { KafkaActions } from '@app/utils';
-import { RootModal } from '@app/components/RootModal';
+import { ModalProvider } from '@app/components/KafkaModal';
 
 export type TopicDetailFederatedProps = FederatedProps &
   IConfiguration & {
@@ -56,12 +56,12 @@ const TopicDetailFederated: FunctionComponent<TopicDetailFederatedProps> = ({
               dispatchKafkaAction,
             }}
           >
-            <RootModal>
+            <ModalProvider>
               <TopicDetailPage
                 updateTopic={updateTopic}
                 onDeleteTopic={onDeleteTopic}
               />
-            </RootModal>
+            </ModalProvider>
           </FederatedContext.Provider>
         </ConfigContext.Provider>
       </I18nextProvider>
