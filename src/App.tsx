@@ -7,6 +7,7 @@ import '@patternfly/patternfly/utilities/Flex/flex.css';
 import '@patternfly/patternfly/utilities/Accessibility/accessibility.css';
 import '@patternfly/patternfly/utilities/Sizing/sizing.css';
 import '@patternfly/patternfly/utilities/Spacing/spacing.css';
+import '@patternfly/patternfly/patternfly.css';
 import kafkai18n from '@app/i18n';
 import { ConfigContext } from '@app/contexts';
 import {
