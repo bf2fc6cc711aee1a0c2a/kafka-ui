@@ -50,10 +50,10 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
 
   enum RetentionSizeOption {
     BYTE = 1,
-    KILOBYTE = 1000,
-    MEGABYTE = 1000000,
-    GIGABYTE = 1000000000,
-    TERABYTE = 1000000000000,
+    KIBIBYTE = 1024,
+    MEBIBYTE = 1048576,
+    GIBIBYTE = 1073741824,
+    TEBIBYTE = 1.0995116e12,
     CUSTOM = 'custom',
     UNLIMITED = -1,
   }
@@ -152,14 +152,14 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
       setRetentionSizeFactor(RetentionSizeOption.UNLIMITED);
     } else if (selection === 'bytes') {
       setRetentionSizeFactor(RetentionSizeOption.BYTE);
-    } else if (selection === 'kilobytes') {
-      setRetentionSizeFactor(RetentionSizeOption.KILOBYTE);
-    } else if (selection === 'megabytes') {
-      setRetentionSizeFactor(RetentionSizeOption.MEGABYTE);
-    } else if (selection === 'gigabytes') {
-      setRetentionSizeFactor(RetentionSizeOption.GIGABYTE);
-    } else if (selection === 'terabytes') {
-      setRetentionSizeFactor(RetentionSizeOption.TERABYTE);
+    } else if (selection === 'kibibytes') {
+      setRetentionSizeFactor(RetentionSizeOption.KIBIBYTE);
+    } else if (selection === 'mebibytes') {
+      setRetentionSizeFactor(RetentionSizeOption.MEBIBYTE);
+    } else if (selection === 'gibibytes') {
+      setRetentionSizeFactor(RetentionSizeOption.GIBIBYTE);
+    } else if (selection === 'tebibytes') {
+      setRetentionSizeFactor(RetentionSizeOption.TEBIBYTE);
     }
     setSelectedSize(selection);
     setIsRetentionSizeSelectOpen(false);
@@ -327,10 +327,10 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
                         isOpen={isRetentionSizeSelectOpen}
                       >
                         <SelectOption key={5} value='bytes' isPlaceholder />
-                        <SelectOption key={6} value='kilobytes' />
-                        <SelectOption key={7} value='megabytes' />
-                        <SelectOption key={8} value='gigabytes' />
-                        <SelectOption key={9} value='terabytes' />
+                        <SelectOption key={6} value='kibibytes' />
+                        <SelectOption key={7} value='mebibytes' />
+                        <SelectOption key={8} value='gibibytes' />
+                        <SelectOption key={9} value='tebibytes' />
                       </Select>
                     </FlexItem>
                   </Flex>

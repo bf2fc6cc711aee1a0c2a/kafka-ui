@@ -38,25 +38,25 @@ export const convertRetentionSize = (byte: number): string => {
   let convertedByteValue;
   if (byte === -1) {
     return 'Unlimited';
-  } else if (Math.abs(byte) < 1000) {
+  } else if (Math.abs(byte) < 1024) {
     if (byte === 1) return byte + ' ' + 'byte';
     else return byte + ' ' + 'bytes';
-  } else if (Math.abs(byte) >= 1000 && Math.abs(byte) < 1000000) {
-    convertedByteValue = byte / 1000;
-    if (convertedByteValue === 1) return convertedByteValue + ' ' + 'kilobyte';
-    else return convertedByteValue + ' ' + 'kilobytes';
-  } else if (Math.abs(byte) >= 1000000 && Math.abs(byte) < 1000000000) {
-    convertedByteValue = byte / 1000000;
-    if (convertedByteValue === 1) return convertedByteValue + ' ' + 'megabyte';
-    else return convertedByteValue + ' ' + 'megabytes';
-  } else if (Math.abs(byte) >= 1000000000 && Math.abs(byte) < 1000000000000) {
-    convertedByteValue = byte / 1000000000;
-    if (convertedByteValue === 1) return convertedByteValue + ' ' + 'gigabyte';
-    else return convertedByteValue + ' ' + 'gigabytes';
-  } else if (Math.abs(byte) >= 1000000000000) {
-    convertedByteValue = byte / 1000000000000;
-    if (convertedByteValue === 1) return convertedByteValue + ' ' + 'terabyte';
-    else return convertedByteValue + ' ' + 'terabytes';
+  } else if (Math.abs(byte) >= 1024 && Math.abs(byte) < 1048576) {
+    convertedByteValue = byte / 1024;
+    if (convertedByteValue === 1) return convertedByteValue + ' ' + 'kibibyte';
+    else return convertedByteValue + ' ' + 'kibibytes';
+  } else if (Math.abs(byte) >= 1048576 && Math.abs(byte) < 1073741824) {
+    convertedByteValue = byte / 1048576;
+    if (convertedByteValue === 1) return convertedByteValue + ' ' + 'mebibyte';
+    else return convertedByteValue + ' ' + 'mebibytes';
+  } else if (Math.abs(byte) >= 1073741824 && Math.abs(byte) < 1.0995116e12) {
+    convertedByteValue = byte / 1073741824;
+    if (convertedByteValue === 1) return convertedByteValue + ' ' + 'gibibyte';
+    else return convertedByteValue + ' ' + 'gibibytes';
+  } else if (Math.abs(byte) >= 1.0995116e12) {
+    convertedByteValue = byte / 1.0995116e12;
+    if (convertedByteValue === 1) return convertedByteValue + ' ' + 'tebibyte';
+    else return convertedByteValue + ' ' + 'tebibytes';
   }
   return byte.toString();
 };
