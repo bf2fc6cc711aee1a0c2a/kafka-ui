@@ -21,10 +21,10 @@ export const kebabToDotSeparated = (val: string): string => {
 
 const unitsToBytes = {
   bytes: 1,
-  kilobytes: 1000,
-  megabytes: 1000000,
-  gigabytes: 1000000000,
-  terabytes: 1000000000000,
+  kibibytes: 1024,
+  mebibytes: 1048576,
+  gibibytes: 1073741824,
+  tebibytes: 1.0995116e12,
 };
 
 const unitsToMilliSecond = {

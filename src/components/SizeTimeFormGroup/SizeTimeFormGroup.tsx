@@ -51,10 +51,10 @@ export const SizeTimeFormGroup: React.FC<SizeTimeFormGroup> = ({
 
   const memoryUnits: IDropdownOption[] = [
     { key: 'bytes', value: 'bytes', isDisabled: false },
-    { key: 'kilobytes', value: 'kilobytes', isDisabled: false },
-    { key: 'megabytes', value: 'megabytes', isDisabled: false },
-    { key: 'gigabytes', value: 'gigabytes', isDisabled: false },
-    { key: 'terabytes', value: 'terabytes', isDisabled: false },
+    { key: 'kibibytes', value: 'kibibytes', isDisabled: false },
+    { key: 'mebibytes', value: 'mebibytes', isDisabled: false },
+    { key: 'gibibytes', value: 'gibibytes', isDisabled: false },
+    { key: 'tebibytes', value: 'tebibytes', isDisabled: false },
   ];
 
   const getItemsForType = (type: string) => {
