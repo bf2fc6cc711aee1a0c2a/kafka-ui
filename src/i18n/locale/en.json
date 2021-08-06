@@ -176,6 +176,7 @@
     "current_offset": "Current offset",
     "log_end_offset": "Log end offset",
     "offset_lag": "Offset lag",
+    "new_offset": "New offset",
     "reset_offset": "Reset offset",
     "topic_table_aria": "table for consumer groups by topic",
     "consumer_group_info_table_aria": "table for consumer group details",

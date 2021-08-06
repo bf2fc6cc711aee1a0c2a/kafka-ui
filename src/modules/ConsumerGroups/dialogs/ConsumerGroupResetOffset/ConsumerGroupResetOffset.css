@@ -1,0 +1,15 @@
+.consumer-table {
+  margin: 1rem 0;
+}
+
+.info-grid {
+  height: 2rem;
+}
+
+.modal-alert {
+  margin: 1rem 0;
+}
+
+#custom-offset-input, #offset-dropdown, #topic-dropdown {
+  width: 10rem;
+}

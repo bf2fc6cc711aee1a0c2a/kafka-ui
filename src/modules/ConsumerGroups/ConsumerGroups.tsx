@@ -42,8 +42,9 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
   const [consumerGroups, setConsumerGroups] = useState<ConsumerGroupList>();
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [search, setSearch] = useState<string>('');
+  // TODO: To be removed after sdk update
   const [consumerGroupDetail, setConsumerGroupDetail] =
-    useState<ConsumerGroup>();
+    useState<ConsumerGroup & { state: string}>();
   const config = useContext(ConfigContext);
   const { t } = useTranslation();
 
@@ -169,6 +170,8 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
           title: { value: consumerGroupDetail?.groupId, headingLevel: 'h1' },
         }}
         data-ouia-app-id='dataPlane-consumerGroupDetails'
+        refreshConsumerGroups={fetchConsumerGroups}
+        consumerGroupDetail={consumerGroupDetail}
       >
         {renderConsumerTable()}
       </MASDrawer>

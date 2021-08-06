@@ -4,12 +4,14 @@ import {
 } from '@app/modules/Topics/dialogs';
 import { DeleteConsumerGroupProps } from '@app/modules/ConsumerGroups/dialogs';
 import React from 'react';
+import { ConsumerGroupResetOffsetProps } from '@app/modules/ConsumerGroups/dialogs/ConsumerGroupResetOffset';
 
 // The available types of modal
 export enum ModalType {
   DeleteTopic,
   DeleteConsumerGroup,
   UpdatePartitions,
+  ConsumerGroupResetOffset
 }
 
 // A map of modal types to their props
@@ -17,6 +19,7 @@ export interface ModalTypePropsMap {
   [ModalType.DeleteTopic]: DeleteTopicProps;
   [ModalType.UpdatePartitions]: PartitionsChangeProps;
   [ModalType.DeleteConsumerGroup]: DeleteConsumerGroupProps;
+  [ModalType.ConsumerGroupResetOffset]: ConsumerGroupResetOffsetProps;
 }
 
 // Properties available to all Modal components
@@ -47,5 +50,13 @@ export const ModalTypeComponentsMap: {
       )
   ) as React.LazyExoticComponent<
     React.FunctionComponent<DeleteConsumerGroupProps>
+  >,
+  [ModalType.ConsumerGroupResetOffset]: React.lazy(
+    () =>
+      import(
+        '@app/modules/ConsumerGroups/dialogs/ConsumerGroupResetOffset/ConsumerGroupResetOffset'
+      )
+  ) as React.LazyExoticComponent<
+    React.FunctionComponent<ConsumerGroupResetOffsetProps>
   >,
 };

@@ -50,6 +50,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
 }) => {
   const { t } = useTranslation();
   const { showModal } = useModal<ModalType.DeleteConsumerGroup>();
+  const { showModal: showResetOffsetModal } = useModal<ModalType.ConsumerGroupResetOffset>();
   const [activeRow, setActiveRow] = useState<string>();
 
   const tableColumns = [
@@ -91,6 +92,13 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
     });
   };
 
+  const onSelectResetOffsetConsumerGroup = (data: ConsumerGroup & { state: string }) => { // TODO: To be removed after sdk update
+    showResetOffsetModal(ModalType.ConsumerGroupResetOffset, {
+      refreshConsumerGroups,
+      consumerGroupData: data
+    });
+  };
+
   const onSelectKebabDropdownOption = (
     event: any,
     originalData: ConsumerGroup
@@ -103,6 +111,13 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
     event?.target?.parentElement?.parentElement?.previousSibling?.focus();
   };
 
+  const onSelectResetOffset = (
+    event: any,
+    originalData: ConsumerGroup & { state: string } // TODO: To be removed after sdk update
+  ) => {
+    onSelectResetOffsetConsumerGroup(originalData);
+  };
+
   const onClickDrawerButton = (row: IRowData) => {
     const { originalData } = row;
     onViewConsumerGroup(originalData);
@@ -113,7 +128,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
     if (consumerGroupByTopic) {
       return [];
     }
-    const originalData: ConsumerGroup = rowData.originalData;
+    const originalData: ConsumerGroup & { state: string } = rowData.originalData; // TODO: To be removed after sdk update
     const resolver = [
       {
         title: t('common.delete'),
@@ -125,6 +140,11 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
         title: t('consumerGroup.view_partitions_offsets'),
         ['data-testid']: 'tableConsumers-actionOpenDrawer',
         onClick: (_, __, row: IRowData) => onClickDrawerButton(row),
+      },
+      {
+        title: t('consumerGroup.reset_offset'),
+        ['data-testid']: 'tableConsumers-resetOffset',
+        onClick: (event: any) => onSelectResetOffset(event, originalData),
       },
     ];
     return resolver;
