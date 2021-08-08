@@ -1,13 +1,13 @@
 .consumer-table {
-  margin: 1rem 0;
+  margin: var(--pf-global--spacer--md) 0;
 }
 
 .info-grid {
-  height: 2rem;
+  height: var(--pf-global--spacer--xl);
 }
 
 .modal-alert {
-  margin: 1rem 0;
+  margin: var(--pf-global--spacer--md) 0;
 }
 
 #custom-offset-input, #offset-dropdown, #topic-dropdown {

@@ -98,13 +98,13 @@ export const MASDrawer: React.FC<MASDrawerProps> = ({
   const dropdownItems = [
     <DropdownItem
       key='reset offset'
-      onClick={() => onSelectResetOffsetConsumerGroup()}
+      onClick={onSelectResetOffsetConsumerGroup}
     >
       {t('consumerGroup.reset_offset')}
     </DropdownItem>,
     <DropdownItem
       key='delete'
-      onClick={() =>onSelectDeleteConsumerGroup()}
+      onClick={onSelectDeleteConsumerGroup}
     >
       {t('common.delete')}
     </DropdownItem>,

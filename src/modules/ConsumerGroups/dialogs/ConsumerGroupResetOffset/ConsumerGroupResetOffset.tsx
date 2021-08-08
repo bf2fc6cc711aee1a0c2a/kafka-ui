@@ -3,7 +3,7 @@ import { Modal, ModalVariant, Button, Alert, Checkbox, DropdownItem, Dropdown, D
 import { useTranslation } from 'react-i18next';
 import { ConfigContext } from "@app/contexts";
 import { IRowData, Table, TableBody, TableHeader } from "@patternfly/react-table";
-import { ConsumerGroup, ConsumerGroupResetOffsetParametersOffsetEnum } from "@rhoas/kafka-instance-sdk";
+import { Consumer, ConsumerGroup, ConsumerGroupResetOffsetParametersOffsetEnum } from "@rhoas/kafka-instance-sdk";
 import './ConsumerGroupResetOffset.css';
 import { BaseModalProps } from "@app/components/KafkaModal/ModalTypes";
 import { consumerGroupResetOffset } from "@app/services";
@@ -15,8 +15,11 @@ export type ConsumerGroupResetOffsetProps = {
   refreshConsumerGroups?: () => void;
 }
 
-const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseModalProps> = ({ consumerGroupData, refreshConsumerGroups, hideModal }) => {
+export type ConsumerRow = Consumer & {
+  selected?: boolean;
+}
 
+const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseModalProps> = ({ consumerGroupData, refreshConsumerGroups, hideModal }) => {
 
   const config = useContext(ConfigContext);
 
@@ -27,9 +30,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
   const [selectedTopic, setSelectedTopic] = useState<string>('');
   const [selectedOffset, setOffset] = useState<ConsumerGroupResetOffsetParametersOffsetEnum>();
   const [customOffsetValue, setCustomOffsetValue] = useState<string>("");
-
-  const [isTopicOptionsOpen, setIsTopicOptionsOpen] = useState<boolean>(false);
-  const [isOffsetsOptionOpen, setIsOffsetsOptionOpen] = useState<boolean>(false);
+  const [consumers, setConsumers] = useState<ConsumerRow[]>([]);
 
   const onCustomOffsetChange = (value: string) => {
     setCustomOffsetValue(value);
@@ -37,7 +38,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
 
   const preparedTableCells = () => {
     const tableRow: (IRowData | string[])[] | undefined = [];
-    consumers && consumers.forEach((row, index) => {
+    consumers && consumers.forEach((row: ConsumerRow) => {
       const { partition, groupId, memberId, offset: currentOffset, logEndOffset, lag, selected } = row;
       tableRow.push({
         cells: [
@@ -64,9 +65,9 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
 
     const topics = consumerGroupDetail.consumers
       .map((consumer) => (consumer.topic));
-    const distinctTopics = topics.filter((topic, i) => topics.indexOf(topic) === i);
+    const distinctTopics = topics.filter((topic: string, i: number) => topics.indexOf(topic) === i);
     return distinctTopics
-      .map((topic, index) => (
+      .map((topic: string) => (
         {
           key: topic,
           value: topic,
@@ -101,7 +102,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
 
   useEffect(() => {
     const filteredConsumers = consumerGroupData && consumerGroupData.consumers.filter(consumer => consumer.topic === selectedTopic)
-    setConsumers(filteredConsumers);
+    setConsumers(filteredConsumers || []);
   }, [selectedTopic]);
 
   useEffect(() => {
@@ -134,15 +135,11 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
 
   const onTopicSelect = (_: string, event) => {
     setSelectedTopic(event.currentTarget.textContent);
-    setIsTopicOptionsOpen(false);
   }
 
   const onOffsetSlect = (_: string, event) => {
     setOffset(event.currentTarget.textContent);
-    setIsOffsetsOptionOpen(false);
   }
-
-  const [consumers, setConsumers] = useState<any>([]);
 
   const handleConsumerGroupResetOffset = () => {
     const partitions = consumers.filter(({ selected }) => selected === true).map(({ partition }) => partition);
@@ -167,6 +164,10 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
     setConsumers(newConsumers);
   }
 
+  const isResetOffsetDisabled = (): boolean => {
+    return (selectedTopic === '' || !confirmCheckboxChecked || isDisconnected || !selectedOffset || consumers.filter(({ selected }) => selected === true).length === 0)
+  }
+
   return (
     <Modal
       variant={ModalVariant.large}
@@ -181,7 +182,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
           variant='danger'
           onClick={handleConsumerGroupResetOffset}
           key={1}
-          isDisabled={selectedTopic === '' || !confirmCheckboxChecked || isDisconnected || !selectedOffset || consumers.filter(({ selected }) => selected === true).length === 0}
+          isDisabled={isResetOffsetDisabled()}
         >
           {t('consumerGroup.reset_offset')}
         </Button>,
@@ -214,11 +215,11 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
                 onSelectOption={onTopicSelect}
                 items={getTopics(consumerGroupData)}
                 name='cleanup-policy'
-                value={selectedTopic ? selectedTopic : 'Select'}
+                value={selectedTopic ? selectedTopic : t('common.select')}
               />
             </GridItem>
           </>)}
-        {!isDisconnected && selectedTopic !== '' && (<>
+        {!isDisconnected && selectedTopic && (<>
           <GridItem span={2} className='reset-offset__griditem'>
             <Title headingLevel="h4" size="md">
               New offset
@@ -232,11 +233,11 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
               onSelectOption={onOffsetSlect}
               items={offsetOptions}
               name='cleanup-policy'
-              value={selectedOffset ? selectedOffset : 'Select'}
+              value={selectedOffset ? selectedOffset : t('common.select')}
             />
           </GridItem>
         </>)}
-        {!isDisconnected && selectedTopic !== '' && (selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Absolute || selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Timestamp) && (<>
+        {!isDisconnected && selectedTopic && (selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Absolute || selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Timestamp) && (<>
           <GridItem span={2} className='reset-offset__griditem'>
             <Title headingLevel="h4" size="md">
               Custom offset
@@ -251,16 +252,15 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
         className='modal-alert'
         variant='danger'
         isInline
-        title={'The offset for this consumer group cannot be reset at this time'}
+        title={t('consumerGroup.reset_offset_connected_alert_title')}
       >
         <p>
-          One or more members of the consumer group are currently connected to a topic.
-          All members of a consumer group must be disconnected before resetting the offset.
+          {t('consumerGroup.reset_offset_connected_alert_body')}
         </p>
       </Alert>}
 
       {
-        !isDisconnected && consumers?.length > 0 && selectedTopic !== '' &&
+        !isDisconnected && consumers?.length > 0 && selectedTopic &&
         (
           <>
             <Table

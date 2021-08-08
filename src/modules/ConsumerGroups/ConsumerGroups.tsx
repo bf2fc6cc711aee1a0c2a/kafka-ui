@@ -92,7 +92,7 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
 
   const panelBodyContent = (
     <ConsumerGroupDetail
-      consumerDetail={consumerGroupDetail}
+      consumerGroupDetail={consumerGroupDetail}
       consumerGroupByTopic={consumerGroupByTopic}
     />
   );
