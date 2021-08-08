@@ -112,7 +112,7 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
       })
     )
       .createTopic(topic)
-      .then((res) => {
+      .then(() => {
         addAlert({
           variant: AlertVariant.success,
           title: t('topic.topic_successfully_created'),

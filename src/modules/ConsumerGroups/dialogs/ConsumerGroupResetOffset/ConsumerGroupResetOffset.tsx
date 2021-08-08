@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Modal, ModalVariant, Button, Alert, Checkbox, DropdownItem, Dropdown, DropdownToggle, Grid, GridItem, TextVariants, Title, TextInput, AlertVariant } from "@patternfly/react-core";
+import { Modal, ModalVariant, Button, Alert, Checkbox, Grid, GridItem, Title, TextInput, AlertVariant } from "@patternfly/react-core";
 import { useTranslation } from 'react-i18next';
 import { ConfigContext } from "@app/contexts";
 import { IRowData, Table, TableBody, TableHeader } from "@patternfly/react-table";
@@ -36,7 +36,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
 
   const onCustomOffsetChange = (value: string) => {
     setCustomOffsetValue(value);
-  }
+  };
 
   const preparedTableCells = () => {
     const tableRow: (IRowData | string[])[] | undefined = [];
@@ -58,10 +58,10 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
         ],
         originalData: row,
         selected
-      })
+      });
     });
     return tableRow;
-  }
+  };
 
   const getTopics = (consumerGroupDetail) => {
 
@@ -77,7 +77,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
         }
       )
       );
-  }
+  };
 
   const offsetOptions: IDropdownOption[] = [
     {
@@ -103,13 +103,13 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
   ];
 
   useEffect(() => {
-    const filteredConsumers = consumerGroupData && consumerGroupData.consumers.filter(consumer => consumer.topic === selectedTopic)
+    const filteredConsumers = consumerGroupData && consumerGroupData.consumers.filter(consumer => consumer.topic === selectedTopic);
     setConsumers(filteredConsumers || []);
   }, [selectedTopic]);
 
   useEffect(() => {
-    consumerGroupData && setIsDisconnected(getIsDisconnected(consumerGroupData.state))
-  }, [consumerGroupData?.state])
+    consumerGroupData && setIsDisconnected(getIsDisconnected(consumerGroupData.state));
+  }, [consumerGroupData?.state]);
 
   const onConfirmationChange = (checked: boolean) => {
     setConfirmCheckboxChecked(checked);
@@ -120,7 +120,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
       return false;
     }
     return true;
-  }
+  };
 
   const onClose = () => {
     hideModal();
@@ -137,11 +137,11 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
 
   const onTopicSelect = (_: string, event) => {
     setSelectedTopic(event.currentTarget.textContent);
-  }
+  };
 
   const onOffsetSlect = (_: string, event) => {
     setOffset(event.currentTarget.textContent);
-  }
+  };
 
   const handleConsumerGroupResetOffset = () => {
     try {
@@ -155,6 +155,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
         variant: AlertVariant.success,
         title: t('consumerGroup.offset_successfully_reset'),
       });
+      refreshConsumerGroups && refreshConsumerGroups();
     } catch (err) {
       addAlert({
         variant: AlertVariant.danger,
@@ -163,24 +164,24 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
     }
 
     onClose();
-  }
+  };
 
   const onSelect = (_: React.FormEvent<HTMLInputElement>, isSelected: boolean, rowId: number) => {
     let newConsumers = [...consumers];
     if (rowId === -1) {
       newConsumers = consumers.map(consumer => {
-        consumer.selected = isSelected
+        consumer.selected = isSelected;
         return consumer;
       });
     } else {
       newConsumers[rowId].selected = isSelected;
     }
     setConsumers(newConsumers);
-  }
+  };
 
   const isResetOffsetDisabled = (): boolean => {
-    return (selectedTopic === '' || !confirmCheckboxChecked || isDisconnected || !selectedOffset || consumers.filter(({ selected }) => selected === true).length === 0)
-  }
+    return (selectedTopic === '' || !confirmCheckboxChecked || isDisconnected || !selectedOffset || consumers.filter(({ selected }) => selected === true).length === 0);
+  };
 
   return (
     <Modal
@@ -288,13 +289,13 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
               <TableHeader />
               <TableBody />
             </Table>
-            <Checkbox label="I understand that by resetting the offset position, I risk clients skipping or duplicating messages." aria-label="uncontrolled checkbox example" id="check-5" isChecked={confirmCheckboxChecked} onChange={onConfirmationChange} />
+            <Checkbox label={t('consumerGroup.reset_offset_accept')} aria-label="uncontrolled checkbox example" id="check-5" isChecked={confirmCheckboxChecked} onChange={onConfirmationChange} />
           </>
         )
       }
     </Modal>
 
-  )
-}
+  );
+};
 
 export default ConsumerGroupResetOffset;

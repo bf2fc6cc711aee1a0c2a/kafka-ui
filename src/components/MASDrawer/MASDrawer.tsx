@@ -86,7 +86,7 @@ export const MASDrawer: React.FC<MASDrawerProps> = ({
       consumerName: title?.value || "",
       refreshConsumerGroups,
     });
-    onClose()
+    onClose();
   };
   const onSelectResetOffsetConsumerGroup =  ()=> {
     showResetOffsetModal(ModalType.ConsumerGroupResetOffset, {
