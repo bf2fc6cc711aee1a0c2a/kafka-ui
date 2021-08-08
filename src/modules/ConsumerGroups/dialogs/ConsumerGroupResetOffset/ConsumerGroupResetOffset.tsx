@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Modal, ModalVariant, Button, Alert, Checkbox, DropdownItem, Dropdown, DropdownToggle, Grid, GridItem, TextVariants, Title, TextInput } from "@patternfly/react-core";
+import { Modal, ModalVariant, Button, Alert, Checkbox, DropdownItem, Dropdown, DropdownToggle, Grid, GridItem, TextVariants, Title, TextInput, AlertVariant } from "@patternfly/react-core";
 import { useTranslation } from 'react-i18next';
 import { ConfigContext } from "@app/contexts";
 import { IRowData, Table, TableBody, TableHeader } from "@patternfly/react-table";
@@ -8,6 +8,7 @@ import './ConsumerGroupResetOffset.css';
 import { BaseModalProps } from "@app/components/KafkaModal/ModalTypes";
 import { consumerGroupResetOffset } from "@app/services";
 import { DropdownWithToggle, IDropdownOption } from "@app/components/DropdownWithToggle";
+import { useAlert } from "@bf2/ui-shared";
 
 export type ConsumerGroupResetOffsetProps = {
   // TODO: To be removed after sdk update
@@ -31,6 +32,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
   const [selectedOffset, setOffset] = useState<ConsumerGroupResetOffsetParametersOffsetEnum>();
   const [customOffsetValue, setCustomOffsetValue] = useState<string>("");
   const [consumers, setConsumers] = useState<ConsumerRow[]>([]);
+  const { addAlert } = useAlert();
 
   const onCustomOffsetChange = (value: string) => {
     setCustomOffsetValue(value);
@@ -73,7 +75,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
           value: topic,
           isDisabled: false,
         }
-        )
+      )
       );
   }
 
@@ -142,12 +144,24 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
   }
 
   const handleConsumerGroupResetOffset = () => {
-    const partitions = consumers.filter(({ selected }) => selected === true).map(({ partition }) => partition);
-    if (selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Absolute || selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Timestamp) {
-      consumerGroupData && consumerGroupResetOffset(config, consumerGroupData.groupId, ConsumerGroupResetOffsetParametersOffsetEnum.Absolute, selectedTopic, partitions, customOffsetValue.toString());
-    } else {
-      consumerGroupData && selectedOffset && consumerGroupResetOffset(config, consumerGroupData.groupId, selectedOffset, selectedTopic, partitions);
+    try {
+      const partitions = consumers.filter(({ selected }) => selected === true).map(({ partition }) => partition);
+      if (selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Absolute || selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Timestamp) {
+        consumerGroupData && consumerGroupResetOffset(config, consumerGroupData.groupId, ConsumerGroupResetOffsetParametersOffsetEnum.Absolute, selectedTopic, partitions, customOffsetValue.toString());
+      } else {
+        consumerGroupData && selectedOffset && consumerGroupResetOffset(config, consumerGroupData.groupId, selectedOffset, selectedTopic, partitions);
+      }
+      addAlert({
+        variant: AlertVariant.success,
+        title: t('consumerGroup.offset_successfully_reset'),
+      });
+    } catch (err) {
+      addAlert({
+        variant: AlertVariant.danger,
+        title: err?.response?.data?.error_message,
+      });
     }
+
     onClose();
   }
 
