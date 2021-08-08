@@ -83,7 +83,7 @@ const consumerGroupResetOffset = async (
   topic: string,
   partitions: number[],
   value?: string,
-): Promise<AxiosResponse<object[][]>> => {
+): Promise<AxiosResponse<any[][]>> => {
   const accessToken = await config?.getToken();
 
   const api = new DefaultApi(
@@ -92,7 +92,7 @@ const consumerGroupResetOffset = async (
       basePath: config?.basePath,
     })
   );
-  const response: AxiosResponse<object[][]> = await api.resetConsumerGroupOffset(
+  const response: AxiosResponse<any[][]> = await api.resetConsumerGroupOffset(
     consumerGroupId,
     { value, offset, topics: [{ topic, partitions }]}
   );
