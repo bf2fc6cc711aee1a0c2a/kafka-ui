@@ -135,7 +135,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                         fieldId='replicas'
                         btnAriaLabel={t('topic.replicas')}
                         fieldLabel={t('topic.replicas')}
-                        fieldValue={DEFAULT_REPLICAS}
+                        fieldValue={topic.replicationFactor}
                         popoverBody={t('topic.replicas_description')}
                         popoverHeader={t('topic.replicas')}
                       />
