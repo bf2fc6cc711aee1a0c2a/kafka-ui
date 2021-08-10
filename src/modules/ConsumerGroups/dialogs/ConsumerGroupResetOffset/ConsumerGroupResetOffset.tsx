@@ -52,7 +52,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
           {
             title: (
               selected && selectedOffset ?
-                (selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Absolute || selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Timestamp) ? customOffsetValue : selectedOffset : '-'
+                selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Absolute ? customOffsetValue : selectedOffset : '-'
             )
           }
         ],
@@ -80,11 +80,6 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
   };
 
   const offsetOptions: IDropdownOption[] = [
-    {
-      key: ConsumerGroupResetOffsetParametersOffsetEnum.Timestamp,
-      value: ConsumerGroupResetOffsetParametersOffsetEnum.Timestamp,
-      isDisabled: false,
-    },
     {
       key: ConsumerGroupResetOffsetParametersOffsetEnum.Absolute,
       value: ConsumerGroupResetOffsetParametersOffsetEnum.Absolute,
@@ -146,7 +141,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
   const handleConsumerGroupResetOffset = () => {
     try {
       const partitions = consumers.filter(({ selected }) => selected === true).map(({ partition }) => partition);
-      if (selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Absolute || selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Timestamp) {
+      if (selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Absolute || selectedOffset) {
         consumerGroupData && consumerGroupResetOffset(config, consumerGroupData.groupId, ConsumerGroupResetOffsetParametersOffsetEnum.Absolute, selectedTopic, partitions, customOffsetValue.toString());
       } else {
         consumerGroupData && selectedOffset && consumerGroupResetOffset(config, consumerGroupData.groupId, selectedOffset, selectedTopic, partitions);
@@ -252,7 +247,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
             />
           </GridItem>
         </>)}
-        {!isDisconnected && selectedTopic && (selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Absolute || selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Timestamp) && (<>
+        {!isDisconnected && selectedTopic && (selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Absolute) && (<>
           <GridItem span={2} className='reset-offset__griditem'>
             <Title headingLevel="h4" size="md">
               Custom offset
