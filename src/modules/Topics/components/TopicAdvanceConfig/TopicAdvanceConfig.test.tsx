@@ -1,20 +1,20 @@
-import React, { ReactElement } from "react";
-import { I18nextProvider } from "react-i18next";
-import { render, RenderResult } from "@testing-library/react";
+import React, { ReactElement } from 'react';
+import { I18nextProvider } from 'react-i18next';
+import { render, RenderResult } from '@testing-library/react';
 import {
   TopicAdvanceConfigProps,
   TopicAdvanceConfig,
-} from "./TopicAdvanceConfig";
-import kafkai18n from "@test-utils/i18n";
-import { IAdvancedTopic } from "@app/modules/Topics/components/CreateTopicWizard";
+} from './TopicAdvanceConfig';
+import kafkai18n from '@test-utils/i18n';
+import { IAdvancedTopic } from '@app/modules/Topics/components/CreateTopicWizard';
 
 const setup = () => {
   const topicData: IAdvancedTopic = {
-    name: "topicName",
-    "cleanup.policy": "Delete",
-    numPartitions: "2",
-    "retention.ms": "1000",
-    "retention.bytes": "-1",
+    name: 'topicName',
+    'cleanup.policy': 'Delete',
+    numPartitions: '2',
+    'retention.ms': '1000',
+    'retention.bytes': '-1',
   };
   const topicadvanceConfigProps: TopicAdvanceConfigProps = {
     isCreate: true,
@@ -32,10 +32,10 @@ const setup = () => {
   return renderResult;
 };
 
-describe("<TopicAdvancedConfig />", () => {
-  it("should render topicadvancedConfig", () => {
+describe('<TopicAdvancedConfig />', () => {
+  it('should render topicadvancedConfig', () => {
     const renderResult = setup();
     const { getByText } = renderResult;
-    expect(getByText("JUMP TO SECTION")).toBeInTheDocument();
+    expect(getByText('JUMP TO SECTION')).toBeInTheDocument();
   });
 });

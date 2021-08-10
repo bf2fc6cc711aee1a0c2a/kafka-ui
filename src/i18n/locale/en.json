@@ -44,8 +44,12 @@
     "view_connection": "View connection information",
     "delete_instance": "Delete instance"
   },
+  "dashboard": {
+    "dashboard": "Dashboard"
+  },
   "topic": {
     "topics": "Topics",
+    "topic": "Topic",
     "empty_topics_title": "No topics yet",
     "empty_topics_body": "Create a topic by clicking the button below to get started.",
     "core_configuration": "Core configuration",
@@ -157,7 +161,10 @@
   "consumerGroup": {
     "consumer_groups": "Consumer groups",
     "consumer_group_id": "Consumer group ID",
-    "active_members": "Active members for this topic",
+    "consumer_group_list": "Consumer group list",
+    "consumer_group_search_input": "Consumer group search input",
+    "consumer_group_search": "Search consumer group button",
+    "active_members": "Active members",
     "partitions_with_lag": "Partitions with lag",
     "uncosumed_partitions": "Unconsumed partitions",
     "uncosumed_partitions_for_topic": "Unconsumed partitions for this topic",
@@ -165,6 +172,7 @@
     "partition": "Partition",
     "client_id": "Client ID",
     "member_id": "Member ID",
+    "consumer_id": "Consumer ID",
     "current_offset": "Current offset",
     "log_end_offset": "Log end offset",
     "offset_lag": "Offset lag",

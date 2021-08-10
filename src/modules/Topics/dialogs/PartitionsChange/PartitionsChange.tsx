@@ -1,11 +1,14 @@
-import React from "react";
-import { Modal, ModalVariant, Button } from "@patternfly/react-core";
-import { useRootModalContext } from "@app/components/RootModal";
+import React from 'react';
+import { Modal, ModalVariant, Button } from '@patternfly/react-core';
+import { BaseModalProps } from '@app/components/KafkaModal/ModalTypes';
 
-export const PartitionsChange: React.FC = () => {
-  const { store, hideModal } = useRootModalContext();
-  const { onSaveTopic } = store?.modalProps || {};
+export type PartitionsChangeProps = {
+  onSaveTopic: React.MouseEventHandler<HTMLButtonElement>;
+};
 
+export const PartitionsChange: React.FC<
+  PartitionsChangeProps & BaseModalProps
+> = ({ hideModal, onSaveTopic }) => {
   const onClose = () => {
     hideModal();
   };
@@ -14,17 +17,17 @@ export const PartitionsChange: React.FC = () => {
     <Modal
       variant={ModalVariant.small}
       isOpen={true}
-      aria-label="Confirm change of partitions"
-      title="Increase the number of partitions?"
-      titleIconVariant="warning"
+      aria-label='Confirm change of partitions'
+      title='Increase the number of partitions?'
+      titleIconVariant='warning'
       showClose={true}
-      aria-describedby="modal-message"
+      aria-describedby='modal-message'
       onClose={onClose}
       actions={[
-        <Button variant="primary" onClick={onSaveTopic} key={1}>
+        <Button variant='primary' onClick={onSaveTopic} key={1}>
           Yes
         </Button>,
-        <Button variant="link" onClick={onClose} key={2}>
+        <Button variant='link' onClick={onClose} key={2}>
           No, return to form
         </Button>,
       ]}
@@ -35,3 +38,5 @@ export const PartitionsChange: React.FC = () => {
     </Modal>
   );
 };
+
+export default PartitionsChange;

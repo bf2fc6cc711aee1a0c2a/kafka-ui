@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Avatar,
   Dropdown,
@@ -9,10 +9,10 @@ import {
   Brand,
   PageHeaderTools,
   Page,
-} from "@patternfly/react-core";
-import { CaretDownIcon } from "@patternfly/react-icons";
-import avatarImg from "../../images/img_avatar.svg";
-import brandImg from "../../images/brandImg.png";
+} from '@patternfly/react-core';
+import { CaretDownIcon } from '@patternfly/react-icons';
+import avatarImg from '../../images/img_avatar.svg';
+import brandImg from '../../images/brandImg.png';
 
 export const AppLayout: React.FC = ({ children }) => {
   const { t } = useTranslation();
@@ -26,12 +26,12 @@ export const AppLayout: React.FC = ({ children }) => {
     setIsDropDownOpen(!isDropDownOpen);
   };
 
-  const userDropDownItems = [<DropdownItem key="logout">Logout</DropdownItem>];
-  const brandImgLogo = <Brand src={brandImg} alt={t("common.red_hat_logo")} />;
+  const userDropDownItems = [<DropdownItem key='logout'>Logout</DropdownItem>];
+  const brandImgLogo = <Brand src={brandImg} alt={t('common.red_hat_logo')} />;
 
   const userDropDownToggle = (
     <DropdownToggle
-      id="user-dropdown-toggle"
+      id='user-dropdown-toggle'
       onToggle={handleUserDropDownToggle}
       toggleIndicator={CaretDownIcon}
     >
@@ -51,7 +51,7 @@ export const AppLayout: React.FC = ({ children }) => {
 
   const avatar = (
     <React.Fragment>
-      <Avatar src={avatarImg} className="app-masthead-avatar" alt="avatar" />
+      <Avatar src={avatarImg} className='app-masthead-avatar' alt='avatar' />
     </React.Fragment>
   );
 
@@ -65,13 +65,13 @@ export const AppLayout: React.FC = ({ children }) => {
   const AppMastHead = () => (
     <PageHeader
       logo={brandImgLogo}
-      logoComponent="h1"
+      logoComponent='h1'
       headerTools={HeaderTools}
     />
   );
 
   return (
-    <Page mainContainerId="scrollablePageMain" header={<AppMastHead />}>
+    <Page mainContainerId='scrollablePageMain' header={<AppMastHead />}>
       {children}
     </Page>
   );

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
+import React, { useState, lazy } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -15,11 +15,15 @@ import {
   DropdownPosition,
   KebabToggle,
   DropdownItem,
-} from "@patternfly/react-core";
-import { Topics } from "@app/modules/Topics/Topics";
-import { ConsumerGroups } from "@app/modules/ConsumerGroups";
-import { useFederated } from "@app/contexts";
-import "../style.css";
+} from '@patternfly/react-core';
+import { useFederated } from '@app/contexts';
+import { MASLoading } from '@app/components';
+import '../style.css';
+
+const Topics = lazy(() => import('@app/modules/Topics/Topics'));
+const ConsumerGroups = lazy(
+  () => import('@app/modules/ConsumerGroups/ConsumerGroups')
+);
 
 export type MainViewProps = {
   activeTab?: number;
@@ -32,11 +36,13 @@ export const MainView: React.FC<MainViewProps> = ({ activeTab }) => {
     kafkaName,
     handleInstanceDrawer,
     setIsOpenDeleteInstanceModal,
+    showMetrics,
   } = useFederated();
 
   const [activeTabKey, setActiveTabKey] = useState(activeTab);
   const contentRefConsumerGroups = React.createRef<HTMLElement>();
   const contentRefTopics = React.createRef<HTMLElement>();
+  const contentRefDashboard = React.createRef<HTMLElement>();
 
   const handleTabClick = (_event, tabIndex) => {
     setActiveTabKey(tabIndex);
@@ -62,47 +68,47 @@ export const MainView: React.FC<MainViewProps> = ({ activeTab }) => {
 
   const dropdownItems = [
     <DropdownItem
-      key="view-kafka"
-      onClick={() => onSelectKebabOption("details")}
+      key='view-kafka'
+      onClick={() => onSelectKebabOption('details')}
     >
-      {t("common.view_instance")}
+      {t('common.view_instance')}
     </DropdownItem>,
     <DropdownItem
-      key="connect-kafka"
-      onClick={() => onSelectKebabOption("connection")}
+      key='connect-kafka'
+      onClick={() => onSelectKebabOption('connection')}
     >
-      {t("common.view_connection")}
+      {t('common.view_connection')}
     </DropdownItem>,
-    <DropdownItem key="delete-kafka" onClick={onDeleteInstance}>
-      {t("common.delete_instance")}
+    <DropdownItem key='delete-kafka' onClick={onDeleteInstance}>
+      {t('common.delete_instance')}
     </DropdownItem>,
   ];
 
   const mainBreadcrumbs = (
     <Breadcrumb>
-      <BreadcrumbItem to={kafkaPageLink || "#"}>
-        {t("common.kafka_instance")}
+      <BreadcrumbItem to={kafkaPageLink || '#'}>
+        {t('common.kafka_instance')}
       </BreadcrumbItem>
-      <BreadcrumbItem to="#" isActive>
-        {kafkaName || t("common.kafka_instance_name")}
+      <BreadcrumbItem to='#' isActive>
+        {kafkaName || t('common.kafka_instance_name')}
       </BreadcrumbItem>
     </Breadcrumb>
   );
 
   return (
     <>
-      <section className="pf-c-page__main-breadcrumb">
+      <section className='pf-c-page__main-breadcrumb'>
         {mainBreadcrumbs}
       </section>
 
       <PageSection variant={PageSectionVariants.light}>
         <Level>
-          <Title headingLevel="h1">
-            {kafkaName ? kafkaName : t("common.kafka_instance_name")}
+          <Title headingLevel='h1'>
+            {kafkaName ? kafkaName : t('common.kafka_instance_name')}
           </Title>
           <Dropdown
             onSelect={onSelect}
-            toggle={<KebabToggle onToggle={onToggle} id="toggle-data-plane" />}
+            toggle={<KebabToggle onToggle={onToggle} id='toggle-data-plane' />}
             isOpen={isOpen}
             isPlain
             dropdownItems={dropdownItems}
@@ -110,62 +116,83 @@ export const MainView: React.FC<MainViewProps> = ({ activeTab }) => {
           />
         </Level>
       </PageSection>
-      <PageSection
-        variant={PageSectionVariants.light}
-        padding={{ default: "noPadding" }}
-        className="pf-c-page__main-tabs"
-      >
-        <Tabs
-          activeKey={activeTabKey}
-          onSelect={handleTabClick}
-          data-testid="pageKafka-tabProperties"
-          className="pf-m-page-insets"
+      <React.Suspense fallback={<MASLoading />}>
+        <PageSection
+          variant={PageSectionVariants.light}
+          padding={{ default: 'noPadding' }}
+          className='pf-c-page__main-tabs'
         >
-          <Tab
-            title={<TabTitleText>{t("topic.topics")}</TabTitleText>}
+          <Tabs
+            activeKey={activeTabKey}
+            onSelect={handleTabClick}
+            data-testid='pageKafka-tabProperties'
+            className='pf-m-page-insets'
+          >
+            <Tab
+              title={<TabTitleText>{t('dashboard.dashboard')}</TabTitleText>}
+              eventKey={1}
+              data-testid='pageKafka-tabDashboard'
+              id='dashboard-tab-section'
+              aria-label={t('dashboard.dashboard')}
+              tabContentRef={contentRefDashboard}
+              tabContentId='kafka-ui-TabcontentDashboard'             
+            />
+            <Tab
+              title={<TabTitleText>{t('topic.topics')}</TabTitleText>}
+              eventKey={2}
+              data-testid='pageKafka-tabTopics'
+              id='topics-tab-section'
+              aria-label={t('topic.topics')}
+              tabContentRef={contentRefTopics}
+              tabContentId='kafka-ui-TabcontentTopicsList'             
+            />
+            <Tab
+              title={
+                <TabTitleText>
+                  {t('consumerGroup.consumer_groups')}
+                </TabTitleText>
+              }
+              eventKey={3}
+              data-testid='pageKafka-tabConsumers'
+              id='consumer-groups-tab-section'
+              aria-label={t('consumerGroup.consumer_groups')}
+              tabContentRef={contentRefConsumerGroups}
+              tabContentId='kafka-ui-TabcontentConsumersList'             
+            />
+          </Tabs>
+        </PageSection>
+        <PageSection isFilled>
+          <TabContent
             eventKey={1}
-            data-testid="pageKafka-tabTopics"
-            id="topics-tab-section"
-            aria-label={t("topic.topics")}
-            tabContentRef={contentRefTopics}
-            tabContentId="kafka-ui-TabcontentTopicsList"
-            // className="kafka-ui-m-full-height"
-          ></Tab>
-          <Tab
-            title={
-              <TabTitleText>{t("consumerGroup.consumer_groups")}</TabTitleText>
-            }
+            ref={contentRefDashboard}
+            id='kafka-ui-TabcontentDashboard'
+            className='kafka-ui-m-full-height'
+            aria-label={t('dashboard.dashboard')}
+          >
+            {showMetrics}
+          </TabContent>
+          <TabContent
             eventKey={2}
-            data-testid="pageKafka-tabConsumers"
-            id="consumer-groups-tab-section"
-            aria-label={t("consumerGroup.consumer_groups")}
-            tabContentRef={contentRefConsumerGroups}
-            tabContentId="kafka-ui-TabcontentConsumersList"
-            // className='kafka-ui-m-full-height'
-          ></Tab>
-        </Tabs>
-      </PageSection>
-      <PageSection isFilled>
-        <TabContent
-          eventKey={1}
-          ref={contentRefTopics}
-          id="kafka-ui-TabcontentTopicsList"
-          className="kafka-ui-m-full-height"
-          aria-label={t("topic.topics")}
-        >
-          <Topics />
-        </TabContent>
-        <TabContent
-          eventKey={2}
-          ref={contentRefConsumerGroups}
-          id="kafka-ui-TabcontentConsumersList"
-          className="kafka-ui-m-full-height"
-          aria-label={t("consumerGroup.consumer_groups")}
-          hidden
-        >
-          <ConsumerGroups consumerGroupByTopic={false} />
-        </TabContent>
-      </PageSection>
+            ref={contentRefTopics}
+            id='kafka-ui-TabcontentTopicsList'
+            className='kafka-ui-m-full-height'
+            aria-label={t('topic.topics')}
+            hidden
+          >
+            <Topics />
+          </TabContent>
+          <TabContent
+            eventKey={3}
+            ref={contentRefConsumerGroups}
+            id='kafka-ui-TabcontentConsumersList'
+            className='kafka-ui-m-full-height'
+            aria-label={t('consumerGroup.consumer_groups')}
+            hidden
+          >
+            <ConsumerGroups consumerGroupByTopic={false} />
+          </TabContent>
+        </PageSection>
+      </React.Suspense>
     </>
   );
 };

@@ -7,9 +7,9 @@ import {
   FederatedProps,
   ConfigContext,
   IConfiguration,
-} from "@app/contexts";
-import kafkai18n from "@app/i18n";
-import { RootModal } from "@app/components/RootModal";
+} from '@app/contexts';
+import kafkai18n from '@app/i18n';
+import { ModalProvider } from '@app/components/KafkaModal';
 
 export type TopicDetailFederatedProps = FederatedProps &
   IConfiguration & {
@@ -35,27 +35,30 @@ const TopicDetailFederated: FunctionComponent<TopicDetailFederatedProps> = ({
   const onDeleteTopic = () => {
     //Redirect on topics  viewpage after delete topic successfuly
     history.push(`${id}`);
+    //dispatchKafkaAction && dispatchKafkaAction(KafkaActions.ViewTopics);
   };
 
-  return (
-    <I18nextProvider i18n={kafkai18n}>
-      <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
-        <FederatedContext.Provider
-          value={{
-            activeTab: 2,
-            onError,
-            kafkaName,
-            kafkaPageLink,
-            kafkaInstanceLink,
-            topicName,
-          }}
-        >
-          <RootModal>
-            <TopicDetailPage onDeleteTopic={onDeleteTopic} />
-          </RootModal>
-        </FederatedContext.Provider>
-      </ConfigContext.Provider>
-    </I18nextProvider>
+  return ( 
+      <I18nextProvider i18n={kafkai18n}>
+        <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
+          <FederatedContext.Provider
+            value={{
+              activeTab: 2,
+              onError,
+              kafkaName,
+              kafkaPageLink,
+              kafkaInstanceLink,
+              topicName,            
+            }}
+          >
+            <ModalProvider>
+              <TopicDetailPage               
+                onDeleteTopic={onDeleteTopic}
+              />
+            </ModalProvider>
+          </FederatedContext.Provider>
+        </ConfigContext.Provider>
+      </I18nextProvider>  
   );
 };
 

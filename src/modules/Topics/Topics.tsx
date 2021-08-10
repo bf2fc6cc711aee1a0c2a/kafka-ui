@@ -6,15 +6,16 @@ import {
   Card,
   PageSectionVariants,
   PageSection,
-} from "@patternfly/react-core";
-import { useTimeout } from "@app/hooks/useTimeOut";
-import { TopicsTable } from "./components";
-import { EmptyState, MASEmptyStateVariant, MASLoading } from "@app/components";
-import { getTopics } from "@app/services";
-import { ConfigContext, useFederated } from "@app/contexts";
-import { TopicsList, Topic } from "@rhoas/kafka-instance-sdk";
-import { useAlert, useBasename } from "@bf2/ui-shared";
-import "./Topics.css";
+} from '@patternfly/react-core';
+import { useTimeout } from '@app/hooks/useTimeOut';
+import { TopicsTable } from './components';
+import { EmptyState, MASEmptyStateVariant, MASLoading } from '@app/components';
+import { getTopics, OrderKey } from '@app/services';
+import { ConfigContext, useFederated } from '@app/contexts';
+import { TopicsList, Topic } from '@rhoas/kafka-instance-sdk';
+import { useAlert } from '@bf2/ui-shared';
+import './Topics.css';
+import { ISortBy, OnSort, SortByDirection } from '@patternfly/react-table';
 
 export type ITopic = {
   name: string;
@@ -26,9 +27,7 @@ export type ITopicProps = {
   rows: ITopic[];
 };
 
-export const Topics: React.FC = () => {
-  const { getBasename } = useBasename();
-  const basename = getBasename();
+const Topics: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const history = useHistory();
   const { onError } = useFederated();
@@ -37,17 +36,20 @@ export const Topics: React.FC = () => {
   const config = useContext(ConfigContext);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const page = parseInt(searchParams.get("page") || "", 10) || 1;
-  const perPage = parseInt(searchParams.get("perPage") || "", 10) || 10;
+  const page = parseInt(searchParams.get('page') || '', 10) || 1;
+  const perPage = parseInt(searchParams.get('perPage') || '', 10) || 10;
 
   const [topics, setTopics] = useState<TopicsList>();
   const [topicItems, setTopicItems] = useState<Topic[]>();
-  const [searchTopicName, setSearchTopicName] = useState<string>("");
+  const [searchTopicName, setSearchTopicName] = useState<string>('');
   const [offset, setOffset] = useState<number>(0);
+  const [order, setOrder] = useState<SortByDirection>();
+  const [orderKey, setOrderKey] = useState<OrderKey>();
+  const [sortBy, setSortBy] = useState<ISortBy>({ index: 0, direction: 'asc' });
 
   useEffect(() => {
     fetchTopic();
-  }, [searchTopicName]);
+  }, [searchTopicName, order, orderKey]);
 
   useTimeout(() => fetchTopic(), 5000);
 
@@ -64,14 +66,33 @@ export const Topics: React.FC = () => {
     history.push(`topic/update/${topicName}`);
   };
 
+  const onSort: OnSort = (_event, index, direction) => {
+    const sortableCols = {
+      '0': 'name',
+      '1': 'partitions',
+      '2': 'retention.ms',
+      '3': 'retention.bytes',
+    };
+
+    setOrderKey(sortableCols[index]);
+    setOrder(direction);
+    setSortBy({ index, direction });
+  };
+
   const fetchTopic = async () => {
     try {
-      await getTopics(config, 100, perPage, searchTopicName, offset).then(
-        (response) => {
-          setTopics(response);
-          setTopicItems(response?.items);
-        }
-      );
+      await getTopics(
+        config,
+        100,
+        perPage,
+        searchTopicName,
+        offset,
+        order,
+        orderKey
+      ).then((response) => {
+        setTopics(response);
+        setTopicItems(response?.items);
+      });
     } catch (err) {
       //TODO: Update the api to allow suppress alerts if the application does not want to show them as well.
       if (onError && err.response.data.code === 401) {
@@ -89,9 +110,9 @@ export const Topics: React.FC = () => {
     if (topicItems === undefined) {
       return (
         <PageSection
-          className="kafka-ui-m-full-height"
+          className='kafka-ui-m-full-height'
           variant={PageSectionVariants.light}
-          padding={{ default: "noPadding" }}
+          padding={{ default: 'noPadding' }}
         >
           <MASLoading />
         </PageSection>
@@ -101,16 +122,18 @@ export const Topics: React.FC = () => {
         <EmptyState
           emptyStateProps={{
             variant: MASEmptyStateVariant.NoItems,
+            'data-ouia-page-id': 'emptyStateTopics',
           }}
           titleProps={{
-            title: t("topic.empty_topics_title"),
+            title: t('topic.empty_topics_title'),
           }}
           emptyStateBodyProps={{
-            body: t("topic.empty_topics_body"),
+            body: t('topic.empty_topics_body'),
           }}
           buttonProps={{
-            title: t("topic.create_topic"),
+            title: t('topic.create_topic'),
             onClick: onClickCreateTopic,
+            'data-testid': 'actionCreateTopic',
           }}
         />
       );
@@ -130,6 +153,8 @@ export const Topics: React.FC = () => {
           setFilteredValue={setSearchTopicName}
           refreshTopics={fetchTopic}
           onEdit={onEditTopic}
+          onSort={onSort}
+          sortBy={sortBy}
         />
       );
     }
@@ -138,7 +163,12 @@ export const Topics: React.FC = () => {
 
   return (
     <>
-      <Card className="kafka-ui-m-full-height">{renderTopicsTable()}</Card>
+      <Card className='kafka-ui-m-full-height' data-ouia-page-id='tableTopics'>
+        {renderTopicsTable()}
+      </Card>
     </>
   );
 };
+
+export { Topics };
+export default Topics;

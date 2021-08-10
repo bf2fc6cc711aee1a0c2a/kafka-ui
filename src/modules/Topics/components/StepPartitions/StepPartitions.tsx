@@ -1,5 +1,5 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   TextContent,
   Text,
@@ -8,64 +8,76 @@ import {
   FormGroup,
   Form,
   FormSection,
-} from "@patternfly/react-core";
-import "../CreateTopicWizard/CreateTopicWizard.css";
+} from '@patternfly/react-core';
+import '../CreateTopicWizard/CreateTopicWizard.css';
+import { MIN_PARTITIONS, MAX_PARTITIONS } from '@app/constant';
 
 export type StepPartitionsProps = {
-  setPartitionTouchspinValue: (value: number) => void;
-  partitionTouchspinValue: number;
+  topicData: any;
+  setTopicData: (value: any) => void;
 };
 
 export const StepPartitions: React.FC<StepPartitionsProps> = ({
-  partitionTouchspinValue,
-  setPartitionTouchspinValue,
+  topicData,
+  setTopicData,
 }) => {
-  const minValue = 1;
-
   const { t } = useTranslation();
 
   const handleOnPlus = () => {
-    setPartitionTouchspinValue(partitionTouchspinValue + 1);
+    setTopicData({
+      ...topicData,
+      numPartitions: Number(topicData['numPartitions']) + 1,
+    });
   };
+
   const handleOnMinus = () => {
-    setPartitionTouchspinValue(partitionTouchspinValue - 1);
+    setTopicData({
+      ...topicData,
+      numPartitions: Number(topicData['numPartitions']) - 1,
+    });
   };
+
   const handlePartitionTouchspinChange = (event) => {
     let num = Number(event.target.value);
-    if (num < minValue) {
-      num = minValue;
+    if (num < MIN_PARTITIONS) {
+      num = MIN_PARTITIONS;
+    } else if (num > MAX_PARTITIONS) {
+      num = MAX_PARTITIONS;
     }
-    setPartitionTouchspinValue(num);
+    setTopicData({ ...topicData, numPartitions: num });
   };
+
+  const partitionsInput = topicData && topicData['numPartitions'];
 
   return (
     <Form>
       <FormSection
-        title={t("topic.partitions")}
-        id="partitions"
-        titleElement={"h2"}
+        title={t('topic.partitions')}
+        id='partitions'
+        titleElement={'h2'}
       >
         <TextContent>
-          <Text component={TextVariants.p}>{t("topic.partition_info")}</Text>
+          <Text component={TextVariants.p}>{t('topic.partition_info')}</Text>
           <Text component={TextVariants.small}>
-            {t("topic.partition_info_note")}
+            {t('topic.partition_info_note')}
           </Text>
         </TextContent>
 
         <FormGroup
-          label="Partitions"
-          fieldId="step-topic-name-form"
-          helperText={t("topic.partition_helper_text")}
+          label='Partitions'
+          fieldId='step-topic-name-form'
+          helperText={t('topic.partition_helper_text')}
           isRequired
         >
           <NumberInput
             onPlus={handleOnPlus}
             onMinus={handleOnMinus}
-            value={partitionTouchspinValue}
-            inputName="input"
+            value={partitionsInput}
+            inputName='input'
             onChange={handlePartitionTouchspinChange}
             widthChars={20}
-            min={minValue}
+            min={MIN_PARTITIONS}
+            max={MAX_PARTITIONS}
           />
         </FormGroup>
       </FormSection>

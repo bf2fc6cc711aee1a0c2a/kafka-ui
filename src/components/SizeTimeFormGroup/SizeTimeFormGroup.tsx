@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 import {
   Flex,
   FlexItem,
   NumberInput,
   NumberInputProps,
-} from "@patternfly/react-core";
-import { DropdownWithToggle, IDropdownOption } from "@app/components";
+} from '@patternfly/react-core';
+import { DropdownWithToggle, IDropdownOption } from '@app/components';
 
 export type SizeTimeFormGroup = NumberInputProps & {
   /** id of dropdown element */
@@ -42,35 +42,35 @@ export const SizeTimeFormGroup: React.FC<SizeTimeFormGroup> = ({
   min,
 }) => {
   const timeUnits: IDropdownOption[] = [
-    { key: "milliseconds", value: "milliseconds", isDisabled: false },
-    { key: "seconds", value: "seconds", isDisabled: false },
-    { key: "days", value: "days", isDisabled: false },
-    { key: "months", value: "months", isDisabled: false },
-    { key: "years", value: "years", isDisabled: false },
+    { key: 'milliseconds', value: 'milliseconds', isDisabled: false },
+    { key: 'seconds', value: 'seconds', isDisabled: false },
+    { key: 'days', value: 'days', isDisabled: false },
+    { key: 'months', value: 'months', isDisabled: false },
+    { key: 'years', value: 'years', isDisabled: false },
   ];
 
   const memoryUnits: IDropdownOption[] = [
-    { key: "bytes", value: "bytes", isDisabled: false },
-    { key: "kilobytes", value: "kilobytes", isDisabled: false },
-    { key: "megabytes", value: "megabytes", isDisabled: false },
-    { key: "gigabytes", value: "gigabytes", isDisabled: false },
-    { key: "terabytes", value: "terabytes", isDisabled: false },
+    { key: 'bytes', value: 'bytes', isDisabled: false },
+    { key: 'kibibytes', value: 'kibibytes', isDisabled: false },
+    { key: 'mebibytes', value: 'mebibytes', isDisabled: false },
+    { key: 'gibibytes', value: 'gibibytes', isDisabled: false },
+    { key: 'tebibytes', value: 'tebibytes', isDisabled: false },
   ];
 
   const getItemsForType = (type: string) => {
     switch (type) {
-    case "time":
-      return timeUnits;
-    case "memory":
-      return memoryUnits;
-    default:
-      return [];
+      case 'time':
+        return timeUnits;
+      case 'memory':
+        return memoryUnits;
+      default:
+        return [];
     }
   };
 
   return (
     <Flex>
-      <FlexItem grow={{ default: "grow" }}>
+      <FlexItem grow={{ default: 'grow' }}>
         <NumberInput
           inputName={inputName}
           onChange={onChange}
@@ -91,7 +91,7 @@ export const SizeTimeFormGroup: React.FC<SizeTimeFormGroup> = ({
           onSelectOption={onSelectOption}
           items={getItemsForType(type)}
           name={name}
-          value={dropdownValue || ""}
+          value={dropdownValue || ''}
         />
       </FlexItem>
     </Flex>

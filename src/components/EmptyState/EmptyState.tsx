@@ -31,6 +31,7 @@ export type EmptyStateProps = {
   };
   emptyStateProps?: Omit<PFEmptyStateProps, 'children' | 'variant'> & {
     variant?: MASEmptyStateVariant | EmptyStateVariant;
+    'data-ouia-page-id'?: string;
   };
   emptyStateIconProps?: EmptyStateIconProps;
   emptyStateBodyProps?: Omit<EmptyStateBodyProps, 'children'> & {
@@ -68,39 +69,39 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
     let variantConfig: any = {};
 
     switch (masEmptyStateVariant) {
-    case MASEmptyStateVariant.NoConsumerGroups:
-      variantConfig = {
-        variant: EmptyStateVariant.large,
-        icon: CubesIcon,
-        titleSize: TitleSizes.lg,
-        headingLevel: 'h2',
-      };
-      break;
-    case MASEmptyStateVariant.NoItems:
-      variantConfig = {
-        variant: EmptyStateVariant.large,
-        icon: PlusCircleIcon,
-        titleSize: TitleSizes.lg,
-        headingLevel: 'h2',
-      };
-      break;
-    case MASEmptyStateVariant.NoResult:
-      variantConfig = {
-        variant: EmptyStateVariant.large,
-        icon: SearchIcon,
-        titleSize: TitleSizes.lg,
-        headingLevel: 'h2',
-      };
-      break;
+      case MASEmptyStateVariant.NoConsumerGroups:
+        variantConfig = {
+          variant: EmptyStateVariant.large,
+          icon: CubesIcon,
+          titleSize: TitleSizes.lg,
+          headingLevel: 'h2',
+        };
+        break;
+      case MASEmptyStateVariant.NoItems:
+        variantConfig = {
+          variant: EmptyStateVariant.large,
+          icon: PlusCircleIcon,
+          titleSize: TitleSizes.lg,
+          headingLevel: 'h2',
+        };
+        break;
+      case MASEmptyStateVariant.NoResult:
+        variantConfig = {
+          variant: EmptyStateVariant.large,
+          icon: SearchIcon,
+          titleSize: TitleSizes.lg,
+          headingLevel: 'h2',
+        };
+        break;
 
-    default:
-      variantConfig = {
-        variant: masEmptyStateVariant || EmptyStateVariant.full,
-        icon: emptyStateIconProps?.icon,
-        titleSize: titleProps?.size,
-        headingLevel: titleProps?.headingLevel,
-      };
-      break;
+      default:
+        variantConfig = {
+          variant: masEmptyStateVariant || EmptyStateVariant.full,
+          icon: emptyStateIconProps?.icon,
+          titleSize: titleProps?.size,
+          headingLevel: titleProps?.headingLevel,
+        };
+        break;
     }
 
     return variantConfig;

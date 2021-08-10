@@ -5,10 +5,11 @@ import {
   FederatedProps,
   ConfigContext,
   IConfiguration,
-} from "@app/contexts";
-import kafkai18n from "@app/i18n";
-import { MainView } from "./MainView";
-import { RootModal } from "@app/components/RootModal";
+} from '@app/contexts';
+import kafkai18n from '@app/i18n';
+import { MainView } from './MainView';
+import { KafkaActions } from '@app/utils';
+import { ModalProvider } from '@app/components/KafkaModal';
 
 export type MainViewFederatedProps = FederatedProps &
   IConfiguration & {
@@ -22,26 +23,30 @@ const MainViewFederated: FunctionComponent<MainViewFederatedProps> = ({
   kafkaPageLink,
   onError,
   handleInstanceDrawer,
-  setIsOpenDeleteInstanceModal,
+  setIsOpenDeleteInstanceModal, 
+  showMetrics,
 }) => {
   return (
-    <I18nextProvider i18n={kafkai18n}>
-      <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
-        <FederatedContext.Provider
-          value={{
-            kafkaName,
-            kafkaPageLink,
-            onError,
-            handleInstanceDrawer,
-            setIsOpenDeleteInstanceModal,
-          }}
-        >
-          <RootModal>
-            <MainView activeTab={1} />
-          </RootModal>
-        </FederatedContext.Provider>
-      </ConfigContext.Provider>
-    </I18nextProvider>
+        <I18nextProvider i18n={kafkai18n}>
+        <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
+          <FederatedContext.Provider
+            value={{
+              kafkaName,
+              kafkaPageLink,
+              onError,            
+              handleInstanceDrawer,
+              setIsOpenDeleteInstanceModal,            
+              showMetrics,
+            }}
+          >
+            <ModalProvider>
+              <MainView              
+                activeTab={1}
+              />
+            </ModalProvider>
+          </FederatedContext.Provider>
+        </ConfigContext.Provider>
+      </I18nextProvider>
   );
 };
 

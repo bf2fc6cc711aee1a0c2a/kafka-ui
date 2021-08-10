@@ -7,9 +7,9 @@ import {
   FederatedProps,
   ConfigContext,
   IConfiguration,
-} from "@app/contexts";
-import kafkai18n from "@app/i18n";
-import { RootModal } from "@app/components/RootModal";
+} from '@app/contexts';
+import kafkai18n from '@app/i18n';
+import { ModalProvider } from '@app/components/KafkaModal';
 
 export type UpdateTopicFederatedProps = FederatedProps &
   IConfiguration & {
@@ -40,28 +40,28 @@ const UpdateTopicFederated: FunctionComponent<UpdateTopicFederatedProps> = ({
     history.push(`${id}/topics/${topicName}`);
   };
 
-  return (
-    <I18nextProvider i18n={kafkai18n}>
-      <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
-        <FederatedContext.Provider
-          value={{
-            activeTab: 1,
-            topicName,
-            kafkaName,
-            kafkaPageLink,
-            kafkaInstanceLink,
-            onError,
-          }}
-        >
-          <RootModal>
-            <UpdateTopicPage
-              onDeleteTopic={onDeleteTopic}
-              onSaveTopic={onSaveTopic}
-            />
-          </RootModal>
-        </FederatedContext.Provider>
-      </ConfigContext.Provider>
-    </I18nextProvider>
+  return ( 
+      <I18nextProvider i18n={kafkai18n}>
+        <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
+          <FederatedContext.Provider
+            value={{
+              activeTab: 1,
+              topicName,
+              kafkaName,
+              kafkaPageLink,
+              kafkaInstanceLink,
+              onError,
+            }}
+          >
+            <ModalProvider>
+              <UpdateTopicPage              
+                onDeleteTopic={onDeleteTopic}
+                onSaveTopic={onSaveTopic}
+              />
+            </ModalProvider>
+          </FederatedContext.Provider>
+        </ConfigContext.Provider>
+      </I18nextProvider> 
   );
 };
 

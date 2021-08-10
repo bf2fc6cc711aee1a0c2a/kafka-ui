@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Tabs,
   Tab,
@@ -7,14 +7,14 @@ import {
   PageSection,
   PageSectionVariants,
   TabContent,
-} from "@patternfly/react-core";
-import { ConsumerGroups } from "@app/modules/ConsumerGroups";
+} from '@patternfly/react-core';
+import { ConsumerGroups } from '@app/modules/ConsumerGroups';
 import {
   UpdateTopicView,
   TopicDetailHead,
-} from "@app/modules/Topics/components";
-import { useFederated } from "@app/contexts";
-import "../style.css";
+} from '@app/modules/Topics/components';
+import { useFederated } from '@app/contexts';
+import '../style.css';
 
 export type UpdateTopicPageProps = {
   onDeleteTopic: () => void;
@@ -27,7 +27,7 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
 }) => {
   const { t } = useTranslation();
   const {
-    topicName = "",
+    topicName = '',
     kafkaName,
     kafkaPageLink,
     kafkaInstanceLink,
@@ -53,27 +53,27 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
       />
       <PageSection
         variant={PageSectionVariants.light}
-        className="pf-c-page__main-tabs"
-        padding={{ default: "noPadding" }}
+        className='pf-c-page__main-tabs'
+        padding={{ default: 'noPadding' }}
       >
         <Tabs
           onSelect={handleTabClick}
           activeKey={activeTabKey}
           isBox={false}
-          className="pf-m-page-insets"
+          className='pf-m-page-insets'
         >
           <Tab
             eventKey={0}
             title={
-              <TabTitleText>{t("consumerGroup.consumer_groups")}</TabTitleText>
+              <TabTitleText>{t('consumerGroup.consumer_groups')}</TabTitleText>
             }
-            tabContentId="kafka-ui-TabcontentConsumerGroups"
+            tabContentId='kafka-ui-TabcontentConsumerGroups'
             tabContentRef={contentRefConsumerGroup}
           ></Tab>
           <Tab
             eventKey={1}
-            title={<TabTitleText>{t("common.properties")}</TabTitleText>}
-            tabContentId="kafka-ui-TabcontentProperties"
+            title={<TabTitleText>{t('common.properties')}</TabTitleText>}
+            tabContentId='kafka-ui-TabcontentProperties'
             tabContentRef={contentRefProperties}
           ></Tab>
         </Tabs>
@@ -87,20 +87,20 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
       >
         <TabContent
           eventKey={0}
-          id="kafka-ui-TabcontentConsumerGroups"
+          id='kafka-ui-TabcontentConsumerGroups'
           ref={contentRefConsumerGroup}
-          className="kafka-ui-m-full-height"
-          aria-label="Consumer groups."
+          className='kafka-ui-m-full-height'
+          aria-label='Consumer groups.'
           hidden={activeTab !== 0 ? true : false}
         >
           <ConsumerGroups topic={topicName} consumerGroupByTopic={true} />
         </TabContent>
         <TabContent
           eventKey={1}
-          id="kafka-ui-TabcontentProperties"
+          id='kafka-ui-TabcontentProperties'
           ref={contentRefProperties}
-          className="kafka-ui-m-full-height"
-          aria-label="Topic properties"
+          className='kafka-ui-m-full-height'
+          aria-label='Topic properties'
           hidden={activeTab !== 1 ? true : false}
         >
           <UpdateTopicView

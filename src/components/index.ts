@@ -6,7 +6,7 @@ export * from './Loading';
 export * from './SizeTimeFormGroup';
 export * from './TextWithLabelPopover';
 export * from './AppLayout';
-export * from './RootModal';
+export * from './KafkaModal';
 export * from './MASToolbar';
 export * from './MASPagination';
 export * from './MASTable';

@@ -1,6 +1,6 @@
-import React, { Component, ErrorInfo, ReactNode } from "react";
-import { withRouter, RouteComponentProps } from "react-router-dom";
-import { withTranslation, WithTranslation } from "react-i18next";
+import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import {
   Button,
   ButtonVariant,
@@ -11,9 +11,9 @@ import {
   PageSection,
   Title,
   TitleSizes,
-} from "@patternfly/react-core";
-import ExclamationCircleIcon from "@patternfly/react-icons/dist/js/icons/exclamation-circle-icon";
-import "./ErrorBoundary.css";
+} from '@patternfly/react-core';
+import ExclamationCircleIcon from '@patternfly/react-icons/dist/js/icons/exclamation-circle-icon';
+import './ErrorBoundary.css';
 
 type Props = WithTranslation &
   RouteComponentProps & {
@@ -35,13 +35,13 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error("error:", error, errorInfo);
+    console.error('error:', error, errorInfo);
   }
 
   onClickButton = () => {
     const { history } = this.props;
     this.setState({ hasError: false });
-    history && history.push("/");
+    history && history.push('/');
   };
 
   render() {
@@ -50,18 +50,18 @@ class ErrorBoundary extends Component<Props, State> {
 
     if (hasError) {
       return (
-        <PageSection padding={{ default: "noPadding" }}>
+        <PageSection padding={{ default: 'noPadding' }}>
           <EmptyState variant={EmptyStateVariant.full}>
             <EmptyStateIcon icon={ExclamationCircleIcon} />
-            <Title headingLevel="h1" size={TitleSizes.lg}>
-              {t("common.error_boundary_title")}
+            <Title headingLevel='h1' size={TitleSizes.lg}>
+              {t('common.error_boundary_title')}
             </Title>
-            <EmptyStateBody>{t("common.unexpected_error")}</EmptyStateBody>
+            <EmptyStateBody>{t('common.unexpected_error')}</EmptyStateBody>
             <Button
               variant={ButtonVariant.primary}
               onClick={this.onClickButton}
             >
-              {t("common.return_to_home")}
+              {t('common.return_to_home')}
             </Button>
           </EmptyState>
         </PageSection>
