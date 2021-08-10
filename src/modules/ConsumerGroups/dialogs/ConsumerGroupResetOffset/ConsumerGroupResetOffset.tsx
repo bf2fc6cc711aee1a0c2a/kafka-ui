@@ -138,13 +138,13 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
     setOffset(event.currentTarget.textContent);
   };
 
-  const handleConsumerGroupResetOffset = () => {
+  const handleConsumerGroupResetOffset = async () => {
     try {
       const partitions = consumers.filter(({ selected }) => selected === true).map(({ partition }) => partition);
       if (selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Absolute || selectedOffset) {
-        consumerGroupData && consumerGroupResetOffset(config, consumerGroupData.groupId, ConsumerGroupResetOffsetParametersOffsetEnum.Absolute, selectedTopic, partitions, customOffsetValue.toString());
+        consumerGroupData && await consumerGroupResetOffset(config, consumerGroupData.groupId, ConsumerGroupResetOffsetParametersOffsetEnum.Absolute, selectedTopic, partitions, customOffsetValue.toString());
       } else {
-        consumerGroupData && selectedOffset && consumerGroupResetOffset(config, consumerGroupData.groupId, selectedOffset, selectedTopic, partitions);
+        consumerGroupData && selectedOffset && await consumerGroupResetOffset(config, consumerGroupData.groupId, selectedOffset, selectedTopic, partitions);
       }
       addAlert({
         variant: AlertVariant.success,
@@ -175,7 +175,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
   };
 
   const isResetOffsetDisabled = (): boolean => {
-    return (selectedTopic === '' || !confirmCheckboxChecked || isDisconnected || !selectedOffset || consumers.filter(({ selected }) => selected === true).length === 0);
+    return (selectedTopic === '' || !confirmCheckboxChecked || !isDisconnected || !selectedOffset || consumers.filter(({ selected }) => selected === true).length === 0);
   };
 
   return (
@@ -210,7 +210,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
         <GridItem span={10} className='info-grid'>
           {consumerGroupData?.groupId}
         </GridItem>
-        {!isDisconnected && (
+        {isDisconnected && (
           <>
             <GridItem span={2} className='reset-offset__griditem'>
               <Title headingLevel="h4" size="md">
@@ -229,7 +229,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
               />
             </GridItem>
           </>)}
-        {!isDisconnected && selectedTopic && (<>
+        {isDisconnected && selectedTopic && (<>
           <GridItem span={2} className='reset-offset__griditem'>
             <Title headingLevel="h4" size="md">
               New offset
@@ -247,7 +247,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
             />
           </GridItem>
         </>)}
-        {!isDisconnected && selectedTopic && (selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Absolute) && (<>
+        {isDisconnected && selectedTopic && (selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Absolute) && (<>
           <GridItem span={2} className='reset-offset__griditem'>
             <Title headingLevel="h4" size="md">
               Custom offset
@@ -258,7 +258,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
           </GridItem>
         </>)}
       </Grid>
-      {isDisconnected && <Alert
+      {!isDisconnected && <Alert
         className='modal-alert'
         variant='danger'
         isInline
@@ -270,7 +270,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
       </Alert>}
 
       {
-        !isDisconnected && consumers?.length > 0 && selectedTopic &&
+        isDisconnected && consumers?.length > 0 && selectedTopic &&
         (
           <>
             <Table
