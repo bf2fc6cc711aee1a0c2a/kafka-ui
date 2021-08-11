@@ -9,6 +9,7 @@ import {
   ConfigContext,
   IConfiguration,
 } from "@app/contexts";
+import { useBasename } from "@bf2/ui-shared";
 
 export type CreateTopicFederatedProps = FederatedProps &
   IConfiguration & {
@@ -24,9 +25,11 @@ const CreateTopicFederated: FunctionComponent<CreateTopicFederatedProps> = ({
 }) => {
   const { id } = useParams<{ id: string }>();
   const history = useHistory();
+  const { getBasename } = useBasename();
+  const basename = getBasename();
 
   const onCloseCreateTopic = () => {
-    history.push(`${id}`);
+    history.push(`${basename}/${id}`);
   };
 
   return (

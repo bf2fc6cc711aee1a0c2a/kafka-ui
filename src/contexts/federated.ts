@@ -9,7 +9,11 @@ export type FederatedProps = {
   onError?: (errorCode: number, message?: string) => void;
   handleInstanceDrawer?: (isOpen: boolean, activeTab?: string) => void;
   setIsOpenDeleteInstanceModal?: (isOpenModal: boolean) => void;
-  showMetrics?: () => JSX.Element | undefined;
+  showMetrics?: JSX.Element | undefined;
+  onClickCreateTopic?: () => void;
+  onEditTopic?: (topicName: string | undefined) => void;
+  onCancelUpdateTopic?: () => void;
+  updateTopic?: (topicName: string | undefined) => void;
 };
 
 const initialState: FederatedProps = {
@@ -21,7 +25,7 @@ const initialState: FederatedProps = {
   onError: () => '',
   handleInstanceDrawer: () => '',
   setIsOpenDeleteInstanceModal: () => '',
-  showMetrics: () => undefined,
+  showMetrics: undefined,
 };
 
 export const FederatedContext =

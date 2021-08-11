@@ -1,5 +1,4 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
   PageSection,
@@ -41,6 +40,7 @@ import './TopicDetailView.css';
 import { TextWithLabelPopover } from '@app/components/TextWithLabelPopover';
 import { IAdvancedTopic } from '@app/modules/Topics/components/CreateTopicWizard';
 import { convertRetentionSize, convertRetentionTime } from '@app/utils';
+import { useFederated } from '@app/contexts';
 
 export type TopicViewDetailProps = {
   /** Topic details */
@@ -54,11 +54,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
   deleteTopic,
 }) => {
   const { t } = useTranslation();
-  const history = useHistory();
-
-  const updateTopic = (topicName: string | undefined) => {
-    history.push(`topic/update/${topicName}`);
-  };
+  const { updateTopic } = useFederated();
 
   return (
     <PageSection padding={{ default: 'noPadding' }}>
@@ -473,7 +469,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                 <SplitItem>
                   <Button
                     variant="primary"
-                    onClick={() => updateTopic(topic?.name)}
+                    onClick={() => updateTopic && updateTopic(topic?.name)}
                     data-testid="tabProperties-actionEdit"
                   >
                     {t('common.edit_props')}

@@ -8,7 +8,6 @@ import {
 } from '@app/contexts';
 import kafkai18n from '@app/i18n';
 import { MainView } from './MainView';
-import { KafkaActions } from '@app/utils';
 import { ModalProvider } from '@app/components/KafkaModal';
 
 export type MainViewFederatedProps = FederatedProps &
@@ -23,30 +22,45 @@ const MainViewFederated: FunctionComponent<MainViewFederatedProps> = ({
   kafkaPageLink,
   onError,
   handleInstanceDrawer,
-  setIsOpenDeleteInstanceModal, 
+  setIsOpenDeleteInstanceModal,
   showMetrics,
+  activeTab = 2,
 }) => {
+  const history = useHistory();
+  const { getBasename } = useBasename();
+  const basename = getBasename();
+  const { id } = useParams<{ id: string }>();
+
+  const onClickCreateTopic = () => {
+    history.push(`${basename}/${id}/topic/create`);
+  };
+
+  const onEditTopic = (topicName: string | undefined) => {
+    history.push(`${basename}/${id}/topic/update/${topicName}`);
+  };
+
   return (
-        <I18nextProvider i18n={kafkai18n}>
-        <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
-          <FederatedContext.Provider
-            value={{
-              kafkaName,
-              kafkaPageLink,
-              onError,            
-              handleInstanceDrawer,
-              setIsOpenDeleteInstanceModal,            
-              showMetrics,
-            }}
-          >
-            <ModalProvider>
-              <MainView              
-                activeTab={1}
-              />
-            </ModalProvider>
-          </FederatedContext.Provider>
-        </ConfigContext.Provider>
-      </I18nextProvider>
+    <I18nextProvider i18n={kafkai18n}>
+      <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
+        <FederatedContext.Provider
+          value={{
+            kafkaName,
+            kafkaPageLink,
+            onError,
+            handleInstanceDrawer,
+            setIsOpenDeleteInstanceModal,
+            showMetrics,
+            activeTab,
+            onClickCreateTopic,
+            onEditTopic,
+          }}
+        >
+          <ModalProvider>
+            <MainView />
+          </ModalProvider>
+        </FederatedContext.Provider>
+      </ConfigContext.Provider>
+    </I18nextProvider>
   );
 };
 

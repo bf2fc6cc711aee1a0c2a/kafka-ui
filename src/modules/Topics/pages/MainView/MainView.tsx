@@ -25,11 +25,7 @@ const ConsumerGroups = lazy(
   () => import('@app/modules/ConsumerGroups/ConsumerGroups')
 );
 
-export type MainViewProps = {
-  activeTab?: number;
-};
-
-export const MainView: React.FC<MainViewProps> = ({ activeTab }) => {
+export const MainView: React.FC = () => {
   const { t } = useTranslation();
   const {
     kafkaPageLink,
@@ -37,6 +33,7 @@ export const MainView: React.FC<MainViewProps> = ({ activeTab }) => {
     handleInstanceDrawer,
     setIsOpenDeleteInstanceModal,
     showMetrics,
+    activeTab,
   } = useFederated();
 
   const [activeTabKey, setActiveTabKey] = useState(activeTab);
@@ -168,6 +165,7 @@ export const MainView: React.FC<MainViewProps> = ({ activeTab }) => {
             id='kafka-ui-TabcontentDashboard'
             className='kafka-ui-m-full-height'
             aria-label={t('dashboard.dashboard')}
+            hidden={activeTabKey!==1}
           >
             {showMetrics}
           </TabContent>
@@ -177,7 +175,7 @@ export const MainView: React.FC<MainViewProps> = ({ activeTab }) => {
             id='kafka-ui-TabcontentTopicsList'
             className='kafka-ui-m-full-height'
             aria-label={t('topic.topics')}
-            hidden
+            hidden={activeTabKey!==2}
           >
             <Topics />
           </TabContent>
@@ -187,7 +185,7 @@ export const MainView: React.FC<MainViewProps> = ({ activeTab }) => {
             id='kafka-ui-TabcontentConsumersList'
             className='kafka-ui-m-full-height'
             aria-label={t('consumerGroup.consumer_groups')}
-            hidden
+            hidden={activeTabKey!=3}
           >
             <ConsumerGroups consumerGroupByTopic={false} />
           </TabContent>

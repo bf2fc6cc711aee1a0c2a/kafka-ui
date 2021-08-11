@@ -6,16 +6,16 @@ import {
   Card,
   PageSectionVariants,
   PageSection,
-} from '@patternfly/react-core';
-import { useTimeout } from '@app/hooks/useTimeOut';
-import { TopicsTable } from './components';
-import { EmptyState, MASEmptyStateVariant, MASLoading } from '@app/components';
-import { getTopics, OrderKey } from '@app/services';
-import { ConfigContext, useFederated } from '@app/contexts';
-import { TopicsList, Topic } from '@rhoas/kafka-instance-sdk';
-import { useAlert } from '@bf2/ui-shared';
-import './Topics.css';
-import { ISortBy, OnSort, SortByDirection } from '@patternfly/react-table';
+} from "@patternfly/react-core";
+import { useTimeout } from "@app/hooks/useTimeOut";
+import { TopicsTable } from "./components";
+import { EmptyState, MASEmptyStateVariant, MASLoading } from "@app/components";
+import { getTopics, OrderKey } from "@app/services";
+import { ConfigContext, useFederated } from "@app/contexts";
+import { TopicsList, Topic } from "@rhoas/kafka-instance-sdk";
+import { useAlert, useBasename } from "@bf2/ui-shared";
+import "./Topics.css";
+import { ISortBy, OnSort, SortByDirection } from "@patternfly/react-table";
 
 export type ITopic = {
   name: string;
@@ -30,22 +30,24 @@ export type ITopicProps = {
 const Topics: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const history = useHistory();
-  const { onError } = useFederated();
+  const { onError, onClickCreateTopic, onEditTopic } = useFederated();
   const { t } = useTranslation();
   const { addAlert } = useAlert();
   const config = useContext(ConfigContext);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const page = parseInt(searchParams.get('page') || '', 10) || 1;
-  const perPage = parseInt(searchParams.get('perPage') || '', 10) || 10;
+  const page = parseInt(searchParams.get("page") || "", 10) || 1;
+  const perPage = parseInt(searchParams.get("perPage") || "", 10) || 10;
+  const { getBasename } = useBasename();
+  const basename = getBasename();
 
   const [topics, setTopics] = useState<TopicsList>();
   const [topicItems, setTopicItems] = useState<Topic[]>();
-  const [searchTopicName, setSearchTopicName] = useState<string>('');
+  const [searchTopicName, setSearchTopicName] = useState<string>("");
   const [offset, setOffset] = useState<number>(0);
   const [order, setOrder] = useState<SortByDirection>();
   const [orderKey, setOrderKey] = useState<OrderKey>();
-  const [sortBy, setSortBy] = useState<ISortBy>({ index: 0, direction: 'asc' });
+  const [sortBy, setSortBy] = useState<ISortBy>({ index: 0, direction: "asc" });
 
   useEffect(() => {
     fetchTopic();
@@ -58,12 +60,8 @@ const Topics: React.FC = () => {
     setOffset(offset);
   }, [page, perPage]);
 
-  const onClickCreateTopic = () => {
-    history.push(`${id}/topic/create`);
-  };
-
-  const onEditTopic = (topicName: string | undefined) => {
-    history.push(`topic/update/${topicName}`);
+  const onEdit = (topicName: string | undefined) => {
+    onEditTopic && onEditTopic(topicName);
   };
 
   const onSort: OnSort = (_event, index, direction) => {
@@ -110,9 +108,9 @@ const Topics: React.FC = () => {
     if (topicItems === undefined) {
       return (
         <PageSection
-          className='kafka-ui-m-full-height'
+          className="kafka-ui-m-full-height"
           variant={PageSectionVariants.light}
-          padding={{ default: 'noPadding' }}
+          padding={{ default: "noPadding" }}
         >
           <MASLoading />
         </PageSection>
@@ -122,18 +120,18 @@ const Topics: React.FC = () => {
         <EmptyState
           emptyStateProps={{
             variant: MASEmptyStateVariant.NoItems,
-            'data-ouia-page-id': 'emptyStateTopics',
+            "data-ouia-page-id": "emptyStateTopics",
           }}
           titleProps={{
-            title: t('topic.empty_topics_title'),
+            title: t("topic.empty_topics_title"),
           }}
           emptyStateBodyProps={{
-            body: t('topic.empty_topics_body'),
+            body: t("topic.empty_topics_body"),
           }}
           buttonProps={{
-            title: t('topic.create_topic'),
+            title: t("topic.create_topic"),
             onClick: onClickCreateTopic,
-            'data-testid': 'actionCreateTopic',
+            "data-testid": "actionCreateTopic",
           }}
         />
       );
@@ -152,7 +150,7 @@ const Topics: React.FC = () => {
           filteredValue={searchTopicName}
           setFilteredValue={setSearchTopicName}
           refreshTopics={fetchTopic}
-          onEdit={onEditTopic}
+          onEdit={onEdit}
           onSort={onSort}
           sortBy={sortBy}
         />
@@ -163,7 +161,7 @@ const Topics: React.FC = () => {
 
   return (
     <>
-      <Card className='kafka-ui-m-full-height' data-ouia-page-id='tableTopics'>
+      <Card className="kafka-ui-m-full-height" data-ouia-page-id="tableTopics">
         {renderTopicsTable()}
       </Card>
     </>
