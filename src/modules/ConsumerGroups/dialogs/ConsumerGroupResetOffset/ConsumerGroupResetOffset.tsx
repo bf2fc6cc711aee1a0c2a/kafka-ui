@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Modal, ModalVariant, Button, Alert, Checkbox, Grid, GridItem, Title, TextInput, AlertVariant } from "@patternfly/react-core";
+import { Modal, ModalVariant, Button, Alert, Checkbox, Grid, GridItem, Title, TextInput, AlertVariant, Form, FormGroup, Stack, StackItem, Divider } from "@patternfly/react-core";
 import { useTranslation } from 'react-i18next';
 import { ConfigContext } from "@app/contexts";
 import { IRowData, Table, TableBody, TableHeader } from "@patternfly/react-table";
@@ -141,7 +141,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
   const handleConsumerGroupResetOffset = async () => {
     try {
       const partitions = consumers.filter(({ selected }) => selected === true).map(({ partition }) => partition);
-      if (selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Absolute || selectedOffset) {
+      if (selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Absolute) {
         consumerGroupData && await consumerGroupResetOffset(config, consumerGroupData.groupId, ConsumerGroupResetOffsetParametersOffsetEnum.Absolute, selectedTopic, partitions, customOffsetValue.toString());
       } else {
         consumerGroupData && selectedOffset && await consumerGroupResetOffset(config, consumerGroupData.groupId, selectedOffset, selectedTopic, partitions);
@@ -201,23 +201,13 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
         </Button>,
       ]}
     >
-      <Grid>
-        <GridItem span={2} className='reset-offset__griditem'>
-          <Title headingLevel="h4" size="md">
-            Consumer group
-          </Title>
-        </GridItem>
-        <GridItem span={10} className='info-grid'>
-          {consumerGroupData?.groupId}
-        </GridItem>
-        {isDisconnected && (
-          <>
-            <GridItem span={2} className='reset-offset__griditem'>
-              <Title headingLevel="h4" size="md">
-                Topic
-              </Title>
-            </GridItem>
-            <GridItem span={10}>
+      <Stack hasGutter>
+        <StackItem>
+          <Form isHorizontal>
+            <FormGroup label="Consumer group" fieldId="horizontal-form-name">
+              <Title headingLevel="h4" size="md">{consumerGroupData?.groupId}</Title>
+            </FormGroup>
+            {isDisconnected && (<FormGroup label="Topic" fieldId="horizontal-form-name">
               <DropdownWithToggle
                 id="topic-dropdown"
                 toggleId='topic-dropdowntoggle'
@@ -226,68 +216,70 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
                 items={getTopics(consumerGroupData)}
                 name='cleanup-policy'
                 value={selectedTopic ? selectedTopic : t('common.select')}
+                menuAppendTo={'parent'}
               />
-            </GridItem>
-          </>)}
-        {isDisconnected && selectedTopic && (<>
-          <GridItem span={2} className='reset-offset__griditem'>
-            <Title headingLevel="h4" size="md">
-              New offset
-            </Title>
-          </GridItem>
-          <GridItem span={10}>
-            <DropdownWithToggle
-              id='offset-dropdown'
-              toggleId='offset-dropdowntoggle'
-              ariaLabel='offset-select-dropdown'
-              onSelectOption={onOffsetSlect}
-              items={offsetOptions}
-              name='cleanup-policy'
-              value={selectedOffset ? selectedOffset : t('common.select')}
-            />
-          </GridItem>
-        </>)}
-        {isDisconnected && selectedTopic && (selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Absolute) && (<>
-          <GridItem span={2} className='reset-offset__griditem'>
-            <Title headingLevel="h4" size="md">
-              Custom offset
-            </Title>
-          </GridItem>
-          <GridItem span={10}>
-            <TextInput id="custom-offset-input" value={customOffsetValue} onChange={onCustomOffsetChange} />
-          </GridItem>
-        </>)}
-      </Grid>
-      {!isDisconnected && <Alert
-        className='modal-alert'
-        variant='danger'
-        isInline
-        title={t('consumerGroup.reset_offset_connected_alert_title')}
-      >
-        <p>
-          {t('consumerGroup.reset_offset_connected_alert_body')}
-        </p>
-      </Alert>}
+            </FormGroup>)}
+            {isDisconnected && selectedTopic && (
+              <FormGroup label="New offset" fieldId="offset-dropdown">
+                <DropdownWithToggle
+                  id='offset-dropdown'
+                  toggleId='offset-dropdowntoggle'
+                  ariaLabel='offset-select-dropdown'
+                  onSelectOption={onOffsetSlect}
+                  items={offsetOptions}
+                  name='offset-dropdown'
+                  value={selectedOffset ? selectedOffset : t('common.select')}
+                  menuAppendTo={'parent'}
+                />
+              </FormGroup>
+            )}
 
-      {
-        isDisconnected && consumers?.length > 0 && selectedTopic &&
-        (
-          <>
-            <Table
-              onSelect={onSelect}
-              canSelectAll={true}
-              aria-label="Selectable Table"
-              cells={columns}
-              rows={preparedTableCells()}
-              className='consumer-table'
+            {isDisconnected && selectedTopic && (selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Absolute) && (
+              <FormGroup label="Custom offset" fieldId="custom-offset-input">
+                <TextInput id="custom-offset-input" value={customOffsetValue} onChange={onCustomOffsetChange} type="number" />
+              </FormGroup>)}
+          </Form>
+        </StackItem>
+        <StackItem>
+          {!isDisconnected &&
+            <Alert
+              className='modal-alert'
+              variant='danger'
+              isInline
+              title={t('consumerGroup.reset_offset_connected_alert_title')}
             >
-              <TableHeader />
-              <TableBody />
-            </Table>
-            <Checkbox label={t('consumerGroup.reset_offset_accept')} aria-label="uncontrolled checkbox example" id="check-5" isChecked={confirmCheckboxChecked} onChange={onConfirmationChange} />
-          </>
-        )
-      }
+              <p>
+                {t('consumerGroup.reset_offset_connected_alert_body')}
+              </p>
+            </Alert>
+          }
+        </StackItem>
+        <StackItem>
+          {
+            isDisconnected && consumers?.length > 0 && selectedTopic &&
+            (
+              <Stack hasGutter>
+                <StackItem>
+                  <Table
+                    onSelect={onSelect}
+                    canSelectAll={true}
+                    aria-label="Selectable Table"
+                    cells={columns}
+                    rows={preparedTableCells()}
+                    className='consumer-table'
+                  >
+                    <TableHeader />
+                    <TableBody />
+                  </Table>
+                </StackItem>
+                <StackItem>
+                  <Checkbox label={t('consumerGroup.reset_offset_accept')} aria-label="uncontrolled checkbox example" id="check-5" isChecked={confirmCheckboxChecked} onChange={onConfirmationChange} />
+                </StackItem>
+              </Stack>
+            )
+          }
+        </StackItem>
+      </Stack>
     </Modal>
 
   );

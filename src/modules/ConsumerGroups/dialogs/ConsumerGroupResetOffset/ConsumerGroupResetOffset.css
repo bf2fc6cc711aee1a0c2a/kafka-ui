@@ -1,15 +1,3 @@
-.consumer-table {
-  margin: var(--pf-global--spacer--md) 0;
-}
-
-.info-grid {
-  height: var(--pf-global--spacer--xl);
-}
-
-.modal-alert {
-  margin: var(--pf-global--spacer--md) 0;
-}
-
-#custom-offset-input, #offset-dropdown, #topic-dropdown {
+#custom-offset-input {
   width: 10rem;
 }

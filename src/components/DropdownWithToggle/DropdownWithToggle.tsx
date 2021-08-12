@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
+import { Dropdown, DropdownItem, DropdownProps, DropdownToggle } from '@patternfly/react-core';
 import CaretDownIcon from '@patternfly/react-icons/dist/js/icons/caret-down-icon';
 
 interface IDropdownWithToggleProps {
@@ -10,6 +10,7 @@ interface IDropdownWithToggleProps {
   items: IDropdownOption[];
   onSelectOption?: (value: string, event) => void;
   ariaLabel?: string;
+  menuAppendTo?: HTMLElement | (() => HTMLElement) | 'parent' | 'inline';
 }
 
 export interface IDropdownOption {
@@ -27,6 +28,7 @@ export const DropdownWithToggle: React.FC<IDropdownWithToggleProps> = ({
   ariaLabel,
   onSelectOption,
   name,
+  menuAppendTo,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>();
 
@@ -76,6 +78,7 @@ export const DropdownWithToggle: React.FC<IDropdownWithToggleProps> = ({
       isOpen={isOpen}
       aria-label={ariaLabel}
       dropdownItems={getItems(items)}
+      menuAppendTo={menuAppendTo}
     />
   );
 };
