@@ -28,7 +28,6 @@ import {
   DEFAULT_MINIMUM_COMPACTION_LAG_TIME,
   DEFAULT_MIN_CLEANBLE_RATIO,
   DEFAULT_MIN_INSYNC_REPLICAS,
-  DEFAULT_REPLICAS,
   DEFAULT_SEGMENT_INDEX_SIZE,
   DEFAULT_SEGMENT_JITTER_TIME,
   DEFAULT_SEGMENT_TIME,
@@ -135,7 +134,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                         fieldId='replicas'
                         btnAriaLabel={t('topic.replicas')}
                         fieldLabel={t('topic.replicas')}
-                        fieldValue={DEFAULT_REPLICAS}
+                        fieldValue={topic.replicationFactor}
                         popoverBody={t('topic.replicas_description')}
                         popoverHeader={t('topic.replicas')}
                       />
