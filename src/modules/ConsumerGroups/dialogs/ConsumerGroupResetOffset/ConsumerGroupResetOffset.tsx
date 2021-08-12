@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Modal, ModalVariant, Button, Alert, Checkbox, Grid, GridItem, Title, TextInput, AlertVariant, Form, FormGroup, Stack, StackItem, Divider } from "@patternfly/react-core";
+import { Modal, ModalVariant, Button, Alert, Checkbox, Title, TextInput, AlertVariant, Form, FormGroup, Stack, StackItem } from "@patternfly/react-core";
 import { useTranslation } from 'react-i18next';
 import { ConfigContext } from "@app/contexts";
 import { IRowData, Table, TableBody, TableHeader } from "@patternfly/react-table";
