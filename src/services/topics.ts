@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import {
   ConfigEntry,
-  DefaultApi,
+  TopicsApi,
   Topic,
   TopicSettings,
   TopicsList,
@@ -29,7 +29,7 @@ export const getTopics = async (
 ): Promise<TopicsList> => {
   const accessToken = await config?.getToken();
 
-  const api = new DefaultApi(
+  const api = new TopicsApi(
     new Configuration({
       accessToken,
       basePath: config?.basePath,
@@ -53,7 +53,7 @@ export const getTopicDetail = async (
 ): Promise<IAdvancedTopic> => {
   const accessToken = await config?.getToken();
 
-  const api = new DefaultApi(
+  const api = new TopicsApi(
     new Configuration({
       accessToken,
       basePath: config?.basePath,
@@ -94,7 +94,7 @@ export const updateTopicModel = async (
 ): Promise<number> => {
   const accessToken = await config?.getToken();
 
-  const api = new DefaultApi(
+  const api = new TopicsApi(
     new Configuration({
       accessToken,
       basePath: config?.basePath,
@@ -113,7 +113,7 @@ export const getTopic = async (
 ): Promise<Topic> => {
   const accessToken = await config?.getToken();
 
-  const api = new DefaultApi(
+  const api = new TopicsApi(
     new Configuration({
       accessToken,
       basePath: config?.basePath,
@@ -141,7 +141,7 @@ export const deleteTopic = async (
 ): Promise<void> => {
   const accessToken = await config?.getToken();
 
-  const api = new DefaultApi(
+  const api = new TopicsApi(
     new Configuration({
       accessToken,
       basePath: config?.basePath,

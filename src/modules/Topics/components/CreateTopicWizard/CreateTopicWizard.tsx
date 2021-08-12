@@ -17,7 +17,7 @@ import {
   TopicAdvanceConfig,
   WizardCustomFooter,
 } from '@app/modules/Topics/components';
-import { DefaultApi, NewTopicInput } from '@rhoas/kafka-instance-sdk';
+import { TopicsApi, NewTopicInput } from '@rhoas/kafka-instance-sdk';
 import { convertUnits, formatTopicRequest } from '@app/modules/Topics/utils';
 import { ConfigContext } from '@app/contexts';
 import { Configuration } from '@rhoas/kafka-instance-sdk';
@@ -105,7 +105,7 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
           },
         };
 
-    new DefaultApi(
+    new TopicsApi(
       new Configuration({
         basePath: config?.basePath,
         accessToken: config?.getToken,
