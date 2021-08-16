@@ -13,7 +13,7 @@ export type FederatedProps = {
   onClickCreateTopic?: () => void;
   onEditTopic?: (topicName: string | undefined) => void;
   onCancelUpdateTopic?: () => void;
-  updateTopic?: (topicName: string | undefined) => void;
+  updateTopic?: (topicName?: string | undefined) => void;
 };
 
 const initialState: FederatedProps = {

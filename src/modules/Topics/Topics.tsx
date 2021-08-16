@@ -43,7 +43,7 @@ const Topics: React.FC = () => {
 
   const [topics, setTopics] = useState<TopicsList>();
   const [topicItems, setTopicItems] = useState<Topic[]>();
-  const [searchTopicName, setSearchTopicName] = useState<string>("");
+  const [searchTopicName, setSearchTopicName] = useState<string>('');
   const [offset, setOffset] = useState<number>(0);
   const [order, setOrder] = useState<SortByDirection>();
   const [orderKey, setOrderKey] = useState<OrderKey>();
@@ -77,7 +77,7 @@ const Topics: React.FC = () => {
     setSortBy({ index, direction });
   };
 
-  const fetchTopic = async () => {
+   const fetchTopic = async () => {
     try {
       await getTopics(
         config,
@@ -108,9 +108,9 @@ const Topics: React.FC = () => {
     if (topicItems === undefined) {
       return (
         <PageSection
-          className="kafka-ui-m-full-height"
+          className='kafka-ui-m-full-height'
           variant={PageSectionVariants.light}
-          padding={{ default: "noPadding" }}
+          padding={{ default: 'noPadding' }}
         >
           <MASLoading />
         </PageSection>
@@ -120,18 +120,18 @@ const Topics: React.FC = () => {
         <EmptyState
           emptyStateProps={{
             variant: MASEmptyStateVariant.NoItems,
-            "data-ouia-page-id": "emptyStateTopics",
+            'data-ouia-page-id': 'emptyStateTopics',
           }}
           titleProps={{
-            title: t("topic.empty_topics_title"),
+            title: t('topic.empty_topics_title'),
           }}
           emptyStateBodyProps={{
-            body: t("topic.empty_topics_body"),
+            body: t('topic.empty_topics_body'),
           }}
           buttonProps={{
-            title: t("topic.create_topic"),
+            title: t('topic.create_topic'),
             onClick: onClickCreateTopic,
-            "data-testid": "actionCreateTopic",
+            'data-testid': 'actionCreateTopic',
           }}
         />
       );
@@ -161,7 +161,7 @@ const Topics: React.FC = () => {
 
   return (
     <>
-      <Card className="kafka-ui-m-full-height" data-ouia-page-id="tableTopics">
+      <Card className='kafka-ui-m-full-height' data-ouia-page-id='tableTopics'>
         {renderTopicsTable()}
       </Card>
     </>

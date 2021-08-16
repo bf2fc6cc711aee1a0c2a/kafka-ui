@@ -16,7 +16,7 @@ const UpdateTopicConnected: React.FC = () => {
   };
 
   const onDeleteTopic = () => {
-    history.push("/topics");
+    history.push('/topics');
   };
 
   const onCancelUpdateTopic = () => {

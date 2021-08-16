@@ -36,6 +36,8 @@ export interface IAdvancedTopic {
   name: string;
   /** ordered list of messages that make up a topic */
   numPartitions: string;
+  /** number of replicas for a Kafka topic */
+  replicationFactor?: string;
   /** the length of time that messages are retained before they are deleted */
   'retention.ms'?: string;
   /** unit for retention time */
@@ -67,6 +69,7 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
   const [topicData, setTopicData] = useState<IAdvancedTopic>({
     name: '',
     numPartitions: '1',
+    replicationFactor: '3',
     'retention.ms': '7',
     'retention.ms.unit': 'days',
     'retention.bytes': '-1',

@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { AlertVariant } from "@patternfly/react-core";
+import React, { useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { AlertVariant } from '@patternfly/react-core';
 import {
   TopicAdvanceConfig,
   IAdvancedTopic,
