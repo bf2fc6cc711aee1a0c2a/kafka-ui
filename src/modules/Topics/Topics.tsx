@@ -1,21 +1,21 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useLocation, useHistory, useParams } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import React, { useContext, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   AlertVariant,
   Card,
   PageSectionVariants,
   PageSection,
-} from "@patternfly/react-core";
-import { useTimeout } from "@app/hooks/useTimeOut";
-import { TopicsTable } from "./components";
-import { EmptyState, MASEmptyStateVariant, MASLoading } from "@app/components";
-import { getTopics, OrderKey } from "@app/services";
-import { ConfigContext, useFederated } from "@app/contexts";
-import { TopicsList, Topic } from "@rhoas/kafka-instance-sdk";
-import { useAlert, useBasename } from "@bf2/ui-shared";
-import "./Topics.css";
-import { ISortBy, OnSort, SortByDirection } from "@patternfly/react-table";
+} from '@patternfly/react-core';
+import { useTimeout } from '@app/hooks/useTimeOut';
+import { TopicsTable } from './components';
+import { EmptyState, MASEmptyStateVariant, MASLoading } from '@app/components';
+import { getTopics, OrderKey } from '@app/services';
+import { ConfigContext, useFederated } from '@app/contexts';
+import { TopicsList, Topic } from '@rhoas/kafka-instance-sdk';
+import { useAlert } from '@bf2/ui-shared';
+import './Topics.css';
+import { ISortBy, OnSort, SortByDirection } from '@patternfly/react-table';
 
 export type ITopic = {
   name: string;
@@ -28,26 +28,22 @@ export type ITopicProps = {
 };
 
 const Topics: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
-  const history = useHistory();
   const { onError, onClickCreateTopic, onEditTopic } = useFederated();
   const { t } = useTranslation();
   const { addAlert } = useAlert();
   const config = useContext(ConfigContext);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const page = parseInt(searchParams.get("page") || "", 10) || 1;
-  const perPage = parseInt(searchParams.get("perPage") || "", 10) || 10;
-  const { getBasename } = useBasename();
-  const basename = getBasename();
+  const page = parseInt(searchParams.get('page') || '', 10) || 1;
+  const perPage = parseInt(searchParams.get('perPage') || '', 10) || 10;
 
-  const [topics, setTopics] = useState<TopicsList>();
+  const [_, setTopics] = useState<TopicsList>();
   const [topicItems, setTopicItems] = useState<Topic[]>();
   const [searchTopicName, setSearchTopicName] = useState<string>('');
   const [offset, setOffset] = useState<number>(0);
   const [order, setOrder] = useState<SortByDirection>();
   const [orderKey, setOrderKey] = useState<OrderKey>();
-  const [sortBy, setSortBy] = useState<ISortBy>({ index: 0, direction: "asc" });
+  const [sortBy, setSortBy] = useState<ISortBy>({ index: 0, direction: 'asc' });
 
   useEffect(() => {
     fetchTopic();
@@ -77,7 +73,7 @@ const Topics: React.FC = () => {
     setSortBy({ index, direction });
   };
 
-   const fetchTopic = async () => {
+  const fetchTopic = async () => {
     try {
       await getTopics(
         config,
