@@ -14,11 +14,9 @@ const topic: IAdvancedTopic = {
 };
 
 const deleteTopic = jest.fn();
-const updateTopic = jest.fn();
 const props: TopicViewDetailProps = {
   topic,
-  deleteTopic,
-  updateTopic,
+  deleteTopic
 };
 
 const setup = () => {
