@@ -1,5 +1,7 @@
 import React, { FunctionComponent } from "react";
+import {useHistory,useParams} from "react-router-dom";
 import { I18nextProvider } from "react-i18next";
+import {useBasename} from '@bf2/ui-shared';
 import {
   FederatedContext,
   FederatedProps,
@@ -24,7 +26,7 @@ const MainViewFederated: FunctionComponent<MainViewFederatedProps> = ({
   handleInstanceDrawer,
   setIsOpenDeleteInstanceModal,
   showMetrics,
-  activeTab = 2,
+  activeTab = 1,
 }) => {
   const history = useHistory();
   const { getBasename } = useBasename();

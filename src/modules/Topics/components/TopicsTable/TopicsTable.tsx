@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { PaginationVariant } from '@patternfly/react-core';
 import {
   TableVariant,
@@ -16,7 +16,6 @@ import {
   MASEmptyStateVariant,
 } from '@app/components';
 import { Topic } from '@rhoas/kafka-instance-sdk';
-import { useFederated } from '@app/contexts';
 import { TopicsToolbar, TopicsToolbarProps } from './TopicsToolbar';
 import { convertRetentionSize, convertRetentionTime } from '@app/utils';
 import { useModal, ModalType } from '@app/components';
@@ -49,6 +48,7 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
 }) => {
   const { t } = useTranslation();
   const { showModal } = useModal<ModalType.DeleteTopic>();
+  const {id}=useParams<{id:string}>();
 
   const tableColumns = [
     { title: t('common.name') },
@@ -107,7 +107,7 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
         cells: [
           {
             title: (
-              <Link data-testid="tableTopics-linkTopic" to={`/topics/${name}`}>
+              <Link data-testid="tableTopics-linkTopic" to={`${id}/topics/${name}`}>
                 {name}
               </Link>
             ),
