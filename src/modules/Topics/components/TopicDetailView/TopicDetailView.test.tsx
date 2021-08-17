@@ -30,7 +30,7 @@ const setup = () => {
 };
 
 describe('<TopicDetailView />', () => {
-  it('should render TopicDetailView', () => {
+  xit('should render TopicDetailView', () => {
     const renderResult = setup();
     const { getByText } = renderResult;
     expect(getByText('JUMP TO SECTION')).toBeInTheDocument();
