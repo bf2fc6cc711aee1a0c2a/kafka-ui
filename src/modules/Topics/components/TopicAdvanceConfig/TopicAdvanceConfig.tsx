@@ -486,12 +486,14 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
                 title={t('topic.core_configuration')}
                 id='core-configuration'
                 titleElement={'h2'}
+                tabIndex={-1}
               >
                 <TextContent>
                   <Text component={TextVariants.p} className='section-info'>
                     {t('topic.core_config_info')}
                   </Text>
                 </TextContent>
+
                 {isCreate ? (
                   <FormGroupWithPopover
                     labelHead={t('topic.topic_name')}
@@ -556,7 +558,9 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
                   fieldId='replicas'
                   btnAriaLabel={t('topic.replicas')}
                   fieldLabel={t('topic.replicas')}
-                  fieldValue={isCreate ? DEFAULT_REPLICAS : topicData.replicationFactor}
+                  fieldValue={
+                    isCreate ? DEFAULT_REPLICAS : topicData.replicationFactor
+                  }
                   popoverBody={t('topic.replicas_description')}
                   popoverHeader={t('topic.replicas')}
                 />
@@ -631,6 +635,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
                 title={t('topic.messages')}
                 id='messages'
                 titleElement={'h2'}
+                tabIndex={-1}
               >
                 <TextContent>
                   <Text component={TextVariants.p} className='section-info'>
@@ -686,7 +691,12 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
                 />
               </FormSection>
 
-              <FormSection title={t('topic.log')} id='log' titleElement={'h2'}>
+              <FormSection
+                title={t('topic.log')}
+                id='log'
+                titleElement={'h2'}
+                tabIndex={-1}
+              >
                 <TextContent>
                   <Text component={TextVariants.p}>
                     {t('topic.log_section_info')}
@@ -746,6 +756,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
                 title={t('topic.replication')}
                 id='replication'
                 titleElement={'h2'}
+                tabIndex={-1}
               >
                 <TextContent>
                   <Text component={TextVariants.p}>
@@ -770,6 +781,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
                 title={t('common.cleanup')}
                 id='cleanup'
                 titleElement={'h2'}
+                tabIndex={-1}
               >
                 <TextContent>
                   <Text component={TextVariants.p} className='section-info'>
@@ -829,6 +841,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
                 title={t('topic.index')}
                 id='index'
                 titleElement={'h2'}
+                tabIndex={-1}
               >
                 <TextContent>
                   <Text component={TextVariants.p} className='section-info'>
@@ -859,6 +872,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
                 title={t('topic.flush')}
                 id='flush'
                 titleElement={'h2'}
+                tabIndex={-1}
               >
                 <TextContent>
                   <Text component={TextVariants.p} className='section-info'>

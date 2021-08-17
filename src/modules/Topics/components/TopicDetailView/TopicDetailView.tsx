@@ -94,14 +94,19 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
         </SidebarPanel>
         <SidebarContent>
           <PageGroup hasOverflowScroll id='topic-detail-view'>
-            <PageSection padding={{ default: 'noPadding' }}>
+            <PageSection
+              padding={{ default: 'noPadding' }}
+              id='scrollablePageMain'
+            >
               <Split>
                 <SplitItem isFilled>
-                  <Form>
+                  <Form id='scrollablePageMain'>
                     <FormSection
                       title={t('topic.core_configuration')}
                       id='core-configuration'
                       titleElement={'h2'}
+                      tabIndex={-1}
+                      key={0}
                     >
                       <TextContent>
                         <Text
@@ -176,6 +181,8 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                       title={t('topic.messages')}
                       id='messages'
                       titleElement={'h2'}
+                      tabIndex={-1}
+                      key={1}
                     >
                       <TextContent>
                         <Text
@@ -239,6 +246,8 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                       title={t('topic.log')}
                       id='log'
                       titleElement={'h2'}
+                      tabIndex={-1}
+                      key={2}
                     >
                       <TextContent>
                         <Text component={TextVariants.p}>
@@ -296,6 +305,8 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                       title={t('topic.replication')}
                       id='replication'
                       titleElement={'h2'}
+                      tabIndex={-1}
+                      key={3}
                     >
                       <TextContent>
                         <Text component={TextVariants.p}>
@@ -322,6 +333,8 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                       title={t('common.cleanup')}
                       id='cleanup'
                       titleElement={'h2'}
+                      tabIndex={-1}
+                      key={4}
                     >
                       <TextContent>
                         <Text
@@ -383,6 +396,8 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                       title={t('topic.index')}
                       id='index'
                       titleElement={'h2'}
+                      tabIndex={-1}
+                      key={5}
                     >
                       <TextContent>
                         <Text
@@ -415,6 +430,8 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                       title={t('topic.flush')}
                       id='flush'
                       titleElement={'h2'}
+                      tabIndex={-1}
+                      key={6}
                     >
                       <TextContent>
                         <Text
@@ -450,7 +467,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   <Divider className='kafka-ui-divider__Margin' />
 
                   <TextContent>
-                    <Text component={TextVariants.h2} tabIndex={-1} id='delete'>
+                    <Text component={TextVariants.h2}>
                       {t('topic.delete_topic')}
                     </Text>
                     <Text component={TextVariants.p} className='section-info'>
@@ -460,6 +477,9 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                       variant='danger'
                       onClick={deleteTopic}
                       data-testid='tabProperties-actionDelete'
+                      id='delete'
+                      tabIndex={-1}
+                      key={7}
                     >
                       {t('common.delete_topic')}
                     </Button>
