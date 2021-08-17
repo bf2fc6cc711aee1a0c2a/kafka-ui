@@ -1,7 +1,5 @@
 import React, { FunctionComponent } from "react";
-import {useHistory} from "react-router-dom";
 import { I18nextProvider } from "react-i18next";
-import {useBasename} from '@bf2/ui-shared';
 import {
   FederatedContext,
   FederatedProps,

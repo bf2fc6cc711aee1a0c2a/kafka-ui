@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from "react";
 import { I18nextProvider } from "react-i18next";
-import { useParams } from "react-router-dom";
 import { UpdateTopicPage } from "@app/modules/Topics/pages/UpdateTopic";
 import {
   FederatedContext,
@@ -15,11 +14,6 @@ export type UpdateTopicFederatedProps = FederatedProps &
   IConfiguration & {
     apiBasePath: string;
   };
-
-type TopicUseParams = {
-  id: string;
-  topicName: string;
-};
 
 const UpdateTopicFederated: FunctionComponent<UpdateTopicFederatedProps> = ({
   getToken,
