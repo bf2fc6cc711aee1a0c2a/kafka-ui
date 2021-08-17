@@ -103,11 +103,13 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
     const tableRow: (IRowData | string[])[] | undefined = [];
     topicItems?.map((row: IRowData) => {
       const { name, partitions, config } = row;
+      const linkPath = id ? `${id}/topics/${name}` : `topics/${name}`;
+
       tableRow.push({
         cells: [
           {
             title: (
-              <Link data-testid="tableTopics-linkTopic" to={`${id}/topics/${name}`}>
+              <Link data-testid="tableTopics-linkTopic" to={linkPath}>
                 {name}
               </Link>
             ),
