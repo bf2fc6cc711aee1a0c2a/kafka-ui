@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import {
   Configuration,
-  DefaultApi,
+  GroupsApi,
   ConsumerGroupList,
   ConsumerGroup,
 } from '@rhoas/kafka-instance-sdk';
@@ -21,7 +21,7 @@ const getConsumerGroups = async (
 ): Promise<ConsumerGroupList> => {
   const accessToken = await config?.getToken();
 
-  const api = new DefaultApi(
+  const api = new GroupsApi(
     new Configuration({
       accessToken,
       basePath: config?.basePath,
@@ -47,7 +47,7 @@ const deleteConsumerGroup = async (
 ): Promise<void> => {
   const accessToken = await config?.getToken();
 
-  const api = new DefaultApi(
+  const api = new GroupsApi(
     new Configuration({
       accessToken,
       basePath: config?.basePath,
@@ -63,7 +63,7 @@ const getConsumerGroupDetail = async (
 ): Promise<ConsumerGroup> => {
   const accessToken = await config?.getToken();
 
-  const api = new DefaultApi(
+  const api = new GroupsApi(
     new Configuration({
       accessToken,
       basePath: config?.basePath,
