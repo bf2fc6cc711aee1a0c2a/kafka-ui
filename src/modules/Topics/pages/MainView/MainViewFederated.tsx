@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import {useHistory,useParams} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import { I18nextProvider } from "react-i18next";
 import {useBasename} from '@bf2/ui-shared';
 import {
@@ -28,18 +28,6 @@ const MainViewFederated: FunctionComponent<MainViewFederatedProps> = ({
   showMetrics,
   activeTab = 1,
 }) => {
-  const history = useHistory();
-  const { getBasename } = useBasename();
-  const basename = getBasename();
-  const { id } = useParams<{ id: string }>();
-
-  const onClickCreateTopic = () => {
-    history.push(`${basename}/${id}/topic/create`);
-  };
-
-  const onEditTopic = (topicName: string | undefined) => {
-    history.push(`${basename}/${id}/topic/update/${topicName}`);
-  };
 
   return (
     <I18nextProvider i18n={kafkai18n}>
@@ -52,9 +40,7 @@ const MainViewFederated: FunctionComponent<MainViewFederatedProps> = ({
             handleInstanceDrawer,
             setIsOpenDeleteInstanceModal,
             showMetrics,
-            activeTab,
-            onClickCreateTopic,
-            onEditTopic,
+            activeTab        
           }}
         >
           <ModalProvider>

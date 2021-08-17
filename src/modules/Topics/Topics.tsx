@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   AlertVariant,
@@ -12,8 +12,8 @@ import { TopicsTable } from './components';
 import { EmptyState, MASEmptyStateVariant, MASLoading } from '@app/components';
 import { getTopics, OrderKey } from '@app/services';
 import { ConfigContext, useFederated } from '@app/contexts';
-import { TopicsList, Topic } from '@rhoas/kafka-instance-sdk';
-import { useAlert } from '@bf2/ui-shared';
+import { Topic } from '@rhoas/kafka-instance-sdk';
+import { useAlert, useBasename } from '@bf2/ui-shared';
 import './Topics.css';
 import { ISortBy, OnSort, SortByDirection } from '@patternfly/react-table';
 
@@ -28,7 +28,7 @@ export type ITopicProps = {
 };
 
 const Topics: React.FC = () => {
-  const { onError, onClickCreateTopic, onEditTopic } = useFederated();
+  const { onError} = useFederated() || {};
   const { t } = useTranslation();
   const { addAlert } = useAlert();
   const config = useContext(ConfigContext);
@@ -36,8 +36,10 @@ const Topics: React.FC = () => {
   const searchParams = new URLSearchParams(location.search);
   const page = parseInt(searchParams.get('page') || '', 10) || 1;
   const perPage = parseInt(searchParams.get('perPage') || '', 10) || 10;
+  const history = useHistory();
+  const { getBasename } = useBasename();
+  const basename = getBasename();
 
-  const [_, setTopics] = useState<TopicsList>();
   const [topicItems, setTopicItems] = useState<Topic[]>();
   const [searchTopicName, setSearchTopicName] = useState<string>('');
   const [offset, setOffset] = useState<number>(0);
@@ -55,6 +57,14 @@ const Topics: React.FC = () => {
     const offset = Number(perPage) * Number(page - 1);
     setOffset(offset);
   }, [page, perPage]);
+
+  const onClickCreateTopic = () => {
+    history.push(`${basename}/topic/create`);
+  };
+
+  const onEditTopic = (topicName: string | undefined) => {
+    history.push(`${basename}/topic/update/${topicName}`);
+  };
 
   const onEdit = (topicName: string | undefined) => {
     onEditTopic && onEditTopic(topicName);
@@ -83,8 +93,7 @@ const Topics: React.FC = () => {
         offset,
         order,
         orderKey
-      ).then((response) => {
-        setTopics(response);
+      ).then((response) => {        
         setTopicItems(response?.items);
       });
     } catch (err) {

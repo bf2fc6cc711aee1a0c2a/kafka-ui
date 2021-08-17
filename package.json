@@ -12,7 +12,7 @@
     "start": "node server.js",
     "start:mockserver": "asapi",
     "start:dev": "webpack serve --https --hot --color --progress --config webpack.dev.js",
-    "start:federate": "HOST=localhost PORT=8080 PROTOCOL=http webpack serve --hot --color --progress --open=false --config webpack.dev.js",
+    "start:federate": "HOST=localhost PORT=8080 PROTOCOL=http webpack serve --hot --color --progress --config webpack.dev.js",
     "ci-checks": "npm run type-check && npm run lint && npm run test",
     "build:bundle-profile": "webpack --config webpack.prod.js --profile --json > stats.json",
     "bundle-profile:analyze": "npm run build:bundle-profile && webpack-bundle-analyzer ./stats.json",

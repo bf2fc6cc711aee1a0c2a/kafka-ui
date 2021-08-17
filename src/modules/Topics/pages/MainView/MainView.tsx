@@ -34,9 +34,9 @@ export const MainView: React.FC = () => {
     setIsOpenDeleteInstanceModal,
     showMetrics,
     activeTab,
-  } = useFederated();
+  } = useFederated() || {};
 
-  const [activeTabKey, setActiveTabKey] = useState(activeTab);
+  const [activeTabKey, setActiveTabKey] = useState(activeTab || 1);
   const contentRefConsumerGroups = React.createRef<HTMLElement>();
   const contentRefTopics = React.createRef<HTMLElement>();
   const contentRefDashboard = React.createRef<HTMLElement>();

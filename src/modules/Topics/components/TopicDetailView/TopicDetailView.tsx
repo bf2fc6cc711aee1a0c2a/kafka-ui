@@ -1,5 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import {useHistory, useParams} from 'react-router-dom';
+import {useBasename} from '@bf2/ui-shared';
 import {
   PageSection,
   PageGroup,
@@ -39,7 +41,6 @@ import "./TopicDetailView.css";
 import { TextWithLabelPopover } from "@app/components/TextWithLabelPopover";
 import { IAdvancedTopic } from "@app/modules/Topics/components/CreateTopicWizard";
 import { convertRetentionSize, convertRetentionTime } from "@app/utils";
-import { useFederated } from "@app/contexts";
 
 export type TopicViewDetailProps = {
   /** Topic details */
@@ -52,11 +53,14 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
   topic,
   deleteTopic,
 }) => {
+  const history = useHistory();
+  const { topicName } = useParams<{topicName:string}>();
+  const { getBasename } = useBasename();
+  const basename = getBasename();
   const { t } = useTranslation();
-  const { updateTopic } = useFederated();
 
-  const onUpdateTopic = () => {
-    updateTopic && updateTopic();
+  const updateTopic = () => {
+    history.push(`${basename}/topic/update/${topicName}`);
   };
 
   return (
@@ -472,7 +476,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                 <SplitItem>
                   <Button
                     variant="primary"
-                    onClick={onUpdateTopic}
+                    onClick={updateTopic}
                     data-testid="tabProperties-actionEdit"
                   >
                     {t("common.edit_props")}

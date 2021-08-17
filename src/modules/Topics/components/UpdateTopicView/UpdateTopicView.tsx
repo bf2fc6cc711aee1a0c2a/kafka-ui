@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import {useHistory} from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AlertVariant } from '@patternfly/react-core';
 import {
@@ -7,10 +8,10 @@ import {
 } from '@app/modules/Topics/components';
 import { getTopic, updateTopicModel } from '@app/services';
 import { ConfigEntry, TopicSettings } from '@rhoas/kafka-instance-sdk';
-import { ConfigContext, useFederated } from '@app/contexts';
+import { ConfigContext } from '@app/contexts';
 import { convertUnits } from '@app/modules/Topics/utils';
 import { isAxiosError } from '@app/utils/axios';
-import { useAlert } from '@bf2/ui-shared';
+import { useAlert, useBasename } from '@bf2/ui-shared';
 import '../CreateTopicWizard/CreateTopicWizard.css';
 
 export type UpdateTopicViewProps = {
@@ -27,7 +28,9 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   const { t } = useTranslation();
   const config = useContext(ConfigContext);
   const { addAlert } = useAlert();
-  const { onCancelUpdateTopic } = useFederated();
+  const history = useHistory();
+  const { getBasename } = useBasename();
+  const basename = getBasename();
 
   const initialState = {
     name: topicName,
@@ -41,6 +44,10 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
 
   const [topicData, setTopicData] = useState<IAdvancedTopic>(initialState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const onCancelUpdateTopic = () => {
+    history.push(`${basename}/topics/${topicName}`);
+  };
 
   const fetchTopic = async (topicName) => {
     try {

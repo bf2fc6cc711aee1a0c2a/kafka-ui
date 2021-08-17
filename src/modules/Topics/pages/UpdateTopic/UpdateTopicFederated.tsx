@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { I18nextProvider } from "react-i18next";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { UpdateTopicPage } from "@app/modules/Topics/pages/UpdateTopic";
 import {
   FederatedContext,
@@ -10,7 +10,6 @@ import {
 } from '@app/contexts';
 import kafkai18n from '@app/i18n';
 import { ModalProvider } from '@app/components/KafkaModal';
-import { useBasename } from '@bf2/ui-shared';
 
 export type UpdateTopicFederatedProps = FederatedProps &
   IConfiguration & {
@@ -30,42 +29,21 @@ const UpdateTopicFederated: FunctionComponent<UpdateTopicFederatedProps> = ({
   kafkaInstanceLink,
   onError,
 }) => {
-  const history = useHistory();
-  const { id, topicName } = useParams<TopicUseParams>();
-  const { getBasename } = useBasename();
-  const basename = getBasename();
-
-  const onDeleteTopic = () => {
-    history.push(`${basename}/${id}`);
-  };
-
-  const onSaveTopic = () => {
-    history.push(`${basename}/${id}/topics/${topicName}`);
-  };
-
-  const onCancelUpdateTopic = () => {
-    history.push(`${basename}/${id}/topics/${topicName}`);
-  };
 
   return (
     <I18nextProvider i18n={kafkai18n}>
       <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
         <FederatedContext.Provider
           value={{
-            activeTab: 1,
-            topicName,
+            activeTab: 1,           
             kafkaName,
             kafkaPageLink,
             kafkaInstanceLink,
-            onError,
-            onCancelUpdateTopic,
+            onError      
           }}
         >
           <ModalProvider>
-            <UpdateTopicPage
-              onDeleteTopic={onDeleteTopic}
-              onSaveTopic={onSaveTopic}
-            />
+            <UpdateTopicPage/>
           </ModalProvider>
         </FederatedContext.Provider>
       </ConfigContext.Provider>

@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import {useHistory, useParams} from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   AlertVariant,
@@ -20,24 +21,22 @@ import { ConsumerGroups } from '@app/modules/ConsumerGroups';
 import { isAxiosError } from '@app/utils/axios';
 import { useFederated } from '@app/contexts';
 import { useModal, ModalType } from '@app/components/KafkaModal';
-import { useAlert } from '@bf2/ui-shared';
+import { useAlert, useBasename } from '@bf2/ui-shared';
 import '../style.css';
 
-export type TopicDetailGroupProps = {
-  onDeleteTopic?: () => void;
-};
-
-export const TopicDetailPage: React.FC<TopicDetailGroupProps> = ({
-  onDeleteTopic,
-}) => {
+export const TopicDetailPage: React.FC = () => {
   const {
-    activeTab,
+    activeTab=2,
     kafkaName,
     kafkaPageLink,
     kafkaInstanceLink,
-    topicName = '',
     onError,
-  } = useFederated();
+  } = useFederated() || {};
+
+  const history = useHistory();
+  const { topicName } = useParams<{topicName:string}>();
+  const { getBasename } = useBasename();
+  const basename = getBasename();
 
   const [topicDetail, setTopicDetail] = useState<IAdvancedTopic>({
     name: topicName,
@@ -55,6 +54,11 @@ export const TopicDetailPage: React.FC<TopicDetailGroupProps> = ({
   const contentRefConsumerGroup = React.createRef<HTMLElement>();
   const contentRefProperties = React.createRef<HTMLElement>();
   const { showModal } = useModal<ModalType.DeleteTopic>();
+
+  const onDeleteTopic = () => {
+    //Redirect on topics  viewpage after delete topic successfuly
+    history.push(basename);
+  };
 
   const fetchTopicDetail = async (topicName: string) => {
     if (activeTab === 2) {

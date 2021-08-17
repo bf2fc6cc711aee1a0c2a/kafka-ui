@@ -22,7 +22,7 @@ import { BasenameContext } from '@bf2/ui-shared';
 const App: React.FC = () => {
   return (
     <I18nextProvider i18n={kafkai18n}>
-      <BasenameContext.Provider value={{ getBasename: () => "/" }}>
+      <BasenameContext.Provider value={{ getBasename: () => "" }}>
         <ConfigContext.Provider
           value={{
             basePath: "http://localhost:8000/data/kafka",
