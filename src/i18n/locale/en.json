@@ -14,6 +14,7 @@
     "finish": "Finish",
     "cleanup": "Cleanup",
     "disabled": "Disabled",
+    "select": "Select",
     "select_unit": "select unit from dropdown",
     "select_policy": "select policy type from dropdown",
     "action": "Action",
@@ -176,6 +177,7 @@
     "current_offset": "Current offset",
     "log_end_offset": "Log end offset",
     "offset_lag": "Offset lag",
+    "new_offset": "New offset",
     "reset_offset": "Reset offset",
     "topic_table_aria": "table for consumer groups by topic",
     "consumer_group_info_table_aria": "table for consumer group details",
@@ -186,6 +188,10 @@
     "empty_list": "No consumer groups yet",
     "empty_consumer_title": "No consumer groups",
     "view_partitions_offsets": "View partition offsets",
-    "empty_consumer_body": "When configuring an application client to access Kafka, assign a group ID to associate the consumer with a consumer group."
+    "empty_consumer_body": "When configuring an application client to access Kafka, assign a group ID to associate the consumer with a consumer group.",
+    "reset_offset_accept": "I understand that by resetting the offset position, I risk clients skipping or duplicating messages.",
+    "reset_offset_connected_alert_title": "The offset for this consumer group cannot be reset at this time",
+    "reset_offset_connected_alert_body": "One or more members of the consumer group are currently connected to a topic. All members of a consumer group must be disconnected before resetting the offset.",
+    "offset_successfully_reset": "offsets for the consumer group have been successfully reset"
   }
 }

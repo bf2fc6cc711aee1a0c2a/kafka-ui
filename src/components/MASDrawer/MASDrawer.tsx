@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Drawer,
   DrawerProps,
@@ -17,9 +17,16 @@ import {
   TextProps,
   TitleProps,
   DrawerContentBody,
+  Dropdown,
+  KebabToggle,
+  DropdownPosition,
+  DropdownItem,
 } from '@patternfly/react-core';
-import { MASLoading } from '@app/components';
+import { MASLoading, ModalType, useModal } from '@app/components';
 import './MASDrawer.css';
+import { EllipsisVIcon } from '@patternfly/react-icons';
+import { ConsumerGroup } from '@rhoas/kafka-instance-sdk';
+import { useTranslation } from 'react-i18next';
 
 export type MASDrawerProps = DrawerProps & {
   children: React.ReactNode;
@@ -39,6 +46,8 @@ export type MASDrawerProps = DrawerProps & {
   ['data-ouia-app-id']?: string;
   notRequiredDrawerContentBackground?: boolean | undefined;
   inlineAlertMessage?: React.ReactNode;
+  refreshConsumerGroups?: () => void;
+  consumerGroupDetail: ConsumerGroup | undefined;
 };
 
 export const MASDrawer: React.FC<MASDrawerProps> = ({
@@ -53,10 +62,53 @@ export const MASDrawer: React.FC<MASDrawerProps> = ({
   notRequiredDrawerContentBackground,
   'data-ouia-app-id': dataOuiaAppId,
   inlineAlertMessage,
+  refreshConsumerGroups,
+  consumerGroupDetail
 }: MASDrawerProps) => {
   const { widths, ...restDrawerPanelContentProps } =
     drawerPanelContentProps || {};
   const { text, title } = drawerHeaderProps || {};
+  const { t } = useTranslation();
+  const { showModal } = useModal<ModalType.DeleteConsumerGroup>();
+  const { showModal: showResetOffsetModal } = useModal<ModalType.ConsumerGroupResetOffset>();
+  const [isOpen, setIsOpen] = useState<boolean>();
+
+  const onToggle = (isOpen: boolean) => {
+    setIsOpen(isOpen);
+  };
+  const onSelect = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const onSelectDeleteConsumerGroup = () => {
+    showModal(ModalType.DeleteConsumerGroup, {
+      consumerName: title?.value || "",
+      refreshConsumerGroups,
+    });
+    onClose();
+  };
+  const onSelectResetOffsetConsumerGroup =  ()=> {
+    showResetOffsetModal(ModalType.ConsumerGroupResetOffset, {
+      refreshConsumerGroups,
+      consumerGroupData: consumerGroupDetail
+    });
+  };
+
+  const dropdownItems = [
+    <DropdownItem
+      key='reset offset'
+      onClick={onSelectResetOffsetConsumerGroup}
+    >
+      {t('consumerGroup.reset_offset')}
+    </DropdownItem>,
+    <DropdownItem
+      key='delete'
+      onClick={onSelectDeleteConsumerGroup}
+    >
+      {t('common.delete')}
+    </DropdownItem>,
+
+  ];
 
   const panelContent = (
     <DrawerPanelContent
@@ -90,6 +142,14 @@ export const MASDrawer: React.FC<MASDrawerProps> = ({
               )}
             </TextContent>
             <DrawerActions>
+              <Dropdown onSelect={onSelect}
+                toggle={<KebabToggle onToggle={onToggle} id='toggle-data-plane' />}
+                isOpen={isOpen}
+                isPlain
+                dropdownItems={dropdownItems}
+                position={DropdownPosition.right}>
+                {<EllipsisVIcon />}
+              </Dropdown>
               <DrawerCloseButton onClick={onClose} />
             </DrawerActions>
           </DrawerHead>

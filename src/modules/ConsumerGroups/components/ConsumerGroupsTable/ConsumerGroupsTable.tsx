@@ -50,6 +50,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
 }) => {
   const { t } = useTranslation();
   const { showModal } = useModal<ModalType.DeleteConsumerGroup>();
+  const { showModal: showResetOffsetModal } = useModal<ModalType.ConsumerGroupResetOffset>();
   const [activeRow, setActiveRow] = useState<string>();
 
   const tableColumns = [
@@ -91,6 +92,13 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
     });
   };
 
+  const onSelectResetOffsetConsumerGroup = (data: ConsumerGroup) => {
+    showResetOffsetModal(ModalType.ConsumerGroupResetOffset, {
+      refreshConsumerGroups,
+      consumerGroupData: data
+    });
+  };
+
   const onSelectKebabDropdownOption = (
     event: any,
     originalData: ConsumerGroup
@@ -101,6 +109,13 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
     onSelectDeleteConsumerGroup(groupId);
     // Set focus back on previous selected element i.e. kebab button
     event?.target?.parentElement?.parentElement?.previousSibling?.focus();
+  };
+
+  const onSelectResetOffset = (
+    event: any,
+    originalData: ConsumerGroup
+  ) => {
+    onSelectResetOffsetConsumerGroup(originalData);
   };
 
   const onClickDrawerButton = (row: IRowData) => {
@@ -125,6 +140,11 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
         title: t('consumerGroup.view_partitions_offsets'),
         ['data-testid']: 'tableConsumers-actionOpenDrawer',
         onClick: (_, __, row: IRowData) => onClickDrawerButton(row),
+      },
+      {
+        title: t('consumerGroup.reset_offset'),
+        ['data-testid']: 'tableConsumers-resetOffset',
+        onClick: (event: any) => onSelectResetOffset(event, originalData),
       },
     ];
     return resolver;
