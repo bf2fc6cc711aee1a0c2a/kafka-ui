@@ -92,7 +92,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
     });
   };
 
-  const onSelectResetOffsetConsumerGroup = (data: ConsumerGroup & { state: string }) => { // TODO: To be removed after sdk update
+  const onSelectResetOffsetConsumerGroup = (data: ConsumerGroup) => {
     showResetOffsetModal(ModalType.ConsumerGroupResetOffset, {
       refreshConsumerGroups,
       consumerGroupData: data
@@ -113,7 +113,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
 
   const onSelectResetOffset = (
     event: any,
-    originalData: ConsumerGroup & { state: string } // TODO: To be removed after sdk update
+    originalData: ConsumerGroup
   ) => {
     onSelectResetOffsetConsumerGroup(originalData);
   };
@@ -128,7 +128,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
     if (consumerGroupByTopic) {
       return [];
     }
-    const originalData: ConsumerGroup & { state: string } = rowData.originalData; // TODO: To be removed after sdk update
+    const originalData: ConsumerGroup = rowData.originalData;
     const resolver = [
       {
         title: t('common.delete'),

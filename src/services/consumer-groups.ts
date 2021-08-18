@@ -5,6 +5,7 @@ import {
   ConsumerGroupList,
   ConsumerGroup,
   ConsumerGroupResetOffsetParametersOffsetEnum,
+  ConsumerGroupResetOffsetResult,
 } from '@rhoas/kafka-instance-sdk';
 import { IConfiguration } from '@app/contexts';
 import { SortByDirection } from '@patternfly/react-table';
@@ -83,16 +84,16 @@ const consumerGroupResetOffset = async (
   topic: string,
   partitions: number[],
   value?: string,
-): Promise<AxiosResponse<any[][]>> => {
+): Promise<AxiosResponse<ConsumerGroupResetOffsetResult>> => {
   const accessToken = await config?.getToken();
 
-  const api = new DefaultApi(
+  const api = new GroupsApi(
     new Configuration({
       accessToken,
       basePath: config?.basePath,
     })
   );
-  const response: AxiosResponse<any[][]> = await api.resetConsumerGroupOffset(
+  const response: AxiosResponse<ConsumerGroupResetOffsetResult> = await api.resetConsumerGroupOffset(
     consumerGroupId,
     { value, offset, topics: [{ topic, partitions }]}
   );

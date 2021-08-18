@@ -11,8 +11,7 @@ import { DropdownWithToggle, IDropdownOption } from "@app/components/DropdownWit
 import { useAlert } from "@bf2/ui-shared";
 
 export type ConsumerGroupResetOffsetProps = {
-  // TODO: To be removed after sdk update
-  consumerGroupData: ConsumerGroup & { state: string } | undefined;
+  consumerGroupData: ConsumerGroup | undefined;
   refreshConsumerGroups?: () => void;
 }
 
@@ -103,7 +102,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
   }, [selectedTopic]);
 
   useEffect(() => {
-    consumerGroupData && setIsDisconnected(getIsDisconnected(consumerGroupData.state));
+    consumerGroupData?.state && setIsDisconnected(getIsDisconnected(consumerGroupData.state));
   }, [consumerGroupData?.state]);
 
   const onConfirmationChange = (checked: boolean) => {
@@ -205,7 +204,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
         <StackItem>
           <Form isHorizontal>
             <FormGroup label="Consumer group" fieldId="horizontal-form-name">
-              <Title headingLevel="h4" size="md">{consumerGroupData?.groupId}</Title>
+              <Title className="form-title" headingLevel="h4" size="md">{consumerGroupData?.groupId}</Title>
             </FormGroup>
             {isDisconnected && (<FormGroup label="Topic" fieldId="horizontal-form-name">
               <DropdownWithToggle

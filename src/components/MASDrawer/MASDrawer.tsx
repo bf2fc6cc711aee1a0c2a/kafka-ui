@@ -47,8 +47,7 @@ export type MASDrawerProps = DrawerProps & {
   notRequiredDrawerContentBackground?: boolean | undefined;
   inlineAlertMessage?: React.ReactNode;
   refreshConsumerGroups?: () => void;
-  // TODO: To be removed after sdk update
-  consumerGroupDetail: ConsumerGroup & { state: string} | undefined;
+  consumerGroupDetail: ConsumerGroup | undefined;
 };
 
 export const MASDrawer: React.FC<MASDrawerProps> = ({
