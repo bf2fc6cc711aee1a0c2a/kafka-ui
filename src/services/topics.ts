@@ -77,12 +77,7 @@ const convertTopicResponse = (topic: Topic): IAdvancedTopic => {
 
   topicObj.numPartitions = topic?.partitions?.length || 0;
 
-  topicObj.replicationFactor = topic.partitions
-    ?.map((p) => (p.replicas ? p.replicas.length : 0))
-    .reduce(
-      (previousValue, currentValue) => previousValue + currentValue,
-      0
-    );
+  topicObj.replicationFactor = topic?.partitions && topic?.partitions[0].replicas?.length || 0;
 
   return topicObj;
 };
