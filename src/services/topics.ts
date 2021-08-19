@@ -75,9 +75,9 @@ const convertTopicResponse = (topic: Topic): IAdvancedTopic => {
     }
   });
 
-  topicObj.numPartitions = topic?.partitions?.length || 0;
+  topicObj.numPartitions = topic?.partitions?.length.toString() || '0';
 
-  topicObj.replicationFactor = topic?.partitions && topic?.partitions[0].replicas?.length || 0;
+  topicObj.replicationFactor = topic?.partitions && topic?.partitions[0].replicas?.length.toString() || '0';
 
   return topicObj;
 };
