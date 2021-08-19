@@ -69,7 +69,6 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
   const [topicData, setTopicData] = useState<IAdvancedTopic>({
     name: '',
     numPartitions: '1',
-    replicationFactor: '3',
     'retention.ms': '7',
     'retention.ms.unit': 'days',
     'retention.bytes': '-1',

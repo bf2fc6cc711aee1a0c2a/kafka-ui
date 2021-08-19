@@ -52,6 +52,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
       setTopicData({
         ...topicData,
         numPartitions: topicRes?.partitions?.length.toString() || '',
+        replicationFactor: topicRes?.partitions && topicRes?.partitions[0].replicas?.length.toString() || '', 
         'cleanup.policy': configEntries['cleanup.policy'] || 'delete',
         'retention.bytes': configEntries['retention.bytes'] || '-1',
         'retention.ms': configEntries['retention.ms'] || '604800000',
