@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Modal,
@@ -6,7 +6,7 @@ import {
   Button,
   Text,
   AlertVariant,
-  TextInput,
+  ButtonVariant
 } from '@patternfly/react-core';
 import { deleteConsumerGroup } from '@app/services';
 import { ConfigContext } from '@app/contexts';
@@ -22,7 +22,6 @@ const DeleteConsumerGroup: React.FC<DeleteConsumerGroupProps & BaseModalProps> =
   ({ consumerName, refreshConsumerGroups, hideModal }) => {
     const { t } = useTranslation();
     const config = useContext(ConfigContext);
-    const [verificationText, setVerificationText] = useState<string>('');
     const { addAlert } = useAlert();
 
     const onClose = () => {
@@ -52,26 +51,21 @@ const DeleteConsumerGroup: React.FC<DeleteConsumerGroupProps & BaseModalProps> =
       onClose();
     };
 
-    const handleVerificationTextChange = (value) => {
-      setVerificationText(value);
-    };
-
+ 
     return (
       <Modal
         variant={ModalVariant.small}
         isOpen={true}
         aria-label={t('consumerGroup.delete')}
         title={t('consumerGroup.delete')}
-        titleIconVariant='warning'
         showClose={true}
         aria-describedby='modal-message'
         onClose={onClose}
         actions={[
           <Button
-            variant='danger'
+            variant={ButtonVariant.primary}
             onClick={onDelete}
             key={1}
-            isDisabled={verificationText.toUpperCase() != 'DELETE'}
           >
             {t('common.delete')}
           </Button>,
@@ -90,17 +84,6 @@ const DeleteConsumerGroup: React.FC<DeleteConsumerGroupProps & BaseModalProps> =
             }}
           />
         </Text>
-
-        <br />
-        <label htmlFor='delete-text-input'>{t('common.confirm_delete')}</label>
-        <TextInput
-          value={verificationText}
-          id='delete-text-input'
-          name='delete-text-input'
-          type='text'
-          onChange={handleVerificationTextChange}
-          autoFocus={true}
-        />
       </Modal>
     );
   };
