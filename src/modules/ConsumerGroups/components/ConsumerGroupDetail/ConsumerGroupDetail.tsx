@@ -13,12 +13,12 @@ import { ConsumerGroup } from '@rhoas/kafka-instance-sdk';
 import { MASTable } from '@app/components';
 
 export type ConsumerGroupDetailProps = {
-  consumerDetail: ConsumerGroup | undefined;
+  consumerGroupDetail: ConsumerGroup | undefined;
   consumerGroupByTopic: boolean;
 };
 
 const ConsumerGroupDetail: React.FunctionComponent<ConsumerGroupDetailProps> =
-  ({ consumerDetail, consumerGroupByTopic }) => {
+  ({ consumerGroupDetail, consumerGroupByTopic }) => {
     const { t } = useTranslation();
 
     const columns = consumerGroupByTopic
@@ -78,8 +78,8 @@ const ConsumerGroupDetail: React.FunctionComponent<ConsumerGroupDetailProps> =
 
     const getRows = () => {
       return (
-        (consumerDetail &&
-          consumerDetail.consumers.map((consumergroup) =>
+        (consumerGroupDetail &&
+          consumerGroupDetail.consumers.map((consumergroup) =>
             consumerGroupByTopic
               ? [
                   consumergroup.partition,
@@ -117,8 +117,8 @@ const ConsumerGroupDetail: React.FunctionComponent<ConsumerGroupDetailProps> =
               </Text>
               <Text component={TextVariants.p}>
                 <Text component={TextVariants.h2}>
-                  {consumerDetail &&
-                    consumerDetail.consumers.reduce(function (prev, cur) {
+                  {consumerGroupDetail &&
+                    consumerGroupDetail.consumers.reduce(function (prev, cur) {
                       return prev + (cur.partition != -1 ? 1 : 0);
                     }, 0)}
                 </Text>
@@ -130,8 +130,8 @@ const ConsumerGroupDetail: React.FunctionComponent<ConsumerGroupDetailProps> =
               </Text>
               <Text component={TextVariants.p}>
                 <Text component={TextVariants.h2}>
-                  {consumerDetail &&
-                    consumerDetail.consumers.reduce(function (prev, cur) {
+                  {consumerGroupDetail &&
+                    consumerGroupDetail.consumers.reduce(function (prev, cur) {
                       return prev + (cur.lag > 0 ? 1 : 0);
                     }, 0)}
                 </Text>

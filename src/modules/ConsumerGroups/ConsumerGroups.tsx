@@ -91,7 +91,7 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
 
   const panelBodyContent = (
     <ConsumerGroupDetail
-      consumerDetail={consumerGroupDetail}
+      consumerGroupDetail={consumerGroupDetail}
       consumerGroupByTopic={consumerGroupByTopic}
     />
   );
@@ -169,6 +169,8 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
           title: { value: consumerGroupDetail?.groupId, headingLevel: 'h1' },
         }}
         data-ouia-app-id='dataPlane-consumerGroupDetails'
+        refreshConsumerGroups={fetchConsumerGroups}
+        consumerGroupDetail={consumerGroupDetail}
       >
         {renderConsumerTable()}
       </MASDrawer>

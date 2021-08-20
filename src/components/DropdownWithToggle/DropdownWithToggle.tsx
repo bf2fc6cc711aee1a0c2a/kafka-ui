@@ -10,6 +10,7 @@ interface IDropdownWithToggleProps {
   items: IDropdownOption[];
   onSelectOption?: (value: string, event) => void;
   ariaLabel?: string;
+  menuAppendTo?: HTMLElement | (() => HTMLElement) | 'parent' | 'inline';
 }
 
 export interface IDropdownOption {
@@ -27,6 +28,7 @@ export const DropdownWithToggle: React.FC<IDropdownWithToggleProps> = ({
   ariaLabel,
   onSelectOption,
   name,
+  menuAppendTo,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>();
 
@@ -76,6 +78,7 @@ export const DropdownWithToggle: React.FC<IDropdownWithToggleProps> = ({
       isOpen={isOpen}
       aria-label={ariaLabel}
       dropdownItems={getItems(items)}
+      menuAppendTo={menuAppendTo}
     />
   );
 };

@@ -17,7 +17,7 @@ const CustomRowWrapperContext = createContext<CustomRowWrapperContextProps>({
 
 export const CustomRowWrapperProvider = CustomRowWrapperContext.Provider;
 
-export const CustomRowWrapper = (rowWrapperProps) => {
+export const CustomRowWrapper = (rowWrapperProps): JSX.Element => {
   const { activeRow, onRowClick, rowDataTestId } = useContext(
     CustomRowWrapperContext
   );

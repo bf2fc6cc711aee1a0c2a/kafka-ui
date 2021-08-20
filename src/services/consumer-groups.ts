@@ -4,6 +4,8 @@ import {
   GroupsApi,
   ConsumerGroupList,
   ConsumerGroup,
+  ConsumerGroupResetOffsetParametersOffsetEnum,
+  ConsumerGroupResetOffsetResult,
 } from '@rhoas/kafka-instance-sdk';
 import { IConfiguration } from '@app/contexts';
 import { SortByDirection } from '@patternfly/react-table';
@@ -75,4 +77,27 @@ const getConsumerGroupDetail = async (
   return response.data;
 };
 
-export { getConsumerGroups, deleteConsumerGroup, getConsumerGroupDetail };
+const consumerGroupResetOffset = async (
+  config: IConfiguration | undefined,
+  consumerGroupId: string,
+  offset: ConsumerGroupResetOffsetParametersOffsetEnum,
+  topic: string,
+  partitions: number[],
+  value?: string,
+): Promise<AxiosResponse<ConsumerGroupResetOffsetResult>> => {
+  const accessToken = await config?.getToken();
+
+  const api = new GroupsApi(
+    new Configuration({
+      accessToken,
+      basePath: config?.basePath,
+    })
+  );
+  const response: AxiosResponse<ConsumerGroupResetOffsetResult> = await api.resetConsumerGroupOffset(
+    consumerGroupId,
+    { value, offset, topics: [{ topic, partitions }]}
+  );
+  return response;
+};
+
+export { getConsumerGroups, deleteConsumerGroup, getConsumerGroupDetail, consumerGroupResetOffset };
