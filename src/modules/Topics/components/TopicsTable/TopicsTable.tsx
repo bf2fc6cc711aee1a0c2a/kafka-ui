@@ -9,6 +9,7 @@ import {
   OnSort,
   ISortBy,
 } from '@patternfly/react-table';
+import {useBasename} from '@bf2/ui-shared';
 import {
   MASTable,
   MASPagination,
@@ -16,7 +17,6 @@ import {
   MASEmptyStateVariant,
 } from '@app/components';
 import { Topic } from '@rhoas/kafka-instance-sdk';
-import { useFederated } from '@app/contexts';
 import { TopicsToolbar, TopicsToolbarProps } from './TopicsToolbar';
 import { convertRetentionSize, convertRetentionTime } from '@app/utils';
 import { useModal, ModalType } from '@app/components';
@@ -49,7 +49,8 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
 }) => {
   const { t } = useTranslation();
   const { showModal } = useModal<ModalType.DeleteTopic>();
-  const { onConnectToRoute, getConnectToRoutePath } = useFederated();
+  const { getBasename } = useBasename();
+  const basename = getBasename();
 
   const tableColumns = [
     { title: t('common.name') },
@@ -103,23 +104,13 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
   const preparedTableCells = () => {
     const tableRow: (IRowData | string[])[] | undefined = [];
     topicItems?.map((row: IRowData) => {
-      const { name, partitions, config } = row;
+      const { name, partitions, config } = row;   
+
       tableRow.push({
         cells: [
           {
             title: (
-              <Link
-                data-testid='tableTopics-linkTopic'
-                to={
-                  (getConnectToRoutePath &&
-                    getConnectToRoutePath(`topics/${name}`, name)) ||
-                  ''
-                }
-                onClick={(e) => {
-                  e.preventDefault();
-                  onConnectToRoute && onConnectToRoute(`topics/${name}`);
-                }}
-              >
+              <Link data-testid="tableTopics-linkTopic" to={`${basename}/topics/${name}`}>
                 {name}
               </Link>
             ),

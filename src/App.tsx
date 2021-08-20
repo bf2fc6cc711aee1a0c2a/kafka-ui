@@ -17,28 +17,31 @@ import {
   AlertProvider,
 } from '@app/components';
 import { Routes } from '@app/Routes';
+import { BasenameContext } from '@bf2/ui-shared';
 
 const App: React.FC = () => {
   return (
     <I18nextProvider i18n={kafkai18n}>
-      <ConfigContext.Provider
-        value={{
-          basePath: 'http://localhost:8000/data/kafka',
-          getToken: async () => '',
-        }}
-      >
-        <Router>
-          <ErrorBoundary>
-            <AlertProvider>
-              <ModalProvider>
-                <AppLayout>
-                  <Routes />
-                </AppLayout>
-              </ModalProvider>
-            </AlertProvider>
-          </ErrorBoundary>
-        </Router>
-      </ConfigContext.Provider>
+      <BasenameContext.Provider value={{ getBasename: () => "" }}>
+        <ConfigContext.Provider
+          value={{
+            basePath: "http://localhost:8000/data/kafka",
+            getToken: async () => "",
+          }}
+        >
+          <Router>
+            <ErrorBoundary>
+              <AlertProvider>
+                <ModalProvider>
+                  <AppLayout>
+                    <Routes />
+                  </AppLayout>
+                </ModalProvider>
+              </AlertProvider>
+            </ErrorBoundary>
+          </Router>
+        </ConfigContext.Provider>
+      </BasenameContext.Provider>
     </I18nextProvider>
   );
 };

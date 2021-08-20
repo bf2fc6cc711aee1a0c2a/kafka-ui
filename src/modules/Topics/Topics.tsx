@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   AlertVariant,
@@ -12,9 +12,8 @@ import { TopicsTable } from './components';
 import { EmptyState, MASEmptyStateVariant, MASLoading } from '@app/components';
 import { getTopics, OrderKey } from '@app/services';
 import { ConfigContext, useFederated } from '@app/contexts';
-import { TopicsList, Topic } from '@rhoas/kafka-instance-sdk';
-import { KafkaActions } from '@app/utils';
-import { useAlert } from '@bf2/ui-shared';
+import { Topic } from '@rhoas/kafka-instance-sdk';
+import { useAlert, useBasename } from '@bf2/ui-shared';
 import './Topics.css';
 import { ISortBy, OnSort, SortByDirection } from '@patternfly/react-table';
 
@@ -28,13 +27,8 @@ export type ITopicProps = {
   rows: ITopic[];
 };
 
-export type TopicsProps = {
-  onCreateTopic?: () => void;
-  onEditTopic?: (topicName?: string | undefined) => void;
-};
-
-const Topics: React.FC<TopicsProps> = ({ onCreateTopic, onEditTopic }) => {
-  const { dispatchKafkaAction, onError } = useFederated();
+const Topics: React.FC = () => {
+  const { onError} = useFederated() || {};
   const { t } = useTranslation();
   const { addAlert } = useAlert();
   const config = useContext(ConfigContext);
@@ -42,8 +36,10 @@ const Topics: React.FC<TopicsProps> = ({ onCreateTopic, onEditTopic }) => {
   const searchParams = new URLSearchParams(location.search);
   const page = parseInt(searchParams.get('page') || '', 10) || 1;
   const perPage = parseInt(searchParams.get('perPage') || '', 10) || 10;
+  const history = useHistory();
+  const { getBasename } = useBasename();
+  const basename = getBasename();
 
-  const [topics, setTopics] = useState<TopicsList>();
   const [topicItems, setTopicItems] = useState<Topic[]>();
   const [searchTopicName, setSearchTopicName] = useState<string>('');
   const [offset, setOffset] = useState<number>(0);
@@ -63,8 +59,15 @@ const Topics: React.FC<TopicsProps> = ({ onCreateTopic, onEditTopic }) => {
   }, [page, perPage]);
 
   const onClickCreateTopic = () => {
-    onCreateTopic && onCreateTopic();
-    dispatchKafkaAction && dispatchKafkaAction(KafkaActions.CreateTopic);
+    history.push(`${basename}/topic/create`);
+  };
+
+  const onEditTopic = (topicName: string | undefined) => {
+    history.push(`${basename}/topic/update/${topicName}`);
+  };
+
+  const onEdit = (topicName: string | undefined) => {
+    onEditTopic && onEditTopic(topicName);
   };
 
   const onSort: OnSort = (_event, index, direction) => {
@@ -90,8 +93,7 @@ const Topics: React.FC<TopicsProps> = ({ onCreateTopic, onEditTopic }) => {
         offset,
         order,
         orderKey
-      ).then((response) => {
-        setTopics(response);
+      ).then((response) => {        
         setTopicItems(response?.items);
       });
     } catch (err) {
@@ -144,7 +146,7 @@ const Topics: React.FC<TopicsProps> = ({ onCreateTopic, onEditTopic }) => {
           total={topicItems.length || 0}
           page={page}
           perPage={perPage}
-          onCreateTopic={onCreateTopic}
+          onCreateTopic={onClickCreateTopic}
           topicItems={
             searchTopicName
               ? topicItems?.slice(0, perPage)
@@ -153,7 +155,7 @@ const Topics: React.FC<TopicsProps> = ({ onCreateTopic, onEditTopic }) => {
           filteredValue={searchTopicName}
           setFilteredValue={setSearchTopicName}
           refreshTopics={fetchTopic}
-          onEdit={onEditTopic}
+          onEdit={onEdit}
           onSort={onSort}
           sortBy={sortBy}
         />

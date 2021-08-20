@@ -1,7 +1,6 @@
-import React, { FunctionComponent } from 'react';
-import { I18nextProvider } from 'react-i18next';
-import { BrowserRouter } from 'react-router-dom';
-import { UpdateTopicPage } from '@app/modules/Topics/pages/UpdateTopic';
+import React, { FunctionComponent } from "react";
+import { I18nextProvider } from "react-i18next";
+import { UpdateTopicPage } from "@app/modules/Topics/pages/UpdateTopic";
 import {
   FederatedContext,
   FederatedProps,
@@ -9,7 +8,6 @@ import {
   IConfiguration,
 } from '@app/contexts';
 import kafkai18n from '@app/i18n';
-import { KafkaActions } from '@app/utils';
 import { ModalProvider } from '@app/components/KafkaModal';
 
 export type UpdateTopicFederatedProps = FederatedProps &
@@ -20,51 +18,30 @@ export type UpdateTopicFederatedProps = FederatedProps &
 const UpdateTopicFederated: FunctionComponent<UpdateTopicFederatedProps> = ({
   getToken,
   apiBasePath,
-  topicName,
   kafkaName,
   kafkaPageLink,
   kafkaInstanceLink,
   onError,
-  dispatchKafkaAction,
-  onConnectToRoute,
 }) => {
-  const onCancelUpdateTopic = () => {
-    dispatchKafkaAction && dispatchKafkaAction(KafkaActions.DetailsTopic);
-  };
-
-  const onDeleteTopic = () => {
-    onConnectToRoute && onConnectToRoute('');
-  };
-
-  const onSaveTopic = () => {
-    dispatchKafkaAction && dispatchKafkaAction(KafkaActions.DetailsTopic);
-  };
 
   return (
-    <BrowserRouter>
-      <I18nextProvider i18n={kafkai18n}>
-        <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
-          <FederatedContext.Provider
-            value={{
-              activeTab: 1,
-              topicName,
-              kafkaName,
-              kafkaPageLink,
-              kafkaInstanceLink,
-              onError,
-            }}
-          >
-            <ModalProvider>
-              <UpdateTopicPage
-                onCancelUpdateTopic={onCancelUpdateTopic}
-                onDeleteTopic={onDeleteTopic}
-                onSaveTopic={onSaveTopic}
-              />
-            </ModalProvider>
-          </FederatedContext.Provider>
-        </ConfigContext.Provider>
-      </I18nextProvider>
-    </BrowserRouter>
+    <I18nextProvider i18n={kafkai18n}>
+      <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
+        <FederatedContext.Provider
+          value={{
+            activeTab: 1,           
+            kafkaName,
+            kafkaPageLink,
+            kafkaInstanceLink,
+            onError      
+          }}
+        >
+          <ModalProvider>
+            <UpdateTopicPage/>
+          </ModalProvider>
+        </FederatedContext.Provider>
+      </ConfigContext.Provider>
+    </I18nextProvider>
   );
 };
 

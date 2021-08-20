@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import {useHistory, useParams} from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import {useBasename} from '@bf2/ui-shared';
 import {
   Tabs,
   Tab,
@@ -16,30 +18,33 @@ import {
 import { useFederated } from '@app/contexts';
 import '../style.css';
 
-export type UpdateTopicPageProps = {
-  onCancelUpdateTopic: () => void;
-  onDeleteTopic: () => void;
-  onSaveTopic: () => void;
-};
 
-export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
-  onCancelUpdateTopic,
-  onDeleteTopic,
-  onSaveTopic,
-}) => {
+export const UpdateTopicPage: React.FunctionComponent = () => {
   const { t } = useTranslation();
-  const {
-    topicName = '',
+  const history = useHistory();
+  const { getBasename } = useBasename();
+  const basename = getBasename();
+  const { topicName } = useParams<{topicName:string}>();
+  const {  
     kafkaName,
     kafkaPageLink,
     kafkaInstanceLink,
     onError,
-    activeTab = 0,
-  } = useFederated();
+    activeTab = 1,
+  } = useFederated() || {};
   const [activeTabKey, setActiveTabKey] = useState(activeTab);
 
   const contentRefConsumerGroup = React.createRef<HTMLElement>();
   const contentRefProperties = React.createRef<HTMLElement>();
+
+
+  const onDeleteTopic = () => {
+    history.push(basename);
+  };
+
+  const onSaveTopic = () => {
+    history.push(`${basename}/topics/${topicName}`);
+  };
 
   const handleTabClick = (event, tabIndex) => {
     setActiveTabKey(tabIndex);
@@ -107,7 +112,6 @@ export const UpdateTopicPage: React.FunctionComponent<UpdateTopicPageProps> = ({
         >
           <UpdateTopicView
             topicName={topicName}
-            onCancelUpdateTopic={onCancelUpdateTopic}
             onDeleteTopic={onDeleteTopic}
             onSaveTopic={onSaveTopic}
             onError={onError}

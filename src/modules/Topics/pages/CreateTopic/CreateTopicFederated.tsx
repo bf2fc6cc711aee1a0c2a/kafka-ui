@@ -1,14 +1,13 @@
-import React, { FunctionComponent } from 'react';
-import { I18nextProvider } from 'react-i18next';
-import { CreateTopicPage } from '@app/modules/Topics/pages/CreateTopic/CreateTopicPage';
-import kafkai18n from '@app/i18n';
+import React, { FunctionComponent } from "react";
+import { I18nextProvider } from "react-i18next";
+import { CreateTopicPage } from "@app/modules/Topics/pages/CreateTopic/CreateTopicPage";
+import kafkai18n from "@app/i18n";
 import {
   FederatedContext,
   FederatedProps,
   ConfigContext,
   IConfiguration,
-} from '@app/contexts';
-import { KafkaActions } from '@app/utils';
+} from "@app/contexts";
 
 export type CreateTopicFederatedProps = FederatedProps &
   IConfiguration & {
@@ -21,11 +20,7 @@ const CreateTopicFederated: FunctionComponent<CreateTopicFederatedProps> = ({
   kafkaName,
   kafkaPageLink,
   kafkaInstanceLink,
-  dispatchKafkaAction,
 }) => {
-  const onCloseCreateTopic = () => {
-    dispatchKafkaAction && dispatchKafkaAction(KafkaActions.ViewTopics);
-  };
 
   return (
     <I18nextProvider i18n={kafkai18n}>
@@ -35,10 +30,9 @@ const CreateTopicFederated: FunctionComponent<CreateTopicFederatedProps> = ({
             kafkaName,
             kafkaPageLink,
             kafkaInstanceLink,
-            dispatchKafkaAction,
           }}
         >
-          <CreateTopicPage onCloseCreateTopic={onCloseCreateTopic} />
+          <CreateTopicPage />
         </FederatedContext.Provider>
       </ConfigContext.Provider>
     </I18nextProvider>

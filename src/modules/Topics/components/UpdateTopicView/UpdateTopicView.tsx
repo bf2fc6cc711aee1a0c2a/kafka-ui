@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import {useHistory} from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AlertVariant } from '@patternfly/react-core';
 import {
@@ -10,25 +11,27 @@ import { ConfigEntry, TopicSettings } from '@rhoas/kafka-instance-sdk';
 import { ConfigContext } from '@app/contexts';
 import { convertUnits } from '@app/modules/Topics/utils';
 import { isAxiosError } from '@app/utils/axios';
-import { useAlert } from '@bf2/ui-shared';
+import { useAlert, useBasename } from '@bf2/ui-shared';
 import '../CreateTopicWizard/CreateTopicWizard.css';
 
 export type UpdateTopicViewProps = {
   topicName: string;
-  onCancelUpdateTopic: () => void;
   onDeleteTopic: () => void;
   onSaveTopic: () => void;
   onError?: (errorCode: number, message: string) => void;
 };
 export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   topicName,
-  onCancelUpdateTopic,
   onSaveTopic,
   onError,
 }) => {
   const { t } = useTranslation();
   const config = useContext(ConfigContext);
   const { addAlert } = useAlert();
+  const history = useHistory();
+  const { getBasename } = useBasename();
+  const basename = getBasename();
+
   const initialState = {
     name: topicName,
     numPartitions: '',
@@ -38,8 +41,13 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
     'retention.bytes.unit': 'bytes',
     'cleanup.policy': '',
   };
+
   const [topicData, setTopicData] = useState<IAdvancedTopic>(initialState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const onCancelUpdateTopic = () => {
+    history.push(`${basename}/topics/${topicName}`);
+  };
 
   const fetchTopic = async (topicName) => {
     try {
@@ -68,7 +76,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
             variant: AlertVariant.danger,
             title: `Topic ${topicName} does not exist`,
           });
-          onCancelUpdateTopic();
+          onCancelUpdateTopic && onCancelUpdateTopic();
         }
       }
     }

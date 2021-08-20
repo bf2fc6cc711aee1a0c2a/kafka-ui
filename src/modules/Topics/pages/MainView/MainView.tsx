@@ -16,7 +16,6 @@ import {
   KebabToggle,
   DropdownItem,
 } from '@patternfly/react-core';
-import { TopicsProps } from '@app/modules/Topics/Topics';
 import { useFederated } from '@app/contexts';
 import { MASLoading } from '@app/components';
 import '../style.css';
@@ -26,15 +25,7 @@ const ConsumerGroups = lazy(
   () => import('@app/modules/ConsumerGroups/ConsumerGroups')
 );
 
-export type MainViewProps = TopicsProps & {
-  activeTab?: number;
-};
-
-export const MainView: React.FC<MainViewProps> = ({
-  onCreateTopic,
-  onEditTopic,
-  activeTab,
-}) => {
+export const MainView: React.FC = () => {
   const { t } = useTranslation();
   const {
     kafkaPageLink,
@@ -42,9 +33,10 @@ export const MainView: React.FC<MainViewProps> = ({
     handleInstanceDrawer,
     setIsOpenDeleteInstanceModal,
     showMetrics,
-  } = useFederated();
+    activeTab,
+  } = useFederated() || {};
 
-  const [activeTabKey, setActiveTabKey] = useState(activeTab);
+  const [activeTabKey, setActiveTabKey] = useState(activeTab || 1);
   const contentRefConsumerGroups = React.createRef<HTMLElement>();
   const contentRefTopics = React.createRef<HTMLElement>();
   const contentRefDashboard = React.createRef<HTMLElement>();
@@ -140,8 +132,7 @@ export const MainView: React.FC<MainViewProps> = ({
               id='dashboard-tab-section'
               aria-label={t('dashboard.dashboard')}
               tabContentRef={contentRefDashboard}
-              tabContentId='kafka-ui-TabcontentDashboard'
-              // className="kafka-ui-m-full-height"
+              tabContentId='kafka-ui-TabcontentDashboard'             
             />
             <Tab
               title={<TabTitleText>{t('topic.topics')}</TabTitleText>}
@@ -150,8 +141,7 @@ export const MainView: React.FC<MainViewProps> = ({
               id='topics-tab-section'
               aria-label={t('topic.topics')}
               tabContentRef={contentRefTopics}
-              tabContentId='kafka-ui-TabcontentTopicsList'
-              // className="kafka-ui-m-full-height"
+              tabContentId='kafka-ui-TabcontentTopicsList'             
             />
             <Tab
               title={
@@ -164,8 +154,7 @@ export const MainView: React.FC<MainViewProps> = ({
               id='consumer-groups-tab-section'
               aria-label={t('consumerGroup.consumer_groups')}
               tabContentRef={contentRefConsumerGroups}
-              tabContentId='kafka-ui-TabcontentConsumersList'
-              // className='kafka-ui-m-full-height'
+              tabContentId='kafka-ui-TabcontentConsumersList'             
             />
           </Tabs>
         </PageSection>
@@ -176,6 +165,7 @@ export const MainView: React.FC<MainViewProps> = ({
             id='kafka-ui-TabcontentDashboard'
             className='kafka-ui-m-full-height'
             aria-label={t('dashboard.dashboard')}
+            hidden={activeTabKey!==1}
           >
             {showMetrics}
           </TabContent>
@@ -185,9 +175,9 @@ export const MainView: React.FC<MainViewProps> = ({
             id='kafka-ui-TabcontentTopicsList'
             className='kafka-ui-m-full-height'
             aria-label={t('topic.topics')}
-            hidden
+            hidden={activeTabKey!==2}
           >
-            <Topics onCreateTopic={onCreateTopic} onEditTopic={onEditTopic} />
+            <Topics />
           </TabContent>
           <TabContent
             eventKey={3}
@@ -195,7 +185,7 @@ export const MainView: React.FC<MainViewProps> = ({
             id='kafka-ui-TabcontentConsumersList'
             className='kafka-ui-m-full-height'
             aria-label={t('consumerGroup.consumer_groups')}
-            hidden
+            hidden={activeTabKey!=3}
           >
             <ConsumerGroups consumerGroupByTopic={false} />
           </TabContent>
