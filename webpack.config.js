@@ -148,10 +148,11 @@ module.exports = (_env, argv) => {
     },
     devServer: {
       historyApiFallback: true,
-      port: 8080,
-      disableHostCheck: true,
-      progress: true,
-      hot: true,
+      port: 8080,   
+      allowedHosts:'all',
+      client:{
+        progress: true
+      },
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods':
