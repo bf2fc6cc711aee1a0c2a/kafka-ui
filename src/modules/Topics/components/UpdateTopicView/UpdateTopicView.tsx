@@ -93,7 +93,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
 
     for (const key in configEntries) {
       // TODO Remove check when API supports setting the number of partition
-      if (key && key !== 'numPartitions') {
+      if (key && key !== 'numPartitions' && key !== 'replicationFactor') {
         newConfig.push({
           key,
           value: configEntries[key].toString().toLowerCase(),
