@@ -55,7 +55,7 @@ import '../CreateTopicWizard/CreateTopicWizard.css';
 export type TopicAdvanceConfigProps = {
   isCreate: boolean;
   saveTopic: () => void;
-  handleCancel: () => void;
+  handleCancel?: () => void;
   topicData: IAdvancedTopic;
   setTopicData: (val: IAdvancedTopic) => void;
   isLoadingSave?: boolean;

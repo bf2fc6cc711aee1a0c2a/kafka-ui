@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import {useHistory} from 'react-router-dom';
+import {useBasename} from '@bf2/ui-shared';
 import {
   CreateTopichead,
   CreateTopicWizard,
@@ -6,15 +8,17 @@ import {
 import { useFederated } from '@app/contexts';
 import '../style.css';
 
-export type CreateTopicPageProps = {
-  onCloseCreateTopic: () => void;
-};
+export const CreateTopicPage: React.FC = () => {
+  const { kafkaName, kafkaPageLink, kafkaInstanceLink } = useFederated() || {};
+  const history = useHistory();
+  const { getBasename } = useBasename();
+  const basename = getBasename();
 
-export const CreateTopicPage: React.FC<CreateTopicPageProps> = ({
-  onCloseCreateTopic,
-}) => {
-  const { kafkaName, kafkaPageLink, kafkaInstanceLink } = useFederated();
   const [isSwitchChecked, setIsSwitchChecked] = useState<boolean>(false);
+
+  const onCloseCreateTopic = () => {
+    history.push(basename);
+  };
 
   return (
     <>

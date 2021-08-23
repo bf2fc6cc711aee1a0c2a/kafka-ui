@@ -2,13 +2,6 @@ export interface FederatedProps {
   onError: (errorCode: number, message: string) => void;
 }
 
-export enum KafkaActions {
-  ViewTopics = 'ViewTopics',
-  CreateTopic = 'CreateTopic',
-  DetailsTopic = 'DetailsTopic',
-  UpdateTopic = 'UpdateTopic',
-}
-
 export const convertRetentionTime = (milliseconds: number): string => {
   let convertedValue;
   if (milliseconds === -1) {

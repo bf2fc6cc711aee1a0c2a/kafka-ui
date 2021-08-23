@@ -13,6 +13,13 @@ export const PartitionsChange: React.FC<
     hideModal();
   };
 
+  const onConfirm = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    onClose();
+    onSaveTopic && onSaveTopic(event);
+  };
+
   return (
     <Modal
       variant={ModalVariant.small}
@@ -24,7 +31,7 @@ export const PartitionsChange: React.FC<
       aria-describedby='modal-message'
       onClose={onClose}
       actions={[
-        <Button variant='primary' onClick={onSaveTopic} key={1}>
+        <Button variant='primary' onClick={onConfirm} key={1}>
           Yes
         </Button>,
         <Button variant='link' onClick={onClose} key={2}>
