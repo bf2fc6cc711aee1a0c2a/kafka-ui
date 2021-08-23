@@ -1,6 +1,11 @@
 import { ConfigEntry, NewTopicInput } from '@rhoas/kafka-instance-sdk';
 import { IAdvancedTopic } from '@app/modules/Topics/components/CreateTopicWizard';
 
+type ConversionResponse = {
+  value: number;
+  unit: string;
+}
+
 const capitalizeText = (text: string) => {
   return text.charAt(0).toUpperCase() + text.slice(1);
 };
@@ -34,6 +39,24 @@ const unitsToMilliSecond = {
   months: 2592000000,
   years: 31536000000,
 };
+
+export const determineTimeUnit = (retentionTime: number): ConversionResponse => {
+  if (retentionTime % unitsToMilliSecond.years == 0) return { value: (retentionTime / unitsToMilliSecond.years), unit: 'years' }
+  if (retentionTime % unitsToMilliSecond.months == 0) return { value: (retentionTime / unitsToMilliSecond.months), unit: 'months' }
+  if (retentionTime % unitsToMilliSecond.days == 0) return { value: (retentionTime / unitsToMilliSecond.days), unit: 'days' }
+  if (retentionTime % unitsToMilliSecond.seconds == 0) return { value: (retentionTime / unitsToMilliSecond.seconds), unit: 'seconds' }
+
+  return { value: retentionTime, unit: 'milliseconds' }
+}
+
+export const determineMemoryUnit = (retentionSize: number): ConversionResponse => {
+  if (retentionSize % unitsToBytes.tebibytes == 0) return { value: (retentionSize / unitsToBytes.tebibytes), unit: 'tebibytes' }
+  if (retentionSize % unitsToBytes.gibibytes == 0) return { value: (retentionSize / unitsToBytes.gibibytes), unit: 'gibibytes' }
+  if (retentionSize % unitsToBytes.mebibytes == 0) return { value: (retentionSize / unitsToBytes.mebibytes), unit: 'mebibytes' }
+  if (retentionSize % unitsToBytes.kibibytes == 0) return { value: (retentionSize / unitsToBytes.kibibytes), unit: 'kibibytes' }
+
+  return { value: retentionSize, unit: 'bytes' }
+}
 
 export const convertUnits = (topicData: IAdvancedTopic): IAdvancedTopic => {
   const topic = { ...topicData };

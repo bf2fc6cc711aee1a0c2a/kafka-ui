@@ -46,7 +46,7 @@ import {
   useModal,
   ModalType,
 } from '@app/components';
-import { kebabToCamel, kebabToDotSeparated } from '@app/modules/Topics/utils';
+import { kebabToCamel, kebabToDotSeparated, determineMemoryUnit, determineTimeUnit } from '@app/modules/Topics/utils';
 import { IAdvancedTopic } from '@app/modules/Topics/components';
 import { getTopic } from '@app/services';
 import { ConfigContext } from '@app/contexts';
@@ -155,13 +155,17 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
           setIsCustomRetentionSizeSelected(false);
         } else {
           setIsCustomRetentionSizeSelected(true);
-          setCustomRetentionSize(Number(topicData['retention.bytes']));
+          const { value, unit } = determineMemoryUnit(Number(topicData['retention.bytes']));
+          setCustomRetentionSize(value);
+          setCustomRetentionSizeUnit(unit);
         }
         if (topicData['retention.ms'] === '-1') {
           setIsCustomRetentionTimeSelected(false);
         } else {
           setIsCustomRetentionTimeSelected(true);
-          setCustomRetentionTime(Number(topicData['retention.ms']));
+          const { value, unit } = determineTimeUnit(Number(topicData['retention.ms']));
+          setCustomRetentionTime(value);
+          setCustomRetentionTimeUnit(unit);
         }
       }
     }, [topicData['retention.bytes'], topicData['retention.ms']]);
