@@ -3,7 +3,7 @@ import { Modal, ModalVariant, Button, Alert, Checkbox, Title, TextInput, AlertVa
 import { useTranslation } from 'react-i18next';
 import { ConfigContext } from "@app/contexts";
 import { IRowData, Table, TableBody, TableHeader } from "@patternfly/react-table";
-import { Consumer, ConsumerGroup, ConsumerGroupResetOffsetParametersOffsetEnum } from "@rhoas/kafka-instance-sdk";
+import { Consumer, ConsumerGroup, ConsumerGroupResetOffsetParametersOffsetEnum, ConsumerGroupStateEnum } from "@rhoas/kafka-instance-sdk";
 import './ConsumerGroupResetOffset.css';
 import { BaseModalProps } from "@app/components/KafkaModal/ModalTypes";
 import { consumerGroupResetOffset } from "@app/services";
@@ -110,7 +110,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
   };
 
   const getIsDisconnected = (state: string) => {
-    if (state === 'STABLE') {
+    if (state===ConsumerGroupStateEnum.Stable) {
       return false;
     }
     return true;
@@ -191,7 +191,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
           variant='danger'
           onClick={handleConsumerGroupResetOffset}
           key={1}
-          isDisabled={isResetOffsetDisabled()}
+          isAriaDisabled={isResetOffsetDisabled()}
         >
           {t('consumerGroup.reset_offset')}
         </Button>,

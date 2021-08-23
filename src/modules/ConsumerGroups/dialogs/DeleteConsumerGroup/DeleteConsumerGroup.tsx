@@ -6,23 +6,27 @@ import {
   Button,
   Text,
   AlertVariant,
-  ButtonVariant
+  ButtonVariant,
+  Alert
 } from '@patternfly/react-core';
 import { deleteConsumerGroup } from '@app/services';
 import { ConfigContext } from '@app/contexts';
 import { useAlert } from '@bf2/ui-shared';
 import { BaseModalProps } from '@app/components/KafkaModal/ModalTypes';
+import { ConsumerGroupStateEnum } from '@rhoas/kafka-instance-sdk';
 
 export type DeleteConsumerGroupProps = {
   consumerName: string;
   refreshConsumerGroups?: () => void;
+  state?: string;
 };
 
 const DeleteConsumerGroup: React.FC<DeleteConsumerGroupProps & BaseModalProps> =
-  ({ consumerName, refreshConsumerGroups, hideModal }) => {
+  ({ consumerName, refreshConsumerGroups, hideModal, state }) => {
     const { t } = useTranslation();
     const config = useContext(ConfigContext);
     const { addAlert } = useAlert();
+    const isConsumerConnected=state===ConsumerGroupStateEnum.Stable;
 
     const onClose = () => {
       hideModal();
@@ -66,6 +70,7 @@ const DeleteConsumerGroup: React.FC<DeleteConsumerGroupProps & BaseModalProps> =
             variant={ButtonVariant.primary}
             onClick={onDelete}
             key={1}
+            isAriaDisabled={isConsumerConnected}
           >
             {t('common.delete')}
           </Button>,
@@ -74,6 +79,7 @@ const DeleteConsumerGroup: React.FC<DeleteConsumerGroupProps & BaseModalProps> =
           </Button>,
         ]}
       >
+        { !isConsumerConnected &&
         <Text id='modal-message'>
           <label
             htmlFor='instance-name-input'
@@ -84,6 +90,19 @@ const DeleteConsumerGroup: React.FC<DeleteConsumerGroupProps & BaseModalProps> =
             }}
           />
         </Text>
+       }
+        { isConsumerConnected && 
+        <Alert
+              className='modal-alert'
+              variant='danger'
+              isInline
+              title={t('consumerGroup.delete_consumer_connected_alert_title',{name:consumerName})}
+            >
+              <p>
+                {t('consumerGroup.delete_consumer_connected_alert_body')}
+              </p>
+        </Alert>
+        }
       </Modal>
     );
   };
