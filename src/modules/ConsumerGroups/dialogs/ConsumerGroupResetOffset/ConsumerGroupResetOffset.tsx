@@ -191,7 +191,7 @@ const ConsumerGroupResetOffset: React.FC<ConsumerGroupResetOffsetProps & BaseMod
           variant='danger'
           onClick={handleConsumerGroupResetOffset}
           key={1}
-          isAriaDisabled={isResetOffsetDisabled()}
+          isDisabled={isResetOffsetDisabled()}
         >
           {t('consumerGroup.reset_offset')}
         </Button>,

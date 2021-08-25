@@ -70,7 +70,7 @@ const DeleteConsumerGroup: React.FC<DeleteConsumerGroupProps & BaseModalProps> =
             variant={ButtonVariant.primary}
             onClick={onDelete}
             key={1}
-            isAriaDisabled={isConsumerConnected}
+            isDisabled={isConsumerConnected}
           >
             {t('common.delete')}
           </Button>,
