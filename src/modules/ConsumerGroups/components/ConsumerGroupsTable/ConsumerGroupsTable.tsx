@@ -85,10 +85,11 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
     return tableRow;
   };
 
-  const onSelectDeleteConsumerGroup = (groupId: string) => {
+  const onSelectDeleteConsumerGroup = (groupId: string, state: string | undefined) => {
     showModal(ModalType.DeleteConsumerGroup, {
       consumerName: groupId,
       refreshConsumerGroups,
+      state
     });
   };
 
@@ -103,10 +104,10 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
     event: any,
     originalData: ConsumerGroup
   ) => {
-    const { groupId } = originalData;
+    const { groupId, state } = originalData;
     //set selected row for view consumer group details
     setActiveRow(groupId);
-    onSelectDeleteConsumerGroup(groupId);
+    onSelectDeleteConsumerGroup(groupId, state);
     // Set focus back on previous selected element i.e. kebab button
     event?.target?.parentElement?.parentElement?.previousSibling?.focus();
   };

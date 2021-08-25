@@ -192,6 +192,8 @@
     "reset_offset_accept": "I understand that by resetting the offset position, I risk clients skipping or duplicating messages.",
     "reset_offset_connected_alert_title": "The offset for this consumer group cannot be reset at this time",
     "reset_offset_connected_alert_body": "One or more members of the consumer group are currently connected to a topic. All members of a consumer group must be disconnected before resetting the offset.",
-    "offset_successfully_reset": "offsets for the consumer group have been successfully reset"
+    "offset_successfully_reset": "offsets for the consumer group have been successfully reset",
+    "delete_consumer_connected_alert_title": "The {{name}} consumer group cannot be deleted at this time",
+    "delete_consumer_connected_alert_body": "One or more members are currently connected to a topic. All members of a consumer group that are connected to topic must be disconnected before deleting the consumer group."
   }
 }
