@@ -49,6 +49,6 @@ describe('Step Partitions', () => {
     expect(setTopicData).toBeCalledTimes(1);
     userEvent.click(getByRole('button', { name: /Minus/i }));
     expect(setTopicData).toHaveBeenCalled();
-    expect(setTopicData).toBeCalledTimes(2);
+    expect(setTopicData).toBeCalledTimes(1);
   });
 });
