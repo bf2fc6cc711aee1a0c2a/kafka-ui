@@ -32,7 +32,6 @@ export type MASDrawerProps = DrawerProps & {
   children: React.ReactNode;
   panelBodyContent?: React.ReactNode;
   onClose: () => void;
-  drawerData?: any;
   isLoading?: boolean;
   drawerPanelContentProps?: Omit<DrawerPanelContentProps, 'children'>;
   drawerHeaderProps?: {
@@ -63,14 +62,15 @@ export const MASDrawer: React.FC<MASDrawerProps> = ({
   'data-ouia-app-id': dataOuiaAppId,
   inlineAlertMessage,
   refreshConsumerGroups,
-  consumerGroupDetail
+  consumerGroupDetail,
 }: MASDrawerProps) => {
   const { widths, ...restDrawerPanelContentProps } =
     drawerPanelContentProps || {};
   const { text, title } = drawerHeaderProps || {};
   const { t } = useTranslation();
   const { showModal } = useModal<ModalType.DeleteConsumerGroup>();
-  const { showModal: showResetOffsetModal } = useModal<ModalType.ConsumerGroupResetOffset>();
+  const { showModal: showResetOffsetModal } =
+    useModal<ModalType.ConsumerGroupResetOffset>();
   const [isOpen, setIsOpen] = useState<boolean>();
 
   const onToggle = (isOpen: boolean) => {
@@ -82,32 +82,25 @@ export const MASDrawer: React.FC<MASDrawerProps> = ({
 
   const onSelectDeleteConsumerGroup = () => {
     showModal(ModalType.DeleteConsumerGroup, {
-      consumerName: title?.value || "",
+      consumerName: title?.value || '',
       refreshConsumerGroups,
     });
     onClose();
   };
-  const onSelectResetOffsetConsumerGroup =  ()=> {
+  const onSelectResetOffsetConsumerGroup = () => {
     showResetOffsetModal(ModalType.ConsumerGroupResetOffset, {
       refreshConsumerGroups,
-      consumerGroupData: consumerGroupDetail
+      consumerGroupData: consumerGroupDetail,
     });
   };
 
   const dropdownItems = [
-    <DropdownItem
-      key='reset offset'
-      onClick={onSelectResetOffsetConsumerGroup}
-    >
+    <DropdownItem key='reset offset' onClick={onSelectResetOffsetConsumerGroup}>
       {t('consumerGroup.reset_offset')}
     </DropdownItem>,
-    <DropdownItem
-      key='delete'
-      onClick={onSelectDeleteConsumerGroup}
-    >
+    <DropdownItem key='delete' onClick={onSelectDeleteConsumerGroup}>
       {t('common.delete')}
     </DropdownItem>,
-
   ];
 
   const panelContent = (
@@ -142,12 +135,16 @@ export const MASDrawer: React.FC<MASDrawerProps> = ({
               )}
             </TextContent>
             <DrawerActions>
-              <Dropdown onSelect={onSelect}
-                toggle={<KebabToggle onToggle={onToggle} id='toggle-data-plane' />}
+              <Dropdown
+                onSelect={onSelect}
+                toggle={
+                  <KebabToggle onToggle={onToggle} id='toggle-data-plane' />
+                }
                 isOpen={isOpen}
                 isPlain
                 dropdownItems={dropdownItems}
-                position={DropdownPosition.right}>
+                position={DropdownPosition.right}
+              >
                 {<EllipsisVIcon />}
               </Dropdown>
               <DrawerCloseButton onClick={onClose} />

@@ -65,9 +65,8 @@ export const getTopicDetail = async (
 };
 
 const convertTopicResponse = (topic: Topic): IAdvancedTopic => {
-  const topicObj: any = {};
-
-  topicObj.name = topic.name;
+  const topicObj: IAdvancedTopic = { name: '', numPartitions: '0' };
+  if (topic && topic.name) topicObj.name = topic.name;
 
   topic.config?.forEach((config) => {
     if (config.key) {
@@ -77,7 +76,9 @@ const convertTopicResponse = (topic: Topic): IAdvancedTopic => {
 
   topicObj.numPartitions = topic?.partitions?.length.toString() || '0';
 
-  topicObj.replicationFactor = topic?.partitions && topic?.partitions[0].replicas?.length.toString() || '0';
+  topicObj.replicationFactor =
+    (topic?.partitions && topic?.partitions[0].replicas?.length.toString()) ||
+    '0';
 
   return topicObj;
 };

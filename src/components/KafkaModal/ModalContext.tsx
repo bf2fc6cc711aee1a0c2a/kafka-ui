@@ -8,7 +8,7 @@ import {
 } from '@app/components/KafkaModal/ModalTypes';
 
 export type ModalContextProps<T extends ModalType> = {
-  showModal: (modalType: T, modalProps?: ModalTypePropsMap[T]) => void;
+  showModal: (modalType: T, modalProps: ModalTypePropsMap[T]) => void;
   hideModal: () => void;
 };
 
@@ -71,7 +71,7 @@ export const ModalProvider: React.FunctionComponent = ({ children }) => {
     ActiveModalProps<ModalType> | undefined
   >();
 
-  const modalProps: ModalContextProps<any> = {
+  const modalProps: ModalContextProps<ModalType> = {
     hideModal: () => {
       setActiveModal(undefined);
     },

@@ -6,7 +6,15 @@ import { render, RenderResult } from '@testing-library/react';
 import { StepPartitions, StepPartitionsProps } from './StepPartitions';
 
 const partitionsProps: StepPartitionsProps = {
-  topicData: {},
+  topicData: {
+    name: '',
+    numPartitions: '1',
+    'retention.ms': '7',
+    'retention.ms.unit': 'days',
+    'retention.bytes': '-1',
+    'retention.bytes.unit': 'bytes',
+    'cleanup.policy': 'delete',
+  },
   setTopicData: jest.fn(),
 };
 

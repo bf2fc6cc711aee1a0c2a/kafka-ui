@@ -68,7 +68,7 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
   };
 
   const onSelectKebabDropdownOption = (
-    event: any,
+    //event: React.MouseEvent<HTMLElement>,
     originalData: Topic,
     action: string
   ) => {
@@ -79,7 +79,7 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
       onEdit && onEdit(name);
     }
     // Set focus back on previous selected element i.e. kebab button
-    event?.target?.parentElement?.parentElement?.previousSibling?.focus();
+    //event?.target?.parentElement?.parentElement?.previousSibling?.focus();
   };
 
   const actionResolver = (rowData: IRowData) => {
@@ -88,14 +88,12 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
       {
         title: t('common.delete'),
         ['data-testid']: 'tableTopics-actionDelete',
-        onClick: (event: any) =>
-          onSelectKebabDropdownOption(event, originalData, 'delete'),
+        onClick: () => onSelectKebabDropdownOption(originalData, 'delete'),
       },
       {
         title: t('common.edit'),
         ['data-testid']: 'tableTopics-actionEdit',
-        onClick: (event: any) =>
-          onSelectKebabDropdownOption(event, originalData, 'edit'),
+        onClick: () => onSelectKebabDropdownOption(originalData, 'edit'),
       },
     ];
     return resolver;
