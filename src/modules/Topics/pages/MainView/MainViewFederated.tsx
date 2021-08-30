@@ -8,7 +8,7 @@ import {
 } from '@app/contexts';
 import kafkai18n from '@app/i18n';
 import { MainView } from './MainView';
-import { ModalProvider } from '@app/components/KafkaModal';
+import { ModalProvider, PaginationProvider } from '@app/components';
 
 export type MainViewFederatedProps = FederatedProps &
   IConfiguration & {
@@ -26,7 +26,6 @@ const MainViewFederated: FunctionComponent<MainViewFederatedProps> = ({
   showMetrics,
   activeTab = 1,
 }) => {
-
   return (
     <I18nextProvider i18n={kafkai18n}>
       <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
@@ -38,11 +37,13 @@ const MainViewFederated: FunctionComponent<MainViewFederatedProps> = ({
             handleInstanceDrawer,
             setIsOpenDeleteInstanceModal,
             showMetrics,
-            activeTab        
+            activeTab,
           }}
         >
           <ModalProvider>
-            <MainView />
+            <PaginationProvider>
+              <MainView />
+            </PaginationProvider>
           </ModalProvider>
         </FederatedContext.Provider>
       </ConfigContext.Provider>

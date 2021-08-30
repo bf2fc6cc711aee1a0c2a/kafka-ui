@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   AlertVariant,
@@ -9,7 +9,7 @@ import {
 } from '@patternfly/react-core';
 import { useTimeout } from '@app/hooks/useTimeOut';
 import { TopicsTable } from './components';
-import { EmptyState, MASEmptyStateVariant, MASLoading } from '@app/components';
+import { EmptyState, MASEmptyStateVariant, MASLoading, usePaginationParams } from '@app/components';
 import { getTopics, OrderKey } from '@app/services';
 import { ConfigContext, useFederated } from '@app/contexts';
 import { Topic } from '@rhoas/kafka-instance-sdk';
@@ -28,14 +28,11 @@ export type ITopicProps = {
 };
 
 const Topics: React.FC = () => {
-  const { onError} = useFederated() || {};
+  const { onError } = useFederated() || {};
   const { t } = useTranslation();
   const { addAlert } = useAlert();
   const config = useContext(ConfigContext);
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const page = parseInt(searchParams.get('page') || '', 10) || 1;
-  const perPage = parseInt(searchParams.get('perPage') || '', 10) || 10;
+  const { page = 1, perPage = 10 } = usePaginationParams() || {};
   const history = useHistory();
   const { getBasename } = useBasename();
   const basename = getBasename();
@@ -54,7 +51,7 @@ const Topics: React.FC = () => {
   useTimeout(() => fetchTopic(), 5000);
 
   useEffect(() => {
-    const offset = Number(perPage) * Number(page - 1);
+    const offset = perPage * (page - 1);
     setOffset(offset);
   }, [page, perPage]);
 
@@ -93,7 +90,7 @@ const Topics: React.FC = () => {
         offset,
         order,
         orderKey
-      ).then((response) => {        
+      ).then((response) => {
         setTopicItems(response?.items);
       });
     } catch (err) {

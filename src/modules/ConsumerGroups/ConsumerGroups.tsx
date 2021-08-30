@@ -1,12 +1,12 @@
 import React, { useContext, useState, useEffect, lazy, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
 import { PageSection, PageSectionVariants } from '@patternfly/react-core';
 import {
   EmptyState,
   MASEmptyStateVariant,
   MASLoading,
   MASDrawer,
+  usePaginationParams
 } from '@app/components';
 import { getConsumerGroups } from '@app/services';
 import { ConfigContext } from '@app/contexts';
@@ -46,11 +46,7 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
     useState<ConsumerGroup>();
   const config = useContext(ConfigContext);
   const { t } = useTranslation();
-
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const page = parseInt(searchParams.get('page') || '', 10) || 1;
-  const perPage = parseInt(searchParams.get('perPage') || '', 10) || 10;
+  const { page = 1, perPage = 10 } = usePaginationParams() || {};
 
   useEffect(() => {
     setOffset(perPage * (page - 1));
