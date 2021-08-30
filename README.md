@@ -32,6 +32,13 @@ If you run into any issues while working in this repo, please check out [the tro
 - `npm run clean` - deletes the build/generated content directories
 - `npm run lint` - lints the codebase. See [`Linting`](./docs/Linting.md) for the individual linting steps
 
+
+## Server source code
+
+Backend source code used by Kafka UI is located in separate repository
+
+[bf2fc6cc711aee1a0c2a/kafka-admin-api](https://github.com/bf2fc6cc711aee1a0c2a/kafka-admin-api)
+
 ## Contribution documentation
 
 [Coding Standards](./docs/Coding.md)
