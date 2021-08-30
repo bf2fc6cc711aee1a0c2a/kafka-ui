@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AlertVariant } from '@patternfly/react-core';
 import {
@@ -45,7 +45,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   const [topicData, setTopicData] = useState<IAdvancedTopic>(initialState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const onCancelUpdateTopic = () => {
+  const onCancelUpdateTopic = () => {
     history.push(`${basename}/topics/${topicName}`);
   };
 

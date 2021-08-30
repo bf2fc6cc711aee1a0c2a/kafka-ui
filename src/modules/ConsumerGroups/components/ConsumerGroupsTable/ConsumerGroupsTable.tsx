@@ -86,11 +86,14 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
     return tableRow;
   };
 
-  const onSelectDeleteConsumerGroup = (groupId: string, state: string | undefined) => {
+  const onSelectDeleteConsumerGroup = (
+    groupId: string,
+    state: string | undefined
+  ) => {
     showModal(ModalType.DeleteConsumerGroup, {
       consumerName: groupId,
       refreshConsumerGroups,
-      state
+      state,
     });
   };
 

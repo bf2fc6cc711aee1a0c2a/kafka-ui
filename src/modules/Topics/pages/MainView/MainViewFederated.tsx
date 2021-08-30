@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from "react";
-import { I18nextProvider } from "react-i18next";
+import React, { FunctionComponent } from 'react';
+import { I18nextProvider } from 'react-i18next';
 import {
   FederatedContext,
   FederatedProps,

@@ -9,7 +9,7 @@ import {
   OnSort,
   ISortBy,
 } from '@patternfly/react-table';
-import {useBasename} from '@bf2/ui-shared';
+import { useBasename } from '@bf2/ui-shared';
 import {
   MASTable,
   MASPagination,
@@ -102,13 +102,16 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
   const preparedTableCells = () => {
     const tableRow: (IRowData | string[])[] | undefined = [];
     topicItems?.map((row: IRowData) => {
-      const { name, partitions, config } = row;   
+      const { name, partitions, config } = row;
 
       tableRow.push({
         cells: [
           {
             title: (
-              <Link data-testid="tableTopics-linkTopic" to={`${basename}/topics/${name}`}>
+              <Link
+                data-testid='tableTopics-linkTopic'
+                to={`${basename}/topics/${name}`}
+              >
                 {name}
               </Link>
             ),

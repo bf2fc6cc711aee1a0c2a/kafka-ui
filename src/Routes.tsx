@@ -4,11 +4,9 @@ import {
   MainView,
   CreateTopicPage,
   UpdateTopicPage,
-  TopicDetailPage
+  TopicDetailPage,
 } from '@app/modules/Topics/pages';
-import {
-  ConsumerGroupsView
-} from '@app/modules/ConsumerGroups/pages';
+import { ConsumerGroupsView } from '@app/modules/ConsumerGroups/pages';
 
 const Routes: React.FC = () => {
   return (
@@ -16,11 +14,7 @@ const Routes: React.FC = () => {
       <Switch>
         <Route path='/' component={MainView} exact />
         <Route path='/topics' component={MainView} exact />
-        <Route
-          path='/topics/:topicName'
-          component={TopicDetailPage}
-          exact
-        />
+        <Route path='/topics/:topicName' component={TopicDetailPage} exact />
         <Route path='/topic/create' component={CreateTopicPage} />
         <Route
           path='/topic/update/:topicName'

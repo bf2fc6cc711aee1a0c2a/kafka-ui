@@ -7,7 +7,7 @@ import {
   Text,
   AlertVariant,
   ButtonVariant,
-  Alert
+  Alert,
 } from '@patternfly/react-core';
 import { deleteConsumerGroup } from '@app/services';
 import { ConfigContext } from '@app/contexts';
@@ -26,7 +26,7 @@ const DeleteConsumerGroup: React.FC<DeleteConsumerGroupProps & BaseModalProps> =
     const { t } = useTranslation();
     const config = useContext(ConfigContext);
     const { addAlert } = useAlert();
-    const isConsumerConnected=state===ConsumerGroupStateEnum.Stable;
+    const isConsumerConnected = state === ConsumerGroupStateEnum.Stable;
 
     const onClose = () => {
       hideModal();
@@ -55,7 +55,6 @@ const DeleteConsumerGroup: React.FC<DeleteConsumerGroupProps & BaseModalProps> =
       onClose();
     };
 
- 
     return (
       <Modal
         variant={ModalVariant.small}
@@ -79,30 +78,30 @@ const DeleteConsumerGroup: React.FC<DeleteConsumerGroupProps & BaseModalProps> =
           </Button>,
         ]}
       >
-        { !isConsumerConnected &&
-        <Text id='modal-message'>
-          <label
-            htmlFor='instance-name-input'
-            dangerouslySetInnerHTML={{
-              __html: t('common.confirm_delete_modal_text', {
-                name: consumerName,
-              }),
-            }}
-          />
-        </Text>
-       }
-        { isConsumerConnected && 
-        <Alert
-              className='modal-alert'
-              variant='danger'
-              isInline
-              title={t('consumerGroup.delete_consumer_connected_alert_title',{name:consumerName})}
-            >
-              <p>
-                {t('consumerGroup.delete_consumer_connected_alert_body')}
-              </p>
-        </Alert>
-        }
+        {!isConsumerConnected && (
+          <Text id='modal-message'>
+            <label
+              htmlFor='instance-name-input'
+              dangerouslySetInnerHTML={{
+                __html: t('common.confirm_delete_modal_text', {
+                  name: consumerName,
+                }),
+              }}
+            />
+          </Text>
+        )}
+        {isConsumerConnected && (
+          <Alert
+            className='modal-alert'
+            variant='danger'
+            isInline
+            title={t('consumerGroup.delete_consumer_connected_alert_title', {
+              name: consumerName,
+            })}
+          >
+            <p>{t('consumerGroup.delete_consumer_connected_alert_body')}</p>
+          </Alert>
+        )}
       </Modal>
     );
   };

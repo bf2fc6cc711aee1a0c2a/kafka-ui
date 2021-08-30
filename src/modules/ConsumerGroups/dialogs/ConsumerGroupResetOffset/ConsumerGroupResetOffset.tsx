@@ -153,7 +153,7 @@ const ConsumerGroupResetOffset: React.FC<
   };
 
   const getIsDisconnected = (state: string) => {
-    if (state===ConsumerGroupStateEnum.Stable) {
+    if (state === ConsumerGroupStateEnum.Stable) {
       return false;
     }
     return true;

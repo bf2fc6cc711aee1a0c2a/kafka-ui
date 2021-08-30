@@ -1,6 +1,6 @@
-import React, { FunctionComponent } from "react";
-import { I18nextProvider } from "react-i18next";
-import { UpdateTopicPage } from "@app/modules/Topics/pages/UpdateTopic";
+import React, { FunctionComponent } from 'react';
+import { I18nextProvider } from 'react-i18next';
+import { UpdateTopicPage } from '@app/modules/Topics/pages/UpdateTopic';
 import {
   FederatedContext,
   FederatedProps,
@@ -23,21 +23,20 @@ const UpdateTopicFederated: FunctionComponent<UpdateTopicFederatedProps> = ({
   kafkaInstanceLink,
   onError,
 }) => {
-
   return (
     <I18nextProvider i18n={kafkai18n}>
       <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
         <FederatedContext.Provider
           value={{
-            activeTab: 1,           
+            activeTab: 1,
             kafkaName,
             kafkaPageLink,
             kafkaInstanceLink,
-            onError      
+            onError,
           }}
         >
           <ModalProvider>
-            <UpdateTopicPage/>
+            <UpdateTopicPage />
           </ModalProvider>
         </FederatedContext.Provider>
       </ConfigContext.Provider>
