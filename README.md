@@ -37,8 +37,7 @@ If you run into any issues while working in this repo, please check out [the tro
 
 Backend source code used by Kafka UI is located in separate repository
 
-https://github.com/bf2fc6cc711aee1a0c2a/kafka-admin-api
-
+[bf2fc6cc711aee1a0c2a/kafka-admin-api](https://github.com/bf2fc6cc711aee1a0c2a/kafka-admin-api)
 
 ## Contribution documentation
 
