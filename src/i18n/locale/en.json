@@ -41,9 +41,9 @@
     "to_next_page": "Go to next page",
     "options_toggle": "Items per page",
     "curr_page": "Current page",
-    "view_instance": "View details",
-    "view_connection": "View connection information",
-    "delete_instance": "Delete instance"
+    "view_instance": "Details",
+    "view_connection": "Connection",
+    "delete_instance": "Delete"
   },
   "dashboard": {
     "dashboard": "Dashboard"
