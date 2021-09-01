@@ -25,7 +25,7 @@
     "unexpected_error": "There was a problem processing the request. Please try again.",
     "return_to_home": "Return to home",
     "red_hat_logo": "Red Hat logo",
-    "kafka_instance": "Kafka instances",
+    "kafka_instance": "Kafka Instances",
     "kafka_instance_name": "Kafka instance name",
     "confirm_delete": "Type DELETE to confirm:",
     "confirm_delete_modal_text": "<b>{{name}}</b> will be deleted.",
@@ -41,9 +41,9 @@
     "to_next_page": "Go to next page",
     "options_toggle": "Items per page",
     "curr_page": "Current page",
-    "view_instance": "View details",
-    "view_connection": "View connection information",
-    "delete_instance": "Delete instance"
+    "view_instance": "Details",
+    "view_connection": "Connection",
+    "delete_instance": "Delete"
   },
   "dashboard": {
     "dashboard": "Dashboard"
@@ -157,7 +157,7 @@
     "required": "Required",
     "already_exists": "{{name}} already exists. Try a different name",
     "cannot_exceed_characters": "Cannot exceed 249 characters",
-    "invalid_name_with_dot": "Topic name cannot be `.` or `..`"
+    "invalid_name_with_dot": "Must contain at least 3 periods ( ... ) if periods are the only characters used "
   },
   "consumerGroup": {
     "consumer_groups": "Consumer groups",
