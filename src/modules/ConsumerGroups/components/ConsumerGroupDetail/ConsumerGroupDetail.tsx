@@ -84,8 +84,11 @@ const ConsumerGroupDetail: React.FunctionComponent<ConsumerGroupDetailProps> =
               ? [
                   consumergroup.partition,
                   {
-                    title:
-                      consumergroup.groupId + '\n' + consumergroup.memberId,
+                    title: consumergroup.memberId ? (
+                      consumergroup.groupId + '\n' + consumergroup.memberId
+                    ) : (
+                      <i>{t('consumerGroup.unassigned')}</i>
+                    ),
                   },
                   consumergroup.offset,
                   consumergroup.logEndOffset,
@@ -95,8 +98,11 @@ const ConsumerGroupDetail: React.FunctionComponent<ConsumerGroupDetailProps> =
                   consumergroup.topic,
                   consumergroup.partition,
                   {
-                    title:
-                      consumergroup.groupId + '\n' + consumergroup.memberId,
+                    title: consumergroup.memberId ? (
+                      consumergroup.groupId + '\n' + consumergroup.memberId
+                    ) : (
+                      <i>{t('consumerGroup.unassigned')}</i>
+                    ),
                   },
                   consumergroup.offset,
                   consumergroup.logEndOffset,

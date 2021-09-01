@@ -166,6 +166,7 @@
     "consumer_group_search_input": "Consumer group search input",
     "consumer_group_search": "Search consumer group button",
     "active_members": "Active members",
+    "unassigned": "unassigned",
     "partitions_with_lag": "Partitions with lag",
     "uncosumed_partitions": "Unconsumed partitions",
     "uncosumed_partitions_for_topic": "Unconsumed partitions for this topic",
