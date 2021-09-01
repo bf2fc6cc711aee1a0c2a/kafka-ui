@@ -1,7 +1,11 @@
 import { useEffect, useRef } from 'react';
 
+type ISavedCallback = {
+  current: unknown;
+};
+
 export const useTimeout: any = (callback: unknown, delay: number) => {
-  const savedCallback = useRef<any>();
+  const savedCallback: { current: unknown | any } = useRef<ISavedCallback>();
 
   useEffect(() => {
     savedCallback.current = callback;
