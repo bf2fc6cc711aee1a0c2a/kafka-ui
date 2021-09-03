@@ -25,7 +25,16 @@
     "lint:styling": "stylelint --config ./linting/stylelint.config.js --fix --max-warnings 5",
     "lint:format": "prettier --config ./linting/prettier.config.js --write",
     "cy:open": "cypress open --config-file e2e/cypress.json",
-    "cy:closed": "cypress run --config-file e2e/cypress.json"
+    "cy:closed": "cypress run --config-file e2e/cypress.json",
+    "prepare": "husky install",
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx,css}": [
+      "npm run lint:src -- .",
+      "npm run lint:format -- .",
+      "git add"
+    ]
   },
   "sideEffects": [
     "*.css",

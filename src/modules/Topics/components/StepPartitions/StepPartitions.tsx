@@ -11,10 +11,11 @@ import {
 } from '@patternfly/react-core';
 import '../CreateTopicWizard/CreateTopicWizard.css';
 import { MIN_PARTITIONS, MAX_PARTITIONS } from '@app/constant';
+import { IAdvancedTopic } from '../CreateTopicWizard';
 
 export type StepPartitionsProps = {
-  topicData: any;
-  setTopicData: (value: any) => void;
+  topicData: IAdvancedTopic;
+  setTopicData: (value: IAdvancedTopic) => void;
 };
 
 export const StepPartitions: React.FC<StepPartitionsProps> = ({
@@ -26,14 +27,14 @@ export const StepPartitions: React.FC<StepPartitionsProps> = ({
   const handleOnPlus = () => {
     setTopicData({
       ...topicData,
-      numPartitions: Number(topicData['numPartitions']) + 1,
+      numPartitions: String(Number(topicData['numPartitions']) + 1),
     });
   };
 
   const handleOnMinus = () => {
     setTopicData({
       ...topicData,
-      numPartitions: Number(topicData['numPartitions']) - 1,
+      numPartitions: String(Number(topicData['numPartitions']) - 1),
     });
   };
 
@@ -44,7 +45,7 @@ export const StepPartitions: React.FC<StepPartitionsProps> = ({
     } else if (num > MAX_PARTITIONS) {
       num = MAX_PARTITIONS;
     }
-    setTopicData({ ...topicData, numPartitions: num });
+    setTopicData({ ...topicData, numPartitions: String(num) });
   };
 
   const partitionsInput = topicData && topicData['numPartitions'];
@@ -72,7 +73,7 @@ export const StepPartitions: React.FC<StepPartitionsProps> = ({
           <NumberInput
             onPlus={handleOnPlus}
             onMinus={handleOnMinus}
-            value={partitionsInput}
+            value={Number(partitionsInput)}
             inputName='input'
             onChange={handlePartitionTouchspinChange}
             widthChars={20}

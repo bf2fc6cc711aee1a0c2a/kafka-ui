@@ -9,7 +9,12 @@ import {
 } from '@patternfly/react-core';
 import { useTimeout } from '@app/hooks/useTimeOut';
 import { TopicsTable } from './components';
-import { EmptyState, MASEmptyStateVariant, MASLoading, usePaginationParams } from '@app/components';
+import {
+  EmptyState,
+  MASEmptyStateVariant,
+  MASLoading,
+  usePaginationParams,
+} from '@app/components';
 import { getTopics, OrderKey } from '@app/services';
 import { ConfigContext, useFederated } from '@app/contexts';
 import { Topic } from '@rhoas/kafka-instance-sdk';

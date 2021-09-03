@@ -10,9 +10,10 @@ import {
   FormSection,
 } from '@patternfly/react-core';
 import '../CreateTopicWizard/CreateTopicWizard.css';
+import { IAdvancedTopic } from '../CreateTopicWizard';
 export type StepTopicNameProps = {
-  topicData: any;
-  setTopicData: (value: any) => void;
+  topicData: IAdvancedTopic;
+  setTopicData: (value: IAdvancedTopic) => void;
   topicNameValidated: 'error' | 'default';
   setTopicNameValidated: (value: 'error' | 'default') => void;
   invalidText: string;
@@ -29,7 +30,7 @@ export const StepTopicName: React.FC<StepTopicNameProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const topicNameInput = topicData && topicData['name'];
+  const topicNameInput = topicData && topicData.name;
 
   useEffect(() => {
     validationCheck(topicNameInput);

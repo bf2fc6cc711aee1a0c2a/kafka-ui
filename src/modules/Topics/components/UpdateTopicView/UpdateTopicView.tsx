@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AlertVariant } from '@patternfly/react-core';
 import {
@@ -45,14 +45,14 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   const [topicData, setTopicData] = useState<IAdvancedTopic>(initialState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const onCancelUpdateTopic = () => {
+  const onCancelUpdateTopic = () => {
     history.push(`${basename}/topics/${topicName}`);
   };
 
   const fetchTopic = async (topicName) => {
     try {
       const topicRes = await getTopic(topicName, config);
-      const configEntries: any = {};
+      const configEntries: ConfigEntry = {};
       topicRes.config?.forEach((configItem) => {
         configEntries[configItem.key || ''] = configItem.value || '';
       });
@@ -60,7 +60,10 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
       setTopicData({
         ...topicData,
         numPartitions: topicRes?.partitions?.length.toString() || '',
-        replicationFactor: topicRes?.partitions && topicRes?.partitions[0].replicas?.length.toString() || '', 
+        replicationFactor:
+          (topicRes?.partitions &&
+            topicRes?.partitions[0].replicas?.length.toString()) ||
+          '',
         'cleanup.policy': configEntries['cleanup.policy'] || 'delete',
         'retention.bytes': configEntries['retention.bytes'] || '-1',
         'retention.ms': configEntries['retention.ms'] || '604800000',

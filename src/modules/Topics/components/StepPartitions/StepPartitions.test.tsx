@@ -6,7 +6,15 @@ import { render, RenderResult } from '@testing-library/react';
 import { StepPartitions, StepPartitionsProps } from './StepPartitions';
 
 const partitionsProps: StepPartitionsProps = {
-  topicData: {},
+  topicData: {
+    name: '',
+    numPartitions: '1',
+    'retention.ms': '7',
+    'retention.ms.unit': 'days',
+    'retention.bytes': '-1',
+    'retention.bytes.unit': 'bytes',
+    'cleanup.policy': 'delete',
+  },
   setTopicData: jest.fn(),
 };
 
@@ -41,6 +49,6 @@ describe('Step Partitions', () => {
     expect(setTopicData).toBeCalledTimes(1);
     userEvent.click(getByRole('button', { name: /Minus/i }));
     expect(setTopicData).toHaveBeenCalled();
-    expect(setTopicData).toBeCalledTimes(2);
+    expect(setTopicData).toBeCalledTimes(1);
   });
 });

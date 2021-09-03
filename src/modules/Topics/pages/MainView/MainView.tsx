@@ -132,7 +132,7 @@ export const MainView: React.FC = () => {
               id='dashboard-tab-section'
               aria-label={t('dashboard.dashboard')}
               tabContentRef={contentRefDashboard}
-              tabContentId='kafka-ui-TabcontentDashboard'             
+              tabContentId='kafka-ui-TabcontentDashboard'
             />
             <Tab
               title={<TabTitleText>{t('topic.topics')}</TabTitleText>}
@@ -141,7 +141,7 @@ export const MainView: React.FC = () => {
               id='topics-tab-section'
               aria-label={t('topic.topics')}
               tabContentRef={contentRefTopics}
-              tabContentId='kafka-ui-TabcontentTopicsList'             
+              tabContentId='kafka-ui-TabcontentTopicsList'
             />
             <Tab
               title={
@@ -154,7 +154,7 @@ export const MainView: React.FC = () => {
               id='consumer-groups-tab-section'
               aria-label={t('consumerGroup.consumer_groups')}
               tabContentRef={contentRefConsumerGroups}
-              tabContentId='kafka-ui-TabcontentConsumersList'             
+              tabContentId='kafka-ui-TabcontentConsumersList'
             />
           </Tabs>
         </PageSection>
@@ -165,7 +165,7 @@ export const MainView: React.FC = () => {
             id='kafka-ui-TabcontentDashboard'
             className='kafka-ui-m-full-height'
             aria-label={t('dashboard.dashboard')}
-            hidden={activeTabKey!==1}
+            hidden={activeTabKey !== 1}
           >
             {showMetrics}
           </TabContent>
@@ -175,7 +175,7 @@ export const MainView: React.FC = () => {
             id='kafka-ui-TabcontentTopicsList'
             className='kafka-ui-m-full-height'
             aria-label={t('topic.topics')}
-            hidden={activeTabKey!==2}
+            hidden={activeTabKey !== 2}
           >
             <Topics />
           </TabContent>
@@ -185,7 +185,7 @@ export const MainView: React.FC = () => {
             id='kafka-ui-TabcontentConsumersList'
             className='kafka-ui-m-full-height'
             aria-label={t('consumerGroup.consumer_groups')}
-            hidden={activeTabKey!=3}
+            hidden={activeTabKey != 3}
           >
             <ConsumerGroups consumerGroupByTopic={false} />
           </TabContent>

@@ -556,7 +556,9 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
                   fieldId='replicas'
                   btnAriaLabel={t('topic.replicas')}
                   fieldLabel={t('topic.replicas')}
-                  fieldValue={isCreate ? DEFAULT_REPLICAS : topicData.replicationFactor}
+                  fieldValue={
+                    isCreate ? DEFAULT_REPLICAS : topicData.replicationFactor
+                  }
                   popoverBody={t('topic.replicas_description')}
                   popoverHeader={t('topic.replicas')}
                 />

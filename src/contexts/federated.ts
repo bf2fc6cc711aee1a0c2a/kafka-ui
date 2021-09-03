@@ -16,6 +16,8 @@ export type FederatedProps = {
   updateTopic?: (topicName?: string | undefined) => void;
 };
 
-export const FederatedContext =
-  React.createContext<FederatedProps | undefined>(undefined);
-export const useFederated = (): FederatedProps | undefined => useContext(FederatedContext);
+export const FederatedContext = React.createContext<FederatedProps | undefined>(
+  undefined
+);
+export const useFederated = (): FederatedProps | undefined =>
+  useContext(FederatedContext);

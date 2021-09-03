@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import {useHistory, useParams} from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import {useBasename} from '@bf2/ui-shared';
+import { useBasename } from '@bf2/ui-shared';
 import {
   Tabs,
   Tab,
@@ -18,14 +18,13 @@ import {
 import { useFederated } from '@app/contexts';
 import '../style.css';
 
-
 export const UpdateTopicPage: React.FunctionComponent = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const { getBasename } = useBasename();
   const basename = getBasename();
-  const { topicName } = useParams<{topicName:string}>();
-  const {  
+  const { topicName } = useParams<{ topicName: string }>();
+  const {
     kafkaName,
     kafkaPageLink,
     kafkaInstanceLink,
@@ -36,7 +35,6 @@ export const UpdateTopicPage: React.FunctionComponent = () => {
 
   const contentRefConsumerGroup = React.createRef<HTMLElement>();
   const contentRefProperties = React.createRef<HTMLElement>();
-
 
   const onDeleteTopic = () => {
     history.push(basename);

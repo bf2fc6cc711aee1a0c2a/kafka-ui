@@ -76,7 +76,6 @@ const TopicsToolbar: React.FC<TopicsToolbarProps> = ({
       </ToolbarFilter>
     </>
   );
-
   const toolbarItems: ToolbarItemProps[] = [
     {
       item: (

@@ -1,10 +1,15 @@
 import React, { createContext, useContext } from 'react';
 import { css } from '@patternfly/react-styles';
 import './CustomRowWrapper.css';
+import { IRowData } from '@patternfly/react-table';
 
 export type CustomRowWrapperContextProps = {
   activeRow?: string;
-  onRowClick?: (event: MouseEvent, rowIndex: number, row: any) => void;
+  onRowClick?: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    rowIndex: number,
+    row: IRowData
+  ) => void;
   rowDataTestId?: string;
   loggedInUser?: string;
 };
@@ -38,7 +43,7 @@ export const CustomRowWrapper = (rowWrapperProps): JSX.Element => {
           'pf-m-selected pf-m-selectable'
       )}
       hidden={isExpanded !== undefined && !isExpanded}
-      onClick={(event: MouseEvent) =>
+      onClick={(event: React.ChangeEvent<HTMLInputElement>) =>
         onRowClick && onRowClick(event, rowIndex, row)
       }
       {...props}

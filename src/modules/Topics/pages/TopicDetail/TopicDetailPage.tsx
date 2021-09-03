@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {useHistory, useParams} from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   AlertVariant,
@@ -26,7 +26,7 @@ import '../style.css';
 
 export const TopicDetailPage: React.FC = () => {
   const {
-    activeTab=2,
+    activeTab = 2,
     kafkaName,
     kafkaPageLink,
     kafkaInstanceLink,
@@ -34,7 +34,7 @@ export const TopicDetailPage: React.FC = () => {
   } = useFederated() || {};
 
   const history = useHistory();
-  const { topicName } = useParams<{topicName:string}>();
+  const { topicName } = useParams<{ topicName: string }>();
   const { getBasename } = useBasename();
   const basename = getBasename();
 

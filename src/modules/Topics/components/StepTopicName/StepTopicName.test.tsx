@@ -11,7 +11,15 @@ const setup = () => {
     invalidText: '',
     setInvalidText: jest.fn(),
     setTopicData: jest.fn(),
-    topicData: '',
+    topicData: {
+      name: '',
+      numPartitions: '1',
+      'retention.ms': '7',
+      'retention.ms.unit': 'days',
+      'retention.bytes': '-1',
+      'retention.bytes.unit': 'bytes',
+      'cleanup.policy': 'delete',
+    },
   };
   const component: ReactElement = (
     <I18nextProvider i18n={kafkai18n}>

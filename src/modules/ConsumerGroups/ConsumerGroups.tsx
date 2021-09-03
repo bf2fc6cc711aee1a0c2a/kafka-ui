@@ -6,7 +6,7 @@ import {
   MASEmptyStateVariant,
   MASLoading,
   MASDrawer,
-  usePaginationParams
+  usePaginationParams,
 } from '@app/components';
 import { getConsumerGroups } from '@app/services';
 import { ConfigContext } from '@app/contexts';

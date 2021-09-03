@@ -83,7 +83,7 @@ const consumerGroupResetOffset = async (
   offset: ConsumerGroupResetOffsetParametersOffsetEnum,
   topic: string,
   partitions: number[],
-  value?: string,
+  value?: string
 ): Promise<AxiosResponse<ConsumerGroupResetOffsetResult>> => {
   const accessToken = await config?.getToken();
 
@@ -93,11 +93,18 @@ const consumerGroupResetOffset = async (
       basePath: config?.basePath,
     })
   );
-  const response: AxiosResponse<ConsumerGroupResetOffsetResult> = await api.resetConsumerGroupOffset(
-    consumerGroupId,
-    { value, offset, topics: [{ topic, partitions }]}
-  );
+  const response: AxiosResponse<ConsumerGroupResetOffsetResult> =
+    await api.resetConsumerGroupOffset(consumerGroupId, {
+      value,
+      offset,
+      topics: [{ topic, partitions }],
+    });
   return response;
 };
 
-export { getConsumerGroups, deleteConsumerGroup, getConsumerGroupDetail, consumerGroupResetOffset };
+export {
+  getConsumerGroups,
+  deleteConsumerGroup,
+  getConsumerGroupDetail,
+  consumerGroupResetOffset,
+};

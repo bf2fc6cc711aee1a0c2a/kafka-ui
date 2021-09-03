@@ -11,7 +11,7 @@ export enum ModalType {
   DeleteTopic,
   DeleteConsumerGroup,
   UpdatePartitions,
-  ConsumerGroupResetOffset
+  ConsumerGroupResetOffset,
 }
 
 // A map of modal types to their props

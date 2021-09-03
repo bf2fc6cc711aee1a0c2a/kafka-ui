@@ -15,7 +15,7 @@ import {
   AppLayout,
   ModalProvider,
   AlertProvider,
-  PaginationProvider
+  PaginationProvider,
 } from '@app/components';
 import { Routes } from '@app/Routes';
 import { BasenameContext } from '@bf2/ui-shared';
@@ -23,11 +23,11 @@ import { BasenameContext } from '@bf2/ui-shared';
 const App: React.FC = () => {
   return (
     <I18nextProvider i18n={kafkai18n}>
-      <BasenameContext.Provider value={{ getBasename: () => "" }}>
+      <BasenameContext.Provider value={{ getBasename: () => '' }}>
         <ConfigContext.Provider
           value={{
-            basePath: "http://localhost:8000/data/kafka",
-            getToken: async () => "",
+            basePath: 'http://localhost:8000/data/kafka',
+            getToken: async () => '',
           }}
         >
           <Router>
@@ -35,11 +35,11 @@ const App: React.FC = () => {
               <AlertProvider>
                 <ModalProvider>
                   <PaginationProvider>
-                  <AppLayout>
-                    <Routes />
-                  </AppLayout>
+                    <AppLayout>
+                      <Routes />
+                    </AppLayout>
                   </PaginationProvider>
-              </ModalProvider>
+                </ModalProvider>
               </AlertProvider>
             </ErrorBoundary>
           </Router>
