@@ -15,7 +15,7 @@ import {
   AppLayout,
   ModalProvider,
   AlertProvider,
-  PaginationProvider
+  PaginationProvider,
 } from '@app/components';
 import { Routes } from '@app/Routes';
 import { BasenameContext } from '@bf2/ui-shared';
@@ -35,11 +35,11 @@ const App: React.FC = () => {
               <AlertProvider>
                 <ModalProvider>
                   <PaginationProvider>
-                  <AppLayout>
-                    <Routes />
-                  </AppLayout>
+                    <AppLayout>
+                      <Routes />
+                    </AppLayout>
                   </PaginationProvider>
-              </ModalProvider>
+                </ModalProvider>
               </AlertProvider>
             </ErrorBoundary>
           </Router>

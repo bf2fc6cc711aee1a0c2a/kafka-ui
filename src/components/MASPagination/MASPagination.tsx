@@ -26,7 +26,7 @@ export const PaginationContext = createContext<
 export const usePaginationParams = (): PaginationContextProps | undefined =>
   useContext(PaginationContext);
 
-export const PaginationProvider = ({ children }) => {
+export const PaginationProvider: React.FC = ({ children }) => {
   const [page, setPage] = useState<number | undefined>(1);
   const [perPage, setPerPage] = useState<number | undefined>(10);
 

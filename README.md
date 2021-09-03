@@ -32,7 +32,6 @@ If you run into any issues while working in this repo, please check out [the tro
 - `npm run clean` - deletes the build/generated content directories
 - `npm run lint` - lints the codebase. See [`Linting`](./docs/Linting.md) for the individual linting steps
 
-
 ## Server source code
 
 Backend source code used by Kafka UI is located in separate repository
