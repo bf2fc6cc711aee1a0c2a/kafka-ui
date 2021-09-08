@@ -3,8 +3,8 @@ import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AlertVariant } from '@patternfly/react-core';
 import {
-  TopicAdvanceConfig,
   IAdvancedTopic,
+  TopicAdvanceConfig,
 } from '@app/modules/Topics/components';
 import { getTopic, updateTopicModel } from '@app/services';
 import { ConfigEntry, TopicSettings } from '@rhoas/kafka-instance-sdk';
@@ -27,9 +27,13 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
 }) => {
   const { t } = useTranslation();
   const config = useContext(ConfigContext);
-  const { addAlert } = useAlert();
+  const { addAlert } = useAlert() || {
+    addAlert: () => {
+      // No-op
+    },
+  };
   const history = useHistory();
-  const { getBasename } = useBasename();
+  const { getBasename } = useBasename() || { getBasename: () => '' };
   const basename = getBasename();
 
   const initialState = {

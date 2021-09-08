@@ -49,7 +49,7 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
 }) => {
   const { t } = useTranslation();
   const { showModal } = useModal<ModalType.DeleteTopic>();
-  const { getBasename } = useBasename();
+  const { getBasename } = useBasename() || { getBasename: () => '' };
   const basename = getBasename();
 
   const tableColumns = [

@@ -28,7 +28,11 @@ const DeleteTopic: React.FC<DeleteTopicProps & BaseModalProps> = ({
   const config = useContext(ConfigContext);
   const { t } = useTranslation();
   const [verificationText, setVerificationText] = useState<string>('');
-  const { addAlert } = useAlert();
+  const { addAlert } = useAlert() || {
+    addAlert: () => {
+      // No-op
+    },
+  };
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onClose = () => {

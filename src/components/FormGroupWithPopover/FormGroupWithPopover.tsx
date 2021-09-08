@@ -6,7 +6,7 @@ interface IFormGroupWithPopoverProps {
   children: React.ReactNode;
   labelHead: string;
   fieldId: string;
-  fieldLabel: string;
+  fieldLabel?: string;
   labelBody: string;
   buttonAriaLabel: string;
   validated?: 'default' | 'error' | 'success' | 'warning' | undefined;

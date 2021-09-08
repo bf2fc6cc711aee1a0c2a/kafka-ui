@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+  Alert,
+  AlertVariant,
+  Button,
+  ButtonVariant,
   Modal,
   ModalVariant,
-  Button,
   Text,
-  AlertVariant,
-  ButtonVariant,
-  Alert,
 } from '@patternfly/react-core';
 import { deleteConsumerGroup } from '@app/services';
 import { ConfigContext } from '@app/contexts';
@@ -25,7 +25,11 @@ const DeleteConsumerGroup: React.FC<DeleteConsumerGroupProps & BaseModalProps> =
   ({ consumerName, refreshConsumerGroups, hideModal, state }) => {
     const { t } = useTranslation();
     const config = useContext(ConfigContext);
-    const { addAlert } = useAlert();
+    const { addAlert } = useAlert() || {
+      addAlert: () => {
+        // No-op
+      },
+    };
     const isConsumerConnected = state === ConsumerGroupStateEnum.Stable;
 
     const onClose = () => {

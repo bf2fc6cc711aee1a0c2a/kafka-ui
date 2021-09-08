@@ -1,11 +1,10 @@
 import { useEffect, useRef } from 'react';
 
-type ISavedCallback = {
-  current: unknown;
-};
-
-export const useTimeout: any = (callback: unknown, delay: number) => {
-  const savedCallback: { current: unknown | any } = useRef<ISavedCallback>();
+export const useTimeout: any = <T extends () => void>(
+  callback: T,
+  delay: number
+) => {
+  const savedCallback = useRef<T>();
 
   useEffect(() => {
     savedCallback.current = callback;
@@ -13,7 +12,9 @@ export const useTimeout: any = (callback: unknown, delay: number) => {
 
   useEffect(() => {
     function tick() {
-      savedCallback.current();
+      if (savedCallback.current !== undefined) {
+        savedCallback.current();
+      }
     }
     if (delay !== null) {
       const id = setTimeout(tick, delay);

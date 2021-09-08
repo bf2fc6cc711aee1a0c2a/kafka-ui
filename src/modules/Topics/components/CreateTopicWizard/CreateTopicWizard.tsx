@@ -10,17 +10,20 @@ import {
   WizardStep,
 } from '@patternfly/react-core';
 import {
-  StepTopicName,
-  StepPartitions,
   StepMessageRetention,
+  StepPartitions,
   StepReplicas,
+  StepTopicName,
   TopicAdvanceConfig,
   WizardCustomFooter,
 } from '@app/modules/Topics/components';
-import { TopicsApi, NewTopicInput } from '@rhoas/kafka-instance-sdk';
+import {
+  Configuration,
+  NewTopicInput,
+  TopicsApi,
+} from '@rhoas/kafka-instance-sdk';
 import { convertUnits, formatTopicRequest } from '@app/modules/Topics/utils';
 import { ConfigContext } from '@app/contexts';
-import { Configuration } from '@rhoas/kafka-instance-sdk';
 import { getTopic } from '@app/services';
 import { useAlert } from '@bf2/ui-shared';
 import './CreateTopicWizard.css';
@@ -56,7 +59,11 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
 }) => {
   const config = useContext(ConfigContext);
   const { t } = useTranslation();
-  const { addAlert } = useAlert();
+  const { addAlert } = useAlert() || {
+    addAlert: () => {
+      // No-op
+    },
+  };
   const [msgRetentionValue, setMsgRetentionValue] = useState(1);
   const [retentionSize, setRetentionSize] = useState(1);
   const [replicationFactorTouchspinValue] = useState(3);

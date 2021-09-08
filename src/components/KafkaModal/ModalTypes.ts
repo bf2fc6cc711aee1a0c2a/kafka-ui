@@ -5,6 +5,7 @@ import {
 import { DeleteConsumerGroupProps } from '@app/modules/ConsumerGroups/dialogs';
 import React from 'react';
 import { ConsumerGroupResetOffsetProps } from '@app/modules/ConsumerGroups/dialogs/ConsumerGroupResetOffset';
+import { ManagePermissionsProps } from '@app/modules/Permissions/dialogs/ManagePermissions/ManagePermissions';
 
 // The available types of modal
 export enum ModalType {
@@ -12,6 +13,7 @@ export enum ModalType {
   DeleteConsumerGroup,
   UpdatePartitions,
   ConsumerGroupResetOffset,
+  ManagePermissions,
 }
 
 // A map of modal types to their props
@@ -20,6 +22,7 @@ export interface ModalTypePropsMap {
   [ModalType.UpdatePartitions]: PartitionsChangeProps;
   [ModalType.DeleteConsumerGroup]: DeleteConsumerGroupProps;
   [ModalType.ConsumerGroupResetOffset]: ConsumerGroupResetOffsetProps;
+  [ModalType.ManagePermissions]: ManagePermissionsProps;
 }
 
 // Properties available to all Modal components
@@ -58,5 +61,13 @@ export const ModalTypeComponentsMap: {
       )
   ) as React.LazyExoticComponent<
     React.FunctionComponent<ConsumerGroupResetOffsetProps>
+  >,
+  [ModalType.ManagePermissions]: React.lazy(
+    () =>
+      import(
+        /* webpackPrefetch: true */ '@app/modules/Permissions/dialogs/ManagePermissions/ManagePermissions'
+      )
+  ) as React.LazyExoticComponent<
+    React.FunctionComponent<ManagePermissionsProps>
   >,
 };
