@@ -217,6 +217,7 @@
     "consumer_group_search_input": "Consumer group search input",
     "consumer_group_search": "Search consumer group button",
     "active_members": "Active members",
+    "unassigned": "unassigned",
     "partitions_with_lag": "Partitions with lag",
     "partitions_with_lag_name": "Partitions with lag",
     "partitions_with_lag_description": "Partitions with lag shows the number of partitions where the assigned consumer has not caught up with the last message in the partition. The offset lag of a partition reflects the current offset position of a consumer in relation to the end of the partition log. Use this number to identify any delay in the consumption of messages. To reduce consumer lag, you typically add new consumers to a group.",
