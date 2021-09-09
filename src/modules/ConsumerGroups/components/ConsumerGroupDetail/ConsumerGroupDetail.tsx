@@ -11,6 +11,7 @@ import {
 import { TableVariant, wrappable, cellWidth } from '@patternfly/react-table';
 import { ConsumerGroup } from '@rhoas/kafka-instance-sdk';
 import { MASTable } from '@app/components';
+import { ConsumerGroupPopover } from '@app/modules/ConsumerGroups/components';
 
 export type ConsumerGroupDetailProps = {
   consumerGroupDetail: ConsumerGroup | undefined;
@@ -113,7 +114,8 @@ const ConsumerGroupDetail: React.FunctionComponent<ConsumerGroupDetailProps> =
           <Flex>
             <FlexItem>
               <Text component={TextVariants.h4} size={50}>
-                {t('consumerGroup.active_members')}
+                {t('consumerGroup.active_members')}{' '}
+
               </Text>
               <Text component={TextVariants.p}>
                 <Text component={TextVariants.h2}>
@@ -126,7 +128,8 @@ const ConsumerGroupDetail: React.FunctionComponent<ConsumerGroupDetailProps> =
             </FlexItem>
             <FlexItem>
               <Text component={TextVariants.h4}>
-                {t('consumerGroup.partitions_with_lag')}
+                {t('consumerGroup.partitions_with_lag')}{' '}
+                <ConsumerGroupPopover title={t('consumerGroup.partitions_with_lag_name')} description={t('consumerGroup.partitions_with_lag_description')} />
               </Text>
               <Text component={TextVariants.p}>
                 <Text component={TextVariants.h2}>
