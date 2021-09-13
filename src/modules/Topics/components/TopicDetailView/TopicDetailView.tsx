@@ -70,7 +70,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
           <JumpLinks
             isVertical
             label={t('topic.jump_to_section')}
-            scrollableSelector='#scrollablePageMain'
+            scrollableSelector='.app-services-ui--u-display-contents > div:nth-child(1) > div:nth-child(1) > div:nth-child(1)'
             offset={-164} // for header
             style={{ position: 'sticky' }}
           >
@@ -105,7 +105,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
             <PageSection padding={{ default: 'noPadding' }}>
               <Split>
                 <SplitItem isFilled>
-                  <Form>
+                  <Form id='topic-form'>
                     <FormSection
                       title={t('topic.core_configuration')}
                       id='core-configuration'
@@ -458,7 +458,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                   <Divider className='kafka-ui-divider__Margin' />
 
                   <TextContent>
-                    <Text component={TextVariants.h2} tabIndex={-1} id='delete'>
+                    <Text component={TextVariants.h2} id='delete'>
                       {t('topic.delete_topic')}
                     </Text>
                     <Text component={TextVariants.p} className='section-info'>
