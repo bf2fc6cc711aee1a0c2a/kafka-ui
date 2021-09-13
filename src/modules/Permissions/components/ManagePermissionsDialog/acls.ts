@@ -6,6 +6,18 @@ import {
   AclResourceType,
 } from '@rhoas/kafka-instance-sdk';
 
+export const AllAccountsId = '*';
+
+export const isNewAclModified = (value: NewAcl): boolean => {
+  return (
+    value.resource.value !== undefined ||
+    value.patternType.value !== undefined ||
+    value.permission.value !== undefined ||
+    value.resourceType.value !== undefined ||
+    value.operation.value !== undefined
+  );
+};
+
 export type NewAcl = {
   permission: Validated<AclPermissionType | undefined>;
   operation: Validated<AclOperation | undefined>;

@@ -121,7 +121,6 @@ const ConsumerGroupDetail: React.FunctionComponent<ConsumerGroupDetailProps> =
             <FlexItem>
               <Text component={TextVariants.h4} size={50}>
                 {t('consumerGroup.active_members')}{' '}
-
               </Text>
               <Text component={TextVariants.p}>
                 <Text component={TextVariants.h2}>
@@ -135,7 +134,12 @@ const ConsumerGroupDetail: React.FunctionComponent<ConsumerGroupDetailProps> =
             <FlexItem>
               <Text component={TextVariants.h4}>
                 {t('consumerGroup.partitions_with_lag')}{' '}
-                <ConsumerGroupPopover title={t('consumerGroup.partitions_with_lag_name')} description={t('consumerGroup.partitions_with_lag_description')} />
+                <ConsumerGroupPopover
+                  title={t('consumerGroup.partitions_with_lag_name')}
+                  description={t(
+                    'consumerGroup.partitions_with_lag_description'
+                  )}
+                />
               </Text>
               <Text component={TextVariants.p}>
                 <Text component={TextVariants.h2}>

@@ -19,6 +19,9 @@ export type CreateSelectProps<T> = {
   selected: Validated<string | undefined>;
   setSelected: (row: number, id: T | undefined) => void;
   row: number;
+  placeholder?: string;
+  setEscapeClosesModal: (closes: boolean) => void;
+  onSelect: (value: string) => void;
 };
 
 export const CreateSelect = <
@@ -29,12 +32,20 @@ export const CreateSelect = <
   selected,
   row,
   id,
+  placeholder,
+  setEscapeClosesModal,
+  onSelect,
 }: CreateSelectProps<T>): React.ReactElement => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const onToggle = () => {
-    setIsOpen(!isOpen);
+  const onToggle = (newState) => {
+    if (newState) {
+      setEscapeClosesModal(false);
+    } else {
+      setEscapeClosesModal(true);
+    }
+    setIsOpen(newState);
   };
 
   const clearSelection = () => {
@@ -42,41 +53,41 @@ export const CreateSelect = <
     setIsOpen(false);
   };
 
-  const onSelect = (event, selection, isPlaceholder) => {
+  const select = (event, selection, isPlaceholder) => {
     if (isPlaceholder) clearSelection();
     else {
       setSelected(row, selection);
       setIsOpen(false);
+      onSelect(selection);
     }
   };
 
   return (
     <FormGroupWithPopover
       labelHead={t(
-        `permission.manage_permissions_dialog.create_permissions.${id}.popover_head`
+        `permission.manage_permissions_dialog.assign_permissions.${id}.popover_head`
       )}
       fieldId={id}
       labelBody={t(
-        `permission.manage_permissions_dialog.create_permissions.${id}.popover_label`
+        `permission.manage_permissions_dialog.assign_permissions.${id}.popover_label`
       )}
       buttonAriaLabel={t(
-        '`permission.manage_permissions_dialog.create_permissions.${id}.aria`'
+        '`permission.manage_permissions_dialog.assign_permissions.${id}.aria`'
       )}
       isRequired={true}
       helperTextInvalid={selected.errorMessage}
-      validated={selected.invalid ? 'error' : undefined}
+      validated={selected.validated || 'default'}
     >
       <PFSelect
         variant={SelectVariant.single}
         onToggle={onToggle}
-        onSelect={onSelect}
+        onSelect={select}
         onClear={clearSelection}
         selections={selected.value}
         isOpen={isOpen}
         isInputValuePersisted={true}
-        placeholderText={t(
-          'permission.manage_permissions_dialog.create_permissions.placeholder'
-        )}
+        placeholderText={placeholder}
+        validated={selected.validated || 'default'}
       >
         {options.map((option, index) => (
           <PFSelectOption

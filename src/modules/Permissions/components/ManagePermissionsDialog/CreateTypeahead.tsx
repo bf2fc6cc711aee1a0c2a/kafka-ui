@@ -13,6 +13,9 @@ export type CreateTypeaheadProps = {
   setValue: (row: number, id: string | undefined) => void;
   initialOptions: () => string[];
   id: string;
+  placeholder?: string;
+  onSelect: (value: string) => void;
+  setEscapeClosesModal: (closes: boolean) => void;
 };
 
 export const CreateTypeahead: React.FunctionComponent<CreateTypeaheadProps> = ({
@@ -21,6 +24,9 @@ export const CreateTypeahead: React.FunctionComponent<CreateTypeaheadProps> = ({
   value,
   initialOptions,
   id,
+  placeholder,
+  onSelect,
+  setEscapeClosesModal,
 }) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -34,8 +40,13 @@ export const CreateTypeahead: React.FunctionComponent<CreateTypeaheadProps> = ({
     );
   }, [initialOptions]);
 
-  const onToggle = () => {
-    setIsOpen(!isOpen);
+  const onToggle = (newState) => {
+    if (newState) {
+      setEscapeClosesModal(false);
+    } else {
+      setEscapeClosesModal(true);
+    }
+    setIsOpen(newState);
   };
 
   const clearSelection = () => {
@@ -43,11 +54,12 @@ export const CreateTypeahead: React.FunctionComponent<CreateTypeaheadProps> = ({
     setIsOpen(false);
   };
 
-  const onSelect = (event, selection, isPlaceholder) => {
+  const select = (event, selection, isPlaceholder) => {
     if (isPlaceholder) clearSelection();
     else {
       setValue(row, selection);
       setIsOpen(false);
+      onSelect(selection);
     }
   };
 
@@ -58,35 +70,37 @@ export const CreateTypeahead: React.FunctionComponent<CreateTypeaheadProps> = ({
   return (
     <FormGroupWithPopover
       labelHead={t(
-        `permission.manage_permissions_dialog.create_permissions.${id}.popover_head`
+        `permission.manage_permissions_dialog.assign_permissions.${id}.popover_head`
       )}
       fieldId={id}
       labelBody={t(
-        `permission.manage_permissions_dialog.create_permissions.${id}.popover_label`
+        `permission.manage_permissions_dialog.assign_permissions.${id}.popover_label`
       )}
       buttonAriaLabel={t(
-        '`permission.manage_permissions_dialog.create_permissions.${id}.aria`'
+        '`permission.manage_permissions_dialog.assign_permissions.${id}.aria`'
       )}
       isRequired={true}
       helperTextInvalid={value.errorMessage}
-      validated={value.invalid ? 'error' : undefined}
+      validated={value.validated || 'default'}
     >
       <PFSelect
         variant={SelectVariant.typeahead}
         typeAheadAriaLabel={t(
-          'permission.manage_permissions_dialog.create_permissions.resource_name_aria'
+          'permission.manage_permissions_dialog.assign_permissions.resource_name_aria'
         )}
         onToggle={onToggle}
-        onSelect={onSelect}
+        onSelect={select}
         onClear={clearSelection}
         selections={value.value}
         isOpen={isOpen}
         isInputValuePersisted={true}
-        placeholderText={t(
-          'permission.manage_permissions_dialog.create_permissions.resource_name_typeahead_placeholder'
-        )}
+        placeholderText={placeholder}
         isCreatable={true}
         onCreateOption={onCreateOption}
+        createText={t(
+          'permission.manage_permissions_dialog.assign_permissions.resource_name_typeahead_create_text'
+        )}
+        validated={value.validated || 'default'}
       >
         {options.map((option, index) => (
           <PFSelectOption

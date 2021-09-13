@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
   Button,
   Form,
@@ -17,13 +17,16 @@ import { ConfigContext } from '@app/contexts';
 import { usePrincipals } from '@bf2/ui-shared';
 import { BaseModalProps } from '@app/components/KafkaModal/ModalTypes';
 import { SelectAccount } from '@app/modules/Permissions/components/ManagePermissionsDialog/SelectAccount';
-import { EditExisting } from '@app/modules/Permissions/components/ManagePermissionsDialog/EditExistingPermissions';
 import { CreatePermissions } from '@app/modules/Permissions/components/ManagePermissionsDialog/CreatePermissions';
 import { Validated } from '@app/modules/Permissions/components/ManagePermissionsDialog/validated';
 import {
   createEmptyNewAcl,
+  isNewAclModified,
   NewAcl,
 } from '@app/modules/Permissions/components/ManagePermissionsDialog/acls';
+import { FormGroupWithPopover, MASLoading } from '@app/components';
+import { useValidateTopic } from '@app/services/topicNameValidation';
+import { ExistingAclTable } from '@app/modules/Permissions/components/ManagePermissionsDialog/ExistingAclTable';
 
 export type ManagePermissionsProps = {
   onSave?: () => Promise<void>;
@@ -50,12 +53,26 @@ export const ManagePermissions: React.FC<
   const [selectedAccount, setSelectedAccount] = useState<
     Validated<string | undefined>
   >({ value: selectedAccountId });
+  const [step, setStep] = useState<number>(1);
   const [newAcls, setNewAcls] = useState<NewAcl[]>([createEmptyNewAcl()]);
+  const escapeClosesModal = useRef<boolean>(true);
+  const { validateName } = useValidateTopic();
+  const resourceOperations = useRef<{ [key: string]: Array<string> }>();
 
   const principals = usePrincipals();
 
   const config = useContext(ConfigContext);
   const permissionsService = createPermissionsService(config);
+
+  useEffect(() => {
+    const fetchResourceOperations = async () => {
+      const answer = await permissionsService.getResourceOperations();
+      resourceOperations.current = answer;
+    };
+    if (resourceOperations.current === undefined) {
+      fetchResourceOperations();
+    }
+  }, []);
 
   const save = async () => {
     let valid = true;
@@ -63,13 +80,20 @@ export const ManagePermissions: React.FC<
       setSelectedAccount((v) => {
         return {
           ...v,
-          invalid: true,
+          validated: 'error',
           errorMessage: t(
             'permission.manage_permissions_dialog.must_select_account_error'
           ),
         };
       });
       valid = false;
+    } else {
+      setSelectedAccount((v) => {
+        return {
+          ...v,
+          validated: 'success',
+        };
+      });
     }
     setNewAcls((prevState) => {
       return prevState.map((value) => {
@@ -82,39 +106,56 @@ export const ManagePermissions: React.FC<
         ) {
           const answer = Object.assign({}, value);
           if (value.resource.value === undefined) {
-            answer.resource.invalid = true;
+            answer.resource.validated = 'error';
             answer.resource.errorMessage = t(
-              'permission.manage_permissions_dialog.create_permissions.must_select_resource_error'
+              'permission.manage_permissions_dialog.assign_permissions.must_select_resource_error'
             );
             valid = false;
+          } else {
+            const errorMessage = validateName(value.resource.value);
+            if (errorMessage !== undefined) {
+              answer.resource.validated = 'error';
+              answer.resource.errorMessage = errorMessage;
+              valid = false;
+            } else {
+              answer.resource.validated = 'success';
+            }
           }
           if (value.patternType.value === undefined) {
-            answer.patternType.invalid = true;
+            answer.patternType.validated = 'error';
             answer.patternType.errorMessage = t(
-              'permission.manage_permissions_dialog.create_permissions.must_select_pattern_type_error'
+              'permission.manage_permissions_dialog.assign_permissions.must_select_pattern_type_error'
             );
             valid = false;
+          } else {
+            answer.patternType.validated = 'success';
           }
           if (value.permission.value === undefined) {
-            answer.permission.invalid = true;
+            answer.permission.validated = 'error';
             answer.permission.errorMessage = t(
-              'permission.manage_permissions_dialog.create_permissions.must_select_permission_error'
+              'permission.manage_permissions_dialog.assign_permissions.must_select_permission_error'
             );
             valid = false;
+          } else {
+            answer.permission.validated = 'success';
           }
           if (value.resourceType.value === undefined) {
-            answer.resourceType.invalid = true;
+            answer.resourceType.validated = 'error';
             answer.resourceType.errorMessage = t(
-              'permission.manage_permissions_dialog.create_permissions.must_select_resource_type_error'
+              'permission.manage_permissions_dialog.assign_permissions.must_select_resource_type_error'
             );
             valid = false;
+          } else {
+            answer.resourceType.validated = 'success';
           }
           if (value.operation.value === undefined) {
-            answer.operation.invalid = true;
+            answer.operation.validated = 'error';
             answer.operation.errorMessage = t(
-              'permission.manage_permissions_dialog.create_permissions.must_select_operation_error'
+              'permission.manage_permissions_dialog.assign_permissions.must_select_operation_error'
             );
             valid = false;
+          } else {
+            answer.operation.validated = 'success';
           }
           return answer;
         }
@@ -122,14 +163,7 @@ export const ManagePermissions: React.FC<
       });
     });
     if (valid) {
-      for (const value1 of newAcls.filter(
-        (value) =>
-          value.resource.value !== undefined ||
-          value.patternType.value !== undefined ||
-          value.permission.value !== undefined ||
-          value.resourceType.value !== undefined ||
-          value.operation.value !== undefined
-      )) {
+      for (const value1 of newAcls.filter((value) => isNewAclModified(value))) {
         if (value1.resource.value === undefined) {
           throw Error('resource must not be undefined');
         }
@@ -159,6 +193,98 @@ export const ManagePermissions: React.FC<
     }
   };
 
+  const Step2 = () => {
+    if (step === 2) {
+      if (resourceOperations.current === undefined) {
+        return <MASLoading />;
+      }
+      return (
+        <>
+          <ExistingAclTable
+            existingAcls={acls.filter(
+              (i) =>
+                i.principal === `${selectedAccountId}` || i.principal === '*'
+            )}
+            selectedAccountId={selectedAccount.value}
+          />
+          <CreatePermissions
+            acls={newAcls}
+            setAcls={setNewAcls}
+            topicNames={topicNames}
+            consumerGroupIds={consumerGroupIds}
+            selectedAccount={selectedAccount.value}
+            setEscapeClosesModal={setEscapeClosesModal}
+            resourceOperations={resourceOperations.current}
+          />
+        </>
+      );
+    }
+    return <></>;
+  };
+
+  const Account = () => {
+    if (step === 1) {
+      return (
+        <SelectAccount
+          id={selectedAccount}
+          setId={setSelectedAccount}
+          initialOptions={principals.getAllPrincipals()}
+          setEscapeClosesModal={setEscapeClosesModal}
+        />
+      );
+    }
+    return (
+      <FormGroupWithPopover
+        labelHead={t('permission.manage_permissions_dialog.account_id_title')}
+        fieldId='kafka-instance-name'
+        fieldLabel={t('permission.manage_permissions_dialog.account_id_title')}
+        labelBody={t('permission.manage_permissions_dialog.account_id_help')}
+        buttonAriaLabel={t(
+          'permission.manage_permissions_dialog.account_id_aria'
+        )}
+        isRequired={true}
+      >
+        {selectedAccount.value === '*'
+          ? t('permission.manage_permissions_dialog.all_accounts_title')
+          : selectedAccount.value}
+      </FormGroupWithPopover>
+    );
+  };
+
+  const setEscapeClosesModal = (closes: boolean) => {
+    escapeClosesModal.current = closes;
+  };
+
+  const onEscapePress = () => {
+    if (escapeClosesModal.current) {
+      hideModal();
+    }
+  };
+
+  const SubmitButton: React.FunctionComponent = () => {
+    if (step === 1) {
+      return (
+        <Button
+          variant='primary'
+          onClick={() => setStep(2)}
+          isDisabled={selectedAccount.value === undefined}
+        >
+          {t('permission.manage_permissions_dialog.step_1_submit_button')}
+        </Button>
+      );
+    }
+    return (
+      <Button
+        variant='primary'
+        onClick={save}
+        key={1}
+        isDisabled={!newAcls.some((p) => isNewAclModified(p))}
+      >
+        {t('permission.manage_permissions_dialog.step_2_submit_button')}
+      </Button>
+    );
+  };
+
   return (
     <Modal
       variant={ModalVariant.large}
@@ -168,16 +294,14 @@ export const ManagePermissions: React.FC<
       showClose={true}
       aria-describedby='modal-message'
       onClose={hideModal}
+      onEscapePress={onEscapePress}
       actions={[
-        <Button variant='primary' onClick={save} key={1}>
-          {t('permission.manage_permissions_dialog.update_button')}
-        </Button>,
-        <Button variant='link' onClick={hideModal} key={2}>
+        <SubmitButton key={1} />,
+        <Button onClick={hideModal} key={2} variant='secondary'>
           {t('permission.manage_permissions_dialog.cancel_button')}
         </Button>,
       ]}
     >
-      {t('permission.manage_permissions_dialog.main_help')}
       <Form>
         <Grid hasGutter md={6}>
           <GridItem span={12}>
@@ -191,23 +315,10 @@ export const ManagePermissions: React.FC<
             </FormGroup>
           </GridItem>
           <GridItem span={12}>
-            <SelectAccount
-              id={selectedAccount}
-              setId={setSelectedAccount}
-              initialOptions={principals.getAllPrincipals()}
-            />
+            <Account />
           </GridItem>
         </Grid>
-        <EditExisting
-          existingAcls={acls}
-          selectedAccountId={selectedAccount.value}
-        />
-        <CreatePermissions
-          acls={newAcls}
-          setAcls={setNewAcls}
-          topicNames={topicNames}
-          consumerGroupIds={consumerGroupIds}
-        />
+        <Step2 />
       </Form>
     </Modal>
   );

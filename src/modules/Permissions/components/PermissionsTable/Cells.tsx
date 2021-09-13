@@ -2,10 +2,13 @@ import { ICell } from '@patternfly/react-table';
 import { useTranslation } from 'react-i18next';
 import { InfoCircleIcon } from '@patternfly/react-icons';
 import { AclPatternType, AclPermissionType } from '@rhoas/kafka-instance-sdk';
-import { Label, Tooltip } from '@patternfly/react-core';
+import { Label, LabelGroup, Tooltip } from '@patternfly/react-core';
 import { EnhancedAclBinding } from '@app/services/acls';
 import React from 'react';
 import { PrincipalType, usePrincipals } from '@bf2/ui-shared';
+import { sentenceCase } from 'sentence-case';
+import { displayName } from '@app/modules/Permissions/utils';
+import { GoofyLabel } from '@app/modules/Permissions/components/ManagePermissionsDialog/GoofyLabel';
 
 export type CellBuilder<T extends EnhancedAclBinding> = (
   item: T,
@@ -16,12 +19,7 @@ const AllAccountsPrincipal: React.FunctionComponent = () => {
   const { t } = useTranslation();
   return (
     <>
-      <div>
-        {t('permission.table.all_accounts')} <InfoCircleIcon color='grey' />
-      </div>
-      <div className='pf-u-font-size-xs'>
-        {t('permission.table.all_accounts_help')}
-      </div>
+      <Label variant='outline'>{t('permission.table.all_accounts')}</Label>
     </>
   );
 };
@@ -33,9 +31,7 @@ const PrincipalWithTooltip: React.FunctionComponent<PrincipalWithTooltipProps> =
   ({ acl }) => {
     const principals = usePrincipals().getAllPrincipals();
 
-    const locatedPrincipals = principals.filter(
-      (p) => p.id === acl.principalDisplay
-    );
+    const locatedPrincipals = principals.filter((p) => p.id === acl.principal);
 
     if (locatedPrincipals.length === 1) {
       if (locatedPrincipals[0].principalType === PrincipalType.ServiceAccount) {
@@ -49,7 +45,7 @@ const PrincipalWithTooltip: React.FunctionComponent<PrincipalWithTooltipProps> =
           >
             <span tabIndex={0}>
               {' '}
-              {acl.principalDisplay} <InfoCircleIcon color='grey' />
+              {acl.principal} <InfoCircleIcon color='grey' />
             </span>
           </Tooltip>
         );
@@ -66,60 +62,63 @@ const PrincipalWithTooltip: React.FunctionComponent<PrincipalWithTooltipProps> =
           >
             <span tabIndex={0}>
               {' '}
-              {acl.principalDisplay} <InfoCircleIcon color='grey' />
+              {acl.principal} <InfoCircleIcon color='grey' />
             </span>
           </Tooltip>
         );
       }
     }
-    return <span> {acl.principalDisplay}</span>;
+    return <span> {acl.principal}</span>;
   };
 
 export const principalCell: CellBuilder<EnhancedAclBinding> = (item) => {
   switch (item.principal) {
-    case 'User:*':
+    case '*':
       return {
         title: <AllAccountsPrincipal />,
+        props: {},
       };
       break;
     default:
       return {
         title: <PrincipalWithTooltip acl={item} />,
+        props: {},
       };
       break;
   }
 };
 
-export const permissionCell: CellBuilder<EnhancedAclBinding> = (item) => {
-  return item.permission === AclPermissionType.Deny
-    ? ({
-        title: (
-          <Label color={'red'} variant={'outline'}>
-            {item.permissionDisplay}
-          </Label>
-        ),
-      } as ICell)
-    : '';
-};
-
-export const operationCell: CellBuilder<EnhancedAclBinding> = (item) => {
+export const permissionOperationCell: CellBuilder<EnhancedAclBinding> = (
+  item
+) => {
   return {
-    title: <Label color={item.operationColor}>{item.operationDisplay}</Label>,
-  };
+    title: (
+      <LabelGroup>
+        <Label variant='outline'>{sentenceCase(item.permission)}</Label>
+        <Label
+          variant='outline'
+          color={item.permission === AclPermissionType.Deny ? 'red' : undefined}
+        >
+          {sentenceCase(item.operation)}
+        </Label>
+      </LabelGroup>
+    ),
+    props: {},
+  } as ICell;
 };
 
 export const resourceCell: CellBuilder<EnhancedAclBinding> = (item) => {
   return {
     title: (
       <>
-        <div>
-          {item.resourceTypeDisplay}{' '}
-          {item.patternType === AclPatternType.Prefixed
-            ? 'name starts with'
-            : 'is'}
-        </div>
-        <div className='pf-u-font-size-lg'>{item.resourceName}</div>
+        <GoofyLabel variant={item.resourceType} />{' '}
+        {displayName(item.resourceType)}{' '}
+        {item.patternType === AclPatternType.Prefixed
+          ? 'name starts with'
+          : 'is'}{' '}
+        {item.resourceName}
       </>
     ),
+    props: {},
   };
 };

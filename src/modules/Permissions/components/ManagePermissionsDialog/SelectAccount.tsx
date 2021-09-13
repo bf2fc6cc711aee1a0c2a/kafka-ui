@@ -1,41 +1,39 @@
 import React, { useState } from 'react';
-import { Principal } from '@bf2/ui-shared';
+import { Principal, PrincipalType } from '@bf2/ui-shared';
 import { useTranslation } from 'react-i18next';
-import { sentenceCase } from 'sentence-case';
 import { FormGroupWithPopover } from '@app/components';
-import { Select as PFSelect } from '@patternfly/react-core/dist/js/components/Select/Select';
-import { SelectVariant } from '@patternfly/react-core';
-import { SelectOption as PFSelectOption } from '@patternfly/react-core/dist/js/components/Select/SelectOption';
-import { SelectOption } from '@app/modules/Permissions/components/ManagePermissionsDialog/select';
+import {
+  Divider,
+  Select,
+  SelectGroup,
+  SelectOption,
+  SelectVariant,
+} from '@patternfly/react-core';
 import { Validated } from '@app/modules/Permissions/components/ManagePermissionsDialog/validated';
 
 export type SelectAccountProps = {
   id: Validated<string | undefined>;
   setId: React.Dispatch<React.SetStateAction<Validated<string | undefined>>>;
   initialOptions: Principal[];
+  setEscapeClosesModal: (closes: boolean) => void;
 };
 
 export const SelectAccount: React.FunctionComponent<SelectAccountProps> = ({
   setId,
   id,
   initialOptions,
+  setEscapeClosesModal,
 }) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [options, setOptions] = useState<SelectOption<string>[]>(
-    initialOptions.map((o) => {
-      return {
-        value: o.id,
-        title: o.id,
-        description: `${sentenceCase(o.principalType.toString())} ${
-          o.displayName || ''
-        }`,
-      } as SelectOption<string>;
-    })
-  );
 
-  const onToggle = () => {
-    setIsOpen(!isOpen);
+  const onToggle = (newState) => {
+    if (newState) {
+      setEscapeClosesModal(false);
+    } else {
+      setEscapeClosesModal(true);
+    }
+    setIsOpen(newState);
   };
 
   const clearSelection = () => {
@@ -44,15 +42,27 @@ export const SelectAccount: React.FunctionComponent<SelectAccountProps> = ({
   };
 
   const onSelect = (event, selection, isPlaceholder) => {
-    if (isPlaceholder) clearSelection();
-    else {
-      setId({ value: selection });
-      setIsOpen(false);
+    if (isPlaceholder) {
+      clearSelection();
+    } else {
+      setId(() => {
+        if (selection === undefined) {
+          return {
+            value: selection,
+            validated: 'error',
+            errorMessage: t(
+              'permission.manage_permissions_dialog.must_select_account_error'
+            ),
+          };
+        } else {
+          return {
+            validated: 'success',
+            value: selection,
+          };
+        }
+      });
     }
-  };
-
-  const onCreateOption = (newValue: string) => {
-    setOptions([...options, { value: newValue } as SelectOption<string>]);
+    setIsOpen(false);
   };
 
   return (
@@ -66,9 +76,9 @@ export const SelectAccount: React.FunctionComponent<SelectAccountProps> = ({
       )}
       isRequired={true}
       helperTextInvalid={id.errorMessage}
-      validated={id.invalid ? 'error' : undefined}
+      validated={id.validated || 'default'}
     >
-      <PFSelect
+      <Select
         variant={SelectVariant.typeahead}
         typeAheadAriaLabel={t(
           'permission.manage_permissions_dialog.account_id_typeahead_aria'
@@ -82,18 +92,70 @@ export const SelectAccount: React.FunctionComponent<SelectAccountProps> = ({
         placeholderText={t(
           'permission.manage_permissions_dialog.account_id_typeahead_placeholder'
         )}
-        isCreatable={true}
-        onCreateOption={onCreateOption}
+        isCreatable={false}
+        menuAppendTo='parent'
+        maxHeight={400}
+        validated={id.validated || 'default'}
+        isGrouped={true}
       >
-        {options.map((option, index) => (
-          <PFSelectOption
-            isDisabled={option.disabled}
-            key={index}
-            value={option.value}
-            {...(option.description && { description: option.description })}
-          />
-        ))}
-      </PFSelect>
+        {[
+          <SelectGroup key='all_accounts_group'>
+            <SelectOption
+              key='*'
+              value='*'
+              description={t(
+                'permission.manage_permissions_dialog.all_accounts_description'
+              )}
+            >
+              {t('permission.manage_permissions_dialog.all_accounts_title')}
+            </SelectOption>
+          </SelectGroup>,
+          <Divider key='divider' />,
+          <SelectGroup
+            label={t(
+              'permission.manage_permissions_dialog.all_accounts_service_account_group'
+            )}
+            key='service_accounts_group'
+          >
+            {initialOptions
+              .filter(
+                (principal) =>
+                  principal.principalType === PrincipalType.ServiceAccount
+              )
+              .map((principal, index) => (
+                <SelectOption
+                  key={index}
+                  value={principal.id}
+                  description={principal.displayName}
+                >
+                  {principal.id}
+                </SelectOption>
+              ))}
+          </SelectGroup>,
+          <Divider key='divider' />,
+          <SelectGroup
+            label={t(
+              'permission.manage_permissions_dialog.all_accounts_user_account_group'
+            )}
+            key='user_accounts_group'
+          >
+            {initialOptions
+              .filter(
+                (principal) =>
+                  principal.principalType === PrincipalType.UserAccount
+              )
+              .map((principal, index) => (
+                <SelectOption
+                  key={index}
+                  value={principal.id}
+                  description={principal.displayName}
+                >
+                  {principal.id}
+                </SelectOption>
+              ))}
+          </SelectGroup>,
+        ]}
+      </Select>
     </FormGroupWithPopover>
   );
 };

@@ -58,15 +58,20 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
   const tableColumns = [
     { title: t('consumerGroup.consumer_group_id'), transforms: [sortable] },
     { title: t('consumerGroup.active_members') },
-    { title: t('consumerGroup.partitions_with_lag'), transforms: [info({
-      popover: (
-        <div>
-          {t('consumerGroup.partitions_with_lag_description')}
-        </div>
-      ),
-      ariaLabel: 'partions with lag',
-      popoverProps: {headerContent: (t('consumerGroup.partitions_with_lag_name'))}
-    })]},
+    {
+      title: t('consumerGroup.partitions_with_lag'),
+      transforms: [
+        info({
+          popover: (
+            <div>{t('consumerGroup.partitions_with_lag_description')}</div>
+          ),
+          ariaLabel: 'partions with lag',
+          popoverProps: {
+            headerContent: t('consumerGroup.partitions_with_lag_name'),
+          },
+        }),
+      ],
+    },
   ];
 
   useEffect(() => {
