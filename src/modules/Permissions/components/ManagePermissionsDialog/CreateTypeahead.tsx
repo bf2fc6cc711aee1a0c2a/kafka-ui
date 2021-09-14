@@ -16,6 +16,7 @@ export type CreateTypeaheadProps = {
   placeholder?: string;
   onSelect: (value: string) => void;
   setEscapeClosesModal: (closes: boolean) => void;
+  menuAppendTo: HTMLElement | (() => HTMLElement) | 'parent' | 'inline' | undefined;
 };
 
 export const CreateTypeahead: React.FunctionComponent<CreateTypeaheadProps> = ({
@@ -27,6 +28,7 @@ export const CreateTypeahead: React.FunctionComponent<CreateTypeaheadProps> = ({
   placeholder,
   onSelect,
   setEscapeClosesModal,
+  menuAppendTo
 }) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -55,6 +57,7 @@ export const CreateTypeahead: React.FunctionComponent<CreateTypeaheadProps> = ({
   };
 
   const select = (event, selection, isPlaceholder) => {
+    if (selection === '') selection = undefined;
     if (isPlaceholder) clearSelection();
     else {
       setValue(row, selection);
@@ -101,7 +104,8 @@ export const CreateTypeahead: React.FunctionComponent<CreateTypeaheadProps> = ({
           'permission.manage_permissions_dialog.assign_permissions.resource_name_typeahead_create_text'
         )}
         validated={value.validated || 'default'}
-        direction='up'
+        menuAppendTo={menuAppendTo}
+        maxHeight={200}
       >
         {options.map((option, index) => (
           <PFSelectOption

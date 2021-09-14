@@ -22,6 +22,7 @@ export type CreateSelectProps<T> = {
   placeholder?: string;
   setEscapeClosesModal: (closes: boolean) => void;
   onSelect: (value: string) => void;
+  menuAppendTo: HTMLElement | (() => HTMLElement) | 'parent' | 'inline' | undefined;
 };
 
 export const CreateSelect = <
@@ -35,6 +36,7 @@ export const CreateSelect = <
   placeholder,
   setEscapeClosesModal,
   onSelect,
+  menuAppendTo
 }: CreateSelectProps<T>): React.ReactElement => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -54,7 +56,7 @@ export const CreateSelect = <
   };
 
   const select = (event, selection, isPlaceholder) => {
-    if (selection === '') selection = undefined;
+    if (selection === "") selection = undefined;
     if (isPlaceholder) clearSelection();
     else {
       setSelected(row, selection);
@@ -89,7 +91,8 @@ export const CreateSelect = <
         isInputValuePersisted={true}
         placeholderText={placeholder}
         validated={selected.validated || 'default'}
-        direction='up'
+        menuAppendTo={menuAppendTo}
+        maxHeight={200}
       >
         {options.map((option, index) => (
           <PFSelectOption

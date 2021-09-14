@@ -43,6 +43,7 @@ export type CreatePermissionsProps = {
   setAcls: React.Dispatch<React.SetStateAction<NewAcl[]>>;
   setEscapeClosesModal: (closes: boolean) => void;
   resourceOperations: { [key: string]: Array<string> };
+  menuAppendTo: HTMLElement | (() => HTMLElement) | 'parent' | 'inline' | undefined
 };
 
 export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> =
@@ -54,6 +55,7 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
     selectedAccount,
     setEscapeClosesModal,
     resourceOperations,
+    menuAppendTo
   }) => {
     const { validateName } = useValidateTopic();
     const { t } = useTranslation();
@@ -202,6 +204,7 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
           row={row}
           id='pattern-type'
           setEscapeClosesModal={setEscapeClosesModal}
+          menuAppendTo={menuAppendTo}
           onSelect={(value) => {
             setAcls((prevState) => {
               if (value === undefined) {
@@ -236,6 +239,7 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
             'permission.manage_permissions_dialog.assign_permissions.resource_type_placeholder'
           )}
           setEscapeClosesModal={setEscapeClosesModal}
+          menuAppendTo={menuAppendTo}
           onSelect={(value) => {
             setAcls((prevState) => {
               if (value === undefined) {
@@ -269,6 +273,7 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
             }_placeholder`
           )}
           setEscapeClosesModal={setEscapeClosesModal}
+          menuAppendTo={menuAppendTo}
           initialOptions={() => {
             if (acl.resourceType.value === AclResourceType.Topic) {
               return topicNames;
@@ -314,6 +319,7 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
           row={row}
           id='permission-type'
           setEscapeClosesModal={setEscapeClosesModal}
+          menuAppendTo={menuAppendTo}
           onSelect={(value) => {
             setAcls((prevState) => {
               if (value === undefined) {
@@ -365,6 +371,7 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
             'permission.manage_permissions_dialog.assign_permissions.operation_placeholder'
           )}
           setEscapeClosesModal={setEscapeClosesModal}
+          menuAppendTo={menuAppendTo}
           onSelect={(value) => {
             setAcls((prevState) => {
               if (value === undefined) {
