@@ -29,7 +29,7 @@ export type NewAcl = {
 export const createEmptyNewAcl = (): NewAcl => {
   return {
     permission: {
-      value: undefined,
+      value: AclPermissionType.Allow,
     },
     operation: {
       value: undefined,
@@ -38,7 +38,7 @@ export const createEmptyNewAcl = (): NewAcl => {
       value: undefined,
     },
     patternType: {
-      value: undefined,
+      value: AclPatternType.Prefixed,
     },
     resource: {
       value: undefined,

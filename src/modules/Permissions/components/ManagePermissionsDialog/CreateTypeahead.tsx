@@ -101,6 +101,7 @@ export const CreateTypeahead: React.FunctionComponent<CreateTypeaheadProps> = ({
           'permission.manage_permissions_dialog.assign_permissions.resource_name_typeahead_create_text'
         )}
         validated={value.validated || 'default'}
+        direction='up'
       >
         {options.map((option, index) => (
           <PFSelectOption

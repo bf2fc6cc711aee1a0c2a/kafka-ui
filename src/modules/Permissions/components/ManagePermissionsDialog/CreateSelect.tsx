@@ -54,6 +54,7 @@ export const CreateSelect = <
   };
 
   const select = (event, selection, isPlaceholder) => {
+    if (selection === '') selection = undefined;
     if (isPlaceholder) clearSelection();
     else {
       setSelected(row, selection);
@@ -88,6 +89,7 @@ export const CreateSelect = <
         isInputValuePersisted={true}
         placeholderText={placeholder}
         validated={selected.validated || 'default'}
+        direction='up'
       >
         {options.map((option, index) => (
           <PFSelectOption

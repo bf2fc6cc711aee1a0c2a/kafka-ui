@@ -178,7 +178,22 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
             .map((value) => {
               return {
                 value,
-                title: value === AclPatternType.Prefixed ? 'Starts with' : 'Is',
+                title:
+                  value === AclPatternType.Prefixed
+                    ? t(
+                        'permission.manage_permissions_dialog.assign_permissions.pattern_type_prefixed'
+                      )
+                    : t(
+                        'permission.manage_permissions_dialog.assign_permissions.pattern_type_literal'
+                      ),
+                description:
+                  value === AclPatternType.Prefixed
+                    ? t(
+                        'permission.manage_permissions_dialog.assign_permissions.pattern_type_prefixed_help'
+                      )
+                    : t(
+                        'permission.manage_permissions_dialog.assign_permissions.pattern_type_literal_help'
+                      ),
               } as SelectOption<AclPatternType>;
             })
             .sort((a, b) => b.value.localeCompare(a.value))}
@@ -271,7 +286,7 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
                 prevState[row].resource.errorMessage = errorMessage;
                 return prevState;
               });
-            } else {
+            } else if (value !== undefined) {
               setAcls((prevState) => {
                 prevState[row].resource.validated = 'success';
                 return prevState;
