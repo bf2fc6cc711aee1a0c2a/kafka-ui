@@ -916,7 +916,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
                         ? 'topicAdvanceCreate-actionCreate'
                         : 'tabProperties-actionSave'
                     }
-                    isDisabled={topicValidated == 'default' ? false : true}
+                    isDisabled={topicValidated === 'default' ? false : true}
                   >
                     {actionText}
                   </Button>
