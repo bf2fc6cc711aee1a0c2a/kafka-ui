@@ -174,40 +174,59 @@
       "row_kebab": {
         "delete": "Delete",
         "manage": "Manage"
-      }
+      },
+      "resource_column_title": "Resource",
+      "permissions_column_title": "Permissions"
     },
     "manage_permissions_dialog": {
-      "title": "Manage permissions",
+      "title": "Manage access",
       "aria_label": "Manage permissions dialog",
-      "main_help": "Manage access to resources in this Kafka instance by assigning permissions to an account.",
-      "update_button": "Update",
+      "step_1_submit_button": "Next",
+      "step_2_submit_button": "Save",
       "cancel_button": "Cancel",
       "kafka_instance_title": "Kafka instance",
-      "account_id_title": "Account id",
-      "account_id_aria": "The account id",
+      "account_id_title": "Account",
+      "account_id_aria": "The account",
       "account_id_help": "A service account enables your application or tool to connect securely to your resources. A user account enables users in your organization to access resources.",
       "account_id_typeahead_aria": "Select an account",
       "account_id_typeahead_placeholder": "Select an account",
       "must_select_account_error": "You must choose an account",
-
+      "all_accounts_title": "All accounts",
+      "all_accounts_description": "Uses a wildcard (*) to assign permissions to all user and service accounts",
+      "all_accounts_service_account_group": "Service accounts",
+      "all_accounts_user_account_group": "User accounts",
       "edit_existing": {
-        "title": "Edit existing resource permissions",
-        "all_accounts_title": "All accounts",
-        "all_accounts_help": "Permissions assigned to all user and service accounts using a wildcard (*). To edit, select wildcard (*) as the account ID.",
-        "all_accounts_table_aria": "Permissions assigned to all accounts",
-        "selected_account_help": "Edit all permissions assigned to this ID."
+        "title": "Review existing permissions",
+        "help": "Review the list of existing permissions for the selected account. The list includes account-specific permissions and permissions applied to all accounts within this Kafka instance. Permissions labeled <1>All accounts</1> cannot be removed when an individual account ID is selected.",
+        "all_accounts_help": "Review the list of existing permissions applied to all accounts within this Kafka instance. "
       },
-      "create_permissions": {
-        "title": "Create resource permissions",
-        "help": "Create new permissions assigned to this account ID.",
+      "assign_permissions": {
+        "title": "Assign Permissions",
+        "help": "Assign permissions to the selected account ({{account_id}}).",
+        "help_all_accounts": "Assign permissions to all accounts.",
         "placeholder": "Choose...",
         "resource_name_typeahead_placeholder": "Choose...",
         "must_select_resource_error": "You must choose a resource",
         "must_select_pattern_type_error": "You must choose a pattern type",
         "must_select_permission_error": "You must choose a permission",
         "must_select_resource_type_error": "You must choose a resource type",
-        "must_select_operation_error": "You must choose an operation"
+        "must_select_operation_error": "You must choose an operation",
+        "resource_type_placeholder": "Select resource type",
+        "pattern_type_prefixed_placeholder": "Enter prefix",
+        "pattern_type_literal_placeholder": "Enter name",
+        "operation_placeholder": "Select operation",
+        "add_row": "Add",
+        "remove_row_help": "Remove",
+        "pattern_type_prefixed": "Starts with",
+        "pattern_type_prefixed_help": "Refers to the prefix of the name in the API",
+        "pattern_type_literal": "Is",
+        "pattern_type_literal_help": "Refers to the literal name in the API",
+        "resource_name_typeahead_create_text": "Use"
       }
+    },
+    "cells": {
+      "pattern_type_prefixed": "starts with",
+      "pattern_type_literal": "is"
     }
   },
   "consumerGroup": {

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { createPermissionsService } from '@app/services/acls';
+import { usePermissionsService } from '@app/services/acls';
 import { PermissionsTable } from '@app/modules/Permissions/components/PermissionsTable';
 import { ConfigContext } from '@app/contexts';
 import { getConsumerGroups, getTopics } from '@app/services';
@@ -11,7 +11,7 @@ export const PermissionsTableView: React.FunctionComponent<PermissionsTableViewP
   ({ kafkaName }) => {
     const config = useContext(ConfigContext);
 
-    const permissionsService = createPermissionsService(config);
+    const permissionsService = usePermissionsService(config);
     const [topicNames, setTopicNames] = useState<string[]>([]);
     const [consumerGroupIds, setConsumerGroupNames] = useState<string[]>([]);
 

@@ -14,7 +14,6 @@ import {
   Configuration,
 } from '@rhoas/kafka-instance-sdk';
 import { IConfiguration } from '@app/contexts';
-import { sentenceCase } from 'sentence-case';
 import objectHash from 'object-hash';
 
 export type PermissionsService = {
@@ -38,21 +37,7 @@ export const convertEnum = <T extends { toString: () => string }, F>(
   return v as F;
 };
 
-export type OperationColor =
-  | 'blue'
-  | 'cyan'
-  | 'green'
-  | 'orange'
-  | 'purple'
-  | 'red'
-  | 'grey';
-
 export type EnhancedAclBinding = AclBinding & {
-  operationColor: OperationColor;
-  operationDisplay: string;
-  resourceTypeDisplay: string;
-  permissionDisplay: string;
-  principalDisplay: string;
   hash: () => string;
 };
 
@@ -69,7 +54,7 @@ export type AclFilter = {
   permissionType?: AclPermissionTypeFilter;
 };
 
-export const createPermissionsService = (
+export const usePermissionsService = (
   config: IConfiguration | undefined
 ): PermissionsService => {
   const getPermissions = async (
@@ -157,38 +142,10 @@ const enhanceAclBindingListPage = (
     page: response.data.page,
     items: response.data.items
       ?.map((item) => {
-        let operationColor: string | undefined;
-        let resourceTypeDisplay: string | undefined;
-        switch (item.resourceType) {
-          case AclResourceType.Group:
-            operationColor = 'green';
-            resourceTypeDisplay = 'Consumer group';
-            break;
-          case AclResourceType.Topic:
-            operationColor = 'blue';
-            resourceTypeDisplay = 'Topic';
-            break;
-          case AclResourceType.Cluster:
-            resourceTypeDisplay = 'Kafka Instance';
-            operationColor = 'grey';
-            break;
-          case AclResourceType.TransactionalId:
-            resourceTypeDisplay = 'Transactional id';
-            operationColor = 'orange';
-            break;
-          default:
-            operationColor = undefined;
-            resourceTypeDisplay = sentenceCase(item.resourceType);
-            break;
-        }
         return {
-          operationColor,
-          operationDisplay: sentenceCase(item.operation),
-          resourceTypeDisplay,
-          permissionDisplay: sentenceCase(item.permission),
-          // Strip out the "User:" prefix
-          principalDisplay: item.principal.substring(5),
           ...item,
+          // Strip out the "User:" prefix
+          principal: item.principal.substring(5),
           toString: () => {
             return `${item.principal} ${item.permission} ${item.operation} ${item.patternType} ${item.resourceType} ${item.resourceName}`;
           },

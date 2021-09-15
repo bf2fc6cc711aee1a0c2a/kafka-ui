@@ -3,14 +3,16 @@ import { useTranslation } from 'react-i18next';
 import {
   Form,
   FormGroup,
-  TextContent,
-  Text,
-  TextVariants,
-  TextInput,
   FormSection,
+  Text,
+  TextContent,
+  TextInput,
+  TextVariants,
 } from '@patternfly/react-core';
 import '../CreateTopicWizard/CreateTopicWizard.css';
 import { IAdvancedTopic } from '../CreateTopicWizard';
+import { useValidateTopic } from '@app/services/topicNameValidation';
+
 export type StepTopicNameProps = {
   topicData: IAdvancedTopic;
   setTopicData: (value: IAdvancedTopic) => void;
@@ -29,6 +31,7 @@ export const StepTopicName: React.FC<StepTopicNameProps> = ({
   setInvalidText,
 }) => {
   const { t } = useTranslation();
+  const { validateName } = useValidateTopic();
 
   const topicNameInput = topicData && topicData.name;
 
@@ -37,17 +40,11 @@ export const StepTopicName: React.FC<StepTopicNameProps> = ({
   }, []);
 
   const validationCheck = (topicNameInput) => {
-    const legalNameChars = new RegExp('^[a-zA-Z0-9._-]+$');
-    if (topicNameInput.length && !legalNameChars.test(topicNameInput)) {
-      setInvalidText(t('topic.topic_name_helper_text'));
+    const errorMessage = validateName(topicNameInput);
+    if (errorMessage) {
+      setInvalidText(errorMessage);
       setTopicNameValidated('error');
-    } else if (topicNameInput.length > 249) {
-      setTopicNameValidated('error');
-      setInvalidText(t('topic.cannot_exceed_characters'));
-    } else if (topicNameInput === '.' || topicNameInput === '..') {
-      setTopicNameValidated('error');
-      setInvalidText(t('topic.invalid_name_with_dot'));
-    } else setTopicNameValidated('default');
+    }
   };
 
   const handleTopicNameChange = (value) => {

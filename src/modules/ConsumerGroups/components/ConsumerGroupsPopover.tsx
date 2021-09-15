@@ -7,9 +7,16 @@ type ConsumerGroupPopoverProps = {
   description: string;
 };
 
-export const ConsumerGroupPopover = ({ title, description }: ConsumerGroupPopoverProps) => {
+export const ConsumerGroupPopover = ({
+  title,
+  description,
+}: ConsumerGroupPopoverProps) => {
   return (
-    <Popover aria-label="Consumer groups popover" headerContent={<div>{title}</div>} bodyContent={<div>{description}</div>}>
+    <Popover
+      aria-label='Consumer groups popover'
+      headerContent={<div>{title}</div>}
+      bodyContent={<div>{description}</div>}
+    >
       <OutlinedQuestionCircleIcon />
     </Popover>
   );

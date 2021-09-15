@@ -18,8 +18,7 @@ import {
 } from '@app/services/acls';
 import { useTimeout } from '@app/hooks';
 import {
-  operationCell,
-  permissionCell,
+  permissionOperationCell,
   principalCell,
   resourceCell,
 } from '@app/modules/Permissions/components/PermissionsTable/Cells';
@@ -103,7 +102,7 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
     { title: '' },
   ] as ICell[];
 
-  const cells = [principalCell, permissionCell, operationCell, resourceCell];
+  const cells = [principalCell, permissionOperationCell, resourceCell];
 
   const onSelect: OnSelect = (event, isSelected, rowIndex) => {
     if (rowIndex === -1) {
@@ -163,9 +162,10 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
           ),
           resourceType: convertEnum(value.resourceType, AclResourceTypeFilter),
           operation: convertEnum(value.operation, AclOperationFilter),
-          principal: value.principal,
-        });
+          principal: `User:${value.principal}`,
+        }).then(() => fetchPermissions());
       });
+    fetchPermissions();
   };
 
   const onDelete = (rowIndex?: number) => {
@@ -177,9 +177,9 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
         permissionType: convertEnum(value.permission, AclPermissionTypeFilter),
         resourceType: convertEnum(value.resourceType, AclResourceTypeFilter),
         operation: convertEnum(value.operation, AclOperationFilter),
-        principal: value.principal,
-      });
-    }
+        principal: `User:${value.principal}`,
+      }).then(() => fetchPermissions());
+    };
   };
 
   const actionResolver: IActionsResolver = (_, { rowIndex }) => {
@@ -189,7 +189,7 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
         ['data-testid']: 'permission-table-row-manage',
         onClick: () => {
           if (aclPage?.items !== undefined && rowIndex !== undefined) {
-            openManagePermissions(aclPage.items[rowIndex].principalDisplay);
+            openManagePermissions(aclPage.items[rowIndex].principal);
           }
         },
       },

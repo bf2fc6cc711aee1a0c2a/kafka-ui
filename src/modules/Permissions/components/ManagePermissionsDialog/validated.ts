@@ -1,5 +1,5 @@
 export type Validated<T> = {
   value: T;
-  invalid?: boolean;
+  validated?: 'success' | 'warning' | 'error' | 'default';
   errorMessage?: string;
 };
