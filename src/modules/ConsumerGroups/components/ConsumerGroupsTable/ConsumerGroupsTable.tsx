@@ -65,7 +65,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
           popover: (
             <div>{t('consumerGroup.partitions_with_lag_description')}</div>
           ),
-          ariaLabel: 'partions with lag',
+          ariaLabel: 'partitions with lag',
           popoverProps: {
             headerContent: t('consumerGroup.partitions_with_lag_name'),
           },

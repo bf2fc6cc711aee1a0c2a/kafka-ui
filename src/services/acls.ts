@@ -54,7 +54,7 @@ export type AclFilter = {
   permissionType?: AclPermissionTypeFilter;
 };
 
-export const createPermissionsService = (
+export const usePermissionsService = (
   config: IConfiguration | undefined
 ): PermissionsService => {
   const getPermissions = async (

@@ -1,14 +1,14 @@
-import { ICell } from '@patternfly/react-table';
-import { useTranslation } from 'react-i18next';
-import { InfoCircleIcon } from '@patternfly/react-icons';
-import { AclPatternType, AclPermissionType } from '@rhoas/kafka-instance-sdk';
-import { Label, LabelGroup, Tooltip } from '@patternfly/react-core';
-import { EnhancedAclBinding } from '@app/services/acls';
+import {ICell} from '@patternfly/react-table';
+import {useTranslation} from 'react-i18next';
+import {InfoCircleIcon} from '@patternfly/react-icons';
+import {AclPatternType, AclPermissionType, AclResourceType} from '@rhoas/kafka-instance-sdk';
+import {Label, LabelGroup, Tooltip} from '@patternfly/react-core';
+import {EnhancedAclBinding} from '@app/services/acls';
 import React from 'react';
-import { PrincipalType, usePrincipals } from '@bf2/ui-shared';
-import { sentenceCase } from 'sentence-case';
-import { displayName } from '@app/modules/Permissions/utils';
-import { GoofyLabel } from '@app/modules/Permissions/components/ManagePermissionsDialog/GoofyLabel';
+import {PrincipalType, usePrincipals} from '@bf2/ui-shared';
+import {sentenceCase} from 'sentence-case';
+import {displayName} from '@app/modules/Permissions/utils';
+import {GoofyLabel} from '@app/modules/Permissions/components/ManagePermissionsDialog/GoofyLabel';
 
 export type CellBuilder<T extends EnhancedAclBinding> = (
   item: T,
@@ -16,7 +16,7 @@ export type CellBuilder<T extends EnhancedAclBinding> = (
 ) => ICell | string;
 
 const AllAccountsPrincipal: React.FunctionComponent = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   return (
     <>
       <Label variant='outline'>{t('permission.table.all_accounts')}</Label>
@@ -28,7 +28,7 @@ type PrincipalWithTooltipProps = {
   acl: EnhancedAclBinding;
 };
 const PrincipalWithTooltip: React.FunctionComponent<PrincipalWithTooltipProps> =
-  ({ acl }) => {
+  ({acl}) => {
     const principals = usePrincipals().getAllPrincipals();
 
     const locatedPrincipals = principals.filter((p) => p.id === acl.principal);
@@ -39,13 +39,13 @@ const PrincipalWithTooltip: React.FunctionComponent<PrincipalWithTooltipProps> =
           <Tooltip
             content={
               <div>
-                Type: {locatedPrincipals[0].principalType} <br />
+                Type: {locatedPrincipals[0].principalType} <br/>
               </div>
             }
           >
             <span tabIndex={0}>
               {' '}
-              {acl.principal} <InfoCircleIcon color='grey' />
+              {acl.principal} <InfoCircleIcon color='grey'/>
             </span>
           </Tooltip>
         );
@@ -54,15 +54,15 @@ const PrincipalWithTooltip: React.FunctionComponent<PrincipalWithTooltipProps> =
           <Tooltip
             content={
               <div>
-                Type: {locatedPrincipals[0].principalType} <br />
-                Name: {locatedPrincipals[0].displayName} <br />
+                Type: {locatedPrincipals[0].principalType} <br/>
+                Name: {locatedPrincipals[0].displayName} <br/>
                 Email: {locatedPrincipals[0].emailAddress}
               </div>
             }
           >
             <span tabIndex={0}>
               {' '}
-              {acl.principal} <InfoCircleIcon color='grey' />
+              {acl.principal} <InfoCircleIcon color='grey'/>
             </span>
           </Tooltip>
         );
@@ -75,13 +75,13 @@ export const principalCell: CellBuilder<EnhancedAclBinding> = (item) => {
   switch (item.principal) {
     case '*':
       return {
-        title: <AllAccountsPrincipal />,
+        title: <AllAccountsPrincipal/>,
         props: {},
       };
       break;
     default:
       return {
-        title: <PrincipalWithTooltip acl={item} />,
+        title: <PrincipalWithTooltip acl={item}/>,
         props: {},
       };
       break;
@@ -108,17 +108,35 @@ export const permissionOperationCell: CellBuilder<EnhancedAclBinding> = (
 };
 
 export const resourceCell: CellBuilder<EnhancedAclBinding> = (item) => {
-  return {
-    title: (
-      <>
-        <GoofyLabel variant={item.resourceType} />{' '}
-        {displayName(item.resourceType)}{' '}
-        {item.patternType === AclPatternType.Prefixed
-          ? 'name starts with'
-          : 'is'}{' '}
-        {item.resourceName}
-      </>
-    ),
-    props: {},
-  };
-};
+  const PatternType: React.FunctionComponent = () => {
+    const {t} = useTranslation();
+    if (item.patternType === AclPatternType.Prefixed) {
+      return t('permission.cells.pattern_type_prefixed');
+    } else {
+      return t('permission.cells.pattern_type_literal');
+    }
+  }
+  if (item.resourceType === AclResourceType.Cluster) {
+    return {
+      title: (
+        <>
+          <GoofyLabel variant={item.resourceType}/>{' '}
+          {displayName(item.resourceType)}
+        </>
+      ),
+    };
+  } else {
+    return {
+      title: (
+        <>
+          <GoofyLabel variant={item.resourceType}/>{' '}
+          {displayName(item.resourceType)}{' '}
+          <PatternType/>{' '}
+          {item.resourceName}
+        </>
+      ),
+    };
+  }
+
+}
+;

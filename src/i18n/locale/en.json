@@ -195,7 +195,6 @@
       "all_accounts_description": "Uses a wildcard (*) to assign permissions to all user and service accounts",
       "all_accounts_service_account_group": "Service accounts",
       "all_accounts_user_account_group": "User accounts",
-
       "edit_existing": {
         "title": "Review existing permissions",
         "help": "Review the list of existing permissions for the selected account. The list includes account-specific permissions and permissions applied to all accounts within this Kafka instance. Permissions labeled <1>All accounts</1> cannot be removed when an individual account ID is selected.",
@@ -224,6 +223,10 @@
         "pattern_type_literal_help": "Refers to the literal name in the API",
         "resource_name_typeahead_create_text": "Use"
       }
+    },
+    "cells": {
+      "pattern_type_prefixed": "starts with",
+      "pattern_type_literal": "is"
     }
   },
   "consumerGroup": {

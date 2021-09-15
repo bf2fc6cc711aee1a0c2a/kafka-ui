@@ -162,9 +162,10 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
           ),
           resourceType: convertEnum(value.resourceType, AclResourceTypeFilter),
           operation: convertEnum(value.operation, AclOperationFilter),
-          principal: value.principal,
-        });
+          principal: `User:${value.principal}`,
+        }).then(() => fetchPermissions());
       });
+    fetchPermissions();
   };
 
   const onDelete = (rowIndex?: number) => {
@@ -176,9 +177,9 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
         permissionType: convertEnum(value.permission, AclPermissionTypeFilter),
         resourceType: convertEnum(value.resourceType, AclResourceTypeFilter),
         operation: convertEnum(value.operation, AclOperationFilter),
-        principal: value.principal,
-      });
-    }
+        principal: `User:${value.principal}`,
+      }).then(() => fetchPermissions());
+    };
   };
 
   const actionResolver: IActionsResolver = (_, { rowIndex }) => {

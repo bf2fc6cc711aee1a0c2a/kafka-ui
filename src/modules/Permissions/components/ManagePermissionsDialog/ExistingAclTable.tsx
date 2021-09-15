@@ -14,10 +14,11 @@ import { MASTable } from '@app/components';
 export type ExistingAclTableProps = {
   existingAcls: Array<EnhancedAclBinding>;
   selectedAccountId?: string;
+  onRemove: (acl: EnhancedAclBinding) => void;
 };
 
 export const ExistingAclTable: React.FunctionComponent<ExistingAclTableProps> =
-  ({ existingAcls, selectedAccountId }) => {
+  ({ existingAcls, selectedAccountId, onRemove }) => {
     type RemovableEnhancedAclBinding = EnhancedAclBinding & {
       removed: boolean;
       index: number;
@@ -46,6 +47,7 @@ export const ExistingAclTable: React.FunctionComponent<ExistingAclTableProps> =
           return v;
         })
       );
+      onRemove(acl);
     };
 
     const tableColumns = [

@@ -205,6 +205,7 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
           id='pattern-type'
           setEscapeClosesModal={setEscapeClosesModal}
           menuAppendTo={menuAppendTo}
+          onClear={() => createEmptyNewAcl().patternType.value}
           onSelect={(value) => {
             setAcls((prevState) => {
               if (value === undefined) {
@@ -240,6 +241,7 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
           )}
           setEscapeClosesModal={setEscapeClosesModal}
           menuAppendTo={menuAppendTo}
+          onClear={() => createEmptyNewAcl().resourceType.value}
           onSelect={(value) => {
             setAcls((prevState) => {
               if (value === undefined) {
@@ -320,6 +322,7 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
           id='permission-type'
           setEscapeClosesModal={setEscapeClosesModal}
           menuAppendTo={menuAppendTo}
+          onClear={() => createEmptyNewAcl().permission.value}
           onSelect={(value) => {
             setAcls((prevState) => {
               if (value === undefined) {
@@ -372,6 +375,7 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
           )}
           setEscapeClosesModal={setEscapeClosesModal}
           menuAppendTo={menuAppendTo}
+          onClear={() => createEmptyNewAcl().operation.value}
           onSelect={(value) => {
             setAcls((prevState) => {
               if (value === undefined) {

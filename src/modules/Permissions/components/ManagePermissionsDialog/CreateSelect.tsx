@@ -23,6 +23,7 @@ export type CreateSelectProps<T> = {
   setEscapeClosesModal: (closes: boolean) => void;
   onSelect: (value: string) => void;
   menuAppendTo: HTMLElement | (() => HTMLElement) | 'parent' | 'inline' | undefined;
+  onClear: () => T | undefined;
 };
 
 export const CreateSelect = <
@@ -36,7 +37,8 @@ export const CreateSelect = <
   placeholder,
   setEscapeClosesModal,
   onSelect,
-  menuAppendTo
+  menuAppendTo,
+  onClear
 }: CreateSelectProps<T>): React.ReactElement => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -51,7 +53,7 @@ export const CreateSelect = <
   };
 
   const clearSelection = () => {
-    setSelected(row, undefined);
+    setSelected(row, onClear());
     setIsOpen(false);
   };
 

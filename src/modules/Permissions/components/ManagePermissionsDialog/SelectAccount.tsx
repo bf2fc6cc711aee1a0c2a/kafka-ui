@@ -36,6 +36,7 @@ export const SelectAccount: React.FunctionComponent<SelectAccountProps> = ({
   };
 
   const onSelect = (event, selection, isPlaceholder) => {
+    if (selection === '') selection = undefined;
     if (isPlaceholder) {
       clearSelection();
     } else {
