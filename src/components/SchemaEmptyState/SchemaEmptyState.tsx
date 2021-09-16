@@ -13,7 +13,7 @@ import {
   CardBody,
   CardTitle,
 } from '@patternfly/react-core';
-import { InfoCircleIcon } from '@patternfly/react-icons';
+import { ArrowRightIcon, InfoCircleIcon } from '@patternfly/react-icons';
 import { useHistory } from 'react-router-dom';
 
 export enum MASEmptyStateVariant {
@@ -45,9 +45,9 @@ export const SchemaEmptyState: React.FC<EmptyStateProps> = ({
   const { ...restEmptyStateProps } = {};
 
   const { variant, icon, titleSize } = {
-    variant: EmptyStateVariant.large,
+    variant: EmptyStateVariant.xl,
     icon: InfoCircleIcon,
-    titleSize: TitleSizes.lg,
+    titleSize: TitleSizes.md,
   };
   const history = useHistory();
 
@@ -71,22 +71,27 @@ export const SchemaEmptyState: React.FC<EmptyStateProps> = ({
             {
               <ClipboardCopy
                 isReadOnly
+                className='pf-u-w-50'
                 hoverTip='Copy'
                 clickTip='Copied'
-                maxWidth='500px'
               >
                 {topicKey}
               </ClipboardCopy>
             }
             {
-              <ClipboardCopy isReadOnly hoverTip='Copy' clickTip='Copied'>
+              <ClipboardCopy
+                isReadOnly
+                className='pf-u-w-50'
+                hoverTip='Copy'
+                clickTip='Copied'
+              >
                 {topicValue}
               </ClipboardCopy>
             }
             {
               <EmptyStateSecondaryActions>
                 <Button variant='link' onClick={onClickLink}>
-                  Go to Service Registry instance
+                  Go to Service Registry instance <ArrowRightIcon />
                 </Button>
               </EmptyStateSecondaryActions>
             }
