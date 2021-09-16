@@ -11,7 +11,7 @@ import { ConfigEntry, TopicSettings } from '@rhoas/kafka-instance-sdk';
 import { ConfigContext } from '@app/contexts';
 import { convertUnits } from '@app/modules/Topics/utils';
 import { isAxiosError } from '@app/utils/axios';
-import { useAlert, useBasename } from '@bf2/ui-shared';
+import { useAlert, useBasename } from '@rhoas/app-services-ui-shared';
 import '../CreateTopicWizard/CreateTopicWizard.css';
 
 export type UpdateTopicViewProps = {

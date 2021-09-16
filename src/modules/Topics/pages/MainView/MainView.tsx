@@ -20,7 +20,7 @@ import { useFederated } from '@app/contexts';
 import { MASLoading } from '@app/components';
 import '../style.css';
 import PermissionsTableView from '@app/modules/Permissions/pages/PermissionsTable/PermissionsTableView';
-import { usePrincipals } from '@bf2/ui-shared';
+import { usePrincipals } from '@rhoas/app-services-ui-shared';
 
 const Topics = lazy(() => import('@app/modules/Topics/Topics'));
 const ConsumerGroups = lazy(

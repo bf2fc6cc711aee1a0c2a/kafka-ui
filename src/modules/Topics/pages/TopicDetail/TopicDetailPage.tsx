@@ -20,7 +20,7 @@ import { ConfigContext, useFederated } from '@app/contexts';
 import { ConsumerGroups } from '@app/modules/ConsumerGroups';
 import { isAxiosError } from '@app/utils/axios';
 import { ModalType, useModal } from '@app/components/KafkaModal';
-import { useAlert, useBasename } from '@bf2/ui-shared';
+import { useAlert, useBasename } from '@rhoas/app-services-ui-shared';
 import '../style.css';
 
 export const TopicDetailPage: React.FC = () => {

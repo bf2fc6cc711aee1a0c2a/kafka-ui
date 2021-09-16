@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useBasename } from '@bf2/ui-shared';
+import { useBasename } from '@rhoas/app-services-ui-shared';
 import {
   Tabs,
   Tab,

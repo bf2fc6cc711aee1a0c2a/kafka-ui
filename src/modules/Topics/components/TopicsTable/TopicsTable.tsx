@@ -9,7 +9,7 @@ import {
   OnSort,
   ISortBy,
 } from '@patternfly/react-table';
-import { useBasename } from '@bf2/ui-shared';
+import { useBasename } from '@rhoas/app-services-ui-shared';
 import {
   MASTable,
   MASPagination,

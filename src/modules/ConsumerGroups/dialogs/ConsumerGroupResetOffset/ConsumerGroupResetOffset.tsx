@@ -34,7 +34,7 @@ import {
   DropdownWithToggle,
   IDropdownOption,
 } from '@app/components/DropdownWithToggle';
-import { useAlert } from '@bf2/ui-shared';
+import { useAlert } from '@rhoas/app-services-ui-shared';
 
 export type ConsumerGroupResetOffsetProps = {
   consumerGroupData: ConsumerGroup | undefined;

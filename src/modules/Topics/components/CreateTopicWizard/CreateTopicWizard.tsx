@@ -25,7 +25,7 @@ import {
 import { convertUnits, formatTopicRequest } from '@app/modules/Topics/utils';
 import { ConfigContext } from '@app/contexts';
 import { getTopic } from '@app/services';
-import { useAlert } from '@bf2/ui-shared';
+import { useAlert } from '@rhoas/app-services-ui-shared';
 import './CreateTopicWizard.css';
 
 export type CreateTopicWizardProps = {

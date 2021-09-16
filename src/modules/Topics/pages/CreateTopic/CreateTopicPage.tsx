@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useBasename } from '@bf2/ui-shared';
+import { useBasename } from '@rhoas/app-services-ui-shared';
 import {
   CreateTopichead,
   CreateTopicWizard,

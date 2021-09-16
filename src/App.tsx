@@ -17,7 +17,7 @@ import {
   PaginationProvider,
 } from '@app/components';
 import { Routes } from '@app/Routes';
-import { BasenameContext } from '@bf2/ui-shared';
+import { BasenameContext } from '@rhoas/app-services-ui-shared';
 
 const App: React.FC = () => {
   return (

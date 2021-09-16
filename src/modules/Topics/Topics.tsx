@@ -18,7 +18,7 @@ import {
 import { getTopics, OrderKey } from '@app/services';
 import { ConfigContext, useFederated } from '@app/contexts';
 import { Topic } from '@rhoas/kafka-instance-sdk';
-import { useAlert, useBasename } from '@bf2/ui-shared';
+import { useAlert, useBasename } from '@rhoas/app-services-ui-shared';
 import './Topics.css';
 import { ISortBy, OnSort, SortByDirection } from '@patternfly/react-table';
 
