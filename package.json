@@ -21,7 +21,7 @@
     "test:e2e": "npm-run-all clean build --parallel --race start:e2eserver cy:closed",
     "test:e2e:open": "npm-run-all clean build --parallel --race start:e2eserver cy:open",
     "lint": "npm-run-all 'lint:src -- .' 'lint:format -- .'",
-    "lint:src": "eslint --config ./linting/eslint.config.js --fix --max-warnings 5 --ignore-path ./linting/.eslintignore",
+    "lint:src": "eslint --config ./linting/eslint.config.js --fix --max-warnings 0 --ignore-path ./linting/.eslintignore",
     "lint:styling": "stylelint --config ./linting/stylelint.config.js --fix --max-warnings 5",
     "lint:format": "prettier --config ./linting/prettier.config.js --write",
     "cy:open": "cypress open --config-file e2e/cypress.json",

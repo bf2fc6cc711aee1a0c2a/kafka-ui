@@ -153,7 +153,31 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
     aclPage?.items
       ?.filter((item) => item.selected)
       .forEach((value) => {
-        permissionsService.deletePermission({
+        permissionsService
+          .deletePermission({
+            resourceName: value.resourceName,
+            patternType: convertEnum(value.patternType, AclPatternTypeFilter),
+            permissionType: convertEnum(
+              value.permission,
+              AclPermissionTypeFilter
+            ),
+            resourceType: convertEnum(
+              value.resourceType,
+              AclResourceTypeFilter
+            ),
+            operation: convertEnum(value.operation, AclOperationFilter),
+            principal: `User:${value.principal}`,
+          })
+          .then(() => fetchPermissions());
+      });
+    fetchPermissions();
+  };
+
+  const onDelete = (rowIndex?: number) => {
+    if (rowIndex !== undefined && aclPage?.items !== undefined) {
+      const value = aclPage.items[rowIndex];
+      permissionsService
+        .deletePermission({
           resourceName: value.resourceName,
           patternType: convertEnum(value.patternType, AclPatternTypeFilter),
           permissionType: convertEnum(
@@ -163,23 +187,9 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
           resourceType: convertEnum(value.resourceType, AclResourceTypeFilter),
           operation: convertEnum(value.operation, AclOperationFilter),
           principal: `User:${value.principal}`,
-        }).then(() => fetchPermissions());
-      });
-    fetchPermissions();
-  };
-
-  const onDelete = (rowIndex?: number) => {
-    if (rowIndex !== undefined && aclPage?.items !== undefined) {
-      const value = aclPage.items[rowIndex];
-      permissionsService.deletePermission({
-        resourceName: value.resourceName,
-        patternType: convertEnum(value.patternType, AclPatternTypeFilter),
-        permissionType: convertEnum(value.permission, AclPermissionTypeFilter),
-        resourceType: convertEnum(value.resourceType, AclResourceTypeFilter),
-        operation: convertEnum(value.operation, AclOperationFilter),
-        principal: `User:${value.principal}`,
-      }).then(() => fetchPermissions());
-    };
+        })
+        .then(() => fetchPermissions());
+    }
   };
 
   const actionResolver: IActionsResolver = (_, { rowIndex }) => {
