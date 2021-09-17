@@ -8,6 +8,7 @@ import {
   ConfigContext,
   IConfiguration,
 } from '@app/contexts';
+import { ModalProvider } from '@app/components';
 
 export type CreateTopicFederatedProps = FederatedProps &
   IConfiguration & {
@@ -31,7 +32,9 @@ const CreateTopicFederated: FunctionComponent<CreateTopicFederatedProps> = ({
             kafkaInstanceLink,
           }}
         >
-          <CreateTopicPage />
+          <ModalProvider>
+            <CreateTopicPage />
+          </ModalProvider>
         </FederatedContext.Provider>
       </ConfigContext.Provider>
     </I18nextProvider>

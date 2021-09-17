@@ -50,9 +50,9 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
   sortBy,
 }) => {
   const { t } = useTranslation();
-  const { showModal } = useModal<ModalType.DeleteConsumerGroup>();
+  const { showModal } = useModal<ModalType.KafkaDeleteConsumerGroup>();
   const { showModal: showResetOffsetModal } =
-    useModal<ModalType.ConsumerGroupResetOffset>();
+    useModal<ModalType.KafkaConsumerGroupResetOffset>();
   const [activeRow, setActiveRow] = useState<string>();
 
   const tableColumns = [
@@ -104,7 +104,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
     groupId: string,
     state: string | undefined
   ) => {
-    showModal(ModalType.DeleteConsumerGroup, {
+    showModal(ModalType.KafkaDeleteConsumerGroup, {
       consumerName: groupId,
       refreshConsumerGroups,
       state,
@@ -112,7 +112,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
   };
 
   const onSelectResetOffsetConsumerGroup = (data: ConsumerGroup) => {
-    showResetOffsetModal(ModalType.ConsumerGroupResetOffset, {
+    showResetOffsetModal(ModalType.KafkaConsumerGroupResetOffset, {
       refreshConsumerGroups,
       consumerGroupData: data,
     });

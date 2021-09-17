@@ -7,6 +7,7 @@ import {
 } from './TopicAdvanceConfig';
 import kafkai18n from '@test-utils/i18n';
 import { IAdvancedTopic } from '@app/modules/Topics/components/CreateTopicWizard';
+import { ModalProvider } from '@app/components';
 
 const setup = () => {
   const topicData: IAdvancedTopic = {
@@ -25,7 +26,9 @@ const setup = () => {
   };
   const component: ReactElement = (
     <I18nextProvider i18n={kafkai18n}>
-      <TopicAdvanceConfig {...topicadvanceConfigProps} />
+      <ModalProvider>
+        <TopicAdvanceConfig {...topicadvanceConfigProps} />
+      </ModalProvider>
     </I18nextProvider>
   );
   const renderResult: RenderResult = render(component);

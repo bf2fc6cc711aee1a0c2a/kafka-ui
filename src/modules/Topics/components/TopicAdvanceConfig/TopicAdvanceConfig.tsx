@@ -85,7 +85,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
     const [initialPartition, setInitialPartition] = useState<
       number | undefined
     >(Number(topicData.numPartitions));
-    const { showModal } = useModal<ModalType.UpdatePartitions>();
+    const { showModal } = useModal<ModalType.KafkaUpdatePartitions>();
     const { t } = useTranslation();
 
     const [isCustomRetentionTimeSelected, setIsCustomRetentionTimeSelected] =
@@ -358,7 +358,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
     const onConfirm = () => {
       if (!isCreate) {
         if (warning) {
-          showModal(ModalType.UpdatePartitions, {
+          showModal(ModalType.KafkaUpdatePartitions, {
             onSaveTopic: saveTopic,
           });
         } else {

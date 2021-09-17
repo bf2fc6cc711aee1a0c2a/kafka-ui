@@ -56,7 +56,7 @@ export const TopicDetailPage: React.FC = () => {
   const { t } = useTranslation();
   const contentRefConsumerGroup = React.createRef<HTMLElement>();
   const contentRefProperties = React.createRef<HTMLElement>();
-  const { showModal } = useModal<ModalType.DeleteTopic>();
+  const { showModal } = useModal<ModalType.KafkaDeleteTopic>();
 
   const onDeleteTopic = () => {
     //Redirect on topics  viewpage after delete topic successfuly
@@ -99,7 +99,7 @@ export const TopicDetailPage: React.FC = () => {
   }, [topicName]);
 
   const deleteTopic = () => {
-    showModal(ModalType.DeleteTopic, {
+    showModal(ModalType.KafkaDeleteTopic, {
       topicName,
       onDeleteTopic,
     });

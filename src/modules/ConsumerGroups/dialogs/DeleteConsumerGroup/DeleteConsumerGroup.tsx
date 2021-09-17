@@ -11,16 +11,10 @@ import {
 } from '@patternfly/react-core';
 import { deleteConsumerGroup } from '@app/services';
 import { ConfigContext } from '@app/contexts';
-import { useAlert } from '@rhoas/app-services-ui-shared';
-import { BaseModalProps } from '@app/components/KafkaModal/ModalTypes';
 import { ConsumerGroupStateEnum } from '@rhoas/kafka-instance-sdk';
 import { isAxiosError } from '@app/utils/axios';
-
-export type DeleteConsumerGroupProps = {
-  consumerName: string;
-  refreshConsumerGroups?: () => void;
-  state?: string;
-};
+import { BaseModalProps, DeleteConsumerGroupProps } from '@app/components';
+import { useAlert } from '@rhoas/app-services-ui-shared';
 
 const DeleteConsumerGroup: React.FC<DeleteConsumerGroupProps & BaseModalProps> =
   ({ consumerName, refreshConsumerGroups, hideModal, state }) => {

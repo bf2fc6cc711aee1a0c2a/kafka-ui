@@ -8,7 +8,11 @@ import {
 } from '@app/contexts';
 import kafkai18n from '@app/i18n';
 import { MainView } from './MainView';
-import { ModalProvider, PaginationProvider } from '@app/components';
+import {
+  KafkaModalLoader,
+  ModalProvider,
+  PaginationProvider,
+} from '@app/components';
 
 export type MainViewFederatedProps = FederatedProps &
   IConfiguration & {
@@ -43,6 +47,7 @@ const MainViewFederated: FunctionComponent<MainViewFederatedProps> = ({
           <ModalProvider>
             <PaginationProvider>
               <MainView />
+              <KafkaModalLoader />
             </PaginationProvider>
           </ModalProvider>
         </FederatedContext.Provider>

@@ -15,6 +15,7 @@ import {
   ModalProvider,
   AlertProvider,
   PaginationProvider,
+  KafkaModalLoader,
 } from '@app/components';
 import { Routes } from '@app/Routes';
 import { BasenameContext } from '@rhoas/app-services-ui-shared';
@@ -36,6 +37,7 @@ const App: React.FC = () => {
                   <PaginationProvider>
                     <AppLayout>
                       <Routes />
+                      <KafkaModalLoader />
                     </AppLayout>
                   </PaginationProvider>
                 </ModalProvider>

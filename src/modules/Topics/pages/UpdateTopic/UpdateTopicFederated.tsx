@@ -2,13 +2,13 @@ import React, { FunctionComponent } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { UpdateTopicPage } from '@app/modules/Topics/pages/UpdateTopic';
 import {
+  ConfigContext,
   FederatedContext,
   FederatedProps,
-  ConfigContext,
   IConfiguration,
 } from '@app/contexts';
 import kafkai18n from '@app/i18n';
-import { ModalProvider } from '@app/components/KafkaModal';
+import { KafkaModalLoader, ModalProvider } from '@app/components/KafkaModal';
 
 export type UpdateTopicFederatedProps = FederatedProps &
   IConfiguration & {
@@ -37,6 +37,7 @@ const UpdateTopicFederated: FunctionComponent<UpdateTopicFederatedProps> = ({
         >
           <ModalProvider>
             <UpdateTopicPage />
+            <KafkaModalLoader />
           </ModalProvider>
         </FederatedContext.Provider>
       </ConfigContext.Provider>

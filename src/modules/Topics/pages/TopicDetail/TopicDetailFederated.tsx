@@ -8,7 +8,7 @@ import {
   IConfiguration,
 } from '@app/contexts';
 import kafkai18n from '@app/i18n';
-import { ModalProvider } from '@app/components/KafkaModal';
+import { KafkaModalLoader, ModalProvider } from '@app/components/KafkaModal';
 
 export type TopicDetailFederatedProps = FederatedProps &
   IConfiguration & {
@@ -37,6 +37,7 @@ const TopicDetailFederated: FunctionComponent<TopicDetailFederatedProps> = ({
         >
           <ModalProvider>
             <TopicDetailPage />
+            <KafkaModalLoader />
           </ModalProvider>
         </FederatedContext.Provider>
       </ConfigContext.Provider>
