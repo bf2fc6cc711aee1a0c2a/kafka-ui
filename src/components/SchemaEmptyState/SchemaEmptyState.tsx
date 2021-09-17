@@ -5,7 +5,6 @@ import {
   EmptyState as PFEmptyState,
   EmptyStateIcon,
   EmptyStateBody,
-  TitleSizes,
   EmptyStateVariant,
   ClipboardCopy,
   EmptyStateSecondaryActions,
@@ -44,11 +43,6 @@ export const SchemaEmptyState: React.FC<EmptyStateProps> = ({
   const { ...restTitleProps } = {};
   const { ...restEmptyStateProps } = {};
 
-  const { variant, icon, titleSize } = {
-    variant: EmptyStateVariant.xl,
-    icon: InfoCircleIcon,
-    titleSize: TitleSizes.md,
-  };
   const history = useHistory();
 
   const onClickLink = () => {
@@ -60,41 +54,37 @@ export const SchemaEmptyState: React.FC<EmptyStateProps> = ({
       <Card>
         {schemaHeader && <CardTitle>{schemaHeader}</CardTitle>}
         <CardBody>
-          <PFEmptyState variant={variant} {...restEmptyStateProps}>
-            <EmptyStateIcon icon={icon} color='#2B9AF3' />
-            {
-              <Title headingLevel='h2' size={titleSize} {...restTitleProps}>
-                {title}
-              </Title>
-            }
-            {<EmptyStateBody>{bodyContent}</EmptyStateBody>}
-            {
+          <PFEmptyState variant={EmptyStateVariant.xl} {...restEmptyStateProps}>
+            <EmptyStateIcon icon={InfoCircleIcon} color='#2B9AF3' />
+            <Title headingLevel='h2' {...restTitleProps}>
+              {title}
+            </Title>
+            <EmptyStateBody>{bodyContent}</EmptyStateBody>
+            <EmptyStateSecondaryActions>
               <ClipboardCopy
                 isReadOnly
-                className='pf-u-w-50'
                 hoverTip='Copy'
                 clickTip='Copied'
+                className='pf-u-w-25'
               >
                 {topicKey}
               </ClipboardCopy>
-            }
-            {
+            </EmptyStateSecondaryActions>
+            <EmptyStateSecondaryActions>
               <ClipboardCopy
                 isReadOnly
-                className='pf-u-w-50'
                 hoverTip='Copy'
                 clickTip='Copied'
+                className='pf-u-w-25'
               >
                 {topicValue}
               </ClipboardCopy>
-            }
-            {
-              <EmptyStateSecondaryActions>
-                <Button variant='link' onClick={onClickLink}>
-                  Go to Service Registry instance <ArrowRightIcon />
-                </Button>
-              </EmptyStateSecondaryActions>
-            }
+            </EmptyStateSecondaryActions>
+            <EmptyStateSecondaryActions>
+              <Button variant='link' onClick={onClickLink}>
+                Go to Service Registry instance <ArrowRightIcon />
+              </Button>
+            </EmptyStateSecondaryActions>
           </PFEmptyState>
         </CardBody>
       </Card>
