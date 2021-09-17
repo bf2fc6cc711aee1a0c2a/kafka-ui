@@ -35,6 +35,7 @@ import {
   IDropdownOption,
 } from '@app/components/DropdownWithToggle';
 import { useAlert } from '@bf2/ui-shared';
+import { isAxiosError } from '@app/utils/axios';
 
 export type ConsumerGroupResetOffsetProps = {
   consumerGroupData: ConsumerGroup | undefined;
@@ -219,9 +220,13 @@ const ConsumerGroupResetOffset: React.FC<
       });
       refreshConsumerGroups && refreshConsumerGroups();
     } catch (err) {
+      let message: string | undefined;
+      if (err && isAxiosError(err)) {
+        message = err.response?.data.error_message;
+      }
       addAlert({
         variant: AlertVariant.danger,
-        title: err?.response?.data?.error_message,
+        title: message || '',
       });
     }
 

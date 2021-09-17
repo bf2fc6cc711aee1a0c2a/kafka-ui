@@ -16,7 +16,12 @@ export type CreateTypeaheadProps = {
   placeholder?: string;
   onSelect: (value: string) => void;
   setEscapeClosesModal: (closes: boolean) => void;
-  menuAppendTo: HTMLElement | (() => HTMLElement) | 'parent' | 'inline' | undefined;
+  menuAppendTo:
+    | HTMLElement
+    | (() => HTMLElement)
+    | 'parent'
+    | 'inline'
+    | undefined;
 };
 
 export const CreateTypeahead: React.FunctionComponent<CreateTypeaheadProps> = ({
@@ -28,7 +33,7 @@ export const CreateTypeahead: React.FunctionComponent<CreateTypeaheadProps> = ({
   placeholder,
   onSelect,
   setEscapeClosesModal,
-  menuAppendTo
+  menuAppendTo,
 }) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState<boolean>(false);
