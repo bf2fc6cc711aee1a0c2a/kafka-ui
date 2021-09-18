@@ -53,6 +53,7 @@ import { IAdvancedTopic } from '@app/modules/Topics/components';
 import { getTopic } from '@app/services';
 import { ConfigContext } from '@app/contexts';
 import '../CreateTopicWizard/CreateTopicWizard.css';
+import { isAxiosError } from '@app/utils/axios';
 
 export type TopicAdvanceConfigProps = {
   isCreate: boolean;
@@ -135,7 +136,11 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
           }
         }
       } catch (err) {
-        if (isCreate && err.response.status == '404') {
+        let code: number | undefined;
+        if (err && isAxiosError(err)) {
+          code = err.response?.data.code;
+        }
+        if (isCreate && code === 404) {
           setTopicValidated('default');
           setIsLoading(false);
           saveTopic();

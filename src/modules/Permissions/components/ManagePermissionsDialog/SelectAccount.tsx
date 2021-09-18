@@ -1,9 +1,15 @@
-import React, {useState} from 'react';
-import {Principal, PrincipalType} from '@bf2/ui-shared';
-import {useTranslation} from 'react-i18next';
-import {FormGroupWithPopover} from '@app/components';
-import {Divider, Select, SelectGroup, SelectOption, SelectVariant} from '@patternfly/react-core';
-import {Validated} from '@app/modules/Permissions/components/ManagePermissionsDialog/validated';
+import React, { useState } from 'react';
+import { Principal, PrincipalType } from '@bf2/ui-shared';
+import { useTranslation } from 'react-i18next';
+import { FormGroupWithPopover } from '@app/components';
+import {
+  Divider,
+  Select,
+  SelectGroup,
+  SelectOption,
+  SelectVariant,
+} from '@patternfly/react-core';
+import { Validated } from '@app/modules/Permissions/components/ManagePermissionsDialog/validated';
 
 export type SelectAccountProps = {
   id: Validated<string | undefined>;
@@ -16,9 +22,9 @@ export const SelectAccount: React.FunctionComponent<SelectAccountProps> = ({
   setId,
   id,
   initialOptions,
-  setEscapeClosesModal
+  setEscapeClosesModal,
 }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const onToggle = (newState) => {
@@ -31,7 +37,7 @@ export const SelectAccount: React.FunctionComponent<SelectAccountProps> = ({
   };
 
   const clearSelection = () => {
-    setId({value: undefined});
+    setId({ value: undefined });
     setIsOpen(false);
   };
 
@@ -44,15 +50,15 @@ export const SelectAccount: React.FunctionComponent<SelectAccountProps> = ({
         if (selection === undefined) {
           return {
             value: selection,
-            validated: "error",
+            validated: 'error',
             errorMessage: t(
               'permission.manage_permissions_dialog.must_select_account_error'
             ),
           };
         } else {
           return {
-            validated: "success",
-            value: selection
+            validated: 'success',
+            value: selection,
           };
         }
       });
@@ -98,49 +104,59 @@ export const SelectAccount: React.FunctionComponent<SelectAccountProps> = ({
             <SelectOption
               key='*'
               value='*'
-              description={t('permission.manage_permissions_dialog.all_accounts_description')}
+              description={t(
+                'permission.manage_permissions_dialog.all_accounts_description'
+              )}
             >
               {t('permission.manage_permissions_dialog.all_accounts_title')}
             </SelectOption>
           </SelectGroup>,
-          <Divider key="divider"/>,
+          <Divider key='divider' />,
           <SelectGroup
-            label={t('permission.manage_permissions_dialog.all_accounts_service_account_group')}
-            key='service_accounts_group'>
-            {
-              initialOptions
-                .filter(principal => principal.principalType === PrincipalType.ServiceAccount)
-                .map((principal, index) => (
-                  <SelectOption
-                    key={index}
-                    value={principal.id}
-                    description={principal.displayName}
-                  >
-                    {principal.id}
-                  </SelectOption>))
-            }
+            label={t(
+              'permission.manage_permissions_dialog.all_accounts_service_account_group'
+            )}
+            key='service_accounts_group'
+          >
+            {initialOptions
+              .filter(
+                (principal) =>
+                  principal.principalType === PrincipalType.ServiceAccount
+              )
+              .map((principal, index) => (
+                <SelectOption
+                  key={index}
+                  value={principal.id}
+                  description={principal.displayName}
+                >
+                  {principal.id}
+                </SelectOption>
+              ))}
           </SelectGroup>,
-          <Divider key="divider"/>,
+          <Divider key='divider' />,
           <SelectGroup
-            label={t('permission.manage_permissions_dialog.all_accounts_user_account_group')}
-            key='user_accounts_group'>
-            {
-              initialOptions
-                .filter(principal => principal.principalType === PrincipalType.UserAccount)
-                .map((principal, index) => (
-                  <SelectOption
-                    key={index}
-                    value={principal.id}
-                    description={principal.displayName}
-                  >
-                    {principal.id}
-                  </SelectOption>))
-            }
-          </SelectGroup>
+            label={t(
+              'permission.manage_permissions_dialog.all_accounts_user_account_group'
+            )}
+            key='user_accounts_group'
+          >
+            {initialOptions
+              .filter(
+                (principal) =>
+                  principal.principalType === PrincipalType.UserAccount
+              )
+              .map((principal, index) => (
+                <SelectOption
+                  key={index}
+                  value={principal.id}
+                  description={principal.displayName}
+                >
+                  {principal.id}
+                </SelectOption>
+              ))}
+          </SelectGroup>,
         ]}
       </Select>
     </FormGroupWithPopover>
   );
-
-}
-;
+};

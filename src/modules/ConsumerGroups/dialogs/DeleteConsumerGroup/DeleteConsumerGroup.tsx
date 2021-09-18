@@ -14,6 +14,7 @@ import { ConfigContext } from '@app/contexts';
 import { useAlert } from '@bf2/ui-shared';
 import { BaseModalProps } from '@app/components/KafkaModal/ModalTypes';
 import { ConsumerGroupStateEnum } from '@rhoas/kafka-instance-sdk';
+import { isAxiosError } from '@app/utils/axios';
 
 export type DeleteConsumerGroupProps = {
   consumerName: string;
@@ -51,9 +52,13 @@ const DeleteConsumerGroup: React.FC<DeleteConsumerGroupProps & BaseModalProps> =
           });
         }
       } catch (err) {
+        let message: string | undefined;
+        if (err && isAxiosError(err)) {
+          message = err.response?.data.error_message;
+        }
         addAlert({
           variant: AlertVariant.danger,
-          title: err.response.data.error_message,
+          title: message || '',
         });
       }
       onClose();

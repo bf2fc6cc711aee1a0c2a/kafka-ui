@@ -27,6 +27,7 @@ import { ConfigContext } from '@app/contexts';
 import { getTopic } from '@app/services';
 import { useAlert } from '@bf2/ui-shared';
 import './CreateTopicWizard.css';
+import { isAxiosError } from '@app/utils/axios';
 
 export type CreateTopicWizardProps = {
   isSwitchChecked: boolean;
@@ -145,7 +146,7 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
         setIsLoading(false);
       }
     } catch (error) {
-      if (error.response.status == '404') {
+      if (error && isAxiosError(error) && error.response?.status === 404) {
         setTopicNameValidated('default');
         setIsLoading(false);
         onNext();

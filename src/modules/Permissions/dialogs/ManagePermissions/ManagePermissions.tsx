@@ -1,28 +1,41 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
-import {Button, Form, FormGroup, Grid, GridItem, Modal, ModalVariant,} from '@patternfly/react-core';
-import {useTranslation} from 'react-i18next';
-import {convertEnum, EnhancedAclBinding, usePermissionsService,} from '@app/services/acls';
-import {ConfigContext} from '@app/contexts';
-import {usePrincipals} from '@bf2/ui-shared';
-import {BaseModalProps} from '@app/components/KafkaModal/ModalTypes';
-import {SelectAccount} from '@app/modules/Permissions/components/ManagePermissionsDialog/SelectAccount';
-import {CreatePermissions} from '@app/modules/Permissions/components/ManagePermissionsDialog/CreatePermissions';
-import {Validated} from '@app/modules/Permissions/components/ManagePermissionsDialog/validated';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import {
+  Button,
+  Form,
+  FormGroup,
+  Grid,
+  GridItem,
+  Modal,
+  ModalVariant,
+} from '@patternfly/react-core';
+import { useTranslation } from 'react-i18next';
+import {
+  convertEnum,
+  EnhancedAclBinding,
+  usePermissionsService,
+} from '@app/services/acls';
+import { ConfigContext } from '@app/contexts';
+import { usePrincipals } from '@bf2/ui-shared';
+import { BaseModalProps } from '@app/components/KafkaModal/ModalTypes';
+import { SelectAccount } from '@app/modules/Permissions/components/ManagePermissionsDialog/SelectAccount';
+import { CreatePermissions } from '@app/modules/Permissions/components/ManagePermissionsDialog/CreatePermissions';
+import { Validated } from '@app/modules/Permissions/components/ManagePermissionsDialog/validated';
 import {
   createEmptyNewAcl,
   isNewAclModified,
   NewAcl,
 } from '@app/modules/Permissions/components/ManagePermissionsDialog/acls';
-import {FormGroupWithPopover, MASLoading} from '@app/components';
-import {useValidateTopic} from '@app/services/topicNameValidation';
-import {ExistingAclTable} from '@app/modules/Permissions/components/ManagePermissionsDialog/ExistingAclTable';
+import { FormGroupWithPopover, MASLoading } from '@app/components';
+import { useValidateTopic } from '@app/services/topicNameValidation';
+import { ExistingAclTable } from '@app/modules/Permissions/components/ManagePermissionsDialog/ExistingAclTable';
 import {
   AclOperationFilter,
   AclPatternType,
   AclPatternTypeFilter,
   AclPermissionTypeFilter,
-  AclResourceType, AclResourceTypeFilter
-} from "@rhoas/kafka-instance-sdk";
+  AclResourceType,
+  AclResourceTypeFilter,
+} from '@rhoas/kafka-instance-sdk';
 
 export type ManagePermissionsProps = {
   onSave?: () => Promise<void>;
@@ -38,19 +51,22 @@ export type ManagePermissionsModalProps = ManagePermissionsProps & {
   hideModal: () => void;
 };
 
-export const ManagePermissions: React.FC<ManagePermissionsProps & BaseModalProps> = ({
-                                                                                       hideModal,
-                                                                                       onSave,
-                                                                                       kafkaName,
-                                                                                       selectedAccountId,
-                                                                                       acls,
-                                                                                       topicNames,
-                                                                                       consumerGroupIds,
-                                                                                     }) => {
-
+export const ManagePermissions: React.FC<
+  ManagePermissionsProps & BaseModalProps
+> = ({
+  hideModal,
+  onSave,
+  kafkaName,
+  selectedAccountId,
+  acls,
+  topicNames,
+  consumerGroupIds,
+}) => {
   const config = useContext(ConfigContext);
   const permissionsService = usePermissionsService(config);
-  const [resourceOperations, setResourceOperations] = useState<{ [key: string]: Array<string> } | undefined>();
+  const [resourceOperations, setResourceOperations] = useState<
+    { [key: string]: Array<string> } | undefined
+  >();
 
   useEffect(() => {
     const fetchResourceOperations = async () => {
@@ -74,25 +90,28 @@ export const ManagePermissions: React.FC<ManagePermissionsProps & BaseModalProps
   );
 };
 
-
 export const ManagePermissionsModal: React.FC<ManagePermissionsModalProps> = ({
-                                                                                hideModal,
-                                                                                onSave,
-                                                                                kafkaName,
-                                                                                selectedAccountId,
-                                                                                acls,
-                                                                                topicNames,
-                                                                                consumerGroupIds,
-                                                                                resourceOperations
-                                                                              }) => {
-  const {t} = useTranslation();
+  hideModal,
+  onSave,
+  kafkaName,
+  selectedAccountId,
+  acls,
+  topicNames,
+  consumerGroupIds,
+  resourceOperations,
+}) => {
+  const { t } = useTranslation();
 
-  const [selectedAccount, setSelectedAccount] = useState<Validated<string | undefined>>({value: selectedAccountId});
-  const [step, setStep] = useState<number>(selectedAccountId === undefined ? 1 : 2);
+  const [selectedAccount, setSelectedAccount] = useState<
+    Validated<string | undefined>
+  >({ value: selectedAccountId });
+  const [step, setStep] = useState<number>(
+    selectedAccountId === undefined ? 1 : 2
+  );
   const [newAcls, setNewAcls] = useState<NewAcl[]>([createEmptyNewAcl()]);
   const [removeAcls, setRemoveAcls] = useState<EnhancedAclBinding[]>([]);
   const escapeClosesModal = useRef<boolean>(true);
-  const {validateName} = useValidateTopic();
+  const { validateName } = useValidateTopic();
 
   const principals = usePrincipals();
 
@@ -221,7 +240,10 @@ export const ManagePermissionsModal: React.FC<ManagePermissionsModalProps> = ({
         await permissionsService.deletePermission({
           resourceName: value.resourceName,
           patternType: convertEnum(value.patternType, AclPatternTypeFilter),
-          permissionType: convertEnum(value.permission, AclPermissionTypeFilter),
+          permissionType: convertEnum(
+            value.permission,
+            AclPermissionTypeFilter
+          ),
           resourceType: convertEnum(value.resourceType, AclResourceTypeFilter),
           operation: convertEnum(value.operation, AclOperationFilter),
           principal: `User:${selectedAccount.value}`,
@@ -235,22 +257,24 @@ export const ManagePermissionsModal: React.FC<ManagePermissionsModalProps> = ({
   const Step2 = () => {
     if (step === 2) {
       if (resourceOperations === undefined) {
-        return (
-          <MASLoading/>
-        );
+        return <MASLoading />;
       }
-      const menuAppendTo = document.getElementById('manage-permissions-modal') || undefined;
+      const menuAppendTo =
+        document.getElementById('manage-permissions-modal') || undefined;
       return (
         <>
           <ExistingAclTable
             existingAcls={acls.filter(
               (i) =>
-                i.principal === `${selectedAccount.value}` || i.principal === '*'
+                i.principal === `${selectedAccount.value}` ||
+                i.principal === '*'
             )}
             selectedAccountId={selectedAccount.value}
-            onRemove={acl => setRemoveAcls(prevState => {
-              return [...prevState, acl];
-            })}
+            onRemove={(acl) =>
+              setRemoveAcls((prevState) => {
+                return [...prevState, acl];
+              })
+            }
           />
           <CreatePermissions
             acls={newAcls}
@@ -324,7 +348,9 @@ export const ManagePermissionsModal: React.FC<ManagePermissionsModalProps> = ({
         variant='primary'
         onClick={save}
         key={1}
-        isDisabled={!newAcls.some((p) => isNewAclModified(p) || removeAcls.length > 0)}
+        isDisabled={
+          !newAcls.some((p) => isNewAclModified(p) || removeAcls.length > 0)
+        }
       >
         {t('permission.manage_permissions_dialog.step_2_submit_button')}
       </Button>
@@ -345,16 +371,16 @@ export const ManagePermissionsModal: React.FC<ManagePermissionsModalProps> = ({
           </FormGroup>
         </GridItem>
         <GridItem span={12}>
-          <Account/>
+          <Account />
         </GridItem>
       </Grid>
-      <Step2/>
+      <Step2 />
     </Form>
   );
 
   return (
     <Modal
-      id="manage-permissions-modal"
+      id='manage-permissions-modal'
       variant={ModalVariant.large}
       isOpen={true}
       aria-label={t('permission.manage_permissions_dialog.aria_label')}
@@ -364,13 +390,13 @@ export const ManagePermissionsModal: React.FC<ManagePermissionsModalProps> = ({
       onClose={hideModal}
       onEscapePress={onEscapePress}
       actions={[
-        <SubmitButton key={1}/>,
+        <SubmitButton key={1} />,
         <Button onClick={hideModal} key={2} variant='secondary'>
           {t('permission.manage_permissions_dialog.cancel_button')}
         </Button>,
       ]}
     >
-      <ModalForm/>
+      <ModalForm />
     </Modal>
   );
 };
