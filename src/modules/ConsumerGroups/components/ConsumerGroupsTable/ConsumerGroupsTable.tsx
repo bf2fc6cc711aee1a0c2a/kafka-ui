@@ -169,11 +169,11 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
   };
 
   const onRowClick = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
     _,
-    row: IRowData
+    row?: IRowData
   ) => {
-    const { originalData } = row;
+    const { originalData } = row || {};
     const clickedEventType = event?.target?.type;
     const tagName = event?.target?.tagName;
     // Open modal on row click except kebab button click
