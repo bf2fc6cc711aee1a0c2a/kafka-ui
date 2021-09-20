@@ -22,7 +22,7 @@ import { isAxiosError } from '@app/utils/axios';
 import { ModalType, useModal } from '@app/components/KafkaModal';
 import { useAlert, useBasename } from '@bf2/ui-shared';
 import '../style.css';
-import { CreateSchema } from '@app/modules/Topics/components';
+import { Schemas } from '@app/modules/Topics/components';
 
 export const TopicDetailPage: React.FC = () => {
   const {
@@ -186,9 +186,9 @@ export const TopicDetailPage: React.FC = () => {
           id='kafka-ui-TabcontentSchema'
           ref={contentRefSchema}
           className='kafka-ui-m-full-height'
-          aria-label='Topic Schema.'
+          aria-label='Topic Schema'
         >
-          <CreateSchema></CreateSchema>
+          <Schemas />
         </TabContent>
       </PageSection>
     </>

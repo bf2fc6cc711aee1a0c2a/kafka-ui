@@ -9,4 +9,4 @@ export * from './TopicDetailHead';
 export * from './TopicDetailView';
 export * from './UpdateTopicView';
 export * from './TopicsTable';
-export * from './CreateSchema';
+export * from './Schemas';
