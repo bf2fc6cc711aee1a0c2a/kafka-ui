@@ -22,6 +22,7 @@ import { isAxiosError } from '@app/utils/axios';
 import { ModalType, useModal } from '@app/components/KafkaModal';
 import { useAlert, useBasename } from '@bf2/ui-shared';
 import '../style.css';
+import { CreateSchema } from '@app/modules/Topics/components';
 
 export const TopicDetailPage: React.FC = () => {
   const {
@@ -56,6 +57,7 @@ export const TopicDetailPage: React.FC = () => {
   const { t } = useTranslation();
   const contentRefConsumerGroup = React.createRef<HTMLElement>();
   const contentRefProperties = React.createRef<HTMLElement>();
+  const contentRefSchema = React.createRef<HTMLElement>();
   const { showModal } = useModal<ModalType.DeleteTopic>();
 
   const onDeleteTopic = () => {
@@ -140,6 +142,13 @@ export const TopicDetailPage: React.FC = () => {
             tabContentId='kafka-ui-TabcontentProperties'
             tabContentRef={contentRefProperties}
           />
+          <Tab
+            eventKey={3}
+            title={<TabTitleText>{t('common.schema')}</TabTitleText>}
+            data-testid='pageTopic-tabSchema'
+            tabContentId='kafka-ui-TabcontentSchema'
+            tabContentRef={contentRefSchema}
+          />
         </Tabs>
       </PageSection>
       <PageSection
@@ -171,6 +180,15 @@ export const TopicDetailPage: React.FC = () => {
           aria-label='Topic properties.'
         >
           <TopicDetailView topic={topicDetail} deleteTopic={deleteTopic} />
+        </TabContent>
+        <TabContent
+          eventKey={3}
+          id='kafka-ui-TabcontentSchema'
+          ref={contentRefSchema}
+          className='kafka-ui-m-full-height'
+          aria-label='Topic Schema.'
+        >
+          <CreateSchema></CreateSchema>
         </TabContent>
       </PageSection>
     </>

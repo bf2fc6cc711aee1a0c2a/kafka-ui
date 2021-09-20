@@ -43,7 +43,8 @@
     "curr_page": "Current page",
     "view_instance": "Details",
     "view_connection": "Connection",
-    "delete_instance": "Delete"
+    "delete_instance": "Delete",
+    "schema": "Schema"
   },
   "dashboard": {
     "dashboard": "Dashboard"
@@ -157,7 +158,13 @@
     "required": "Required",
     "already_exists": "{{name}} already exists. Try a different name",
     "cannot_exceed_characters": "Cannot exceed 249 characters",
-    "invalid_name_with_dot": "Must contain at least 3 periods ( ... ) if periods are the only characters used "
+    "invalid_name_with_dot": "Must contain at least 3 periods ( ... ) if periods are the only characters used ",
+    "schema_value_popover_title": "Value schema",
+    "schema_value_description_title": "Value schema artifact ID",
+    "key_value_description_title": "Key schema artifact ID",
+    "schema_key_popover_title": "Key schema",
+    "schema_popover_description": "The system couldn't find a matching schema for this topic in the selected Service Registry instance. Please make sure to use the following naming format for the Artifact ID: {name of topic}-{schema type}",
+    "schema_helper_text": "Create Service Registry instance"
   },
   "permission": {
     "tab": {

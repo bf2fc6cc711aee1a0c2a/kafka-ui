@@ -6,3 +6,4 @@
 !.github/
 dist
 mock-server
+*.css

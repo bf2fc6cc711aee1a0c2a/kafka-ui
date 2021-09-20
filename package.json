@@ -30,7 +30,7 @@
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx,css}": [
+    "**/*.{js,jsx,ts,tsx}": [
       "npm run lint:src -- .",
       "npm run lint:format -- .",
       "git add"
