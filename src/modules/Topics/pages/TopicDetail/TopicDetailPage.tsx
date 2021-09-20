@@ -186,7 +186,7 @@ export const TopicDetailPage: React.FC = () => {
           id='kafka-ui-TabcontentSchema'
           ref={contentRefSchema}
           className='kafka-ui-m-full-height'
-          aria-label='Topic Schema'
+          aria-label={t('schema.topic_schema_arial_label')}
         >
           <Schemas />
         </TabContent>
