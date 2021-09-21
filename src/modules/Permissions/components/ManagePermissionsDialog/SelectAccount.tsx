@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Principal, PrincipalType } from '@bf2/ui-shared';
+import { Principal, PrincipalType } from '@rhoas/app-services-ui-shared';
 import { useTranslation } from 'react-i18next';
 import { FormGroupWithPopover } from '@app/components';
 import {

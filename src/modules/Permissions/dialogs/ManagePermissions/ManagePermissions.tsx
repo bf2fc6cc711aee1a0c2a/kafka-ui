@@ -15,7 +15,7 @@ import {
   usePermissionsService,
 } from '@app/services/acls';
 import { ConfigContext } from '@app/contexts';
-import { usePrincipals } from '@bf2/ui-shared';
+import { usePrincipals } from '@rhoas/app-services-ui-shared';
 import { BaseModalProps } from '@app/components/KafkaModal/ModalTypes';
 import { SelectAccount } from '@app/modules/Permissions/components/ManagePermissionsDialog/SelectAccount';
 import { CreatePermissions } from '@app/modules/Permissions/components/ManagePermissionsDialog/CreatePermissions';

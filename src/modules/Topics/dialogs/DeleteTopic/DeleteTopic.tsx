@@ -10,7 +10,7 @@ import {
 } from '@patternfly/react-core';
 import { deleteTopic } from '@app/services';
 import { ConfigContext } from '@app/contexts';
-import { useAlert } from '@bf2/ui-shared';
+import { useAlert } from '@rhoas/app-services-ui-shared';
 import { BaseModalProps } from '@app/components/KafkaModal/ModalTypes';
 import { isAxiosError } from '@app/utils/axios';
 

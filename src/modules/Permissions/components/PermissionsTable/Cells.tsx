@@ -9,7 +9,7 @@ import {
 import { Label, LabelGroup, Tooltip } from '@patternfly/react-core';
 import { EnhancedAclBinding } from '@app/services/acls';
 import React from 'react';
-import { PrincipalType, usePrincipals } from '@bf2/ui-shared';
+import { PrincipalType, usePrincipals } from '@rhoas/app-services-ui-shared';
 import { sentenceCase } from 'sentence-case';
 import { displayName } from '@app/modules/Permissions/utils';
 import { GoofyLabel } from '@app/modules/Permissions/components/ManagePermissionsDialog/GoofyLabel';
