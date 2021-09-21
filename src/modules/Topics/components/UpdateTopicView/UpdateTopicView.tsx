@@ -74,8 +74,14 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
       });
     } catch (err) {
       if (isAxiosError(err)) {
+        let message: string | undefined;
+        let code: number | undefined;
+        if (err && isAxiosError(err)) {
+          code = err.response?.data.code;
+          message = err.response?.data.error_message;
+        }
         if (onError) {
-          onError(err.response?.data.code, err.response?.data.error_message);
+          onError(code || -1, message || '');
         }
         if (err.response?.status === 404) {
           // then it's a non-existent topic
@@ -124,12 +130,18 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
         onSaveTopic();
       });
     } catch (err) {
+      let message: string | undefined;
+      let code: number | undefined;
+      if (err && isAxiosError(err)) {
+        code = err.response?.data.code;
+        message = err.response?.data.error_message;
+      }
       if (onError) {
-        onError(err.response.data.code, err.response.data.error_message);
+        onError(code || -1, message || '');
       }
       setIsLoading(false);
       addAlert({
-        title: err.response.data.error_message,
+        title: message || '',
         variant: AlertVariant.danger,
       });
     }

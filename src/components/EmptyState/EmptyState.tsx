@@ -1,18 +1,18 @@
 import React from 'react';
 import {
-  Title,
   Button,
-  EmptyState as PFEmptyState,
-  EmptyStateIcon,
-  EmptyStateBody,
-  TitleSizes,
-  TitleProps,
   ButtonProps,
+  ButtonVariant,
+  EmptyState as PFEmptyState,
+  EmptyStateBody,
+  EmptyStateBodyProps,
+  EmptyStateIcon,
   EmptyStateIconProps,
   EmptyStateProps as PFEmptyStateProps,
-  EmptyStateBodyProps,
-  ButtonVariant,
   EmptyStateVariant,
+  Title,
+  TitleProps,
+  TitleSizes,
 } from '@patternfly/react-core';
 import PlusCircleIcon from '@patternfly/react-icons/dist/js/icons/plus-circle-icon';
 
@@ -27,7 +27,7 @@ export enum MASEmptyStateVariant {
 
 export type EmptyStateProps = {
   titleProps?: Omit<TitleProps, 'children' | 'headingLevel'> & {
-    headingLevel?: string;
+    headingLevel?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   };
   emptyStateProps?: Omit<PFEmptyStateProps, 'children' | 'variant'> & {
     variant?: MASEmptyStateVariant | EmptyStateVariant;
@@ -65,15 +65,20 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
     ...restEmptyStateProps
   } = emptyStateProps || {};
 
-  const getVariantConfig = () => {
-    let variantConfig: any = {};
+  type VariantConfig = Pick<PFEmptyStateProps, 'variant'> &
+    Pick<EmptyStateIconProps, 'icon'> &
+    Pick<TitleProps, 'size'> &
+    Pick<TitleProps, 'headingLevel'>;
+
+  const getVariantConfig = (): VariantConfig => {
+    let variantConfig = {} as VariantConfig;
 
     switch (masEmptyStateVariant) {
       case MASEmptyStateVariant.NoConsumerGroups:
         variantConfig = {
           variant: EmptyStateVariant.large,
           icon: CubesIcon,
-          titleSize: TitleSizes.lg,
+          size: TitleSizes.lg,
           headingLevel: 'h2',
         };
         break;
@@ -81,7 +86,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         variantConfig = {
           variant: EmptyStateVariant.large,
           icon: PlusCircleIcon,
-          titleSize: TitleSizes.lg,
+          size: TitleSizes.lg,
           headingLevel: 'h2',
         };
         break;
@@ -89,7 +94,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         variantConfig = {
           variant: EmptyStateVariant.large,
           icon: SearchIcon,
-          titleSize: TitleSizes.lg,
+          size: TitleSizes.lg,
           headingLevel: 'h2',
         };
         break;
@@ -98,8 +103,8 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         variantConfig = {
           variant: masEmptyStateVariant || EmptyStateVariant.full,
           icon: emptyStateIconProps?.icon,
-          titleSize: titleProps?.size,
-          headingLevel: titleProps?.headingLevel,
+          size: titleProps?.size,
+          headingLevel: titleProps?.headingLevel || 'h1',
         };
         break;
     }
@@ -107,18 +112,14 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
     return variantConfig;
   };
 
-  const { variant, icon, titleSize, headingLevel } = getVariantConfig();
+  const { variant, icon, size, headingLevel } = getVariantConfig();
 
   return (
     <>
       <PFEmptyState variant={variant} {...restEmptyStateProps}>
         <EmptyStateIcon icon={icon} {...emptyStateIconProps} />
         {title && (
-          <Title
-            headingLevel={headingLevel}
-            size={titleSize}
-            {...restTitleProps}
-          >
+          <Title headingLevel={headingLevel} size={size} {...restTitleProps}>
             {title}
           </Title>
         )}

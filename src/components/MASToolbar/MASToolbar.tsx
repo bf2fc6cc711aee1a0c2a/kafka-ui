@@ -15,7 +15,7 @@ export type ToolbarItemProps = Omit<PFToolbarItemProps, 'children'> & {
 export type MASToolbarProps = {
   toolbarProps: Omit<ToolbarProps, 'children' | 'ref'>;
   toggleGroupProps?: Omit<ToolbarToggleGroupProps, 'children'>;
-  toggleGroupItems?: any;
+  toggleGroupItems?: React.ReactNode;
   toolbarItems?: ToolbarItemProps[];
 };
 
@@ -45,8 +45,8 @@ const MASToolbar: React.FunctionComponent<MASToolbarProps> = ({
         <ToolbarContent>
           {toggleGroupProps && (
             <ToolbarToggleGroup
-              toggleIcon={toggleGroupProps.toggleIcon}
               {...toggleGroupProps}
+              toggleIcon={toggleGroupProps.toggleIcon}
             >
               {toggleGroupItems}
             </ToolbarToggleGroup>

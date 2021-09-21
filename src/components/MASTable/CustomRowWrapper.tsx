@@ -1,14 +1,14 @@
 import React, { createContext, useContext } from 'react';
 import { css } from '@patternfly/react-styles';
 import './CustomRowWrapper.css';
-import { IRowData } from '@patternfly/react-table';
+import { IRowData, RowWrapperProps } from '@patternfly/react-table';
 
 export type CustomRowWrapperContextProps = {
   activeRow?: string;
   onRowClick?: (
-    event: React.ChangeEvent<HTMLInputElement>,
-    rowIndex: number,
-    row: IRowData
+    event: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
+    rowIndex?: number,
+    row?: IRowData
   ) => void;
   rowDataTestId?: string;
   loggedInUser?: string;
@@ -22,19 +22,21 @@ const CustomRowWrapperContext = createContext<CustomRowWrapperContextProps>({
 
 export const CustomRowWrapperProvider = CustomRowWrapperContext.Provider;
 
-export const CustomRowWrapper = (rowWrapperProps): JSX.Element => {
+export const CustomRowWrapper = (
+  rowWrapperProps: RowWrapperProps
+): JSX.Element => {
   const { activeRow, onRowClick, rowDataTestId } = useContext(
     CustomRowWrapperContext
   );
   const { trRef, className, rowProps, row, ...props } = rowWrapperProps || {};
-  const { rowIndex } = rowProps;
-  const { isExpanded, originalData } = row;
+  const { rowIndex } = rowProps || {};
+  const { isExpanded, originalData } = row || {};
 
   return (
     <tr
       data-testid={rowDataTestId}
       tabIndex={0}
-      ref={trRef}
+      ref={typeof trRef === 'function' ? undefined : trRef}
       className={css(
         className,
         'pf-c-table-row__item',
@@ -43,9 +45,7 @@ export const CustomRowWrapper = (rowWrapperProps): JSX.Element => {
           'pf-m-selected pf-m-selectable'
       )}
       hidden={isExpanded !== undefined && !isExpanded}
-      onClick={(event: React.ChangeEvent<HTMLInputElement>) =>
-        onRowClick && onRowClick(event, rowIndex, row)
-      }
+      onClick={(event) => onRowClick && onRowClick(event, rowIndex, row)}
       {...props}
     />
   );

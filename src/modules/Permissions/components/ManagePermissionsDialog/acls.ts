@@ -1,12 +1,21 @@
-import {Validated} from '@app/modules/Permissions/components/ManagePermissionsDialog/validated';
-import {AclOperation, AclPatternType, AclPermissionType, AclResourceType,} from '@rhoas/kafka-instance-sdk';
+import { Validated } from '@app/modules/Permissions/components/ManagePermissionsDialog/validated';
+import {
+  AclOperation,
+  AclPatternType,
+  AclPermissionType,
+  AclResourceType,
+} from '@rhoas/kafka-instance-sdk';
 
 export const AllAccountsId = '*';
 
 export const isNewAclModified = (value: NewAcl): boolean => {
   const emptyAcl = createEmptyNewAcl();
   return !(
-    value.permission.value === emptyAcl.permission.value && value.patternType.value === emptyAcl.patternType.value && value.resourceType.value === emptyAcl.resourceType.value && value.resource.value === emptyAcl.resource.value && value.operation.value === emptyAcl.operation.value
+    value.permission.value === emptyAcl.permission.value &&
+    value.patternType.value === emptyAcl.patternType.value &&
+    value.resourceType.value === emptyAcl.resourceType.value &&
+    value.resource.value === emptyAcl.resource.value &&
+    value.operation.value === emptyAcl.operation.value
   );
 };
 

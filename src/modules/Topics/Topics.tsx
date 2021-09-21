@@ -21,6 +21,7 @@ import { Topic } from '@rhoas/kafka-instance-sdk';
 import { useAlert, useBasename } from '@rhoas/app-services-ui-shared';
 import './Topics.css';
 import { ISortBy, OnSort, SortByDirection } from '@patternfly/react-table';
+import { isAxiosError } from '@app/utils/axios';
 
 export type ITopic = {
   name: string;
@@ -104,11 +105,17 @@ const Topics: React.FC = () => {
       });
     } catch (err) {
       //TODO: Update the api to allow suppress alerts if the application does not want to show them as well.
-      if (onError && err.response.data.code === 401) {
-        onError(err.response.data.code, err.response.data.error_message);
+      let message: string | undefined;
+      let code: number | undefined;
+      if (err && isAxiosError(err)) {
+        code = err.response?.data.code;
+        message = err.response?.data.error_message;
+      }
+      if (onError && code === 401) {
+        onError(code, message);
       } else {
         addAlert({
-          title: err.response.data.error_message,
+          title: message || '',
           variant: AlertVariant.danger,
         });
       }

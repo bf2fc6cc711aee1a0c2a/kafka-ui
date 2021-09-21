@@ -72,7 +72,10 @@ export const TopicDetailPage: React.FC = () => {
       } catch (err) {
         if (isAxiosError(err)) {
           if (onError) {
-            onError(err.response?.data.code, err.response?.data.error_message);
+            onError(
+              err.response?.data.code || -1,
+              err.response?.data.error_message
+            );
           }
           if (err.response?.status === 404) {
             // then it's a non-existent topic

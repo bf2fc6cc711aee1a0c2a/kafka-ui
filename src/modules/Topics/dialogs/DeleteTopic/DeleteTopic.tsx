@@ -12,6 +12,7 @@ import { deleteTopic } from '@app/services';
 import { ConfigContext } from '@app/contexts';
 import { useAlert } from '@rhoas/app-services-ui-shared';
 import { BaseModalProps } from '@app/components/KafkaModal/ModalTypes';
+import { isAxiosError } from '@app/utils/axios';
 
 export type DeleteTopicProps = {
   topicName?: string;
@@ -54,8 +55,12 @@ const DeleteTopic: React.FC<DeleteTopicProps & BaseModalProps> = ({
       }
     } catch (err) {
       setIsLoading(false);
+      let message: string | undefined;
+      if (err && isAxiosError(err)) {
+        message = err.response?.data.error_message;
+      }
       addAlert({
-        title: err.response.data.error_message,
+        title: message || '',
         variant: AlertVariant.danger,
       });
     }

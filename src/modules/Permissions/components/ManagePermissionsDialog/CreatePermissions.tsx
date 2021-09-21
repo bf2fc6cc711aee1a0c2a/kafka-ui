@@ -43,7 +43,12 @@ export type CreatePermissionsProps = {
   setAcls: React.Dispatch<React.SetStateAction<NewAcl[]>>;
   setEscapeClosesModal: (closes: boolean) => void;
   resourceOperations: { [key: string]: Array<string> };
-  menuAppendTo: HTMLElement | (() => HTMLElement) | 'parent' | 'inline' | undefined
+  menuAppendTo:
+    | HTMLElement
+    | (() => HTMLElement)
+    | 'parent'
+    | 'inline'
+    | undefined;
 };
 
 export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> =
@@ -55,7 +60,7 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
     selectedAccount,
     setEscapeClosesModal,
     resourceOperations,
-    menuAppendTo
+    menuAppendTo,
   }) => {
     const { validateName } = useValidateTopic();
     const { t } = useTranslation();
