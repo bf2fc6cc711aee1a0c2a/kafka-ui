@@ -19,11 +19,17 @@ import {
 import { useFederated } from '@app/contexts';
 import { MASLoading } from '@app/components';
 import '../style.css';
-import PermissionsTableView from '@app/modules/Permissions/pages/PermissionsTable/PermissionsTableView';
 
 const Topics = lazy(() => import('@app/modules/Topics/Topics'));
 const ConsumerGroups = lazy(
   () => import('@app/modules/ConsumerGroups/ConsumerGroups')
+);
+
+const PermissionsTableView = lazy(
+  () =>
+    import(
+      '@app/modules/Permissions/pages/PermissionsTable/PermissionsTableView'
+    )
 );
 
 export const MainView: React.FC = () => {
@@ -115,104 +121,106 @@ export const MainView: React.FC = () => {
           />
         </Level>
       </PageSection>
-      <React.Suspense fallback={<MASLoading />}>
-        <PageSection
-          variant={PageSectionVariants.light}
-          padding={{ default: 'noPadding' }}
-          className='pf-c-page__main-tabs'
+      <PageSection
+        variant={PageSectionVariants.light}
+        padding={{ default: 'noPadding' }}
+        className='pf-c-page__main-tabs'
+      >
+        <Tabs
+          activeKey={activeTabKey}
+          onSelect={handleTabClick}
+          data-testid='pageKafka-tabProperties'
+          className='pf-m-page-insets'
         >
-          <Tabs
-            activeKey={activeTabKey}
-            onSelect={handleTabClick}
-            data-testid='pageKafka-tabProperties'
-            className='pf-m-page-insets'
-          >
-            <Tab
-              title={<TabTitleText>{t('dashboard.dashboard')}</TabTitleText>}
-              eventKey={1}
-              data-testid='pageKafka-tabDashboard'
-              id='dashboard-tab-section'
-              aria-label={t('dashboard.dashboard')}
-              tabContentRef={contentRefDashboard}
-              tabContentId='kafka-ui-TabcontentDashboard'
-            />
-            <Tab
-              title={<TabTitleText>{t('topic.topics')}</TabTitleText>}
-              eventKey={2}
-              data-testid='pageKafka-tabTopics'
-              id='topics-tab-section'
-              aria-label={t('topic.topics')}
-              tabContentRef={contentRefTopics}
-              tabContentId='kafka-ui-TabcontentTopicsList'
-            />
-            <Tab
-              title={
-                <TabTitleText>
-                  {t('consumerGroup.consumer_groups')}
-                </TabTitleText>
-              }
-              eventKey={3}
-              data-testid='pageKafka-tabConsumers'
-              id='consumer-groups-tab-section'
-              aria-label={t('consumerGroup.consumer_groups')}
-              tabContentRef={contentRefConsumerGroups}
-              tabContentId='kafka-ui-TabcontentConsumersList'
-            />
-            <Tab
-              title={<TabTitleText>{t('permission.tab.label')}</TabTitleText>}
-              eventKey={4}
-              data-testid='pageKafka-tabPermissions'
-              id='permissions-tab-section'
-              aria-label={t('permission.tab.label')}
-              tabContentRef={contentRefPermissions}
-              tabContentId='kafka-ui-TabcontentPermissions'
-              // className='kafka-ui-m-full-height'
-            />
-          </Tabs>
-        </PageSection>
-        <PageSection isFilled>
-          <TabContent
+          <Tab
+            title={<TabTitleText>{t('dashboard.dashboard')}</TabTitleText>}
             eventKey={1}
-            ref={contentRefDashboard}
-            id='kafka-ui-TabcontentDashboard'
-            className='kafka-ui-m-full-height'
+            data-testid='pageKafka-tabDashboard'
+            id='dashboard-tab-section'
             aria-label={t('dashboard.dashboard')}
-            hidden={activeTabKey !== 1}
-          >
-            {showMetrics}
-          </TabContent>
-          <TabContent
+            tabContentRef={contentRefDashboard}
+            tabContentId='kafka-ui-TabcontentDashboard'
+          />
+          <Tab
+            title={<TabTitleText>{t('topic.topics')}</TabTitleText>}
             eventKey={2}
-            ref={contentRefTopics}
-            id='kafka-ui-TabcontentTopicsList'
-            className='kafka-ui-m-full-height'
+            data-testid='pageKafka-tabTopics'
+            id='topics-tab-section'
             aria-label={t('topic.topics')}
-            hidden={activeTabKey !== 2}
-          >
-            <Topics />
-          </TabContent>
-          <TabContent
+            tabContentRef={contentRefTopics}
+            tabContentId='kafka-ui-TabcontentTopicsList'
+          />
+          <Tab
+            title={
+              <TabTitleText>{t('consumerGroup.consumer_groups')}</TabTitleText>
+            }
             eventKey={3}
-            ref={contentRefConsumerGroups}
-            id='kafka-ui-TabcontentConsumersList'
-            className='kafka-ui-m-full-height'
+            data-testid='pageKafka-tabConsumers'
+            id='consumer-groups-tab-section'
             aria-label={t('consumerGroup.consumer_groups')}
-            hidden={activeTabKey != 3}
-          >
-            <ConsumerGroups consumerGroupByTopic={false} />
-          </TabContent>
-          <TabContent
+            tabContentRef={contentRefConsumerGroups}
+            tabContentId='kafka-ui-TabcontentConsumersList'
+          />
+          <Tab
+            title={<TabTitleText>{t('permission.tab.label')}</TabTitleText>}
             eventKey={4}
-            ref={contentRefPermissions}
-            id='kafka-ui-TabcontentPermissions'
-            className='kafka-ui-m-full-height'
+            data-testid='pageKafka-tabPermissions'
+            id='permissions-tab-section'
             aria-label={t('permission.tab.label')}
-            hidden
-          >
+            tabContentRef={contentRefPermissions}
+            tabContentId='kafka-ui-TabcontentPermissions'
+            // className='kafka-ui-m-full-height'
+          />
+        </Tabs>
+      </PageSection>
+      <PageSection isFilled>
+        <TabContent
+          eventKey={1}
+          ref={contentRefDashboard}
+          id='kafka-ui-TabcontentDashboard'
+          className='kafka-ui-m-full-height'
+          aria-label={t('dashboard.dashboard')}
+          hidden={activeTabKey !== 1}
+        >
+          {showMetrics}
+        </TabContent>
+        <TabContent
+          eventKey={2}
+          ref={contentRefTopics}
+          id='kafka-ui-TabcontentTopicsList'
+          className='kafka-ui-m-full-height'
+          aria-label={t('topic.topics')}
+          hidden={activeTabKey !== 2}
+        >
+          <React.Suspense fallback={<MASLoading />}>
+            <Topics />
+          </React.Suspense>
+        </TabContent>
+        <TabContent
+          eventKey={3}
+          ref={contentRefConsumerGroups}
+          id='kafka-ui-TabcontentConsumersList'
+          className='kafka-ui-m-full-height'
+          aria-label={t('consumerGroup.consumer_groups')}
+          hidden={activeTabKey != 3}
+        >
+          <React.Suspense fallback={<MASLoading />}>
+            <ConsumerGroups consumerGroupByTopic={false} />
+          </React.Suspense>
+        </TabContent>
+        <TabContent
+          eventKey={4}
+          ref={contentRefPermissions}
+          id='kafka-ui-TabcontentPermissions'
+          className='kafka-ui-m-full-height'
+          aria-label={t('permission.tab.label')}
+          hidden
+        >
+          <React.Suspense fallback={<MASLoading />}>
             <PermissionsTableView kafkaName={kafkaName} />
-          </TabContent>
-        </PageSection>
-      </React.Suspense>
+          </React.Suspense>
+        </TabContent>
+      </PageSection>
     </>
   );
 };

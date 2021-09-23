@@ -56,7 +56,7 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
 
   const { t } = useTranslation();
   const [filteredValue, setFilteredValue] = useState<string>('');
-  const { showModal } = useModal<ModalType.ManagePermissions>() || {};
+  const { showModal } = useModal<ModalType.KafkaManagePermissions>() || {};
   const [aclPage, setAclPage] = useState<
     SelectableEnhancedAclBindingListPage | undefined
   >();
@@ -139,7 +139,7 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
     };
 
     showModal &&
-      showModal(ModalType.ManagePermissions, {
+      showModal(ModalType.KafkaManagePermissions, {
         selectedAccountId,
         kafkaName,
         acls: aclPage?.items || [],

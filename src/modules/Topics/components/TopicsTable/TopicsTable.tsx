@@ -48,7 +48,7 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
   sortBy,
 }) => {
   const { t } = useTranslation();
-  const { showModal } = useModal<ModalType.DeleteTopic>();
+  const { showModal } = useModal<ModalType.KafkaDeleteTopic>();
   const { getBasename } = useBasename() || { getBasename: () => '' };
   const basename = getBasename();
 
@@ -60,7 +60,7 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
   ];
 
   const onDelete = (topicName: string) => {
-    showModal(ModalType.DeleteTopic, {
+    showModal(ModalType.KafkaDeleteTopic, {
       topicName,
       onDeleteTopic,
       refreshTopics,

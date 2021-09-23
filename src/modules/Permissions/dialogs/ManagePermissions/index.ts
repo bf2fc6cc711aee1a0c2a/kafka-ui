@@ -1,1 +1,1 @@
-export { ManagePermissions, ManagePermissionsProps } from './ManagePermissions';
+export { ManagePermissions } from './ManagePermissions';

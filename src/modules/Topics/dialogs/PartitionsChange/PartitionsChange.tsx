@@ -1,10 +1,6 @@
 import React from 'react';
-import { Modal, ModalVariant, Button } from '@patternfly/react-core';
-import { BaseModalProps } from '@app/components/KafkaModal/ModalTypes';
-
-export type PartitionsChangeProps = {
-  onSaveTopic: React.MouseEventHandler<HTMLButtonElement>;
-};
+import { Button, Modal, ModalVariant } from '@patternfly/react-core';
+import { BaseModalProps, PartitionsChangeProps } from '@app/components';
 
 export const PartitionsChange: React.FC<
   PartitionsChangeProps & BaseModalProps

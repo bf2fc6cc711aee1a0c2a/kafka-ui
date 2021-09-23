@@ -23,23 +23,18 @@ import {
 } from '@patternfly/react-table';
 import {
   Consumer,
-  ConsumerGroup,
   ConsumerGroupResetOffsetParametersOffsetEnum,
   ConsumerGroupStateEnum,
 } from '@rhoas/kafka-instance-sdk';
 import './ConsumerGroupResetOffset.css';
-import { BaseModalProps } from '@app/components/KafkaModal/ModalTypes';
 import { consumerGroupResetOffset } from '@app/services';
 import {
   DropdownWithToggle,
   IDropdownOption,
 } from '@app/components/DropdownWithToggle';
+import { isAxiosError } from '@app/utils/axios';
+import { BaseModalProps, ConsumerGroupResetOffsetProps } from '@app/components';
 import { useAlert } from '@rhoas/app-services-ui-shared';
-
-export type ConsumerGroupResetOffsetProps = {
-  consumerGroupData: ConsumerGroup | undefined;
-  refreshConsumerGroups?: () => void;
-};
 
 export type ConsumerRow = Consumer & {
   selected?: boolean;

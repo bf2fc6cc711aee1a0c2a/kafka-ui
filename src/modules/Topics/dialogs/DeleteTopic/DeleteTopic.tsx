@@ -1,24 +1,18 @@
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+  AlertVariant,
+  Button,
   Modal,
   ModalVariant,
-  Button,
   Text,
-  AlertVariant,
   TextInput,
 } from '@patternfly/react-core';
 import { deleteTopic } from '@app/services';
 import { ConfigContext } from '@app/contexts';
-import { useAlert } from '@rhoas/app-services-ui-shared';
-import { BaseModalProps } from '@app/components/KafkaModal/ModalTypes';
 import { isAxiosError } from '@app/utils/axios';
-
-export type DeleteTopicProps = {
-  topicName?: string;
-  onDeleteTopic?: () => void;
-  refreshTopics?: () => void;
-};
+import { BaseModalProps, DeleteTopicProps } from '@app/components';
+import { useAlert } from '@rhoas/app-services-ui-shared';
 
 const DeleteTopic: React.FC<DeleteTopicProps & BaseModalProps> = ({
   topicName,

@@ -68,9 +68,9 @@ export const MASDrawer: React.FC<MASDrawerProps> = ({
     drawerPanelContentProps || {};
   const { text, title } = drawerHeaderProps || {};
   const { t } = useTranslation();
-  const { showModal } = useModal<ModalType.DeleteConsumerGroup>();
+  const { showModal } = useModal<ModalType.KafkaDeleteConsumerGroup>();
   const { showModal: showResetOffsetModal } =
-    useModal<ModalType.ConsumerGroupResetOffset>();
+    useModal<ModalType.KafkaConsumerGroupResetOffset>();
   const [isOpen, setIsOpen] = useState<boolean>();
 
   const onToggle = (isOpen: boolean) => {
@@ -81,14 +81,14 @@ export const MASDrawer: React.FC<MASDrawerProps> = ({
   };
 
   const onSelectDeleteConsumerGroup = () => {
-    showModal(ModalType.DeleteConsumerGroup, {
+    showModal(ModalType.KafkaDeleteConsumerGroup, {
       consumerName: title?.value || '',
       refreshConsumerGroups,
     });
     onClose();
   };
   const onSelectResetOffsetConsumerGroup = () => {
-    showResetOffsetModal(ModalType.ConsumerGroupResetOffset, {
+    showResetOffsetModal(ModalType.KafkaConsumerGroupResetOffset, {
       refreshConsumerGroups,
       consumerGroupData: consumerGroupDetail,
     });

@@ -6,7 +6,6 @@ import {
   Grid,
   GridItem,
   Modal,
-  ModalVariant,
 } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import {
@@ -25,7 +24,13 @@ import {
   isNewAclModified,
   NewAcl,
 } from '@app/modules/Permissions/components/ManagePermissionsDialog/acls';
-import { FormGroupWithPopover, MASLoading } from '@app/components';
+import {
+  BaseModalProps,
+  FormGroupWithPopover,
+  ManagePermissionsModalProps,
+  ManagePermissionsProps,
+  MASLoading,
+} from '@app/components';
 import { useValidateTopic } from '@app/services/topicNameValidation';
 import { ExistingAclTable } from '@app/modules/Permissions/components/ManagePermissionsDialog/ExistingAclTable';
 import {
@@ -37,20 +42,6 @@ import {
   AclResourceTypeFilter,
 } from '@rhoas/kafka-instance-sdk';
 
-export type ManagePermissionsProps = {
-  onSave?: () => Promise<void>;
-  kafkaName?: string;
-  topicNames: string[];
-  consumerGroupIds: string[];
-  selectedAccountId?: string;
-  acls: Array<EnhancedAclBinding>;
-};
-
-export type ManagePermissionsModalProps = ManagePermissionsProps & {
-  resourceOperations: { [key: string]: Array<string> } | undefined;
-  hideModal: () => void;
-};
-
 export const ManagePermissions: React.FC<
   ManagePermissionsProps & BaseModalProps
 > = ({
@@ -61,6 +52,8 @@ export const ManagePermissions: React.FC<
   acls,
   topicNames,
   consumerGroupIds,
+  title,
+  variant,
 }) => {
   const config = useContext(ConfigContext);
   const permissionsService = usePermissionsService(config);
@@ -86,11 +79,15 @@ export const ManagePermissions: React.FC<
       selectedAccountId={selectedAccountId}
       onSave={onSave}
       kafkaName={kafkaName}
+      variant={variant}
+      title={title}
     />
   );
 };
 
-export const ManagePermissionsModal: React.FC<ManagePermissionsModalProps> = ({
+export const ManagePermissionsModal: React.FC<
+  ManagePermissionsModalProps & BaseModalProps
+> = ({
   hideModal,
   onSave,
   kafkaName,
@@ -99,6 +96,8 @@ export const ManagePermissionsModal: React.FC<ManagePermissionsModalProps> = ({
   topicNames,
   consumerGroupIds,
   resourceOperations,
+  title,
+  variant,
 }) => {
   const { t } = useTranslation();
 
@@ -381,10 +380,10 @@ export const ManagePermissionsModal: React.FC<ManagePermissionsModalProps> = ({
   return (
     <Modal
       id='manage-permissions-modal'
-      variant={ModalVariant.large}
+      variant={variant}
       isOpen={true}
       aria-label={t('permission.manage_permissions_dialog.aria_label')}
-      title={t('permission.manage_permissions_dialog.title')}
+      title={title}
       showClose={true}
       aria-describedby='modal-message'
       onClose={hideModal}
