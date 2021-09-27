@@ -98,13 +98,13 @@ export const permissionOperationCell: CellBuilder<EnhancedAclBinding> = (
   return {
     title: (
       <LabelGroup>
-        <Label variant='outline'>{sentenceCase(item.permission)}</Label>
         <Label
           variant='outline'
           color={item.permission === AclPermissionType.Deny ? 'red' : undefined}
         >
-          {sentenceCase(item.operation)}
+          {sentenceCase(item.permission)}
         </Label>
+        <Label variant='outline'>{sentenceCase(item.operation)}</Label>
       </LabelGroup>
     ),
     props: {},
@@ -123,19 +123,19 @@ export const resourceCell: CellBuilder<EnhancedAclBinding> = (item) => {
   if (item.resourceType === AclResourceType.Cluster) {
     return {
       title: (
-        <>
+        <div>
           <GoofyLabel variant={item.resourceType} />{' '}
           {displayName(item.resourceType)}
-        </>
+        </div>
       ),
     };
   } else {
     return {
       title: (
-        <>
+        <div>
           <GoofyLabel variant={item.resourceType} />{' '}
           {displayName(item.resourceType)} <PatternType /> {item.resourceName}
-        </>
+        </div>
       ),
     };
   }

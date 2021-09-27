@@ -211,7 +211,7 @@
         "must_select_permission_error": "You must choose a permission",
         "must_select_resource_type_error": "You must choose a resource type",
         "must_select_operation_error": "You must choose an operation",
-        "resource_type_placeholder": "Select resource type",
+        "resource_type_placeholder": "Select type",
         "pattern_type_prefixed_placeholder": "Enter prefix",
         "pattern_type_literal_placeholder": "Enter name",
         "operation_placeholder": "Select operation",

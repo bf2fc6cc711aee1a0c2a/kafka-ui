@@ -67,38 +67,42 @@ export const ExistingAclTable: React.FunctionComponent<ExistingAclTableProps> =
 
     const principalCell: CellBuilder<RemovableEnhancedAclBinding> = (item) => {
       const RemoveButton: React.FunctionComponent = () => (
-        <div className='pf-u-display-flex pf-u-justify-content-flex-end'>
-          <Button
-            variant='link'
-            icon={<TrashIcon />}
-            onClick={() => removeRow(item)}
-          />
-        </div>
+        <Button
+          variant='link'
+          icon={<TrashIcon />}
+          onClick={() => removeRow(item)}
+        />
       );
 
       const AllAccountsLabel: React.FunctionComponent = () => (
-        <div className='pf-u-display-flex pf-u-justify-content-flex-end'>
-          <Label variant='outline'>{t('permission.table.all_accounts')}</Label>
-        </div>
+        <Label variant='outline'>{t('permission.table.all_accounts')}</Label>
       );
 
       if (selectedAccountId === '*' && item.principal === '*') {
         return {
           title: (
-            <>
+            <div className='pf-u-display-flex pf-u-justify-content-space-between pf-u-justify-content-flex-end-on-lg'>
               <AllAccountsLabel /> <RemoveButton />
-            </>
+            </div>
           ),
           props: {},
         };
       } else if (item.principal === '*') {
         return {
-          title: <AllAccountsLabel />,
+          title: (
+            <div className='pf-u-display-flex pf-u-justify-content-flex-end-on-lg'>
+              <AllAccountsLabel />
+            </div>
+          ),
           props: {},
         };
       } else {
         return {
-          title: <RemoveButton />,
+          title: (
+            <div className='pf-u-display-flex pf-u-justify-content-flex-end'>
+              <RemoveButton />
+            </div>
+          ),
           props: {},
         };
       }
@@ -152,6 +156,7 @@ export const ExistingAclTable: React.FunctionComponent<ExistingAclTableProps> =
               shouldDefaultCustomRowWrapper: true,
               variant: TableVariant.compact,
               canSelectAll: false,
+              // TODO: gridBreakPoint: 'grid-lg' NOTE: This is needed so that the table doesn't overrun a narrow screen, but it currently breaks the first header because it's messing with :before of the first cell and so is the mas--[streams-]table-view__table
             }}
             rowDataTestId={'tablePermissions-row'}
           />
