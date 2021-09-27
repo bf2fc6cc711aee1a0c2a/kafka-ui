@@ -33,8 +33,11 @@ import {
   IDropdownOption,
 } from '@app/components/DropdownWithToggle';
 import { isAxiosError } from '@app/utils/axios';
-import { BaseModalProps, ConsumerGroupResetOffsetProps } from '@app/components';
-import { useAlert } from '@rhoas/app-services-ui-shared';
+import {
+  BaseModalProps,
+  ConsumerGroupResetOffsetProps,
+  useAlert,
+} from '@rhoas/app-services-ui-shared';
 
 export type ConsumerRow = Consumer & {
   selected?: boolean;

@@ -8,7 +8,8 @@ import {
   IConfiguration,
 } from '@app/contexts';
 import kafkai18n from '@app/i18n';
-import { KafkaModalLoader, ModalProvider } from '@app/components/KafkaModal';
+import { KafkaModalLoader } from '@app/components/KafkaModal';
+import { ModalProvider } from '@rhoas/app-services-ui-components';
 
 export type UpdateTopicFederatedProps = FederatedProps &
   IConfiguration & {

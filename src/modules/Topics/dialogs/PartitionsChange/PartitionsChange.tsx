@@ -1,6 +1,9 @@
 import React from 'react';
 import { Button, Modal, ModalVariant } from '@patternfly/react-core';
-import { BaseModalProps, PartitionsChangeProps } from '@app/components';
+import {
+  BaseModalProps,
+  PartitionsChangeProps,
+} from '@rhoas/app-services-ui-shared';
 
 export const PartitionsChange: React.FC<
   PartitionsChangeProps & BaseModalProps

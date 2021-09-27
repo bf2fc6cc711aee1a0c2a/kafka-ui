@@ -8,11 +8,8 @@ import {
 } from '@app/contexts';
 import kafkai18n from '@app/i18n';
 import { MainView } from './MainView';
-import {
-  KafkaModalLoader,
-  ModalProvider,
-  PaginationProvider,
-} from '@app/components';
+import { KafkaModalLoader, PaginationProvider } from '@app/components';
+import { ModalProvider } from '@rhoas/app-services-ui-components';
 
 export type MainViewFederatedProps = FederatedProps &
   IConfiguration & {

@@ -19,9 +19,9 @@ import { getTopicDetail } from '@app/services';
 import { ConfigContext, useFederated } from '@app/contexts';
 import { ConsumerGroups } from '@app/modules/ConsumerGroups';
 import { isAxiosError } from '@app/utils/axios';
-import { ModalType, useModal } from '@app/components/KafkaModal';
 import { useAlert, useBasename } from '@rhoas/app-services-ui-shared';
 import '../style.css';
+import { ModalType, useModal } from '@rhoas/app-services-ui-shared';
 
 export const TopicDetailPage: React.FC = () => {
   const {

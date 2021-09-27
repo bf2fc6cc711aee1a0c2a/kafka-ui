@@ -7,7 +7,6 @@ import {
   OnSelect,
   TableVariant,
 } from '@patternfly/react-table';
-import { MASPagination, MASTable, ModalType, useModal } from '@app/components';
 import { PermissionsToolbar } from './PermissionsToolbar';
 import {
   AclFilter,
@@ -29,6 +28,8 @@ import {
   AclPermissionTypeFilter,
   AclResourceTypeFilter,
 } from '@rhoas/kafka-instance-sdk';
+import { ModalType, useModal } from '@rhoas/app-services-ui-shared';
+import { MASPagination, MASTable } from '@app/components';
 
 export type PermissionsTableProps = {
   permissionsService: PermissionsService;

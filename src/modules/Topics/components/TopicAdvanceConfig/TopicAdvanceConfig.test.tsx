@@ -7,7 +7,7 @@ import {
 } from './TopicAdvanceConfig';
 import kafkai18n from '@test-utils/i18n';
 import { IAdvancedTopic } from '@app/modules/Topics/components/CreateTopicWizard';
-import { ModalProvider } from '@app/components';
+import { ModalProvider } from '@rhoas/app-services-ui-components';
 
 const setup = () => {
   const topicData: IAdvancedTopic = {

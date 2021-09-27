@@ -22,11 +22,12 @@ import {
   DropdownPosition,
   DropdownItem,
 } from '@patternfly/react-core';
-import { MASLoading, ModalType, useModal } from '@app/components';
+import { MASLoading } from '@app/components';
 import './MASDrawer.css';
 import { EllipsisVIcon } from '@patternfly/react-icons';
 import { ConsumerGroup } from '@rhoas/kafka-instance-sdk';
 import { useTranslation } from 'react-i18next';
+import { ModalType, useModal } from '@rhoas/app-services-ui-shared';
 
 export type MASDrawerProps = DrawerProps & {
   children: React.ReactNode;

@@ -13,8 +13,11 @@ import { deleteConsumerGroup } from '@app/services';
 import { ConfigContext } from '@app/contexts';
 import { ConsumerGroupStateEnum } from '@rhoas/kafka-instance-sdk';
 import { isAxiosError } from '@app/utils/axios';
-import { BaseModalProps, DeleteConsumerGroupProps } from '@app/components';
-import { useAlert } from '@rhoas/app-services-ui-shared';
+import {
+  BaseModalProps,
+  DeleteConsumerGroupProps,
+  useAlert,
+} from '@rhoas/app-services-ui-shared';
 
 const DeleteConsumerGroup: React.FC<DeleteConsumerGroupProps & BaseModalProps> =
   ({ consumerName, refreshConsumerGroups, hideModal, state }) => {

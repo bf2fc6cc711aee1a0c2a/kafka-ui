@@ -12,13 +12,13 @@ import { ConfigContext } from '@app/contexts';
 import {
   ErrorBoundary,
   AppLayout,
-  ModalProvider,
   AlertProvider,
   PaginationProvider,
   KafkaModalLoader,
 } from '@app/components';
 import { Routes } from '@app/Routes';
 import { BasenameContext } from '@rhoas/app-services-ui-shared';
+import { ModalProvider } from '@rhoas/app-services-ui-components';
 
 const App: React.FC = () => {
   return (

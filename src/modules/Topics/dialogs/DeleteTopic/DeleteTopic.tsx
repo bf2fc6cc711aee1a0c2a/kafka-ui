@@ -11,8 +11,11 @@ import {
 import { deleteTopic } from '@app/services';
 import { ConfigContext } from '@app/contexts';
 import { isAxiosError } from '@app/utils/axios';
-import { BaseModalProps, DeleteTopicProps } from '@app/components';
-import { useAlert } from '@rhoas/app-services-ui-shared';
+import {
+  BaseModalProps,
+  DeleteTopicProps,
+  useAlert,
+} from '@rhoas/app-services-ui-shared';
 
 const DeleteTopic: React.FC<DeleteTopicProps & BaseModalProps> = ({
   topicName,
