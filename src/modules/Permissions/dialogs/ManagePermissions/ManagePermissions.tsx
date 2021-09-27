@@ -14,8 +14,12 @@ import {
   usePermissionsService,
 } from '@app/services/acls';
 import { ConfigContext } from '@app/contexts';
-import { usePrincipals } from '@rhoas/app-services-ui-shared';
-import { BaseModalProps } from '@app/components/KafkaModal/ModalTypes';
+import {
+  BaseModalProps,
+  ManagePermissionsModalProps,
+  ManagePermissionsProps,
+  usePrincipals,
+} from '@rhoas/app-services-ui-shared';
 import { SelectAccount } from '@app/modules/Permissions/components/ManagePermissionsDialog/SelectAccount';
 import { CreatePermissions } from '@app/modules/Permissions/components/ManagePermissionsDialog/CreatePermissions';
 import { Validated } from '@app/modules/Permissions/components/ManagePermissionsDialog/validated';
@@ -24,13 +28,7 @@ import {
   isNewAclModified,
   NewAcl,
 } from '@app/modules/Permissions/components/ManagePermissionsDialog/acls';
-import {
-  BaseModalProps,
-  FormGroupWithPopover,
-  ManagePermissionsModalProps,
-  ManagePermissionsProps,
-  MASLoading,
-} from '@app/components';
+import { FormGroupWithPopover, MASLoading } from '@app/components';
 import { useValidateTopic } from '@app/services/topicNameValidation';
 import { ExistingAclTable } from '@app/modules/Permissions/components/ManagePermissionsDialog/ExistingAclTable';
 import {

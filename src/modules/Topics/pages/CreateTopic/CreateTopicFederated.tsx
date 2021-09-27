@@ -8,7 +8,7 @@ import {
   ConfigContext,
   IConfiguration,
 } from '@app/contexts';
-import { ModalProvider } from '@app/components';
+import { ModalProvider } from '@rhoas/app-services-ui-components';
 
 export type CreateTopicFederatedProps = FederatedProps &
   IConfiguration & {

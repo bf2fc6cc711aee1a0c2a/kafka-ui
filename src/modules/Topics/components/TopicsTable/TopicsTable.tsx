@@ -19,7 +19,7 @@ import {
 import { Topic } from '@rhoas/kafka-instance-sdk';
 import { TopicsToolbar, TopicsToolbarProps } from './TopicsToolbar';
 import { convertRetentionSize, convertRetentionTime } from '@app/utils';
-import { useModal, ModalType } from '@app/components';
+import { ModalType, useModal } from '@rhoas/app-services-ui-shared';
 
 export type TopicsTableProps = TopicsToolbarProps & {
   topicItems: Topic[];

@@ -10,9 +10,10 @@ import { Button, FormGroup, GridItem, Label } from '@patternfly/react-core';
 import { TrashIcon } from '@patternfly/react-icons';
 import { cellWidth, ICell, TableVariant } from '@patternfly/react-table';
 import { MASTable } from '@app/components';
+import { AclBinding } from '@rhoas/kafka-instance-sdk';
 
 export type ExistingAclTableProps = {
-  existingAcls: Array<EnhancedAclBinding>;
+  existingAcls: Array<AclBinding>;
   selectedAccountId?: string;
   onRemove: (acl: EnhancedAclBinding) => void;
 };

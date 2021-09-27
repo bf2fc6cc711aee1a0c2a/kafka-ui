@@ -1,16 +1,17 @@
 // A map of modal components to their lazy loaded implementations
 import React from 'react';
+
+import { useTranslation } from 'react-i18next';
 import {
   ConsumerGroupResetOffsetProps,
   DeleteConsumerGroupProps,
   DeleteTopicProps,
   ManagePermissionsProps,
+  ModalRegistry,
   ModalType,
   PartitionsChangeProps,
   useModal,
-} from '@app/components/KafkaModal';
-import { ModalRegistry } from '@app/components/KafkaModal/shared/types';
-import { useTranslation } from 'react-i18next';
+} from '@rhoas/app-services-ui-shared';
 
 export const useKafkaModals = (): ModalRegistry => {
   const { t } = useTranslation();

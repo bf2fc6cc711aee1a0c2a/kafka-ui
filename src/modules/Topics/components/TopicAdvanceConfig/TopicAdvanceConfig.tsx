@@ -45,8 +45,6 @@ import {
   SizeTimeFormGroup,
   DropdownWithToggle,
   IDropdownOption,
-  useModal,
-  ModalType,
 } from '@app/components';
 import { kebabToCamel, kebabToDotSeparated } from '@app/modules/Topics/utils';
 import { IAdvancedTopic } from '@app/modules/Topics/components';
@@ -54,6 +52,7 @@ import { getTopic } from '@app/services';
 import { ConfigContext } from '@app/contexts';
 import '../CreateTopicWizard/CreateTopicWizard.css';
 import { isAxiosError } from '@app/utils/axios';
+import { ModalType, useModal } from '@rhoas/app-services-ui-shared';
 
 export type TopicAdvanceConfigProps = {
   isCreate: boolean;

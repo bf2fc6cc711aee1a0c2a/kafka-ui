@@ -1,2 +1,1 @@
-export * from './shared';
-export * from './kafka';
+export * from './KafkaModals';

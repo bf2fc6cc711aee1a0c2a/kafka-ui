@@ -12,8 +12,6 @@ import {
 import { ConsumerGroup } from '@rhoas/kafka-instance-sdk';
 import {
   MASTable,
-  useModal,
-  ModalType,
   MASPagination,
   EmptyState,
   MASEmptyStateVariant,
@@ -22,6 +20,7 @@ import {
   ConsumerGroupToolbar,
   ConsumerGroupToolbarProps,
 } from './ConsumerGroupToolbar';
+import { ModalType, useModal } from '@rhoas/app-services-ui-shared';
 
 export type ConsumerGroupsTableProps = ConsumerGroupToolbarProps & {
   consumerGroups?: ConsumerGroup[];
