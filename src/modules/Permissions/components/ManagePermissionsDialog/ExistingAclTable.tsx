@@ -124,7 +124,7 @@ export const ExistingAclTable: React.FunctionComponent<ExistingAclTableProps> =
         <Trans i18nKey='permission.manage_permissions_dialog.edit_existing.help'>
           Review the list of existing permissions for the selected account. The
           list includes account-specific permissions and permissions applied to
-          all accounts within this Kafka instance. Permissions labeled{' '}
+          all accounts within this Kafka instance. Permissions labeled
           <strong>All accounts</strong> cannot be removed when an individual
           account ID is selected.
         </Trans>

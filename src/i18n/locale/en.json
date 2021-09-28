@@ -164,7 +164,7 @@
       "label": "Permissions"
     },
     "table": {
-      "manage_button": "Manage Permissions",
+      "manage_button": "Manage permissions",
       "no_results_title": "No permissions defined",
       "no_results_body": "The Kafka instance owner and organization administrators have access to resources in this instance. Give other accounts access by managing permissions.",
       "manage_permissions_button": "Manage permissions",
@@ -176,7 +176,7 @@
         "manage": "Manage"
       },
       "resource_column_title": "Resource",
-      "permissions_column_title": "Permissions"
+      "permissions_column_title": "Permission"
     },
     "manage_permissions_dialog": {
       "title": "Manage access",
@@ -201,7 +201,7 @@
         "all_accounts_help": "Review the list of existing permissions applied to all accounts within this Kafka instance. "
       },
       "assign_permissions": {
-        "title": "Assign Permissions",
+        "title": "Assign permissions",
         "help": "Assign permissions to the selected account ({{account_id}}).",
         "help_all_accounts": "Assign permissions to all accounts.",
         "placeholder": "Choose...",
