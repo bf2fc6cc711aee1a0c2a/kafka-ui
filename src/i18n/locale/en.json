@@ -164,10 +164,10 @@
       "label": "Permissions"
     },
     "table": {
-      "manage_button": "Manage permissions",
+      "manage_button": "Manage access",
       "no_results_title": "No permissions defined",
       "no_results_body": "The Kafka instance owner and organization administrators have access to resources in this instance. Give other accounts access by managing permissions.",
-      "manage_permissions_button": "Manage permissions",
+      "manage_permissions_button": "Manage access",
       "all_accounts": "All accounts",
       "all_accounts_help": "Uses a wildcard (*) to assign permission to all user and service accounts.",
       "delete_selected": "Delete selected permissions",
@@ -180,7 +180,7 @@
     },
     "manage_permissions_dialog": {
       "title": "Manage access",
-      "aria_label": "Manage permissions dialog",
+      "aria_label": "Manage access dialog",
       "step_1_submit_button": "Next",
       "step_2_submit_button": "Save",
       "cancel_button": "Cancel",
