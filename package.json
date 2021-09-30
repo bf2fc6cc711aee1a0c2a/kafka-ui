@@ -49,8 +49,8 @@
   "homepage": "https://github.com/strimzi/strimzi-ui#readme",
   "dependencies": {
     "@rhoas/kafka-instance-sdk": "0.12.3",
-    "@rhoas/app-services-ui-shared": "0.14.0",
-    "@rhoas/app-services-ui-components": "1.1.0",
+    "@rhoas/app-services-ui-shared": "0.14.1",
+    "@rhoas/app-services-ui-components": "1.1.1",
     "@patternfly/patternfly": "4.132.2",
     "@patternfly/react-core": "4.152.4",
     "@patternfly/react-table": "4.29.58",
