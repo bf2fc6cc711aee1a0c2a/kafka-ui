@@ -6,7 +6,13 @@ import {
   permissionOperationCell,
   resourceCell,
 } from '@app/modules/Permissions/components/PermissionsTable/Cells';
-import { Button, FormGroup, GridItem, Label } from '@patternfly/react-core';
+import {
+  Button,
+  Label,
+  Text,
+  TextContent,
+  TextVariants,
+} from '@patternfly/react-core';
 import { TrashIcon } from '@patternfly/react-icons';
 import { cellWidth, ICell, TableVariant } from '@patternfly/react-table';
 import { MASTable } from '@app/components';
@@ -132,35 +138,37 @@ export const ExistingAclTable: React.FunctionComponent<ExistingAclTableProps> =
     };
 
     return (
-      <GridItem span={12}>
-        <FormGroup
-          fieldId='selectedAccount'
-          label={t('permission.manage_permissions_dialog.edit_existing.title')}
-          helperText={<HelperText />}
-          isHelperTextBeforeField={true}
-        >
-          <MASTable
-            tableProps={{
-              cells: tableColumns,
-              rows: [
-                ...acls
-                  .filter((acl) => !acl.removed)
-                  .map((item, row) => {
-                    return {
-                      cells: cells.map((f) => f(item, row)),
-                      originalData: item,
-                    };
-                  }),
-              ],
-              'aria-label': t('permission.table.table.permission_list_table'),
-              shouldDefaultCustomRowWrapper: true,
-              variant: TableVariant.compact,
-              canSelectAll: false,
-              // TODO: gridBreakPoint: 'grid-lg' NOTE: This is needed so that the table doesn't overrun a narrow screen, but it currently breaks the first header because it's messing with :before of the first cell and so is the mas--[streams-]table-view__table
-            }}
-            rowDataTestId={'tablePermissions-row'}
-          />
-        </FormGroup>
-      </GridItem>
+      <div>
+        <TextContent>
+          <Text component={TextVariants.h2}>
+            {t('permission.manage_permissions_dialog.edit_existing.title')}
+          </Text>
+          <Text component={TextVariants.small}>
+            <HelperText />
+          </Text>
+        </TextContent>
+
+        <MASTable
+          tableProps={{
+            cells: tableColumns,
+            rows: [
+              ...acls
+                .filter((acl) => !acl.removed)
+                .map((item, row) => {
+                  return {
+                    cells: cells.map((f) => f(item, row)),
+                    originalData: item,
+                  };
+                }),
+            ],
+            'aria-label': t('permission.table.table.permission_list_table'),
+            shouldDefaultCustomRowWrapper: true,
+            variant: TableVariant.compact,
+            canSelectAll: false,
+            // TODO: gridBreakPoint: 'grid-lg' NOTE: This is needed so that the table doesn't overrun a narrow screen, but it currently breaks the first header because it's messing with :before of the first cell and so is the mas--[streams-]table-view__table
+          }}
+          rowDataTestId={'tablePermissions-row'}
+        />
+      </div>
     );
   };

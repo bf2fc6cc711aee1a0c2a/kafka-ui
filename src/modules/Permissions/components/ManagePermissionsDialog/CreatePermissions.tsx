@@ -19,7 +19,15 @@ import {
 } from '@patternfly/react-table';
 import { useTranslation } from 'react-i18next';
 import { MASTable } from '@app/components';
-import { Button, FormGroup, Tooltip } from '@patternfly/react-core';
+import {
+  ActionList,
+  ActionListItem,
+  Button,
+  Text,
+  TextContent,
+  TextVariants,
+  Tooltip,
+} from '@patternfly/react-core';
 import { CreateSelect } from '@app/modules/Permissions/components/ManagePermissionsDialog/CreateSelect';
 import { sentenceCase } from 'sentence-case';
 import { SelectOption } from '@app/modules/Permissions/components/ManagePermissionsDialog/select';
@@ -419,14 +427,14 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
     };
 
     return (
-      <FormGroup
-        fieldId='createPermissions'
-        label={t(
-          'permission.manage_permissions_dialog.assign_permissions.title'
-        )}
-        helperText={formGroupHelperText()}
-        isHelperTextBeforeField={true}
-      >
+      <div>
+        <TextContent>
+          <Text component={TextVariants.h2}>
+            {t('permission.manage_permissions_dialog.assign_permissions.title')}
+          </Text>
+          <Text component={TextVariants.small}>{formGroupHelperText()}</Text>
+        </TextContent>
+
         <MASTable
           tableProps={{
             cells: tableColumns,
@@ -467,9 +475,15 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
           }}
           rowDataTestId={'tablePermissions-row'}
         />
-        <Button variant='link' icon={<PlusCircleIcon />} onClick={addRow}>
-          {t('permission.manage_permissions_dialog.assign_permissions.add_row')}
-        </Button>
-      </FormGroup>
+        <ActionList>
+          <ActionListItem>
+            <Button variant='link' icon={<PlusCircleIcon />} onClick={addRow}>
+              {t(
+                'permission.manage_permissions_dialog.assign_permissions.add_row'
+              )}
+            </Button>
+          </ActionListItem>
+        </ActionList>
+      </div>
     );
   };
