@@ -14,6 +14,7 @@ export type FederatedProps = {
   onEditTopic?: (topicName: string | undefined) => void;
   onCancelUpdateTopic?: () => void;
   updateTopic?: (topicName?: string | undefined) => void;
+  showSchemas?: JSX.Element | undefined;
 };
 
 export const FederatedContext = React.createContext<FederatedProps | undefined>(

@@ -23,6 +23,7 @@ const TopicDetailFederated: FunctionComponent<TopicDetailFederatedProps> = ({
   onError,
   kafkaPageLink,
   kafkaInstanceLink,
+  showSchemas,
 }) => {
   return (
     <I18nextProvider i18n={kafkai18n}>
@@ -34,6 +35,7 @@ const TopicDetailFederated: FunctionComponent<TopicDetailFederatedProps> = ({
             kafkaName,
             kafkaPageLink,
             kafkaInstanceLink,
+            showSchemas,
           }}
         >
           <ModalProvider>
