@@ -18,6 +18,7 @@ import { sentenceCase } from 'sentence-case';
 import { displayName } from '@app/modules/Permissions/utils';
 import { GoofyLabel } from '@app/modules/Permissions/components/ManagePermissionsDialog/GoofyLabel';
 import { useFederated } from '@app/contexts';
+import { SolidLabel } from '@app/modules/Permissions/components/ManagePermissionsDialog/SolidLabel';
 
 export type CellBuilder<T extends EnhancedAclBinding> = (
   item: T,
@@ -143,7 +144,7 @@ export const resourceCell: CellBuilder<EnhancedAclBinding> = (item) => {
     return {
       title: (
         <div>
-          <GoofyLabel variant={item.resourceType} />{' '}
+          <SolidLabel variant={item.resourceType} />{' '}
           {displayName(item.resourceType)}
         </div>
       ),
@@ -152,7 +153,7 @@ export const resourceCell: CellBuilder<EnhancedAclBinding> = (item) => {
     return {
       title: (
         <div>
-          <GoofyLabel variant={item.resourceType} />{' '}
+          <SolidLabel variant={item.resourceType} />{' '}
           {displayName(item.resourceType)} <PatternType /> {item.resourceName}
         </div>
       ),

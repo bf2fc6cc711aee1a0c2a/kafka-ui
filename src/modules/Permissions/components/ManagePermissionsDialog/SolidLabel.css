@@ -1,0 +1,20 @@
+.pf-c-label.mas-m-solid {
+  --pf-c-label__content--before--BorderColor: transparent;
+  --pf-c-label--BackgroundColor: var(--pf-global--palette--black-600);
+  --pf-c-label__content--Color: var(--pf-global--palette--white);
+  font-weight: var(--pf-global--FontWeight--bold);
+  min-width: 29px; /* ensure it's at least as wide as it is tall */
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pf-c-label.mas-m-solid.pf-m-blue {
+  --pf-c-label--BackgroundColor: var(--pf-global--palette--blue-400);
+}
+.pf-c-label.mas-m-solid.pf-m-green {
+  --pf-c-label--BackgroundColor: var(--pf-global--palette--green-500);
+}
+.pf-c-label.mas-m-solid.pf-m-orange {
+  --pf-c-label--BackgroundColor: var(--pf-global--palette--orange-400);
+}
