@@ -19,7 +19,15 @@ import {
 } from '@patternfly/react-table';
 import { useTranslation } from 'react-i18next';
 import { MASTable } from '@app/components';
-import { Button, FormGroup, GridItem, Tooltip } from '@patternfly/react-core';
+import {
+  ActionList,
+  ActionListItem,
+  Button,
+  Text,
+  TextContent,
+  TextVariants,
+  Tooltip,
+} from '@patternfly/react-core';
 import { CreateSelect } from '@app/modules/Permissions/components/ManagePermissionsDialog/CreateSelect';
 import { sentenceCase } from 'sentence-case';
 import { SelectOption } from '@app/modules/Permissions/components/ManagePermissionsDialog/select';
@@ -419,61 +427,63 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
     };
 
     return (
-      <GridItem span={12}>
-        <FormGroup
-          fieldId='createPermissions'
-          label={t(
-            'permission.manage_permissions_dialog.assign_permissions.title'
-          )}
-          helperText={formGroupHelperText()}
-          isHelperTextBeforeField={true}
-        >
-          <MASTable
-            tableProps={{
-              cells: tableColumns,
-              rows: acls.map((acl, row) => {
-                return {
-                  cells: [
-                    {
-                      title: <ResourceType row={row} acl={acl} />,
-                    },
-                    {
-                      title: <PatternTypeCell row={row} acl={acl} />,
-                    },
-                    {
-                      title: <ResourceCell acl={acl} row={row} />,
-                    },
-                    {
-                      title: <PermissionTypeCell acl={acl} row={row} />,
-                    },
-                    {
-                      title: (
-                        <div className='pf-u-display-flex pf-u-justify-content-space-between'>
-                          <div>
-                            <OperationCell acl={acl} row={row} />
-                          </div>
-                          <div>
-                            <RemoveButtonCell acl={acl} row={row} />
-                          </div>
+      <div>
+        <TextContent>
+          <Text component={TextVariants.h2}>
+            {t('permission.manage_permissions_dialog.assign_permissions.title')}
+          </Text>
+          <Text component={TextVariants.small}>{formGroupHelperText()}</Text>
+        </TextContent>
+
+        <MASTable
+          tableProps={{
+            cells: tableColumns,
+            rows: acls.map((acl, row) => {
+              return {
+                cells: [
+                  {
+                    title: <ResourceType row={row} acl={acl} />,
+                  },
+                  {
+                    title: <PatternTypeCell row={row} acl={acl} />,
+                  },
+                  {
+                    title: <ResourceCell acl={acl} row={row} />,
+                  },
+                  {
+                    title: <PermissionTypeCell acl={acl} row={row} />,
+                  },
+                  {
+                    title: (
+                      <div className='pf-u-display-flex pf-u-justify-content-space-between'>
+                        <div>
+                          <OperationCell acl={acl} row={row} />
                         </div>
-                      ),
-                    },
-                  ],
-                } as IRowData;
-              }),
-              'aria-label': t('permission.table.table.permission_list_table'),
-              shouldDefaultCustomRowWrapper: true,
-              variant: TableVariant.compact,
-              canSelectAll: false,
-            }}
-            rowDataTestId={'tablePermissions-row'}
-          />
-          <Button variant='link' icon={<PlusCircleIcon />} onClick={addRow}>
-            {t(
-              'permission.manage_permissions_dialog.assign_permissions.add_row'
-            )}
-          </Button>
-        </FormGroup>
-      </GridItem>
+                        <div>
+                          <RemoveButtonCell acl={acl} row={row} />
+                        </div>
+                      </div>
+                    ),
+                  },
+                ],
+              } as IRowData;
+            }),
+            'aria-label': t('permission.table.table.permission_list_table'),
+            shouldDefaultCustomRowWrapper: true,
+            variant: TableVariant.compact,
+            canSelectAll: false,
+          }}
+          rowDataTestId={'tablePermissions-row'}
+        />
+        <ActionList>
+          <ActionListItem>
+            <Button variant='link' icon={<PlusCircleIcon />} onClick={addRow}>
+              {t(
+                'permission.manage_permissions_dialog.assign_permissions.add_row'
+              )}
+            </Button>
+          </ActionListItem>
+        </ActionList>
+      </div>
     );
   };

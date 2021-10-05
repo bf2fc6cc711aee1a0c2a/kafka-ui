@@ -1,12 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import {
-  Button,
-  Form,
-  FormGroup,
-  Grid,
-  GridItem,
-  Modal,
-} from '@patternfly/react-core';
+import { Button, Form, FormGroup, Modal } from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import {
   convertEnum,
@@ -356,21 +349,13 @@ export const ManagePermissionsModal: React.FC<
 
   const ModalForm: React.FunctionComponent = () => (
     <Form>
-      <Grid hasGutter md={6}>
-        <GridItem span={12}>
-          <FormGroup
-            fieldId='kafka-instance-name'
-            label={t(
-              'permission.manage_permissions_dialog.kafka_instance_title'
-            )}
-          >
-            {kafkaName}
-          </FormGroup>
-        </GridItem>
-        <GridItem span={12}>
-          <Account />
-        </GridItem>
-      </Grid>
+      <FormGroup
+        fieldId='kafka-instance-name'
+        label={t('permission.manage_permissions_dialog.kafka_instance_title')}
+      >
+        {kafkaName}
+      </FormGroup>
+      <Account />
       <Step2 />
     </Form>
   );
@@ -381,6 +366,7 @@ export const ManagePermissionsModal: React.FC<
       variant={variant}
       isOpen={true}
       aria-label={t('permission.manage_permissions_dialog.aria_label')}
+      position='top'
       title={title}
       showClose={true}
       aria-describedby='modal-message'

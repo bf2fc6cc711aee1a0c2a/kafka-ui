@@ -97,6 +97,7 @@ export const CreateTypeahead: React.FunctionComponent<CreateTypeaheadProps> = ({
           'permission.manage_permissions_dialog.assign_permissions.resource_name_aria'
         )}
         onToggle={onToggle}
+        className='pf-u-pr-lg-on-lg'
         onSelect={select}
         onClear={clearSelection}
         selections={value.value}
