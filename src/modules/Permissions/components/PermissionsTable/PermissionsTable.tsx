@@ -218,7 +218,11 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
     aclPage.items === undefined ||
     aclPage.items.length === 0
   ) {
-    return <PermissionsTableEmptyState />;
+    return (
+      <PermissionsTableEmptyState
+        openManagePermissions={() => openManagePermissions()}
+      />
+    );
   }
 
   return (
