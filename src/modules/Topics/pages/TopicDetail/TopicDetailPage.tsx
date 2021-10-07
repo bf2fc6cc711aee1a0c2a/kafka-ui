@@ -30,6 +30,7 @@ export const TopicDetailPage: React.FC = () => {
     kafkaPageLink,
     kafkaInstanceLink,
     onError,
+    showSchemas,
   } = useFederated() || {};
 
   const history = useHistory();
@@ -56,6 +57,7 @@ export const TopicDetailPage: React.FC = () => {
   const { t } = useTranslation();
   const contentRefConsumerGroup = React.createRef<HTMLElement>();
   const contentRefProperties = React.createRef<HTMLElement>();
+  const contentRefSchemas = React.createRef<HTMLElement>();
   const { showModal } = useModal<ModalType.KafkaDeleteTopic>();
 
   const onDeleteTopic = () => {
@@ -140,6 +142,13 @@ export const TopicDetailPage: React.FC = () => {
             tabContentId='kafka-ui-TabcontentProperties'
             tabContentRef={contentRefProperties}
           />
+          <Tab
+            eventKey={3}
+            title={<TabTitleText>{t('common.schemas')}</TabTitleText>}
+            data-testid='pageTopic-tabSchemas'
+            tabContentId='kafka-ui-TabSchemas'
+            tabContentRef={contentRefSchemas}
+          />
         </Tabs>
       </PageSection>
       <PageSection
@@ -155,7 +164,7 @@ export const TopicDetailPage: React.FC = () => {
           ref={contentRefConsumerGroup}
           className='kafka-ui-m-full-height'
           aria-label='Consumer groups.'
-          hidden
+          hidden={activeTabKey != 1}
         >
           <ConsumerGroups
             consumerGroupByTopic={true}
@@ -169,8 +178,19 @@ export const TopicDetailPage: React.FC = () => {
           ref={contentRefProperties}
           className='kafka-ui-m-full-height'
           aria-label='Topic properties.'
+          hidden={activeTabKey != 2}
         >
           <TopicDetailView topic={topicDetail} deleteTopic={deleteTopic} />
+        </TabContent>
+        <TabContent
+          eventKey={3}
+          id='kafka-ui-TabSchemas'
+          ref={contentRefSchemas}
+          className='kafka-ui-m-full-height'
+          aria-label='Schemas mapping'
+          hidden={activeTabKey != 3}
+        >
+          {showSchemas}
         </TabContent>
       </PageSection>
     </>
