@@ -44,7 +44,7 @@
     "view_instance": "Details",
     "view_connection": "Connection",
     "delete_instance": "Delete",
-    "schemas":"Schemas"
+    "schemas": "Schemas"
   },
   "dashboard": {
     "dashboard": "Dashboard"
