@@ -43,7 +43,8 @@
     "curr_page": "Current page",
     "view_instance": "Details",
     "view_connection": "Connection",
-    "delete_instance": "Delete"
+    "delete_instance": "Delete",
+    "schemas":"Schemas"
   },
   "dashboard": {
     "dashboard": "Dashboard"

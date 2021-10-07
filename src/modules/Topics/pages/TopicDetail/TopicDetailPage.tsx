@@ -144,9 +144,9 @@ export const TopicDetailPage: React.FC = () => {
           />
           <Tab
             eventKey={3}
-            title={<TabTitleText>Schemas</TabTitleText>}
-            data-testid='pageTopic-tabProperties'
-            tabContentId='kafka-ui-TabcontentProperties'
+            title={<TabTitleText>{t('common.schemas')}</TabTitleText>}
+            data-testid='pageTopic-tabSchemas'
+            tabContentId='kafka-ui-TabSchemas'
             tabContentRef={contentRefSchemas}
           />
         </Tabs>
@@ -185,9 +185,9 @@ export const TopicDetailPage: React.FC = () => {
         <TabContent
           eventKey={3}
           id='kafka-ui-TabSchemas'
-          ref={contentRefProperties}
+          ref={contentRefSchemas}
           className='kafka-ui-m-full-height'
-          aria-label='Schemas.'
+          aria-label='Schemas mapping'
           hidden={activeTabKey != 3}
         >
           {showSchemas}
