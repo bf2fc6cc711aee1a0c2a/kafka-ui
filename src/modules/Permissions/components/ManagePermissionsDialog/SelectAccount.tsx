@@ -57,7 +57,7 @@ export const SelectAccount: React.FunctionComponent<SelectAccountProps> = ({
           };
         } else {
           return {
-            validated: 'success',
+            validated: 'default',
             value: selection,
           };
         }

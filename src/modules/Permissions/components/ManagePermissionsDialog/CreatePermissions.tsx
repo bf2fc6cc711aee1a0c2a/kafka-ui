@@ -227,7 +227,7 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
                   'permission.manage_permissions_dialog.assign_permissions.must_select_pattern_type_error'
                 );
               } else {
-                prevState[row].patternType.validated = 'success';
+                prevState[row].patternType.validated = 'default';
               }
               return prevState;
             });
@@ -263,7 +263,7 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
                   'permission.manage_permissions_dialog.assign_permissions.must_select_resource_type_error'
                 );
               } else {
-                prevState[row].resourceType.validated = 'success';
+                prevState[row].resourceType.validated = 'default';
               }
               return prevState;
             });
@@ -308,7 +308,7 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
               });
             } else if (value !== undefined) {
               setAcls((prevState) => {
-                prevState[row].resource.validated = 'success';
+                prevState[row].resource.validated = 'default';
                 return prevState;
               });
             }
@@ -344,7 +344,7 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
                   'permission.manage_permissions_dialog.assign_permissions.must_select_permission_error'
                 );
               } else {
-                prevState[row].permission.validated = 'success';
+                prevState[row].permission.validated = 'default';
               }
               return prevState;
             });
@@ -397,7 +397,7 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
                   'permission.manage_permissions_dialog.assign_permissions.must_select_operation_error'
                 );
               } else {
-                prevState[row].operation.validated = 'success';
+                prevState[row].operation.validated = 'default';
               }
               return prevState;
             });

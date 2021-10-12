@@ -125,7 +125,7 @@ export const ManagePermissionsModal: React.FC<
       setSelectedAccount((v) => {
         return {
           ...v,
-          validated: 'success',
+          validated: 'default',
         };
       });
     }
@@ -141,7 +141,7 @@ export const ManagePermissionsModal: React.FC<
             );
             valid = false;
           } else {
-            answer.resourceType.validated = 'success';
+            answer.resourceType.validated = 'default';
           }
           if (value.resourceType.value !== AclResourceType.Cluster) {
             if (value.resource.value === undefined) {
@@ -157,7 +157,7 @@ export const ManagePermissionsModal: React.FC<
                 answer.resource.errorMessage = errorMessage;
                 valid = false;
               } else {
-                answer.resource.validated = 'success';
+                answer.resource.validated = 'default';
               }
             }
             if (value.patternType.value === undefined) {
@@ -167,7 +167,7 @@ export const ManagePermissionsModal: React.FC<
               );
               valid = false;
             } else {
-              answer.patternType.validated = 'success';
+              answer.patternType.validated = 'default';
             }
           }
           if (value.permission.value === undefined) {
@@ -177,7 +177,7 @@ export const ManagePermissionsModal: React.FC<
             );
             valid = false;
           } else {
-            answer.permission.validated = 'success';
+            answer.permission.validated = 'default';
           }
           if (value.operation.value === undefined) {
             answer.operation.validated = 'error';
@@ -186,7 +186,7 @@ export const ManagePermissionsModal: React.FC<
             );
             valid = false;
           } else {
-            answer.operation.validated = 'success';
+            answer.operation.validated = 'default';
           }
           return answer;
         } else {
