@@ -7,7 +7,7 @@ import {
 } from './TopicAdvanceConfig';
 import kafkai18n from '@test-utils/i18n';
 import { IAdvancedTopic } from '@app/modules/Topics/components/CreateTopicWizard';
-import { ModalProvider } from '@rhoas/app-services-ui-components';
+import { ModalContext } from '@rhoas/app-services-ui-shared';
 
 const setup = () => {
   const topicData: IAdvancedTopic = {
@@ -26,9 +26,15 @@ const setup = () => {
   };
   const component: ReactElement = (
     <I18nextProvider i18n={kafkai18n}>
-      <ModalProvider>
+      <ModalContext.Provider
+        value={{
+          registerModals: () => '',
+          showModal: () => '',
+          hideModal: () => '',
+        }}
+      >
         <TopicAdvanceConfig {...topicadvanceConfigProps} />
-      </ModalProvider>
+      </ModalContext.Provider>
     </I18nextProvider>
   );
   const renderResult: RenderResult = render(component);

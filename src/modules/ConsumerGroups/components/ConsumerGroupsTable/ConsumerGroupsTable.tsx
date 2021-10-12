@@ -173,8 +173,8 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
     row?: IRowData
   ) => {
     const { originalData } = row || {};
-    const clickedEventType = event?.target?.type;
-    const tagName = event?.target?.tagName;
+    const clickedEventType = event?.target && event?.target?.type;
+    const tagName = event?.target && event?.target?.tagName;
     // Open modal on row click except kebab button click
     if (clickedEventType !== 'button' && tagName?.toLowerCase() !== 'a') {
       onViewConsumerGroup(originalData);

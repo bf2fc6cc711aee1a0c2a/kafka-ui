@@ -32,7 +32,7 @@ const PermissionsTableView = lazy(
     )
 );
 export type MainViewProps = {
-  onDeleteInstance: () => void;
+  onDeleteInstance?: () => void;
 };
 
 export const MainView: React.FC<MainViewProps> = ({ onDeleteInstance }) => {
