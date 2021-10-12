@@ -6,12 +6,13 @@ import {
   EnhancedAclBinding,
   usePermissionsService,
 } from '@app/services/acls';
-import { ConfigContext } from '@app/contexts';
+import { ConfigContext, useFederated } from '@app/contexts';
 import {
   BaseModalProps,
   ManagePermissionsModalProps,
   ManagePermissionsProps,
   usePrincipals,
+  useAuth,
 } from '@rhoas/app-services-ui-shared';
 import { SelectAccount } from '@app/modules/Permissions/components/ManagePermissionsDialog/SelectAccount';
 import { CreatePermissions } from '@app/modules/Permissions/components/ManagePermissionsDialog/CreatePermissions';
@@ -91,6 +92,8 @@ export const ManagePermissionsModal: React.FC<
   variant,
 }) => {
   const { t } = useTranslation();
+  const { kafka } = useFederated() || {};
+  const auth = useAuth();
 
   const [selectedAccount, setSelectedAccount] = useState<
     Validated<string | undefined>
@@ -102,11 +105,20 @@ export const ManagePermissionsModal: React.FC<
   const [removeAcls, setRemoveAcls] = useState<EnhancedAclBinding[]>([]);
   const escapeClosesModal = useRef<boolean>(true);
   const { validateName } = useValidateTopic();
+  const [currentlyLoggedInuser, setCurrentlyLoggedInuser] = useState();
 
   const principals = usePrincipals();
 
   const config = useContext(ConfigContext);
   const permissionsService = usePermissionsService(config);
+
+  useEffect(() => {
+    const getUsername = async () => {
+      const username = await auth?.getUsername();
+      setCurrentlyLoggedInuser(username);
+    };
+    getUsername();
+  }, [auth]);
 
   const save = async () => {
     let valid = true;
@@ -282,13 +294,17 @@ export const ManagePermissionsModal: React.FC<
     return <></>;
   };
 
+  const principal = principals
+    .getAllPrincipals()
+    .filter((p) => p.id !== currentlyLoggedInuser && p.id !== kafka?.owner);
+
   const Account = () => {
     if (step === 1) {
       return (
         <SelectAccount
           id={selectedAccount}
           setId={setSelectedAccount}
-          initialOptions={principals.getAllPrincipals()}
+          initialOptions={principal}
           setEscapeClosesModal={setEscapeClosesModal}
         />
       );

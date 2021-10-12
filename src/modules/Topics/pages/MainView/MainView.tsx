@@ -31,14 +31,16 @@ const PermissionsTableView = lazy(
       '@app/modules/Permissions/pages/PermissionsTable/PermissionsTableView'
     )
 );
+export type MainViewProps = {
+  onDeleteInstance?: () => void;
+};
 
-export const MainView: React.FC = () => {
+export const MainView: React.FC<MainViewProps> = ({ onDeleteInstance }) => {
   const { t } = useTranslation();
   const {
     kafkaPageLink,
     kafkaName,
     handleInstanceDrawer,
-    setIsOpenDeleteInstanceModal,
     showMetrics,
     activeTab,
   } = useFederated() || {};
@@ -65,10 +67,6 @@ export const MainView: React.FC = () => {
 
   const onSelectKebabOption = (activeTab: string) => {
     handleInstanceDrawer && handleInstanceDrawer(true, activeTab);
-  };
-
-  const onDeleteInstance = () => {
-    setIsOpenDeleteInstanceModal && setIsOpenDeleteInstanceModal(true);
   };
 
   const dropdownItems = [
