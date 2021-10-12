@@ -68,6 +68,7 @@ const MainViewFederated: FunctionComponent<MainViewFederatedProps> = ({
             setIsOpenDeleteInstanceModal,
             showMetrics,
             activeTab,
+            kafka,
           }}
         >
           <ModalProvider>

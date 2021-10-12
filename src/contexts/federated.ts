@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
+import { DeleteInstanceProps } from '@rhoas/app-services-ui-shared';
 
-export type FederatedProps = {
+export type FederatedProps = Pick<DeleteInstanceProps, 'kafka'> & {
   activeTab?: number;
   kafkaName?: string;
   kafkaPageLink?: string;

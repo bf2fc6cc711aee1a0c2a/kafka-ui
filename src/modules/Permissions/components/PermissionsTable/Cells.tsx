@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import { ICell } from '@patternfly/react-table';
 import { useTranslation } from 'react-i18next';
 import { InfoCircleIcon } from '@patternfly/react-icons';
@@ -8,11 +9,15 @@ import {
 } from '@rhoas/kafka-instance-sdk';
 import { Label, LabelGroup, Tooltip } from '@patternfly/react-core';
 import { EnhancedAclBinding } from '@app/services/acls';
-import React from 'react';
-import { PrincipalType, usePrincipals } from '@rhoas/app-services-ui-shared';
+import {
+  PrincipalType,
+  usePrincipals,
+  useAuth,
+} from '@rhoas/app-services-ui-shared';
 import { sentenceCase } from 'sentence-case';
 import { displayName } from '@app/modules/Permissions/utils';
 import { GoofyLabel } from '@app/modules/Permissions/components/ManagePermissionsDialog/GoofyLabel';
+import { useFederated } from '@app/contexts';
 
 export type CellBuilder<T extends EnhancedAclBinding> = (
   item: T,
@@ -33,9 +38,23 @@ type PrincipalWithTooltipProps = {
 };
 const PrincipalWithTooltip: React.FunctionComponent<PrincipalWithTooltipProps> =
   ({ acl }) => {
-    const principals = usePrincipals().getAllPrincipals();
+    const [currentlyLoggedInuser, setCurrentlyLoggedInuser] = useState();
+    const auth = useAuth();
+    const { kafka } = useFederated() || {};
+
+    const principals = usePrincipals()
+      .getAllPrincipals()
+      .filter((p) => p.id !== currentlyLoggedInuser && p.id !== kafka?.owner);
 
     const locatedPrincipals = principals.filter((p) => p.id === acl.principal);
+
+    useEffect(() => {
+      const getUsername = async () => {
+        const username = await auth?.getUsername();
+        setCurrentlyLoggedInuser(username);
+      };
+      getUsername();
+    }, [auth]);
 
     if (locatedPrincipals.length === 1) {
       if (locatedPrincipals[0].principalType === PrincipalType.ServiceAccount) {
