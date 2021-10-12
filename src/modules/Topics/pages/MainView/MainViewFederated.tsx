@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import { useHistory } from 'react-router-dom';
 import { I18nextProvider } from 'react-i18next';
 import {
   FederatedContext,
@@ -15,13 +14,13 @@ import {
   useModal,
   ModalType,
   DeleteInstanceProps,
-  useBasename,
 } from '@rhoas/app-services-ui-shared';
 
 export type MainViewFederatedProps = FederatedProps &
   IConfiguration &
   Pick<DeleteInstanceProps, 'kafka'> & {
     apiBasePath: string;
+    redirectAfterDeleteInstance?: () => void;
   };
 
 const MainViewFederated: FunctionComponent<MainViewFederatedProps> = ({
@@ -35,18 +34,9 @@ const MainViewFederated: FunctionComponent<MainViewFederatedProps> = ({
   showMetrics,
   activeTab = 1,
   kafka,
+  redirectAfterDeleteInstance,
 }) => {
-  const history = useHistory();
-  const { getBasename } = useBasename();
-  const basename = getBasename();
   const { showModal } = useModal<ModalType.KasDeleteInstance>();
-
-  const redirectAfterDeleteInstance = () => {
-    if (basename) {
-      //redirect on kafkas page i.e. /streams/kafkas
-      history.push(basename.replace(`/${kafka.id}`, ''));
-    }
-  };
 
   const onDeleteInstance = () => {
     showModal &&

@@ -294,12 +294,9 @@ export const ManagePermissionsModal: React.FC<
     return <></>;
   };
 
-  const getPrincipals = () => {
-    const principal = principals
-      .getAllPrincipals()
-      .filter((p) => p.id !== currentlyLoggedInuser && p.id !== kafka?.owner);
-    return principal;
-  };
+  const principal = principals
+    .getAllPrincipals()
+    .filter((p) => p.id !== currentlyLoggedInuser && p.id !== kafka?.owner);
 
   const Account = () => {
     if (step === 1) {
@@ -307,7 +304,7 @@ export const ManagePermissionsModal: React.FC<
         <SelectAccount
           id={selectedAccount}
           setId={setSelectedAccount}
-          initialOptions={getPrincipals()}
+          initialOptions={principal}
           setEscapeClosesModal={setEscapeClosesModal}
         />
       );
