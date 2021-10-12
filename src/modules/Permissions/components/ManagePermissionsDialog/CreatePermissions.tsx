@@ -299,18 +299,25 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
             return [];
           }}
           onSelect={(value) => {
-            const errorMessage = validateName(value);
-            if (errorMessage !== undefined) {
-              setAcls((prevState) => {
-                prevState[row].resource.validated = 'error';
-                prevState[row].resource.errorMessage = errorMessage;
-                return prevState;
-              });
-            } else if (value !== undefined) {
+            if (value === '*') {
               setAcls((prevState) => {
                 prevState[row].resource.validated = 'default';
                 return prevState;
               });
+            } else {
+              const errorMessage = validateName(value);
+              if (errorMessage !== undefined) {
+                setAcls((prevState) => {
+                  prevState[row].resource.validated = 'error';
+                  prevState[row].resource.errorMessage = errorMessage;
+                  return prevState;
+                });
+              } else if (value !== undefined) {
+                setAcls((prevState) => {
+                  prevState[row].resource.validated = 'default';
+                  return prevState;
+                });
+              }
             }
           }}
         />

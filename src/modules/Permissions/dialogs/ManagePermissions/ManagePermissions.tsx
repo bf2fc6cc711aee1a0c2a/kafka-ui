@@ -150,6 +150,8 @@ export const ManagePermissionsModal: React.FC<
                 'permission.manage_permissions_dialog.assign_permissions.must_select_resource_error'
               );
               valid = false;
+            } else if (value.resource.value === '*') {
+              answer.resource.validated = 'default';
             } else {
               const errorMessage = validateName(value.resource.value);
               if (errorMessage !== undefined) {
