@@ -112,6 +112,7 @@ export const CreateTypeahead: React.FunctionComponent<CreateTypeaheadProps> = ({
         validated={value.validated || 'default'}
         menuAppendTo={menuAppendTo}
         maxHeight={200}
+        direction={'up'}
       >
         {options.map((option, index) => (
           <PFSelectOption

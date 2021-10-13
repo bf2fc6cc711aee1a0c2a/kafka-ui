@@ -33,6 +33,7 @@ import {
   AclResourceType,
   AclResourceTypeFilter,
 } from '@rhoas/kafka-instance-sdk';
+import './ManagePermissions.css';
 
 export const ManagePermissions: React.FC<
   ManagePermissionsProps & BaseModalProps

@@ -1,0 +1,19 @@
+/* Custom styles for manage permissions dialog */
+
+/* Adjust the height of the dropdown so that it doesn't extend past the end of the page. Don't set height on the component because it is inline and will override this. */
+.kafka-ui--select--limit-height .pf-c-select__menu {
+  max-height: 120px;
+  overflow: auto;
+
+  @media (min-height: 485px) {
+    max-height: 225px;
+  }
+
+  @media (min-height: 560px) {
+    max-height: 300px;
+  }
+
+  @media (min-height: 660px) {
+    max-height: 400px;
+  }
+}
