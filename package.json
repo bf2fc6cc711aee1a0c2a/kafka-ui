@@ -92,7 +92,7 @@
     "ws": "8.2.3"
   },
   "devDependencies": {
-    "@redhat-cloud-services/frontend-components-config": "4.3.9",
+    "@redhat-cloud-services/frontend-components-config": "4.4.0",
     "@rhoas/api-mock": "0.12.3",
     "@testing-library/dom": "8.9.1",
     "@testing-library/jest-dom": "5.14.1",
