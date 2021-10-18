@@ -16,7 +16,6 @@ import {
 } from '@rhoas/app-services-ui-shared';
 import { sentenceCase } from 'sentence-case';
 import { displayName } from '@app/modules/Permissions/utils';
-import { GoofyLabel } from '@app/modules/Permissions/components/ManagePermissionsDialog/GoofyLabel';
 import { useFederated } from '@app/contexts';
 import { SolidLabel } from '@app/modules/Permissions/components/ManagePermissionsDialog/SolidLabel';
 
