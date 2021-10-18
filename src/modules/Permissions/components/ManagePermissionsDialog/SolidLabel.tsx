@@ -17,16 +17,12 @@ export const SolidLabel: React.FunctionComponent<SolidLabelProps> = ({
     switch (variant) {
       case AclResourceType.Group:
         return { labelColor: 'green', content: 'G' };
-        break;
       case AclResourceType.Cluster:
         return { labelColor: 'grey', content: 'KI' };
-        break;
       case AclResourceType.Topic:
         return { labelColor: 'blue', content: 'T' };
-        break;
       case AclResourceType.TransactionalId:
         return { labelColor: 'orange', content: 'TI' };
-        break;
     }
   };
   const { labelColor, content } = variantSwitch();
