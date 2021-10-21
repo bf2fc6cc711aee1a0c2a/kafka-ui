@@ -27,9 +27,9 @@ export type CellBuilder<T extends EnhancedAclBinding> = (
 const AllAccountsPrincipal: React.FunctionComponent = () => {
   const { t } = useTranslation();
   return (
-    <>
+    <div>
       <Label variant='outline'>{t('permission.table.all_accounts')}</Label>
-    </>
+    </div>
   );
 };
 
@@ -153,7 +153,7 @@ export const resourceCell: CellBuilder<EnhancedAclBinding> = (item) => {
       title: (
         <div>
           <SolidLabel variant={item.resourceType} />{' '}
-          {displayName(item.resourceType)} <PatternType /> {item.resourceName}
+          {displayName(item.resourceType)} <PatternType /> "{item.resourceName}"
         </div>
       ),
     };
