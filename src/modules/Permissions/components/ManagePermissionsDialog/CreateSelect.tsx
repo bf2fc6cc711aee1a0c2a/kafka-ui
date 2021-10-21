@@ -100,6 +100,7 @@ export const CreateSelect = <
         validated={selected.validated || 'default'}
         menuAppendTo={menuAppendTo}
         maxHeight={200}
+        direction={'up'}
       >
         {options.map((option, index) => (
           <PFSelectOption

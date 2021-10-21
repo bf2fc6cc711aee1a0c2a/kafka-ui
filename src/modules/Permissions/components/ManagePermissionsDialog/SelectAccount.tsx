@@ -81,6 +81,7 @@ export const SelectAccount: React.FunctionComponent<SelectAccountProps> = ({
     >
       <Select
         variant={SelectVariant.typeahead}
+        className='kafka-ui--select--limit-height'
         typeAheadAriaLabel={t(
           'permission.manage_permissions_dialog.account_id_typeahead_aria'
         )}
@@ -95,7 +96,6 @@ export const SelectAccount: React.FunctionComponent<SelectAccountProps> = ({
         )}
         isCreatable={false}
         menuAppendTo='parent'
-        maxHeight={400}
         validated={id.validated || 'default'}
         isGrouped={true}
       >
