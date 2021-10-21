@@ -177,7 +177,8 @@
         "manage": "Manage"
       },
       "resource_column_title": "Resource",
-      "permissions_column_title": "Permission"
+      "permissions_column_title": "Permission",
+      "account_column_title": "Account"
     },
     "manage_permissions_dialog": {
       "title": "Manage access",
