@@ -427,7 +427,7 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
             variant='link'
             icon={<TrashIcon />}
             onClick={() => removeRow(row)}
-            isDisabled={!isNewAclModified(acl)}
+            isDisabled={!isNewAclModified(acl, acls.length)}
           />
         </Tooltip>
       );
