@@ -9,7 +9,7 @@ import {
 import { getTopic, updateTopicModel } from '@app/services';
 import { ConfigEntry, TopicSettings } from '@rhoas/kafka-instance-sdk';
 import { ConfigContext } from '@app/contexts';
-import { convertUnits } from '@app/modules/Topics/utils';
+import { convertUnits, deserializeTopic } from '@app/modules/Topics/utils';
 import { isAxiosError } from '@app/utils/axios';
 import { useAlert, useBasename } from '@rhoas/app-services-ui-shared';
 import '../CreateTopicWizard/CreateTopicWizard.css';
@@ -39,9 +39,9 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   const initialState = {
     name: topicName,
     numPartitions: '',
-    'retention.ms': '',
-    'retention.ms.unit': 'milliseconds',
-    'retention.bytes': '',
+    'retention.ms': '7',
+    'retention.ms.unit': 'days',
+    'retention.bytes': '1',
     'retention.bytes.unit': 'bytes',
     'cleanup.policy': '',
   };
@@ -56,10 +56,11 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   const fetchTopic = async (topicName) => {
     try {
       const topicRes = await getTopic(topicName, config);
-      const configEntries: ConfigEntry = {};
-      topicRes.config?.forEach((configItem) => {
-        configEntries[configItem.key || ''] = configItem.value || '';
-      });
+      const deserializedTopic = deserializeTopic(topicRes);
+      // const configEntries: ConfigEntry = {};
+      // topicRes.config?.forEach((configItem) => {
+      //   configEntries[configItem.key || ''] = configItem.value || '';
+      // });
 
       setTopicData({
         ...topicData,
@@ -68,9 +69,10 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
           (topicRes?.partitions &&
             topicRes?.partitions[0].replicas?.length.toString()) ||
           '',
-        'cleanup.policy': configEntries['cleanup.policy'] || 'delete',
-        'retention.bytes': configEntries['retention.bytes'] || '-1',
-        'retention.ms': configEntries['retention.ms'] || '604800000',
+        ...deserializedTopic,
+        // "cleanup.policy": configEntries["cleanup.policy"] || "delete",
+        // "retention.bytes": configEntries["retention.bytes"] || "-1",
+        // "retention.ms": configEntries["retention.ms"] || "604800000",
       });
     } catch (err) {
       if (isAxiosError(err)) {

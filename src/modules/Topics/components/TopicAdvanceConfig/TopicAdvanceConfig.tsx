@@ -72,6 +72,11 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
     setTopicData,
     isLoadingSave,
   }) => {
+    const { showModal } = useModal<ModalType.KafkaUpdatePartitions>();
+    const { t } = useTranslation();
+    const actionText = isCreate ? t('topic.create_topic') : t('common.save');
+
+    //states
     const [topicValidated, setTopicValidated] = useState<'error' | 'default'>(
       'default'
     );
@@ -84,23 +89,9 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
     const [initialPartition, setInitialPartition] = useState<
       number | undefined
     >(Number(topicData.numPartitions));
-    const { showModal } = useModal<ModalType.KafkaUpdatePartitions>();
-    const { t } = useTranslation();
+    useState<string>(topicData['retention.ms.unit'] || 'days');
 
-    const [isCustomRetentionTimeSelected, setIsCustomRetentionTimeSelected] =
-      useState<boolean>(true);
-    const [isCustomRetentionSizeSelected, setIsCustomRetentionSizeSelected] =
-      useState<boolean>(false);
-
-    const [customRetentionTime, setCustomRetentionTime] = useState<number>(7);
-    const [customRetentionTimeUnit, setCustomRetentionTimeUnit] =
-      useState<string>('days');
-    const [customRetentionSize, setCustomRetentionSize] = useState<number>(1);
-    const [customRetentionSizeUnit, setCustomRetentionSizeUnit] =
-      useState<string>('bytes');
-    const actionText = isCreate ? t('topic.create_topic') : t('common.save');
-
-    const clearOptions: IDropdownOption[] = [
+    const cleanupPolicyOptions: IDropdownOption[] = [
       {
         key: 'compact',
         value: 'compact',
@@ -120,6 +111,33 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
         isDisabled: false,
       },
     ];
+
+    //use effects
+    useEffect(() => {
+      if (!isCreate) {
+        fetchTopic(topicData.name);
+      }
+      validationCheck(topicData.name);
+    }, []);
+
+    useEffect(() => {
+      if (topicData['retention.ms'] && topicData['isRetentionTimeUnlimited']) {
+        setTopicData({
+          ...topicData,
+          isRetentionTimeUnlimited: false,
+        });
+      }
+
+      if (
+        Number(topicData['retention.bytes']) > 0 &&
+        topicData['isRetentionSizeUnlimited']
+      ) {
+        setTopicData({
+          ...topicData,
+          isRetentionSizeUnlimited: false,
+        });
+      }
+    }, [topicData['retention.bytes'], topicData['retention.ms']]);
 
     const config = useContext(ConfigContext);
     const fetchTopic = async (topicName) => {
@@ -146,31 +164,6 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
         }
       }
     };
-
-    useEffect(() => {
-      if (!isCreate) {
-        fetchTopic(topicData.name);
-      }
-      validationCheck(topicData.name);
-      setCustomRetentionTimeUnit('milliseconds');
-    }, []);
-
-    useEffect(() => {
-      if (!isCreate) {
-        if (topicData['retention.bytes'] === '-1') {
-          setIsCustomRetentionSizeSelected(false);
-        } else {
-          setIsCustomRetentionSizeSelected(true);
-          setCustomRetentionSize(Number(topicData['retention.bytes']));
-        }
-        if (topicData['retention.ms'] === '-1') {
-          setIsCustomRetentionTimeSelected(false);
-        } else {
-          setIsCustomRetentionTimeSelected(true);
-          setCustomRetentionTime(Number(topicData['retention.ms']));
-        }
-      }
-    }, [topicData['retention.bytes'], topicData['retention.ms']]);
 
     const validationCheck = (value: string) => {
       const legalNameChars = new RegExp('^[a-zA-Z0-9._-]+$');
@@ -213,20 +206,15 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
       const { name } = event.target;
 
       if (name === 'custom-retention-time-unit') {
-        setCustomRetentionTimeUnit(value);
-        isCustomRetentionTimeSelected &&
-          setTopicData({
-            ...topicData,
-            'retention.ms.unit': value,
-          });
-      }
-      if (name === 'custom-retention-size-unit') {
-        setCustomRetentionSizeUnit(value);
-        isCustomRetentionSizeSelected &&
-          setTopicData({
-            ...topicData,
-            'retention.bytes.unit': value,
-          });
+        setTopicData({
+          ...topicData,
+          'retention.ms.unit': value,
+        });
+      } else if (name === 'custom-retention-size-unit') {
+        setTopicData({
+          ...topicData,
+          'retention.bytes.unit': value,
+        });
       }
     };
 
@@ -261,6 +249,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
         partitionsWarnigCheckPlus();
       }
     };
+
     const partitionsWarningCheckMinus = () => {
       if (
         initialPartition &&
@@ -290,63 +279,57 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
       event: React.FormEvent<HTMLInputElement>
     ) => {
       const { name, value } = event.currentTarget;
-
+      const truncValue = Math.trunc(Number(value)).toString();
       if (name === 'custom-retention-time') {
-        setCustomRetentionTime(Number(value));
-        isCustomRetentionTimeSelected &&
-          setTopicData({
-            ...topicData,
-            'retention.ms': value,
-          });
+        setTopicData({
+          ...topicData,
+          'retention.ms': truncValue,
+        });
       } else if (name === 'custom-retention-size') {
-        setCustomRetentionSize(Number(value));
-        isCustomRetentionSizeSelected &&
-          setTopicData({
-            ...topicData,
-            'retention.bytes': value,
-          });
+        setTopicData({
+          ...topicData,
+          'retention.bytes': truncValue,
+        });
       }
     };
 
     const handleTouchSpinPlus = (event) => {
       const { name } = event.currentTarget;
       if (name === 'custom-retention-time') {
-        const updatedRetentionTime = customRetentionTime + 1;
-        setCustomRetentionTime(updatedRetentionTime);
-        isCustomRetentionTimeSelected &&
-          setTopicData({
-            ...topicData,
-            'retention.ms': updatedRetentionTime.toString(),
-          });
+        const updatedRetentionTime = Number(topicData['retention.ms']) + 1;
+        setTopicData({
+          ...topicData,
+          'retention.ms': updatedRetentionTime.toString(),
+        });
       } else if (name === 'custom-retention-size') {
-        const updatedRetentionSize = customRetentionSize + 1;
-        setCustomRetentionSize(updatedRetentionSize);
-        isCustomRetentionSizeSelected &&
-          setTopicData({
-            ...topicData,
-            'retention.bytes': updatedRetentionSize.toString(),
-          });
+        const updatedRetentionSize = Number(topicData['retention.bytes']) + 1;
+        setTopicData({
+          ...topicData,
+          'retention.bytes': updatedRetentionSize.toString(),
+        });
       }
     };
 
     const handleTouchSpinMinus = (event) => {
       const { name } = event.currentTarget;
-      if (name === 'custom-retention-time') {
-        const updatedRetentionTime = customRetentionTime - 1;
-        setCustomRetentionTime(updatedRetentionTime);
-        isCustomRetentionTimeSelected &&
-          setTopicData({
-            ...topicData,
-            'retention.ms': updatedRetentionTime.toString(),
-          });
-      } else if (name === 'custom-retention-size') {
-        const updatedRetentionSize = customRetentionSize - 1;
-        setCustomRetentionSize(updatedRetentionSize);
-        isCustomRetentionSizeSelected &&
-          setTopicData({
-            ...topicData,
-            'retention.bytes': updatedRetentionSize.toString(),
-          });
+      if (
+        name === 'custom-retention-time' &&
+        Number(topicData['retention.ms']) > 0
+      ) {
+        const updatedRetentionTime = Number(topicData['retention.ms']) - 1;
+        setTopicData({
+          ...topicData,
+          'retention.ms': updatedRetentionTime.toString(),
+        });
+      } else if (
+        name === 'custom-retention-size' &&
+        Number(topicData['retention.bytes']) > 0
+      ) {
+        const updatedRetentionSize = Number(topicData['retention.bytes']) - 1;
+        setTopicData({
+          ...topicData,
+          'retention.bytes': updatedRetentionSize.toString(),
+        });
       }
     };
 
@@ -354,6 +337,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
       const { name: fieldName } = event.target;
       setTopicData({ ...topicData, [kebabToDotSeparated(fieldName)]: value });
     };
+
     const onConfirm = () => {
       if (!isCreate) {
         if (warning) {
@@ -375,39 +359,32 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
     };
 
     const handleRadioChange = (_, event) => {
+      //event.preventDefault();
       const { name } = event.target;
 
       switch (name) {
         case 'custom-retention-time':
-          setIsCustomRetentionTimeSelected(true);
           setTopicData({
             ...topicData,
-            'retention.ms': customRetentionTime.toString(),
-            'retention.ms.unit': customRetentionTimeUnit,
+            isRetentionTimeUnlimited: false,
           });
           break;
         case 'unlimited-retention-time':
-          setIsCustomRetentionTimeSelected(false);
           setTopicData({
             ...topicData,
-            'retention.ms': '-1',
-            'retention.ms.unit': 'milliseconds',
+            isRetentionTimeUnlimited: true,
           });
           break;
         case 'custom-retention-size':
-          setIsCustomRetentionSizeSelected(true);
           setTopicData({
             ...topicData,
-            'retention.bytes': customRetentionSize.toString(),
-            'retention.bytes.unit': customRetentionSizeUnit,
+            isRetentionSizeUnlimited: false,
           });
           break;
         case 'unlimited-retention-size':
-          setIsCustomRetentionSizeSelected(false);
           setTopicData({
             ...topicData,
-            'retention.bytes': '-1',
-            'retention.bytes.unit': 'bytes',
+            isRetentionSizeUnlimited: true,
           });
           break;
       }
@@ -419,13 +396,13 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
         onChange={handleTouchSpinInputChange}
         onPlus={handleTouchSpinPlus}
         onMinus={handleTouchSpinMinus}
-        value={customRetentionTime}
+        value={Number(topicData['retention.ms'])}
         plusBtnProps={{ name: 'custom-retention-time' }}
         minusBtnProps={{ name: 'custom-retention-time' }}
         id='core-config-retention-time-unit'
         toggleId='core-config-retention-dropdowntoggle'
         name='custom-retention-time-unit'
-        dropdownValue={customRetentionTimeUnit}
+        dropdownValue={topicData['retention.ms.unit']}
         ariaLabel={t('common.select_unit')}
         onSelectOption={onDropdownChange}
         min={0}
@@ -439,13 +416,13 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
         onChange={handleTouchSpinInputChange}
         onPlus={handleTouchSpinPlus}
         onMinus={handleTouchSpinMinus}
-        value={customRetentionSize}
+        value={Number(topicData['retention.bytes'])}
         plusBtnProps={{ name: 'custom-retention-size' }}
         minusBtnProps={{ name: 'custom-retention-size' }}
         id='core-config-retention-size-unit'
         toggleId='core-config-retention-size-dropdowntoggle'
         name='custom-retention-size-unit'
-        dropdownValue={customRetentionSizeUnit}
+        dropdownValue={topicData['retention.bytes.unit']}
         ariaLabel={t('common.select_unit')}
         onSelectOption={onDropdownChange}
         min={0}
@@ -590,7 +567,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
                     >
                       <Stack hasGutter>
                         <Radio
-                          isChecked={isCustomRetentionTimeSelected}
+                          isChecked={!topicData['isRetentionTimeUnlimited']}
                           name='custom-retention-time'
                           onChange={handleRadioChange}
                           label={retentionTimeInput}
@@ -600,7 +577,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
                           value='custom'
                         />
                         <Radio
-                          isChecked={!isCustomRetentionTimeSelected}
+                          isChecked={topicData['isRetentionTimeUnlimited']}
                           name='unlimited-retention-time'
                           onChange={handleRadioChange}
                           label='Unlimited'
@@ -619,7 +596,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
                     >
                       <Stack hasGutter>
                         <Radio
-                          isChecked={isCustomRetentionSizeSelected}
+                          isChecked={!topicData['isRetentionSizeUnlimited']}
                           name='custom-retention-size'
                           onChange={handleRadioChange}
                           label={retentionSizeInput}
@@ -629,7 +606,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
                           value='custom'
                         />
                         <Radio
-                          isChecked={!isCustomRetentionSizeSelected}
+                          isChecked={topicData['isRetentionSizeUnlimited']}
                           name='unlimited-retention-size'
                           onChange={handleRadioChange}
                           label='Unlimited'
@@ -727,7 +704,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
                         toggleId='log-section-policy-type-dropdowntoggle'
                         ariaLabel={t('common.select_policy')}
                         onSelectOption={onDropdownChangeDotSeparated}
-                        items={clearOptions}
+                        items={cleanupPolicyOptions}
                         name='cleanup-policy'
                         value={topicData['cleanup.policy'] || ''}
                       />

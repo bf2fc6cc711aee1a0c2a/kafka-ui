@@ -52,6 +52,10 @@ export interface IAdvancedTopic {
   'retention.bytes.unit'?: string;
   /** determines whether messages that reach the retention window are deleted or compacted */
   'cleanup.policy'?: string;
+  //** determines wheather  Retention time is unlimited or custom*/
+  isRetentionTimeUnlimited?: boolean;
+  //** determines wheather  Retention size is unlimited or custom*/
+  isRetentionSizeUnlimited?: boolean;
 }
 
 export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
@@ -79,9 +83,11 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
     numPartitions: '1',
     'retention.ms': '7',
     'retention.ms.unit': 'days',
-    'retention.bytes': '-1',
+    'retention.bytes': '0',
     'retention.bytes.unit': 'bytes',
     'cleanup.policy': 'delete',
+    isRetentionTimeUnlimited: false,
+    isRetentionSizeUnlimited: true,
   });
 
   const [currentPeriod, setCurrentPeriod] = React.useState<string | number>(
@@ -188,6 +194,8 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
           setCurrentPeriod={setCurrentPeriod}
           setCurrentSize={setCurrentSize}
           setRetentionSize={setRetentionSize}
+          topicData={topicData}
+          setTopicData={setTopicData}
         />
       ),
     },

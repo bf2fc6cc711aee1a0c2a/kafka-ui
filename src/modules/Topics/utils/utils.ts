@@ -1,4 +1,4 @@
-import { ConfigEntry, NewTopicInput } from '@rhoas/kafka-instance-sdk';
+import { ConfigEntry, NewTopicInput, Topic } from '@rhoas/kafka-instance-sdk';
 import { IAdvancedTopic } from '@app/modules/Topics/components/CreateTopicWizard';
 
 const capitalizeText = (text: string) => {
@@ -35,6 +35,115 @@ const unitsToMilliSecond = {
   years: 31536000000,
 };
 
+type ConversionUnit = {
+  value: number;
+  unit: string;
+};
+
+export const millisecondsToTime = (value: number): ConversionUnit => {
+  if (value) {
+    if (value % unitsToMilliSecond.years == 0)
+      return { value: value / unitsToMilliSecond.years, unit: 'years' };
+    if (value % unitsToMilliSecond.months == 0)
+      return { value: value / unitsToMilliSecond.months, unit: 'months' };
+    if (value % unitsToMilliSecond.days == 0)
+      return { value: value / unitsToMilliSecond.days, unit: 'days' };
+    if (value % unitsToMilliSecond.seconds == 0)
+      return { value: value / unitsToMilliSecond.seconds, unit: 'seconds' };
+
+    // const seconds = value / unitsToMilliSecond.seconds;
+    // const days = value / unitsToMilliSecond.days;
+    // const months = value / unitsToMilliSecond.months;
+    // const years = value / unitsToMilliSecond.years;
+
+    // if (seconds >= 1 && days < 1) {
+    //   return { value: seconds, unit: 'seconds' }
+    // } else if (days >= 1 && months < 1) {
+    //   return { value: days, unit: 'days' }
+    // } else if (months >= 1 && years < 1) {
+    //   return { value: months, unit: 'months' }
+    // } else if (years >= 1) {
+    //   return { value: years, unit: 'years' };
+    // }
+  }
+  return { value, unit: 'milliseconds' };
+};
+
+export const formattedRetentionTime = (time: number): string => {
+  const { unit, value } = millisecondsToTime(time);
+  return Number(value) === -1 ? 'Unlimited' : `${time} ms (${value} ${unit})`;
+};
+
+export const formattedRetentionSize = (size: number): string => {
+  const { unit, value } = bytesToMemorySize(size);
+  return Number(value) === -1
+    ? 'Unlimited'
+    : `${size} bytes (${value} ${unit})`;
+};
+
+export const bytesToMemorySize = (value: number): ConversionUnit => {
+  if (value) {
+    if (value % unitsToBytes.tebibytes == 0)
+      return { value: value / unitsToBytes.tebibytes, unit: 'tebibytes' };
+    if (value % unitsToBytes.gibibytes == 0)
+      return { value: value / unitsToBytes.gibibytes, unit: 'gibibytes' };
+    if (value % unitsToBytes.mebibytes == 0)
+      return { value: value / unitsToBytes.mebibytes, unit: 'mebibytes' };
+    if (value % unitsToBytes.kibibytes == 0)
+      return { value: value / unitsToBytes.kibibytes, unit: 'kibibytes' };
+
+    // const kibibytes = value / unitsToBytes.kibibytes;
+    // const mebibytes = value / unitsToBytes.mebibytes;
+    // const gibibytes = value / unitsToBytes.gibibytes;
+    // const tebibytes = value / unitsToBytes.tebibytes;
+
+    // if (kibibytes >= 1 && mebibytes < 1) {
+    //   return { value: kibibytes, unit: 'kibibytes' };
+    // } else if (mebibytes >= 1 && gibibytes < 1) {
+    //   return { value: mebibytes, unit: 'mebibytes' };
+    // } else if (gibibytes >= 1 && tebibytes < 1) {
+    //   return { value: gibibytes, unit: 'gibibytes' };
+    // } else if (tebibytes >= 1) {
+    //   return { value: tebibytes, unit: 'tebibytes' };
+    // }
+  }
+  return { value, unit: 'bytes' };
+};
+
+export type KeyValue = {
+  key: string;
+  value: number;
+};
+
+export const deserializeTopic = (topic: Topic): ConfigEntry => {
+  const newTopic = { ...topic };
+  const configEntries: ConfigEntry = {};
+  newTopic?.config?.forEach((e: ConfigEntry) => {
+    const { key = '', value } = e;
+    if (key === 'retention.ms' && Number(value) >= 0) {
+      const { value: newValue, unit } = millisecondsToTime(Number(value));
+      configEntries[key] = newValue;
+      configEntries[`${key}.unit`] = unit;
+    } else if (Number(value) === -1) {
+      configEntries['isRetentionTimeUnlimited'] = true;
+    }
+
+    if (key === 'retention.bytes' && Number(value) >= 0) {
+      const { value: newValue, unit } = bytesToMemorySize(Number(value));
+      configEntries[key] = newValue;
+      configEntries[`${key}.unit`] = unit;
+    } else if (Number(value) === -1) {
+      configEntries['isRetentionSizeUnlimited'] = true;
+    }
+
+    if (key === 'cleanup.policy') {
+      configEntries[key] = value || 'delete';
+    }
+  });
+
+  return configEntries;
+};
+
 export const convertUnits = (topicData: IAdvancedTopic): IAdvancedTopic => {
   const topic = { ...topicData };
 
@@ -52,6 +161,14 @@ export const convertUnits = (topicData: IAdvancedTopic): IAdvancedTopic => {
     }
   }
 
+  if (topic['isRetentionTimeUnlimited']) {
+    topic['retention.ms'] = '-1';
+  }
+
+  if (topic['isRetentionSizeUnlimited']) {
+    topic['retention.bytes'] = '-1';
+  }
+
   if (topic['flush.messages']) {
     topic['flush.messages'] = String(
       Number(topic['flush.messages']) *
@@ -60,7 +177,11 @@ export const convertUnits = (topicData: IAdvancedTopic): IAdvancedTopic => {
   }
 
   for (const key in topic) {
-    if (key.split('.').pop() === 'unit') {
+    if (
+      key.split('.').pop() === 'unit' ||
+      key === 'isRetentionTimeUnlimited' ||
+      key === 'isRetentionSizeUnlimited'
+    ) {
       delete topic[key];
     }
   }

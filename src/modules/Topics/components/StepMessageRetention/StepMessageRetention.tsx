@@ -16,6 +16,8 @@ import {
   TextContent,
   TextVariants,
 } from '@patternfly/react-core';
+import { IAdvancedTopic } from '@app/modules/Topics/components';
+import { kebabToDotSeparated } from '@app/modules/Topics/utils';
 import '../CreateTopicWizard/CreateTopicWizard.css';
 
 export type StepMessageRetentionProps = {
@@ -25,6 +27,8 @@ export type StepMessageRetentionProps = {
   setCurrentPeriod: (value: string | number) => void;
   setCurrentSize: (value: string | number) => void;
   setRetentionSize: (value: number) => void;
+  topicData: IAdvancedTopic;
+  setTopicData: (topic: IAdvancedTopic) => void;
 };
 
 export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
@@ -34,6 +38,8 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
   setCurrentPeriod,
   setCurrentSize,
   setRetentionSize,
+  topicData,
+  setTopicData,
 }) => {
   const { t } = useTranslation();
 
@@ -57,16 +63,14 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
     CUSTOM = 'custom',
     UNLIMITED = -1,
   }
-  const [retentionTimeTouchspinValue, setRetentionTimeTouchspinValue] =
-    useState<number>(7);
-  const [retentionSizeTouchspinValue, setRetentionSizeTouchspinValue] =
-    useState<number>(1);
+  const [retentionTimeTouchspinValue] = useState<number>(7);
+  const [retentionSizeTouchspinValue] = useState<number>(1);
   const [isRetentionTimeSelectOpen, setIsRetentionTimeSelectOpen] =
     useState<boolean>(false);
   const [isRetentionSizeSelectOpen, setIsRetentionSizeSelectOpen] =
     useState<boolean>(false);
-  const [selectedTime, setSelectedTime] = useState<boolean>(false);
-  const [selectedSize, setSelectedSize] = useState<boolean>(false);
+  const [setSelectedTime] = useState<boolean>(false);
+  const [setSelectedSize] = useState<boolean>(false);
   const [retentionTimeFactor, setRetentionTimeFactor] = useState<number>(
     RetentionTimeOption.DAY
   );
@@ -165,28 +169,32 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
     setIsRetentionSizeSelectOpen(false);
   };
 
-  const handleRetentionTimePlusClick = () => {
-    setRetentionTimeTouchspinValue(retentionTimeTouchspinValue + 1);
+  const handleTouchSpinPlus = (event) => {
+    const { name } = event?.currentTarget;
+    const fieldName = kebabToDotSeparated(name);
+    setTopicData({
+      ...topicData,
+      [fieldName]: Number(topicData[fieldName]) + 1,
+    });
   };
 
-  const handleRetentionTimeMinusClick = () => {
-    setRetentionTimeTouchspinValue(retentionTimeTouchspinValue - 1);
+  const handleTouchSpinMinus = (event) => {
+    const { name } = event?.currentTarget;
+    const fieldName = kebabToDotSeparated(name);
+    setTopicData({
+      ...topicData,
+      [fieldName]: Number(topicData[fieldName]) - 1,
+    });
   };
 
-  const handleRetentionTimeTouchSpinChange = (event) => {
-    setRetentionTimeTouchspinValue(Number(event.target.value));
-  };
-
-  const handleRetentionSizePlusClick = () => {
-    setRetentionSizeTouchspinValue(retentionSizeTouchspinValue + 1);
-  };
-
-  const handleRetentionSizeMinusClick = () => {
-    setRetentionSizeTouchspinValue(retentionSizeTouchspinValue - 1);
-  };
-
-  const handleRetentionSizeTouchSpinChange = (event) => {
-    setRetentionSizeTouchspinValue(Number(event.target.value));
+  const handleTouchSpinChange = (event: React.FormEvent<HTMLInputElement>) => {
+    const { name, value } = event.currentTarget;
+    const truncValue = Math.trunc(Number(value)).toString();
+    const fieldName = kebabToDotSeparated(name);
+    setTopicData({
+      ...topicData,
+      [fieldName]: truncValue,
+    });
   };
 
   const preventFormSubmit = (event) => event.preventDefault();
@@ -245,10 +253,13 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
                   <Flex>
                     <FlexItem>
                       <NumberInput
-                        onMinus={handleRetentionTimeMinusClick}
-                        onPlus={handleRetentionTimePlusClick}
-                        value={retentionTimeTouchspinValue}
-                        onChange={handleRetentionTimeTouchSpinChange}
+                        name='retention-ms'
+                        onMinus={handleTouchSpinMinus}
+                        onPlus={handleTouchSpinPlus}
+                        value={Number(topicData['retention.ms'])}
+                        onChange={handleTouchSpinChange}
+                        plusBtnProps={{ name: 'retention-ms' }}
+                        minusBtnProps={{ name: 'retention-ms' }}
                         min={0}
                       />
                     </FlexItem>
@@ -258,7 +269,7 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
                         aria-label='Select Input'
                         onToggle={onRetentionTimeToggle}
                         onSelect={onRetentionTimeSelect}
-                        selections={selectedTime}
+                        selections={topicData['retention.ms.unit']}
                         isOpen={isRetentionTimeSelectOpen}
                       >
                         <SelectOption key={0} value='days' isPlaceholder />
@@ -312,7 +323,7 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
                       <NumberInput
                         onMinus={handleRetentionSizeMinusClick}
                         onPlus={handleRetentionSizePlusClick}
-                        value={retentionSizeTouchspinValue}
+                        value={Number(topicData['retention.bytes'])}
                         onChange={handleRetentionSizeTouchSpinChange}
                         min={0}
                       />
@@ -323,7 +334,7 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
                         aria-label='Select Input'
                         onToggle={onRetentionSizeToggle}
                         onSelect={onRetentionSizeSelect}
-                        selections={selectedSize}
+                        selections={topicData['retention.bytes.unit']}
                         isOpen={isRetentionSizeSelectOpen}
                       >
                         <SelectOption key={5} value='bytes' isPlaceholder />

@@ -18,8 +18,11 @@ import {
 } from '@app/components';
 import { Topic } from '@rhoas/kafka-instance-sdk';
 import { TopicsToolbar, TopicsToolbarProps } from './TopicsToolbar';
-import { convertRetentionSize, convertRetentionTime } from '@app/utils';
 import { ModalType, useModal } from '@rhoas/app-services-ui-shared';
+import {
+  formattedRetentionTime,
+  formattedRetentionSize,
+} from '@app/modules/Topics/utils';
 
 export type TopicsTableProps = TopicsToolbarProps & {
   topicItems: Topic[];
@@ -103,6 +106,13 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
     const tableRow: (IRowData | string[])[] | undefined = [];
     topicItems?.map((row: IRowData) => {
       const { name, partitions, config } = row;
+      const retentionTimeValue =
+        config?.filter((element) => element.key === 'retention.ms')[0]?.value ||
+        0;
+
+      const retentionSizeValue =
+        config?.filter((element) => element.key === 'retention.bytes')[0]
+          ?.value || 0;
 
       tableRow.push({
         cells: [
@@ -117,18 +127,8 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
             ),
           },
           partitions?.length,
-          convertRetentionTime(
-            Number(
-              config?.filter((element) => element.key === 'retention.ms')[0]
-                ?.value || 0
-            )
-          ),
-          convertRetentionSize(
-            Number(
-              config?.filter((element) => element.key === 'retention.bytes')[0]
-                ?.value || 0
-            )
-          ),
+          formattedRetentionTime(retentionTimeValue),
+          formattedRetentionSize(retentionSizeValue),
         ],
         originalData: row,
       });
