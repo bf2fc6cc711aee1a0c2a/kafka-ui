@@ -206,6 +206,7 @@
         "title": "Assign permissions",
         "help": "Assign permissions to the selected account ({{account_id}}).",
         "help_all_accounts": "Assign permissions to all accounts.",
+        "all_fields_are_required": "All fields are required.",
         "placeholder": "Choose...",
         "resource_name_typeahead_placeholder": "Choose...",
         "must_select_resource_error": "Required",

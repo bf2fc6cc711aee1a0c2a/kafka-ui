@@ -440,6 +440,11 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
             {t('permission.manage_permissions_dialog.assign_permissions.title')}
           </Text>
           <Text component={TextVariants.small}>{formGroupHelperText()}</Text>
+          <Text component={TextVariants.small}>
+            {t(
+              'permission.manage_permissions_dialog.assign_permissions.all_fields_are_required'
+            )}
+          </Text>
         </TextContent>
 
         <MASTable
