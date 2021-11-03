@@ -94,7 +94,7 @@
   "devDependencies": {
     "@redhat-cloud-services/frontend-components-config": "4.4.1",
     "@rhoas/api-mock": "0.12.3",
-    "@testing-library/dom": "8.10.1",
+    "@testing-library/dom": "8.11.0",
     "@testing-library/jest-dom": "5.15.0",
     "@testing-library/react": "12.1.2",
     "@testing-library/react-hooks": "7.0.2",
