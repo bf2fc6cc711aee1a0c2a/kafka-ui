@@ -130,15 +130,13 @@ export const SelectAccount: React.FunctionComponent<SelectAccountProps> = ({
 
     const input = new RegExp(value, 'i');
     return options
-      .filter(
-        (accounts) =>
-          accounts.props.label === 'Service accounts' ||
-          accounts.props.label === 'User accounts'
-      )[0]
-      .props.children.filter(
-        (serviceAccounts) =>
-          input.test(serviceAccounts.props.value) ||
-          input.test(serviceAccounts.props.description)
+      .filter((accounts) => Array.isArray(accounts.props.children))
+      .map((account) =>
+        account.props.children.filter(
+          (allAccounts) =>
+            input.test(allAccounts.props.value) ||
+            input.test(allAccounts.props.description)
+        )
       );
   };
 
