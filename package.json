@@ -71,7 +71,7 @@
     "lodash.merge": "4.6.2",
     "lodash.mergewith": "4.6.2",
     "lodash.set": "4.3.2",
-    "mini-css-extract-plugin": "2.4.3",
+    "mini-css-extract-plugin": "2.4.4",
     "mustache": "4.2.0",
     "object-hash": "2.2.0",
     "pino": "6.13.3",
