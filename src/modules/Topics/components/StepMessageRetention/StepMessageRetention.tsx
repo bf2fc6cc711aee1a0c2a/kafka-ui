@@ -1,200 +1,73 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  Flex,
-  FlexItem,
   Form,
   FormGroup,
   FormSection,
-  NumberInput,
   Radio,
-  Select,
-  SelectOption,
-  SelectVariant,
   Stack,
   Text,
   TextContent,
   TextVariants,
 } from '@patternfly/react-core';
-import { IAdvancedTopic } from '@app/modules/Topics/components';
-import { kebabToDotSeparated } from '@app/modules/Topics/utils';
+import { CustomRetentionMessage } from '@app/modules/Topics/components';
+import {
+  IAdvancedTopic,
+  RetentionTimeUnits,
+  RetentionSizeUnits,
+  unitsToBytes as RetentionSizeUnitToValue,
+  RetentionTimeUnitToValue,
+  retentionTimeSelectOptions,
+  retentionSizeSelectOptions,
+} from '@app/modules/Topics/utils';
 import '../CreateTopicWizard/CreateTopicWizard.css';
 
 export type StepMessageRetentionProps = {
-  setMsgRetentionValue: (value: number) => void;
-  currentPeriod: string | number;
-  currentSize: string | number;
-  setCurrentPeriod: (value: string | number) => void;
-  setCurrentSize: (value: string | number) => void;
-  setRetentionSize: (value: number) => void;
   topicData: IAdvancedTopic;
   setTopicData: (topic: IAdvancedTopic) => void;
 };
 
 export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
-  setMsgRetentionValue,
-  currentPeriod,
-  currentSize,
-  setCurrentPeriod,
-  setCurrentSize,
-  setRetentionSize,
   topicData,
   setTopicData,
 }) => {
   const { t } = useTranslation();
 
-  enum RetentionTimeOption {
-    MILLISECOND = 1,
-    SECOND = 1000,
-    MINUTE = 60000,
-    HOUR = 3600000,
-    DAY = 86400000,
-    WEEK = 604800000,
-    CUSTOM = 'custom',
-    UNLIMITED = -1,
-  }
-
-  enum RetentionSizeOption {
-    BYTE = 1,
-    KIBIBYTE = 1024,
-    MEBIBYTE = 1048576,
-    GIBIBYTE = 1073741824,
-    TEBIBYTE = 1.0995116e12,
-    CUSTOM = 'custom',
-    UNLIMITED = -1,
-  }
-  const [retentionTimeTouchspinValue] = useState<number>(7);
-  const [retentionSizeTouchspinValue] = useState<number>(1);
   const [isRetentionTimeSelectOpen, setIsRetentionTimeSelectOpen] =
     useState<boolean>(false);
   const [isRetentionSizeSelectOpen, setIsRetentionSizeSelectOpen] =
     useState<boolean>(false);
-  const [setSelectedTime] = useState<boolean>(false);
-  const [setSelectedSize] = useState<boolean>(false);
-  const [retentionTimeFactor, setRetentionTimeFactor] = useState<number>(
-    RetentionTimeOption.DAY
-  );
-  const [retentionSizeFactor, setRetentionSizeFactor] = useState<number>(
-    RetentionSizeOption.BYTE
-  );
 
-  useEffect(() => {
-    if (currentPeriod === RetentionTimeOption.DAY) {
-      setMsgRetentionValue(RetentionTimeOption.DAY);
-    } else if (currentPeriod === RetentionTimeOption.WEEK) {
-      setMsgRetentionValue(RetentionTimeOption.WEEK);
-    } else if (currentPeriod === RetentionTimeOption.UNLIMITED) {
-      setMsgRetentionValue(RetentionTimeOption.UNLIMITED);
-    } else if (currentPeriod === RetentionTimeOption.CUSTOM) {
-      setMsgRetentionValue(retentionTimeFactor * retentionTimeTouchspinValue);
-    }
-
-    if (currentSize === RetentionSizeOption.UNLIMITED) {
-      setRetentionSize(RetentionSizeOption.UNLIMITED);
-    } else if (currentSize === RetentionSizeOption.CUSTOM) {
-      setRetentionSize(retentionSizeFactor * retentionSizeTouchspinValue);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    currentPeriod,
-    currentSize,
-    retentionTimeTouchspinValue,
-    retentionSizeTouchspinValue,
-    retentionTimeFactor,
-    retentionSizeFactor,
-  ]);
-
-  const handleMessageRetention = (_, event) => {
-    const target = event.target;
-    const name = target.name;
-
-    if (name === 'radioDay') {
-      setCurrentPeriod(RetentionTimeOption.DAY);
-    } else if (name === 'radioWeek') {
-      setCurrentPeriod(RetentionTimeOption.WEEK);
-    } else if (name === 'radioUnlimitedTime') {
-      setCurrentPeriod(RetentionTimeOption.UNLIMITED);
-    } else if (name === 'radioCustomTime') {
-      setCurrentPeriod(RetentionTimeOption.CUSTOM);
-    }
-
-    if (name === 'radioCustomSize') {
-      setCurrentSize(RetentionSizeOption.CUSTOM);
-    } else if (name === 'radioUnlimitedSize') {
-      setCurrentSize(RetentionSizeOption.UNLIMITED);
-    }
-  };
-
-  const onRetentionTimeToggle = (isRetentionTimeSelectOpen) => {
-    setIsRetentionTimeSelectOpen(isRetentionTimeSelectOpen);
-  };
-
-  const onRetentionSizeToggle = (isRetentionSizeSelectOpen) => {
-    setIsRetentionSizeSelectOpen(isRetentionSizeSelectOpen);
-  };
-
-  const onRetentionTimeSelect = (event, selection) => {
-    if (selection === 'days') {
-      setRetentionTimeFactor(RetentionTimeOption.DAY);
-    } else if (selection === 'unlimited') {
-      setRetentionTimeFactor(RetentionTimeOption.UNLIMITED);
-    } else if (selection === 'milliseconds') {
-      setRetentionTimeFactor(RetentionTimeOption.MILLISECOND);
-    } else if (selection === 'seconds') {
-      setRetentionTimeFactor(RetentionTimeOption.SECOND);
-    } else if (selection === 'minutes') {
-      setRetentionTimeFactor(RetentionTimeOption.MINUTE);
-    } else if (selection === 'hours') {
-      setRetentionTimeFactor(RetentionTimeOption.HOUR);
-    }
-    setSelectedTime(selection);
-    setIsRetentionTimeSelectOpen(false);
-  };
-
-  const onRetentionSizeSelect = (event, selection) => {
-    if (selection === 'unlimited') {
-      setRetentionSizeFactor(RetentionSizeOption.UNLIMITED);
-    } else if (selection === 'bytes') {
-      setRetentionSizeFactor(RetentionSizeOption.BYTE);
-    } else if (selection === 'kibibytes') {
-      setRetentionSizeFactor(RetentionSizeOption.KIBIBYTE);
-    } else if (selection === 'mebibytes') {
-      setRetentionSizeFactor(RetentionSizeOption.MEBIBYTE);
-    } else if (selection === 'gibibytes') {
-      setRetentionSizeFactor(RetentionSizeOption.GIBIBYTE);
-    } else if (selection === 'tebibytes') {
-      setRetentionSizeFactor(RetentionSizeOption.TEBIBYTE);
-    }
-    setSelectedSize(selection);
-    setIsRetentionSizeSelectOpen(false);
-  };
-
-  const handleTouchSpinPlus = (event) => {
-    const { name } = event?.currentTarget;
-    const fieldName = kebabToDotSeparated(name);
+  const handleRetentionMessageTime = (value: string) => {
     setTopicData({
       ...topicData,
-      [fieldName]: Number(topicData[fieldName]) + 1,
+      'retention.ms':
+        value === RetentionTimeUnits.UNLIMITED ||
+        value === RetentionTimeUnits.CUSTOM
+          ? topicData['retention.ms']
+          : RetentionTimeUnitToValue[value],
+      selectedRetentionTimeOption: value,
     });
   };
 
-  const handleTouchSpinMinus = (event) => {
-    const { name } = event?.currentTarget;
-    const fieldName = kebabToDotSeparated(name);
+  const handleRetentionMessageSize = (value: string) => {
     setTopicData({
       ...topicData,
-      [fieldName]: Number(topicData[fieldName]) - 1,
+      'retention.bytes':
+        value === RetentionSizeUnits.UNLIMITED ||
+        value === RetentionSizeUnits.CUSTOM
+          ? topicData['retention.bytes']
+          : RetentionSizeUnitToValue[value],
+      selectedRetentionSizeOption: value,
     });
   };
 
-  const handleTouchSpinChange = (event: React.FormEvent<HTMLInputElement>) => {
-    const { name, value } = event.currentTarget;
-    const truncValue = Math.trunc(Number(value)).toString();
-    const fieldName = kebabToDotSeparated(name);
-    setTopicData({
-      ...topicData,
-      [fieldName]: truncValue,
-    });
+  const onRetentionTimeToggle = (isOpen: boolean) => {
+    setIsRetentionTimeSelectOpen(isOpen);
+  };
+
+  const onRetentionSizeToggle = (isOpen: boolean) => {
+    setIsRetentionSizeSelectOpen(isOpen);
   };
 
   const preventFormSubmit = (event) => event.preventDefault();
@@ -222,74 +95,71 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
           >
             <Stack hasGutter>
               <Radio
-                isChecked={currentPeriod === RetentionTimeOption.DAY}
+                isChecked={
+                  topicData.selectedRetentionTimeOption ===
+                  RetentionTimeUnits.DAY
+                }
                 name='radioDay'
-                onChange={handleMessageRetention}
+                onChange={() =>
+                  handleRetentionMessageTime(RetentionTimeUnits.DAY)
+                }
                 label='A day'
                 aria-label='A day'
                 id='radio-controlled-1'
-                value='day'
+                value={RetentionTimeUnits.DAY}
               />
               <Radio
-                isChecked={currentPeriod === RetentionTimeOption.WEEK}
+                isChecked={
+                  topicData.selectedRetentionTimeOption ===
+                  RetentionTimeUnits.WEEK
+                }
                 name='radioWeek'
-                onChange={handleMessageRetention}
+                onChange={() =>
+                  handleRetentionMessageTime(RetentionTimeUnits.WEEK)
+                }
                 label='A week'
                 aria-label='A week'
                 id='radio-controlled-2'
-                value='week'
+                value={RetentionTimeUnits.WEEK}
               />
               <Radio
-                isChecked={currentPeriod === RetentionTimeOption.CUSTOM}
+                isChecked={
+                  topicData.selectedRetentionTimeOption ===
+                  RetentionTimeUnits.CUSTOM
+                }
                 name='radioCustomTime'
-                onChange={handleMessageRetention}
+                onChange={() =>
+                  handleRetentionMessageTime(RetentionTimeUnits.CUSTOM)
+                }
                 label='Custom duration'
                 aria-label='custom input'
                 id='radio-controlled-4'
-                value='custom'
+                value={RetentionTimeUnits.CUSTOM}
               />
-              {currentPeriod === RetentionTimeOption.CUSTOM && (
-                <div className='kafka-ui--radio__parameters'>
-                  <Flex>
-                    <FlexItem>
-                      <NumberInput
-                        name='retention-ms'
-                        onMinus={handleTouchSpinMinus}
-                        onPlus={handleTouchSpinPlus}
-                        value={Number(topicData['retention.ms'])}
-                        onChange={handleTouchSpinChange}
-                        plusBtnProps={{ name: 'retention-ms' }}
-                        minusBtnProps={{ name: 'retention-ms' }}
-                        min={0}
-                      />
-                    </FlexItem>
-                    <FlexItem>
-                      <Select
-                        variant={SelectVariant.single}
-                        aria-label='Select Input'
-                        onToggle={onRetentionTimeToggle}
-                        onSelect={onRetentionTimeSelect}
-                        selections={topicData['retention.ms.unit']}
-                        isOpen={isRetentionTimeSelectOpen}
-                      >
-                        <SelectOption key={0} value='days' isPlaceholder />
-                        <SelectOption key={1} value='seconds' />
-                        <SelectOption key={2} value='minutes' />
-                        <SelectOption key={3} value='hours' />
-                        <SelectOption key={4} value='milliseconds' />
-                      </Select>
-                    </FlexItem>
-                  </Flex>
-                </div>
+              {topicData.selectedRetentionTimeOption ===
+                RetentionTimeUnits.CUSTOM && (
+                <CustomRetentionMessage
+                  name='retention-ms'
+                  topicData={topicData}
+                  setTopicData={setTopicData}
+                  onToggle={onRetentionTimeToggle}
+                  isOpen={isRetentionTimeSelectOpen}
+                  selectOptions={retentionTimeSelectOptions}
+                />
               )}
               <Radio
-                isChecked={currentPeriod === RetentionTimeOption.UNLIMITED}
+                isChecked={
+                  topicData.selectedRetentionTimeOption ===
+                  RetentionTimeUnits.UNLIMITED
+                }
                 name='radioUnlimitedTime'
-                onChange={handleMessageRetention}
+                onChange={() =>
+                  handleRetentionMessageTime(RetentionTimeUnits.UNLIMITED)
+                }
                 label='Unlimited'
                 aria-label='Unlimited'
                 id='radio-controlled-3'
-                value='unlimited'
+                value={RetentionTimeUnits.UNLIMITED}
               />
             </Stack>
           </FormGroup>
@@ -299,53 +169,43 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
           >
             <Stack hasGutter>
               <Radio
-                isChecked={currentSize === RetentionSizeOption.UNLIMITED}
+                isChecked={
+                  topicData.selectedRetentionSizeOption ===
+                  RetentionSizeUnits.UNLIMITED
+                }
                 name='radioUnlimitedSize'
-                onChange={handleMessageRetention}
+                onChange={() =>
+                  handleRetentionMessageSize(RetentionSizeUnits.UNLIMITED)
+                }
                 label='Unlimited'
                 aria-label='Unlimited'
                 id='radio-controlled-6'
-                value='unlimited'
+                value={RetentionSizeUnits.UNLIMITED}
               />
               <Radio
-                isChecked={currentSize === RetentionSizeOption.CUSTOM}
+                isChecked={
+                  topicData.selectedRetentionSizeOption ===
+                  RetentionSizeUnits.CUSTOM
+                }
                 name='radioCustomSize'
-                onChange={handleMessageRetention}
+                onChange={() =>
+                  handleRetentionMessageSize(RetentionSizeUnits.CUSTOM)
+                }
                 label='Custom size'
                 aria-label='custom input'
                 id='radio-controlled-5'
-                value='custom'
+                value={RetentionSizeUnits.CUSTOM}
               />
-              {currentSize === RetentionSizeOption.CUSTOM && (
-                <div className='kafka-ui--radio__parameters'>
-                  <Flex>
-                    <FlexItem>
-                      <NumberInput
-                        onMinus={handleRetentionSizeMinusClick}
-                        onPlus={handleRetentionSizePlusClick}
-                        value={Number(topicData['retention.bytes'])}
-                        onChange={handleRetentionSizeTouchSpinChange}
-                        min={0}
-                      />
-                    </FlexItem>
-                    <FlexItem>
-                      <Select
-                        variant={SelectVariant.single}
-                        aria-label='Select Input'
-                        onToggle={onRetentionSizeToggle}
-                        onSelect={onRetentionSizeSelect}
-                        selections={topicData['retention.bytes.unit']}
-                        isOpen={isRetentionSizeSelectOpen}
-                      >
-                        <SelectOption key={5} value='bytes' isPlaceholder />
-                        <SelectOption key={6} value='kibibytes' />
-                        <SelectOption key={7} value='mebibytes' />
-                        <SelectOption key={8} value='gibibytes' />
-                        <SelectOption key={9} value='tebibytes' />
-                      </Select>
-                    </FlexItem>
-                  </Flex>
-                </div>
+              {topicData.selectedRetentionSizeOption ===
+                RetentionSizeUnits.CUSTOM && (
+                <CustomRetentionMessage
+                  name='retention-bytes'
+                  topicData={topicData}
+                  setTopicData={setTopicData}
+                  onToggle={onRetentionSizeToggle}
+                  isOpen={isRetentionSizeSelectOpen}
+                  selectOptions={retentionSizeSelectOptions}
+                />
               )}
             </Stack>
           </FormGroup>

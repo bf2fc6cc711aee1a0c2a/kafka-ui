@@ -2,14 +2,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AlertVariant } from '@patternfly/react-core';
-import {
-  IAdvancedTopic,
-  TopicAdvanceConfig,
-} from '@app/modules/Topics/components';
+import { TopicAdvanceConfig } from '@app/modules/Topics/components';
 import { getTopic, updateTopicModel } from '@app/services';
-import { ConfigEntry, TopicSettings } from '@rhoas/kafka-instance-sdk';
 import { ConfigContext } from '@app/contexts';
-import { convertUnits, deserializeTopic } from '@app/modules/Topics/utils';
+import {
+  serializeTopic,
+  deserializeTopic,
+  IAdvancedTopic,
+} from '@app/modules/Topics/utils';
 import { isAxiosError } from '@app/utils/axios';
 import { useAlert, useBasename } from '@rhoas/app-services-ui-shared';
 import '../CreateTopicWizard/CreateTopicWizard.css';
@@ -44,6 +44,8 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
     'retention.bytes': '1',
     'retention.bytes.unit': 'bytes',
     'cleanup.policy': '',
+    isRetentionTimeUnlimited: false,
+    isRetentionSizeUnlimited: true,
   };
 
   const [topicData, setTopicData] = useState<IAdvancedTopic>(initialState);
@@ -57,22 +59,15 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
     try {
       const topicRes = await getTopic(topicName, config);
       const deserializedTopic = deserializeTopic(topicRes);
-      // const configEntries: ConfigEntry = {};
-      // topicRes.config?.forEach((configItem) => {
-      //   configEntries[configItem.key || ''] = configItem.value || '';
-      // });
 
       setTopicData({
         ...topicData,
+        ...deserializedTopic,
         numPartitions: topicRes?.partitions?.length.toString() || '',
         replicationFactor:
           (topicRes?.partitions &&
             topicRes?.partitions[0].replicas?.length.toString()) ||
           '',
-        ...deserializedTopic,
-        // "cleanup.policy": configEntries["cleanup.policy"] || "delete",
-        // "retention.bytes": configEntries["retention.bytes"] || "-1",
-        // "retention.ms": configEntries["retention.ms"] || "604800000",
       });
     } catch (err) {
       if (isAxiosError(err)) {
@@ -102,28 +97,11 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   }, [topicName]);
 
   const saveTopic = async () => {
-    const { name, ...configEntries } = convertUnits(topicData);
-    const newConfig: ConfigEntry[] = [];
+    const { name, settings } = serializeTopic(topicData);
     setIsLoading(true);
 
-    for (const key in configEntries) {
-      // TODO Remove check when API supports setting the number of partition
-      if (key && key !== 'numPartitions' && key !== 'replicationFactor') {
-        newConfig.push({
-          key,
-          value: configEntries[key].toString().toLowerCase(),
-        });
-      }
-    }
-
-    const topicSettings: TopicSettings = {
-      // TODO Re-enable when the API supports setting the number of partition
-      numPartitions: Number(topicData.numPartitions),
-      config: newConfig,
-    };
-
     try {
-      await updateTopicModel(name, topicSettings, config).then(() => {
+      await updateTopicModel(name, settings, config).then(() => {
         addAlert({
           title: t('topic.topic_successfully_updated'),
           variant: AlertVariant.success,

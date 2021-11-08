@@ -42,17 +42,29 @@ import {
 import {
   TextWithLabelPopover,
   FormGroupWithPopover,
-  SizeTimeFormGroup,
   DropdownWithToggle,
   IDropdownOption,
 } from '@app/components';
-import { kebabToCamel, kebabToDotSeparated } from '@app/modules/Topics/utils';
-import { IAdvancedTopic } from '@app/modules/Topics/components';
+import {
+  kebabToCamel,
+  kebabToDotSeparated,
+  IAdvancedTopic,
+} from '@app/modules/Topics/utils';
 import { getTopic } from '@app/services';
 import { ConfigContext } from '@app/contexts';
 import '../CreateTopicWizard/CreateTopicWizard.css';
 import { isAxiosError } from '@app/utils/axios';
 import { ModalType, useModal } from '@rhoas/app-services-ui-shared';
+import { CustomRetentionMessage } from '@app/modules/Topics/components';
+import {
+  retentionTimeSelectOptions,
+  retentionSizeSelectOptions,
+  RetentionTimeUnits,
+  RetentionSizeUnits,
+  RetentionTimeUnitToValue,
+  unitsToBytes as RetentionSizeUnitToValue,
+  useValidateTopic,
+} from '@app/modules/Topics/utils';
 
 export type TopicAdvanceConfigProps = {
   isCreate: boolean;
@@ -75,6 +87,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
     const { showModal } = useModal<ModalType.KafkaUpdatePartitions>();
     const { t } = useTranslation();
     const actionText = isCreate ? t('topic.create_topic') : t('common.save');
+    const { validateName } = useValidateTopic();
 
     //states
     const [topicValidated, setTopicValidated] = useState<'error' | 'default'>(
@@ -90,6 +103,10 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
       number | undefined
     >(Number(topicData.numPartitions));
     useState<string>(topicData['retention.ms.unit'] || 'days');
+    const [isRetentionTimeSelectOpen, setIsRetentionTimeSelectOpen] =
+      useState<boolean>();
+    const [isRetentionSizeSelectOpen, setIsRetentionSizeSelectOpen] =
+      useState<boolean>();
 
     const cleanupPolicyOptions: IDropdownOption[] = [
       {
@@ -118,26 +135,26 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
         fetchTopic(topicData.name);
       }
       validationCheck(topicData.name);
+
+      setTopicData({
+        ...topicData,
+        selectedRetentionTimeOption: RetentionSizeUnits.CUSTOM,
+      });
     }, []);
 
     useEffect(() => {
-      if (topicData['retention.ms'] && topicData['isRetentionTimeUnlimited']) {
-        setTopicData({
-          ...topicData,
-          isRetentionTimeUnlimited: false,
-        });
-      }
+      setTopicData({
+        ...topicData,
+        selectedRetentionTimeOption: RetentionTimeUnits.CUSTOM,
+      });
+    }, [topicData['retention.ms']]);
 
-      if (
-        Number(topicData['retention.bytes']) > 0 &&
-        topicData['isRetentionSizeUnlimited']
-      ) {
-        setTopicData({
-          ...topicData,
-          isRetentionSizeUnlimited: false,
-        });
-      }
-    }, [topicData['retention.bytes'], topicData['retention.ms']]);
+    useEffect(() => {
+      setTopicData({
+        ...topicData,
+        selectedRetentionSizeOption: RetentionSizeUnits.CUSTOM,
+      });
+    }, [topicData['retention.bytes']]);
 
     const config = useContext(ConfigContext);
     const fetchTopic = async (topicName) => {
@@ -166,18 +183,13 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
     };
 
     const validationCheck = (value: string) => {
-      const legalNameChars = new RegExp('^[a-zA-Z0-9._-]+$');
-
-      if (value.length && !legalNameChars.test(value)) {
-        setInvalidText(t('topic.topic_name_helper_text'));
+      const errorMessage = validateName(value);
+      if (errorMessage) {
+        setInvalidText(errorMessage);
         setTopicValidated('error');
-      } else if (value.length > 249) {
-        setTopicValidated('error');
-        setInvalidText(t('topic.cannot_exceed_characters'));
-      } else if (value === '.' || value === '..') {
-        setTopicValidated('error');
-        setInvalidText(t('topic.invalid_name_with_dot'));
-      } else setTopicValidated('default');
+      } else {
+        setTopicValidated('default');
+      }
     };
 
     const partitionsWarnigCheckPlus = () => {
@@ -200,22 +212,6 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
       validationCheck(value);
       const { name: fieldName } = event.currentTarget;
       setTopicData({ ...topicData, [kebabToCamel(fieldName)]: value });
-    };
-
-    const onDropdownChange = (value: string, event) => {
-      const { name } = event.target;
-
-      if (name === 'custom-retention-time-unit') {
-        setTopicData({
-          ...topicData,
-          'retention.ms.unit': value,
-        });
-      } else if (name === 'custom-retention-size-unit') {
-        setTopicData({
-          ...topicData,
-          'retention.bytes.unit': value,
-        });
-      }
     };
 
     const onPartitionsChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -275,64 +271,6 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
       }
     };
 
-    const handleTouchSpinInputChange = (
-      event: React.FormEvent<HTMLInputElement>
-    ) => {
-      const { name, value } = event.currentTarget;
-      const truncValue = Math.trunc(Number(value)).toString();
-      if (name === 'custom-retention-time') {
-        setTopicData({
-          ...topicData,
-          'retention.ms': truncValue,
-        });
-      } else if (name === 'custom-retention-size') {
-        setTopicData({
-          ...topicData,
-          'retention.bytes': truncValue,
-        });
-      }
-    };
-
-    const handleTouchSpinPlus = (event) => {
-      const { name } = event.currentTarget;
-      if (name === 'custom-retention-time') {
-        const updatedRetentionTime = Number(topicData['retention.ms']) + 1;
-        setTopicData({
-          ...topicData,
-          'retention.ms': updatedRetentionTime.toString(),
-        });
-      } else if (name === 'custom-retention-size') {
-        const updatedRetentionSize = Number(topicData['retention.bytes']) + 1;
-        setTopicData({
-          ...topicData,
-          'retention.bytes': updatedRetentionSize.toString(),
-        });
-      }
-    };
-
-    const handleTouchSpinMinus = (event) => {
-      const { name } = event.currentTarget;
-      if (
-        name === 'custom-retention-time' &&
-        Number(topicData['retention.ms']) > 0
-      ) {
-        const updatedRetentionTime = Number(topicData['retention.ms']) - 1;
-        setTopicData({
-          ...topicData,
-          'retention.ms': updatedRetentionTime.toString(),
-        });
-      } else if (
-        name === 'custom-retention-size' &&
-        Number(topicData['retention.bytes']) > 0
-      ) {
-        const updatedRetentionSize = Number(topicData['retention.bytes']) - 1;
-        setTopicData({
-          ...topicData,
-          'retention.bytes': updatedRetentionSize.toString(),
-        });
-      }
-    };
-
     const onDropdownChangeDotSeparated = (value: string, event) => {
       const { name: fieldName } = event.target;
       setTopicData({ ...topicData, [kebabToDotSeparated(fieldName)]: value });
@@ -358,75 +296,59 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
       }
     };
 
-    const handleRadioChange = (_, event) => {
-      //event.preventDefault();
-      const { name } = event.target;
+    const handleRetentionMessageTime = (value: string) => {
+      setTopicData({
+        ...topicData,
+        'retention.ms':
+          value === RetentionTimeUnits.UNLIMITED ||
+          value === RetentionTimeUnits.CUSTOM
+            ? topicData['retention.ms']
+            : RetentionTimeUnitToValue[value],
+        selectedRetentionTimeOption: value,
+      });
+    };
 
-      switch (name) {
-        case 'custom-retention-time':
-          setTopicData({
-            ...topicData,
-            isRetentionTimeUnlimited: false,
-          });
-          break;
-        case 'unlimited-retention-time':
-          setTopicData({
-            ...topicData,
-            isRetentionTimeUnlimited: true,
-          });
-          break;
-        case 'custom-retention-size':
-          setTopicData({
-            ...topicData,
-            isRetentionSizeUnlimited: false,
-          });
-          break;
-        case 'unlimited-retention-size':
-          setTopicData({
-            ...topicData,
-            isRetentionSizeUnlimited: true,
-          });
-          break;
-      }
+    const handleRetentionMessageSize = (value: string) => {
+      setTopicData({
+        ...topicData,
+        'retention.bytes':
+          value === RetentionSizeUnits.UNLIMITED ||
+          value === RetentionSizeUnits.CUSTOM
+            ? topicData['retention.bytes']
+            : RetentionSizeUnitToValue[value],
+        selectedRetentionSizeOption: value,
+      });
+    };
+
+    const onRetentionTimeToggle = (isOpen: boolean) => {
+      setIsRetentionTimeSelectOpen(isOpen);
+    };
+
+    const onRetentionSizeToggle = (isOpen: boolean) => {
+      setIsRetentionSizeSelectOpen(isOpen);
     };
 
     const retentionTimeInput = (
-      <SizeTimeFormGroup
-        inputName='custom-retention-time'
-        onChange={handleTouchSpinInputChange}
-        onPlus={handleTouchSpinPlus}
-        onMinus={handleTouchSpinMinus}
-        value={Number(topicData['retention.ms'])}
-        plusBtnProps={{ name: 'custom-retention-time' }}
-        minusBtnProps={{ name: 'custom-retention-time' }}
-        id='core-config-retention-time-unit'
+      <CustomRetentionMessage
         toggleId='core-config-retention-dropdowntoggle'
-        name='custom-retention-time-unit'
-        dropdownValue={topicData['retention.ms.unit']}
-        ariaLabel={t('common.select_unit')}
-        onSelectOption={onDropdownChange}
-        min={0}
-        type='time'
+        name='retention-ms'
+        topicData={topicData}
+        setTopicData={setTopicData}
+        onToggle={onRetentionTimeToggle}
+        isOpen={isRetentionTimeSelectOpen}
+        selectOptions={retentionTimeSelectOptions}
       />
     );
 
     const retentionSizeInput = (
-      <SizeTimeFormGroup
-        inputName='custom-retention-size'
-        onChange={handleTouchSpinInputChange}
-        onPlus={handleTouchSpinPlus}
-        onMinus={handleTouchSpinMinus}
-        value={Number(topicData['retention.bytes'])}
-        plusBtnProps={{ name: 'custom-retention-size' }}
-        minusBtnProps={{ name: 'custom-retention-size' }}
-        id='core-config-retention-size-unit'
+      <CustomRetentionMessage
         toggleId='core-config-retention-size-dropdowntoggle'
-        name='custom-retention-size-unit'
-        dropdownValue={topicData['retention.bytes.unit']}
-        ariaLabel={t('common.select_unit')}
-        onSelectOption={onDropdownChange}
-        min={0}
-        type='memory'
+        name='retention-bytes'
+        topicData={topicData}
+        setTopicData={setTopicData}
+        onToggle={onRetentionSizeToggle}
+        isOpen={isRetentionSizeSelectOpen}
+        selectOptions={retentionSizeSelectOptions}
       />
     );
 
@@ -567,23 +489,37 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
                     >
                       <Stack hasGutter>
                         <Radio
-                          isChecked={!topicData['isRetentionTimeUnlimited']}
+                          isChecked={
+                            topicData.selectedRetentionTimeOption ===
+                            RetentionTimeUnits.CUSTOM
+                          }
                           name='custom-retention-time'
-                          onChange={handleRadioChange}
+                          onChange={() =>
+                            handleRetentionMessageTime(
+                              RetentionTimeUnits.CUSTOM
+                            )
+                          }
                           label={retentionTimeInput}
                           className='kafka-ui--radio-label__number-input'
                           aria-label='custom duration'
                           id='custom-retention-time'
-                          value='custom'
+                          value={RetentionTimeUnits.CUSTOM}
                         />
                         <Radio
-                          isChecked={topicData['isRetentionTimeUnlimited']}
+                          isChecked={
+                            topicData.selectedRetentionTimeOption ===
+                            RetentionTimeUnits.UNLIMITED
+                          }
                           name='unlimited-retention-time'
-                          onChange={handleRadioChange}
+                          onChange={() =>
+                            handleRetentionMessageTime(
+                              RetentionTimeUnits.UNLIMITED
+                            )
+                          }
                           label='Unlimited'
                           aria-label='Unlimited'
                           id='unlimited-retention-time'
-                          value='unlimited'
+                          value={RetentionTimeUnits.UNLIMITED}
                         />
                       </Stack>
                     </FormGroupWithPopover>
@@ -596,23 +532,37 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
                     >
                       <Stack hasGutter>
                         <Radio
-                          isChecked={!topicData['isRetentionSizeUnlimited']}
+                          isChecked={
+                            topicData.selectedRetentionSizeOption ===
+                            RetentionSizeUnits.CUSTOM
+                          }
                           name='custom-retention-size'
-                          onChange={handleRadioChange}
+                          onChange={() =>
+                            handleRetentionMessageSize(
+                              RetentionSizeUnits.CUSTOM
+                            )
+                          }
                           label={retentionSizeInput}
                           className='kafka-ui--radio-label__number-input'
                           aria-label='custom size'
                           id='custom-retention-size'
-                          value='custom'
+                          value={RetentionSizeUnits.CUSTOM}
                         />
                         <Radio
-                          isChecked={topicData['isRetentionSizeUnlimited']}
+                          isChecked={
+                            topicData.selectedRetentionSizeOption ===
+                            RetentionSizeUnits.UNLIMITED
+                          }
                           name='unlimited-retention-size'
-                          onChange={handleRadioChange}
+                          onChange={() =>
+                            handleRetentionMessageSize(
+                              RetentionSizeUnits.UNLIMITED
+                            )
+                          }
                           label='Unlimited'
                           aria-label='Unlimited'
                           id='unlimited-retention-size'
-                          value='unlimited'
+                          value={RetentionSizeUnits.UNLIMITED}
                         />
                       </Stack>
                     </FormGroupWithPopover>

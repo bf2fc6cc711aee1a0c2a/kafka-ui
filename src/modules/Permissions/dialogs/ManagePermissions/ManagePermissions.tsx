@@ -23,7 +23,7 @@ import {
   NewAcl,
 } from '@app/modules/Permissions/components/ManagePermissionsDialog/acls';
 import { FormGroupWithPopover, MASLoading } from '@app/components';
-import { useValidateTopic } from '@app/services/topicNameValidation';
+import { useValidateTopic } from '@app/modules/Topics/utils';
 import { ExistingAclTable } from '@app/modules/Permissions/components/ManagePermissionsDialog/ExistingAclTable';
 import {
   AclOperationFilter,

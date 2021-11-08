@@ -22,41 +22,19 @@ import {
   NewTopicInput,
   TopicsApi,
 } from '@rhoas/kafka-instance-sdk';
-import { convertUnits, formatTopicRequest } from '@app/modules/Topics/utils';
+import { serializeTopic } from '@app/modules/Topics/utils';
 import { ConfigContext } from '@app/contexts';
 import { getTopic } from '@app/services';
 import { useAlert } from '@rhoas/app-services-ui-shared';
 import './CreateTopicWizard.css';
 import { isAxiosError } from '@app/utils/axios';
+import { IAdvancedTopic } from '@app/modules/Topics/utils';
 
 export type CreateTopicWizardProps = {
   isSwitchChecked: boolean;
   setIsCreateTopic?: (value: boolean) => void;
   onCloseCreateTopic: () => void;
 };
-
-export interface IAdvancedTopic {
-  /** unique identifier for a topic within the cluster */
-  name: string;
-  /** ordered list of messages that make up a topic */
-  numPartitions: string;
-  /** number of replicas for a Kafka topic */
-  replicationFactor?: string;
-  /** the length of time that messages are retained before they are deleted */
-  'retention.ms'?: string;
-  /** unit for retention time */
-  'retention.ms.unit'?: string;
-  /** maximum total size of a partition's log segments before old log segments are deleted */
-  'retention.bytes'?: string;
-  /** unit for retention bytes */
-  'retention.bytes.unit'?: string;
-  /** determines whether messages that reach the retention window are deleted or compacted */
-  'cleanup.policy'?: string;
-  //** determines wheather  Retention time is unlimited or custom*/
-  isRetentionTimeUnlimited?: boolean;
-  //** determines wheather  Retention size is unlimited or custom*/
-  isRetentionSizeUnlimited?: boolean;
-}
 
 export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
   isSwitchChecked,
@@ -69,31 +47,27 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
       // No-op
     },
   };
-  const [msgRetentionValue, setMsgRetentionValue] = useState(1);
-  const [retentionSize, setRetentionSize] = useState(1);
-  const [replicationFactorTouchspinValue] = useState(3);
-  const [minInSyncReplicaTouchspinValue] = useState(2);
+
+  const initialFieldsValue = {
+    name: '',
+    numPartitions: '1',
+    'retention.ms': '7',
+    'retention.ms.unit': 'days',
+    'retention.bytes': '1',
+    'retention.bytes.unit': 'bytes',
+    'cleanup.policy': 'delete',
+    selectedRetentionTimeOption: 'weeks',
+    selectedRetentionSizeOption: 'unlimited',
+  };
+
+  //states
   const [topicNameValidated, setTopicNameValidated] = useState<
     'error' | 'default'
   >('default');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [invalidText, setInvalidText] = useState<string>('');
-  const [topicData, setTopicData] = useState<IAdvancedTopic>({
-    name: '',
-    numPartitions: '1',
-    'retention.ms': '7',
-    'retention.ms.unit': 'days',
-    'retention.bytes': '0',
-    'retention.bytes.unit': 'bytes',
-    'cleanup.policy': 'delete',
-    isRetentionTimeUnlimited: false,
-    isRetentionSizeUnlimited: true,
-  });
-
-  const [currentPeriod, setCurrentPeriod] = React.useState<string | number>(
-    604800000
-  );
-  const [currentSize, setCurrentSize] = React.useState<string | number>(-1);
+  const [topicData, setTopicData] =
+    useState<IAdvancedTopic>(initialFieldsValue);
 
   const closeWizard = () => {
     onCloseCreateTopic && onCloseCreateTopic();
@@ -102,21 +76,8 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
   const saveTopic = () => {
     // Object may change based on schema
     setIsLoading(true);
-    const topic: NewTopicInput = isSwitchChecked
-      ? formatTopicRequest(convertUnits(topicData))
-      : {
-          name: topicData?.name,
-          settings: {
-            numPartitions: Number(topicData?.numPartitions),
-            config: [
-              {
-                key: 'retention.ms',
-                value: msgRetentionValue.toString(),
-              },
-              { key: 'retention.bytes', value: retentionSize.toString() },
-            ],
-          },
-        };
+    const configPropties = isSwitchChecked ? ['cleanup.policy'] : [];
+    const topic: NewTopicInput = serializeTopic(topicData, configPropties);
 
     new TopicsApi(
       new Configuration({
@@ -188,12 +149,6 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
       canJumpTo: topicData?.name.trim() !== '',
       component: (
         <StepMessageRetention
-          setMsgRetentionValue={setMsgRetentionValue}
-          currentPeriod={currentPeriod}
-          currentSize={currentSize}
-          setCurrentPeriod={setCurrentPeriod}
-          setCurrentSize={setCurrentSize}
-          setRetentionSize={setRetentionSize}
           topicData={topicData}
           setTopicData={setTopicData}
         />
@@ -202,12 +157,7 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
     {
       name: t('common.replicas'),
       canJumpTo: topicData?.name.trim() !== '',
-      component: (
-        <StepReplicas
-          replicationFactor={replicationFactorTouchspinValue}
-          minInSyncReplica={minInSyncReplicaTouchspinValue}
-        />
-      ),
+      component: <StepReplicas replicationFactor={3} minInSyncReplica={2} />,
       nextButtonText: t('common.finish'),
     },
   ];
