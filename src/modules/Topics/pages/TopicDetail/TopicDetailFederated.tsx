@@ -30,6 +30,7 @@ const TopicDetailFederated: FunctionComponent<TopicDetailFederatedProps> = ({
       <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
         <FederatedContext.Provider
           value={{
+            kafka: {},
             activeTab: 2,
             onError,
             kafkaName,

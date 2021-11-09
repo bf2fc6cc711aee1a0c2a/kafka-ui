@@ -11,7 +11,7 @@ import {
 } from '@patternfly/react-core';
 import '../CreateTopicWizard/CreateTopicWizard.css';
 import { MIN_PARTITIONS, MAX_PARTITIONS } from '@app/constant';
-import { IAdvancedTopic } from '../CreateTopicWizard';
+import { IAdvancedTopic } from '@app/modules/Topics/utils';
 
 export type StepPartitionsProps = {
   topicData: IAdvancedTopic;

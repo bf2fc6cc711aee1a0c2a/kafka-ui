@@ -39,7 +39,7 @@ import {
 } from '@app/constant';
 import './TopicDetailView.css';
 import { TextWithLabelPopover } from '@app/components/TextWithLabelPopover';
-import { IAdvancedTopic } from '@app/modules/Topics/components/CreateTopicWizard';
+import { IAdvancedTopic } from '@app/modules/Topics/utils';
 import {
   formattedRetentionSize,
   formattedRetentionTime,

@@ -8,7 +8,7 @@ import {
 } from '@rhoas/kafka-instance-sdk';
 import { Configuration } from '@rhoas/kafka-instance-sdk';
 import { IConfiguration } from '@app/contexts';
-import { IAdvancedTopic } from '@app/modules/Topics/components/CreateTopicWizard/CreateTopicWizard';
+import { IAdvancedTopic } from '@app/modules/Topics/utils';
 import { SortByDirection } from '@patternfly/react-table';
 
 export enum OrderKey {
