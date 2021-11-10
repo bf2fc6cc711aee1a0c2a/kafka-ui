@@ -80,7 +80,7 @@
     "pino-pretty": "7.2.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-i18next": "11.14.0",
+    "react-i18next": "11.14.1",
     "react-router-dom": "5.2.1",
     "sass": "1.43.4",
     "sentence-case": "3.0.4",
@@ -94,7 +94,7 @@
   "devDependencies": {
     "@redhat-cloud-services/frontend-components-config": "4.5.1",
     "@rhoas/api-mock": "0.12.3",
-    "@testing-library/dom": "8.11.0",
+    "@testing-library/dom": "8.11.1",
     "@testing-library/jest-dom": "5.15.0",
     "@testing-library/react": "12.1.2",
     "@testing-library/react-hooks": "7.0.2",
