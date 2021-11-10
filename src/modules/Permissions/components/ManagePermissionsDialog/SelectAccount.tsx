@@ -66,6 +66,80 @@ export const SelectAccount: React.FunctionComponent<SelectAccountProps> = ({
     setIsOpen(false);
   };
 
+  const options = [
+    <SelectGroup key='all_accounts_group'>
+      <SelectOption
+        key='*'
+        value='*'
+        description={t(
+          'permission.manage_permissions_dialog.all_accounts_description'
+        )}
+      >
+        {t('permission.manage_permissions_dialog.all_accounts_title')}
+      </SelectOption>
+    </SelectGroup>,
+    <Divider key='divider' />,
+    <SelectGroup
+      label={t(
+        'permission.manage_permissions_dialog.all_accounts_service_account_group'
+      )}
+      key='service_accounts_group'
+    >
+      {initialOptions
+        .filter(
+          (principal) =>
+            principal.principalType === PrincipalType.ServiceAccount
+        )
+        .map((principal, index) => (
+          <SelectOption
+            key={index}
+            value={principal.id}
+            description={principal.displayName}
+          >
+            {principal.id}
+          </SelectOption>
+        ))}
+    </SelectGroup>,
+    <Divider key='divider' />,
+    <SelectGroup
+      label={t(
+        'permission.manage_permissions_dialog.all_accounts_user_account_group'
+      )}
+      key='user_accounts_group'
+    >
+      {initialOptions
+        .filter(
+          (principal) => principal.principalType === PrincipalType.UserAccount
+        )
+        .map((principal, index) => (
+          <SelectOption
+            key={index}
+            value={principal.id}
+            description={principal.displayName}
+          >
+            {principal.id}
+          </SelectOption>
+        ))}
+    </SelectGroup>,
+  ];
+
+  const customFilter = (_, value: string) => {
+    if (!value) {
+      return options;
+    }
+
+    const input = new RegExp(value, 'i');
+    return options
+      .filter((accounts) => Array.isArray(accounts.props.children))
+      .map((account) =>
+        account.props.children.filter(
+          (allAccounts) =>
+            input.test(allAccounts.props.value) ||
+            input.test(allAccounts.props.description)
+        )
+      );
+  };
+
   return (
     <FormGroupWithPopover
       labelHead={t('permission.manage_permissions_dialog.account_id_title')}
@@ -89,6 +163,7 @@ export const SelectAccount: React.FunctionComponent<SelectAccountProps> = ({
         onSelect={onSelect}
         onClear={clearSelection}
         selections={id.value}
+        onFilter={customFilter}
         isOpen={isOpen}
         isInputValuePersisted={true}
         placeholderText={t(
@@ -99,63 +174,7 @@ export const SelectAccount: React.FunctionComponent<SelectAccountProps> = ({
         validated={id.validated || 'default'}
         isGrouped={true}
       >
-        {[
-          <SelectGroup key='all_accounts_group'>
-            <SelectOption
-              key='*'
-              value='*'
-              description={t(
-                'permission.manage_permissions_dialog.all_accounts_description'
-              )}
-            >
-              {t('permission.manage_permissions_dialog.all_accounts_title')}
-            </SelectOption>
-          </SelectGroup>,
-          <Divider key='divider' />,
-          <SelectGroup
-            label={t(
-              'permission.manage_permissions_dialog.all_accounts_service_account_group'
-            )}
-            key='service_accounts_group'
-          >
-            {initialOptions
-              .filter(
-                (principal) =>
-                  principal.principalType === PrincipalType.ServiceAccount
-              )
-              .map((principal, index) => (
-                <SelectOption
-                  key={index}
-                  value={principal.id}
-                  description={principal.displayName}
-                >
-                  {principal.id}
-                </SelectOption>
-              ))}
-          </SelectGroup>,
-          <Divider key='divider' />,
-          <SelectGroup
-            label={t(
-              'permission.manage_permissions_dialog.all_accounts_user_account_group'
-            )}
-            key='user_accounts_group'
-          >
-            {initialOptions
-              .filter(
-                (principal) =>
-                  principal.principalType === PrincipalType.UserAccount
-              )
-              .map((principal, index) => (
-                <SelectOption
-                  key={index}
-                  value={principal.id}
-                  description={principal.displayName}
-                >
-                  {principal.id}
-                </SelectOption>
-              ))}
-          </SelectGroup>,
-        ]}
+        {options}
       </Select>
     </FormGroupWithPopover>
   );
