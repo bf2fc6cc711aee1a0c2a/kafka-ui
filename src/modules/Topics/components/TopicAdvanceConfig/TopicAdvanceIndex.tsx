@@ -12,7 +12,7 @@ import {
   DEFAULT_SEGMENT_INDEX_SIZE,
 } from '@app/constant';
 
-const Index: React.FC = () => {
+const TopicAdvanceIndex: React.FC = () => {
   const { t } = useTranslation();
 
   return (
@@ -44,4 +44,4 @@ const Index: React.FC = () => {
   );
 };
 
-export { Index };
+export { TopicAdvanceIndex };

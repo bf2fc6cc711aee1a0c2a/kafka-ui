@@ -22,7 +22,7 @@ import { Message } from './Message';
 import { Log } from './Log';
 import { Replication } from './Replication';
 import { Cleanup } from './Cleanup';
-import { Index } from './Index';
+import { TopicAdvanceIndex } from './TopicAdvanceIndex';
 import { Flush } from './Flush';
 
 export type TopicAdvanceConfigProps = {
@@ -130,7 +130,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
                   <Log topicData={topicData} setTopicData={setTopicData} />
                   <Replication />
                   <Cleanup />
-                  <Index />
+                  <TopicAdvanceIndex />
                   <Flush />
                 </Form>
                 <ActionGroup className='kafka-ui--sticky-footer'>
