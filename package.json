@@ -52,7 +52,7 @@
     "@patternfly/react-core": "4.152.4",
     "@patternfly/react-icons": "4.11.14",
     "@patternfly/react-table": "4.29.58",
-    "@rhoas/app-services-ui-components": "1.1.1",
+    "@rhoas/app-services-ui-components": "1.1.2",
     "@rhoas/app-services-ui-shared": "0.15.2",
     "@rhoas/kafka-instance-sdk": "0.17.0",
     "@types/express-session": "1.17.4",
