@@ -49,9 +49,18 @@ export const MainView: React.FC<MainViewProps> = ({ onDeleteInstance }) => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   let tab;
+  enum tabs {
+    dashboard = 1,
+    topics,
+    consumeGroups,
+    permissions,
+  }
   if (searchParams.has('activeTab')) {
-    if ([1, 2, 3, 4].includes(Number(searchParams.get('activeTab')))) {
-      tab = Number(searchParams.get('activeTab'));
+    const passedTab: string = searchParams.get('activeTab');
+    if (Object.keys(tabs).includes(passedTab)) {
+      // if ([1, 2, 3, 4].includes(Number(searchParams.get('activeTab')))) {
+      // tab = Number(searchParams.get('activeTab'));
+      tab = tabs[passedTab];
     }
   }
 
@@ -188,7 +197,7 @@ export const MainView: React.FC<MainViewProps> = ({ onDeleteInstance }) => {
           id='kafka-ui-TabcontentDashboard'
           className='kafka-ui-m-full-height'
           aria-label={t('dashboard.dashboard')}
-          hidden={activeTabKey !== 1}
+          hidden={activeTabKey !== tabs.dashboard}
         >
           {showMetrics}
         </TabContent>
@@ -198,7 +207,7 @@ export const MainView: React.FC<MainViewProps> = ({ onDeleteInstance }) => {
           id='kafka-ui-TabcontentTopicsList'
           className='kafka-ui-m-full-height'
           aria-label={t('topic.topics')}
-          hidden={activeTabKey !== 2}
+          hidden={activeTabKey !== tabs.topics}
         >
           <React.Suspense fallback={<MASLoading />}>
             <Topics />
@@ -210,7 +219,7 @@ export const MainView: React.FC<MainViewProps> = ({ onDeleteInstance }) => {
           id='kafka-ui-TabcontentConsumersList'
           className='kafka-ui-m-full-height'
           aria-label={t('consumerGroup.consumer_groups')}
-          hidden={activeTabKey != 3}
+          hidden={activeTabKey != tabs.consumeGroups}
         >
           <React.Suspense fallback={<MASLoading />}>
             <ConsumerGroups consumerGroupByTopic={false} />
@@ -222,7 +231,7 @@ export const MainView: React.FC<MainViewProps> = ({ onDeleteInstance }) => {
           id='kafka-ui-TabcontentPermissions'
           className='kafka-ui-m-full-height'
           aria-label={t('permission.tab.label')}
-          hidden={activeTabKey != 4}
+          hidden={activeTabKey != tabs.permissions}
         >
           <React.Suspense fallback={<MASLoading />}>
             <PermissionsTableView kafkaName={kafkaName} />
