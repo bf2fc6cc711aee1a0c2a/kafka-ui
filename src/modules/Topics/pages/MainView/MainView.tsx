@@ -19,6 +19,7 @@ import {
 import { useFederated } from '@app/contexts';
 import { MASLoading } from '@app/components';
 import '../style.css';
+import { useLocation } from 'react-router-dom';
 
 const Topics = lazy(() => import('@app/modules/Topics/Topics'));
 const ConsumerGroups = lazy(
@@ -45,7 +46,16 @@ export const MainView: React.FC<MainViewProps> = ({ onDeleteInstance }) => {
     activeTab,
   } = useFederated() || {};
 
-  const [activeTabKey, setActiveTabKey] = useState(activeTab || 1);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  let tab;
+  if (searchParams.has('activeTab')) {
+    if ([1, 2, 3, 4].includes(Number(searchParams.get('activeTab')))) {
+      tab = Number(searchParams.get('activeTab'));
+    }
+  }
+
+  const [activeTabKey, setActiveTabKey] = useState(tab || activeTab || 1);
   const contentRefConsumerGroups = React.createRef<HTMLElement>();
   const contentRefTopics = React.createRef<HTMLElement>();
   const contentRefDashboard = React.createRef<HTMLElement>();
@@ -212,7 +222,7 @@ export const MainView: React.FC<MainViewProps> = ({ onDeleteInstance }) => {
           id='kafka-ui-TabcontentPermissions'
           className='kafka-ui-m-full-height'
           aria-label={t('permission.tab.label')}
-          hidden
+          hidden={activeTabKey != 4}
         >
           <React.Suspense fallback={<MASLoading />}>
             <PermissionsTableView kafkaName={kafkaName} />
