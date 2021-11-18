@@ -126,7 +126,7 @@ export const deserializeTopic = (topic: Topic): ConfigEntry => {
       configEntries[key] = newValue;
       configEntries[`${key}.unit`] = unit;
       configEntries['selectedRetentionTimeOption'] = RetentionTimeUnits.CUSTOM;
-    } else if (Number(value) === -1) {
+    } else if (key === 'retention.ms' && Number(value) === -1) {
       configEntries['selectedRetentionTimeOption'] =
         RetentionTimeUnits.UNLIMITED;
     }
@@ -136,7 +136,7 @@ export const deserializeTopic = (topic: Topic): ConfigEntry => {
       configEntries[key] = newValue;
       configEntries[`${key}.unit`] = unit;
       configEntries['selectedRetentionSizeOption'] = RetentionSizeUnits.CUSTOM;
-    } else if (Number(value) === -1) {
+    } else if (key === 'retention.bytes' && Number(value) === -1) {
       configEntries['selectedRetentionSizeOption'] =
         RetentionSizeUnits.UNLIMITED;
     }
@@ -156,7 +156,6 @@ export const serializeTopic = (
   const configProperties = [
     'retention.ms',
     'retention.bytes',
-    'cleanup.policy',
     'flush.messages',
     ...addionalProperties,
   ];

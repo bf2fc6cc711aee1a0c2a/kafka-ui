@@ -14,6 +14,7 @@ import {
   IAdvancedTopic,
   kebabToDotSeparated,
   SelectOptions,
+  RetentionTimeUnits,
 } from '@app/modules/Topics/utils';
 
 export type CustomRetentionMessageProps = NumberInputProps &
@@ -40,33 +41,44 @@ const CustomRetentionMessage: React.FC<CustomRetentionMessageProps> = ({
     setTopicData({
       ...topicData,
       [`${kebabToDotSeparated(fieldName)}.unit`]: selection,
+      selectedRetentionTimeOption:
+        selection !== RetentionTimeUnits.DAY
+          ? RetentionTimeUnits.CUSTOM
+          : topicData.selectedRetentionTimeOption,
     });
 
     onToggle(false);
   };
 
-  const handleTouchSpinPlus = (event) => {
-    const { name } = event?.currentTarget;
+  const handleTouchSpin = (name: string, operator: string) => {
+    let value;
     const fieldName = kebabToDotSeparated(name);
+    const selectedRetention =
+      fieldName === 'retention.ms'
+        ? 'selectedRetentionTimeOption'
+        : 'selectedRetentionSizeOption';
+
+    if (operator === '+') {
+      value = Number(topicData[fieldName]) + 1;
+    } else if (operator === '-') {
+      value = Number(topicData[fieldName]) - 1;
+    }
+
     setTopicData({
       ...topicData,
-      [fieldName]: Number(topicData[fieldName]) + 1,
+      [fieldName]: value,
+      [selectedRetention]: RetentionTimeUnits.CUSTOM,
     });
   };
 
-  const handleTouchSpinMinus = (event) => {
-    const { name } = event?.currentTarget;
-    const fieldName = kebabToDotSeparated(name);
-    setTopicData({
-      ...topicData,
-      [fieldName]: Number(topicData[fieldName]) - 1,
-    });
-  };
-
-  const onChangeTouchSpin = (event: React.FormEvent<HTMLInputElement>) => {
-    const { name: fieldNmae, value } = event.currentTarget;
+  const onChangeTouchSpin = (
+    event: React.FormEvent<HTMLInputElement>,
+    name: string
+  ) => {
+    const { value } = event.currentTarget;
     const truncValue = Math.trunc(Number(value)).toString();
-    const fieldName = kebabToDotSeparated(fieldNmae);
+    const fieldName = kebabToDotSeparated(name);
+
     setTopicData({
       ...topicData,
       [fieldName]: truncValue,
@@ -79,10 +91,10 @@ const CustomRetentionMessage: React.FC<CustomRetentionMessageProps> = ({
         <FlexItem>
           <NumberInput
             name={name}
-            onMinus={handleTouchSpinMinus}
-            onPlus={handleTouchSpinPlus}
+            onMinus={() => handleTouchSpin(name, '-')}
+            onPlus={() => handleTouchSpin(name, '+')}
             value={Number(topicData[kebabToDotSeparated(name)])}
-            onChange={onChangeTouchSpin}
+            onChange={(event) => onChangeTouchSpin(event, name)}
             plusBtnProps={{ name }}
             minusBtnProps={{ name }}
             min={0}

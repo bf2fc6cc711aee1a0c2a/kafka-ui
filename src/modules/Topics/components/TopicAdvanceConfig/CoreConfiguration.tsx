@@ -74,26 +74,7 @@ const CoreConfiguration: React.FC<CoreConfigurationProps> = ({
       fetchTopic(topicData.name);
     }
     validationCheck(topicData.name);
-
-    setTopicData({
-      ...topicData,
-      selectedRetentionTimeOption: RetentionSizeUnits.CUSTOM,
-    });
   }, []);
-
-  useEffect(() => {
-    setTopicData({
-      ...topicData,
-      selectedRetentionTimeOption: RetentionTimeUnits.CUSTOM,
-    });
-  }, [topicData['retention.ms']]);
-
-  useEffect(() => {
-    setTopicData({
-      ...topicData,
-      selectedRetentionSizeOption: RetentionSizeUnits.CUSTOM,
-    });
-  }, [topicData['retention.bytes']]);
 
   const validationCheck = (value: string) => {
     const errorMessage = validateName(value);
@@ -105,24 +86,15 @@ const CoreConfiguration: React.FC<CoreConfigurationProps> = ({
     }
   };
 
-  const partitionsWarnigCheckPlus = () => {
-    if (
-      initialPartition &&
-      Number(topicData.numPartitions + 1) > initialPartition
-    ) {
-      setPartitionsValidated(ValidatedOptions.warning);
-      setWarning(true);
-    } else {
-      setPartitionsValidated(ValidatedOptions.default);
-      setWarning(false);
+  const partitionsWarnigCheck = (operator: string) => {
+    let value;
+    if (operator === '+') {
+      value = Number(topicData.numPartitions) + 1;
+    } else if (operator === '-') {
+      value = Number(topicData.numPartitions) - 1;
     }
-  };
 
-  const partitionsWarningCheckMinus = () => {
-    if (
-      initialPartition &&
-      Number(topicData.numPartitions + -1) > initialPartition
-    ) {
+    if (initialPartition && value > initialPartition) {
       setPartitionsValidated(ValidatedOptions.warning);
       setWarning(true);
     } else {
@@ -192,27 +164,23 @@ const CoreConfiguration: React.FC<CoreConfigurationProps> = ({
     setTopicData({ ...topicData, [kebabToCamel(fieldName)]: partitionValue });
   };
 
-  const handleTouchSpinPlusCamelCase = (event) => {
-    const { name } = event.currentTarget;
+  const handleTouchSpin = (name: string, operator: string) => {
+    let value;
     const fieldName = kebabToCamel(name);
-    setTopicData({
-      ...topicData,
-      [fieldName]: Number(topicData[fieldName]) + 1,
-    });
-    if (!isCreate) {
-      partitionsWarnigCheckPlus();
-    }
-  };
 
-  const handleTouchSpinMinusCamelCase = (event) => {
-    const { name } = event.currentTarget;
-    const fieldName = kebabToCamel(name);
+    if (operator === '+') {
+      value = Number(topicData[fieldName]) + 1;
+    } else if (operator === '-') {
+      value = Number(topicData[fieldName]) - 1;
+    }
+
     setTopicData({
       ...topicData,
-      [fieldName]: Number(topicData[fieldName]) - 1,
+      [fieldName]: value,
     });
+
     if (!isCreate) {
-      partitionsWarningCheckMinus();
+      partitionsWarnigCheck(operator);
     }
   };
 
@@ -299,8 +267,8 @@ const CoreConfiguration: React.FC<CoreConfigurationProps> = ({
           id='create-topic-partitions'
           inputName='num-partitions'
           onChange={onPartitionsChange}
-          onPlus={handleTouchSpinPlusCamelCase}
-          onMinus={handleTouchSpinMinusCamelCase}
+          onPlus={() => handleTouchSpin('num-partitions', '+')}
+          onMinus={() => handleTouchSpin('num-partitions', '-')}
           value={Number(topicData.numPartitions)}
           plusBtnProps={{ name: 'num-partitions' }}
           minusBtnProps={{ name: 'num-partitions' }}
@@ -336,7 +304,11 @@ const CoreConfiguration: React.FC<CoreConfigurationProps> = ({
           <Radio
             isChecked={
               topicData.selectedRetentionTimeOption ===
-              RetentionTimeUnits.CUSTOM
+                RetentionTimeUnits.DAY ||
+              topicData.selectedRetentionTimeOption ===
+                RetentionTimeUnits.WEEK ||
+              topicData.selectedRetentionTimeOption ===
+                RetentionTimeUnits.CUSTOM
             }
             name='custom-retention-time'
             onChange={() =>

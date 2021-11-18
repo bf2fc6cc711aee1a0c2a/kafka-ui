@@ -28,7 +28,11 @@ import { getTopic } from '@app/services';
 import { useAlert } from '@rhoas/app-services-ui-shared';
 import './CreateTopicWizard.css';
 import { isAxiosError } from '@app/utils/axios';
-import { IAdvancedTopic } from '@app/modules/Topics/utils';
+import {
+  IAdvancedTopic,
+  RetentionSizeUnits,
+  RetentionTimeUnits,
+} from '@app/modules/Topics/utils';
 
 export type CreateTopicWizardProps = {
   isSwitchChecked: boolean;
@@ -56,8 +60,8 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
     'retention.bytes': '1',
     'retention.bytes.unit': 'bytes',
     'cleanup.policy': 'delete',
-    selectedRetentionTimeOption: 'weeks',
-    selectedRetentionSizeOption: 'unlimited',
+    selectedRetentionTimeOption: RetentionTimeUnits.WEEK,
+    selectedRetentionSizeOption: RetentionSizeUnits.UNLIMITED,
   };
 
   //states

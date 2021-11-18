@@ -97,7 +97,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   }, [topicName]);
 
   const saveTopic = async () => {
-    const { name, settings } = serializeTopic(topicData);
+    const { name, settings } = serializeTopic(topicData, ['cleanup.policy']);
     setIsLoading(true);
 
     try {

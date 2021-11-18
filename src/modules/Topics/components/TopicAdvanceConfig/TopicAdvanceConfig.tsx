@@ -43,6 +43,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
     setTopicData,
     isLoadingSave,
   }) => {
+    const config = useContext(ConfigContext);
     const { showModal } = useModal<ModalType.KafkaUpdatePartitions>();
     const { t } = useTranslation();
     const actionText = isCreate ? t('topic.create_topic') : t('common.save');
@@ -59,7 +60,6 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
     >(Number(topicData.numPartitions));
     useState<string>(topicData['retention.ms.unit'] || 'days');
 
-    const config = useContext(ConfigContext);
     const fetchTopic = async (topicName) => {
       try {
         const topicRes = await getTopic(topicName, config);
@@ -107,8 +107,8 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
 
     return (
       <PageSection padding={{ default: 'noPadding' }}>
-        <TopicAdvanceJumpLinks />
         <Sidebar hasGutter>
+          <TopicAdvanceJumpLinks />
           <SidebarContent>
             <PageGroup hasOverflowScroll id='topic-detail-view'>
               <PageSection padding={{ default: 'noPadding' }}>
