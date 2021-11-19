@@ -43,7 +43,7 @@ const Log: React.FC<LogProps> = ({ topicData, setTopicData }) => {
     {
       key: 'compact-delete',
       value: 'compact,delete',
-      label: `${t('common.compact')}, ${t('common.delete')}`,
+      label: `${t('common.compact')},${t('common.delete')}`,
       isDisabled: false,
     },
   ];

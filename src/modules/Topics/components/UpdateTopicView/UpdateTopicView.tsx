@@ -57,17 +57,18 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
 
   const fetchTopic = async (topicName) => {
     try {
-      const topicRes = await getTopic(topicName, config);
-      const deserializedTopic = deserializeTopic(topicRes);
+      await getTopic(topicName, config).then((topicRes) => {
+        const deserializedTopic = deserializeTopic(topicRes);
 
-      setTopicData({
-        ...topicData,
-        ...deserializedTopic,
-        numPartitions: topicRes?.partitions?.length.toString() || '',
-        replicationFactor:
-          (topicRes?.partitions &&
-            topicRes?.partitions[0].replicas?.length.toString()) ||
-          '',
+        setTopicData({
+          ...topicData,
+          ...deserializedTopic,
+          numPartitions: topicRes?.partitions?.length.toString() || '',
+          replicationFactor:
+            (topicRes?.partitions &&
+              topicRes?.partitions[0].replicas?.length.toString()) ||
+            '',
+        });
       });
     } catch (err) {
       if (isAxiosError(err)) {
