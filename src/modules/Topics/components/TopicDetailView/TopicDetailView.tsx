@@ -73,9 +73,9 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
           <JumpLinks
             isVertical
             label={t('topic.jump_to_section')}
-            scrollableSelector='.app-services-ui--u-display-contents > div:nth-child(1) > div:nth-child(1) > div:nth-child(1)'
             offset={-164} // for header
             style={{ position: 'sticky' }}
+            scrollableSelector='.pf-c-page__main[tabindex="-1"]'
           >
             <JumpLinksItem key={0} href='#core-configuration'>
               {t('topic.core_configuration')}
