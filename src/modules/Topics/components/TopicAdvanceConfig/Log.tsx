@@ -42,7 +42,7 @@ const Log: React.FC<LogProps> = ({ topicData, setTopicData }) => {
     },
     {
       key: 'compact-delete',
-      value: 'compact, delete',
+      value: 'compact,delete',
       label: `${t('common.compact')}, ${t('common.delete')}`,
       isDisabled: false,
     },
@@ -77,6 +77,7 @@ const Log: React.FC<LogProps> = ({ topicData, setTopicData }) => {
           items={cleanupPolicyOptions}
           name='cleanup-policy'
           value={topicData['cleanup.policy'] || ''}
+          isLabelAndValueNotSame={true}
         />
       </FormGroupWithPopover>
 

@@ -11,6 +11,7 @@ interface IDropdownWithToggleProps {
   onSelectOption?: (value: string, event) => void;
   ariaLabel?: string;
   menuAppendTo?: HTMLElement | (() => HTMLElement) | 'parent' | 'inline';
+  isLabelAndValueNotSame?: boolean;
 }
 
 export interface IDropdownOption {
@@ -29,18 +30,19 @@ export const DropdownWithToggle: React.FC<IDropdownWithToggleProps> = ({
   onSelectOption,
   name,
   menuAppendTo,
+  isLabelAndValueNotSame,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>();
 
-  const onToggle = () => {
-    setIsOpen((isOpen) => !isOpen);
+  const onToggle = (isOpen: boolean) => {
+    setIsOpen(isOpen);
   };
 
   const onSelect = (e) => {
-    const value = e.currentTarget.textContent;
-    if (onSelectOption) {
+    const value: string = e.currentTarget.textContent;
+    if (onSelectOption && value) {
       e.target.name = name;
-      onSelectOption(value, e);
+      onSelectOption(value.toLowerCase(), e);
     }
     setIsOpen((isOpen) => !isOpen);
   };
@@ -59,13 +61,21 @@ export const DropdownWithToggle: React.FC<IDropdownWithToggleProps> = ({
     return items;
   };
 
+  const getSelectedValue = () => {
+    if (isLabelAndValueNotSame) {
+      const filteredOption = items?.filter((item) => item.value === value)[0];
+      return filteredOption?.label;
+    }
+    return value;
+  };
+
   const dropdownToggle = (
     <DropdownToggle
       id={toggleId}
       onToggle={onToggle}
       toggleIndicator={CaretDownIcon}
     >
-      {value}
+      {getSelectedValue()}
     </DropdownToggle>
   );
 
