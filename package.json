@@ -80,7 +80,7 @@
     "pino-pretty": "7.2.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-i18next": "11.14.2",
+    "react-i18next": "11.14.3",
     "react-router-dom": "5.2.1",
     "sass": "1.43.4",
     "sentence-case": "3.0.4",
