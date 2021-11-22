@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SelectOption } from '@app/modules/Permissions/components/ManagePermissionsDialog/select';
 import { Select as PFSelect } from '@patternfly/react-core/dist/js/components/Select/Select';
-import { SelectVariant } from '@patternfly/react-core';
+import { SelectVariant, ValidatedOptions } from '@patternfly/react-core';
 import { SelectOption as PFSelectOption } from '@patternfly/react-core/dist/js/components/Select/SelectOption';
 import { Validated } from '@app/modules/Permissions/components/ManagePermissionsDialog/validated';
 import { FormGroupWithPopover } from '@app/components';
@@ -89,7 +89,7 @@ export const CreateTypeahead: React.FunctionComponent<CreateTypeaheadProps> = ({
       )}
       isRequired={true}
       helperTextInvalid={value.errorMessage}
-      validated={value.validated || 'default'}
+      validated={value.validated || ValidatedOptions.default}
     >
       <PFSelect
         variant={SelectVariant.typeahead}

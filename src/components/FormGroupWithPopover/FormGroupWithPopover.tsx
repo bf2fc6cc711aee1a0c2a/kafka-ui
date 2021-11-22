@@ -9,7 +9,7 @@ export type FormGroupWithPopoverProps = {
   fieldLabel?: string;
   labelBody: string;
   buttonAriaLabel: string;
-  validated: ValidatedOptions | undefined;
+  validated?: ValidatedOptions;
   helperText?: string;
   helperTextInvalid?: string;
   isRequired?: boolean;
