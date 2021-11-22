@@ -1,21 +1,21 @@
-import { FormGroup, Popover } from '@patternfly/react-core';
+import { FormGroup, Popover, ValidatedOptions } from '@patternfly/react-core';
 import HelpIcon from '@patternfly/react-icons/dist/js/icons/help-icon';
 import React from 'react';
 
-interface IFormGroupWithPopoverProps {
+export type FormGroupWithPopoverProps = {
   children: React.ReactNode;
   labelHead: string;
   fieldId: string;
   fieldLabel?: string;
   labelBody: string;
   buttonAriaLabel: string;
-  validated?: 'default' | 'error' | 'success' | 'warning' | undefined;
+  validated?: ValidatedOptions;
   helperText?: string;
   helperTextInvalid?: string;
   isRequired?: boolean;
-}
+};
 
-export const FormGroupWithPopover: React.FC<IFormGroupWithPopoverProps> = ({
+export const FormGroupWithPopover: React.FC<FormGroupWithPopoverProps> = ({
   children,
   labelHead,
   fieldId,

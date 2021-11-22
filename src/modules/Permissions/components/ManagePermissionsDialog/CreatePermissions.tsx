@@ -41,7 +41,7 @@ import {
   NewAcl,
 } from '@app/modules/Permissions/components/ManagePermissionsDialog/acls';
 import { displayName } from '@app/modules/Permissions/utils';
-import { useValidateTopic } from '@app/services/topicNameValidation';
+import { useValidateTopic } from '@app/modules/Topics/utils';
 
 export type CreatePermissionsProps = {
   selectedAccount?: string;

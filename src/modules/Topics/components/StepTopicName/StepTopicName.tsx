@@ -9,9 +9,9 @@ import {
   TextInput,
   TextVariants,
 } from '@patternfly/react-core';
+import { IAdvancedTopic } from '@app/modules/Topics/utils';
+import { useValidateTopic } from '@app/modules/Topics/utils';
 import '../CreateTopicWizard/CreateTopicWizard.css';
-import { IAdvancedTopic } from '../CreateTopicWizard';
-import { useValidateTopic } from '@app/services/topicNameValidation';
 
 export type StepTopicNameProps = {
   topicData: IAdvancedTopic;
@@ -37,13 +37,15 @@ export const StepTopicName: React.FC<StepTopicNameProps> = ({
 
   useEffect(() => {
     validationCheck(topicNameInput);
-  }, []);
+  }, [topicData.name]);
 
-  const validationCheck = (topicNameInput) => {
-    const errorMessage = validateName(topicNameInput);
+  const validationCheck = (inputValue: string) => {
+    const errorMessage = validateName(inputValue);
     if (errorMessage) {
       setInvalidText(errorMessage);
       setTopicNameValidated('error');
+    } else {
+      setTopicNameValidated('default');
     }
   };
 

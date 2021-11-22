@@ -39,8 +39,11 @@ import {
 } from '@app/constant';
 import './TopicDetailView.css';
 import { TextWithLabelPopover } from '@app/components/TextWithLabelPopover';
-import { IAdvancedTopic } from '@app/modules/Topics/components/CreateTopicWizard';
-import { convertRetentionSize, convertRetentionTime } from '@app/utils';
+import { IAdvancedTopic } from '@app/modules/Topics/utils';
+import {
+  formattedRetentionSize,
+  formattedRetentionTime,
+} from '@app/modules/Topics/utils';
 
 export type TopicViewDetailProps = {
   /** Topic details */
@@ -160,7 +163,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                         fieldId='retention-time'
                         btnAriaLabel={t('topic.retention_time')}
                         fieldLabel={t('topic.retention_time')}
-                        fieldValue={convertRetentionTime(
+                        fieldValue={formattedRetentionTime(
                           Number(topic['retention.ms'])
                         )}
                         popoverBody={t('topic.retention_time_description')}
@@ -172,7 +175,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                         fieldId='retention-size'
                         btnAriaLabel={t('topic.retention_size')}
                         fieldLabel={t('topic.retention_size')}
-                        fieldValue={convertRetentionSize(
+                        fieldValue={formattedRetentionSize(
                           Number(topic['retention.bytes'])
                         )}
                         popoverHeader={t('topic.retention_size')}

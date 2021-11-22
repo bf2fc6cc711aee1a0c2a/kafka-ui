@@ -1,5 +1,7 @@
+import { ValidatedOptions } from '@patternfly/react-core';
+
 export type Validated<T> = {
   value: T;
-  validated?: 'success' | 'warning' | 'error' | 'default';
+  validated: ValidatedOptions | undefined;
   errorMessage?: string;
 };
