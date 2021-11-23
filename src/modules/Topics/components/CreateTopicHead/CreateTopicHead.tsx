@@ -22,16 +22,15 @@ export const CreateTopichead: React.FC<CreateTopicProps> = ({
   setIsSwitchChecked,
   kafkaName,
   kafkaPageLink,
+  kafkaInstanceLink,
 }) => {
   const { t } = useTranslation();
 
   const mainBreadcrumbs = (
     <Breadcrumb>
-      <BreadcrumbItem to={kafkaPageLink ? kafkaPageLink : '#'}>
-        Kafka Instances
-      </BreadcrumbItem>
-      <BreadcrumbItem to='#' isActive>
-        {kafkaName ? kafkaName : t('common.kafka_instance_name')}
+      <BreadcrumbItem to={kafkaPageLink || '#'}>Kafka Instances</BreadcrumbItem>
+      <BreadcrumbItem to={kafkaInstanceLink || '#'}>
+        {kafkaName || t('common.kafka_instance_name')}
       </BreadcrumbItem>
       <BreadcrumbItem to='#' isActive>
         {t('topic.create_topic')}

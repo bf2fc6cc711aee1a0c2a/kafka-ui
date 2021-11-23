@@ -34,7 +34,7 @@ export const TopicDetailHead: React.FC<TopicDetailHeadProps> = ({
             {t('common.kafka_instance')}
           </BreadcrumbItem>
           <BreadcrumbItem to={kafkaInstanceLink || '#'}>
-            {kafkaName ? kafkaName : t('common.kafka_instance_name')}
+            {kafkaName || t('common.kafka_instance_name')}
           </BreadcrumbItem>
           <BreadcrumbItem>{topicName}</BreadcrumbItem>
         </Breadcrumb>

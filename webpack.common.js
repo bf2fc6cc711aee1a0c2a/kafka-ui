@@ -107,6 +107,11 @@ module.exports = (env, argv) => {
             './src/modules/Topics/pages/CreateTopic/CreateTopicFederated',
           './UpdateTopic':
             './src/modules/Topics/pages/UpdateTopic/UpdateTopicFederated',
+          './Dashboard': './src/modules/Topics/pages/Dashboard/Dashboard',
+          './Topics': './src/modules/Topics/TopicsFederated',
+          './ConsumerGroups':
+            './src/modules/ConsumerGroups/ConsumerGroupsFederated',
+          './AclPermissions': './src/modules/Permissions/PermissionsFederated',
         },
         shared: {
           ...dependencies,

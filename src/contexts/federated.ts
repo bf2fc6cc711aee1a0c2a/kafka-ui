@@ -16,6 +16,7 @@ export type FederatedProps = Pick<DeleteInstanceProps, 'kafka'> & {
   onCancelUpdateTopic?: () => void;
   updateTopic?: (topicName?: string | undefined) => void;
   showSchemas?: JSX.Element | undefined;
+  redirectAfterDeleteInstance?: () => void;
 };
 
 export const FederatedContext = React.createContext<FederatedProps | undefined>(

@@ -133,7 +133,7 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
       return (
         <ConsumerGroupsTable
           consumerGroups={consumerGroups?.items?.slice(
-            offset,
+            consumerGroups?.items.length > 1 ? offset : 0,
             offset + perPage
           )}
           total={consumerGroups?.items?.length || 0}
