@@ -8,6 +8,7 @@ import {
   SelectGroup,
   SelectOption,
   SelectVariant,
+  ValidatedOptions,
 } from '@patternfly/react-core';
 import { Validated } from '@app/modules/Permissions/components/ManagePermissionsDialog/validated';
 
@@ -37,7 +38,7 @@ export const SelectAccount: React.FunctionComponent<SelectAccountProps> = ({
   };
 
   const clearSelection = () => {
-    setId({ value: undefined });
+    setId({ value: undefined, validated: undefined });
     setIsOpen(false);
   };
 
@@ -50,14 +51,14 @@ export const SelectAccount: React.FunctionComponent<SelectAccountProps> = ({
         if (selection === undefined) {
           return {
             value: selection,
-            validated: 'error',
+            validated: ValidatedOptions.error,
             errorMessage: t(
               'permission.manage_permissions_dialog.must_select_account_error'
             ),
           };
         } else {
           return {
-            validated: 'default',
+            validated: ValidatedOptions.default,
             value: selection,
           };
         }
@@ -151,7 +152,7 @@ export const SelectAccount: React.FunctionComponent<SelectAccountProps> = ({
       )}
       isRequired={true}
       helperTextInvalid={id.errorMessage}
-      validated={id.validated || 'default'}
+      validated={id.validated || ValidatedOptions.default}
     >
       <Select
         variant={SelectVariant.typeahead}
@@ -171,7 +172,7 @@ export const SelectAccount: React.FunctionComponent<SelectAccountProps> = ({
         )}
         isCreatable={false}
         menuAppendTo='parent'
-        validated={id.validated || 'default'}
+        validated={id.validated || ValidatedOptions.default}
         isGrouped={true}
       >
         {options}

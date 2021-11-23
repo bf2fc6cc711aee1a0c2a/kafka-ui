@@ -16,7 +16,7 @@ export const kebabToCamel = function (kebabCase: string): string {
 };
 
 export const kebabToDotSeparated = (val: string): string => {
-  return val.replaceAll('-', '.');
+  return val && val.replaceAll('-', '.');
 };
 
 export enum RetentionTimeUnits {

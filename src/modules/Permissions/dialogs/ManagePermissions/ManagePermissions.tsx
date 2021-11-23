@@ -1,5 +1,11 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Button, Form, FormGroup, Modal } from '@patternfly/react-core';
+import {
+  Button,
+  Form,
+  FormGroup,
+  Modal,
+  ValidatedOptions,
+} from '@patternfly/react-core';
 import { useTranslation } from 'react-i18next';
 import {
   convertEnum,
@@ -98,7 +104,7 @@ export const ManagePermissionsModal: React.FC<
 
   const [selectedAccount, setSelectedAccount] = useState<
     Validated<string | undefined>
-  >({ value: selectedAccountId });
+  >({ value: selectedAccountId, validated: undefined });
   const [step, setStep] = useState<number>(
     selectedAccountId === undefined ? 1 : 2
   );
@@ -106,7 +112,9 @@ export const ManagePermissionsModal: React.FC<
   const [removeAcls, setRemoveAcls] = useState<EnhancedAclBinding[]>([]);
   const escapeClosesModal = useRef<boolean>(true);
   const { validateName } = useValidateTopic();
-  const [currentlyLoggedInuser, setCurrentlyLoggedInuser] = useState();
+  const [currentlyLoggedInuser, setCurrentlyLoggedInuser] = useState<
+    string | undefined
+  >();
 
   const principals = usePrincipals();
 
@@ -127,7 +135,7 @@ export const ManagePermissionsModal: React.FC<
       setSelectedAccount((v) => {
         return {
           ...v,
-          validated: 'error',
+          validated: ValidatedOptions.error,
           errorMessage: t(
             'permission.manage_permissions_dialog.must_select_account_error'
           ),
@@ -138,7 +146,7 @@ export const ManagePermissionsModal: React.FC<
       setSelectedAccount((v) => {
         return {
           ...v,
-          validated: 'default',
+          validated: ValidatedOptions.default,
         };
       });
     }
@@ -148,60 +156,60 @@ export const ManagePermissionsModal: React.FC<
         if (isNewAclModified(value)) {
           const answer = Object.assign({}, value);
           if (value.resourceType.value === undefined) {
-            answer.resourceType.validated = 'error';
+            answer.resourceType.validated = ValidatedOptions.error;
             answer.resourceType.errorMessage = t(
               'permission.manage_permissions_dialog.assign_permissions.must_select_resource_type_error'
             );
             valid = false;
           } else {
-            answer.resourceType.validated = 'default';
+            answer.resourceType.validated = ValidatedOptions.default;
           }
           if (value.resourceType.value !== AclResourceType.Cluster) {
             if (value.resource.value === undefined) {
-              answer.resource.validated = 'error';
+              answer.resource.validated = ValidatedOptions.error;
               answer.resource.errorMessage = t(
                 'permission.manage_permissions_dialog.assign_permissions.must_select_resource_error'
               );
               valid = false;
             } else if (value.resource.value === '*') {
-              answer.resource.validated = 'default';
+              answer.resource.validated = ValidatedOptions.default;
             } else {
               const errorMessage = validateName(value.resource.value);
               if (errorMessage !== undefined) {
-                answer.resource.validated = 'error';
+                answer.resource.validated = ValidatedOptions.error;
                 answer.resource.errorMessage = errorMessage;
                 valid = false;
               } else {
-                answer.resource.validated = 'default';
+                answer.resource.validated = ValidatedOptions.default;
               }
             }
             if (value.patternType.value === undefined) {
-              answer.patternType.validated = 'error';
+              answer.patternType.validated = ValidatedOptions.error;
               answer.patternType.errorMessage = t(
                 'permission.manage_permissions_dialog.assign_permissions.must_select_pattern_type_error'
               );
               valid = false;
             } else {
-              answer.patternType.validated = 'default';
+              answer.patternType.validated = ValidatedOptions.default;
             }
           }
           if (value.permission.value === undefined) {
-            answer.permission.validated = 'error';
+            answer.permission.validated = ValidatedOptions.error;
             answer.permission.errorMessage = t(
               'permission.manage_permissions_dialog.assign_permissions.must_select_permission_error'
             );
             valid = false;
           } else {
-            answer.permission.validated = 'default';
+            answer.permission.validated = ValidatedOptions.default;
           }
           if (value.operation.value === undefined) {
-            answer.operation.validated = 'error';
+            answer.operation.validated = ValidatedOptions.error;
             answer.operation.errorMessage = t(
               'permission.manage_permissions_dialog.assign_permissions.must_select_operation_error'
             );
             valid = false;
           } else {
-            answer.operation.validated = 'default';
+            answer.operation.validated = ValidatedOptions.default;
           }
           return answer;
         } else {

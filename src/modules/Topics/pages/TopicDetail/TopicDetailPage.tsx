@@ -11,7 +11,6 @@ import {
   TabTitleText,
 } from '@patternfly/react-core';
 import {
-  IAdvancedTopic,
   TopicDetailHead,
   TopicDetailView,
 } from '@app/modules/Topics/components';
@@ -19,9 +18,14 @@ import { getTopicDetail } from '@app/services';
 import { ConfigContext, useFederated } from '@app/contexts';
 import { ConsumerGroups } from '@app/modules/ConsumerGroups';
 import { isAxiosError } from '@app/utils/axios';
-import { useAlert, useBasename } from '@rhoas/app-services-ui-shared';
+import { IAdvancedTopic } from '@app/modules/Topics/utils';
+import {
+  useAlert,
+  useBasename,
+  ModalType,
+  useModal,
+} from '@rhoas/app-services-ui-shared';
 import '../style.css';
-import { ModalType, useModal } from '@rhoas/app-services-ui-shared';
 
 export const TopicDetailPage: React.FC = () => {
   const {

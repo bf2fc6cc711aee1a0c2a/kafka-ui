@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SelectOption } from '@app/modules/Permissions/components/ManagePermissionsDialog/select';
-import { Select as PFSelect } from '@patternfly/react-core/dist/js/components/Select/Select';
-import { SelectVariant, ValidatedOptions } from '@patternfly/react-core';
-import { SelectOption as PFSelectOption } from '@patternfly/react-core/dist/js/components/Select/SelectOption';
+import {
+  SelectVariant,
+  ValidatedOptions,
+  Select as PFSelect,
+  SelectOption as PFSelectOption,
+} from '@patternfly/react-core';
 import { Validated } from '@app/modules/Permissions/components/ManagePermissionsDialog/validated';
 import { FormGroupWithPopover } from '@app/components';
 
@@ -109,7 +112,7 @@ export const CreateTypeahead: React.FunctionComponent<CreateTypeaheadProps> = ({
         createText={t(
           'permission.manage_permissions_dialog.assign_permissions.resource_name_typeahead_create_text'
         )}
-        validated={value.validated || 'default'}
+        validated={value.validated || ValidatedOptions.default}
         menuAppendTo={menuAppendTo}
         maxHeight={200}
         direction={'up'}

@@ -12,6 +12,7 @@ import {
   AclPermissionType,
   AclResourceType,
 } from '@rhoas/kafka-instance-sdk';
+import { ValidatedOptions } from '@patternfly/react-core';
 
 export type CreateSelectProps<T> = {
   id: string;
@@ -86,7 +87,7 @@ export const CreateSelect = <
       )}
       isRequired={true}
       helperTextInvalid={selected.errorMessage}
-      validated={selected.validated || 'default'}
+      validated={selected.validated || ValidatedOptions.default}
     >
       <PFSelect
         variant={SelectVariant.single}
@@ -97,7 +98,7 @@ export const CreateSelect = <
         isOpen={isOpen}
         isInputValuePersisted={true}
         placeholderText={placeholder}
-        validated={selected.validated || 'default'}
+        validated={selected.validated || ValidatedOptions.default}
         menuAppendTo={menuAppendTo}
         maxHeight={200}
         direction={'up'}
