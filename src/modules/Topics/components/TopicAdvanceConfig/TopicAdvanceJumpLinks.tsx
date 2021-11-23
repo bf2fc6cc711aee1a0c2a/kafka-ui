@@ -10,7 +10,7 @@ const TopicAdvanceJumpLinks: React.FC = () => {
       <JumpLinks
         isVertical
         label={t('topic.jump_to_section')}
-        scrollableSelector='.app-services-ui--u-display-contents > div:nth-child(1) > div:nth-child(1) > div:nth-child(1)'
+        scrollableSelector='.pf-c-page__main[tabindex="-1"]'
         style={{ position: 'sticky' }}
         offset={-164} // for header
       >
