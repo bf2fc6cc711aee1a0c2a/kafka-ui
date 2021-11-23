@@ -34,6 +34,7 @@ const UpdateTopicFederated: FunctionComponent<UpdateTopicFederatedProps> = ({
             kafkaPageLink,
             kafkaInstanceLink,
             onError,
+            kafka: {},
           }}
         >
           <ModalProvider>

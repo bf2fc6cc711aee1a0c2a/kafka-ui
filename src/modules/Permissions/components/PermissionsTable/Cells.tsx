@@ -38,7 +38,9 @@ type PrincipalWithTooltipProps = {
 };
 const PrincipalWithTooltip: React.FunctionComponent<PrincipalWithTooltipProps> =
   ({ acl }) => {
-    const [currentlyLoggedInuser, setCurrentlyLoggedInuser] = useState();
+    const [currentlyLoggedInuser, setCurrentlyLoggedInuser] = useState<
+      string | undefined
+    >();
     const auth = useAuth();
     const { kafka } = useFederated() || {};
 
@@ -95,19 +97,16 @@ const PrincipalWithTooltip: React.FunctionComponent<PrincipalWithTooltipProps> =
   };
 
 export const principalCell: CellBuilder<EnhancedAclBinding> = (item) => {
-  switch (item.principal) {
-    case '*':
-      return {
-        title: <AllAccountsPrincipal />,
-        props: {},
-      };
-      break;
-    default:
-      return {
-        title: <PrincipalWithTooltip acl={item} />,
-        props: {},
-      };
-      break;
+  if (item.principal === '*') {
+    return {
+      title: <AllAccountsPrincipal />,
+      props: {},
+    };
+  } else {
+    return {
+      title: <PrincipalWithTooltip acl={item} />,
+      props: {},
+    };
   }
 };
 

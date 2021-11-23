@@ -27,6 +27,7 @@ import {
   TextContent,
   TextVariants,
   Tooltip,
+  ValidatedOptions,
 } from '@patternfly/react-core';
 import { CreateSelect } from '@app/modules/Permissions/components/ManagePermissionsDialog/CreateSelect';
 import { sentenceCase } from 'sentence-case';
@@ -222,12 +223,12 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
           onSelect={(value) => {
             setAcls((prevState) => {
               if (value === undefined) {
-                prevState[row].patternType.validated = 'error';
+                prevState[row].patternType.validated = ValidatedOptions.error;
                 prevState[row].patternType.validated = t(
                   'permission.manage_permissions_dialog.assign_permissions.must_select_pattern_type_error'
                 );
               } else {
-                prevState[row].patternType.validated = 'default';
+                prevState[row].patternType.validated = ValidatedOptions.default;
               }
               return prevState;
             });
@@ -258,12 +259,13 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
           onSelect={(value) => {
             setAcls((prevState) => {
               if (value === undefined) {
-                prevState[row].resourceType.validated = 'error';
+                prevState[row].resourceType.validated = ValidatedOptions.error;
                 prevState[row].resourceType.errorMessage = t(
                   'permission.manage_permissions_dialog.assign_permissions.must_select_resource_type_error'
                 );
               } else {
-                prevState[row].resourceType.validated = 'default';
+                prevState[row].resourceType.validated =
+                  ValidatedOptions.default;
               }
               return prevState;
             });
@@ -301,20 +303,20 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
           onSelect={(value) => {
             if (value === '*') {
               setAcls((prevState) => {
-                prevState[row].resource.validated = 'default';
+                prevState[row].resource.validated = ValidatedOptions.default;
                 return prevState;
               });
             } else {
               const errorMessage = validateName(value);
               if (errorMessage !== undefined) {
                 setAcls((prevState) => {
-                  prevState[row].resource.validated = 'error';
+                  prevState[row].resource.validated = ValidatedOptions.error;
                   prevState[row].resource.errorMessage = errorMessage;
                   return prevState;
                 });
               } else if (value !== undefined) {
                 setAcls((prevState) => {
-                  prevState[row].resource.validated = 'default';
+                  prevState[row].resource.validated = ValidatedOptions.default;
                   return prevState;
                 });
               }
@@ -346,12 +348,12 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
           onSelect={(value) => {
             setAcls((prevState) => {
               if (value === undefined) {
-                prevState[row].permission.validated = 'error';
+                prevState[row].permission.validated = ValidatedOptions.error;
                 prevState[row].permission.errorMessage = t(
                   'permission.manage_permissions_dialog.assign_permissions.must_select_permission_error'
                 );
               } else {
-                prevState[row].permission.validated = 'default';
+                prevState[row].permission.validated = ValidatedOptions.default;
               }
               return prevState;
             });
@@ -399,12 +401,12 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
           onSelect={(value) => {
             setAcls((prevState) => {
               if (value === undefined) {
-                prevState[row].operation.validated = 'error';
+                prevState[row].operation.validated = ValidatedOptions.error;
                 prevState[row].operation.errorMessage = t(
                   'permission.manage_permissions_dialog.assign_permissions.must_select_operation_error'
                 );
               } else {
-                prevState[row].operation.validated = 'default';
+                prevState[row].operation.validated = ValidatedOptions.default;
               }
               return prevState;
             });

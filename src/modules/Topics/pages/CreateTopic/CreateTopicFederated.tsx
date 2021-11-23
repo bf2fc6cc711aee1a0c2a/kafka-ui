@@ -30,6 +30,7 @@ const CreateTopicFederated: FunctionComponent<CreateTopicFederatedProps> = ({
             kafkaName,
             kafkaPageLink,
             kafkaInstanceLink,
+            kafka: {},
           }}
         >
           <ModalProvider>
