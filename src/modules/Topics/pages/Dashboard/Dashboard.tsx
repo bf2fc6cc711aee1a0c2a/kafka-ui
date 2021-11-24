@@ -32,4 +32,5 @@ const Dashboard: React.FC<DashboardProps> = ({
   );
 };
 
+export { Dashboard };
 export default Dashboard;
