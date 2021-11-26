@@ -16,7 +16,6 @@ import {
   TabTitleText,
   Title,
 } from '@patternfly/react-core';
-import { useModal, ModalType } from '@rhoas/app-services-ui-shared';
 import { useFederated } from '@app/contexts';
 
 export type MainViewHeaderProps = {
@@ -27,14 +26,8 @@ const MainViewHeader: React.FC<MainViewHeaderProps> = ({ activeTabKey }) => {
   const { t } = useTranslation();
   const history = useHistory();
 
-  const {
-    kafka = {},
-    kafkaPageLink,
-    kafkaName,
-    handleInstanceDrawer,
-    redirectAfterDeleteInstance,
-  } = useFederated() || {};
-  const { showModal } = useModal<ModalType.KasDeleteInstance>();
+  const { kafkaPageLink, kafkaName, handleInstanceDrawer, onDeleteInstance } =
+    useFederated() || {};
 
   const [isOpen, setIsOpen] = useState<boolean>();
 
@@ -44,14 +37,6 @@ const MainViewHeader: React.FC<MainViewHeaderProps> = ({ activeTabKey }) => {
 
   const onSelectKebabOption = (activeTab: string) => {
     handleInstanceDrawer && handleInstanceDrawer(true, activeTab);
-  };
-
-  const onDeleteInstance = () => {
-    showModal &&
-      showModal(ModalType.KasDeleteInstance, {
-        kafka,
-        onDelete: redirectAfterDeleteInstance,
-      });
   };
 
   const onToggle = (isOpen: boolean) => {

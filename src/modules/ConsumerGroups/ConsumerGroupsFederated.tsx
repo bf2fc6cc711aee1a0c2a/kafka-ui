@@ -15,6 +15,7 @@ import {
   ConfigContext,
   IConfiguration,
 } from '@app/contexts';
+import { useModal, ModalType } from '@rhoas/app-services-ui-shared';
 
 type ConsumerGroupsFederatedProps = FederatedProps &
   IConfiguration & {
@@ -31,6 +32,16 @@ const ConsumerGroupsFederated: React.FC<ConsumerGroupsFederatedProps> = ({
   apiBasePath,
   getToken,
 }) => {
+  const { showModal } = useModal<ModalType.KasDeleteInstance>();
+
+  const onDeleteInstance = () => {
+    showModal &&
+      showModal(ModalType.KasDeleteInstance, {
+        kafka,
+        onDelete: redirectAfterDeleteInstance,
+      });
+  };
+
   return (
     <I18nextProvider i18n={kafkai18n}>
       <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
@@ -42,6 +53,7 @@ const ConsumerGroupsFederated: React.FC<ConsumerGroupsFederatedProps> = ({
             kafka,
             redirectAfterDeleteInstance,
             onError,
+            onDeleteInstance,
           }}
         >
           <ModalProvider>
