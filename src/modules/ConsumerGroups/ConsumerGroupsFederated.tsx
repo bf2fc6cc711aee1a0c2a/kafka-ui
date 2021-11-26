@@ -1,40 +1,36 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
+import { PageSection } from '@patternfly/react-core';
+import { ConsumerGroups } from './ConsumerGroups';
+import { ModalProvider } from '@rhoas/app-services-ui-components';
 import { I18nextProvider } from 'react-i18next';
+import kafkai18n from '@app/i18n';
 import {
-  FederatedContext,
+  MainViewHeader,
+  KafkaModalLoader,
+  PaginationProvider,
+} from '@app/components';
+import {
   FederatedProps,
+  FederatedContext,
   ConfigContext,
   IConfiguration,
 } from '@app/contexts';
-import kafkai18n from '@app/i18n';
-import { MainView } from './MainView';
-import { KafkaModalLoader, PaginationProvider } from '@app/components';
-import { ModalProvider } from '@rhoas/app-services-ui-components';
-import {
-  useModal,
-  ModalType,
-  DeleteInstanceProps,
-} from '@rhoas/app-services-ui-shared';
+import { useModal, ModalType } from '@rhoas/app-services-ui-shared';
 
-export type MainViewFederatedProps = FederatedProps &
-  IConfiguration &
-  Pick<DeleteInstanceProps, 'kafka'> & {
+type ConsumerGroupsFederatedProps = FederatedProps &
+  IConfiguration & {
     apiBasePath: string;
-    redirectAfterDeleteInstance?: () => void;
   };
 
-const MainViewFederated: FunctionComponent<MainViewFederatedProps> = ({
-  getToken,
-  apiBasePath,
+const ConsumerGroupsFederated: React.FC<ConsumerGroupsFederatedProps> = ({
   kafkaName,
   kafkaPageLink,
-  onError,
   handleInstanceDrawer,
-  setIsOpenDeleteInstanceModal,
-  showMetrics,
-  activeTab = 1,
-  kafka,
   redirectAfterDeleteInstance,
+  kafka,
+  onError,
+  apiBasePath,
+  getToken,
 }) => {
   const { showModal } = useModal<ModalType.KasDeleteInstance>();
 
@@ -53,18 +49,20 @@ const MainViewFederated: FunctionComponent<MainViewFederatedProps> = ({
           value={{
             kafkaName,
             kafkaPageLink,
-            onError,
             handleInstanceDrawer,
-            setIsOpenDeleteInstanceModal,
-            showMetrics,
-            activeTab,
             kafka,
+            redirectAfterDeleteInstance,
+            onError,
+            onDeleteInstance,
           }}
         >
           <ModalProvider>
             <PaginationProvider>
-              <MainView onDeleteInstance={onDeleteInstance} />
-              <KafkaModalLoader />
+              <MainViewHeader activeTabKey={3} />
+              <PageSection isFilled>
+                <ConsumerGroups consumerGroupByTopic={false} />
+                <KafkaModalLoader />
+              </PageSection>
             </PaginationProvider>
           </ModalProvider>
         </FederatedContext.Provider>
@@ -73,4 +71,4 @@ const MainViewFederated: FunctionComponent<MainViewFederatedProps> = ({
   );
 };
 
-export default MainViewFederated;
+export default ConsumerGroupsFederated;

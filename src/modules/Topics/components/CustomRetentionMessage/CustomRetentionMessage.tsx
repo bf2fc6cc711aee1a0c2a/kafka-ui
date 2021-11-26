@@ -38,10 +38,17 @@ const CustomRetentionMessage: React.FC<CustomRetentionMessageProps> = ({
     fieldName: string,
     selection: string | SelectOptionObject
   ) => {
+    let propetyName;
+    if (fieldName === 'retention-ms') {
+      propetyName = 'selectedRetentionTimeOption';
+    } else if (fieldName === 'retention-bytes') {
+      propetyName = 'selectedRetentionSizeOption';
+    }
+
     setTopicData({
       ...topicData,
       [`${kebabToDotSeparated(fieldName)}.unit`]: selection,
-      selectedRetentionTimeOption:
+      [propetyName]:
         selection !== RetentionTimeUnits.DAY
           ? RetentionTimeUnits.CUSTOM
           : topicData.selectedRetentionTimeOption,

@@ -163,7 +163,10 @@ const Topics: React.FC = () => {
           topicItems={
             searchTopicName
               ? topicItems?.slice(0, perPage)
-              : topicItems?.slice(offset, offset + perPage)
+              : topicItems?.slice(
+                  topicItems.length > 1 ? offset : 0,
+                  offset + perPage
+                )
           }
           filteredValue={searchTopicName}
           setFilteredValue={setSearchTopicName}

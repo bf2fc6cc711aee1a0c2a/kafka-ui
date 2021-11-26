@@ -17,7 +17,7 @@ export const CreateTopicPage: React.FC = () => {
   const [isSwitchChecked, setIsSwitchChecked] = useState<boolean>(false);
 
   const onCloseCreateTopic = () => {
-    history.push(basename);
+    history.push(`${basename}/topics`);
   };
 
   return (

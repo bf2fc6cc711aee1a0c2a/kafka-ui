@@ -1,19 +1,28 @@
 import React from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import {
-  MainView,
   CreateTopicPage,
   UpdateTopicPage,
   TopicDetailPage,
+  DashboardConnected,
 } from '@app/modules/Topics/pages';
-import { ConsumerGroupsView } from '@app/modules/ConsumerGroups/pages';
+import { TopicsConnected } from '@app/modules/Topics';
+import { ConsumerGroupsConnected } from '@app/modules/ConsumerGroups';
+import { PermissionsConnected } from '@app/modules/Permissions';
 
 const Routes: React.FC = () => {
   return (
     <Router>
       <Switch>
-        <Route path='/' component={MainView} exact />
-        <Route path='/topics' component={MainView} exact />
+        <Route path='/' component={DashboardConnected} exact />
+        <Route path='/dashboard' component={DashboardConnected} exact />
+        <Route path='/topics' component={TopicsConnected} exact />
+        <Route
+          path='/consumer-groups'
+          component={ConsumerGroupsConnected}
+          exact
+        />
+        <Route path='/acls' component={PermissionsConnected} exact />
         <Route path='/topics/:topicName' component={TopicDetailPage} exact />
         <Route path='/topic/create' component={CreateTopicPage} />
         <Route
@@ -21,7 +30,6 @@ const Routes: React.FC = () => {
           component={UpdateTopicPage}
           exact
         />
-        <Route path='/consumerGroups' component={ConsumerGroupsView} exact />
         <Route
           path='/topics/consumerGroups/:topicName'
           component={TopicDetailPage}

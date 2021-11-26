@@ -66,7 +66,7 @@ export const TopicDetailPage: React.FC = () => {
 
   const onDeleteTopic = () => {
     //Redirect on topics  viewpage after delete topic successfuly
-    history.push(basename);
+    history.push(`${basename}/topics`);
   };
 
   const fetchTopicDetail = async (topicName: string) => {

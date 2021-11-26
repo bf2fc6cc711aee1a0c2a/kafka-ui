@@ -132,10 +132,14 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
     } else if (consumerGroups) {
       return (
         <ConsumerGroupsTable
-          consumerGroups={consumerGroups?.items?.slice(
-            offset,
-            offset + perPage
-          )}
+          consumerGroups={
+            search
+              ? consumerGroups?.items?.slice(0, perPage)
+              : consumerGroups?.items?.slice(
+                  consumerGroups?.items.length > 1 ? offset : 0,
+                  offset + perPage
+                )
+          }
           total={consumerGroups?.items?.length || 0}
           page={page}
           perPage={perPage}
