@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
+  Alert,
   Button,
   Form,
+  FormAlert,
   FormGroup,
   Modal,
   ValidatedOptions,
@@ -224,13 +226,31 @@ export const ManagePermissionsModal: React.FC<
     if (valid) {
       for (const value of newAcls.filter((value) => isNewAclModified(value))) {
         if (value.resourceType.value === undefined) {
+          setSelectedAccount((v) => {
+            return {
+              ...v,
+              validated: ValidatedOptions.error,
+            };
+          });
           throw Error('resourceType must not be undefined');
         }
         if (value.resourceType.value !== AclResourceType.Cluster) {
           if (value.resource.value === undefined) {
+            setSelectedAccount((v) => {
+              return {
+                ...v,
+                validated: ValidatedOptions.error,
+              };
+            });
             throw Error('resource must not be undefined');
           }
           if (value.patternType.value === undefined) {
+            setSelectedAccount((v) => {
+              return {
+                ...v,
+                validated: ValidatedOptions.error,
+              };
+            });
             throw Error('patternType must not be undefined');
           }
         } else {
@@ -238,10 +258,22 @@ export const ManagePermissionsModal: React.FC<
           value.patternType.value = AclPatternType.Literal;
         }
         if (value.permission.value === undefined) {
+          setSelectedAccount((v) => {
+            return {
+              ...v,
+              validated: ValidatedOptions.error,
+            };
+          });
           throw Error('permission must not be undefined');
         }
 
         if (value.operation.value === undefined) {
+          setSelectedAccount((v) => {
+            return {
+              ...v,
+              validated: ValidatedOptions.error,
+            };
+          });
           throw Error('operation must not be undefined');
         }
         await permissionsService.addPermission({
@@ -280,6 +312,16 @@ export const ManagePermissionsModal: React.FC<
         document.getElementById('manage-permissions-modal') || undefined;
       return (
         <>
+          {selectedAccount.validated === 'error' && (
+            <FormAlert>
+              <Alert
+                variant='danger'
+                title={t('permission.manage_permissions_dialog.form_alert')}
+                aria-live='polite'
+                isInline
+              />
+            </FormAlert>
+          )}
           <ExistingAclTable
             existingAcls={acls.filter(
               (i) =>

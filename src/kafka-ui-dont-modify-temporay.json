@@ -192,6 +192,7 @@
       "account_id_help": "A service account enables your application or tool to connect securely to your resources. A user account enables users in your organization to access resources.",
       "account_id_typeahead_aria": "Select an account",
       "account_id_typeahead_placeholder": "Select an account",
+      "form_alert": "Address form errors to proceed",
       "must_select_account_error": "Required",
       "all_accounts_title": "All accounts",
       "all_accounts_description": "Uses a wildcard (*) to assign permissions to all user and service accounts",
