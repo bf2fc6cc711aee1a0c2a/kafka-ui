@@ -29,7 +29,7 @@ import {
   AclResourceTypeFilter,
 } from '@rhoas/kafka-instance-sdk';
 import { ModalType, useModal } from '@rhoas/app-services-ui-shared';
-import { MASPagination, MASTable } from '@app/components';
+import { MASPagination, MASTable, usePaginationParams } from '@app/components';
 
 export type PermissionsTableProps = {
   permissionsService: PermissionsService;
@@ -61,12 +61,17 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
   const [aclPage, setAclPage] = useState<
     SelectableEnhancedAclBindingListPage | undefined
   >();
+  const { page, perPage } = usePaginationParams() || {};
 
   const fetchPermissions = async () => {
     try {
-      const response = await permissionsService.getPermissions({
-        resourceName: filteredValue !== '' ? filteredValue : undefined,
-      } as AclFilter);
+      const response = await permissionsService.getPermissions(
+        {
+          resourceName: filteredValue !== '' ? filteredValue : undefined,
+        } as AclFilter,
+        perPage,
+        page
+      );
       setAclPage((prevState) => {
         return {
           items: response.items?.map((value) => {
@@ -93,6 +98,10 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
   useEffect(() => {
     fetchPermissions();
   }, []);
+
+  useEffect(() => {
+    fetchPermissions();
+  }, [page, perPage]);
 
   useTimeout(() => fetchPermissions(), 5000);
 
