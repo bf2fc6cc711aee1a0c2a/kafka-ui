@@ -39,6 +39,7 @@ import {
   AclResourceType,
   AclResourceTypeFilter,
 } from '@rhoas/kafka-instance-sdk';
+import { PreCancelModal } from './PreCancelModal';
 import './ManagePermissions.css';
 
 export const ManagePermissions: React.FC<
@@ -110,6 +111,9 @@ export const ManagePermissionsModal: React.FC<
   );
   const [newAcls, setNewAcls] = useState<NewAcl[]>([createEmptyNewAcl()]);
   const [removeAcls, setRemoveAcls] = useState<EnhancedAclBinding[]>([]);
+  const [isOpenPreCancelModal, setIsOpenPreCancelModal] =
+    useState<boolean>(false);
+
   const escapeClosesModal = useRef<boolean>(true);
   const { validateName } = useValidateTopic();
   const [currentlyLoggedInuser, setCurrentlyLoggedInuser] = useState<
@@ -348,6 +352,10 @@ export const ManagePermissionsModal: React.FC<
     }
   };
 
+  const isDisabledSaveButton = !newAcls.some(
+    (p) => isNewAclModified(p) || removeAcls.length > 0
+  );
+
   const SubmitButton: React.FunctionComponent = () => {
     if (step === 1) {
       return (
@@ -365,9 +373,7 @@ export const ManagePermissionsModal: React.FC<
         variant='primary'
         onClick={save}
         key={1}
-        isDisabled={
-          !newAcls.some((p) => isNewAclModified(p) || removeAcls.length > 0)
-        }
+        isDisabled={isDisabledSaveButton}
       >
         {t('permission.manage_permissions_dialog.step_2_submit_button')}
       </Button>
@@ -387,6 +393,23 @@ export const ManagePermissionsModal: React.FC<
     </Form>
   );
 
+  const closePermissionModal = () => {
+    if (step === 2 && !isDisabledSaveButton) {
+      setIsOpenPreCancelModal(true);
+    } else {
+      hideModal();
+    }
+  };
+
+  const closePreCancelModal = () => {
+    setIsOpenPreCancelModal(false);
+    hideModal();
+  };
+
+  const resumeEditingPermissions = () => {
+    setIsOpenPreCancelModal(false);
+  };
+
   return (
     <Modal
       id='manage-permissions-modal'
@@ -397,15 +420,20 @@ export const ManagePermissionsModal: React.FC<
       title={title}
       showClose={true}
       aria-describedby='modal-message'
-      onClose={hideModal}
+      onClose={closePermissionModal}
       onEscapePress={onEscapePress}
       actions={[
         <SubmitButton key={1} />,
-        <Button onClick={hideModal} key={2} variant='secondary'>
+        <Button onClick={closePermissionModal} key={2} variant='secondary'>
           {t('permission.manage_permissions_dialog.cancel_button')}
         </Button>,
       ]}
     >
+      <PreCancelModal
+        isOpen={isOpenPreCancelModal}
+        closeModal={closePreCancelModal}
+        resumeEditing={resumeEditingPermissions}
+      />
       <ModalForm />
     </Modal>
   );
