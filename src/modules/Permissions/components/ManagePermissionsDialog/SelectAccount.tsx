@@ -91,7 +91,11 @@ export const SelectAccount: React.FunctionComponent<SelectAccountProps> = ({
           (principal) =>
             principal.principalType === PrincipalType.ServiceAccount
         )
-        .sort((a, b) => a.displayName.localeCompare(b.displayName))
+        .sort((a, b) =>
+          a.displayName && b.displayName
+            ? a.displayName.localeCompare(b.displayName)
+            : -1
+        )
         .map((principal, index) => (
           <SelectOption
             key={index}
