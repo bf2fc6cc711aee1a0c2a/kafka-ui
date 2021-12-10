@@ -93,7 +93,6 @@ export const CreateSelect = <
         variant={SelectVariant.single}
         onToggle={onToggle}
         onSelect={select}
-        onClear={clearSelection}
         selections={selected.value}
         isOpen={isOpen}
         isInputValuePersisted={true}
