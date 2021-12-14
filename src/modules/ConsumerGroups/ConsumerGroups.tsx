@@ -60,23 +60,19 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
 
   const fetchConsumerGroups = async () => {
     const limit = 100;
-    try {
-      await getConsumerGroups(
-        config,
-        offset,
-        limit,
-        perPage,
-        page,
-        topic,
-        search,
-        order,
-        orderKey
-      ).then((response) => {
-        setConsumerGroups(response);
-      });
-    } catch (err) {
-      //addAlert(err.response.data.error_message, AlertVariant.danger);
-    }
+    await getConsumerGroups(
+      config,
+      offset,
+      limit,
+      perPage,
+      page,
+      topic,
+      search,
+      order,
+      orderKey
+    ).then((response) => {
+      setConsumerGroups(response);
+    });
   };
 
   useEffect(() => {

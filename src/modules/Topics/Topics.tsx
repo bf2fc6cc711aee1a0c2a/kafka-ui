@@ -1,12 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import {
-  AlertVariant,
-  Card,
-  PageSection,
-  PageSectionVariants,
-} from '@patternfly/react-core';
+import { Card, PageSection, PageSectionVariants } from '@patternfly/react-core';
 import { useTimeout } from '@app/hooks/useTimeOut';
 import { TopicsTable } from './components';
 import {
@@ -18,7 +13,7 @@ import {
 import { getTopics, OrderKey } from '@app/services';
 import { ConfigContext, useFederated } from '@app/contexts';
 import { Topic } from '@rhoas/kafka-instance-sdk';
-import { useAlert, useBasename } from '@rhoas/app-services-ui-shared';
+import { useBasename } from '@rhoas/app-services-ui-shared';
 import './Topics.css';
 import { ISortBy, OnSort, SortByDirection } from '@patternfly/react-table';
 import { isAxiosError } from '@app/utils/axios';
@@ -36,11 +31,7 @@ export type ITopicProps = {
 const Topics: React.FC = () => {
   const { onError } = useFederated() || {};
   const { t } = useTranslation();
-  const { addAlert } = useAlert() || {
-    addAlert: () => {
-      // No-op
-    },
-  };
+
   const config = useContext(ConfigContext);
   const { page = 1, perPage = 10 } = usePaginationParams() || {};
   const history = useHistory();
@@ -113,11 +104,6 @@ const Topics: React.FC = () => {
       }
       if (onError && code === 401) {
         onError(code, message);
-      } else {
-        addAlert({
-          title: message || '',
-          variant: AlertVariant.danger,
-        });
       }
     }
   };
