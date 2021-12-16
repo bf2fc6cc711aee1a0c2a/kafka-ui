@@ -56,7 +56,7 @@
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "@patternfly/patternfly": "4.151.4",
+    "@patternfly/patternfly": "4.164.2",
     "@patternfly/react-core": "4.168.8",
     "@patternfly/react-table": "4.37.8",
     "@redhat-cloud-services/frontend-components": "3.5.1",
@@ -145,7 +145,7 @@
     "webpack-node-externals": "3.0.0"
   },
   "peerDependencies": {
-    "@patternfly/patternfly": "4.151.4",
+    "@patternfly/patternfly": "4.164.2",
     "@patternfly/react-core": "4.168.8",
     "@patternfly/react-table": "4.37.8",
     "@redhat-cloud-services/frontend-components": "3.5.1",
