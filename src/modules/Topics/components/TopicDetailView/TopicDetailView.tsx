@@ -60,7 +60,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
   const { topicName } = useParams<{ topicName: string }>();
   const { getBasename } = useBasename() || { getBasename: () => '' };
   const basename = getBasename();
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
   const updateTopic = () => {
     history.push(`${basename}/topic/update/${topicName}`);

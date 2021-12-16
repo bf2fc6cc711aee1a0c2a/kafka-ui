@@ -45,7 +45,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps
   }) => {
     const config = useContext(ConfigContext);
     const { showModal } = useModal<ModalType.KafkaUpdatePartitions>();
-    const { t } = useTranslation();
+    const { t } = useTranslation(['kafkaTemporaryFixMe']);
     const actionText = isCreate ? t('topic.create_topic') : t('common.save');
 
     //states

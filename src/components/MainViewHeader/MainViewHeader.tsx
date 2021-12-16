@@ -23,7 +23,7 @@ export type MainViewHeaderProps = {
 };
 
 const MainViewHeader: React.FC<MainViewHeaderProps> = ({ activeTabKey }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const history = useHistory();
 
   const { kafkaPageLink, kafkaName, handleInstanceDrawer, onDeleteInstance } =

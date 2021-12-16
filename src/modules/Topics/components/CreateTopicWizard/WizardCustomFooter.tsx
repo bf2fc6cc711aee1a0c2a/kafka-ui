@@ -18,7 +18,7 @@ export const WizardCustomFooter: React.FC<IWizardFooter> = ({
   topicNameValidated,
   closeWizard,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
   return (
     <WizardFooter>

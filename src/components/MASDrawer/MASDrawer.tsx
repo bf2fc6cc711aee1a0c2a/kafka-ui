@@ -68,7 +68,7 @@ export const MASDrawer: React.FC<MASDrawerProps> = ({
   const { widths, ...restDrawerPanelContentProps } =
     drawerPanelContentProps || {};
   const { text, title } = drawerHeaderProps || {};
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const { showModal } = useModal<ModalType.KafkaDeleteConsumerGroup>();
   const { showModal: showResetOffsetModal } =
     useModal<ModalType.KafkaConsumerGroupResetOffset>();

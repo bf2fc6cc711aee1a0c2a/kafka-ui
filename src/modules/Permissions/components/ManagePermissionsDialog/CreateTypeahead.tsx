@@ -38,7 +38,7 @@ export const CreateTypeahead: React.FunctionComponent<CreateTypeaheadProps> = ({
   setEscapeClosesModal,
   menuAppendTo,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [options, setOptions] = useState<SelectOption<string>[]>([]);
 

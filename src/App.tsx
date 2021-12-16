@@ -1,5 +1,4 @@
-import React from 'react';
-import { I18nextProvider } from 'react-i18next';
+import React, { Suspense } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import '@patternfly/patternfly/utilities/Display/display.css';
 import '@patternfly/patternfly/utilities/Flex/flex.css';
@@ -7,22 +6,40 @@ import '@patternfly/patternfly/utilities/Accessibility/accessibility.css';
 import '@patternfly/patternfly/utilities/Sizing/sizing.css';
 import '@patternfly/patternfly/utilities/Spacing/spacing.css';
 import '@patternfly/patternfly/patternfly.css';
-import kafkai18n from '@app/i18n';
 import { ConfigContext } from '@app/contexts';
 import {
-  ErrorBoundary,
   AppLayout,
   AlertProvider,
   PaginationProvider,
   KafkaModalLoader,
+  Loading,
 } from '@app/components';
 import { Routes } from '@app/Routes';
 import { BasenameContext } from '@rhoas/app-services-ui-shared';
-import { ModalProvider } from '@rhoas/app-services-ui-components';
+import { I18nProvider, ModalProvider } from '@rhoas/app-services-ui-components';
 
 const App: React.FC = () => {
   return (
-    <I18nextProvider i18n={kafkai18n}>
+    <I18nProvider
+      lng='en'
+      resources={{
+        en: {
+          common: () =>
+            import('@rhoas/app-services-ui-components/locales/en/common.json'),
+          'create-kafka-instance': () =>
+            import(
+              '@rhoas/app-services-ui-components/locales/en/create-kafka-instance.json'
+            ),
+          kafka: () =>
+            import('@rhoas/app-services-ui-components/locales/en/kafka.json'),
+          metrics: () =>
+            import('@rhoas/app-services-ui-components/locales/en/metrics.json'),
+          kafkaTemporaryFixMe: () =>
+            import('./kafka-ui-dont-modify-temporay.json'),
+        },
+      }}
+      debug={true}
+    >
       <BasenameContext.Provider value={{ getBasename: () => '' }}>
         <ConfigContext.Provider
           value={{
@@ -31,22 +48,22 @@ const App: React.FC = () => {
           }}
         >
           <Router>
-            <ErrorBoundary>
-              <AlertProvider>
-                <ModalProvider>
-                  <PaginationProvider>
+            <AlertProvider>
+              <ModalProvider>
+                <PaginationProvider>
+                  <Suspense fallback={<Loading />}>
                     <AppLayout>
                       <Routes />
                       <KafkaModalLoader />
                     </AppLayout>
-                  </PaginationProvider>
-                </ModalProvider>
-              </AlertProvider>
-            </ErrorBoundary>
+                  </Suspense>
+                </PaginationProvider>
+              </ModalProvider>
+            </AlertProvider>
           </Router>
         </ConfigContext.Provider>
       </BasenameContext.Provider>
-    </I18nextProvider>
+    </I18nProvider>
   );
 };
 

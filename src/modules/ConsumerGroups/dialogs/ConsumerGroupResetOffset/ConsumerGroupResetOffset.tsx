@@ -48,7 +48,7 @@ const ConsumerGroupResetOffset: React.FC<
 > = ({ consumerGroupData, refreshConsumerGroups, hideModal }) => {
   const config = useContext(ConfigContext);
 
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
   const [confirmCheckboxChecked, setConfirmCheckboxChecked] =
     useState<boolean>(false);

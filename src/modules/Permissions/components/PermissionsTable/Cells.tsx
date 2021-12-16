@@ -25,7 +25,7 @@ export type CellBuilder<T extends EnhancedAclBinding> = (
 ) => ICell | string;
 
 const AllAccountsPrincipal: React.FunctionComponent = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
   return (
     <div>
       <Label variant='outline'>{t('permission.table.all_accounts')}</Label>
@@ -131,7 +131,7 @@ export const permissionOperationCell: CellBuilder<EnhancedAclBinding> = (
 
 export const resourceCell: CellBuilder<EnhancedAclBinding> = (item) => {
   const PatternType: React.FunctionComponent = () => {
-    const { t } = useTranslation();
+    const { t } = useTranslation(['kafkaTemporaryFixMe']);
     if (item.patternType === AclPatternType.Prefixed) {
       return t('permission.cells.pattern_type_prefixed');
     } else {

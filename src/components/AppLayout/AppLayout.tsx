@@ -15,7 +15,7 @@ import avatarImg from '../../images/img_avatar.svg';
 import brandImg from '../../images/brandImg.png';
 
 export const AppLayout: React.FC = ({ children }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
   const handleUserDropDownSelect = () => {

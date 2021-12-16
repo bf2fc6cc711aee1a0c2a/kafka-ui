@@ -14,7 +14,7 @@ import {
 } from '@rhoas/app-services-ui-shared';
 
 export const useKafkaModals = (): ModalRegistry => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
   return {
     [ModalType.KafkaDeleteTopic]: {
       lazyComponent: React.lazy(

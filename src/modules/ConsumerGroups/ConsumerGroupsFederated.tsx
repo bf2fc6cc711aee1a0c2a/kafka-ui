@@ -2,8 +2,6 @@ import React from 'react';
 import { PageSection } from '@patternfly/react-core';
 import { ConsumerGroups } from './ConsumerGroups';
 import { ModalProvider } from '@rhoas/app-services-ui-components';
-import { I18nextProvider } from 'react-i18next';
-import kafkai18n from '@app/i18n';
 import {
   MainViewHeader,
   KafkaModalLoader,
@@ -43,31 +41,29 @@ const ConsumerGroupsFederated: React.FC<ConsumerGroupsFederatedProps> = ({
   };
 
   return (
-    <I18nextProvider i18n={kafkai18n}>
-      <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
-        <FederatedContext.Provider
-          value={{
-            kafkaName,
-            kafkaPageLink,
-            handleInstanceDrawer,
-            kafka,
-            redirectAfterDeleteInstance,
-            onError,
-            onDeleteInstance,
-          }}
-        >
-          <ModalProvider>
-            <PaginationProvider>
-              <MainViewHeader activeTabKey={3} />
-              <PageSection isFilled>
-                <ConsumerGroups consumerGroupByTopic={false} />
-                <KafkaModalLoader />
-              </PageSection>
-            </PaginationProvider>
-          </ModalProvider>
-        </FederatedContext.Provider>
-      </ConfigContext.Provider>
-    </I18nextProvider>
+    <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
+      <FederatedContext.Provider
+        value={{
+          kafkaName,
+          kafkaPageLink,
+          handleInstanceDrawer,
+          kafka,
+          redirectAfterDeleteInstance,
+          onError,
+          onDeleteInstance,
+        }}
+      >
+        <ModalProvider>
+          <PaginationProvider>
+            <MainViewHeader activeTabKey={3} />
+            <PageSection isFilled>
+              <ConsumerGroups consumerGroupByTopic={false} />
+              <KafkaModalLoader />
+            </PageSection>
+          </PaginationProvider>
+        </ModalProvider>
+      </FederatedContext.Provider>
+    </ConfigContext.Provider>
   );
 };
 

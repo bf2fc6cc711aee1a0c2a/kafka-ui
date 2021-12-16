@@ -13,7 +13,7 @@ import {
 } from '@app/constant';
 
 const Flush: React.FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
   return (
     <FormSection title={t('topic.flush')} id='flush' titleElement={'h2'}>

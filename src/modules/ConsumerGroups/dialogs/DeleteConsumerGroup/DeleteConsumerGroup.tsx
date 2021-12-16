@@ -21,7 +21,7 @@ import {
 
 const DeleteConsumerGroup: React.FC<DeleteConsumerGroupProps & BaseModalProps> =
   ({ consumerName, refreshConsumerGroups, hideModal, state }) => {
-    const { t } = useTranslation();
+    const { t } = useTranslation(['kafkaTemporaryFixMe']);
     const config = useContext(ConfigContext);
     const { addAlert } = useAlert() || {
       addAlert: () => {

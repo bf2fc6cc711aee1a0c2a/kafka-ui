@@ -27,7 +27,7 @@ const TopicsToolbar: React.FC<TopicsToolbarProps> = ({
   filteredValue = '',
   onCreateTopic,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const [topicInputValue, setTopicInputValue] = useState<string>('');
 
   const onClear = () => {

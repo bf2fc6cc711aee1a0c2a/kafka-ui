@@ -15,7 +15,7 @@ import {
 } from '@app/constant';
 
 const Cleanup: React.FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
   return (
     <FormSection title={t('common.cleanup')} id='cleanup' titleElement={'h2'}>

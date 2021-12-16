@@ -99,7 +99,7 @@ export const ManagePermissionsModal: React.FC<
   title,
   variant,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const { kafka } = useFederated() || {};
   const auth = useAuth();
 

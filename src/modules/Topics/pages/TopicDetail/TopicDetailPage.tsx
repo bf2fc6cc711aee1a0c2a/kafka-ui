@@ -58,7 +58,7 @@ export const TopicDetailPage: React.FC = () => {
       // No-op
     },
   };
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const contentRefConsumerGroup = React.createRef<HTMLElement>();
   const contentRefProperties = React.createRef<HTMLElement>();
   const contentRefSchemas = React.createRef<HTMLElement>();

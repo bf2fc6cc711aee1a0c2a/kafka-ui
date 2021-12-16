@@ -25,7 +25,7 @@ export const SelectAccount: React.FunctionComponent<SelectAccountProps> = ({
   initialOptions,
   setEscapeClosesModal,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const onToggle = (newState) => {

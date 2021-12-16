@@ -1,7 +1,5 @@
 import React, { ReactElement } from 'react';
 import userEvent from '@testing-library/user-event';
-import { I18nextProvider } from 'react-i18next';
-import kafkai18n from '@test-utils/i18n';
 import { render, RenderResult } from '@testing-library/react';
 import { StepPartitions, StepPartitionsProps } from './StepPartitions';
 
@@ -19,11 +17,7 @@ const partitionsProps: StepPartitionsProps = {
 };
 
 const setup = () => {
-  const component: ReactElement = (
-    <I18nextProvider i18n={kafkai18n}>
-      <StepPartitions {...partitionsProps} />
-    </I18nextProvider>
-  );
+  const component: ReactElement = <StepPartitions {...partitionsProps} />;
   const renderResult: RenderResult = render(component);
   return renderResult;
 };
@@ -32,12 +26,8 @@ describe('Step Partitions', () => {
   it('should render Partitions step component', () => {
     const renderResult = setup();
     const { getByText } = renderResult;
-    expect(getByText('An ordered list of messages')).toBeInTheDocument();
-    expect(
-      getByText(
-        'One or more partitions make up a topic. Partitions are distributed across the brokers to increase the scalability of your topic. You can also use them to distribute messages across the members of the consumer group.'
-      )
-    ).toBeInTheDocument();
+    expect(getByText('topic.partition_info')).toBeInTheDocument();
+    expect(getByText('topic.partition_info_note')).toBeInTheDocument();
   });
 
   it('should handle plus and minus actions', () => {

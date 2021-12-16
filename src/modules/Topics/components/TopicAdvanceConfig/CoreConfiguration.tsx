@@ -57,7 +57,7 @@ const CoreConfiguration: React.FC<CoreConfigurationProps> = ({
   setWarning,
   warning,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const { validateName } = useValidateTopic();
 
   //states

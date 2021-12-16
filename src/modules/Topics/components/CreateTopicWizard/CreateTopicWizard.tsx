@@ -45,7 +45,7 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
   onCloseCreateTopic,
 }) => {
   const config = useContext(ConfigContext);
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const { addAlert } = useAlert() || {
     addAlert: () => {
       // No-op

@@ -31,7 +31,7 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
   topicData,
   setTopicData,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
   const [isRetentionTimeSelectOpen, setIsRetentionTimeSelectOpen] =
     useState<boolean>(false);

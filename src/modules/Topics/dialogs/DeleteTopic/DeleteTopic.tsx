@@ -24,7 +24,7 @@ const DeleteTopic: React.FC<DeleteTopicProps & BaseModalProps> = ({
   hideModal,
 }) => {
   const config = useContext(ConfigContext);
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const [verificationText, setVerificationText] = useState<string>('');
   const { addAlert } = useAlert() || {
     addAlert: () => {

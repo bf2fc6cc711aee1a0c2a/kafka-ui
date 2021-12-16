@@ -25,7 +25,7 @@ const ConsumerGroupToolbar: React.FC<ConsumerGroupToolbarProps> = ({
   page,
   perPage,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const [searchInputValue, setSearchInputValue] = useState<string>('');
 
   const onClear = () => {

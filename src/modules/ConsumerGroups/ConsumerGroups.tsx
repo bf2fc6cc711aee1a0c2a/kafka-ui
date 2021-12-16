@@ -45,7 +45,7 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
   const [consumerGroupDetail, setConsumerGroupDetail] =
     useState<ConsumerGroup>();
   const config = useContext(ConfigContext);
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const { page = 1, perPage = 10 } = usePaginationParams() || {};
 
   useEffect(() => {

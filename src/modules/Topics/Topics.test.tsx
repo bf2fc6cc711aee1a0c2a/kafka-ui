@@ -31,7 +31,7 @@ describe('<Topics />', () => {
         </Router>
       );
 
-      const createBtn = getByText('Create topic');
+      const createBtn = getByText('topic.create_topic');
 
       fireEvent.click(createBtn);
     });
