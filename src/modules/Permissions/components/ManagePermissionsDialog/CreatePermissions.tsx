@@ -72,7 +72,7 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
     menuAppendTo,
   }) => {
     const { validateName } = useValidateTopic();
-    const { t } = useTranslation();
+    const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
     const tableColumns = [
       {

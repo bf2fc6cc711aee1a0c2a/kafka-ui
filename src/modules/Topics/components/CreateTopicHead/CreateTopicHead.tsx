@@ -24,7 +24,7 @@ export const CreateTopichead: React.FC<CreateTopicProps> = ({
   kafkaPageLink,
   kafkaInstanceLink,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
   const mainBreadcrumbs = (
     <Breadcrumb>

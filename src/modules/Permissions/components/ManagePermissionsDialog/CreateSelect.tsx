@@ -46,7 +46,7 @@ export const CreateSelect = <
   menuAppendTo,
   onClear,
 }: CreateSelectProps<T>): React.ReactElement => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const onToggle = (newState) => {

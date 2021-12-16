@@ -4,7 +4,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
-const { dependencies, federatedModuleName } = require('./package.json');
+const {
+  dependencies,
+  peerDependencies,
+  federatedModuleName,
+} = require('./package.json');
 delete dependencies.serve; // Needed for nodeshift bug
 const webpack = require('webpack');
 const ChunkMapper = require('@redhat-cloud-services/frontend-components-config/chunk-mapper');
@@ -36,7 +40,7 @@ module.exports = (env, argv) => {
         },
         {
           test: /\.css|s[ac]ss$/i,
-          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
           include: (stylesheet) => !isPatternflyStyles(stylesheet),
           sideEffects: true,
         },
@@ -113,6 +117,7 @@ module.exports = (env, argv) => {
         },
         shared: {
           ...dependencies,
+          ...peerDependencies,
           react: {
             eager: true,
             singleton: true,
@@ -123,15 +128,21 @@ module.exports = (env, argv) => {
             singleton: true,
             requiredVersion: dependencies['react-dom'],
           },
-          '@rhoas/app-services-ui-shared': {
-            eager: true,
+          'react-i18next': {
             singleton: true,
-            requiredVersion: dependencies['@rhoas/app-services-ui-shared'],
+            requiredVersion: dependencies['react-i18next'],
           },
           'react-router-dom': {
-            eager: true,
             singleton: true,
             requiredVersion: dependencies['react-router-dom'],
+          },
+          '@rhoas/app-services-ui-components': {
+            singleton: true,
+            requiredVersion: dependencies['@rhoas/app-services-ui-components'],
+          },
+          '@rhoas/app-services-ui-shared': {
+            singleton: true,
+            requiredVersion: dependencies['@rhoas/app-services-ui-shared'],
           },
         },
       }),

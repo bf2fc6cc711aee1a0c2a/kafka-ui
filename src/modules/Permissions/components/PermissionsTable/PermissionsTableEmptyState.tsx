@@ -7,7 +7,7 @@ export type PermissionsTableEmptyStateProps = {
 };
 export const PermissionsTableEmptyState: React.FunctionComponent<PermissionsTableEmptyStateProps> =
   ({ openManagePermissions }) => {
-    const { t } = useTranslation();
+    const { t } = useTranslation(['kafkaTemporaryFixMe']);
     return (
       <EmptyState
         emptyStateProps={{

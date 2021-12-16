@@ -9,7 +9,7 @@ import {
 import { TextWithLabelPopover } from '@app/components';
 
 const Replication: React.FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
   return (
     <FormSection

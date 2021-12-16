@@ -6,6 +6,7 @@ const jestModuleMapper = {
   [`^.+\\.(${ignoredBinaries})$`]: mockFile,
   '@app/(.*)': '<rootDir>/$1',
   '@test-utils/(.*)': '<rootDir>/../test-utils/$1',
+  'react-i18next': `${testCommon}/react-i18next.js`,
 };
 
 module.exports = {

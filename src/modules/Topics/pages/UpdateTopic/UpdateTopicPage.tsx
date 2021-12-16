@@ -19,7 +19,7 @@ import { useFederated } from '@app/contexts';
 import '../style.css';
 
 export const UpdateTopicPage: React.FunctionComponent = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const history = useHistory();
   const { getBasename } = useBasename() || { getBasename: () => '' };
   const basename = getBasename();

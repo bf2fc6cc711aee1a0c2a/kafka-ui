@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { SidebarPanel, JumpLinks, JumpLinksItem } from '@patternfly/react-core';
 
 const TopicAdvanceJumpLinks: React.FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
   return (
     <SidebarPanel variant='sticky'>

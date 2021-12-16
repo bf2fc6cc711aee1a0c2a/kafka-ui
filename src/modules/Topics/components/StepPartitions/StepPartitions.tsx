@@ -22,7 +22,7 @@ export const StepPartitions: React.FC<StepPartitionsProps> = ({
   topicData,
   setTopicData,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
   const handleOnPlus = () => {
     setTopicData({

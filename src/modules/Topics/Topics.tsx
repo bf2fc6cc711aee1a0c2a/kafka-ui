@@ -30,7 +30,7 @@ export type ITopicProps = {
 
 const Topics: React.FC = () => {
   const { onError } = useFederated() || {};
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
   const config = useContext(ConfigContext);
   const { page = 1, perPage = 10 } = usePaginationParams() || {};

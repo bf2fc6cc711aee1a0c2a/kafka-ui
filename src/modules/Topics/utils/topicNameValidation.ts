@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 export const useValidateTopic = (): {
   validateName(name: string): string | undefined;
 } => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
   return {
     validateName: (name) => {

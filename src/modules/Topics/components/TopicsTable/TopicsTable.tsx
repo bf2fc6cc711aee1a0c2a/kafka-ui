@@ -50,7 +50,7 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
   onSort,
   sortBy,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const { showModal } = useModal<ModalType.KafkaDeleteTopic>();
   const { getBasename } = useBasename() || { getBasename: () => '' };
   const basename = getBasename();

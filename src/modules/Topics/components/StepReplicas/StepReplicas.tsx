@@ -20,7 +20,7 @@ export const StepReplicas: React.FC<StepReplicasProps> = ({
   replicationFactor,
   minInSyncReplica,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
   return (
     <Form>

@@ -25,7 +25,7 @@ export type LogProps = {
 };
 
 const Log: React.FC<LogProps> = ({ topicData, setTopicData }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
   const cleanupPolicyOptions: IDropdownOption[] = [
     {

@@ -14,7 +14,7 @@ import {
 } from '@app/constant';
 
 const Message: React.FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
   return (
     <FormSection title={t('topic.messages')} id='messages' titleElement={'h2'}>

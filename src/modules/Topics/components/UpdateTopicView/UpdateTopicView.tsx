@@ -25,7 +25,7 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   onSaveTopic,
   onError,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const config = useContext(ConfigContext);
   const { addAlert } = useAlert() || {
     addAlert: () => {

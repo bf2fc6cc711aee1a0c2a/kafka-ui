@@ -18,7 +18,7 @@ const PreCancelModal: React.FC<PreCancelModalProps> = ({
   closeModal,
   resumeEditing,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
   return (
     <Modal

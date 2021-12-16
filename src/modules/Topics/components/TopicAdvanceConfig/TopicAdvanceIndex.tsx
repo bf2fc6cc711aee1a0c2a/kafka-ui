@@ -13,7 +13,7 @@ import {
 } from '@app/constant';
 
 const TopicAdvanceIndex: React.FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
   return (
     <FormSection title={t('topic.index')} id='index' titleElement={'h2'}>

@@ -20,7 +20,7 @@ export type ConsumerGroupDetailProps = {
 
 const ConsumerGroupDetail: React.FunctionComponent<ConsumerGroupDetailProps> =
   ({ consumerGroupDetail, consumerGroupByTopic }) => {
-    const { t } = useTranslation();
+    const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
     const columns = consumerGroupByTopic
       ? [

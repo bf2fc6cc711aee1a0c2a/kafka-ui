@@ -31,7 +31,7 @@ export const ExistingAclTable: React.FunctionComponent<ExistingAclTableProps> =
       index: number;
     };
 
-    const { t } = useTranslation();
+    const { t } = useTranslation(['kafkaTemporaryFixMe']);
     const [acls, setAcls] = useState<RemovableEnhancedAclBinding[]>([]);
 
     useEffect(() => {
@@ -128,7 +128,10 @@ export const ExistingAclTable: React.FunctionComponent<ExistingAclTableProps> =
         );
       }
       return (
-        <Trans i18nKey='permission.manage_permissions_dialog.edit_existing.help'>
+        <Trans
+          ns={['kafkaTemporaryFixMe']}
+          i18nKey='permission.manage_permissions_dialog.edit_existing.help'
+        >
           Review the list of existing permissions for the selected account. The
           list includes account-specific permissions and permissions applied to
           all accounts within this Kafka instance. Permissions labeled

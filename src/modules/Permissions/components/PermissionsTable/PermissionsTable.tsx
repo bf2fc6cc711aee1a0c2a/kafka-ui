@@ -55,7 +55,7 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
     items?: SelectableEnhancedAclBinding[];
   };
 
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const [filteredValue, setFilteredValue] = useState<string>('');
   const { showModal } = useModal<ModalType.KafkaManagePermissions>() || {};
   const [aclPage, setAclPage] = useState<

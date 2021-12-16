@@ -30,7 +30,7 @@ export const StepTopicName: React.FC<StepTopicNameProps> = ({
   invalidText,
   setInvalidText,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const { validateName } = useValidateTopic();
 
   const topicNameInput = topicData && topicData.name;

@@ -15,7 +15,7 @@ type PermissionsToolbarKebabProps = {
 
 const PermissionsToolbarKebab: React.FunctionComponent<PermissionsToolbarKebabProps> =
   ({ deleteSelectedEnabled, onDeleteSelected }) => {
-    const { t } = useTranslation();
+    const { t } = useTranslation(['kafkaTemporaryFixMe']);
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const onToggle = (v) => {
@@ -79,7 +79,7 @@ const PermissionsToolbar: React.FC<PermissionsToolbarProps> = ({
   onDeleteSelected,
   deletedSelectedEnabled,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
   const onClear = () => {
     setFilteredValue('');
