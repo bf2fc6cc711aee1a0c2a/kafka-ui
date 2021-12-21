@@ -12,7 +12,7 @@ import {
 } from '@app/components';
 import { getTopics, OrderKey } from '@app/services';
 import { ConfigContext, useFederated } from '@app/contexts';
-import { Topic, TopicsList } from '@rhoas/kafka-instance-sdk';
+import { TopicsList } from '@rhoas/kafka-instance-sdk';
 import { useBasename } from '@rhoas/app-services-ui-shared';
 import './Topics.css';
 import { ISortBy, OnSort, SortByDirection } from '@patternfly/react-table';
@@ -38,7 +38,6 @@ const Topics: React.FC = () => {
   const { getBasename } = useBasename() || { getBasename: () => '' };
   const basename = getBasename();
 
-  const [topicItems, setTopicItems] = useState<Topic[]>();
   const [topicsList, setTopicsList] = useState<TopicsList>();
   const [searchTopicName, setSearchTopicName] = useState<string>('');
   const [order, setOrder] = useState<SortByDirection>();
@@ -87,7 +86,6 @@ const Topics: React.FC = () => {
         orderKey
       ).then((topics) => {
         setTopicsList(topics);
-        setTopicItems(topics?.items);
       });
     } catch (err) {
       //TODO: Update the api to allow suppress alerts if the application does not want to show them as well.
@@ -104,7 +102,7 @@ const Topics: React.FC = () => {
   };
 
   const renderTopicsTable = () => {
-    if (topicItems === undefined) {
+    if (topicsList?.items === undefined) {
       return (
         <PageSection
           className='kafka-ui-m-full-height'
@@ -114,7 +112,7 @@ const Topics: React.FC = () => {
           <MASLoading />
         </PageSection>
       );
-    } else if (topicItems.length < 1 && searchTopicName.length < 1) {
+    } else if (topicsList?.items?.length < 1 && searchTopicName.length < 1) {
       return (
         <EmptyState
           emptyStateProps={{
@@ -134,14 +132,14 @@ const Topics: React.FC = () => {
           }}
         />
       );
-    } else if (topicItems) {
+    } else if (topicsList?.items) {
       return (
         <TopicsTable
           total={topicsList?.total || 0}
           page={page}
           perPage={perPage}
           onCreateTopic={onClickCreateTopic}
-          topicItems={topicItems}
+          topicItems={topicsList?.items}
           filteredValue={searchTopicName}
           setFilteredValue={setSearchTopicName}
           refreshTopics={fetchTopic}
