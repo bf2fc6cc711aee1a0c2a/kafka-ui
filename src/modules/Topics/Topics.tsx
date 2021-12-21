@@ -12,7 +12,7 @@ import {
 } from '@app/components';
 import { getTopics, OrderKey } from '@app/services';
 import { ConfigContext, useFederated } from '@app/contexts';
-import { Topic } from '@rhoas/kafka-instance-sdk';
+import { Topic, TopicsList } from '@rhoas/kafka-instance-sdk';
 import { useBasename } from '@rhoas/app-services-ui-shared';
 import './Topics.css';
 import { ISortBy, OnSort, SortByDirection } from '@patternfly/react-table';
@@ -39,22 +39,17 @@ const Topics: React.FC = () => {
   const basename = getBasename();
 
   const [topicItems, setTopicItems] = useState<Topic[]>();
+  const [topicsList, setTopicsList] = useState<TopicsList>();
   const [searchTopicName, setSearchTopicName] = useState<string>('');
-  const [offset, setOffset] = useState<number>(0);
   const [order, setOrder] = useState<SortByDirection>();
   const [orderKey, setOrderKey] = useState<OrderKey>();
   const [sortBy, setSortBy] = useState<ISortBy>({ index: 0, direction: 'asc' });
 
   useEffect(() => {
     fetchTopic();
-  }, [searchTopicName, order, orderKey]);
+  }, [searchTopicName, order, orderKey, page, perPage]);
 
   useTimeout(() => fetchTopic(), 5000);
-
-  useEffect(() => {
-    const offset = perPage * (page - 1);
-    setOffset(offset);
-  }, [page, perPage]);
 
   const onClickCreateTopic = () => {
     history.push(`${basename}/topic/create`);
@@ -85,14 +80,14 @@ const Topics: React.FC = () => {
     try {
       await getTopics(
         config,
-        100,
+        page,
         perPage,
         searchTopicName,
-        offset,
         order,
         orderKey
-      ).then((response) => {
-        setTopicItems(response?.items);
+      ).then((topics) => {
+        setTopicsList(topics);
+        setTopicItems(topics?.items);
       });
     } catch (err) {
       //TODO: Update the api to allow suppress alerts if the application does not want to show them as well.
@@ -142,18 +137,11 @@ const Topics: React.FC = () => {
     } else if (topicItems) {
       return (
         <TopicsTable
-          total={topicItems.length || 0}
+          total={topicsList?.total || 0}
           page={page}
           perPage={perPage}
           onCreateTopic={onClickCreateTopic}
-          topicItems={
-            searchTopicName
-              ? topicItems?.slice(0, perPage)
-              : topicItems?.slice(
-                  topicItems.length > 1 ? offset : 0,
-                  offset + perPage
-                )
-          }
+          topicItems={topicItems}
           filteredValue={searchTopicName}
           setFilteredValue={setSearchTopicName}
           refreshTopics={fetchTopic}

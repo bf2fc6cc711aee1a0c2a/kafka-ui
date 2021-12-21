@@ -20,10 +20,9 @@ export enum OrderKey {
 
 export const getTopics = async (
   config: IConfiguration | undefined,
-  limit?: number,
+  page?: number,
   size?: number,
   filter?: string,
-  offset?: number | undefined,
   order: SortByDirection = SortByDirection.asc,
   orderKey?: OrderKey
 ): Promise<TopicsList> => {
@@ -36,11 +35,11 @@ export const getTopics = async (
     })
   );
   const response: AxiosResponse<TopicsList> = await api.getTopics(
-    offset,
-    limit,
+    undefined,
+    undefined,
     size,
     filter,
-    undefined,
+    page,
     order,
     orderKey
   );
