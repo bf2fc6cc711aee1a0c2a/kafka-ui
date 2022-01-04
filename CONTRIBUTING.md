@@ -1,8 +1,22 @@
-#Coding Standards
+# Contributing guide
+
+## Useful commands
+
+`npm` scripts are provided for common tasks. These include:
+
+- `npm run test` - runs all tests for the client and server
+- `npm run start` - runs the UI client and server in development mode
+- `npm run start:client` - runs the UI client in development mode.
+- `npm run start:restmockserver` - runs the REST mock server.
+- `npm run build` - builds the UI
+- `npm run clean` - deletes the build/generated content directories
+- `npm run lint` - lints the codebase. See [`Linting`](./docs/Linting.md) for the individual linting steps
+
+## Coding Standards
 
 The Kafka UI projects uses best practices based off the official [React TypeScript Cheat sheet](https://react-typescript-cheatsheet.netlify.app/), with modifications for this project. The React TypeScript Cheat sheet is maintained and used by developers through out the world, and is a place where developers can bring together lessons learned using TypeScript and React.
 
-## Imports
+### Imports
 
 Since we are using TypeScript 4.x + for this project, default imports should conform to the new standard set forth in TypeScript 2.7:
 
@@ -17,7 +31,7 @@ For imports that are not the default import use the following syntax:
 import { X1, X2, ... Xn } from 'package-x';
 ```
 
-## View Props
+### View Props
 
 Since Kafka UI is made up of 2 different views (one for PatternFly, and one for Carbon) props for a component should be declared in separate file instead of within the components source code. For example Carbon views are written in **View.carbon.tsx**, while PatternFly views are written in **View.patternfly.tsx**. In order to allow the views to share the same props, the code for the props should live in **View.props.tsx**.
 
@@ -39,7 +53,7 @@ type GreetProps = { age?: number };
 const Greet: FunctionComponent<GreetingProps> = ({ age = 21 }: GreetProps) => // etc
 ```
 
-## State objects should be types
+### State objects should be types
 
 When maintaining state for a component that requires it's state to be defined by an object, it is recommended that you use a [type instead of an interface](https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/types_or_interfaces). For example if you need to maintain the currentApiId and isExpanded in a single object you can do the following:
 
@@ -50,7 +64,7 @@ type ApiDrawerState = {
 };
 ```
 
-## Interfaces
+### Interfaces
 
 Interfaces should be used for all public facing API definitions, as well as models. A table describing when to use interfaces vs. types can be found [here](https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/types_or_interfaces).
 
@@ -68,7 +82,7 @@ export interface MemoryInfoRepresentation {
 }
 ```
 
-## Function Components
+### Function Components
 
 This project uses function components and hooks over class components. When coding function components in typescript a developer should include any specific props from the **View.props.tsx**
 
@@ -94,11 +108,11 @@ export const ExampleNoPropsComponent: FunctionComponent<{}> = () => (
 
 Additional details around function components can be found [here](https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/function_components).
 
-## Hooks
+### Hooks
 
 When using hooks with Typescript there are few recommendations that we follow below. Additional recommendations besides the ones mention in this document can be found [here](https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/hooks).
 
-### Inference vs Types for useState
+#### Inference vs Types for useState
 
 Currently we recommend using inference for the primitive types booleans, numbers, and string when using useState. Anything other then these 3 types should use a declarative syntax to specify what is expected. For example the following is an example of how to use inference:
 
@@ -114,7 +128,7 @@ const [user, setUser] = useState<IUser | null>(null);
 setUser(newUser);
 ```
 
-### useReducers
+#### useReducers
 
 When using reducers make sure you specify the [return type and do not use inference](https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/hooks#usereducer).
 
@@ -152,7 +166,7 @@ function Counter() {
 }
 ```
 
-### useEffect
+#### useEffect
 
 For useEffect only [return the function or undefined](https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/hooks#useeffect).
 
@@ -171,7 +185,7 @@ function DelayedEffect(props: { timerMs: number }) {
 }
 ```
 
-### useRef
+#### useRef
 
 When using useRef there are two options with Typescript. The first one is when creating a [read-only ref](https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/hooks#useref).
 
@@ -187,6 +201,6 @@ The second option is for creating [mutable refs](https://react-typescript-cheats
 const refExampleMutable = (useRef < HTMLElement) | (null > null);
 ```
 
-## Additional Typescript Pointers
+### Additional Typescript Pointers
 
 Besides the details outlined above a list of recommendations for Typescript is maintained by several Typescript React developers [here](https://react-typescript-cheatsheet.netlify.app/). This is a great reference to use for any additional questions that are not outlined within the coding standards.
