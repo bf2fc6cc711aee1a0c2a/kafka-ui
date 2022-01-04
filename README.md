@@ -12,16 +12,18 @@ that aggretates various components.
 
 ## Running locally with mocked data
 
+### Requirements
+
 This UI uses `npm` to provide dependency management. If you wish to develop the UI, you will need:
 
 - [npm version 6.14.8 or later](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 - [node 14.15.0 or later](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
-Once these prerequisites are met, all required dependencies to build and run the UI can be downloaded by running the following command:
+### Procedure
 
-```bash
-npm install
-```
+1. `npm install`
+2. `npm run start:dev` - runs the UI client in development mode.
+3. `npm run start:restmockserver` - runs the REST mock server.
 
 ## Server side
 

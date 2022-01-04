@@ -1,17 +1,5 @@
 # Contributing guide
 
-## Useful commands
-
-`npm` scripts are provided for common tasks. These include:
-
-- `npm run test` - runs all tests for the client and server
-- `npm run start` - runs the UI client and server in development mode
-- `npm run start:client` - runs the UI client in development mode.
-- `npm run start:restmockserver` - runs the REST mock server.
-- `npm run build` - builds the UI
-- `npm run clean` - deletes the build/generated content directories
-- `npm run lint` - lints the codebase. See [`Linting`](./docs/Linting.md) for the individual linting steps
-
 ## Coding Standards
 
 The Kafka UI projects uses best practices based off the official [React TypeScript Cheat sheet](https://react-typescript-cheatsheet.netlify.app/), with modifications for this project. The React TypeScript Cheat sheet is maintained and used by developers through out the world, and is a place where developers can bring together lessons learned using TypeScript and React.
