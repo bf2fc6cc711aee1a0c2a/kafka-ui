@@ -5,7 +5,7 @@
 Kafka UI provides a way for managing Kafka topics, and clusters using a graphical user interface that uses 
 [kafka-server](https://github.com/bf2fc6cc711aee1a0c2a/kafka-admin-api) as backend. 
 
-Kafka Server is used as federated module in (app-services ui)[https://github.com/redhat-developer/app-services-ui] project
+Kafka Server is used as federated module in [app-services ui](https://github.com/redhat-developer/app-services-ui) project
 that aggretates various components. 
 
 > NOTE: Kafka UI requires dedicated backend server that weren't tested with upstream Kafka. 
