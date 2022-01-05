@@ -113,6 +113,7 @@ export const ManagePermissionsModal: React.FC<
   );
   const [newAcls, setNewAcls] = useState<NewAcl[]>([createEmptyNewAcl()]);
   const [removeAcls, setRemoveAcls] = useState<EnhancedAclBinding[]>([]);
+  const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
   const [isOpenPreCancelModal, setIsOpenPreCancelModal] =
     useState<boolean>(false);
 
@@ -136,6 +137,7 @@ export const ManagePermissionsModal: React.FC<
   }, [auth]);
 
   const save = async () => {
+    setFormSubmitted(true);
     let valid = true;
     if (selectedAccount.value === undefined) {
       setSelectedAccount((v) => {
@@ -310,9 +312,22 @@ export const ManagePermissionsModal: React.FC<
       }
       const menuAppendTo =
         document.getElementById('manage-permissions-modal') || undefined;
-      return (
-        <>
-          {selectedAccount.validated === 'error' && (
+
+      const isFormInvalid = (): boolean[] => {
+        return newAcls.map((value) => {
+          return (
+            value.operation.validated != 'default' ||
+            value.patternType.validated != 'default' ||
+            value.resource.validated != 'default' ||
+            value.resourceType.validated != 'default'
+          );
+        });
+      };
+
+      const FormValidAlert: React.FunctionComponent = () => {
+        console.log(isFormInvalid()[0]);
+        if (formSubmitted && isFormInvalid()[0]) {
+          return (
             <FormAlert>
               <Alert
                 variant='danger'
@@ -321,7 +336,14 @@ export const ManagePermissionsModal: React.FC<
                 isInline
               />
             </FormAlert>
-          )}
+          );
+        }
+        return <></>;
+      };
+      return (
+        <>
+          <FormValidAlert />
+
           <ExistingAclTable
             existingAcls={acls.filter(
               (i) =>
