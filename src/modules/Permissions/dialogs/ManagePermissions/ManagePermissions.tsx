@@ -3,6 +3,8 @@ import {
   Button,
   Form,
   FormGroup,
+  Alert,
+  FormAlert,
   Modal,
   ValidatedOptions,
 } from '@patternfly/react-core';
@@ -278,8 +280,35 @@ export const ManagePermissionsModal: React.FC<
       }
       const menuAppendTo =
         document.getElementById('manage-permissions-modal') || undefined;
+
+      const isFormInvalid = (): boolean => {
+        return newAcls.some((value) => {
+          return (
+            value.operation.validated === 'error' ||
+            value.patternType.validated === 'error' ||
+            value.resource.validated === 'error' ||
+            value.resourceType.validated === 'error'
+          );
+        });
+      };
+      const FormValidAlert: React.FunctionComponent = () => {
+        if (isFormInvalid()) {
+          return (
+            <FormAlert>
+              <Alert
+                variant='danger'
+                title={t('common:form_invalid_alert')}
+                aria-live='polite'
+                isInline
+              />
+            </FormAlert>
+          );
+        }
+        return <></>;
+      };
       return (
         <>
+          <FormValidAlert />
           <ExistingAclTable
             existingAcls={acls.filter(
               (i) =>
