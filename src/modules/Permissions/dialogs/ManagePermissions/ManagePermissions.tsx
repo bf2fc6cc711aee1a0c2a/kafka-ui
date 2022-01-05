@@ -113,7 +113,6 @@ export const ManagePermissionsModal: React.FC<
   );
   const [newAcls, setNewAcls] = useState<NewAcl[]>([createEmptyNewAcl()]);
   const [removeAcls, setRemoveAcls] = useState<EnhancedAclBinding[]>([]);
-  const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
   const [isOpenPreCancelModal, setIsOpenPreCancelModal] =
     useState<boolean>(false);
 
@@ -137,7 +136,6 @@ export const ManagePermissionsModal: React.FC<
   }, [auth]);
 
   const save = async () => {
-    setFormSubmitted(true);
     let valid = true;
     if (selectedAccount.value === undefined) {
       setSelectedAccount((v) => {
@@ -283,18 +281,18 @@ export const ManagePermissionsModal: React.FC<
       const menuAppendTo =
         document.getElementById('manage-permissions-modal') || undefined;
 
-      const isFormInvalid = (): boolean[] => {
-        return newAcls.map((value) => {
+      const isFormInvalid = (): boolean => {
+        return newAcls.some((value) => {
           return (
-            value.operation.validated != 'default' ||
-            value.patternType.validated != 'default' ||
-            value.resource.validated != 'default' ||
-            value.resourceType.validated != 'default'
+            value.operation.validated === 'error' ||
+            value.patternType.validated === 'error' ||
+            value.resource.validated === 'error' ||
+            value.resourceType.validated === 'error'
           );
         });
       };
       const FormValidAlert: React.FunctionComponent = () => {
-        if (formSubmitted && isFormInvalid()[0]) {
+        if (isFormInvalid()) {
           return (
             <FormAlert>
               <Alert
