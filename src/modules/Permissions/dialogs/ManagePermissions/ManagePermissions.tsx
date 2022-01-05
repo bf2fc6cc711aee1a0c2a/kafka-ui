@@ -323,9 +323,7 @@ export const ManagePermissionsModal: React.FC<
           );
         });
       };
-
       const FormValidAlert: React.FunctionComponent = () => {
-        console.log(isFormInvalid()[0]);
         if (formSubmitted && isFormInvalid()[0]) {
           return (
             <FormAlert>
@@ -343,7 +341,6 @@ export const ManagePermissionsModal: React.FC<
       return (
         <>
           <FormValidAlert />
-
           <ExistingAclTable
             existingAcls={acls.filter(
               (i) =>
