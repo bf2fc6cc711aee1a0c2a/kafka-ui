@@ -155,18 +155,18 @@ const enhanceAclBindingListPage = (
         } as EnhancedAclBinding;
       })
       .sort((a, b) => {
-        if (a.permission !== b.permission) {
-          if (a.permission === 'DENY') {
-            return -1;
-          } else {
-            return 1;
-          }
-        } else if (a.principal !== b.principal) {
+        if (a.principal !== b.principal) {
           return a.principal.localeCompare(b.principal);
         } else if (a.resourceType !== b.resourceType) {
           return a.resourceType.localeCompare(b.resourceType);
         } else if (a.resourceName !== b.resourceName) {
           return a.resourceName.localeCompare(b.resourceName);
+        } else if (a.permission !== b.permission) {
+          if (a.permission === 'DENY') {
+            return -1;
+          } else {
+            return 1;
+          }
         } else if (a.operation !== b.operation) {
           return a.operation.localeCompare(b.operation);
         } else {

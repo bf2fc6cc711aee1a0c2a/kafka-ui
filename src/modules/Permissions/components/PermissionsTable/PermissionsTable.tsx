@@ -106,13 +106,13 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
   useTimeout(() => fetchPermissions(), 5000);
 
   const tableColumns = [
-    { title: t('permission.table.resource_column_title') },
-    { title: t('permission.table.permissions_column_title') },
     { title: t('permission.table.account_column_title') },
+    { title: t('permission.table.permissions_column_title') },
+    { title: t('permission.table.resource_column_title') },
     { title: '' },
   ] as ICell[];
 
-  const cells = [resourceCell, permissionOperationCell, principalCell];
+  const cells = [principalCell, permissionOperationCell, resourceCell];
 
   const onSelect: OnSelect = (event, isSelected, rowIndex) => {
     if (rowIndex === -1) {
