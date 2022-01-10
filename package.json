@@ -46,7 +46,7 @@
   "bugs": {},
   "homepage": "https://github.com/strimzi/strimzi-ui#readme",
   "dependencies": {
-    "@rhoas/kafka-instance-sdk": "0.18.0",
+    "@rhoas/kafka-instance-sdk": "0.19.0",
     "object-hash": "2.2.0",
     "react-i18next": "11.14.3",
     "sentence-case": "3.0.4",
@@ -65,7 +65,7 @@
     "@redhat-cloud-services/frontend-components-utilities": "3.2.6",
     "@rhoas/app-services-ui-components": "1.11.6",
     "@rhoas/app-services-ui-shared": "0.15.4",
-    "@rhoas/api-mock": "0.18.0",
+    "@rhoas/api-mock": "0.19.0",
     "@testing-library/dom": "8.11.1",
     "@testing-library/jest-dom": "5.15.1",
     "@testing-library/react": "12.1.2",
