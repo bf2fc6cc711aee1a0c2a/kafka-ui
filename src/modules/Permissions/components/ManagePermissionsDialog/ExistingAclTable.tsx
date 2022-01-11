@@ -7,7 +7,11 @@ import {
   resourceCell,
 } from '@app/modules/Permissions/components/PermissionsTable/Cells';
 import {
+  Badge,
   Button,
+  ExpandableSection,
+  Grid,
+  GridItem,
   Label,
   Text,
   TextContent,
@@ -33,6 +37,12 @@ export const ExistingAclTable: React.FunctionComponent<ExistingAclTableProps> =
 
     const { t } = useTranslation(['kafkaTemporaryFixMe']);
     const [acls, setAcls] = useState<RemovableEnhancedAclBinding[]>([]);
+
+    const [isExpanded, setIsExpanded] = useState<boolean>(false);
+
+    const onExpandToggle = () => {
+      setIsExpanded(!isExpanded);
+    };
 
     useEffect(() => {
       // Workaround as I can't work out how to pass initial state for an array
@@ -142,37 +152,47 @@ export const ExistingAclTable: React.FunctionComponent<ExistingAclTableProps> =
     };
 
     return (
-      <div>
-        <TextContent>
-          <Text component={TextVariants.h2}>
-            {t('permission.manage_permissions_dialog.edit_existing.title')}
-          </Text>
-          <Text component={TextVariants.small}>
-            <HelperText />
-          </Text>
-        </TextContent>
+      <Grid span={3}>
+        <GridItem>
+          <ExpandableSection
+            toggleText={t(
+              'permission.manage_permissions_dialog.edit_existing.title'
+            )}
+            isExpanded={isExpanded}
+            onToggle={onExpandToggle}
+          >
+            <TextContent>
+              <Text component={TextVariants.small}>
+                <HelperText />
+              </Text>
+            </TextContent>
 
-        <MASTable
-          tableProps={{
-            cells: tableColumns,
-            rows: [
-              ...acls
-                .filter((acl) => !acl.removed)
-                .map((item, row) => {
-                  return {
-                    cells: cells.map((f) => f(item, row)),
-                    originalData: item,
-                  };
-                }),
-            ],
-            'aria-label': t('permission.table.table.permission_list_table'),
-            shouldDefaultCustomRowWrapper: true,
-            variant: TableVariant.compact,
-            canSelectAll: false,
-            // TODO: gridBreakPoint: 'grid-lg' NOTE: This is needed so that the table doesn't overrun a narrow screen, but it currently breaks the first header because it's messing with :before of the first cell and so is the mas--[streams-]table-view__table
-          }}
-          rowDataTestId={'tablePermissions-row'}
-        />
-      </div>
+            <MASTable
+              tableProps={{
+                cells: tableColumns,
+                rows: [
+                  ...acls
+                    .filter((acl) => !acl.removed)
+                    .map((item, row) => {
+                      return {
+                        cells: cells.map((f) => f(item, row)),
+                        originalData: item,
+                      };
+                    }),
+                ],
+                'aria-label': t('permission.table.table.permission_list_table'),
+                shouldDefaultCustomRowWrapper: true,
+                variant: TableVariant.compact,
+                canSelectAll: false,
+                // TODO: gridBreakPoint: 'grid-lg' NOTE: This is needed so that the table doesn't overrun a narrow screen, but it currently breaks the first header because it's messing with :before of the first cell and so is the mas--[streams-]table-view__table
+              }}
+              rowDataTestId={'tablePermissions-row'}
+            />
+          </ExpandableSection>
+        </GridItem>
+        <GridItem>
+          <Badge key={acls.length}>{acls.length}</Badge>
+        </GridItem>
+      </Grid>
     );
   };
