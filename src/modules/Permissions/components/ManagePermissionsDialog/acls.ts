@@ -74,3 +74,41 @@ export const createEmptyNewAcl = (): NewAcl => {
     aclShortcutType: undefined,
   } as NewAcl;
 };
+
+export type CellProps = {
+  acl: NewAcl;
+  row: number;
+  childRow?: number;
+};
+
+export type AclCellProps = CellProps & {
+  setAcls: React.Dispatch<React.SetStateAction<NewAcls[] | []>>;
+  setEscapeClosesModal: (closes: boolean) => void;
+  menuAppendTo:
+    | HTMLElement
+    | (() => HTMLElement)
+    | 'parent'
+    | 'inline'
+    | undefined;
+};
+
+export const update2DArrayAcls = (
+  prevAcls: NewAcls[],
+  newAcl: NewAcl,
+  row: number,
+  childRow = 0
+) => {
+  if (Array.isArray(prevAcls[row]) && childRow !== undefined)
+    prevAcls[row][childRow] = newAcl;
+  else prevAcls[row] = newAcl;
+  return prevAcls;
+};
+
+export const handle2DArrayAcls = (
+  acls: NewAcls[],
+  row: number,
+  childRow = 0
+) => {
+  const newAcls = Array.isArray(acls[row]) ? acls[row][childRow] : acls[row];
+  return newAcls;
+};
