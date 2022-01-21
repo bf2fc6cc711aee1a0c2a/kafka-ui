@@ -8,17 +8,33 @@ import {
 
 export const AllAccountsId = '*';
 
-export const isNewAclModified = (value: NewAcl, totalRows = 0): boolean => {
+export const isNewAclModified = (value: NewAcls): boolean => {
   const emptyAcl = createEmptyNewAcl();
-  return !(
-    value.permission.value === emptyAcl.permission.value &&
-    value.patternType.value === emptyAcl.patternType.value &&
-    value.resourceType.value === emptyAcl.resourceType.value &&
-    value.resource.value === emptyAcl.resource.value &&
-    value.operation.value === emptyAcl.operation.value &&
-    totalRows <= 1
-  );
+  const newAcls = Array.isArray(value) ? value : [value];
+  return newAcls.some((v) => {
+    if (v.aclShortcutType === AclShortcutType.ManageAccess) {
+      return true;
+    } else if (v.aclShortcutType) {
+      return !(
+        v.patternType.value === emptyAcl.patternType.value &&
+        v.resource.value === emptyAcl.resource.value
+      );
+    }
+    return !(
+      v.permission.value === emptyAcl.permission.value &&
+      v.patternType.value === emptyAcl.patternType.value &&
+      v.resourceType.value === emptyAcl.resourceType.value &&
+      v.resource.value === emptyAcl.resource.value &&
+      v.operation.value === emptyAcl.operation.value
+    );
+  });
 };
+
+export enum AclShortcutType {
+  ConsumeTopic = 'ConsumeTopic',
+  ProduceTopic = 'ProduceTopic',
+  ManageAccess = 'ManageAccess',
+}
 
 export type NewAcl = {
   permission: Validated<AclPermissionType | undefined>;
@@ -26,7 +42,17 @@ export type NewAcl = {
   resourceType: Validated<AclResourceType | undefined>;
   patternType: Validated<AclPatternType | undefined>;
   resource: Validated<string | undefined>;
+  aclShortcutType: AclShortcutType | undefined;
+  operations?: AclOperation[];
+  metaData?: {
+    title: string;
+    popoverHeader: string;
+    popoverBody: string;
+    ariaLabel: string;
+  };
 };
+
+export type NewAcls = NewAcl | NewAcl[];
 
 export const createEmptyNewAcl = (): NewAcl => {
   return {
@@ -45,5 +71,6 @@ export const createEmptyNewAcl = (): NewAcl => {
     resource: {
       value: undefined,
     },
+    aclShortcutType: undefined,
   } as NewAcl;
 };

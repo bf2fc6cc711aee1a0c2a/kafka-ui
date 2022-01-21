@@ -18,8 +18,9 @@ export type CreateSelectProps<T> = {
   id: string;
   options: SelectOption<T>[];
   selected: Validated<string | undefined>;
-  setSelected: (row: number, id: T | undefined) => void;
+  setSelected: (row: number, id: T | undefined, childRow?: number) => void;
   row: number;
+  childRow?: number;
   placeholder?: string;
   setEscapeClosesModal: (closes: boolean) => void;
   onSelect: (value: string) => void;
@@ -45,6 +46,7 @@ export const CreateSelect = <
   onSelect,
   menuAppendTo,
   onClear,
+  childRow,
 }: CreateSelectProps<T>): React.ReactElement => {
   const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -59,7 +61,7 @@ export const CreateSelect = <
   };
 
   const clearSelection = () => {
-    setSelected(row, onClear());
+    setSelected(row, onClear(), childRow);
     setIsOpen(false);
   };
 
@@ -67,7 +69,7 @@ export const CreateSelect = <
     if (selection === '') selection = undefined;
     if (isPlaceholder) clearSelection();
     else {
-      setSelected(row, selection);
+      setSelected(row, selection, childRow);
       setIsOpen(false);
       onSelect(selection);
     }

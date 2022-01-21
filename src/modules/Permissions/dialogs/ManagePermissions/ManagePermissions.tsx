@@ -26,9 +26,10 @@ import { SelectAccount } from '@app/modules/Permissions/components/ManagePermiss
 import { CreatePermissions } from '@app/modules/Permissions/components/ManagePermissionsDialog/CreatePermissions';
 import { Validated } from '@app/modules/Permissions/components/ManagePermissionsDialog/validated';
 import {
-  createEmptyNewAcl,
+  AclShortcutType,
   isNewAclModified,
   NewAcl,
+  NewAcls,
 } from '@app/modules/Permissions/components/ManagePermissionsDialog/acls';
 import { FormGroupWithPopover, MASLoading } from '@app/components';
 import { useValidateTopic } from '@app/modules/Topics/utils';
@@ -111,7 +112,7 @@ export const ManagePermissionsModal: React.FC<
   const [step, setStep] = useState<number>(
     selectedAccountId === undefined ? 1 : 2
   );
-  const [newAcls, setNewAcls] = useState<NewAcl[]>([createEmptyNewAcl()]);
+  const [newAcls, setNewAcls] = useState<NewAcls[]>([]);
   const [removeAcls, setRemoveAcls] = useState<EnhancedAclBinding[]>([]);
   const [isOpenPreCancelModal, setIsOpenPreCancelModal] =
     useState<boolean>(false);
@@ -134,6 +135,88 @@ export const ManagePermissionsModal: React.FC<
     };
     getUsername();
   }, [auth]);
+
+  const validateAcls = (acls: NewAcls[], valid: boolean) => {
+    const newAcls = acls?.map((value) => {
+      if (Array.isArray(value)) {
+        validateAcls(value, true);
+      }
+
+      if (!Array.isArray(value)) {
+        if (value.aclShortcutType === AclShortcutType.ManageAccess) {
+          return value;
+        }
+
+        const answer = Object.assign({}, value);
+
+        if (!value.aclShortcutType) {
+          if (value.operation.value === undefined) {
+            answer.operation.validated = ValidatedOptions.error;
+            answer.operation.errorMessage = t(
+              'permission.manage_permissions_dialog.assign_permissions.must_select_operation_error'
+            );
+            valid = false;
+          } else {
+            answer.operation.validated = ValidatedOptions.default;
+          }
+
+          if (value.permission.value === undefined) {
+            answer.permission.validated = ValidatedOptions.error;
+            answer.permission.errorMessage = t(
+              'permission.manage_permissions_dialog.assign_permissions.must_select_permission_error'
+            );
+            valid = false;
+          } else {
+            answer.permission.validated = ValidatedOptions.default;
+          }
+        }
+
+        if (value.resourceType.value === undefined) {
+          answer.resourceType.validated = ValidatedOptions.error;
+          answer.resourceType.errorMessage = t(
+            'permission.manage_permissions_dialog.assign_permissions.must_select_resource_type_error'
+          );
+          valid = false;
+        } else {
+          answer.resourceType.validated = ValidatedOptions.default;
+        }
+        if (value.resourceType.value !== AclResourceType.Cluster) {
+          if (value.resource.value === undefined) {
+            answer.resource.validated = ValidatedOptions.error;
+            answer.resource.errorMessage = t(
+              'permission.manage_permissions_dialog.assign_permissions.must_select_resource_error'
+            );
+            valid = false;
+          } else if (value.resource.value === '*') {
+            answer.resource.validated = ValidatedOptions.default;
+          } else {
+            const errorMessage = validateName(value.resource.value);
+            if (errorMessage !== undefined) {
+              answer.resource.validated = ValidatedOptions.error;
+              answer.resource.errorMessage = errorMessage;
+              valid = false;
+            } else {
+              answer.resource.validated = ValidatedOptions.default;
+            }
+          }
+          if (value.patternType.value === undefined) {
+            answer.patternType.validated = ValidatedOptions.error;
+            answer.patternType.errorMessage = t(
+              'permission.manage_permissions_dialog.assign_permissions.must_select_pattern_type_error'
+            );
+            valid = false;
+          } else {
+            answer.patternType.validated = ValidatedOptions.default;
+          }
+        }
+
+        return answer;
+      } else {
+        return value;
+      }
+    });
+    return { newAcls, isValid: valid };
+  };
 
   const save = async () => {
     let valid = true;
@@ -158,118 +241,88 @@ export const ManagePermissionsModal: React.FC<
     }
 
     setNewAcls((prevState) => {
-      return prevState.map((value) => {
-        if (isNewAclModified(value)) {
-          const answer = Object.assign({}, value);
-          if (value.resourceType.value === undefined) {
-            answer.resourceType.validated = ValidatedOptions.error;
-            answer.resourceType.errorMessage = t(
-              'permission.manage_permissions_dialog.assign_permissions.must_select_resource_type_error'
-            );
-            valid = false;
-          } else {
-            answer.resourceType.validated = ValidatedOptions.default;
-          }
-          if (value.resourceType.value !== AclResourceType.Cluster) {
-            if (value.resource.value === undefined) {
-              answer.resource.validated = ValidatedOptions.error;
-              answer.resource.errorMessage = t(
-                'permission.manage_permissions_dialog.assign_permissions.must_select_resource_error'
-              );
-              valid = false;
-            } else if (value.resource.value === '*') {
-              answer.resource.validated = ValidatedOptions.default;
-            } else {
-              const errorMessage = validateName(value.resource.value);
-              if (errorMessage !== undefined) {
-                answer.resource.validated = ValidatedOptions.error;
-                answer.resource.errorMessage = errorMessage;
-                valid = false;
-              } else {
-                answer.resource.validated = ValidatedOptions.default;
-              }
-            }
-            if (value.patternType.value === undefined) {
-              answer.patternType.validated = ValidatedOptions.error;
-              answer.patternType.errorMessage = t(
-                'permission.manage_permissions_dialog.assign_permissions.must_select_pattern_type_error'
-              );
-              valid = false;
-            } else {
-              answer.patternType.validated = ValidatedOptions.default;
-            }
-          }
-          if (value.permission.value === undefined) {
-            answer.permission.validated = ValidatedOptions.error;
-            answer.permission.errorMessage = t(
-              'permission.manage_permissions_dialog.assign_permissions.must_select_permission_error'
-            );
-            valid = false;
-          } else {
-            answer.permission.validated = ValidatedOptions.default;
-          }
-          if (value.operation.value === undefined) {
-            answer.operation.validated = ValidatedOptions.error;
-            answer.operation.errorMessage = t(
-              'permission.manage_permissions_dialog.assign_permissions.must_select_operation_error'
-            );
-            valid = false;
-          } else {
-            answer.operation.validated = ValidatedOptions.default;
-          }
-          return answer;
-        } else {
-          return value;
-        }
-      });
+      const { newAcls, isValid } = validateAcls(prevState, valid);
+      valid = isValid;
+      return newAcls;
     });
-    if (valid) {
-      for (const value of newAcls.filter((value) => isNewAclModified(value))) {
-        if (value.resourceType.value === undefined) {
-          throw Error('resourceType must not be undefined');
-        }
-        if (value.resourceType.value !== AclResourceType.Cluster) {
-          if (value.resource.value === undefined) {
-            throw Error('resource must not be undefined');
-          }
-          if (value.patternType.value === undefined) {
-            throw Error('patternType must not be undefined');
-          }
-        } else {
-          value.resource.value = 'kafka-cluster';
-          value.patternType.value = AclPatternType.Literal;
-        }
-        if (value.permission.value === undefined) {
-          throw Error('permission must not be undefined');
-        }
 
-        if (value.operation.value === undefined) {
-          throw Error('operation must not be undefined');
-        }
-        await permissionsService.addPermission({
-          resourceName: value.resource.value,
-          patternType: value.patternType.value,
-          permission: value.permission.value,
-          resourceType: value.resourceType.value,
-          operation: value.operation.value,
-          principal: `User:${selectedAccount.value}`,
+    if (valid && newAcls) {
+      for (let value of newAcls.filter((value) => isNewAclModified(value))) {
+        value = Array.isArray(value) ? value : [value];
+        value.forEach((acl: NewAcl) => {
+          if (acl.resourceType.value === undefined) {
+            throw Error('resourceType must not be undefined');
+          }
+          if (acl.resourceType.value !== AclResourceType.Cluster) {
+            if (acl.resource.value === undefined) {
+              throw Error('resource must not be undefined');
+            }
+            if (acl.patternType.value === undefined) {
+              throw Error('patternType must not be undefined');
+            }
+          } else {
+            acl.resource.value = 'kafka-cluster';
+            acl.patternType.value = AclPatternType.Literal;
+          }
+          if (acl.permission.value === undefined) {
+            throw Error('permission must not be undefined');
+          }
+
+          if (acl.operation.value === undefined && !acl.aclShortcutType) {
+            throw Error('operation must not be undefined');
+          }
+
+          if (acl.operations) {
+            acl.operations?.forEach((operation) => {
+              acl.operation.value = operation;
+              saveAcl(acl);
+            });
+          } else {
+            saveAcl(acl);
+          }
         });
       }
-      for (const value of removeAcls) {
-        await permissionsService.deletePermission({
-          resourceName: value.resourceName,
-          patternType: convertEnum(value.patternType, AclPatternTypeFilter),
-          permissionType: convertEnum(
-            value.permission,
-            AclPermissionTypeFilter
-          ),
-          resourceType: convertEnum(value.resourceType, AclResourceTypeFilter),
-          operation: convertEnum(value.operation, AclOperationFilter),
-          principal: `User:${selectedAccount.value}`,
-        });
-      }
+
+      await deleteAcls();
+
       onSave && (await onSave());
       hideModal();
+    }
+  };
+
+  const saveAcl = async (acl: NewAcls) => {
+    if (!Array.isArray(acl)) {
+      const { resource, patternType, permission, resourceType, operation } =
+        acl;
+      if (
+        resource?.value &&
+        patternType?.value &&
+        permission?.value &&
+        resourceType?.value &&
+        operation?.value
+      ) {
+        await permissionsService.addPermission({
+          resourceName: resource.value,
+          patternType: patternType.value,
+          permission: permission.value,
+          resourceType: resourceType.value,
+          operation: operation.value,
+          principal: `User:${selectedAccount.value}`,
+        });
+      }
+    }
+  };
+
+  const deleteAcls = async () => {
+    for (const value of removeAcls) {
+      await permissionsService.deletePermission({
+        resourceName: value.resourceName,
+        patternType: convertEnum(value.patternType, AclPatternTypeFilter),
+        permissionType: convertEnum(value.permission, AclPermissionTypeFilter),
+        resourceType: convertEnum(value.resourceType, AclResourceTypeFilter),
+        operation: convertEnum(value.operation, AclOperationFilter),
+        principal: `User:${selectedAccount.value}`,
+      });
     }
   };
 
@@ -282,14 +335,19 @@ export const ManagePermissionsModal: React.FC<
         document.getElementById('manage-permissions-modal') || undefined;
 
       const isFormInvalid = (): boolean => {
-        return newAcls.some((value) => {
-          return (
-            value.operation.validated === 'error' ||
-            value.patternType.validated === 'error' ||
-            value.resource.validated === 'error' ||
-            value.resourceType.validated === 'error'
-          );
-        });
+        if (newAcls) {
+          return newAcls.some((value) => {
+            value = Array.isArray(value) ? value : [value];
+            return value?.some(
+              (v) =>
+                v.operation.validated === 'error' ||
+                v.patternType.validated === 'error' ||
+                v.resource.validated === 'error' ||
+                v.resourceType.validated === 'error'
+            );
+          });
+        }
+        return false;
       };
       const FormValidAlert: React.FunctionComponent = () => {
         if (isFormInvalid()) {
@@ -331,6 +389,7 @@ export const ManagePermissionsModal: React.FC<
             setEscapeClosesModal={setEscapeClosesModal}
             resourceOperations={resourceOperations}
             menuAppendTo={menuAppendTo}
+            kafkaName={kafkaName}
           />
         </>
       );
@@ -381,7 +440,7 @@ export const ManagePermissionsModal: React.FC<
     }
   };
 
-  const isDisabledSaveButton = !newAcls.some(
+  const isDisabledSaveButton = !newAcls?.some(
     (p) => isNewAclModified(p) || removeAcls.length > 0
   );
 

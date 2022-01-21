@@ -11,14 +11,8 @@ import {
   getPermissionsTypes,
   getResourceTypes,
 } from '@app/services/acls';
-import {
-  cellWidth,
-  ICell,
-  IRowData,
-  TableVariant,
-} from '@patternfly/react-table';
+import { cellWidth, ICell } from '@patternfly/react-table';
 import { useTranslation } from 'react-i18next';
-import { MASTable } from '@app/components';
 import {
   ActionList,
   ActionListItem,
@@ -28,28 +22,43 @@ import {
   TextVariants,
   Tooltip,
   ValidatedOptions,
+  LabelGroup,
+  Label,
+  Popover,
+  ButtonVariant,
 } from '@patternfly/react-core';
 import { CreateSelect } from '@app/modules/Permissions/components/ManagePermissionsDialog/CreateSelect';
 import { sentenceCase } from 'sentence-case';
 import { SelectOption } from '@app/modules/Permissions/components/ManagePermissionsDialog/select';
 import { snakeCase } from 'snake-case';
 import { CreateTypeahead } from '@app/modules/Permissions/components/ManagePermissionsDialog/CreateTypeahead';
-import PlusCircleIcon from '@patternfly/react-icons/dist/js/icons/plus-circle-icon';
 import TrashIcon from '@patternfly/react-icons/dist/js/icons/trash-icon';
 import {
   createEmptyNewAcl,
-  isNewAclModified,
   NewAcl,
+  NewAcls,
 } from '@app/modules/Permissions/components/ManagePermissionsDialog/acls';
 import { displayName } from '@app/modules/Permissions/utils';
 import { useValidateTopic } from '@app/modules/Topics/utils';
+import { PermissionsDropdown } from './PermissionsDropdown';
+import { AclShortcutType } from './acls';
+import { SolidLabel } from './SolidLabel';
+import {
+  TableComposable,
+  Thead,
+  Tr,
+  Th,
+  Tbody,
+  Td,
+} from '@patternfly/react-table';
+import HelpIcon from '@patternfly/react-icons/dist/js/icons/help-icon';
 
 export type CreatePermissionsProps = {
   selectedAccount?: string;
   topicNames: string[];
   consumerGroupIds: string[];
-  acls: NewAcl[];
-  setAcls: React.Dispatch<React.SetStateAction<NewAcl[]>>;
+  acls: NewAcls[] | undefined;
+  setAcls: React.Dispatch<React.SetStateAction<NewAcls[] | []>>;
   setEscapeClosesModal: (closes: boolean) => void;
   resourceOperations: { [key: string]: Array<string> };
   menuAppendTo:
@@ -58,6 +67,7 @@ export type CreatePermissionsProps = {
     | 'parent'
     | 'inline'
     | undefined;
+  kafkaName: string | undefined;
 };
 
 export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> =
@@ -70,6 +80,7 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
     setEscapeClosesModal,
     resourceOperations,
     menuAppendTo,
+    kafkaName,
   }) => {
     const { validateName } = useValidateTopic();
     const { t } = useTranslation(['kafkaTemporaryFixMe']);
@@ -81,87 +92,112 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
       },
       {
         title: '',
+        columnTransforms: [cellWidth(20)],
+      },
+      {
+        title: '',
+        columnTransforms: [cellWidth(20)],
+      },
+      {
+        title: t('permission.table.permissions_column_title'),
         columnTransforms: [cellWidth(15)],
       },
       {
         title: '',
-        columnTransforms: [cellWidth(25)],
-      },
-      {
-        title: t('permission.table.permissions_column_title'),
-        columnTransforms: [cellWidth(20)],
+        columnTransforms: [cellWidth(15)],
       },
       {
         title: '',
-        columnTransforms: [cellWidth(20)],
+        columnTransforms: [cellWidth(10)],
       },
     ] as ICell[];
 
-    const setPermissionType = (row: number, value?: AclPermissionType) => {
+    const setPermissionType = (
+      row: number,
+      value?: AclPermissionType,
+      childRow?: number
+    ) => {
       setAcls((prevState) =>
         prevState.map((v, k) => {
           if (k === row) {
-            v.permission = { value };
+            if (Array.isArray(v) && childRow !== undefined)
+              v[childRow].permission = { value };
+            else v.permission = { value };
           }
           return v;
         })
       );
     };
 
-    const setOperation = (row: number, value?: AclOperation) => {
+    const setOperation = (
+      row: number,
+      value?: AclOperation,
+      childRow?: number
+    ) => {
       setAcls((prevState) =>
         prevState.map((v, k) => {
           if (k === row) {
-            v.operation = { value };
+            if (Array.isArray(v) && childRow !== undefined)
+              v[childRow].operation = { value };
+            else v.operation = { value };
           }
           return v;
         })
       );
     };
 
-    const setResourceType = (row: number, value?: AclResourceType) => {
+    const setResourceType = (
+      row: number,
+      value?: AclResourceType,
+      childRow?: number
+    ) => {
       setAcls((prevState) =>
         prevState.map((v, k) => {
           if (k === row) {
-            v.resourceType = { value };
+            if (Array.isArray(v) && childRow !== undefined)
+              v[row][childRow].resourceType = { value };
+            else v.resourceType = { value };
           }
           return v;
         })
       );
     };
 
-    const setPatternType = (row: number, value?: AclPatternType) => {
+    const setPatternType = (
+      row: number,
+      value?: AclPatternType,
+      childRow?: number
+    ) => {
       setAcls((prevState) =>
         prevState.map((v, k) => {
           if (k === row) {
-            v.patternType = { value };
+            if (Array.isArray(v) && childRow !== undefined) {
+              v[childRow].patternType = { value };
+            } else {
+              v.patternType = { value };
+            }
           }
           return v;
         })
       );
     };
 
-    const setResource = (row: number, value?: string) => {
+    const setResource = (row: number, value?: string, childRow?: number) => {
       setAcls((prevState) =>
         prevState.map((v, k) => {
           if (k === row) {
-            v.resource = { value };
+            if (Array.isArray(v) && childRow !== undefined)
+              v[childRow].resource = { value };
+            else v.resource = { value };
           }
           return v;
         })
       );
-    };
-
-    const addRow = () => {
-      setAcls((prevState) => [...prevState, createEmptyNewAcl()]);
     };
 
     const removeRow = (row: number) => {
       setAcls((prevState) => {
-        if (prevState.length > 1) {
-          return prevState.filter((v, k) => k !== row);
-        }
-        return [createEmptyNewAcl()];
+        return prevState.filter((v, k) => k !== row);
       });
     };
 
@@ -179,19 +215,25 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
     type CellProps = {
       acl: NewAcl;
       row: number;
+      childRow?: number;
     };
 
     const PatternTypeCell: React.FunctionComponent<CellProps> = ({
       acl,
       row,
+      childRow = 0,
     }) => {
-      if (acl.resourceType.value === AclResourceType.Cluster) {
+      if (
+        acl.resourceType.value === AclResourceType.Cluster ||
+        acl.aclShortcutType === AclShortcutType.ManageAccess
+      ) {
         return <></>;
       }
+
       return (
         <CreateSelect
           options={getPatternTypes()
-            .map((value) => {
+            ?.map((value) => {
               return {
                 value,
                 title:
@@ -216,28 +258,56 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
           selected={acl.patternType}
           setSelected={setPatternType}
           row={row}
+          childRow={childRow}
           id='pattern-type'
           setEscapeClosesModal={setEscapeClosesModal}
           menuAppendTo={menuAppendTo}
           onClear={() => createEmptyNewAcl().patternType.value}
           onSelect={(value) => {
             setAcls((prevState) => {
+              const newPrevState = handle2DArrayAcls(prevState, row, childRow);
               if (value === undefined) {
-                prevState[row].patternType.validated = ValidatedOptions.error;
-                prevState[row].patternType.validated = t(
+                newPrevState.patternType.validated = ValidatedOptions.error;
+                newPrevState.patternType.validated = t(
                   'permission.manage_permissions_dialog.assign_permissions.must_select_pattern_type_error'
                 );
               } else {
-                prevState[row].patternType.validated = ValidatedOptions.default;
+                newPrevState.patternType.validated = ValidatedOptions.default;
               }
-              return prevState;
+
+              return update2DArrayAcls(prevState, newPrevState, row, childRow);
             });
           }}
         />
       );
     };
 
-    const ResourceType: React.FunctionComponent<CellProps> = ({ row, acl }) => {
+    const ResourceType: React.FunctionComponent<CellProps> = ({
+      row,
+      acl,
+      childRow = 0,
+    }) => {
+      const { resourceType } = acl;
+      if (
+        (acl.aclShortcutType === AclShortcutType.ConsumeTopic ||
+          acl.aclShortcutType === AclShortcutType.ProduceTopic) &&
+        resourceType?.value
+      ) {
+        return (
+          <>
+            <SolidLabel variant={resourceType.value} />{' '}
+            {displayName(resourceType.value)}
+          </>
+        );
+      } else if (acl.aclShortcutType === AclShortcutType.ManageAccess) {
+        return (
+          <>
+            <SolidLabel variant={AclResourceType.Cluster} />{' '}
+            {displayName(AclResourceType.Cluster)} is "{kafkaName}"
+          </>
+        );
+      }
+
       return (
         <CreateSelect
           options={getResourceTypes().map((value) => {
@@ -258,29 +328,56 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
           onClear={() => createEmptyNewAcl().resourceType.value}
           onSelect={(value) => {
             setAcls((prevState) => {
+              const newPrevState = handle2DArrayAcls(prevState, row, childRow);
               if (value === undefined) {
-                prevState[row].resourceType.validated = ValidatedOptions.error;
-                prevState[row].resourceType.errorMessage = t(
+                newPrevState.validated = ValidatedOptions.error;
+                newPrevState.errorMessage = t(
                   'permission.manage_permissions_dialog.assign_permissions.must_select_resource_type_error'
                 );
               } else {
-                prevState[row].resourceType.validated =
-                  ValidatedOptions.default;
+                newPrevState.validated = ValidatedOptions.default;
               }
-              return prevState;
+              return update2DArrayAcls(prevState, newPrevState, row, childRow);
             });
           }}
         />
       );
     };
 
-    const ResourceCell: React.FunctionComponent<CellProps> = ({ row, acl }) => {
-      if (acl.resourceType.value === AclResourceType.Cluster) {
+    const update2DArrayAcls = (
+      prevAcls: NewAcls[],
+      newAcl: NewAcl,
+      row: number,
+      childRow = 0
+    ) => {
+      if (Array.isArray(prevAcls[row]) && childRow !== undefined)
+        prevAcls[row][childRow] = newAcl;
+      else prevAcls[row] = newAcl;
+      return prevAcls;
+    };
+
+    const handle2DArrayAcls = (acls: NewAcls[], row: number, childRow = 0) => {
+      const newAcls = Array.isArray(acls[row])
+        ? acls[row][childRow]
+        : acls[row];
+      return newAcls;
+    };
+
+    const ResourceCell: React.FunctionComponent<CellProps> = ({
+      row,
+      acl,
+      childRow = 0,
+    }) => {
+      if (
+        acl.resourceType.value === AclResourceType.Cluster ||
+        acl.aclShortcutType === AclShortcutType.ManageAccess
+      ) {
         return <></>;
       }
       return (
         <CreateTypeahead
           row={row}
+          childRow={childRow}
           value={acl.resource}
           setValue={setResource}
           id='resource'
@@ -303,21 +400,51 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
           onSelect={(value) => {
             if (value === '*') {
               setAcls((prevState) => {
-                prevState[row].resource.validated = ValidatedOptions.default;
-                return prevState;
+                const newPrevState = handle2DArrayAcls(
+                  prevState,
+                  row,
+                  childRow
+                );
+                newPrevState.resource.validated = ValidatedOptions.default;
+                return update2DArrayAcls(
+                  prevState,
+                  newPrevState,
+                  row,
+                  childRow
+                );
               });
             } else {
               const errorMessage = validateName(value);
               if (errorMessage !== undefined) {
                 setAcls((prevState) => {
-                  prevState[row].resource.validated = ValidatedOptions.error;
-                  prevState[row].resource.errorMessage = errorMessage;
-                  return prevState;
+                  const newPrevState = handle2DArrayAcls(
+                    prevState,
+                    row,
+                    childRow
+                  );
+                  newPrevState.validated = ValidatedOptions.error;
+                  newPrevState.errorMessage = errorMessage;
+                  return update2DArrayAcls(
+                    prevState,
+                    newPrevState,
+                    row,
+                    childRow
+                  );
                 });
               } else if (value !== undefined) {
                 setAcls((prevState) => {
-                  prevState[row].resource.validated = ValidatedOptions.default;
-                  return prevState;
+                  const newPrevState = handle2DArrayAcls(
+                    prevState,
+                    row,
+                    childRow
+                  );
+                  newPrevState.validated = ValidatedOptions.default;
+                  return update2DArrayAcls(
+                    prevState,
+                    newPrevState,
+                    row,
+                    childRow
+                  );
                 });
               }
             }
@@ -329,7 +456,34 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
     const PermissionTypeCell: React.FunctionComponent<CellProps> = ({
       acl,
       row,
+      childRow = 0,
     }) => {
+      if (acl.aclShortcutType) {
+        return (
+          <>
+            {Array.isArray(acl?.operations) && (
+              <LabelGroup numLabels={4}>
+                <Label
+                  variant='outline'
+                  color={
+                    acl.permission.value === AclPermissionType.Deny
+                      ? 'red'
+                      : undefined
+                  }
+                >
+                  {sentenceCase(acl.permission.value || '')}
+                </Label>
+                {acl?.operations?.map((operation) => (
+                  <Label variant='outline' key={operation}>
+                    {sentenceCase(operation)}
+                  </Label>
+                ))}
+              </LabelGroup>
+            )}
+          </>
+        );
+      }
+
       return (
         <CreateSelect
           options={getPermissionsTypes().map((value) => {
@@ -347,15 +501,16 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
           onClear={() => createEmptyNewAcl().permission.value}
           onSelect={(value) => {
             setAcls((prevState) => {
+              const newPrevState = handle2DArrayAcls(prevState, row, childRow);
               if (value === undefined) {
-                prevState[row].permission.validated = ValidatedOptions.error;
-                prevState[row].permission.errorMessage = t(
+                newPrevState.permission.validated = ValidatedOptions.error;
+                newPrevState.permission.errorMessage = t(
                   'permission.manage_permissions_dialog.assign_permissions.must_select_permission_error'
                 );
               } else {
-                prevState[row].permission.validated = ValidatedOptions.default;
+                newPrevState.permission.validated = ValidatedOptions.default;
               }
-              return prevState;
+              return update2DArrayAcls(prevState, newPrevState, row, childRow);
             });
           }}
         />
@@ -365,6 +520,7 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
     const OperationCell: React.FunctionComponent<CellProps> = ({
       acl,
       row,
+      childRow = 0,
     }) => {
       return (
         <CreateSelect
@@ -400,39 +556,118 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
           onClear={() => createEmptyNewAcl().operation.value}
           onSelect={(value) => {
             setAcls((prevState) => {
+              const newPrevState = handle2DArrayAcls(prevState, row, childRow);
               if (value === undefined) {
-                prevState[row].operation.validated = ValidatedOptions.error;
-                prevState[row].operation.errorMessage = t(
+                newPrevState.operation.validated = ValidatedOptions.error;
+                newPrevState.operation.errorMessage = t(
                   'permission.manage_permissions_dialog.assign_permissions.must_select_operation_error'
                 );
               } else {
-                prevState[row].operation.validated = ValidatedOptions.default;
+                newPrevState.operation.validated = ValidatedOptions.default;
               }
-              return prevState;
+              return update2DArrayAcls(prevState, newPrevState, row, childRow);
             });
           }}
         />
       );
     };
 
-    const RemoveButtonCell: React.FunctionComponent<CellProps> = ({
-      row,
-      acl,
-    }) => {
+    const RemoveButtonCell: React.FunctionComponent<CellProps> = ({ row }) => {
       return (
-        <Tooltip
-          content={t(
-            'permission.manage_permissions_dialog.assign_permissions.remove_row_help'
-          )}
-        >
-          <Button
-            variant='link'
-            icon={<TrashIcon />}
-            onClick={() => removeRow(row)}
-            isDisabled={!isNewAclModified(acl, acls.length)}
-          />
-        </Tooltip>
+        <div className='pf-u-display-flex pf-u-justify-content-flex-end'>
+          <Tooltip
+            content={t(
+              'permission.manage_permissions_dialog.assign_permissions.remove_row_help'
+            )}
+          >
+            <Button
+              variant='link'
+              icon={<TrashIcon />}
+              onClick={() => removeRow(row)}
+            />
+          </Tooltip>
+        </div>
       );
+    };
+
+    const preparedRows = (acl: NewAcls, row: number) => {
+      const newAcl = Array.isArray(acl) ? acl : [acl];
+      return newAcl.map((acl, childRow) => {
+        return (
+          <>
+            {acl.aclShortcutType && childRow === 0 && (
+              <Tr style={{ borderBottom: 'none' }}>
+                <Td colSpan={5}>
+                  <TextContent>
+                    <Text component={TextVariants.h6}>
+                      {acl?.metaData?.title}
+                      <Popover
+                        headerContent={<div>{acl.metaData?.popoverHeader}</div>}
+                        bodyContent={<div>{acl.metaData?.popoverBody}</div>}
+                      >
+                        <Button
+                          variant={ButtonVariant.plain}
+                          aria-label={acl.metaData?.ariaLabel}
+                        >
+                          <HelpIcon />
+                        </Button>
+                      </Popover>
+                    </Text>
+                  </TextContent>
+                </Td>
+                <Td>
+                  <RemoveButtonCell acl={acl} row={row} />
+                </Td>
+              </Tr>
+            )}
+            <Tr
+              key={row}
+              style={{
+                borderBottom: newAcl.length > 1 && childRow === 0 ? 'none' : '',
+              }}
+            >
+              <Td
+                width={
+                  acl.aclShortcutType === AclShortcutType.ManageAccess ? 50 : 20
+                }
+                colSpan={
+                  acl.aclShortcutType === AclShortcutType.ManageAccess ? 3 : 0
+                }
+                noPadding
+              >
+                <ResourceType row={row} acl={acl} childRow={childRow} />
+              </Td>
+              {acl.aclShortcutType !== AclShortcutType.ManageAccess && (
+                <>
+                  <Td width={15} noPadding>
+                    <PatternTypeCell row={row} acl={acl} childRow={childRow} />
+                  </Td>
+                  <Td width={25} noPadding>
+                    <ResourceCell acl={acl} row={row} childRow={childRow} />
+                  </Td>
+                </>
+              )}
+              <Td
+                width={acl.aclShortcutType ? 40 : 15}
+                colSpan={acl.aclShortcutType ? 3 : 0}
+                noPadding
+              >
+                <PermissionTypeCell acl={acl} row={row} childRow={childRow} />
+              </Td>
+              {!acl.aclShortcutType && (
+                <>
+                  <Td width={15} noPadding>
+                    <OperationCell acl={acl} row={row} childRow={childRow} />
+                  </Td>
+                  <Td width={10}>
+                    <RemoveButtonCell acl={acl} row={row} />
+                  </Td>
+                </>
+              )}
+            </Tr>
+          </>
+        );
+      });
     };
 
     return (
@@ -442,60 +677,32 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
             {t('permission.manage_permissions_dialog.assign_permissions.title')}
           </Text>
           <Text component={TextVariants.small}>{formGroupHelperText()}</Text>
-          <Text component={TextVariants.small}>
-            {t(
-              'permission.manage_permissions_dialog.assign_permissions.all_fields_are_required'
-            )}
-          </Text>
-        </TextContent>
-
-        <MASTable
-          tableProps={{
-            cells: tableColumns,
-            rows: acls.map((acl, row) => {
-              return {
-                cells: [
-                  {
-                    title: <ResourceType row={row} acl={acl} />,
-                  },
-                  {
-                    title: <PatternTypeCell row={row} acl={acl} />,
-                  },
-                  {
-                    title: <ResourceCell acl={acl} row={row} />,
-                  },
-                  {
-                    title: <PermissionTypeCell acl={acl} row={row} />,
-                  },
-                  {
-                    title: (
-                      <div className='pf-u-display-flex pf-u-justify-content-space-between'>
-                        <div>
-                          <OperationCell acl={acl} row={row} />
-                        </div>
-                        <div>
-                          <RemoveButtonCell acl={acl} row={row} />
-                        </div>
-                      </div>
-                    ),
-                  },
-                ],
-              } as IRowData;
-            }),
-            'aria-label': t('permission.table.table.permission_list_table'),
-            shouldDefaultCustomRowWrapper: true,
-            variant: TableVariant.compact,
-            canSelectAll: false,
-          }}
-          rowDataTestId={'tablePermissions-row'}
-        />
-        <ActionList>
-          <ActionListItem>
-            <Button variant='link' icon={<PlusCircleIcon />} onClick={addRow}>
+          {acls && acls.length > 0 && (
+            <Text component={TextVariants.small}>
               {t(
-                'permission.manage_permissions_dialog.assign_permissions.add_row'
+                'permission.manage_permissions_dialog.assign_permissions.all_fields_are_required'
               )}
-            </Button>
+            </Text>
+          )}
+        </TextContent>
+        {acls && acls.length > 0 && (
+          <TableComposable
+            aria-label='Assign permission table'
+            variant='compact'
+          >
+            <Thead noWrap>
+              <Tr>
+                {tableColumns?.map((col, index) => (
+                  <Th key={index}>{col.title}</Th>
+                ))}
+              </Tr>
+            </Thead>
+            <Tbody>{acls?.map((acl, row) => preparedRows(acl, row))}</Tbody>
+          </TableComposable>
+        )}
+        <ActionList>
+          <ActionListItem style={{ marginLeft: '20px', marginTop: '15px' }}>
+            <PermissionsDropdown setAcls={setAcls} />
           </ActionListItem>
         </ActionList>
       </div>

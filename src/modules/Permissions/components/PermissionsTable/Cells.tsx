@@ -116,13 +116,19 @@ export const permissionOperationCell: CellBuilder<EnhancedAclBinding> = (
   return {
     title: (
       <LabelGroup>
-        <Label
-          variant='outline'
-          color={item.permission === AclPermissionType.Deny ? 'red' : undefined}
-        >
-          {sentenceCase(item.permission)}
-        </Label>
-        <Label variant='outline'>{sentenceCase(item.operation)}</Label>
+        {item.permission && (
+          <Label
+            variant='outline'
+            color={
+              item.permission === AclPermissionType.Deny ? 'red' : undefined
+            }
+          >
+            {sentenceCase(item.permission)}
+          </Label>
+        )}
+        {item.operation && (
+          <Label variant='outline'>{sentenceCase(item.operation)}</Label>
+        )}
       </LabelGroup>
     ),
     props: {},

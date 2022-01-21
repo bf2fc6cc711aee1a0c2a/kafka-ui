@@ -12,8 +12,9 @@ import { FormGroupWithPopover } from '@app/components';
 
 export type CreateTypeaheadProps = {
   row: number;
+  childRow?: number;
   value: Validated<string | undefined>;
-  setValue: (row: number, id: string | undefined) => void;
+  setValue: (row: number, id: string | undefined, childRow?: number) => void;
   initialOptions: () => string[];
   id: string;
   placeholder?: string;
@@ -37,6 +38,7 @@ export const CreateTypeahead: React.FunctionComponent<CreateTypeaheadProps> = ({
   onSelect,
   setEscapeClosesModal,
   menuAppendTo,
+  childRow,
 }) => {
   const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -60,7 +62,7 @@ export const CreateTypeahead: React.FunctionComponent<CreateTypeaheadProps> = ({
   };
 
   const clearSelection = () => {
-    setValue(row, undefined);
+    setValue(row, undefined, childRow);
     setIsOpen(false);
   };
 
@@ -68,7 +70,7 @@ export const CreateTypeahead: React.FunctionComponent<CreateTypeaheadProps> = ({
     if (selection === '') selection = undefined;
     if (isPlaceholder) clearSelection();
     else {
-      setValue(row, selection);
+      setValue(row, selection, childRow);
       setIsOpen(false);
       onSelect(selection);
     }
