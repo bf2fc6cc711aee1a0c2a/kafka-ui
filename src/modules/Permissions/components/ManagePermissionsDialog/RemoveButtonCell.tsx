@@ -9,7 +9,7 @@ type RemoveButtonCellProps = CellProps & {
   removeRow: (row: number) => void;
 };
 
-const RemoveButtonCell: React.FC<RemoveButtonCellProps> = ({
+const RemoveButtonCell: React.VFC<RemoveButtonCellProps> = ({
   row,
   removeRow,
 }) => {

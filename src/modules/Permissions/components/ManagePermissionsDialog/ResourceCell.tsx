@@ -17,7 +17,7 @@ type ResourceCellProps = AclCellProps & {
   consumerGroupIds: string[];
 };
 
-const ResourceCell: React.FC<ResourceCellProps> = ({
+const ResourceCell: React.VFC<ResourceCellProps> = ({
   row,
   acl,
   childRow = 0,

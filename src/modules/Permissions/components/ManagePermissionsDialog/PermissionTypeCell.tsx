@@ -17,7 +17,7 @@ import { SelectOption } from '@app/modules/Permissions/components/ManagePermissi
 
 type PermissionTypeCellProps = AclCellProps;
 
-const PermissionTypeCell: React.FunctionComponent<PermissionTypeCellProps> = ({
+const PermissionTypeCell: React.VFC<PermissionTypeCellProps> = ({
   acl,
   row,
   childRow = 0,

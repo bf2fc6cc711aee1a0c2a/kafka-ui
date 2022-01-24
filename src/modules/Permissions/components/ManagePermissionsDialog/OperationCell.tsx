@@ -19,7 +19,7 @@ type OperationCellProps = AclCellProps & {
   resourceOperations: { [key: string]: Array<string> };
 };
 
-const OperationCell: React.FunctionComponent<OperationCellProps> = ({
+const OperationCell: React.VFC<OperationCellProps> = ({
   acl,
   row,
   childRow = 0,

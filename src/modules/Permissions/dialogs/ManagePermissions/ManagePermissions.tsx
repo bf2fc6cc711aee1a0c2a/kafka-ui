@@ -45,7 +45,7 @@ import {
 import { PreCancelModal } from './PreCancelModal';
 import './ManagePermissions.css';
 
-export const ManagePermissions: React.FC<
+export const ManagePermissions: React.VFC<
   ManagePermissionsProps & BaseModalProps
 > = ({
   hideModal,
@@ -136,10 +136,10 @@ export const ManagePermissionsModal: React.FC<
     getUsername();
   }, [auth]);
 
-  const validateAcls = (acls: NewAcls[], valid: boolean) => {
-    const newAcls = acls?.map((value) => {
+  const setValidationAcls = (acls: NewAcls[]) => {
+    return acls?.map((value) => {
       if (Array.isArray(value)) {
-        validateAcls(value, true);
+        setValidationAcls(value);
       }
 
       if (!Array.isArray(value)) {
@@ -155,7 +155,6 @@ export const ManagePermissionsModal: React.FC<
             answer.operation.errorMessage = t(
               'permission.manage_permissions_dialog.assign_permissions.must_select_operation_error'
             );
-            valid = false;
           } else {
             answer.operation.validated = ValidatedOptions.default;
           }
@@ -165,7 +164,6 @@ export const ManagePermissionsModal: React.FC<
             answer.permission.errorMessage = t(
               'permission.manage_permissions_dialog.assign_permissions.must_select_permission_error'
             );
-            valid = false;
           } else {
             answer.permission.validated = ValidatedOptions.default;
           }
@@ -176,17 +174,16 @@ export const ManagePermissionsModal: React.FC<
           answer.resourceType.errorMessage = t(
             'permission.manage_permissions_dialog.assign_permissions.must_select_resource_type_error'
           );
-          valid = false;
         } else {
           answer.resourceType.validated = ValidatedOptions.default;
         }
+
         if (value.resourceType.value !== AclResourceType.Cluster) {
           if (value.resource.value === undefined) {
             answer.resource.validated = ValidatedOptions.error;
             answer.resource.errorMessage = t(
               'permission.manage_permissions_dialog.assign_permissions.must_select_resource_error'
             );
-            valid = false;
           } else if (value.resource.value === '*') {
             answer.resource.validated = ValidatedOptions.default;
           } else {
@@ -194,17 +191,16 @@ export const ManagePermissionsModal: React.FC<
             if (errorMessage !== undefined) {
               answer.resource.validated = ValidatedOptions.error;
               answer.resource.errorMessage = errorMessage;
-              valid = false;
             } else {
               answer.resource.validated = ValidatedOptions.default;
             }
           }
+
           if (value.patternType.value === undefined) {
             answer.patternType.validated = ValidatedOptions.error;
             answer.patternType.errorMessage = t(
               'permission.manage_permissions_dialog.assign_permissions.must_select_pattern_type_error'
             );
-            valid = false;
           } else {
             answer.patternType.validated = ValidatedOptions.default;
           }
@@ -215,39 +211,11 @@ export const ManagePermissionsModal: React.FC<
         return value;
       }
     });
-    return { newAcls, isValid: valid };
   };
 
-  const save = async () => {
-    let valid = true;
-    if (selectedAccount.value === undefined) {
-      setSelectedAccount((v) => {
-        return {
-          ...v,
-          validated: ValidatedOptions.error,
-          errorMessage: t(
-            'permission.manage_permissions_dialog.must_select_account_error'
-          ),
-        };
-      });
-      valid = false;
-    } else {
-      setSelectedAccount((v) => {
-        return {
-          ...v,
-          validated: ValidatedOptions.default,
-        };
-      });
-    }
-
-    setNewAcls((prevState) => {
-      const { newAcls, isValid } = validateAcls(prevState, valid);
-      valid = isValid;
-      return newAcls;
-    });
-
-    if (valid && newAcls) {
-      for (let value of newAcls.filter((value) => isNewAclModified(value))) {
+  const validateAcls = async (acls: NewAcls[]) => {
+    if (acls) {
+      for (let value of acls.filter((value) => isNewAclModified(value))) {
         value = Array.isArray(value) ? value : [value];
         value.forEach((acl: NewAcl) => {
           if (acl.resourceType.value === undefined) {
@@ -290,6 +258,37 @@ export const ManagePermissionsModal: React.FC<
     }
   };
 
+  const save = async () => {
+    let valid = true;
+    if (selectedAccount.value === undefined) {
+      setSelectedAccount((v) => {
+        return {
+          ...v,
+          validated: ValidatedOptions.error,
+          errorMessage: t(
+            'permission.manage_permissions_dialog.must_select_account_error'
+          ),
+        };
+      });
+      valid = false;
+    } else {
+      setSelectedAccount((v) => {
+        return {
+          ...v,
+          validated: ValidatedOptions.default,
+        };
+      });
+    }
+
+    const validatedAcls = setValidationAcls(newAcls);
+    const isInvalid = isFormInvalid(validatedAcls);
+    if (!isInvalid && valid) {
+      validateAcls(validatedAcls);
+    }
+
+    setNewAcls(validatedAcls);
+  };
+
   const saveAcl = async (acl: NewAcls) => {
     if (!Array.isArray(acl)) {
       const { resource, patternType, permission, resourceType, operation } =
@@ -326,6 +325,19 @@ export const ManagePermissionsModal: React.FC<
     }
   };
 
+  const isFormInvalid = (newAcls: NewAcls[]): boolean => {
+    return newAcls.some((value) => {
+      value = Array.isArray(value) ? value : [value];
+      return value?.some(
+        (v) =>
+          v.operation.validated === 'error' ||
+          v.patternType.validated === 'error' ||
+          v.resource.validated === 'error' ||
+          v.resourceType.validated === 'error'
+      );
+    });
+  };
+
   const Step2 = () => {
     if (step === 2) {
       if (resourceOperations === undefined) {
@@ -334,23 +346,8 @@ export const ManagePermissionsModal: React.FC<
       const menuAppendTo =
         document.getElementById('manage-permissions-modal') || undefined;
 
-      const isFormInvalid = (): boolean => {
-        if (newAcls) {
-          return newAcls.some((value) => {
-            value = Array.isArray(value) ? value : [value];
-            return value?.some(
-              (v) =>
-                v.operation.validated === 'error' ||
-                v.patternType.validated === 'error' ||
-                v.resource.validated === 'error' ||
-                v.resourceType.validated === 'error'
-            );
-          });
-        }
-        return false;
-      };
       const FormValidAlert: React.FunctionComponent = () => {
-        if (isFormInvalid()) {
+        if (isFormInvalid(newAcls)) {
           return (
             <FormAlert>
               <Alert
@@ -440,8 +437,8 @@ export const ManagePermissionsModal: React.FC<
     }
   };
 
-  const isDisabledSaveButton = !newAcls?.some(
-    (p) => isNewAclModified(p) || removeAcls.length > 0
+  const isDisabledSaveButton = !(
+    newAcls?.some((p) => isNewAclModified(p)) || removeAcls.length > 0
   );
 
   const SubmitButton: React.FunctionComponent = () => {

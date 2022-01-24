@@ -7,9 +7,7 @@ export type SolidLabelProps = {
   variant: AclResourceType;
 };
 
-export const SolidLabel: React.FunctionComponent<SolidLabelProps> = ({
-  variant,
-}) => {
+export const SolidLabel: React.VFC<SolidLabelProps> = ({ variant }) => {
   const variantSwitch = (): {
     labelColor: LabelProps['color'];
     content: string;

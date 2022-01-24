@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import {
   Dropdown,
   DropdownToggle,
@@ -27,9 +29,11 @@ export type PermissionsDropdownProps = Omit<DropdownProps, 'toggle'> & {
   setAcls: React.Dispatch<React.SetStateAction<NewAcls[] | []>>;
 };
 
-const PermissionsDropdown: React.FC<PermissionsDropdownProps> = ({
+const PermissionsDropdown: React.VFC<PermissionsDropdownProps> = ({
   setAcls,
 }) => {
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
+
   const [isOpen, setIsOpen] = useState<boolean>();
   const [activeItem, setActiveItem] = useState<string | number | undefined>(0);
 
@@ -56,11 +60,18 @@ const PermissionsDropdown: React.FC<PermissionsDropdownProps> = ({
             value: AclResourceType.Topic,
           },
           metaData: {
-            title: 'Consume from a topic',
-            popoverHeader: 'Consume from a topic',
-            popoverBody:
-              'Provides access to consume from one or more topics depending on topic and consumer group selection criteria',
-            ariaLabel: 'Consume from a topic',
+            title: t(
+              'permission.manage_permissions_dialog.assign_permissions.shortcut_consume_topic'
+            ),
+            popoverHeader: t(
+              'permission.manage_permissions_dialog.assign_permissions.shortcut_consume_topic'
+            ),
+            popoverBody: t(
+              'permission.manage_permissions_dialog.assign_permissions.shortcut_consume_topic_popover_body'
+            ),
+            ariaLabel: t(
+              'permission.manage_permissions_dialog.assign_permissions.shortcut_consume_topic'
+            ),
           },
           operations: [AclOperation.Read, AclOperation.Describe],
         },
@@ -81,11 +92,18 @@ const PermissionsDropdown: React.FC<PermissionsDropdownProps> = ({
           value: AclResourceType.Topic,
         },
         metaData: {
-          title: 'Produce to a topic',
-          popoverHeader: 'Produce to a topic',
-          popoverBody:
-            'Provides access to produce to one or more topics depending on topic selection criteria',
-          ariaLabel: 'Produce to a topic',
+          title: t(
+            'permission.manage_permissions_dialog.assign_permissions.shortcut_produce_topic'
+          ),
+          popoverHeader: t(
+            'permission.manage_permissions_dialog.assign_permissions.shortcut_produce_topic'
+          ),
+          popoverBody: t(
+            'permission.manage_permissions_dialog.assign_permissions.shortcut_produce_topic_popover_body'
+          ),
+          ariaLabel: t(
+            'permission.manage_permissions_dialog.assign_permissions.shortcut_produce_topic'
+          ),
         },
         operations: [
           AclOperation.Write,
@@ -103,11 +121,18 @@ const PermissionsDropdown: React.FC<PermissionsDropdownProps> = ({
         },
         patternType: { value: AclPatternType.Literal },
         metaData: {
-          title: 'Manage access',
-          popoverHeader: 'Manage access',
-          popoverBody:
-            'Provides access to add and remove permissions on this Kafka instance',
-          ariaLabel: 'Manage access',
+          title: t(
+            'permission.manage_permissions_dialog.assign_permissions.shortcut_manage_access'
+          ),
+          popoverHeader: t(
+            'permission.manage_permissions_dialog.assign_permissions.shortcut_manage_access'
+          ),
+          popoverBody: t(
+            'permission.manage_permissions_dialog.assign_permissions.shortcut_manage_access_popover_body'
+          ),
+          ariaLabel: t(
+            'permission.manage_permissions_dialog.assign_permissions.shortcut_manage_access'
+          ),
         },
         operations: [AclOperation.Alter],
       };
@@ -171,7 +196,9 @@ const PermissionsDropdown: React.FC<PermissionsDropdownProps> = ({
           id='permission-dropdown-toggle'
           splitButtonItems={[
             <DropdownToggleAction key='add-permission' onClick={onActionClick}>
-              Add permission
+              {t(
+                'permission.manage_permissions_dialog.assign_permissions.add_permission'
+              )}
             </DropdownToggleAction>,
           ]}
           splitButtonVariant='action'

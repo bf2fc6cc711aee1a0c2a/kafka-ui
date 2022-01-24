@@ -19,7 +19,7 @@ export type SelectAccountProps = {
   setEscapeClosesModal: (closes: boolean) => void;
 };
 
-export const SelectAccount: React.FunctionComponent<SelectAccountProps> = ({
+export const SelectAccount: React.VFC<SelectAccountProps> = ({
   setId,
   id,
   initialOptions,

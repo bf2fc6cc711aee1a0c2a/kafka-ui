@@ -28,7 +28,7 @@ export type CreateTypeaheadProps = {
     | undefined;
 };
 
-export const CreateTypeahead: React.FunctionComponent<CreateTypeaheadProps> = ({
+export const CreateTypeahead: React.VFC<CreateTypeaheadProps> = ({
   row,
   setValue,
   value,

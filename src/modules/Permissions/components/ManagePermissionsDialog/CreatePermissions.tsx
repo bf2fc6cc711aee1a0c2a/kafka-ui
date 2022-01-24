@@ -245,10 +245,7 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
           )}
         </TextContent>
         {acls && acls.length > 0 && (
-          <TableComposable
-            aria-label='Assign permission table'
-            variant='compact'
-          >
+          <TableComposable variant='compact'>
             <Thead noWrap>
               <Tr>
                 {tableColumns?.map((col, index) => (

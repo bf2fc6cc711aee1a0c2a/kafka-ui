@@ -16,7 +16,7 @@ import { SelectOption } from '@app/modules/Permissions/components/ManagePermissi
 
 type PatternTypeCellProps = AclCellProps;
 
-const PatternTypeCell: React.FC<PatternTypeCellProps> = ({
+const PatternTypeCell: React.VFC<PatternTypeCellProps> = ({
   acl,
   row,
   childRow = 0,

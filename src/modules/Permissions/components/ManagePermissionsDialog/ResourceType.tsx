@@ -20,7 +20,7 @@ type ResourceTypeProps = AclCellProps & {
   kafkaName: string | undefined;
 };
 
-const ResourceType: React.FC<ResourceTypeProps> = ({
+const ResourceType: React.VFC<ResourceTypeProps> = ({
   row,
   acl,
   childRow = 0,
