@@ -22,6 +22,7 @@ import {
   Th,
   Tbody,
   Td,
+  cellWidth,
 } from '@patternfly/react-table';
 import HelpIcon from '@patternfly/react-icons/dist/js/icons/help-icon';
 import { OperationCell } from './OperationCell';
@@ -66,21 +67,27 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
     const tableColumns = [
       {
         title: t('permission.table.resource_column_title'),
+        columnTransforms: [cellWidth(20)],
       },
       {
         title: '',
+        columnTransforms: [cellWidth(20)],
       },
       {
         title: '',
+        columnTransforms: [cellWidth(20)],
       },
       {
         title: t('permission.table.permissions_column_title'),
+        columnTransforms: [cellWidth(15)],
       },
       {
         title: '',
+        columnTransforms: [cellWidth(15)],
       },
       {
         title: '',
+        columnTransforms: [cellWidth(10)],
       },
     ] as ICell[];
 
@@ -252,7 +259,7 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
           </TableComposable>
         )}
         <ActionList>
-          <ActionListItem className='create-permission__action-list-item'>
+          <ActionListItem className='appServices-action-list__action-list-item'>
             <PermissionsDropdown setAcls={setAcls} />
           </ActionListItem>
         </ActionList>

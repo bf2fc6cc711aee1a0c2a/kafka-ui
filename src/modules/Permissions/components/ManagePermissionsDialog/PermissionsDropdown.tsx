@@ -163,7 +163,11 @@ const PermissionsDropdown: React.VFC<PermissionsDropdownProps> = ({
       <MenuContent>
         <MenuGroup>
           <MenuList>
-            <MenuItem itemId={0}>Add permission</MenuItem>
+            <MenuItem itemId={0}>
+              {t(
+                'permission.manage_permissions_dialog.assign_permissions.add_permission'
+              )}
+            </MenuItem>
           </MenuList>
         </MenuGroup>
         <Divider />
@@ -171,21 +175,33 @@ const PermissionsDropdown: React.VFC<PermissionsDropdownProps> = ({
           <MenuList>
             <MenuItem
               itemId={1}
-              description='Provides access to consume from one or more topics depending on topic and consumer group selection criteria'
+              description={t(
+                'permission.manage_permissions_dialog.assign_permissions.shortcut_consume_topic_popover_body'
+              )}
             >
-              Consume from topic
+              {t(
+                'permission.manage_permissions_dialog.assign_permissions.shortcut_consume_topic'
+              )}
             </MenuItem>
             <MenuItem
               itemId={2}
-              description='Provides access to produce to one or more topics depending on topic selection criteria'
+              description={t(
+                'permission.manage_permissions_dialog.assign_permissions.shortcut_produce_topic_popover_body'
+              )}
             >
-              Produce to a topic
+              {t(
+                'permission.manage_permissions_dialog.assign_permissions.shortcut_produce_topic'
+              )}
             </MenuItem>
             <MenuItem
               itemId={3}
-              description='Provides access to add and remove permissions on this Kafka instance'
+              description={t(
+                'permission.manage_permissions_dialog.assign_permissions.shortcut_manage_access_popover_body'
+              )}
             >
-              Manage access
+              {t(
+                'permission.manage_permissions_dialog.assign_permissions.shortcut_manage_access'
+              )}
             </MenuItem>
           </MenuList>
         </MenuGroup>
@@ -202,12 +218,11 @@ const PermissionsDropdown: React.VFC<PermissionsDropdownProps> = ({
           id='permission-dropdown-toggle'
           splitButtonItems={[
             <div
-              className='permission-dropdown__toggle-button'
+              className='appServices-permission-dropdown__toggle-button'
               key='add-permission'
             >
               <DropdownToggleAction
                 key='add-permission'
-                className='permission-dropdown'
                 onClick={onActionClick}
               >
                 {t(
@@ -223,7 +238,7 @@ const PermissionsDropdown: React.VFC<PermissionsDropdownProps> = ({
       isOpen={isOpen}
       dropdownItems={dropdownItems}
       isGrouped
-      className='permission-dropdown'
+      className='appServices-permission-dropdown'
     />
   );
 };
