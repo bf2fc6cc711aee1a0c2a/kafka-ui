@@ -24,6 +24,7 @@ import {
   AclPatternType,
   AclResourceType,
 } from '@rhoas/kafka-instance-sdk';
+import './PermissionsDropdown.css';
 
 export type PermissionsDropdownProps = Omit<DropdownProps, 'toggle'> & {
   setAcls: React.Dispatch<React.SetStateAction<NewAcls[] | []>>;
@@ -153,7 +154,12 @@ const PermissionsDropdown: React.VFC<PermissionsDropdownProps> = ({
   };
 
   const dropdownItems = [
-    <Menu onSelect={onSelect} activeItemId={activeItem} key='acls-menu'>
+    <Menu
+      onSelect={onSelect}
+      activeItemId={activeItem}
+      key='acls-menu'
+      isScrollable
+    >
       <MenuContent>
         <MenuGroup>
           <MenuList>
@@ -195,11 +201,20 @@ const PermissionsDropdown: React.VFC<PermissionsDropdownProps> = ({
         <DropdownToggle
           id='permission-dropdown-toggle'
           splitButtonItems={[
-            <DropdownToggleAction key='add-permission' onClick={onActionClick}>
-              {t(
-                'permission.manage_permissions_dialog.assign_permissions.add_permission'
-              )}
-            </DropdownToggleAction>,
+            <div
+              className='permission-dropdown__toggle-button'
+              key='add-permission'
+            >
+              <DropdownToggleAction
+                key='add-permission'
+                className='permission-dropdown'
+                onClick={onActionClick}
+              >
+                {t(
+                  'permission.manage_permissions_dialog.assign_permissions.add_permission'
+                )}
+              </DropdownToggleAction>
+            </div>,
           ]}
           splitButtonVariant='action'
           onToggle={onActionToggle}
@@ -208,6 +223,7 @@ const PermissionsDropdown: React.VFC<PermissionsDropdownProps> = ({
       isOpen={isOpen}
       dropdownItems={dropdownItems}
       isGrouped
+      className='permission-dropdown'
     />
   );
 };

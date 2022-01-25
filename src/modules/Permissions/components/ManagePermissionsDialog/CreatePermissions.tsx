@@ -1,5 +1,5 @@
 import React from 'react';
-import { cellWidth, ICell } from '@patternfly/react-table';
+import { ICell } from '@patternfly/react-table';
 import { useTranslation } from 'react-i18next';
 import {
   ActionList,
@@ -30,6 +30,7 @@ import { ResourceType } from './ResourceType';
 import { PatternTypeCell } from './PatternTypeCell';
 import { ResourceCell } from './ResourceCell';
 import { RemoveButtonCell } from './RemoveButtonCell';
+import './CreatePermissions.css';
 
 export type CreatePermissionsProps = {
   selectedAccount?: string;
@@ -65,27 +66,21 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
     const tableColumns = [
       {
         title: t('permission.table.resource_column_title'),
-        columnTransforms: [cellWidth(20)],
       },
       {
         title: '',
-        columnTransforms: [cellWidth(20)],
       },
       {
         title: '',
-        columnTransforms: [cellWidth(20)],
       },
       {
         title: t('permission.table.permissions_column_title'),
-        columnTransforms: [cellWidth(15)],
       },
       {
         title: '',
-        columnTransforms: [cellWidth(15)],
       },
       {
         title: '',
-        columnTransforms: [cellWidth(10)],
       },
     ] as ICell[];
 
@@ -257,7 +252,7 @@ export const CreatePermissions: React.FunctionComponent<CreatePermissionsProps> 
           </TableComposable>
         )}
         <ActionList>
-          <ActionListItem style={{ marginLeft: '20px', marginTop: '15px' }}>
+          <ActionListItem className='create-permission__action-list-item'>
             <PermissionsDropdown setAcls={setAcls} />
           </ActionListItem>
         </ActionList>
