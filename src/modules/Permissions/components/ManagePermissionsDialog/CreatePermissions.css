@@ -1,4 +1,3 @@
 .appServices-action-list__action-list-item {
-  margin-left: var(--pf-global--spacer--lg);
   margin-top: var(--pf-global--spacer--md);
 }
