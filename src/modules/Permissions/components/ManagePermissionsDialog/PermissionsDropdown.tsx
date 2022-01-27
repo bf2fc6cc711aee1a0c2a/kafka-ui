@@ -68,7 +68,7 @@ const PermissionsDropdown: React.VFC<PermissionsDropdownProps> = ({
               'permission.manage_permissions_dialog.assign_permissions.shortcut_consume_topic'
             ),
             popoverBody: t(
-              'permission.manage_permissions_dialog.assign_permissions.shortcut_consume_topic_popover_body'
+              'permission.manage_permissions_dialog.assign_permissions.shortcut_consume_topic_description'
             ),
             ariaLabel: t(
               'permission.manage_permissions_dialog.assign_permissions.shortcut_consume_topic'
@@ -100,7 +100,7 @@ const PermissionsDropdown: React.VFC<PermissionsDropdownProps> = ({
             'permission.manage_permissions_dialog.assign_permissions.shortcut_produce_topic'
           ),
           popoverBody: t(
-            'permission.manage_permissions_dialog.assign_permissions.shortcut_produce_topic_popover_body'
+            'permission.manage_permissions_dialog.assign_permissions.shortcut_produce_topic_description'
           ),
           ariaLabel: t(
             'permission.manage_permissions_dialog.assign_permissions.shortcut_produce_topic'
@@ -129,7 +129,7 @@ const PermissionsDropdown: React.VFC<PermissionsDropdownProps> = ({
             'permission.manage_permissions_dialog.assign_permissions.shortcut_manage_access'
           ),
           popoverBody: t(
-            'permission.manage_permissions_dialog.assign_permissions.shortcut_manage_access_popover_body'
+            'permission.manage_permissions_dialog.assign_permissions.shortcut_manage_access_description'
           ),
           ariaLabel: t(
             'permission.manage_permissions_dialog.assign_permissions.shortcut_manage_access'
@@ -170,13 +170,18 @@ const PermissionsDropdown: React.VFC<PermissionsDropdownProps> = ({
             </MenuItem>
           </MenuList>
         </MenuGroup>
+
         <Divider />
-        <MenuGroup label='Task-based permissions'>
+        <MenuGroup
+          label={t(
+            'permission.manage_permissions_dialog.assign_permissions.task_based_permission'
+          )}
+        >
           <MenuList>
             <MenuItem
               itemId={1}
               description={t(
-                'permission.manage_permissions_dialog.assign_permissions.shortcut_consume_topic_popover_body'
+                'permission.manage_permissions_dialog.assign_permissions.shortcut_consume_topic_description'
               )}
             >
               {t(
@@ -186,7 +191,7 @@ const PermissionsDropdown: React.VFC<PermissionsDropdownProps> = ({
             <MenuItem
               itemId={2}
               description={t(
-                'permission.manage_permissions_dialog.assign_permissions.shortcut_produce_topic_popover_body'
+                'permission.manage_permissions_dialog.assign_permissions.shortcut_produce_topic_description'
               )}
             >
               {t(
@@ -196,7 +201,7 @@ const PermissionsDropdown: React.VFC<PermissionsDropdownProps> = ({
             <MenuItem
               itemId={3}
               description={t(
-                'permission.manage_permissions_dialog.assign_permissions.shortcut_manage_access_popover_body'
+                'permission.manage_permissions_dialog.assign_permissions.shortcut_manage_access_description'
               )}
             >
               {t(
