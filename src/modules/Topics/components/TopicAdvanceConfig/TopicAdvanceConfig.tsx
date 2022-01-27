@@ -34,135 +34,136 @@ export type TopicAdvanceConfigProps = {
   isLoadingSave?: boolean;
 };
 
-export const TopicAdvanceConfig: React.FunctionComponent<TopicAdvanceConfigProps> =
-  ({
-    isCreate,
-    saveTopic,
-    handleCancel,
-    topicData,
-    setTopicData,
-    isLoadingSave,
-  }) => {
-    const config = useContext(ConfigContext);
-    const { showModal } = useModal<ModalType.KafkaUpdatePartitions>();
-    const { t } = useTranslation(['kafkaTemporaryFixMe']);
-    const actionText = isCreate ? t('topic.create_topic') : t('common.save');
+export const TopicAdvanceConfig: React.FunctionComponent<
+  TopicAdvanceConfigProps
+> = ({
+  isCreate,
+  saveTopic,
+  handleCancel,
+  topicData,
+  setTopicData,
+  isLoadingSave,
+}) => {
+  const config = useContext(ConfigContext);
+  const { showModal } = useModal<ModalType.KafkaUpdatePartitions>();
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
+  const actionText = isCreate ? t('topic.create_topic') : t('common.save');
 
-    //states
-    const [topicValidated, setTopicValidated] = useState<ValidatedOptions>(
-      ValidatedOptions.default
-    );
-    const [invalidText, setInvalidText] = useState('');
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [warning, setWarning] = useState<boolean>(false);
-    const [initialPartition, setInitialPartition] = useState<
-      number | undefined
-    >(Number(topicData.numPartitions));
-    useState<string>(topicData['retention.ms.unit'] || 'days');
+  //states
+  const [topicValidated, setTopicValidated] = useState<ValidatedOptions>(
+    ValidatedOptions.default
+  );
+  const [invalidText, setInvalidText] = useState('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [warning, setWarning] = useState<boolean>(false);
+  const [initialPartition, setInitialPartition] = useState<number | undefined>(
+    Number(topicData.numPartitions)
+  );
+  useState<string>(topicData['retention.ms.unit'] || 'days');
 
-    const fetchTopic = async (topicName) => {
-      try {
-        const topicRes = await getTopic(topicName, config);
-        if (topicRes) {
-          if (isCreate) {
-            setInvalidText(t('topic.already_exists', { name: topicName }));
-            setTopicValidated(ValidatedOptions.error);
-            setIsLoading(false);
-          } else {
-            setInitialPartition(topicRes?.partitions?.length);
-          }
-        }
-      } catch (err) {
-        let code: number | undefined;
-        if (err && isAxiosError(err)) {
-          code = err.response?.data.code;
-        }
-        if (isCreate && code === 404) {
-          setTopicValidated(ValidatedOptions.default);
-          setIsLoading(false);
-          saveTopic();
-        }
-      }
-    };
-
-    const onConfirm = () => {
-      if (!isCreate) {
-        if (warning) {
-          showModal(ModalType.KafkaUpdatePartitions, {
-            onSaveTopic: saveTopic,
-          });
-        } else {
-          saveTopic();
-        }
-      } else {
-        if (topicData.name.length < 1) {
-          setInvalidText(t('topic.required'));
+  const fetchTopic = async (topicName) => {
+    try {
+      const topicRes = await getTopic(topicName, config);
+      if (topicRes) {
+        if (isCreate) {
+          setInvalidText(t('topic.already_exists', { name: topicName }));
           setTopicValidated(ValidatedOptions.error);
+          setIsLoading(false);
         } else {
-          setIsLoading(true);
-          fetchTopic(topicData.name);
+          setInitialPartition(topicRes?.partitions?.length);
         }
       }
-    };
-
-    return (
-      <PageSection padding={{ default: 'noPadding' }}>
-        <Sidebar hasGutter>
-          <TopicAdvanceJumpLinks />
-          <SidebarContent>
-            <PageGroup hasOverflowScroll id='topic-detail-view'>
-              <PageSection padding={{ default: 'noPadding' }}>
-                <Form>
-                  <CoreConfiguration
-                    isCreate={isCreate}
-                    topicData={topicData}
-                    setTopicData={setTopicData}
-                    fetchTopic={fetchTopic}
-                    initialPartition={initialPartition}
-                    invalidText={invalidText}
-                    setInvalidText={setInvalidText}
-                    setTopicValidated={setTopicValidated}
-                    topicValidated={topicValidated}
-                    setWarning={setWarning}
-                    warning={warning}
-                  />
-                  <Message />
-                  <Log topicData={topicData} setTopicData={setTopicData} />
-                  <Replication />
-                  <Cleanup />
-                  <TopicAdvanceIndex />
-                  <Flush />
-                </Form>
-                <ActionGroup className='kafka-ui--sticky-footer'>
-                  <Button
-                    isLoading={isLoading || isLoadingSave}
-                    onClick={onConfirm}
-                    variant='primary'
-                    data-testid={
-                      isCreate
-                        ? 'topicAdvanceCreate-actionCreate'
-                        : 'tabProperties-actionSave'
-                    }
-                    isDisabled={topicValidated === 'default' ? false : true}
-                  >
-                    {actionText}
-                  </Button>
-                  <Button
-                    onClick={handleCancel}
-                    variant='link'
-                    data-testid={
-                      isCreate
-                        ? 'topicAdvanceCreate-actionCancel'
-                        : 'tabProperties-actionCancel'
-                    }
-                  >
-                    {t('common.cancel')}
-                  </Button>
-                </ActionGroup>
-              </PageSection>
-            </PageGroup>
-          </SidebarContent>
-        </Sidebar>
-      </PageSection>
-    );
+    } catch (err) {
+      let code: number | undefined;
+      if (err && isAxiosError(err)) {
+        code = err.response?.data.code;
+      }
+      if (isCreate && code === 404) {
+        setTopicValidated(ValidatedOptions.default);
+        setIsLoading(false);
+        saveTopic();
+      }
+    }
   };
+
+  const onConfirm = () => {
+    if (!isCreate) {
+      if (warning) {
+        showModal(ModalType.KafkaUpdatePartitions, {
+          onSaveTopic: saveTopic,
+        });
+      } else {
+        saveTopic();
+      }
+    } else {
+      if (topicData.name.length < 1) {
+        setInvalidText(t('topic.required'));
+        setTopicValidated(ValidatedOptions.error);
+      } else {
+        setIsLoading(true);
+        fetchTopic(topicData.name);
+      }
+    }
+  };
+
+  return (
+    <PageSection padding={{ default: 'noPadding' }}>
+      <Sidebar hasGutter>
+        <TopicAdvanceJumpLinks />
+        <SidebarContent>
+          <PageGroup hasOverflowScroll id='topic-detail-view'>
+            <PageSection padding={{ default: 'noPadding' }}>
+              <Form>
+                <CoreConfiguration
+                  isCreate={isCreate}
+                  topicData={topicData}
+                  setTopicData={setTopicData}
+                  fetchTopic={fetchTopic}
+                  initialPartition={initialPartition}
+                  invalidText={invalidText}
+                  setInvalidText={setInvalidText}
+                  setTopicValidated={setTopicValidated}
+                  topicValidated={topicValidated}
+                  setWarning={setWarning}
+                  warning={warning}
+                />
+                <Message />
+                <Log topicData={topicData} setTopicData={setTopicData} />
+                <Replication />
+                <Cleanup />
+                <TopicAdvanceIndex />
+                <Flush />
+              </Form>
+              <ActionGroup className='kafka-ui--sticky-footer'>
+                <Button
+                  isLoading={isLoading || isLoadingSave}
+                  onClick={onConfirm}
+                  variant='primary'
+                  data-testid={
+                    isCreate
+                      ? 'topicAdvanceCreate-actionCreate'
+                      : 'tabProperties-actionSave'
+                  }
+                  isDisabled={topicValidated === 'default' ? false : true}
+                >
+                  {actionText}
+                </Button>
+                <Button
+                  onClick={handleCancel}
+                  variant='link'
+                  data-testid={
+                    isCreate
+                      ? 'topicAdvanceCreate-actionCancel'
+                      : 'tabProperties-actionCancel'
+                  }
+                >
+                  {t('common.cancel')}
+                </Button>
+              </ActionGroup>
+            </PageSection>
+          </PageGroup>
+        </SidebarContent>
+      </Sidebar>
+    </PageSection>
+  );
+};
