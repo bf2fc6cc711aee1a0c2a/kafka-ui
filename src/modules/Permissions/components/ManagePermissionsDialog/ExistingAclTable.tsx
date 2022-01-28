@@ -24,155 +24,156 @@ export type ExistingAclTableProps = {
   onRemove: (acl: EnhancedAclBinding) => void;
 };
 
-export const ExistingAclTable: React.FunctionComponent<ExistingAclTableProps> =
-  ({ existingAcls, selectedAccountId, onRemove }) => {
-    type RemovableEnhancedAclBinding = EnhancedAclBinding & {
-      removed: boolean;
-      index: number;
-    };
+export const ExistingAclTable: React.FunctionComponent<
+  ExistingAclTableProps
+> = ({ existingAcls, selectedAccountId, onRemove }) => {
+  type RemovableEnhancedAclBinding = EnhancedAclBinding & {
+    removed: boolean;
+    index: number;
+  };
 
-    const { t } = useTranslation(['kafkaTemporaryFixMe']);
-    const [acls, setAcls] = useState<RemovableEnhancedAclBinding[]>([]);
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
+  const [acls, setAcls] = useState<RemovableEnhancedAclBinding[]>([]);
 
-    useEffect(() => {
-      // Workaround as I can't work out how to pass initial state for an array
-      setAcls(
-        existingAcls.map((v, k) => {
-          const answer = v as RemovableEnhancedAclBinding;
-          answer.index = k;
-          return answer;
-        })
-      );
-    }, [existingAcls]);
+  useEffect(() => {
+    // Workaround as I can't work out how to pass initial state for an array
+    setAcls(
+      existingAcls.map((v, k) => {
+        const answer = v as RemovableEnhancedAclBinding;
+        answer.index = k;
+        return answer;
+      })
+    );
+  }, [existingAcls]);
 
-    const removeRow = (acl: RemovableEnhancedAclBinding) => {
-      setAcls(
-        acls.map((v) => {
-          if (v.hash() === acl.hash()) {
-            v.removed = true;
-          }
-          return v;
-        })
-      );
-      onRemove(acl);
-    };
+  const removeRow = (acl: RemovableEnhancedAclBinding) => {
+    setAcls(
+      acls.map((v) => {
+        if (v.hash() === acl.hash()) {
+          v.removed = true;
+        }
+        return v;
+      })
+    );
+    onRemove(acl);
+  };
 
-    const tableColumns = [
-      {
-        title: t('permission.table.resource_column_title'),
-        columnTransforms: [cellWidth(60)],
-      },
-      {
-        title: t('permission.table.permissions_column_title'),
-        columnTransforms: [cellWidth(20)],
-      },
-      {
-        title: '',
-        columnTransforms: [cellWidth(20)],
-      },
-    ] as ICell[];
+  const tableColumns = [
+    {
+      title: t('permission.table.resource_column_title'),
+      columnTransforms: [cellWidth(60)],
+    },
+    {
+      title: t('permission.table.permissions_column_title'),
+      columnTransforms: [cellWidth(20)],
+    },
+    {
+      title: '',
+      columnTransforms: [cellWidth(20)],
+    },
+  ] as ICell[];
 
-    const principalCell: CellBuilder<RemovableEnhancedAclBinding> = (item) => {
-      const RemoveButton: React.FunctionComponent = () => (
-        <Button
-          variant='link'
-          icon={<TrashIcon />}
-          onClick={() => removeRow(item)}
-        />
-      );
+  const principalCell: CellBuilder<RemovableEnhancedAclBinding> = (item) => {
+    const RemoveButton: React.FunctionComponent = () => (
+      <Button
+        variant='link'
+        icon={<TrashIcon />}
+        onClick={() => removeRow(item)}
+      />
+    );
 
-      const AllAccountsLabel: React.FunctionComponent = () => (
-        <Label variant='outline'>{t('permission.table.all_accounts')}</Label>
-      );
+    const AllAccountsLabel: React.FunctionComponent = () => (
+      <Label variant='outline'>{t('permission.table.all_accounts')}</Label>
+    );
 
-      if (selectedAccountId === '*' && item.principal === '*') {
-        return {
-          title: (
-            <div className='pf-u-display-flex pf-u-justify-content-space-between pf-u-justify-content-flex-end-on-lg'>
-              <AllAccountsLabel /> <RemoveButton />
-            </div>
-          ),
-          props: {},
-        };
-      } else if (item.principal === '*') {
-        return {
-          title: (
-            <div className='pf-u-display-flex pf-u-justify-content-flex-end-on-lg'>
-              <AllAccountsLabel />
-            </div>
-          ),
-          props: {},
-        };
-      } else {
-        return {
-          title: (
-            <div className='pf-u-display-flex pf-u-justify-content-flex-end'>
-              <RemoveButton />
-            </div>
-          ),
-          props: {},
-        };
-      }
-    };
-
-    const cells = [resourceCell, permissionOperationCell, principalCell];
-
-    if (selectedAccountId === undefined || acls.length === 0) {
-      return <></>;
+    if (selectedAccountId === '*' && item.principal === '*') {
+      return {
+        title: (
+          <div className='pf-u-display-flex pf-u-justify-content-space-between pf-u-justify-content-flex-end-on-lg'>
+            <AllAccountsLabel /> <RemoveButton />
+          </div>
+        ),
+        props: {},
+      };
+    } else if (item.principal === '*') {
+      return {
+        title: (
+          <div className='pf-u-display-flex pf-u-justify-content-flex-end-on-lg'>
+            <AllAccountsLabel />
+          </div>
+        ),
+        props: {},
+      };
+    } else {
+      return {
+        title: (
+          <div className='pf-u-display-flex pf-u-justify-content-flex-end'>
+            <RemoveButton />
+          </div>
+        ),
+        props: {},
+      };
     }
+  };
 
-    const HelperText: React.FunctionComponent = () => {
-      if (selectedAccountId === '*') {
-        return t(
-          'permission.manage_permissions_dialog.edit_existing.all_accounts_help'
-        );
-      }
-      return (
-        <Trans
-          ns={['kafkaTemporaryFixMe']}
-          i18nKey='permission.manage_permissions_dialog.edit_existing.help'
-        >
-          Review the list of existing permissions for the selected account. The
-          list includes account-specific permissions and permissions applied to
-          all accounts within this Kafka instance. Permissions labeled
-          <strong>All accounts</strong> cannot be removed when an individual
-          account ID is selected.
-        </Trans>
+  const cells = [resourceCell, permissionOperationCell, principalCell];
+
+  if (selectedAccountId === undefined || acls.length === 0) {
+    return <></>;
+  }
+
+  const HelperText: React.FunctionComponent = () => {
+    if (selectedAccountId === '*') {
+      return t(
+        'permission.manage_permissions_dialog.edit_existing.all_accounts_help'
       );
-    };
-
+    }
     return (
-      <div>
-        <TextContent>
-          <Text component={TextVariants.h2}>
-            {t('permission.manage_permissions_dialog.edit_existing.title')}
-          </Text>
-          <Text component={TextVariants.small}>
-            <HelperText />
-          </Text>
-        </TextContent>
-
-        <MASTable
-          tableProps={{
-            cells: tableColumns,
-            rows: [
-              ...acls
-                .filter((acl) => !acl.removed)
-                .map((item, row) => {
-                  return {
-                    cells: cells.map((f) => f(item, row)),
-                    originalData: item,
-                  };
-                }),
-            ],
-            'aria-label': t('permission.table.table.permission_list_table'),
-            shouldDefaultCustomRowWrapper: true,
-            variant: TableVariant.compact,
-            canSelectAll: false,
-            // TODO: gridBreakPoint: 'grid-lg' NOTE: This is needed so that the table doesn't overrun a narrow screen, but it currently breaks the first header because it's messing with :before of the first cell and so is the mas--[streams-]table-view__table
-          }}
-          rowDataTestId={'tablePermissions-row'}
-        />
-      </div>
+      <Trans
+        ns={['kafkaTemporaryFixMe']}
+        i18nKey='permission.manage_permissions_dialog.edit_existing.help'
+      >
+        Review the list of existing permissions for the selected account. The
+        list includes account-specific permissions and permissions applied to
+        all accounts within this Kafka instance. Permissions labeled
+        <strong>All accounts</strong> cannot be removed when an individual
+        account ID is selected.
+      </Trans>
     );
   };
+
+  return (
+    <div>
+      <TextContent>
+        <Text component={TextVariants.h2}>
+          {t('permission.manage_permissions_dialog.edit_existing.title')}
+        </Text>
+        <Text component={TextVariants.small}>
+          <HelperText />
+        </Text>
+      </TextContent>
+
+      <MASTable
+        tableProps={{
+          cells: tableColumns,
+          rows: [
+            ...acls
+              .filter((acl) => !acl.removed)
+              .map((item, row) => {
+                return {
+                  cells: cells.map((f) => f(item, row)),
+                  originalData: item,
+                };
+              }),
+          ],
+          'aria-label': t('permission.table.table.permission_list_table'),
+          shouldDefaultCustomRowWrapper: true,
+          variant: TableVariant.compact,
+          canSelectAll: false,
+          // TODO: gridBreakPoint: 'grid-lg' NOTE: This is needed so that the table doesn't overrun a narrow screen, but it currently breaks the first header because it's messing with :before of the first cell and so is the mas--[streams-]table-view__table
+        }}
+        rowDataTestId={'tablePermissions-row'}
+      />
+    </div>
+  );
+};

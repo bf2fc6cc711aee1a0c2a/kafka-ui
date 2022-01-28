@@ -6,15 +6,16 @@ const allowedURLParamCharacters = new RegExp(/^[a-zA-Z0-9\.,_\-=]*$/);
  * @param urlParams - the params to parse, eg from `window.search`
  * @returns an object with the key being the parameter name, and the value being the value
  */
-export const sanitiseUrlParams: (urlParams: string) => Record<string, string> =
-  (urlParams) =>
-    Array.from(new URLSearchParams(urlParams).entries()) // create an array of entries from the parsed params
-      .filter(
-        ([key, value]) =>
-          allowedURLParamCharacters.test(key) &&
-          allowedURLParamCharacters.test(value)
-      ) // remove any entry where either the key or value does not pass the `allowedURLParamCharacters` regex
-      .reduce(
-        (acc, [key, value]) => ({ ...acc, [key]: value }),
-        {} as Record<string, string>
-      ); // reduce into an object
+export const sanitiseUrlParams: (
+  urlParams: string
+) => Record<string, string> = (urlParams) =>
+  Array.from(new URLSearchParams(urlParams).entries()) // create an array of entries from the parsed params
+    .filter(
+      ([key, value]) =>
+        allowedURLParamCharacters.test(key) &&
+        allowedURLParamCharacters.test(value)
+    ) // remove any entry where either the key or value does not pass the `allowedURLParamCharacters` regex
+    .reduce(
+      (acc, [key, value]) => ({ ...acc, [key]: value }),
+      {} as Record<string, string>
+    ); // reduce into an object

@@ -13,51 +13,50 @@ type PermissionsToolbarKebabProps = {
   deleteSelectedEnabled: boolean;
 };
 
-const PermissionsToolbarKebab: React.FunctionComponent<PermissionsToolbarKebabProps> =
-  ({ deleteSelectedEnabled, onDeleteSelected }) => {
-    const { t } = useTranslation(['kafkaTemporaryFixMe']);
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+const PermissionsToolbarKebab: React.FunctionComponent<
+  PermissionsToolbarKebabProps
+> = ({ deleteSelectedEnabled, onDeleteSelected }) => {
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
-    const onToggle = (v) => {
-      setIsOpen(v);
-    };
-
-    const onSelect = () => {
-      setIsOpen((prevState) => !prevState);
-      onFocus();
-    };
-
-    const onFocus = () => {
-      const element = document.getElementById(
-        'permissions-toolbar-kebab-toggle'
-      );
-      element?.focus();
-    };
-
-    const dropdownItems = [
-      <DropdownItem
-        key='delete_selected'
-        onClick={onDeleteSelected}
-        isDisabled={!deleteSelectedEnabled}
-      >
-        {t('permission.table.delete_selected')}
-      </DropdownItem>,
-    ];
-    return (
-      <Dropdown
-        onSelect={onSelect}
-        toggle={
-          <KebabToggle
-            onToggle={onToggle}
-            id='permissions-toolbar-kebab-toggle'
-          />
-        }
-        isOpen={isOpen}
-        isPlain
-        dropdownItems={dropdownItems}
-      />
-    );
+  const onToggle = (v) => {
+    setIsOpen(v);
   };
+
+  const onSelect = () => {
+    setIsOpen((prevState) => !prevState);
+    onFocus();
+  };
+
+  const onFocus = () => {
+    const element = document.getElementById('permissions-toolbar-kebab-toggle');
+    element?.focus();
+  };
+
+  const dropdownItems = [
+    <DropdownItem
+      key='delete_selected'
+      onClick={onDeleteSelected}
+      isDisabled={!deleteSelectedEnabled}
+    >
+      {t('permission.table.delete_selected')}
+    </DropdownItem>,
+  ];
+  return (
+    <Dropdown
+      onSelect={onSelect}
+      toggle={
+        <KebabToggle
+          onToggle={onToggle}
+          id='permissions-toolbar-kebab-toggle'
+        />
+      }
+      isOpen={isOpen}
+      isPlain
+      dropdownItems={dropdownItems}
+    />
+  );
+};
 
 export type PermissionsToolbarProps = {
   total: number;
