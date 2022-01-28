@@ -36,65 +36,66 @@ const AllAccountsPrincipal: React.FunctionComponent = () => {
 type PrincipalWithTooltipProps = {
   acl: EnhancedAclBinding;
 };
-const PrincipalWithTooltip: React.FunctionComponent<PrincipalWithTooltipProps> =
-  ({ acl }) => {
-    const [currentlyLoggedInuser, setCurrentlyLoggedInuser] = useState<
-      string | undefined
-    >();
-    const auth = useAuth();
-    const { kafka } = useFederated() || {};
+const PrincipalWithTooltip: React.FunctionComponent<
+  PrincipalWithTooltipProps
+> = ({ acl }) => {
+  const [currentlyLoggedInuser, setCurrentlyLoggedInuser] = useState<
+    string | undefined
+  >();
+  const auth = useAuth();
+  const { kafka } = useFederated() || {};
 
-    const principals = usePrincipals()
-      .getAllPrincipals()
-      .filter((p) => p.id !== currentlyLoggedInuser && p.id !== kafka?.owner);
+  const principals = usePrincipals()
+    .getAllPrincipals()
+    .filter((p) => p.id !== currentlyLoggedInuser && p.id !== kafka?.owner);
 
-    const locatedPrincipals = principals.filter((p) => p.id === acl.principal);
+  const locatedPrincipals = principals.filter((p) => p.id === acl.principal);
 
-    useEffect(() => {
-      const getUsername = async () => {
-        const username = await auth?.getUsername();
-        setCurrentlyLoggedInuser(username);
-      };
-      getUsername();
-    }, [auth]);
+  useEffect(() => {
+    const getUsername = async () => {
+      const username = await auth?.getUsername();
+      setCurrentlyLoggedInuser(username);
+    };
+    getUsername();
+  }, [auth]);
 
-    if (locatedPrincipals.length === 1) {
-      if (locatedPrincipals[0].principalType === PrincipalType.ServiceAccount) {
-        return (
-          <Tooltip
-            content={
-              <div>
-                Type: {locatedPrincipals[0].principalType} <br />
-              </div>
-            }
-          >
-            <span tabIndex={0}>
-              {' '}
-              {acl.principal} <InfoCircleIcon color='grey' />
-            </span>
-          </Tooltip>
-        );
-      } else {
-        return (
-          <Tooltip
-            content={
-              <div>
-                Type: {locatedPrincipals[0].principalType} <br />
-                Name: {locatedPrincipals[0].displayName} <br />
-                Email: {locatedPrincipals[0].emailAddress}
-              </div>
-            }
-          >
-            <span tabIndex={0}>
-              {' '}
-              {acl.principal} <InfoCircleIcon color='grey' />
-            </span>
-          </Tooltip>
-        );
-      }
+  if (locatedPrincipals.length === 1) {
+    if (locatedPrincipals[0].principalType === PrincipalType.ServiceAccount) {
+      return (
+        <Tooltip
+          content={
+            <div>
+              Type: {locatedPrincipals[0].principalType} <br />
+            </div>
+          }
+        >
+          <span tabIndex={0}>
+            {' '}
+            {acl.principal} <InfoCircleIcon color='grey' />
+          </span>
+        </Tooltip>
+      );
+    } else {
+      return (
+        <Tooltip
+          content={
+            <div>
+              Type: {locatedPrincipals[0].principalType} <br />
+              Name: {locatedPrincipals[0].displayName} <br />
+              Email: {locatedPrincipals[0].emailAddress}
+            </div>
+          }
+        >
+          <span tabIndex={0}>
+            {' '}
+            {acl.principal} <InfoCircleIcon color='grey' />
+          </span>
+        </Tooltip>
+      );
     }
-    return <span> {acl.principal}</span>;
-  };
+  }
+  return <span> {acl.principal}</span>;
+};
 
 export const principalCell: CellBuilder<EnhancedAclBinding> = (item) => {
   if (item.principal === '*') {

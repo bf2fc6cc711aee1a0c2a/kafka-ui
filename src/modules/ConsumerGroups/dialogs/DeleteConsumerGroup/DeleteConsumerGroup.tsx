@@ -19,97 +19,98 @@ import {
   useAlert,
 } from '@rhoas/app-services-ui-shared';
 
-const DeleteConsumerGroup: React.FC<DeleteConsumerGroupProps & BaseModalProps> =
-  ({ consumerName, refreshConsumerGroups, hideModal, state }) => {
-    const { t } = useTranslation(['kafkaTemporaryFixMe']);
-    const config = useContext(ConfigContext);
-    const { addAlert } = useAlert() || {
-      addAlert: () => {
-        // No-op
-      },
-    };
-    const isConsumerConnected = state === ConsumerGroupStateEnum.Stable;
+const DeleteConsumerGroup: React.FC<
+  DeleteConsumerGroupProps & BaseModalProps
+> = ({ consumerName, refreshConsumerGroups, hideModal, state }) => {
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
+  const config = useContext(ConfigContext);
+  const { addAlert } = useAlert() || {
+    addAlert: () => {
+      // No-op
+    },
+  };
+  const isConsumerConnected = state === ConsumerGroupStateEnum.Stable;
 
-    const onClose = () => {
-      hideModal();
-    };
+  const onClose = () => {
+    hideModal();
+  };
 
-    const onDelete = async () => {
-      try {
-        if (consumerName) {
-          await deleteConsumerGroup(consumerName, config).then(() => {
-            addAlert({
-              variant: AlertVariant.success,
-              title: t('consumerGroup.consumergroup_successfully_deleted', {
-                name: consumerName,
-              }),
-            });
-
-            refreshConsumerGroups && refreshConsumerGroups();
+  const onDelete = async () => {
+    try {
+      if (consumerName) {
+        await deleteConsumerGroup(consumerName, config).then(() => {
+          addAlert({
+            variant: AlertVariant.success,
+            title: t('consumerGroup.consumergroup_successfully_deleted', {
+              name: consumerName,
+            }),
           });
-        }
-      } catch (err) {
-        let message: string | undefined;
-        if (err && isAxiosError(err)) {
-          message = err.response?.data.error_message;
-        }
-        addAlert({
-          variant: AlertVariant.danger,
-          title: message || '',
+
+          refreshConsumerGroups && refreshConsumerGroups();
         });
       }
-      onClose();
-    };
-
-    return (
-      <Modal
-        variant={ModalVariant.small}
-        isOpen={true}
-        aria-label={t('consumerGroup.delete')}
-        title={t('consumerGroup.delete')}
-        showClose={true}
-        aria-describedby='modal-message'
-        onClose={onClose}
-        actions={[
-          <Button
-            variant={ButtonVariant.primary}
-            onClick={onDelete}
-            key={1}
-            isDisabled={isConsumerConnected}
-          >
-            {t('common.delete')}
-          </Button>,
-          <Button variant='link' onClick={onClose} key={2}>
-            {t('common.cancel')}
-          </Button>,
-        ]}
-      >
-        {!isConsumerConnected && (
-          <Text id='modal-message'>
-            <label
-              htmlFor='instance-name-input'
-              dangerouslySetInnerHTML={{
-                __html: t('common.confirm_delete_modal_text', {
-                  name: consumerName,
-                }),
-              }}
-            />
-          </Text>
-        )}
-        {isConsumerConnected && (
-          <Alert
-            className='modal-alert'
-            variant='danger'
-            isInline
-            title={t('consumerGroup.delete_consumer_connected_alert_title', {
-              name: consumerName,
-            })}
-          >
-            <p>{t('consumerGroup.delete_consumer_connected_alert_body')}</p>
-          </Alert>
-        )}
-      </Modal>
-    );
+    } catch (err) {
+      let message: string | undefined;
+      if (err && isAxiosError(err)) {
+        message = err.response?.data.error_message;
+      }
+      addAlert({
+        variant: AlertVariant.danger,
+        title: message || '',
+      });
+    }
+    onClose();
   };
+
+  return (
+    <Modal
+      variant={ModalVariant.small}
+      isOpen={true}
+      aria-label={t('consumerGroup.delete')}
+      title={t('consumerGroup.delete')}
+      showClose={true}
+      aria-describedby='modal-message'
+      onClose={onClose}
+      actions={[
+        <Button
+          variant={ButtonVariant.primary}
+          onClick={onDelete}
+          key={1}
+          isDisabled={isConsumerConnected}
+        >
+          {t('common.delete')}
+        </Button>,
+        <Button variant='link' onClick={onClose} key={2}>
+          {t('common.cancel')}
+        </Button>,
+      ]}
+    >
+      {!isConsumerConnected && (
+        <Text id='modal-message'>
+          <label
+            htmlFor='instance-name-input'
+            dangerouslySetInnerHTML={{
+              __html: t('common.confirm_delete_modal_text', {
+                name: consumerName,
+              }),
+            }}
+          />
+        </Text>
+      )}
+      {isConsumerConnected && (
+        <Alert
+          className='modal-alert'
+          variant='danger'
+          isInline
+          title={t('consumerGroup.delete_consumer_connected_alert_title', {
+            name: consumerName,
+          })}
+        >
+          <p>{t('consumerGroup.delete_consumer_connected_alert_body')}</p>
+        </Alert>
+      )}
+    </Modal>
+  );
+};
 
 export default DeleteConsumerGroup;
