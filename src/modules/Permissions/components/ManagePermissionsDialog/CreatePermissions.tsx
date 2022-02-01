@@ -1,5 +1,4 @@
 import React from 'react';
-import { ICell } from '@patternfly/react-table';
 import { useTranslation } from 'react-i18next';
 import {
   ActionList,
@@ -12,9 +11,7 @@ import {
   ButtonVariant,
 } from '@patternfly/react-core';
 
-import { NewAcls } from '@app/modules/Permissions/components/ManagePermissionsDialog/acls';
-import { PermissionsDropdown } from './PermissionsDropdown';
-import { AclShortcutType } from './acls';
+import { PermissionsDropdown } from '@rhoas/app-services-ui-components';
 import {
   TableComposable,
   Thead,
@@ -23,6 +20,7 @@ import {
   Tbody,
   Td,
   cellWidth,
+  ICell,
 } from '@patternfly/react-table';
 import HelpIcon from '@patternfly/react-icons/dist/js/icons/help-icon';
 import { OperationCell } from './OperationCell';
@@ -31,6 +29,16 @@ import { ResourceType } from './ResourceType';
 import { PatternTypeCell } from './PatternTypeCell';
 import { ResourceCell } from './ResourceCell';
 import { RemoveButtonCell } from './RemoveButtonCell';
+import {
+  createEmptyNewAcl,
+  NewAcls,
+  AclShortcutType,
+} from '@app/modules/Permissions/components/ManagePermissionsDialog/acls';
+import {
+  AclOperation,
+  AclPatternType,
+  AclResourceType,
+} from '@rhoas/kafka-instance-sdk';
 import './CreatePermissions.css';
 
 export type CreatePermissionsProps = {
@@ -107,6 +115,106 @@ export const CreatePermissions: React.FunctionComponent<
     return t('permission.manage_permissions_dialog.assign_permissions.help', {
       account_id: selectedAccount,
     });
+  };
+
+  const onAddPermission = () => {
+    setAcls((prevState) => [...prevState, createEmptyNewAcl()]);
+  };
+
+  const onShortcutConsumeTopic = () => {
+    const newState = [
+      {
+        ...createEmptyNewAcl(),
+        aclShortcutType: AclShortcutType.ConsumeTopic,
+        resourceType: {
+          value: AclResourceType.Topic,
+        },
+        metaData: {
+          title: t(
+            'permission.manage_permissions_dialog.assign_permissions.shortcut_consume_topic'
+          ),
+          popoverHeader: t(
+            'permission.manage_permissions_dialog.assign_permissions.shortcut_consume_topic'
+          ),
+          popoverBody: t(
+            'permission.manage_permissions_dialog.assign_permissions.shortcut_consume_topic_description'
+          ),
+          ariaLabel: t(
+            'permission.manage_permissions_dialog.assign_permissions.shortcut_consume_topic'
+          ),
+        },
+        operations: [AclOperation.Read, AclOperation.Describe],
+      },
+      {
+        ...createEmptyNewAcl(),
+        aclShortcutType: AclShortcutType.ConsumeTopic,
+        resourceType: {
+          value: AclResourceType.Group,
+        },
+        operations: [AclOperation.Read],
+      },
+    ];
+
+    setAcls((prevState) => [...prevState, newState]);
+  };
+
+  const onShortcutProduceTopic = () => {
+    const newState = {
+      ...createEmptyNewAcl(),
+      aclShortcutType: AclShortcutType.ProduceTopic,
+      resourceType: {
+        value: AclResourceType.Topic,
+      },
+      metaData: {
+        title: t(
+          'permission.manage_permissions_dialog.assign_permissions.shortcut_produce_topic'
+        ),
+        popoverHeader: t(
+          'permission.manage_permissions_dialog.assign_permissions.shortcut_produce_topic'
+        ),
+        popoverBody: t(
+          'permission.manage_permissions_dialog.assign_permissions.shortcut_produce_topic_description'
+        ),
+        ariaLabel: t(
+          'permission.manage_permissions_dialog.assign_permissions.shortcut_produce_topic'
+        ),
+      },
+      operations: [
+        AclOperation.Write,
+        AclOperation.Create,
+        AclOperation.Describe,
+      ],
+    };
+    setAcls((prevState) => [...prevState, newState]);
+  };
+
+  const onShortcutManageAccess = () => {
+    const newState = {
+      ...createEmptyNewAcl(),
+      aclShortcutType: AclShortcutType.ManageAccess,
+      resource: { value: 'kafka-cluster' },
+      resourceType: {
+        value: AclResourceType.Cluster,
+      },
+      patternType: { value: AclPatternType.Literal },
+      metaData: {
+        title: t(
+          'permission.manage_permissions_dialog.assign_permissions.shortcut_manage_access'
+        ),
+        popoverHeader: t(
+          'permission.manage_permissions_dialog.assign_permissions.shortcut_manage_access'
+        ),
+        popoverBody: t(
+          'permission.manage_permissions_dialog.assign_permissions.shortcut_manage_access_description'
+        ),
+        ariaLabel: t(
+          'permission.manage_permissions_dialog.assign_permissions.shortcut_manage_access'
+        ),
+      },
+      operations: [AclOperation.Alter],
+    };
+
+    setAcls((prevState) => [...prevState, newState]);
   };
 
   const preparedRows = (acl: NewAcls, row: number) => {
@@ -257,7 +365,12 @@ export const CreatePermissions: React.FunctionComponent<
       )}
       <ActionList>
         <ActionListItem className='appServices-action-list__action-list-item'>
-          <PermissionsDropdown setAcls={setAcls} />
+          <PermissionsDropdown
+            onAddPermission={onAddPermission}
+            onShortcutProduceTopic={onShortcutProduceTopic}
+            onShortcutConsumeTopic={onShortcutConsumeTopic}
+            onShortcutManageAccess={onShortcutManageAccess}
+          />
         </ActionListItem>
       </ActionList>
     </div>
