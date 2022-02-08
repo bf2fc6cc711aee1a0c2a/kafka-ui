@@ -12,6 +12,7 @@ import {
   Text,
   TextContent,
   TextVariants,
+  Tooltip,
 } from '@patternfly/react-core';
 import { TrashIcon } from '@patternfly/react-icons';
 import { cellWidth, ICell, TableVariant } from '@patternfly/react-table';
@@ -75,11 +76,17 @@ export const ExistingAclTable: React.FunctionComponent<
 
   const principalCell: CellBuilder<RemovableEnhancedAclBinding> = (item) => {
     const RemoveButton: React.FunctionComponent = () => (
-      <Button
-        variant='link'
-        icon={<TrashIcon />}
-        onClick={() => removeRow(item)}
-      />
+      <Tooltip
+        content={t(
+          'permission.manage_permissions_dialog.assign_permissions.remove_row_help'
+        )}
+      >
+        <Button
+          variant='link'
+          icon={<TrashIcon />}
+          onClick={() => removeRow(item)}
+        />
+      </Tooltip>
     );
 
     const AllAccountsLabel: React.FunctionComponent = () => (
