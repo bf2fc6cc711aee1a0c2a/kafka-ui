@@ -81,7 +81,7 @@
     "@types/react-router": "5.1.18",
     "@types/react-router-dom": "5.3.3",
     "@types/uuid": "8.3.4",
-    "@types/ws": "8.5.0",
+    "@types/ws": "8.5.1",
     "@typescript-eslint/eslint-plugin": "5.12.1",
     "@typescript-eslint/parser": "5.12.1",
     "axios": "0.26.0",
