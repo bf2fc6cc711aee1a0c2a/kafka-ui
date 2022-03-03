@@ -44,6 +44,8 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
   const [search, setSearch] = useState<string>('');
   const [consumerGroupDetail, setConsumerGroupDetail] =
     useState<ConsumerGroup>();
+  const [groupId, setGroupId] = useState<string>();
+
   const config = useContext(ConfigContext);
   const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const { page = 1, perPage = 10 } = usePaginationParams() || {};
@@ -79,6 +81,15 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
     fetchConsumerGroups();
   }, [search, order]);
 
+  useEffect(() => {
+    //update setConsumerGroupDetail state after reset offset value
+    //so that values will update on page
+    const filteredGroup =
+      consumerGroups &&
+      consumerGroups.items?.filter((g) => g.groupId === groupId)[0];
+    if (filteredGroup) setConsumerGroupDetail(filteredGroup);
+  }, [consumerGroups]);
+
   useTimeout(() => fetchConsumerGroups(), 5000);
 
   const panelBodyContent = (
@@ -94,6 +105,7 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
 
   const onViewConsumerGroup = (consumerGroup) => {
     setIsExpanded(true);
+    setGroupId(consumerGroup?.groupId);
     setConsumerGroupDetail(consumerGroup);
   };
 
