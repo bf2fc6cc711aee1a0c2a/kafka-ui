@@ -86,8 +86,9 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
     //so that values will update on page
     const filteredGroup =
       consumerGroups &&
-      consumerGroups.items?.filter((g) => g.groupId === groupId)[0];
-    if (filteredGroup) setConsumerGroupDetail(filteredGroup);
+      consumerGroups.items?.filter((g) => g.groupId === groupId);
+    if (filteredGroup && filteredGroup.length > 0)
+      setConsumerGroupDetail(filteredGroup[0]);
   }, [consumerGroups]);
 
   useTimeout(() => fetchConsumerGroups(), 5000);
