@@ -13,6 +13,7 @@ import {
   TextContent,
   TextVariants,
   Tooltip,
+  ExpandableSection,
 } from '@patternfly/react-core';
 import { TrashIcon } from '@patternfly/react-icons';
 import { cellWidth, ICell, TableVariant } from '@patternfly/react-table';
@@ -23,11 +24,19 @@ export type ExistingAclTableProps = {
   existingAcls: Array<AclBinding>;
   selectedAccountId?: string;
   onRemove: (acl: EnhancedAclBinding) => void;
+  isExpanded: boolean;
+  onChangeExpendedSection: (isExpanded: boolean) => void;
 };
 
 export const ExistingAclTable: React.FunctionComponent<
   ExistingAclTableProps
-> = ({ existingAcls, selectedAccountId, onRemove }) => {
+> = ({
+  existingAcls,
+  selectedAccountId,
+  onRemove,
+  isExpanded,
+  onChangeExpendedSection,
+}) => {
   type RemovableEnhancedAclBinding = EnhancedAclBinding & {
     removed: boolean;
     index: number;
@@ -150,16 +159,17 @@ export const ExistingAclTable: React.FunctionComponent<
   };
 
   return (
-    <div>
+    <ExpandableSection
+      toggleText={t('permission.manage_permissions_dialog.edit_existing.title')}
+      isIndented={true}
+      isExpanded={isExpanded}
+      onToggle={onChangeExpendedSection}
+    >
       <TextContent>
-        <Text component={TextVariants.h2}>
-          {t('permission.manage_permissions_dialog.edit_existing.title')}
-        </Text>
         <Text component={TextVariants.small}>
           <HelperText />
         </Text>
       </TextContent>
-
       <MASTable
         tableProps={{
           cells: tableColumns,
@@ -181,6 +191,6 @@ export const ExistingAclTable: React.FunctionComponent<
         }}
         rowDataTestId={'tablePermissions-row'}
       />
-    </div>
+    </ExpandableSection>
   );
 };

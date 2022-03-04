@@ -116,6 +116,14 @@ export const ManagePermissionsModal: React.FC<
   const [removeAcls, setRemoveAcls] = useState<EnhancedAclBinding[]>([]);
   const [isOpenPreCancelModal, setIsOpenPreCancelModal] =
     useState<boolean>(false);
+  const [
+    isExpandedExistingPermissionSection,
+    setIsExpandedExistingPermissionSection,
+  ] = useState<boolean>(false);
+  const [
+    isExpandedAssignPermissionsSection,
+    setIsExpandedAssignPermissionsSection,
+  ] = useState<boolean>(false);
 
   const escapeClosesModal = useRef<boolean>(true);
   const { validateName } = useValidateTopic();
@@ -376,6 +384,8 @@ export const ManagePermissionsModal: React.FC<
                 return [...prevState, acl];
               })
             }
+            isExpanded={isExpandedExistingPermissionSection}
+            onChangeExpendedSection={setIsExpandedExistingPermissionSection}
           />
           <CreatePermissions
             acls={newAcls}
@@ -387,6 +397,8 @@ export const ManagePermissionsModal: React.FC<
             resourceOperations={resourceOperations}
             menuAppendTo={menuAppendTo}
             kafkaName={kafkaName}
+            isExpanded={isExpandedAssignPermissionsSection}
+            onChangeExpendedSection={setIsExpandedAssignPermissionsSection}
           />
         </>
       );

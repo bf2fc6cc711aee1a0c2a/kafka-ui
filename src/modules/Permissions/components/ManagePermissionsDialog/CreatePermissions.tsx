@@ -9,6 +9,7 @@ import {
   TextVariants,
   Popover,
   ButtonVariant,
+  ExpandableSection,
 } from '@patternfly/react-core';
 
 import { PermissionsDropdown } from '@rhoas/app-services-ui-components';
@@ -56,6 +57,8 @@ export type CreatePermissionsProps = {
     | 'inline'
     | undefined;
   kafkaName: string | undefined;
+  isExpanded: boolean;
+  onChangeExpendedSection: (isExpanded: boolean) => void;
 };
 
 export const CreatePermissions: React.FunctionComponent<
@@ -70,6 +73,8 @@ export const CreatePermissions: React.FunctionComponent<
   resourceOperations,
   menuAppendTo,
   kafkaName,
+  isExpanded,
+  onChangeExpendedSection,
 }) => {
   const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
@@ -337,11 +342,15 @@ export const CreatePermissions: React.FunctionComponent<
   };
 
   return (
-    <div>
+    <ExpandableSection
+      toggleText={t(
+        'permission.manage_permissions_dialog.assign_permissions.title'
+      )}
+      isIndented={true}
+      isExpanded={isExpanded}
+      onToggle={onChangeExpendedSection}
+    >
       <TextContent>
-        <Text component={TextVariants.h2}>
-          {t('permission.manage_permissions_dialog.assign_permissions.title')}
-        </Text>
         <Text component={TextVariants.small}>{formGroupHelperText()}</Text>
         {acls && acls.length > 0 && (
           <Text component={TextVariants.small}>
@@ -373,6 +382,6 @@ export const CreatePermissions: React.FunctionComponent<
           />
         </ActionListItem>
       </ActionList>
-    </div>
+    </ExpandableSection>
   );
 };
