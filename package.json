@@ -108,7 +108,7 @@
     "jest": "27.5.1",
     "jest-cucumber-fusion": "0.8.1",
     "license-check-and-add": "4.0.3",
-    "lint-staged": "12.3.4",
+    "lint-staged": "12.3.5",
     "lodash.debounce": "4.0.8",
     "lodash.get": "4.4.2",
     "lodash.keyby": "4.6.0",
