@@ -48,7 +48,7 @@
   "dependencies": {
     "@rhoas/kafka-instance-sdk": "0.23.2",
     "object-hash": "2.2.0",
-    "react-i18next": "11.15.5",
+    "react-i18next": "11.15.6",
     "sentence-case": "3.0.4",
     "snake-case": "3.0.4",
     "tslib": "2.3.1",
@@ -116,7 +116,7 @@
     "lodash.mergewith": "4.6.2",
     "lodash.set": "4.3.2",
     "mini-css-extract-plugin": "2.6.0",
-    "node-fetch": "3.2.1",
+    "node-fetch": "3.2.2",
     "npm-run-all": "4.1.5",
     "null-loader": "4.0.1",
     "prettier": "2.5.1",
