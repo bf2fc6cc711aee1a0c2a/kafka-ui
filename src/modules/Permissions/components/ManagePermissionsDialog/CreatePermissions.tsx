@@ -58,7 +58,7 @@ export type CreatePermissionsProps = {
     | undefined;
   kafkaName: string | undefined;
   isExpanded: boolean;
-  onChangeExpendedSection: (isExpanded: boolean) => void;
+  onChangeExpandedSection: (isExpanded: boolean) => void;
 };
 
 export const CreatePermissions: React.FunctionComponent<
@@ -74,7 +74,7 @@ export const CreatePermissions: React.FunctionComponent<
   menuAppendTo,
   kafkaName,
   isExpanded,
-  onChangeExpendedSection,
+  onChangeExpandedSection,
 }) => {
   const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
@@ -348,7 +348,7 @@ export const CreatePermissions: React.FunctionComponent<
       )}
       isIndented={true}
       isExpanded={isExpanded}
-      onToggle={onChangeExpendedSection}
+      onToggle={onChangeExpandedSection}
     >
       <TextContent>
         <Text component={TextVariants.small}>{formGroupHelperText()}</Text>

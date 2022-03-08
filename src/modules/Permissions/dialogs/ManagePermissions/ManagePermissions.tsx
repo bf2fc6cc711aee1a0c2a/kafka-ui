@@ -123,7 +123,7 @@ export const ManagePermissionsModal: React.FC<
   const [
     isExpandedAssignPermissionsSection,
     setIsExpandedAssignPermissionsSection,
-  ] = useState<boolean>(false);
+  ] = useState<boolean>(true);
 
   const escapeClosesModal = useRef<boolean>(true);
   const { validateName } = useValidateTopic();
