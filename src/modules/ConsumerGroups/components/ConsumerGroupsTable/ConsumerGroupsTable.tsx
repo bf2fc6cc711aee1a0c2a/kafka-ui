@@ -117,7 +117,8 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
   const onSelectResetOffsetConsumerGroup = (data: ConsumerGroup) => {
     showResetOffsetModal(ModalType.KafkaConsumerGroupResetOffset, {
       refreshConsumerGroups,
-      consumerGroupData: data,
+      // TODO: why we need copy of enums in UI-Shared?
+      consumerGroupData: data as any,
     });
   };
 

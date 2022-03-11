@@ -117,9 +117,10 @@ export type KeyValue = {
   value: number;
 };
 
-export const deserializeTopic = (topic: Topic): ConfigEntry => {
+// TODO - return array of ConfigEntry instead?
+export const deserializeTopic = (topic: Topic): Object => {
   const newTopic = { ...topic };
-  const configEntries: ConfigEntry = {};
+  const configEntries  = {};
 
   newTopic?.config?.forEach((e: ConfigEntry) => {
     const { key = '', value } = e;

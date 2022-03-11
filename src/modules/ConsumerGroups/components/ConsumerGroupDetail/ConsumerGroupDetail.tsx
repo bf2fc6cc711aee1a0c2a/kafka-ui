@@ -154,7 +154,7 @@ const ConsumerGroupDetail: React.FunctionComponent<
             <Text component={TextVariants.h4}>{t('consumerGroup.state')}</Text>
             <Text component={TextVariants.p}>
               <Text component={TextVariants.h2}>
-                {State[consumerGroupDetail?.state]}
+                {State[consumerGroupDetail?.state || ""]}
               </Text>
             </Text>
           </FlexItem>

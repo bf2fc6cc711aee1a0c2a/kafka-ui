@@ -125,7 +125,7 @@ export const getTopic = async (
       .reduce(
         (previousValue = 0, currentValue = 0) => previousValue + currentValue
       )
-      ?.toString(),
+      ?.toString() || ""
   });
   return response.data;
 };

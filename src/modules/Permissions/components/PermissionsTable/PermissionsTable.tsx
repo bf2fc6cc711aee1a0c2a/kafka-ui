@@ -28,7 +28,7 @@ import {
   AclPermissionTypeFilter,
   AclResourceTypeFilter,
 } from '@rhoas/kafka-instance-sdk';
-import { ModalType, useModal } from '@rhoas/app-services-ui-shared';
+import { AclBinding, ModalType, useModal } from '@rhoas/app-services-ui-shared';
 import { MASPagination, MASTable, usePaginationParams } from '@app/components';
 
 export type PermissionsTableProps = {
@@ -152,7 +152,8 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
       showModal(ModalType.KafkaManagePermissions, {
         selectedAccountId,
         kafkaName,
-        acls: aclPage?.items || [],
+        // TODO: ask why we duplicating ACL types? Any reson why we need to do this?
+        acls: aclPage?.items as AclBinding[] || [],
         topicNames,
         consumerGroupIds,
         onSave,

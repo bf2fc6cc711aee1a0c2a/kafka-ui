@@ -3,7 +3,7 @@ import {
   Configuration,
   ConsumerGroup,
   ConsumerGroupList,
-  ConsumerGroupResetOffsetParametersOffsetEnum,
+  OffsetType,
   ConsumerGroupResetOffsetResult,
   GroupsApi,
 } from '@rhoas/kafka-instance-sdk';
@@ -80,7 +80,7 @@ const getConsumerGroupDetail = async (
 const consumerGroupResetOffset = async (
   config: IConfiguration | undefined,
   consumerGroupId: string,
-  offset: ConsumerGroupResetOffsetParametersOffsetEnum,
+  offset: OffsetType,
   topic: string,
   partitions: number[],
   value?: string

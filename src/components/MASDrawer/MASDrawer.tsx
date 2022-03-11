@@ -91,7 +91,8 @@ export const MASDrawer: React.FC<MASDrawerProps> = ({
   const onSelectResetOffsetConsumerGroup = () => {
     showResetOffsetModal(ModalType.KafkaConsumerGroupResetOffset, {
       refreshConsumerGroups,
-      consumerGroupData: consumerGroupDetail,
+      // TODO ConsumerGroup enums are not compatible (need to know why)
+      consumerGroupData: consumerGroupDetail as any,
     });
   };
 
