@@ -16,24 +16,21 @@
     "bundle-profile:analyze": "npm run build:bundle-profile && webpack-bundle-analyzer ./stats.json",
     "test": "npm-run-all test:jest",
     "test:jest": "npm-run-all \"test:jest:* -- {1}\" --",
-    "test:jest:client": "jest --collectCoverage --config src/jest.config.js",
+    "test:jest:client": "jest --collectCoverage --config jest.config.js",
     "test:e2e": "npm-run-all clean build --parallel --race start:e2eserver cy:closed",
     "test:e2e:open": "npm-run-all clean build --parallel --race start:e2eserver cy:open",
-    "lint": "npm-run-all 'lint:src -- .' 'lint:format -- .'",
-    "lint:src": "eslint --config ./linting/eslint.config.js --fix --max-warnings 0 --ignore-path ./linting/.eslintignore",
-    "lint:styling": "stylelint --config ./linting/stylelint.config.js --fix --max-warnings 5",
-    "lint:format": "prettier --config ./linting/prettier.config.js --write",
+    "format": "prettier --write src .storybook",
+    "lint:errors": "eslint --ext .tsx,.js,.ts src",
+    "lint:style": "prettier --check src .storybook",
+    "lint": "npm-run-all lint:*",
     "cy:open": "cypress open --config-file e2e/cypress.json",
     "cy:closed": "cypress run --config-file e2e/cypress.json",
     "prepare": "husky install",
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx,css}": [
-      "npm run lint:src -- .",
-      "npm run lint:format -- .",
-      "git add"
-    ]
+    "*.{ts,tsx}": "eslint --cache --fix",
+    "*.storybook": "prettier --write"
   },
   "sideEffects": [
     "*.css"

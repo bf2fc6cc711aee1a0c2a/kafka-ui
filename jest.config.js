@@ -1,18 +1,18 @@
 const merge = require('lodash.merge');
-const { jestModuleMapper } = require('../utils/tooling/aliasHelper');
-const { compilerOptions } = require('../tsconfig.json');
-const commonConfig = require('../test_common/jest.common.config');
+const { jestModuleMapper } = require('./utils/tooling/aliasHelper');
+const { compilerOptions } = require('./tsconfig.json');
+const commonConfig = require('./test_common/jest.common.config');
 
 const config = {
   transformIgnorePatterns: ['node_modules/(?!byte-size)'],
-  setupFilesAfterEnv: ['<rootDir>/../test_common/jest_rtl_setup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/test_common/jest_rtl_setup.ts'],
   testMatch: ['**/*.(spec|steps|test).[jt]s?(x)'],
-  coverageDirectory: '<rootDir>/../coverage',
+  coverageDirectory: '<rootDir>/coverage',
   moduleNameMapper: {
     ...compilerOptions.paths,
     ...jestModuleMapper,
     '\\.(css|less)$':
-      '<rootDir>/../node_modules/@patternfly/react-styles/__mocks__/styleMock.js',
+      '<rootDir>/node_modules/@patternfly/react-styles/__mocks__/styleMock.js',
   },
   testEnvironment: 'jsdom',
   collectCoverageFrom: [
