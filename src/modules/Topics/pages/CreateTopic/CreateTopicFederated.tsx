@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { CreateTopicPage } from '@app/modules/Topics/pages/CreateTopic/CreateTopicPage';
 import {
   FederatedContext,

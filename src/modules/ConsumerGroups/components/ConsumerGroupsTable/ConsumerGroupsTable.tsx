@@ -173,7 +173,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
 
   const onRowClick = (
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
-    _: Tar,
+    _,
     row?: IRowData
   ) => {
     const { originalData } = row || {};
