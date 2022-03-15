@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Card, PageSection, PageSectionVariants } from '@patternfly/react-core';
@@ -17,6 +17,13 @@ import { useBasename } from '@rhoas/app-services-ui-shared';
 import './Topics.css';
 import { ISortBy, OnSort, SortByDirection } from '@patternfly/react-table';
 import { isAxiosError } from '@app/utils/axios';
+
+const sortableCols: { [key: number]: OrderKey } = {
+  0: OrderKey.name,
+  1: OrderKey.partitions,
+  2: OrderKey.retentionMs,
+  3: OrderKey.retentionSize,
+};
 
 export type ITopic = {
   name: string;
@@ -44,12 +51,6 @@ const Topics: React.FC = () => {
   const [orderKey, setOrderKey] = useState<OrderKey>();
   const [sortBy, setSortBy] = useState<ISortBy>({ index: 0, direction: 'asc' });
 
-  useEffect(() => {
-    fetchTopic();
-  }, [searchTopicName, order, orderKey, page, perPage]);
-
-  useTimeout(() => fetchTopic(), 5000);
-
   const onClickCreateTopic = () => {
     history.push(`${basename}/topic/create`);
   };
@@ -63,19 +64,12 @@ const Topics: React.FC = () => {
   };
 
   const onSort: OnSort = (_event, index, direction) => {
-    const sortableCols = {
-      '0': 'name',
-      '1': 'partitions',
-      '2': 'retention.ms',
-      '3': 'retention.bytes',
-    };
-
     setOrderKey(sortableCols[index]);
     setOrder(direction);
     setSortBy({ index, direction });
   };
 
-  const fetchTopic = async () => {
+  const fetchTopic = useCallback(async () => {
     try {
       await getTopics(
         config,
@@ -99,7 +93,13 @@ const Topics: React.FC = () => {
         onError(code, message);
       }
     }
-  };
+  }, [config, onError, order, orderKey, page, perPage, searchTopicName]);
+
+  useEffect(() => {
+    fetchTopic();
+  }, [searchTopicName, order, orderKey, page, perPage, fetchTopic]);
+
+  useTimeout(() => fetchTopic(), 5000);
 
   const renderTopicsTable = () => {
     if (topicsList?.items === undefined) {

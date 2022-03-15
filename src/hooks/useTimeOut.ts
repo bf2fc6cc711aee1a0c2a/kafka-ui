@@ -22,5 +22,6 @@ export const useTimeout = <T extends () => void>(
         clearInterval(id);
       };
     }
+    return;
   }, [callback, delay]);
 };

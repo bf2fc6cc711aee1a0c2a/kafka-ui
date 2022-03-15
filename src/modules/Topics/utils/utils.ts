@@ -117,16 +117,16 @@ export type KeyValue = {
   value: number;
 };
 
-export const deserializeTopic = (topic: Topic): ConfigEntry => {
+export const deserializeTopic = (topic: Topic): IAdvancedTopic => {
   const newTopic = { ...topic };
-  const configEntries: ConfigEntry = {};
+  const configEntries: Partial<IAdvancedTopic> = {};
 
   newTopic?.config?.forEach((e: ConfigEntry) => {
     const { key = '', value } = e;
 
     if (key === 'retention.ms' && Number(value) >= 0) {
       const { value: newValue, unit } = millisecondsToTime(Number(value));
-      configEntries[key] = newValue;
+      configEntries[key] = `${newValue}`;
       configEntries[`${key}.unit`] = unit;
       configEntries['selectedRetentionTimeOption'] = RetentionTimeUnits.CUSTOM;
     } else if (key === 'retention.ms' && Number(value) === -1) {
@@ -136,7 +136,7 @@ export const deserializeTopic = (topic: Topic): ConfigEntry => {
 
     if (key === 'retention.bytes' && Number(value) >= 0) {
       const { value: newValue, unit } = bytesToMemorySize(Number(value));
-      configEntries[key] = newValue;
+      configEntries[key] = `${newValue}`;
       configEntries[`${key}.unit`] = unit;
       configEntries['selectedRetentionSizeOption'] = RetentionSizeUnits.CUSTOM;
     } else if (key === 'retention.bytes' && Number(value) === -1) {
@@ -149,7 +149,7 @@ export const deserializeTopic = (topic: Topic): ConfigEntry => {
     }
   });
 
-  return configEntries;
+  return configEntries as IAdvancedTopic;
 };
 
 export const serializeTopic = (
@@ -168,12 +168,13 @@ export const serializeTopic = (
     'selectedRetentionTimeOption',
     'selectedRetentionSizeOption',
   ];
-  const topic = { ...topicData };
+  const topic: IAdvancedTopic = { ...topicData };
   const config: ConfigEntry[] = [];
 
-  for (const key in topic) {
+  for (const _key in topic) {
+    const key = _key as keyof IAdvancedTopic;
     let value;
-    //check key exist in include config proerties and add properties in config object
+    //check key exist in include config properties and add properties in config object
     if (configProperties.includes(key)) {
       //check unlimited retention time and size and set -1 value
       if (
@@ -184,11 +185,15 @@ export const serializeTopic = (
       ) {
         value = '-1';
       } else if (key === 'retention.ms' || key === 'retention.bytes') {
+        const topicUnitMs = (topic[`${key}.unit`] ||
+          'milliseconds') as keyof typeof unitsToMilliSecond;
+        const topicUnitByte = (topic[`${key}.unit`] ||
+          'bytes') as keyof typeof unitsToBytes;
         //calculate value based on entered value * selected unit
         const unit =
           key === 'retention.ms'
-            ? unitsToMilliSecond[topic[`${key}.unit`] || 'milliseconds']
-            : unitsToBytes[topic[`${key}.unit`] || 'bytes'];
+            ? unitsToMilliSecond[topicUnitMs]
+            : unitsToBytes[topicUnitByte];
         value = Number(topic[key]) * unit;
       } else {
         value = topic[key];

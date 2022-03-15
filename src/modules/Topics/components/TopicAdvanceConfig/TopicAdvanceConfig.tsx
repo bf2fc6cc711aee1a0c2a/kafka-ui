@@ -61,7 +61,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<
   );
   useState<string>(topicData['retention.ms.unit'] || 'days');
 
-  const fetchTopic = async (topicName) => {
+  const fetchTopic = async (topicName: string) => {
     try {
       const topicRes = await getTopic(topicName, config);
       if (topicRes) {
@@ -144,7 +144,7 @@ export const TopicAdvanceConfig: React.FunctionComponent<
                       ? 'topicAdvanceCreate-actionCreate'
                       : 'tabProperties-actionSave'
                   }
-                  isDisabled={topicValidated === 'default' ? false : true}
+                  isDisabled={topicValidated !== 'default'}
                 >
                   {actionText}
                 </Button>

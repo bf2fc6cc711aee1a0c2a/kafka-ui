@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -8,6 +8,7 @@ import {
   Tab,
   TabContent,
   Tabs,
+  TabsProps,
   TabTitleText,
 } from '@patternfly/react-core';
 import {
@@ -69,40 +70,43 @@ export const TopicDetailPage: React.FC = () => {
     history.push(`${basename}/topics`);
   };
 
-  const fetchTopicDetail = async (topicName: string) => {
-    if (activeTab === 2) {
-      try {
-        await getTopicDetail(topicName, config).then((response) => {
-          setTopicDetail(response);
-        });
-      } catch (err) {
-        if (isAxiosError(err)) {
-          if (onError) {
-            onError(
-              err.response?.data.code || -1,
-              err.response?.data.error_message
-            );
-          }
-          if (err.response?.status === 404) {
-            // then it's a non-existent topic
-            addAlert({
-              title: t('topic.topic_not_found', { name: topicName }),
-              variant: AlertVariant.danger,
-            });
+  const fetchTopicDetail = useCallback(
+    async (topicName: string) => {
+      if (activeTab === 2) {
+        try {
+          await getTopicDetail(topicName, config).then((response) => {
+            setTopicDetail(response);
+          });
+        } catch (err) {
+          if (isAxiosError(err)) {
+            if (onError) {
+              onError(
+                err.response?.data.code || -1,
+                err.response?.data.error_message
+              );
+            }
+            if (err.response?.status === 404) {
+              // then it's a non-existent topic
+              addAlert({
+                title: t('topic.topic_not_found', { name: topicName }),
+                variant: AlertVariant.danger,
+              });
+            }
           }
         }
       }
-    }
-  };
+    },
+    [activeTab, addAlert, config, onError, t]
+  );
 
-  const handleTabClick = (event, tabIndex) => {
-    setActiveTabKey(tabIndex);
+  const handleTabClick: TabsProps['onSelect'] = (_, tabIndex) => {
+    setActiveTabKey(tabIndex as number);
   };
 
   // Make the get request
   useEffect(() => {
     fetchTopicDetail(topicName);
-  }, [topicName]);
+  }, [fetchTopicDetail, topicName]);
 
   const deleteTopic = () => {
     showModal(ModalType.KafkaDeleteTopic, {
