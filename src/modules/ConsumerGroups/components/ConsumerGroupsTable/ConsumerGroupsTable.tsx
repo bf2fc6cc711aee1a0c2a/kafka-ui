@@ -21,7 +21,7 @@ import {
   ConsumerGroupToolbarProps,
 } from './ConsumerGroupToolbar';
 import { ModalType, useModal } from '@rhoas/app-services-ui-shared';
-import { State } from '@app/modules/ConsumerGroups/components/utils';
+import { ConsumerGroupState } from '../ConsumerGroupState';
 
 export type ConsumerGroupsTableProps = ConsumerGroupToolbarProps & {
   consumerGroups?: ConsumerGroup[];
@@ -88,13 +88,13 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
       tableRow.push({
         cells: [
           groupId,
-          consumers.reduce(function (prev, cur) {
+          consumers.reduce(function (prev: number, cur: { partition: number; }) {
             return prev + (cur.partition != -1 ? 1 : 0);
           }, 0),
-          consumers.reduce(function (prev, cur) {
+          consumers.reduce(function (prev: number, cur: { lag: number; }) {
             return prev + (cur.lag > 0 ? 1 : 0);
           }, 0),
-          State[state],
+          ConsumerGroupState[state as keyof typeof ConsumerGroupState],
         ],
         originalData: { ...row, rowId: groupId },
       });
@@ -173,7 +173,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
 
   const onRowClick = (
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
-    _,
+    _: Tar,
     row?: IRowData
   ) => {
     const { originalData } = row || {};

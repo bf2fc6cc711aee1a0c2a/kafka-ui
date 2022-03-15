@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { UpdateTopicPage } from '@app/modules/Topics/pages/UpdateTopic';
 import {
   ConfigContext,
