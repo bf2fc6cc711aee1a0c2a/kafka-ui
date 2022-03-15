@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PaginationVariant } from '@patternfly/react-core';
 import {
@@ -8,6 +8,8 @@ import {
   ISortBy,
   sortable,
   info,
+  IAction,
+  IActionsResolver,
 } from '@patternfly/react-table';
 import { ConsumerGroup } from '@rhoas/kafka-instance-sdk';
 import {
@@ -15,6 +17,7 @@ import {
   MASPagination,
   EmptyState,
   MASEmptyStateVariant,
+  MASTableProps,
 } from '@app/components';
 import {
   ConsumerGroupToolbar,
@@ -88,10 +91,10 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
       tableRow.push({
         cells: [
           groupId,
-          consumers.reduce(function (prev: number, cur: { partition: number; }) {
+          consumers.reduce(function (prev: number, cur: { partition: number }) {
             return prev + (cur.partition != -1 ? 1 : 0);
           }, 0),
-          consumers.reduce(function (prev: number, cur: { lag: number; }) {
+          consumers.reduce(function (prev: number, cur: { lag: number }) {
             return prev + (cur.lag > 0 ? 1 : 0);
           }, 0),
           ConsumerGroupState[state as keyof typeof ConsumerGroupState],
@@ -146,43 +149,49 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
     setActiveRow(originalData?.groupId);
   };
 
-  const actionResolver = (rowData: IRowData) => {
+  const actionResolver: IActionsResolver = (rowData: IRowData) => {
     if (consumerGroupByTopic) {
       return [];
     }
     const originalData: ConsumerGroup = rowData.originalData;
-    const resolver = [
-      {
-        title: t('common.delete'),
-        ['data-testid']: 'tableConsumers-actionDelete',
-        onClick: () => onSelectKebabDropdownOption(originalData),
-      },
-      {
-        title: t('consumerGroup.view_partitions_offsets'),
-        ['data-testid']: 'tableConsumers-actionOpenDrawer',
-        onClick: (_, __, row: IRowData) => onClickDrawerButton(row),
-      },
-      {
-        title: t('consumerGroup.reset_offset'),
-        ['data-testid']: 'tableConsumers-resetOffset',
-        onClick: () => onSelectResetOffset(originalData),
-      },
-    ];
-    return resolver;
+    const onDelete: IAction = {
+      title: t('common.delete'),
+      onClick: () => onSelectKebabDropdownOption(originalData),
+    };
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    onDelete['data-testid'] = 'tableConsumers-actionDelete';
+
+    const onViewOffset: IAction = {
+      title: t('consumerGroup.view_partitions_offsets'),
+      onClick: (_, __, row) => onClickDrawerButton(row),
+    };
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    onViewOffset['data-testid'] = 'tableConsumers-actionOpenDrawer';
+
+    const onReset: IAction = {
+      title: t('consumerGroup.reset_offset'),
+      onClick: () => onSelectResetOffset(originalData),
+    };
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    onReset['data-testid'] = 'tableConsumers-resetOffset';
+
+    return [onDelete, onViewOffset, onReset];
   };
 
-  const onRowClick = (
-    event: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
-    _,
-    row?: IRowData
-  ) => {
-    const { originalData } = row || {};
-    const clickedEventType = event?.target && event?.target?.type;
-    const tagName = event?.target && event?.target?.tagName;
-    // Open modal on row click except kebab button click
-    if (clickedEventType !== 'button' && tagName?.toLowerCase() !== 'a') {
-      onViewConsumerGroup(originalData);
-      setActiveRow(originalData?.groupId);
+  const onRowClick: MASTableProps['onRowClick'] = (event, _, row) => {
+    if (event?.target) {
+      const { originalData } = row || {};
+      const tagName = (
+        (event?.target as unknown as HTMLElement).tagName || ''
+      ).toLocaleLowerCase();
+      // Open modal on row click except kebab button click
+      if (tagName !== 'button' && tagName !== 'a') {
+        onViewConsumerGroup(originalData);
+        setActiveRow(originalData?.groupId);
+      }
     }
   };
 

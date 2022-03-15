@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
 import CaretDownIcon from '@patternfly/react-icons/dist/js/icons/caret-down-icon';
+import { DropdownProps } from "@patternfly/react-core/dist/js";
 
-interface IDropdownWithToggleProps {
+export interface IDropdownWithToggleProps {
   id: string;
   toggleId: string;
   value: string;
   name: string;
   items: IDropdownOption[];
-  onSelectOption?: (value: string, event) => void;
+  onSelectOption?: (value: string, name: string) => void;
   ariaLabel?: string;
   menuAppendTo?: HTMLElement | (() => HTMLElement) | 'parent' | 'inline';
   isLabelAndValueNotSame?: boolean;
@@ -38,13 +39,14 @@ export const DropdownWithToggle: React.FC<IDropdownWithToggleProps> = ({
     setIsOpen(isOpen);
   };
 
-  const onSelect = (e) => {
-    const value: string = e.currentTarget.textContent;
-    if (onSelectOption && value) {
-      e.target.name = name;
-      onSelectOption(value.toLowerCase(), e);
+  const onSelect: DropdownProps['onSelect'] = (e) => {
+    if (e && e.currentTarget.textContent) {
+      const value: string = e.currentTarget.textContent;
+      if (onSelectOption && value) {
+        onSelectOption(value.toLowerCase(), name);
+      }
+      setIsOpen((isOpen) => !isOpen);
     }
-    setIsOpen((isOpen) => !isOpen);
   };
 
   const getItems = (options: IDropdownOption[]) => {
