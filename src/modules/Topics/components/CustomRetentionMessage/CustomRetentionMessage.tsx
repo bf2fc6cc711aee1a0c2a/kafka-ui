@@ -38,28 +38,29 @@ const CustomRetentionMessage: React.FC<CustomRetentionMessageProps> = ({
     fieldName: string,
     selection: string | SelectOptionObject
   ) => {
-    let propetyName;
+    let propetyName: keyof IAdvancedTopic | undefined = undefined;
     if (fieldName === 'retention-ms') {
       propetyName = 'selectedRetentionTimeOption';
     } else if (fieldName === 'retention-bytes') {
       propetyName = 'selectedRetentionSizeOption';
     }
-
-    setTopicData({
-      ...topicData,
-      [`${kebabToDotSeparated(fieldName)}.unit`]: selection,
-      [propetyName]:
-        selection !== RetentionTimeUnits.DAY
-          ? RetentionTimeUnits.CUSTOM
-          : topicData.selectedRetentionTimeOption,
-    });
+    if (propetyName !== undefined) {
+      setTopicData({
+        ...topicData,
+        [`${kebabToDotSeparated(fieldName)}.unit`]: selection,
+        [propetyName]:
+          selection !== RetentionTimeUnits.DAY
+            ? RetentionTimeUnits.CUSTOM
+            : topicData.selectedRetentionTimeOption,
+      });
+    }
 
     onToggle(false);
   };
 
   const handleTouchSpin = (name: string, operator: string) => {
     let value;
-    const fieldName = kebabToDotSeparated(name);
+    const fieldName = kebabToDotSeparated(name) as keyof IAdvancedTopic;
     const selectedRetention =
       fieldName === 'retention.ms'
         ? 'selectedRetentionTimeOption'
@@ -100,7 +101,9 @@ const CustomRetentionMessage: React.FC<CustomRetentionMessageProps> = ({
             name={name}
             onMinus={() => handleTouchSpin(name, '-')}
             onPlus={() => handleTouchSpin(name, '+')}
-            value={Number(topicData[kebabToDotSeparated(name)])}
+            value={Number(
+              topicData[kebabToDotSeparated(name) as keyof IAdvancedTopic]
+            )}
             onChange={(event) => onChangeTouchSpin(event, name)}
             plusBtnProps={{ name }}
             minusBtnProps={{ name }}
@@ -113,7 +116,11 @@ const CustomRetentionMessage: React.FC<CustomRetentionMessageProps> = ({
             aria-label='Select Input'
             onToggle={onToggle}
             onSelect={(_, selection) => onSelectRetentionUnit(name, selection)}
-            selections={topicData[`${kebabToDotSeparated(name)}.unit`]}
+            selections={
+              topicData[
+                `${kebabToDotSeparated(name)}.unit` as keyof IAdvancedTopic
+              ]
+            }
             isOpen={isOpen}
           >
             {selectOptions?.map((s) => (

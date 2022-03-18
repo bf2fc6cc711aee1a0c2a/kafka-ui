@@ -17,7 +17,7 @@ export type SizeTimeFormGroup = NumberInputProps & {
   /** name attribute of dropdown element */
   name: string;
   /** handler method of dropdown */
-  onSelectOption?: (value: string, event) => void;
+  onSelectOption?: (value: string, name: string) => void;
   /** aria label for dropdown element */
   ariaLabel?: string;
   /** determines whether to display memory units or time units */

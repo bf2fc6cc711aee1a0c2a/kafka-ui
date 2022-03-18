@@ -5,6 +5,7 @@ import {
   Dropdown,
   DropdownItem,
   KebabToggle,
+  KebabToggleProps,
 } from '@patternfly/react-core';
 import { MASPagination, MASToolbar, ToolbarItemProps } from '@app/components';
 
@@ -19,7 +20,7 @@ const PermissionsToolbarKebab: React.FunctionComponent<
   const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const onToggle = (v) => {
+  const onToggle: KebabToggleProps['onToggle'] = (v) => {
     setIsOpen(v);
   };
 

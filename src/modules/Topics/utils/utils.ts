@@ -44,25 +44,25 @@ export enum RetentionSizeUnits {
 }
 
 export const unitsToBytes = {
-  bytes: 1,
-  kibibytes: 1024,
-  mebibytes: 1048576,
-  gibibytes: 1073741824,
-  tebibytes: 1.0995116e12,
+  [RetentionSizeUnits.BYTE]: 1,
+  [RetentionSizeUnits.KIBIBYTE]: 1024,
+  [RetentionSizeUnits.MEBIBYTE]: 1048576,
+  [RetentionSizeUnits.GIBIBYTE]: 1073741824,
+  [RetentionSizeUnits.TEBIBYTE]: 1.0995116e12,
 };
 
 export const unitsToMilliSecond = {
-  milliseconds: 1,
-  seconds: 1000,
-  minutes: 60000,
-  hours: 3600000,
-  days: 86400000,
+  [RetentionTimeUnits.MILLISECOND]: 1,
+  [RetentionTimeUnits.SECOND]: 1000,
+  [RetentionTimeUnits.MINUTE]: 60000,
+  [RetentionTimeUnits.HOUR]: 3600000,
+  [RetentionTimeUnits.DAY]: 86400000,
 };
 
 export const RetentionTimeUnitToValue = {
   ...unitsToMilliSecond,
-  day: 1,
-  weeks: 7,
+  [RetentionTimeUnits.DAY]: 1,
+  [RetentionTimeUnits.WEEK]: 7,
 };
 
 type ConversionUnit = {
@@ -72,8 +72,8 @@ type ConversionUnit = {
 
 export const millisecondsToTime = (value: number): ConversionUnit => {
   if (value) {
-    if (value % unitsToMilliSecond.days == 0)
-      return { value: value / unitsToMilliSecond.days, unit: 'days' };
+    if (value % unitsToMilliSecond.day == 0)
+      return { value: value / unitsToMilliSecond.day, unit: 'days' };
     if (value % unitsToMilliSecond.hours == 0)
       return { value: value / unitsToMilliSecond.hours, unit: 'hours' };
     if (value % unitsToMilliSecond.minutes == 0)

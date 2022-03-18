@@ -48,9 +48,8 @@ const Log: React.FC<LogProps> = ({ topicData, setTopicData }) => {
     },
   ];
 
-  const onSelectOption = (value: string, event) => {
-    const { name: fieldName } = event.target;
-    setTopicData({ ...topicData, [kebabToDotSeparated(fieldName)]: value });
+  const onSelectOption = (value: string, name: string) => {
+    setTopicData({ ...topicData, [kebabToDotSeparated(name)]: value });
   };
 
   return (

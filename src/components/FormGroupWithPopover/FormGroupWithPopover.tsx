@@ -27,8 +27,6 @@ export const FormGroupWithPopover: React.FC<FormGroupWithPopoverProps> = ({
   helperTextInvalid,
   isRequired,
 }) => {
-  const preventButtonSubmit = (event) => event.preventDefault();
-
   return (
     <FormGroup
       fieldId={fieldId}
@@ -44,7 +42,7 @@ export const FormGroupWithPopover: React.FC<FormGroupWithPopoverProps> = ({
         >
           <button
             aria-label={buttonAriaLabel}
-            onClick={preventButtonSubmit}
+            onClick={(event) => event.preventDefault()}
             className='pf-c-form__group-label-help'
           >
             <HelpIcon noVerticalAlign />

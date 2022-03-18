@@ -2,7 +2,7 @@ import { SelectOption } from '@app/modules/Permissions/components/ManagePermissi
 import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 import { Select as PFSelect } from '@patternfly/react-core/dist/js/components/Select/Select';
-import { SelectVariant } from '@patternfly/react-core';
+import { SelectProps, SelectVariant } from '@patternfly/react-core';
 import { SelectOption as PFSelectOption } from '@patternfly/react-core/dist/js/components/Select/SelectOption';
 import { Validated } from '@app/modules/Permissions/components/ManagePermissionsDialog/validated';
 import { FormGroupWithPopover } from '@app/components';
@@ -51,7 +51,7 @@ export const CreateSelect = <
   const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const onToggle = (newState) => {
+  const onToggle: SelectProps['onToggle'] = (newState) => {
     if (newState) {
       setEscapeClosesModal(false);
     } else {
@@ -65,13 +65,15 @@ export const CreateSelect = <
     setIsOpen(false);
   };
 
-  const select = (event, selection, isPlaceholder) => {
-    if (selection === '') selection = undefined;
+  const select: SelectProps['onSelect'] = (_, selection, isPlaceholder) => {
+    const value = selection === '' ? undefined : (selection as T);
     if (isPlaceholder) clearSelection();
     else {
-      setSelected(row, selection, childRow);
+      setSelected(row, value, childRow);
       setIsOpen(false);
-      onSelect(selection);
+      if (value) {
+        onSelect(value);
+      }
     }
   };
 

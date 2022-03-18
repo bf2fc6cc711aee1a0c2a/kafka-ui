@@ -1,8 +1,8 @@
-import { Popover, FormGroup, TextInput } from '@patternfly/react-core';
-import React from 'react';
-import HelpIcon from '@patternfly/react-icons/dist/js/icons/help-icon';
+import { Popover, FormGroup, TextInput } from "@patternfly/react-core";
+import React from "react";
+import HelpIcon from "@patternfly/react-icons/dist/js/icons/help-icon";
 
-import './TextWithLabelPopover.css';
+import "./TextWithLabelPopover.css";
 
 export interface TextWithLabelPopoverProps {
   /** Field id */
@@ -30,16 +30,14 @@ export const TextWithLabelPopover: React.FC<TextWithLabelPopoverProps> = ({
   popoverHeader,
   showUnlimited,
 }) => {
-  const preventButtonSubmit = (event) => event.preventDefault();
-
-  let displayText = '-';
+  let displayText = "-";
 
   if (
     showUnlimited === true &&
     fieldValue !== undefined &&
     parseInt(fieldValue) < 0
   ) {
-    displayText = 'Unlimited';
+    displayText = "Unlimited";
   } else if (fieldValue) {
     displayText = fieldValue;
   }
@@ -48,7 +46,7 @@ export const TextWithLabelPopover: React.FC<TextWithLabelPopoverProps> = ({
     <FormGroup
       fieldId={fieldId}
       label={fieldLabel}
-      className='kafka-ui-form-group--readonly'
+      className="kafka-ui-form-group--readonly"
       labelIcon={
         <Popover
           headerContent={<div>{popoverHeader}</div>}
@@ -56,8 +54,8 @@ export const TextWithLabelPopover: React.FC<TextWithLabelPopoverProps> = ({
         >
           <button
             aria-label={btnAriaLabel}
-            onClick={preventButtonSubmit}
-            className='pf-c-form__group-label-help'
+            onClick={(event) => event.preventDefault()}
+            className="pf-c-form__group-label-help"
           >
             <HelpIcon noVerticalAlign />
           </button>
@@ -66,7 +64,7 @@ export const TextWithLabelPopover: React.FC<TextWithLabelPopoverProps> = ({
     >
       <TextInput
         isReadOnly
-        type='text'
+        type="text"
         id={fieldId}
         name={fieldId}
         value={displayText}

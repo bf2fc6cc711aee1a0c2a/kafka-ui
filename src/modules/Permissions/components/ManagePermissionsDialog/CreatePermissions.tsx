@@ -102,7 +102,7 @@ export const CreatePermissions: React.FunctionComponent<
 
   const removeRow = (row: number) => {
     setAcls((prevState) => {
-      return prevState.filter((v, k) => k !== row);
+      return prevState.filter((_, k) => k !== row);
     });
   };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PaginationVariant } from '@patternfly/react-core';
 import {
@@ -63,7 +63,7 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
   >();
   const { page, perPage } = usePaginationParams() || {};
 
-  const fetchPermissions = async () => {
+  const fetchPermissions = useCallback(async () => {
     try {
       const response = await permissionsService.getPermissions(
         {
@@ -93,15 +93,15 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
     } catch (err) {
       //addAlert(err.response.data.error_message, AlertVariant.danger);
     }
-  };
+  }, [filteredValue, page, perPage, permissionsService]);
 
   useEffect(() => {
     fetchPermissions();
-  }, []);
+  }, [fetchPermissions]);
 
   useEffect(() => {
     fetchPermissions();
-  }, [page, perPage]);
+  }, [fetchPermissions, page, perPage]);
 
   useTimeout(() => fetchPermissions(), 5000);
 
@@ -114,7 +114,7 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
 
   const cells = [principalCell, permissionOperationCell, resourceCell];
 
-  const onSelect: OnSelect = (event, isSelected, rowIndex) => {
+  const onSelect: OnSelect = (_, isSelected, rowIndex) => {
     if (rowIndex === -1) {
       setAclPage((prevState) => {
         if (prevState) {
@@ -126,6 +126,7 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
             ...prevState,
           };
         }
+        return;
       });
     } else {
       setAclPage((prevState) => {
@@ -139,6 +140,7 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
             ...prevState,
           };
         }
+        return;
       });
     }
   };
