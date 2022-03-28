@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Dropdown, DropdownItem, DropdownToggle } from '@patternfly/react-core';
 import CaretDownIcon from '@patternfly/react-icons/dist/js/icons/caret-down-icon';
-import { DropdownProps } from "@patternfly/react-core/dist/js";
+import { DropdownProps } from '@patternfly/react-core/dist/js';
 
 export interface IDropdownWithToggleProps {
   id: string;

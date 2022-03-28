@@ -30,8 +30,9 @@ import './ConsumerGroupResetOffset.css';
 import { consumerGroupResetOffset } from '@app/services';
 import {
   DropdownWithToggle,
-  IDropdownOption, IDropdownWithToggleProps
-} from "@app/components/DropdownWithToggle";
+  IDropdownOption,
+  IDropdownWithToggleProps,
+} from '@app/components/DropdownWithToggle';
 import { isAxiosError } from '@app/utils/axios';
 import {
   BaseModalProps,
@@ -105,7 +106,9 @@ const ConsumerGroupResetOffset: React.FC<
     return tableRow;
   };
 
-  const getTopics = (consumerGroupDetail: ConsumerGroupResetOffsetProps['consumerGroupData']) => {
+  const getTopics = (
+    consumerGroupDetail: ConsumerGroupResetOffsetProps['consumerGroupData']
+  ) => {
     const topics = (consumerGroupDetail?.consumers || []).map(
       (consumer) => consumer.topic
     );
@@ -176,7 +179,9 @@ const ConsumerGroupResetOffset: React.FC<
     setSelectedTopic(value);
   };
 
-  const onOffsetSelect: IDropdownWithToggleProps['onSelectOption'] = (value) => {
+  const onOffsetSelect: IDropdownWithToggleProps['onSelectOption'] = (
+    value
+  ) => {
     setOffset(value as ConsumerGroupResetOffsetParametersOffsetEnum);
   };
 

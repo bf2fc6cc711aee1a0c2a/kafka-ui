@@ -26,58 +26,58 @@ const ConsumerGroupDetail: React.FunctionComponent<
 
   const columns = consumerGroupByTopic
     ? [
-      {
-        title: t('consumerGroup.partition'),
-        transforms: [wrappable, cellWidth(20)],
-      },
-      {
-        title: t('consumerGroup.consumer_id'),
-        transforms: [wrappable, cellWidth(20)],
-      },
-      {
-        title: t('consumerGroup.current_offset'),
-        transforms: [wrappable, cellWidth(20)],
-      },
-      {
-        title: t('consumerGroup.log_end_offset'),
-        transforms: [wrappable, cellWidth(20)],
-      },
-      {
-        title: t('consumerGroup.offset_lag'),
-        transforms: [wrappable, cellWidth(20)],
-      },
-      {
-        title: '',
-        dataLabel: t('common.action'),
-      },
-    ]
+        {
+          title: t('consumerGroup.partition'),
+          transforms: [wrappable, cellWidth(20)],
+        },
+        {
+          title: t('consumerGroup.consumer_id'),
+          transforms: [wrappable, cellWidth(20)],
+        },
+        {
+          title: t('consumerGroup.current_offset'),
+          transforms: [wrappable, cellWidth(20)],
+        },
+        {
+          title: t('consumerGroup.log_end_offset'),
+          transforms: [wrappable, cellWidth(20)],
+        },
+        {
+          title: t('consumerGroup.offset_lag'),
+          transforms: [wrappable, cellWidth(20)],
+        },
+        {
+          title: '',
+          dataLabel: t('common.action'),
+        },
+      ]
     : [
-      { title: t('topic.topic'), transforms: [wrappable, cellWidth(20)] },
-      {
-        title: t('consumerGroup.partition'),
-        transforms: [wrappable, cellWidth(20)],
-      },
-      {
-        title: t('consumerGroup.consumer_id'),
-        transforms: [wrappable, cellWidth(20)],
-      },
-      {
-        title: t('consumerGroup.current_offset'),
-        transforms: [wrappable, cellWidth(20)],
-      },
-      {
-        title: t('consumerGroup.log_end_offset'),
-        transforms: [wrappable, cellWidth(20)],
-      },
-      {
-        title: t('consumerGroup.offset_lag'),
-        transforms: [wrappable, cellWidth(20)],
-      },
-      {
-        title: '',
-        dataLabel: t('common.action'),
-      },
-    ];
+        { title: t('topic.topic'), transforms: [wrappable, cellWidth(20)] },
+        {
+          title: t('consumerGroup.partition'),
+          transforms: [wrappable, cellWidth(20)],
+        },
+        {
+          title: t('consumerGroup.consumer_id'),
+          transforms: [wrappable, cellWidth(20)],
+        },
+        {
+          title: t('consumerGroup.current_offset'),
+          transforms: [wrappable, cellWidth(20)],
+        },
+        {
+          title: t('consumerGroup.log_end_offset'),
+          transforms: [wrappable, cellWidth(20)],
+        },
+        {
+          title: t('consumerGroup.offset_lag'),
+          transforms: [wrappable, cellWidth(20)],
+        },
+        {
+          title: '',
+          dataLabel: t('common.action'),
+        },
+      ];
 
   const getRows = () => {
     return (
@@ -85,32 +85,32 @@ const ConsumerGroupDetail: React.FunctionComponent<
         consumerGroupDetail.consumers.map((consumergroup) =>
           consumerGroupByTopic
             ? [
-              consumergroup.partition,
-              {
-                title: consumergroup.memberId ? (
-                  consumergroup.groupId + '\n' + consumergroup.memberId
-                ) : (
-                  <i>{t('consumerGroup.unassigned')}</i>
-                ),
-              },
-              consumergroup.offset,
-              consumergroup.logEndOffset,
-              consumergroup.lag,
-            ]
+                consumergroup.partition,
+                {
+                  title: consumergroup.memberId ? (
+                    consumergroup.groupId + '\n' + consumergroup.memberId
+                  ) : (
+                    <i>{t('consumerGroup.unassigned')}</i>
+                  ),
+                },
+                consumergroup.offset,
+                consumergroup.logEndOffset,
+                consumergroup.lag,
+              ]
             : [
-              consumergroup.topic,
-              consumergroup.partition,
-              {
-                title: consumergroup.memberId ? (
-                  consumergroup.groupId + '\n' + consumergroup.memberId
-                ) : (
-                  <i>{t('consumerGroup.unassigned')}</i>
-                ),
-              },
-              consumergroup.offset,
-              consumergroup.logEndOffset,
-              consumergroup.lag,
-            ]
+                consumergroup.topic,
+                consumergroup.partition,
+                {
+                  title: consumergroup.memberId ? (
+                    consumergroup.groupId + '\n' + consumergroup.memberId
+                  ) : (
+                    <i>{t('consumerGroup.unassigned')}</i>
+                  ),
+                },
+                consumergroup.offset,
+                consumergroup.logEndOffset,
+                consumergroup.lag,
+              ]
         )) ||
       []
     );
@@ -154,7 +154,11 @@ const ConsumerGroupDetail: React.FunctionComponent<
             <Text component={TextVariants.h4}>{t('consumerGroup.state')}</Text>
             <Text component={TextVariants.p}>
               <Text component={TextVariants.h2}>
-                {ConsumerGroupState[consumerGroupDetail?.state as keyof typeof ConsumerGroupState]}
+                {
+                  ConsumerGroupState[
+                    consumerGroupDetail?.state as keyof typeof ConsumerGroupState
+                  ]
+                }
               </Text>
             </Text>
           </FlexItem>

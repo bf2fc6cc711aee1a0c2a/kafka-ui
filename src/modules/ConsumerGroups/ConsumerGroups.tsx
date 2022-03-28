@@ -1,4 +1,11 @@
-import React, { useContext, useState, useEffect, lazy, Suspense, useCallback } from "react";
+import React, {
+  useContext,
+  useState,
+  useEffect,
+  lazy,
+  Suspense,
+  useCallback,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { PageSection, PageSectionVariants } from '@patternfly/react-core';
 import {
@@ -13,7 +20,7 @@ import { ConfigContext } from '@app/contexts';
 import { ConsumerGroupList, ConsumerGroup } from '@rhoas/kafka-instance-sdk';
 import { useTimeout } from '@app/hooks/useTimeOut';
 import { ISortBy, OnSort, SortByDirection } from '@patternfly/react-table';
-import { ConsumerGroupsTableProps } from "@app/modules/ConsumerGroups/components";
+import { ConsumerGroupsTableProps } from '@app/modules/ConsumerGroups/components';
 
 const ConsumerGroupDetail = lazy(
   () => import('./components/ConsumerGroupDetail/ConsumerGroupDetail')
@@ -105,7 +112,9 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
     setIsExpanded(false);
   };
 
-  const onViewConsumerGroup: ConsumerGroupsTableProps['onViewConsumerGroup'] = (consumerGroup) => {
+  const onViewConsumerGroup: ConsumerGroupsTableProps['onViewConsumerGroup'] = (
+    consumerGroup
+  ) => {
     setIsExpanded(true);
     setGroupId(consumerGroup?.groupId);
     setConsumerGroupDetail(consumerGroup);
