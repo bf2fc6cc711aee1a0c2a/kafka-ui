@@ -1,6 +1,6 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { render, RenderResult } from '@testing-library/react';
-import { StepTopicName, StepTopicNameProps } from '.';
+import { StepTopicName, StepTopicNameProps } from './StepTopicName';
 
 const setup = () => {
   const topicNameProps: StepTopicNameProps = {

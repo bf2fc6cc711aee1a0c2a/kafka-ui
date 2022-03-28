@@ -7,6 +7,7 @@ import {
   Select,
   SelectGroup,
   SelectOption,
+  SelectProps,
   SelectVariant,
   ValidatedOptions,
 } from '@patternfly/react-core';
@@ -28,7 +29,7 @@ export const SelectAccount: React.VFC<SelectAccountProps> = ({
   const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const onToggle = (newState) => {
+  const onToggle: SelectProps['onToggle'] = (newState) => {
     if (newState) {
       setEscapeClosesModal(false);
     } else {
@@ -42,15 +43,14 @@ export const SelectAccount: React.VFC<SelectAccountProps> = ({
     setIsOpen(false);
   };
 
-  const onSelect = (event, selection, isPlaceholder) => {
-    if (selection === '') selection = undefined;
+  const onSelect: SelectProps['onSelect'] = (_, selection, isPlaceholder) => {
     if (isPlaceholder) {
       clearSelection();
     } else {
       setId(() => {
-        if (selection === undefined) {
+        if (selection === '') {
           return {
-            value: selection,
+            value: selection as string,
             validated: ValidatedOptions.error,
             errorMessage: t(
               'permission.manage_permissions_dialog.must_select_account_error'
@@ -59,7 +59,7 @@ export const SelectAccount: React.VFC<SelectAccountProps> = ({
         } else {
           return {
             validated: ValidatedOptions.default,
-            value: selection,
+            value: selection as string,
           };
         }
       });
@@ -129,7 +129,7 @@ export const SelectAccount: React.VFC<SelectAccountProps> = ({
     </SelectGroup>,
   ];
 
-  const customFilter = (_, value: string) => {
+  const customFilter: SelectProps['onFilter'] = (_, value) => {
     if (!value) {
       return options;
     }
@@ -139,7 +139,7 @@ export const SelectAccount: React.VFC<SelectAccountProps> = ({
       .filter((accounts) => Array.isArray(accounts.props.children))
       .map((account) =>
         account.props.children.filter(
-          (allAccounts) =>
+          (allAccounts: any) =>
             input.test(allAccounts.props.value) ||
             input.test(allAccounts.props.description)
         )

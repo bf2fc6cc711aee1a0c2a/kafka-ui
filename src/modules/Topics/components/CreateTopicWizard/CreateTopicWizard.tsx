@@ -10,6 +10,7 @@ import {
   WizardStep,
 } from '@patternfly/react-core';
 import {
+  IWizardFooter,
   StepMessageRetention,
   StepPartitions,
   StepReplicas,
@@ -108,7 +109,7 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
       });
   };
 
-  const fetchTopic = async (topicName, onNext) => {
+  const fetchTopic = async (topicName: string, onNext: () => void) => {
     try {
       const topicRes = await getTopic(topicName, config);
       if (topicRes) {
@@ -168,7 +169,7 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
 
   const title = t('topic.wizard_title');
 
-  const onValidate = (onNext) => {
+  const onValidate: IWizardFooter['onValidate'] = (onNext) => {
     if (topicData?.name.length < 1) {
       setInvalidText(t('topic.required'));
       setTopicNameValidated('error');

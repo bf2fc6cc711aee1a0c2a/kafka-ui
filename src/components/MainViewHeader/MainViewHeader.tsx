@@ -13,6 +13,7 @@ import {
   PageSectionVariants,
   Tab,
   Tabs,
+  TabsProps,
   TabTitleText,
   Title,
 } from '@patternfly/react-core';
@@ -43,7 +44,7 @@ const MainViewHeader: React.FC<MainViewHeaderProps> = ({ activeTabKey }) => {
     setIsOpen(isOpen);
   };
 
-  const onSelectTab = (_, tabKey: string | number) => {
+  const onSelectTab: TabsProps['onSelect'] = (_, tabKey: string | number) => {
     let redirectPath;
     switch (tabKey) {
       case 1:

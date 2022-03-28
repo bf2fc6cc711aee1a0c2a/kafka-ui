@@ -6,6 +6,7 @@ import {
   ValidatedOptions,
   Select as PFSelect,
   SelectOption as PFSelectOption,
+  SelectProps,
 } from '@patternfly/react-core';
 import { Validated } from '@app/modules/Permissions/components/ManagePermissionsDialog/validated';
 import { FormGroupWithPopover } from '@app/components';
@@ -52,7 +53,7 @@ export const CreateTypeahead: React.VFC<CreateTypeaheadProps> = ({
     );
   }, [initialOptions]);
 
-  const onToggle = (newState) => {
+  const onToggle: SelectProps['onToggle'] = (newState) => {
     if (newState) {
       setEscapeClosesModal(false);
     } else {
@@ -66,13 +67,13 @@ export const CreateTypeahead: React.VFC<CreateTypeaheadProps> = ({
     setIsOpen(false);
   };
 
-  const select = (event, selection, isPlaceholder) => {
-    if (selection === '') selection = undefined;
+  const select: SelectProps['onSelect'] = (_, selection, isPlaceholder) => {
+    const value = selection === '' ? undefined : (selection as string);
     if (isPlaceholder) clearSelection();
     else {
-      setValue(row, selection, childRow);
+      setValue(row, value, childRow);
       setIsOpen(false);
-      onSelect(selection);
+      onSelect(value || '');
     }
   };
 

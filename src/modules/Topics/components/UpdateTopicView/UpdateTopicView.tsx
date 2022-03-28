@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AlertVariant } from '@patternfly/react-core';
@@ -51,51 +51,54 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
   const [topicData, setTopicData] = useState<IAdvancedTopic>(initialState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const onCancelUpdateTopic = () => {
+  const onCancelUpdateTopic = useCallback(() => {
     history.push(`${basename}/topics/${topicName}`);
-  };
+  }, [basename, history, topicName]);
 
-  const fetchTopic = async (topicName) => {
-    try {
-      await getTopic(topicName, config).then((topicRes) => {
-        const deserializedTopic = deserializeTopic(topicRes);
+  const fetchTopic = useCallback(
+    async (topicName: string) => {
+      try {
+        await getTopic(topicName, config).then((topicRes) => {
+          const deserializedTopic = deserializeTopic(topicRes);
 
-        setTopicData({
-          ...topicData,
-          ...deserializedTopic,
-          numPartitions: topicRes?.partitions?.length.toString() || '',
-          replicationFactor:
-            (topicRes?.partitions &&
-              topicRes?.partitions[0].replicas?.length.toString()) ||
-            '',
-        });
-      });
-    } catch (err) {
-      if (isAxiosError(err)) {
-        let message: string | undefined;
-        let code: number | undefined;
-        if (err && isAxiosError(err)) {
-          code = err.response?.data.code;
-          message = err.response?.data.error_message;
-        }
-        if (onError) {
-          onError(code || -1, message || '');
-        }
-        if (err.response?.status === 404) {
-          // then it's a non-existent topic
-          addAlert({
-            variant: AlertVariant.danger,
-            title: `Topic ${topicName} does not exist`,
+          setTopicData({
+            ...topicData,
+            ...deserializedTopic,
+            numPartitions: topicRes?.partitions?.length.toString() || '',
+            replicationFactor:
+              (topicRes?.partitions &&
+                topicRes?.partitions[0].replicas?.length.toString()) ||
+              '',
           });
-          onCancelUpdateTopic && onCancelUpdateTopic();
+        });
+      } catch (err) {
+        if (isAxiosError(err)) {
+          let message: string | undefined;
+          let code: number | undefined;
+          if (err && isAxiosError(err)) {
+            code = err.response?.data.code;
+            message = err.response?.data.error_message;
+          }
+          if (onError) {
+            onError(code || -1, message || '');
+          }
+          if (err.response?.status === 404) {
+            // then it's a non-existent topic
+            addAlert({
+              variant: AlertVariant.danger,
+              title: `Topic ${topicName} does not exist`,
+            });
+            onCancelUpdateTopic && onCancelUpdateTopic();
+          }
         }
       }
-    }
-  };
+    },
+    [addAlert, config, onCancelUpdateTopic, onError, topicData]
+  );
 
   useEffect(() => {
     fetchTopic(topicName);
-  }, [topicName]);
+  }, [fetchTopic, topicName]);
 
   const saveTopic = async () => {
     const { name, settings } = serializeTopic(topicData, ['cleanup.policy']);

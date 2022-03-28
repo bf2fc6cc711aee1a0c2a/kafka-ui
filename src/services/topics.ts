@@ -68,8 +68,9 @@ const convertTopicResponse = (topic: Topic): IAdvancedTopic => {
   if (topic && topic.name) topicObj.name = topic.name;
 
   topic.config?.forEach((config) => {
-    if (config.key) {
-      topicObj[config.key] = config.value;
+    if (config.key && config.value) {
+      const key = config.key as keyof IAdvancedTopic;
+      topicObj[key] = config.value;
     }
   });
 

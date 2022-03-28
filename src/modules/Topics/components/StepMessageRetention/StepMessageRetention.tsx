@@ -15,10 +15,10 @@ import {
   IAdvancedTopic,
   RetentionTimeUnits,
   RetentionSizeUnits,
-  unitsToBytes as RetentionSizeUnitToValue,
   RetentionTimeUnitToValue,
   retentionTimeSelectOptions,
   retentionSizeSelectOptions,
+  unitsToBytes,
 } from '@app/modules/Topics/utils';
 import '../CreateTopicWizard/CreateTopicWizard.css';
 
@@ -38,26 +38,26 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
   const [isRetentionSizeSelectOpen, setIsRetentionSizeSelectOpen] =
     useState<boolean>(false);
 
-  const handleRetentionMessageTime = (value: string) => {
+  const handleRetentionMessageTime = (value: RetentionTimeUnits) => {
     setTopicData({
       ...topicData,
       'retention.ms':
         value === RetentionTimeUnits.UNLIMITED ||
         value === RetentionTimeUnits.CUSTOM
           ? topicData['retention.ms']
-          : RetentionTimeUnitToValue[value],
+          : `${RetentionTimeUnitToValue[value]}`,
       selectedRetentionTimeOption: value,
     });
   };
 
-  const handleRetentionMessageSize = (value: string) => {
+  const handleRetentionMessageSize = (value: RetentionSizeUnits) => {
     setTopicData({
       ...topicData,
       'retention.bytes':
         value === RetentionSizeUnits.UNLIMITED ||
         value === RetentionSizeUnits.CUSTOM
           ? topicData['retention.bytes']
-          : RetentionSizeUnitToValue[value],
+          : `${unitsToBytes[value]}`,
       selectedRetentionSizeOption: value,
     });
   };
@@ -70,11 +70,9 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
     setIsRetentionSizeSelectOpen(isOpen);
   };
 
-  const preventFormSubmit = (event) => event.preventDefault();
-
   return (
     <>
-      <Form onSubmit={preventFormSubmit}>
+      <Form onSubmit={(event) => event.preventDefault()}>
         <FormSection
           title={t('topic.message_retention')}
           id='message-retention'

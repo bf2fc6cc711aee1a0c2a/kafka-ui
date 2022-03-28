@@ -7,6 +7,7 @@ import {
   ModalVariant,
   Text,
   TextInput,
+  TextInputProps,
 } from '@patternfly/react-core';
 import { deleteTopic } from '@app/services';
 import { ConfigContext } from '@app/contexts';
@@ -64,7 +65,7 @@ const DeleteTopic: React.FC<DeleteTopicProps & BaseModalProps> = ({
     onClose();
   };
 
-  const handleVerificationTextChange = (value) => {
+  const handleVerificationTextChange: TextInputProps['onChange'] = (value) => {
     setVerificationText(value);
   };
 

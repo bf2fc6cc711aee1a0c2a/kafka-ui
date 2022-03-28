@@ -44,25 +44,25 @@ export enum RetentionSizeUnits {
 }
 
 export const unitsToBytes = {
-  bytes: 1,
-  kibibytes: 1024,
-  mebibytes: 1048576,
-  gibibytes: 1073741824,
-  tebibytes: 1.0995116e12,
+  [RetentionSizeUnits.BYTE]: 1,
+  [RetentionSizeUnits.KIBIBYTE]: 1024,
+  [RetentionSizeUnits.MEBIBYTE]: 1048576,
+  [RetentionSizeUnits.GIBIBYTE]: 1073741824,
+  [RetentionSizeUnits.TEBIBYTE]: 1.0995116e12,
 };
 
 export const unitsToMilliSecond = {
-  milliseconds: 1,
-  seconds: 1000,
-  minutes: 60000,
-  hours: 3600000,
-  days: 86400000,
+  [RetentionTimeUnits.MILLISECOND]: 1,
+  [RetentionTimeUnits.SECOND]: 1000,
+  [RetentionTimeUnits.MINUTE]: 60000,
+  [RetentionTimeUnits.HOUR]: 3600000,
+  [RetentionTimeUnits.DAY]: 86400000,
 };
 
 export const RetentionTimeUnitToValue = {
   ...unitsToMilliSecond,
-  day: 1,
-  weeks: 7,
+  [RetentionTimeUnits.DAY]: 1,
+  [RetentionTimeUnits.WEEK]: 7,
 };
 
 type ConversionUnit = {
@@ -72,8 +72,8 @@ type ConversionUnit = {
 
 export const millisecondsToTime = (value: number): ConversionUnit => {
   if (value) {
-    if (value % unitsToMilliSecond.days == 0)
-      return { value: value / unitsToMilliSecond.days, unit: 'days' };
+    if (value % unitsToMilliSecond.day == 0)
+      return { value: value / unitsToMilliSecond.day, unit: 'days' };
     if (value % unitsToMilliSecond.hours == 0)
       return { value: value / unitsToMilliSecond.hours, unit: 'hours' };
     if (value % unitsToMilliSecond.minutes == 0)
@@ -117,16 +117,16 @@ export type KeyValue = {
   value: number;
 };
 
-export const deserializeTopic = (topic: Topic): ConfigEntry => {
+export const deserializeTopic = (topic: Topic): IAdvancedTopic => {
   const newTopic = { ...topic };
-  const configEntries: ConfigEntry = {};
+  const configEntries: Partial<IAdvancedTopic> = {};
 
   newTopic?.config?.forEach((e: ConfigEntry) => {
     const { key = '', value } = e;
 
     if (key === 'retention.ms' && Number(value) >= 0) {
       const { value: newValue, unit } = millisecondsToTime(Number(value));
-      configEntries[key] = newValue;
+      configEntries[key] = `${newValue}`;
       configEntries[`${key}.unit`] = unit;
       configEntries['selectedRetentionTimeOption'] = RetentionTimeUnits.CUSTOM;
     } else if (key === 'retention.ms' && Number(value) === -1) {
@@ -136,7 +136,7 @@ export const deserializeTopic = (topic: Topic): ConfigEntry => {
 
     if (key === 'retention.bytes' && Number(value) >= 0) {
       const { value: newValue, unit } = bytesToMemorySize(Number(value));
-      configEntries[key] = newValue;
+      configEntries[key] = `${newValue}`;
       configEntries[`${key}.unit`] = unit;
       configEntries['selectedRetentionSizeOption'] = RetentionSizeUnits.CUSTOM;
     } else if (key === 'retention.bytes' && Number(value) === -1) {
@@ -149,7 +149,7 @@ export const deserializeTopic = (topic: Topic): ConfigEntry => {
     }
   });
 
-  return configEntries;
+  return configEntries as IAdvancedTopic;
 };
 
 export const serializeTopic = (
@@ -168,12 +168,13 @@ export const serializeTopic = (
     'selectedRetentionTimeOption',
     'selectedRetentionSizeOption',
   ];
-  const topic = { ...topicData };
+  const topic: IAdvancedTopic = { ...topicData };
   const config: ConfigEntry[] = [];
 
-  for (const key in topic) {
+  for (const _key in topic) {
+    const key = _key as keyof IAdvancedTopic;
     let value;
-    //check key exist in include config proerties and add properties in config object
+    //check key exist in include config properties and add properties in config object
     if (configProperties.includes(key)) {
       //check unlimited retention time and size and set -1 value
       if (
@@ -184,11 +185,15 @@ export const serializeTopic = (
       ) {
         value = '-1';
       } else if (key === 'retention.ms' || key === 'retention.bytes') {
+        const topicUnitMs = (topic[`${key}.unit`] ||
+          'milliseconds') as keyof typeof unitsToMilliSecond;
+        const topicUnitByte = (topic[`${key}.unit`] ||
+          'bytes') as keyof typeof unitsToBytes;
         //calculate value based on entered value * selected unit
         const unit =
           key === 'retention.ms'
-            ? unitsToMilliSecond[topic[`${key}.unit`] || 'milliseconds']
-            : unitsToBytes[topic[`${key}.unit`] || 'bytes'];
+            ? unitsToMilliSecond[topicUnitMs]
+            : unitsToBytes[topicUnitByte];
         value = Number(topic[key]) * unit;
       } else {
         value = topic[key];

@@ -12,7 +12,7 @@ import { TableVariant, wrappable, cellWidth } from '@patternfly/react-table';
 import { ConsumerGroup } from '@rhoas/kafka-instance-sdk';
 import { MASTable } from '@app/components';
 import { ConsumerGroupPopover } from '@app/modules/ConsumerGroups/components';
-import { State } from '@app/modules/ConsumerGroups/components/utils';
+import { ConsumerGroupState } from '../ConsumerGroupState';
 
 export type ConsumerGroupDetailProps = {
   consumerGroupDetail: ConsumerGroup | undefined;
@@ -154,7 +154,11 @@ const ConsumerGroupDetail: React.FunctionComponent<
             <Text component={TextVariants.h4}>{t('consumerGroup.state')}</Text>
             <Text component={TextVariants.p}>
               <Text component={TextVariants.h2}>
-                {State[consumerGroupDetail?.state]}
+                {
+                  ConsumerGroupState[
+                    consumerGroupDetail?.state as keyof typeof ConsumerGroupState
+                  ]
+                }
               </Text>
             </Text>
           </FlexItem>

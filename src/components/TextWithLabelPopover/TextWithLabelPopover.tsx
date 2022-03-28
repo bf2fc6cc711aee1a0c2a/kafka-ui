@@ -30,8 +30,6 @@ export const TextWithLabelPopover: React.FC<TextWithLabelPopoverProps> = ({
   popoverHeader,
   showUnlimited,
 }) => {
-  const preventButtonSubmit = (event) => event.preventDefault();
-
   let displayText = '-';
 
   if (
@@ -56,7 +54,7 @@ export const TextWithLabelPopover: React.FC<TextWithLabelPopoverProps> = ({
         >
           <button
             aria-label={btnAriaLabel}
-            onClick={preventButtonSubmit}
+            onClick={(event) => event.preventDefault()}
             className='pf-c-form__group-label-help'
           >
             <HelpIcon noVerticalAlign />

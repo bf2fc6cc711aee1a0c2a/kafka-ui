@@ -38,9 +38,13 @@ const OperationCell: React.VFC<OperationCellProps> = ({
     setAcls((prevState) =>
       prevState.map((v, k) => {
         if (k === row) {
-          if (Array.isArray(v) && childRow !== undefined)
-            v[childRow].operation = { value };
-          else v.operation = { value };
+          if (Array.isArray(v)) {
+            if (childRow !== undefined) {
+              v[childRow].operation = { value };
+            }
+          } else {
+            v.operation = { value };
+          }
         }
         return v;
       })

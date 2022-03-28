@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Form,
@@ -35,29 +35,30 @@ export const StepTopicName: React.FC<StepTopicNameProps> = ({
 
   const topicNameInput = topicData && topicData.name;
 
+  const validationCheck = useCallback(
+    (inputValue: string) => {
+      const errorMessage = validateName(inputValue);
+      if (errorMessage) {
+        setInvalidText(errorMessage);
+        setTopicNameValidated('error');
+      } else {
+        setTopicNameValidated('default');
+      }
+    },
+    [setInvalidText, setTopicNameValidated, validateName]
+  );
+
   useEffect(() => {
     validationCheck(topicNameInput);
-  }, [topicData.name]);
+  }, [topicData.name, topicNameInput, validationCheck]);
 
-  const validationCheck = (inputValue: string) => {
-    const errorMessage = validateName(inputValue);
-    if (errorMessage) {
-      setInvalidText(errorMessage);
-      setTopicNameValidated('error');
-    } else {
-      setTopicNameValidated('default');
-    }
-  };
-
-  const handleTopicNameChange = (value) => {
+  const handleTopicNameChange = (value: string) => {
     validationCheck(value);
     setTopicData({ ...topicData, name: value });
   };
 
-  const preventFormSubmit = (event) => event.preventDefault();
-
   return (
-    <Form onSubmit={preventFormSubmit}>
+    <Form onSubmit={(event) => event.preventDefault()}>
       <FormSection
         title={t('topic.topic_name')}
         id='topic-name'

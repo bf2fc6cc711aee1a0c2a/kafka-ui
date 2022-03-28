@@ -31,6 +31,7 @@ import { consumerGroupResetOffset } from '@app/services';
 import {
   DropdownWithToggle,
   IDropdownOption,
+  IDropdownWithToggleProps,
 } from '@app/components/DropdownWithToggle';
 import { isAxiosError } from '@app/utils/axios';
 import {
@@ -105,8 +106,10 @@ const ConsumerGroupResetOffset: React.FC<
     return tableRow;
   };
 
-  const getTopics = (consumerGroupDetail) => {
-    const topics = consumerGroupDetail.consumers.map(
+  const getTopics = (
+    consumerGroupDetail: ConsumerGroupResetOffsetProps['consumerGroupData']
+  ) => {
+    const topics = (consumerGroupDetail?.consumers || []).map(
       (consumer) => consumer.topic
     );
     const distinctTopics = topics.filter(
@@ -144,7 +147,7 @@ const ConsumerGroupResetOffset: React.FC<
         (consumer) => consumer.topic === selectedTopic
       );
     setConsumers(filteredConsumers || []);
-  }, [selectedTopic]);
+  }, [consumerGroupData, selectedTopic]);
 
   useEffect(() => {
     consumerGroupData?.state &&
@@ -156,10 +159,7 @@ const ConsumerGroupResetOffset: React.FC<
   };
 
   const getIsDisconnected = (state: string) => {
-    if (state === ConsumerGroupStateEnum.Stable) {
-      return false;
-    }
-    return true;
+    return state !== ConsumerGroupStateEnum.Stable;
   };
 
   const onClose = () => {
@@ -175,12 +175,14 @@ const ConsumerGroupResetOffset: React.FC<
     t('consumerGroup.new_offset'),
   ];
 
-  const onTopicSelect = (_: string, event) => {
-    setSelectedTopic(event.currentTarget.textContent);
+  const onTopicSelect: IDropdownWithToggleProps['onSelectOption'] = (value) => {
+    setSelectedTopic(value);
   };
 
-  const onOffsetSlect = (_: string, event) => {
-    setOffset(event.currentTarget.textContent);
+  const onOffsetSelect: IDropdownWithToggleProps['onSelectOption'] = (
+    value
+  ) => {
+    setOffset(value as ConsumerGroupResetOffsetParametersOffsetEnum);
   };
 
   const handleConsumerGroupResetOffset = async () => {
@@ -308,7 +310,7 @@ const ConsumerGroupResetOffset: React.FC<
                   id='offset-dropdown'
                   toggleId='offset-dropdowntoggle'
                   ariaLabel='offset-select-dropdown'
-                  onSelectOption={onOffsetSlect}
+                  onSelectOption={onOffsetSelect}
                   items={offsetOptions}
                   name='offset-dropdown'
                   value={selectedOffset ? selectedOffset : t('common.select')}

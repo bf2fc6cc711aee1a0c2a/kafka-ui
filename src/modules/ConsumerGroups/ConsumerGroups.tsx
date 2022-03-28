@@ -1,4 +1,11 @@
-import React, { useContext, useState, useEffect, lazy, Suspense } from 'react';
+import React, {
+  useContext,
+  useState,
+  useEffect,
+  lazy,
+  Suspense,
+  useCallback,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { PageSection, PageSectionVariants } from '@patternfly/react-core';
 import {
@@ -13,6 +20,7 @@ import { ConfigContext } from '@app/contexts';
 import { ConsumerGroupList, ConsumerGroup } from '@rhoas/kafka-instance-sdk';
 import { useTimeout } from '@app/hooks/useTimeOut';
 import { ISortBy, OnSort, SortByDirection } from '@patternfly/react-table';
+import { ConsumerGroupsTableProps } from '@app/modules/ConsumerGroups/components';
 
 const ConsumerGroupDetail = lazy(
   () => import('./components/ConsumerGroupDetail/ConsumerGroupDetail')
@@ -60,7 +68,7 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
     setSortBy({ index, direction });
   };
 
-  const fetchConsumerGroups = async () => {
+  const fetchConsumerGroups = useCallback(async () => {
     const limit = 100;
     await getConsumerGroups(
       config,
@@ -75,11 +83,11 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
     ).then((response) => {
       setConsumerGroups(response);
     });
-  };
+  }, [config, offset, order, orderKey, page, perPage, search, topic]);
 
   useEffect(() => {
     fetchConsumerGroups();
-  }, [search, order]);
+  }, [search, order, fetchConsumerGroups]);
 
   useEffect(() => {
     //update setConsumerGroupDetail state after reset offset value
@@ -89,7 +97,7 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
       consumerGroups.items?.filter((g) => g.groupId === groupId);
     if (filteredGroup && filteredGroup.length > 0)
       setConsumerGroupDetail(filteredGroup[0]);
-  }, [consumerGroups]);
+  }, [consumerGroups, groupId]);
 
   useTimeout(() => fetchConsumerGroups(), 5000);
 
@@ -104,7 +112,9 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
     setIsExpanded(false);
   };
 
-  const onViewConsumerGroup = (consumerGroup) => {
+  const onViewConsumerGroup: ConsumerGroupsTableProps['onViewConsumerGroup'] = (
+    consumerGroup
+  ) => {
     setIsExpanded(true);
     setGroupId(consumerGroup?.groupId);
     setConsumerGroupDetail(consumerGroup);

@@ -8,6 +8,7 @@ import {
   FormGroup,
   Form,
   FormSection,
+  NumberInputProps,
 } from '@patternfly/react-core';
 import '../CreateTopicWizard/CreateTopicWizard.css';
 import { MIN_PARTITIONS, MAX_PARTITIONS } from '@app/constant';
@@ -38,8 +39,10 @@ export const StepPartitions: React.FC<StepPartitionsProps> = ({
     });
   };
 
-  const handlePartitionTouchspinChange = (event) => {
-    let num = Number(event.target.value);
+  const handlePartitionTouchspinChange: NumberInputProps['onChange'] = (
+    event
+  ) => {
+    let num = Number((event.target as HTMLInputElement).value);
     if (num < MIN_PARTITIONS) {
       num = MIN_PARTITIONS;
     } else if (num > MAX_PARTITIONS) {

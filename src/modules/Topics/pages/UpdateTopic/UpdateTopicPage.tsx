@@ -9,6 +9,7 @@ import {
   PageSection,
   PageSectionVariants,
   TabContent,
+  TabsProps,
 } from '@patternfly/react-core';
 import { ConsumerGroups } from '@app/modules/ConsumerGroups';
 import {
@@ -44,8 +45,8 @@ export const UpdateTopicPage: React.FunctionComponent = () => {
     history.push(`${basename}/topics/${topicName}`);
   };
 
-  const handleTabClick = (event, tabIndex) => {
-    setActiveTabKey(tabIndex);
+  const handleTabClick: TabsProps['onSelect'] = (_, tabIndex) => {
+    setActiveTabKey(tabIndex as number);
   };
 
   return (
@@ -96,7 +97,7 @@ export const UpdateTopicPage: React.FunctionComponent = () => {
           ref={contentRefConsumerGroup}
           className='kafka-ui-m-full-height'
           aria-label='Consumer groups.'
-          hidden={activeTab !== 0 ? true : false}
+          hidden={activeTab !== 0}
         >
           <ConsumerGroups topic={topicName} consumerGroupByTopic={true} />
         </TabContent>
@@ -106,7 +107,7 @@ export const UpdateTopicPage: React.FunctionComponent = () => {
           ref={contentRefProperties}
           className='kafka-ui-m-full-height'
           aria-label='Topic properties'
-          hidden={activeTab !== 1 ? true : false}
+          hidden={activeTab !== 1}
         >
           <UpdateTopicView
             topicName={topicName}

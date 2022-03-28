@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ValidatedOptions } from '@patternfly/react-core';
 
 import { AclResourceType } from '@rhoas/kafka-instance-sdk';
 import {
@@ -52,17 +51,15 @@ const ResourceType: React.VFC<ResourceTypeProps> = ({
     );
   }
 
-  const setResourceType = (
-    row: number,
-    value?: AclResourceType,
-    childRow?: number
-  ) => {
+  const setResourceType = (row: number, value?: AclResourceType) => {
     setAcls((prevState) =>
       prevState.map((v, k) => {
         if (k === row) {
-          if (Array.isArray(v) && childRow !== undefined)
-            v[row][childRow].resourceType = { value };
-          else v.resourceType = { value };
+          if (Array.isArray(v)) {
+            v[row].resourceType = { value };
+          } else {
+            v.resourceType = { value };
+          }
         }
         return v;
       })
@@ -91,12 +88,14 @@ const ResourceType: React.VFC<ResourceTypeProps> = ({
         setAcls((prevState) => {
           const newPrevState = handle2DArrayAcls(prevState, row, childRow);
           if (value === undefined) {
-            newPrevState.validated = ValidatedOptions.error;
-            newPrevState.errorMessage = t(
-              'permission.manage_permissions_dialog.assign_permissions.must_select_resource_type_error'
-            );
+            // TS fix: not sure about this commented out area, it doesn't seem to be read anywhere
+            // newPrevState.validated = ValidatedOptions.error;
+            // newPrevState.errorMessage = t(
+            //   'permission.manage_permissions_dialog.assign_permissions.must_select_resource_type_error'
+            // );
           } else {
-            newPrevState.validated = ValidatedOptions.default;
+            // TS fix: not sure about this commented out area, it doesn't seem to be read anywhere
+            // newPrevState.validated = ValidatedOptions.default;
           }
           return update2DArrayAcls(prevState, newPrevState, row, childRow);
         });

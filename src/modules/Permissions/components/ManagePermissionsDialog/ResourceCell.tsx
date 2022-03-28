@@ -41,9 +41,13 @@ const ResourceCell: React.VFC<ResourceCellProps> = ({
     setAcls((prevState) =>
       prevState.map((v, k) => {
         if (k === row) {
-          if (Array.isArray(v) && childRow !== undefined)
-            v[childRow].resource = { value };
-          else v.resource = { value };
+          if (Array.isArray(v)) {
+            if (childRow !== undefined) {
+              v[childRow].resource = { value };
+            }
+          } else {
+            v.resource = { value };
+          }
         }
         return v;
       })
@@ -85,14 +89,16 @@ const ResourceCell: React.VFC<ResourceCellProps> = ({
           if (errorMessage !== undefined) {
             setAcls((prevState) => {
               const newPrevState = handle2DArrayAcls(prevState, row, childRow);
-              newPrevState.validated = ValidatedOptions.error;
-              newPrevState.errorMessage = errorMessage;
+              // TS fix: not sure about this commented out area, it doesn't seem to be read anywhere
+              // newPrevState.validated = ValidatedOptions.error;
+              // newPrevState.errorMessage = errorMessage;
               return update2DArrayAcls(prevState, newPrevState, row, childRow);
             });
           } else if (value !== undefined) {
             setAcls((prevState) => {
               const newPrevState = handle2DArrayAcls(prevState, row, childRow);
-              newPrevState.validated = ValidatedOptions.default;
+              // TS fix: not sure about this commented out area, it doesn't seem to be read anywhere
+              // newPrevState.validated = ValidatedOptions.default;
               return update2DArrayAcls(prevState, newPrevState, row, childRow);
             });
           }

@@ -3,25 +3,28 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { PaginationVariant } from '@patternfly/react-core';
 import {
-  TableVariant,
-  sortable,
   IRowData,
-  OnSort,
   ISortBy,
+  OnSort,
+  sortable,
+  TableVariant,
 } from '@patternfly/react-table';
-import { useBasename } from '@rhoas/app-services-ui-shared';
 import {
-  MASTable,
-  MASPagination,
+  ModalType,
+  useBasename,
+  useModal,
+} from '@rhoas/app-services-ui-shared';
+import {
   EmptyState,
   MASEmptyStateVariant,
+  MASPagination,
+  MASTable,
 } from '@app/components';
 import { Topic } from '@rhoas/kafka-instance-sdk';
 import { TopicsToolbar, TopicsToolbarProps } from './TopicsToolbar';
-import { ModalType, useModal } from '@rhoas/app-services-ui-shared';
 import {
-  formattedRetentionTime,
   formattedRetentionSize,
+  formattedRetentionTime,
 } from '@app/modules/Topics/utils';
 
 export type TopicsTableProps = TopicsToolbarProps & {
@@ -87,7 +90,7 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
 
   const actionResolver = (rowData: IRowData) => {
     const originalData: Topic = rowData.originalData;
-    const resolver = [
+    return [
       {
         title: t('common.delete'),
         ['data-testid']: 'tableTopics-actionDelete',
@@ -99,20 +102,19 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
         onClick: () => onSelectKebabDropdownOption(originalData, 'edit'),
       },
     ];
-    return resolver;
   };
 
   const preparedTableCells = () => {
     const tableRow: (IRowData | string[])[] | undefined = [];
-    topicItems?.map((row: IRowData) => {
-      const { name, partitions, config } = row;
-      const retentionTimeValue =
-        config?.filter((element) => element.key === 'retention.ms')[0]?.value ||
-        0;
+    topicItems?.map((topic) => {
+      const { name, partitions, config } = topic;
+      const retentionTimeValue = config?.filter(
+        (element) => element.key === 'retention.ms'
+      )[0]?.value;
 
-      const retentionSizeValue =
-        config?.filter((element) => element.key === 'retention.bytes')[0]
-          ?.value || 0;
+      const retentionSizeValue = config?.filter(
+        (element) => element.key === 'retention.bytes'
+      )[0]?.value;
 
       tableRow.push({
         cells: [
@@ -127,10 +129,14 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
             ),
           },
           partitions?.length,
-          formattedRetentionTime(retentionTimeValue),
-          formattedRetentionSize(retentionSizeValue),
+          formattedRetentionTime(
+            retentionTimeValue ? parseInt(retentionTimeValue, 10) : 0
+          ),
+          formattedRetentionSize(
+            retentionSizeValue ? parseInt(retentionSizeValue, 10) : 0
+          ),
         ],
-        originalData: row,
+        originalData: topic,
       });
     });
     return tableRow;

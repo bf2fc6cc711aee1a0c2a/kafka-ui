@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   FormSection,
@@ -68,38 +68,43 @@ const CoreConfiguration: React.FC<CoreConfigurationProps> = ({
   const [isRetentionSizeSelectOpen, setIsRetentionSizeSelectOpen] =
     useState<boolean>();
 
+  const validationCheck = useCallback(
+    (value: string) => {
+      const errorMessage = validateName(value);
+      if (errorMessage) {
+        setInvalidText(errorMessage);
+        setTopicValidated(ValidatedOptions.error);
+      } else {
+        setTopicValidated(ValidatedOptions.default);
+      }
+    },
+    [setInvalidText, setTopicValidated, validateName]
+  );
+
   //use effects
   useEffect(() => {
     if (!isCreate) {
       fetchTopic(topicData.name);
     }
     validationCheck(topicData.name);
-  }, []);
-
-  const validationCheck = (value: string) => {
-    const errorMessage = validateName(value);
-    if (errorMessage) {
-      setInvalidText(errorMessage);
-      setTopicValidated(ValidatedOptions.error);
-    } else {
-      setTopicValidated(ValidatedOptions.default);
-    }
-  };
+  }, [fetchTopic, isCreate, topicData.name, validationCheck]);
 
   const partitionsWarnigCheck = (operator: string) => {
-    let value;
+    let value: number | undefined;
     if (operator === '+') {
       value = Number(topicData.numPartitions) + 1;
     } else if (operator === '-') {
       value = Number(topicData.numPartitions) - 1;
     }
 
-    if (initialPartition && value > initialPartition) {
-      setPartitionsValidated(ValidatedOptions.warning);
-      setWarning(true);
-    } else {
-      setPartitionsValidated(ValidatedOptions.default);
-      setWarning(false);
+    if (value) {
+      if (initialPartition && value > initialPartition) {
+        setPartitionsValidated(ValidatedOptions.warning);
+        setWarning(true);
+      } else {
+        setPartitionsValidated(ValidatedOptions.default);
+        setWarning(false);
+      }
     }
   };
 
@@ -110,7 +115,11 @@ const CoreConfiguration: React.FC<CoreConfigurationProps> = ({
         value === RetentionSizeUnits.UNLIMITED ||
         value === RetentionSizeUnits.CUSTOM
           ? topicData['retention.bytes']
-          : RetentionSizeUnitToValue[value],
+          : `${
+              RetentionSizeUnitToValue[
+                value as keyof typeof RetentionSizeUnitToValue
+              ]
+            }`,
       selectedRetentionSizeOption: value,
     });
   };
@@ -130,7 +139,11 @@ const CoreConfiguration: React.FC<CoreConfigurationProps> = ({
         value === RetentionTimeUnits.UNLIMITED ||
         value === RetentionTimeUnits.CUSTOM
           ? topicData['retention.ms']
-          : RetentionTimeUnitToValue[value],
+          : `${
+              RetentionTimeUnitToValue[
+                value as keyof typeof RetentionTimeUnitToValue
+              ]
+            }`,
       selectedRetentionTimeOption: value,
     });
   };
@@ -166,7 +179,7 @@ const CoreConfiguration: React.FC<CoreConfigurationProps> = ({
 
   const handleTouchSpin = (name: string, operator: string) => {
     let value;
-    const fieldName = kebabToCamel(name);
+    const fieldName = kebabToCamel(name) as keyof IAdvancedTopic;
 
     if (operator === '+') {
       value = Number(topicData[fieldName]) + 1;
