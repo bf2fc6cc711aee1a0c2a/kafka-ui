@@ -11,7 +11,7 @@ import {
 } from '@patternfly/react-core';
 import { deleteConsumerGroup } from '@app/services';
 import { ConfigContext } from '@app/contexts';
-import { ConsumerGroupStateEnum } from '@rhoas/kafka-instance-sdk';
+import { ConsumerGroupState } from '@rhoas/kafka-instance-sdk';
 import { isAxiosError } from '@app/utils/axios';
 import {
   BaseModalProps,
@@ -29,7 +29,7 @@ const DeleteConsumerGroup: React.FC<
       // No-op
     },
   };
-  const isConsumerConnected = state === ConsumerGroupStateEnum.Stable;
+  const isConsumerConnected = state === ConsumerGroupState.Stable;
 
   const onClose = () => {
     hideModal();

@@ -28,7 +28,11 @@ import {
   AclPermissionTypeFilter,
   AclResourceTypeFilter,
 } from '@rhoas/kafka-instance-sdk';
-import { ModalType, useModal } from '@rhoas/app-services-ui-shared';
+import {
+  ModalType,
+  ModalTypePropsMap,
+  useModal,
+} from '@rhoas/app-services-ui-shared';
 import { MASPagination, MASTable, usePaginationParams } from '@app/components';
 
 export type PermissionsTableProps = {
@@ -154,7 +158,8 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
       showModal(ModalType.KafkaManagePermissions, {
         selectedAccountId,
         kafkaName,
-        acls: aclPage?.items || [],
+        acls: (aclPage?.items ||
+          []) as ModalTypePropsMap[ModalType.KafkaManagePermissions]['acls'],
         topicNames,
         consumerGroupIds,
         onSave,

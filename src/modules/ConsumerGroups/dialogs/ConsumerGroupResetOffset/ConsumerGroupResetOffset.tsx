@@ -23,8 +23,8 @@ import {
 } from '@patternfly/react-table';
 import {
   Consumer,
-  ConsumerGroupResetOffsetParametersOffsetEnum,
-  ConsumerGroupStateEnum,
+  OffsetType,
+  ConsumerGroupState,
 } from '@rhoas/kafka-instance-sdk';
 import './ConsumerGroupResetOffset.css';
 import { consumerGroupResetOffset } from '@app/services';
@@ -55,8 +55,7 @@ const ConsumerGroupResetOffset: React.FC<
     useState<boolean>(false);
   const [isDisconnected, setIsDisconnected] = useState<boolean>(false);
   const [selectedTopic, setSelectedTopic] = useState<string>('');
-  const [selectedOffset, setOffset] =
-    useState<ConsumerGroupResetOffsetParametersOffsetEnum>();
+  const [selectedOffset, setOffset] = useState<OffsetType>();
   const [customOffsetValue, setCustomOffsetValue] = useState<string>('');
   const [consumers, setConsumers] = useState<ConsumerRow[]>([]);
   const { addAlert } = useAlert() || {
@@ -92,8 +91,7 @@ const ConsumerGroupResetOffset: React.FC<
             {
               title:
                 selected && selectedOffset
-                  ? selectedOffset ===
-                    ConsumerGroupResetOffsetParametersOffsetEnum.Absolute
+                  ? selectedOffset === OffsetType.Absolute
                     ? customOffsetValue
                     : selectedOffset
                   : '-',
@@ -124,18 +122,18 @@ const ConsumerGroupResetOffset: React.FC<
 
   const offsetOptions: IDropdownOption[] = [
     {
-      key: ConsumerGroupResetOffsetParametersOffsetEnum.Absolute,
-      value: ConsumerGroupResetOffsetParametersOffsetEnum.Absolute,
+      key: OffsetType.Absolute,
+      value: OffsetType.Absolute,
       isDisabled: false,
     },
     {
-      key: ConsumerGroupResetOffsetParametersOffsetEnum.Latest,
-      value: ConsumerGroupResetOffsetParametersOffsetEnum.Latest,
+      key: OffsetType.Latest,
+      value: OffsetType.Latest,
       isDisabled: false,
     },
     {
-      key: ConsumerGroupResetOffsetParametersOffsetEnum.Earliest,
-      value: ConsumerGroupResetOffsetParametersOffsetEnum.Earliest,
+      key: OffsetType.Earliest,
+      value: OffsetType.Earliest,
       isDisabled: false,
     },
   ];
@@ -159,7 +157,7 @@ const ConsumerGroupResetOffset: React.FC<
   };
 
   const getIsDisconnected = (state: string) => {
-    return state !== ConsumerGroupStateEnum.Stable;
+    return state !== ConsumerGroupState.Stable;
   };
 
   const onClose = () => {
@@ -182,7 +180,7 @@ const ConsumerGroupResetOffset: React.FC<
   const onOffsetSelect: IDropdownWithToggleProps['onSelectOption'] = (
     value
   ) => {
-    setOffset(value as ConsumerGroupResetOffsetParametersOffsetEnum);
+    setOffset(value as OffsetType);
   };
 
   const handleConsumerGroupResetOffset = async () => {
@@ -190,14 +188,12 @@ const ConsumerGroupResetOffset: React.FC<
       const partitions = consumers
         .filter(({ selected }) => selected === true)
         .map(({ partition }) => partition);
-      if (
-        selectedOffset === ConsumerGroupResetOffsetParametersOffsetEnum.Absolute
-      ) {
+      if (selectedOffset === OffsetType.Absolute) {
         consumerGroupData &&
           (await consumerGroupResetOffset(
             config,
             consumerGroupData.groupId,
-            ConsumerGroupResetOffsetParametersOffsetEnum.Absolute,
+            OffsetType.Absolute,
             selectedTopic,
             partitions,
             customOffsetValue.toString()
@@ -321,8 +317,7 @@ const ConsumerGroupResetOffset: React.FC<
 
             {isDisconnected &&
               selectedTopic &&
-              selectedOffset ===
-                ConsumerGroupResetOffsetParametersOffsetEnum.Absolute && (
+              selectedOffset === OffsetType.Absolute && (
                 <FormGroup label='Custom offset' fieldId='custom-offset-input'>
                   <TextInput
                     id='custom-offset-input'

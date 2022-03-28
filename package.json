@@ -39,7 +39,7 @@
   "bugs": {},
   "homepage": "https://github.com/strimzi/strimzi-ui#readme",
   "dependencies": {
-    "@rhoas/kafka-instance-sdk": "0.23.2",
+    "@rhoas/kafka-instance-sdk": "0.29.0",
     "object-hash": "2.2.0",
     "react-i18next": "11.15.7",
     "sentence-case": "3.0.4",

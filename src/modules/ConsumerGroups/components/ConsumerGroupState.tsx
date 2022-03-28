@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { ConsumerGroupStateEnum } from '@rhoas/kafka-instance-sdk';
+import { ConsumerGroupState as ConsumerGroupStateEnum } from '@rhoas/kafka-instance-sdk';
 
 export const ConsumerGroupState = (
   state: ConsumerGroupStateEnum | undefined
