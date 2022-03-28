@@ -19,9 +19,9 @@
     "test:jest:client": "jest --collectCoverage --config jest.config.js",
     "test:e2e": "npm-run-all clean build --parallel --race start:e2eserver cy:closed",
     "test:e2e:open": "npm-run-all clean build --parallel --race start:e2eserver cy:open",
-    "format": "prettier --write src .storybook",
+    "format": "prettier --write src",
     "lint:errors": "eslint --ext .tsx,.js,.ts src",
-    "lint:style": "prettier --check src .storybook",
+    "lint:style": "prettier --check src",
     "lint": "npm-run-all lint:*",
     "cy:open": "cypress open --config-file e2e/cypress.json",
     "cy:closed": "cypress run --config-file e2e/cypress.json",
@@ -30,7 +30,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": "eslint --cache --fix",
-    "*.storybook": "prettier --write"
+    "*.{ts,tsx,css}": "prettier --write"
   },
   "sideEffects": [
     "*.css"

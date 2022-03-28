@@ -70,7 +70,7 @@ export const ManagePermissions: React.VFC<
       setResourceOperations(answer);
     };
     fetchResourceOperations();
-  }, []);
+  }, [permissionsService]);
 
   return (
     <ManagePermissionsModal
