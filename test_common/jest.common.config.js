@@ -4,7 +4,6 @@ const config = {
   rootDir: '.',
   clearMocks: true,
   testTimeout: 10000, // required for server tests, which take ~3 seconds to start
-  setupFiles: [resolve(__dirname, 'jest_cucumber_support/index.ts')],
   preset: 'ts-jest/presets/js-with-ts',
   moduleNameMapper: {
     ...jestModuleMapper,

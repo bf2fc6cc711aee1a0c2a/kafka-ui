@@ -5,7 +5,7 @@ import { Topic, TopicsList } from '@rhoas/kafka-instance-sdk';
 import { IConfiguration } from '@app/contexts';
 import { getTopics } from '@app/services';
 
-jest.mock('services');
+// jest.mock('services');
 
 describe('<Topics />', () => {
   // Skipped as this test suite wastaking an unusuallly long time.
