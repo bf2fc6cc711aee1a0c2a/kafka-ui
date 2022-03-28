@@ -82,7 +82,7 @@ export type CellProps = {
 };
 
 export type AclCellProps = CellProps & {
-  setAcls: React.Dispatch<React.SetStateAction<NewAcls[] | []>>;
+  setAcls: React.Dispatch<React.SetStateAction<NewAcls[]>>;
   setEscapeClosesModal: (closes: boolean) => void;
   menuAppendTo:
     | HTMLElement
@@ -98,9 +98,12 @@ export const update2DArrayAcls = (
   row: number,
   childRow = 0
 ) => {
-  if (Array.isArray(prevAcls[row]) && childRow !== undefined)
-    prevAcls[row][childRow] = newAcl;
-  else prevAcls[row] = newAcl;
+  const el = prevAcls[row];
+  if (Array.isArray(el) && childRow !== undefined) {
+    el[childRow] = newAcl;
+  } else {
+    prevAcls[row] = newAcl;
+  }
   return prevAcls;
 };
 
@@ -108,7 +111,8 @@ export const handle2DArrayAcls = (
   acls: NewAcls[],
   row: number,
   childRow = 0
-) => {
-  const newAcls = Array.isArray(acls[row]) ? acls[row][childRow] : acls[row];
+): NewAcl => {
+  const el = acls[row];
+  const newAcls = Array.isArray(el) ? el[childRow] : el;
   return newAcls;
 };

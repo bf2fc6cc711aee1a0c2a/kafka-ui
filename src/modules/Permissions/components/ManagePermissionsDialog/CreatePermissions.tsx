@@ -46,7 +46,7 @@ export type CreatePermissionsProps = {
   topicNames: string[];
   consumerGroupIds: string[];
   acls: NewAcls[] | undefined;
-  setAcls: React.Dispatch<React.SetStateAction<NewAcls[] | []>>;
+  setAcls: React.Dispatch<React.SetStateAction<NewAcls[]>>;
   setEscapeClosesModal: (closes: boolean) => void;
   resourceOperations: { [key: string]: Array<string> };
   menuAppendTo:

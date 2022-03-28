@@ -35,9 +35,13 @@ const PermissionTypeCell: React.VFC<PermissionTypeCellProps> = ({
     setAcls((prevState) =>
       prevState.map((v, k) => {
         if (k === row) {
-          if (Array.isArray(v) && childRow !== undefined)
-            v[childRow].permission = { value };
-          else v.permission = { value };
+          if (Array.isArray(v)) {
+            if (childRow !== undefined) {
+              v[childRow].permission = { value };
+            }
+          } else {
+            v.permission = { value };
+          }
         }
         return v;
       })

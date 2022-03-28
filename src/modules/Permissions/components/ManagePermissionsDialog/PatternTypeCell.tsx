@@ -41,8 +41,10 @@ const PatternTypeCell: React.VFC<PatternTypeCellProps> = ({
     setAcls((prevState) =>
       prevState.map((v, k) => {
         if (k === row) {
-          if (Array.isArray(v) && childRow !== undefined) {
-            v[childRow].patternType = { value };
+          if (Array.isArray(v)) {
+            if (childRow !== undefined) {
+              v[childRow].patternType = { value };
+            }
           } else {
             v.patternType = { value };
           }
