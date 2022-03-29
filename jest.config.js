@@ -6,7 +6,7 @@ const commonConfig = require('./test_common/jest.common.config');
 const config = {
   transformIgnorePatterns: ['node_modules/(?!byte-size)'],
   setupFilesAfterEnv: ['<rootDir>/test_common/jest_rtl_setup.ts'],
-  testMatch: ['**/*.(spec|steps|test).[jt]s?(x)'],
+  roots: ['./src'],
   coverageDirectory: '<rootDir>/coverage',
   moduleNameMapper: {
     ...compilerOptions.paths,
