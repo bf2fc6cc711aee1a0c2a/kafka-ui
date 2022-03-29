@@ -27,7 +27,11 @@ import './MASDrawer.css';
 import { EllipsisVIcon } from '@patternfly/react-icons';
 import { ConsumerGroup } from '@rhoas/kafka-instance-sdk';
 import { useTranslation } from 'react-i18next';
-import { ModalType, useModal } from '@rhoas/app-services-ui-shared';
+import {
+  ModalType,
+  ModalTypePropsMap,
+  useModal,
+} from '@rhoas/app-services-ui-shared';
 
 export type MASDrawerProps = DrawerProps & {
   children: React.ReactNode;
@@ -91,7 +95,8 @@ export const MASDrawer: React.FC<MASDrawerProps> = ({
   const onSelectResetOffsetConsumerGroup = () => {
     showResetOffsetModal(ModalType.KafkaConsumerGroupResetOffset, {
       refreshConsumerGroups,
-      consumerGroupData: consumerGroupDetail,
+      consumerGroupData:
+        consumerGroupDetail as ModalTypePropsMap[ModalType.KafkaConsumerGroupResetOffset]['consumerGroupData'],
     });
   };
 

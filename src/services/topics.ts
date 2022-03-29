@@ -117,16 +117,18 @@ export const getTopic = async (
   );
   const response = await api.getTopic(topicName);
 
+  const replicationFactor = (response.data.partitions || [])
+    .map((p) => p.replicas?.length || 0)
+    .reduce(
+      (previousValue = 0, currentValue = 0) => previousValue + currentValue
+    )
+    .toString();
+
   const answer = response.data;
   answer.config = answer.config || ([] as ConfigEntry[]);
   answer.config.push({
     key: 'replicationFactor',
-    value: response.data?.partitions
-      ?.map((p) => p.replicas?.length)
-      .reduce(
-        (previousValue = 0, currentValue = 0) => previousValue + currentValue
-      )
-      ?.toString(),
+    value: replicationFactor,
   });
   return response.data;
 };

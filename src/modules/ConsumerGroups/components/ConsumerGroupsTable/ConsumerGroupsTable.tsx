@@ -23,7 +23,11 @@ import {
   ConsumerGroupToolbar,
   ConsumerGroupToolbarProps,
 } from './ConsumerGroupToolbar';
-import { ModalType, useModal } from '@rhoas/app-services-ui-shared';
+import {
+  ModalType,
+  ModalTypePropsMap,
+  useModal,
+} from '@rhoas/app-services-ui-shared';
 import { ConsumerGroupState } from '../ConsumerGroupState';
 
 export type ConsumerGroupsTableProps = ConsumerGroupToolbarProps & {
@@ -120,7 +124,8 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
   const onSelectResetOffsetConsumerGroup = (data: ConsumerGroup) => {
     showResetOffsetModal(ModalType.KafkaConsumerGroupResetOffset, {
       refreshConsumerGroups,
-      consumerGroupData: data,
+      consumerGroupData:
+        data as ModalTypePropsMap[ModalType.KafkaConsumerGroupResetOffset]['consumerGroupData'],
     });
   };
 
