@@ -1,3 +1,4 @@
+import { useCallback, useMemo } from 'react';
 import { AxiosResponse } from 'axios';
 import {
   AclBinding,
@@ -57,80 +58,89 @@ export type AclFilter = {
 export const usePermissionsService = (
   config: IConfiguration | undefined
 ): PermissionsService => {
-  const getPermissions = async (
-    filter: AclFilter,
-    size?: number,
-    page?: number
-  ): Promise<EnhancedAclBindingListPage> => {
-    const accessToken = await config?.getToken();
+  const getPermissions = useCallback(
+    async (
+      filter: AclFilter,
+      size?: number,
+      page?: number
+    ): Promise<EnhancedAclBindingListPage> => {
+      const accessToken = await config?.getToken();
 
+      const api = new AclsApi(
+        new Configuration({
+          accessToken,
+          basePath: config?.basePath,
+        })
+      );
+      const response: AxiosResponse<AclBindingListPage> = await api.getAcls(
+        filter.resourceType,
+        filter.resourceName,
+        filter.patternType,
+        filter.principal,
+        filter.operation,
+        filter.permissionType,
+        page,
+        size
+      );
+      return enhanceAclBindingListPage(response);
+    },
+    [config]
+  );
+
+  const addPermission = useCallback(
+    async (acl: AclBinding) => {
+      const accessToken = await config?.getToken();
+      const api = new AclsApi(
+        new Configuration({
+          accessToken,
+          basePath: config?.basePath,
+        })
+      );
+      await api.createAcl(acl);
+    },
+    [config]
+  );
+
+  const deletePermission = useCallback(
+    async (acl: AclFilter) => {
+      const accessToken = await config?.getToken();
+      const api = new AclsApi(
+        new Configuration({
+          accessToken,
+          basePath: config?.basePath,
+        })
+      );
+      await api.deleteAcls(
+        acl.resourceType,
+        acl.resourceName,
+        acl.patternType,
+        acl.principal,
+        acl.operation,
+        acl.permissionType
+      );
+    },
+    [config]
+  );
+
+  const getResourceOperations = useCallback(async () => {
+    const accessToken = await config?.getToken();
     const api = new AclsApi(
       new Configuration({
         accessToken,
         basePath: config?.basePath,
       })
     );
-    const response: AxiosResponse<AclBindingListPage> = await api.getAcls(
-      filter.resourceType,
-      filter.resourceName,
-      filter.patternType,
-      filter.principal,
-      filter.operation,
-      filter.permissionType,
-      page,
-      size
-    );
-    return enhanceAclBindingListPage(response);
-  };
+    return api.getAclResourceOperations().then((response) => response.data);
+  }, [config]);
 
-  const addPermission = async (acl: AclBinding) => {
-    const accessToken = await config?.getToken();
-    const api = new AclsApi(
-      new Configuration({
-        accessToken,
-        basePath: config?.basePath,
-      })
-    );
-    await api.createAcl(acl);
-  };
-
-  const deletePermission = async (acl: AclFilter) => {
-    const accessToken = await config?.getToken();
-    const api = new AclsApi(
-      new Configuration({
-        accessToken,
-        basePath: config?.basePath,
-      })
-    );
-    await api.deleteAcls(
-      acl.resourceType,
-      acl.resourceName,
-      acl.patternType,
-      acl.principal,
-      acl.operation,
-      acl.permissionType
-    );
-  };
-
-  const getResourceOperations = async () => {
-    const accessToken = await config?.getToken();
-    const api = new AclsApi(
-      new Configuration({
-        accessToken,
-        basePath: config?.basePath,
-      })
-    );
-    return await api
-      .getAclResourceOperations()
-      .then((response) => response.data);
-  };
-
-  return {
-    getPermissions,
-    addPermission,
-    deletePermission,
-    getResourceOperations,
-  } as PermissionsService;
+  return useMemo(() => {
+    return {
+      getPermissions,
+      addPermission,
+      deletePermission,
+      getResourceOperations,
+    } as PermissionsService;
+  }, [getPermissions, addPermission, deletePermission, getResourceOperations]);
 };
 
 const enhanceAclBindingListPage = (
