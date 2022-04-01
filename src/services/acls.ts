@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { AxiosResponse } from 'axios';
 import {
   AclBinding,
@@ -58,31 +58,34 @@ export type AclFilter = {
 export const usePermissionsService = (
   config: IConfiguration | undefined
 ): PermissionsService => {
-  const getPermissions = async (
-    filter: AclFilter,
-    size?: number,
-    page?: number
-  ): Promise<EnhancedAclBindingListPage> => {
-    const accessToken = await config?.getToken();
+  const getPermissions = useCallback(
+    async (
+      filter: AclFilter,
+      size?: number,
+      page?: number
+    ): Promise<EnhancedAclBindingListPage> => {
+      const accessToken = await config?.getToken();
 
-    const api = new AclsApi(
-      new Configuration({
-        accessToken,
-        basePath: config?.basePath,
-      })
-    );
-    const response: AxiosResponse<AclBindingListPage> = await api.getAcls(
-      filter.resourceType,
-      filter.resourceName,
-      filter.patternType,
-      filter.principal,
-      filter.operation,
-      filter.permissionType,
-      page,
-      size
-    );
-    return enhanceAclBindingListPage(response);
-  };
+      const api = new AclsApi(
+        new Configuration({
+          accessToken,
+          basePath: config?.basePath,
+        })
+      );
+      const response: AxiosResponse<AclBindingListPage> = await api.getAcls(
+        filter.resourceType,
+        filter.resourceName,
+        filter.patternType,
+        filter.principal,
+        filter.operation,
+        filter.permissionType,
+        page,
+        size
+      );
+      return enhanceAclBindingListPage(response);
+    },
+    [config]
+  );
 
   const addPermission = useCallback(
     async (acl: AclBinding) => {
@@ -130,12 +133,14 @@ export const usePermissionsService = (
     return api.getAclResourceOperations().then((response) => response.data);
   }, [config]);
 
-  return {
-    getPermissions,
-    addPermission,
-    deletePermission,
-    getResourceOperations,
-  } as PermissionsService;
+  return useMemo(() => {
+    return {
+      getPermissions,
+      addPermission,
+      deletePermission,
+      getResourceOperations,
+    } as PermissionsService;
+  }, [getPermissions, addPermission, deletePermission, getResourceOperations]);
 };
 
 const enhanceAclBindingListPage = (
