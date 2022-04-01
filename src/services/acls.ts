@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { AxiosResponse } from 'axios';
 import {
   AclBinding,
@@ -83,36 +84,42 @@ export const usePermissionsService = (
     return enhanceAclBindingListPage(response);
   };
 
-  const addPermission = async (acl: AclBinding) => {
-    const accessToken = await config?.getToken();
-    const api = new AclsApi(
-      new Configuration({
-        accessToken,
-        basePath: config?.basePath,
-      })
-    );
-    await api.createAcl(acl);
-  };
+  const addPermission = useCallback(
+    async (acl: AclBinding) => {
+      const accessToken = await config?.getToken();
+      const api = new AclsApi(
+        new Configuration({
+          accessToken,
+          basePath: config?.basePath,
+        })
+      );
+      await api.createAcl(acl);
+    },
+    [config]
+  );
 
-  const deletePermission = async (acl: AclFilter) => {
-    const accessToken = await config?.getToken();
-    const api = new AclsApi(
-      new Configuration({
-        accessToken,
-        basePath: config?.basePath,
-      })
-    );
-    await api.deleteAcls(
-      acl.resourceType,
-      acl.resourceName,
-      acl.patternType,
-      acl.principal,
-      acl.operation,
-      acl.permissionType
-    );
-  };
+  const deletePermission = useCallback(
+    async (acl: AclFilter) => {
+      const accessToken = await config?.getToken();
+      const api = new AclsApi(
+        new Configuration({
+          accessToken,
+          basePath: config?.basePath,
+        })
+      );
+      await api.deleteAcls(
+        acl.resourceType,
+        acl.resourceName,
+        acl.patternType,
+        acl.principal,
+        acl.operation,
+        acl.permissionType
+      );
+    },
+    [config]
+  );
 
-  const getResourceOperations = async () => {
+  const getResourceOperations = useCallback(async () => {
     const accessToken = await config?.getToken();
     const api = new AclsApi(
       new Configuration({
@@ -120,10 +127,8 @@ export const usePermissionsService = (
         basePath: config?.basePath,
       })
     );
-    return await api
-      .getAclResourceOperations()
-      .then((response) => response.data);
-  };
+    return api.getAclResourceOperations().then((response) => response.data);
+  }, [config]);
 
   return {
     getPermissions,

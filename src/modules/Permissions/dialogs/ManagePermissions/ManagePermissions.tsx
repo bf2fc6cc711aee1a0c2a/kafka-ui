@@ -60,17 +60,18 @@ export const ManagePermissions: React.VFC<
 }) => {
   const config = useContext(ConfigContext);
   const permissionsService = usePermissionsService(config);
+  const { getResourceOperations } = permissionsService;
   const [resourceOperations, setResourceOperations] = useState<
     { [key: string]: Array<string> } | undefined
   >();
 
   useEffect(() => {
     const fetchResourceOperations = async () => {
-      const answer = await permissionsService.getResourceOperations();
+      const answer = await getResourceOperations();
       setResourceOperations(answer);
     };
     fetchResourceOperations();
-  }, [permissionsService]);
+  }, [getResourceOperations]);
 
   return (
     <ManagePermissionsModal
