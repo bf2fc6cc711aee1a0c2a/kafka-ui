@@ -151,14 +151,12 @@ const ConsumerGroupDetail: React.FunctionComponent<
             </Text>
           </FlexItem>
           <FlexItem>
-            <Text component={TextVariants.h4}>{t('consumerGroup.state')}</Text>
+            <Text component={TextVariants.h4}>
+              {t('consumerGroup.state_label')}
+            </Text>
             <Text component={TextVariants.p}>
               <Text component={TextVariants.h2}>
-                {
-                  ConsumerGroupState[
-                    consumerGroupDetail?.state as keyof typeof ConsumerGroupState
-                  ]
-                }
+                {ConsumerGroupState(consumerGroupDetail?.state)}
               </Text>
             </Text>
           </FlexItem>

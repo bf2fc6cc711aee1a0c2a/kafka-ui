@@ -168,7 +168,6 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
           onViewConsumerGroup={onViewConsumerGroup}
           isDrawerOpen={isExpanded}
           refreshConsumerGroups={fetchConsumerGroups}
-          consumerGroupByTopic={consumerGroupByTopic}
           onSort={onSort}
           sortBy={sortBy}
         />

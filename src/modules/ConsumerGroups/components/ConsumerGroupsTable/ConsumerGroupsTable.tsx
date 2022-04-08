@@ -29,6 +29,7 @@ import {
   useModal,
 } from '@rhoas/app-services-ui-shared';
 import { ConsumerGroupState } from '../ConsumerGroupState';
+// import { ConsumerGroupState } from '@rhoas/kafka-instance-sdk';
 
 export type ConsumerGroupsTableProps = ConsumerGroupToolbarProps & {
   consumerGroups?: ConsumerGroup[];
@@ -36,7 +37,6 @@ export type ConsumerGroupsTableProps = ConsumerGroupToolbarProps & {
   isDrawerOpen?: boolean;
   onViewConsumerGroup: (consumerGroup: ConsumerGroup) => void;
   refreshConsumerGroups?: () => void;
-  consumerGroupByTopic: boolean;
   onSort: OnSort;
   sortBy: ISortBy;
 };
@@ -52,7 +52,6 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
   isDrawerOpen,
   onViewConsumerGroup,
   refreshConsumerGroups,
-  consumerGroupByTopic,
   onSort,
   sortBy,
 }) => {
@@ -79,7 +78,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
         }),
       ],
     },
-    { title: t('consumerGroup.state') },
+    { title: t('consumerGroup.state_label') },
   ];
 
   useEffect(() => {
@@ -101,7 +100,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
           consumers.reduce(function (prev: number, cur: { lag: number }) {
             return prev + (cur.lag > 0 ? 1 : 0);
           }, 0),
-          ConsumerGroupState[state as keyof typeof ConsumerGroupState],
+          ConsumerGroupState(state),
         ],
         originalData: { ...row, rowId: groupId },
       });
@@ -155,9 +154,6 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
   };
 
   const actionResolver: IActionsResolver = (rowData: IRowData) => {
-    if (consumerGroupByTopic) {
-      return [];
-    }
     const originalData: ConsumerGroup = rowData.originalData;
     const onDelete: IAction = {
       title: t('common.delete'),
