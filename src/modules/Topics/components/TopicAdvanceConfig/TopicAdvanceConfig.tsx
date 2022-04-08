@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   ActionGroup,
@@ -61,30 +61,33 @@ export const TopicAdvanceConfig: React.FunctionComponent<
   );
   useState<string>(topicData['retention.ms.unit'] || 'days');
 
-  const fetchTopic = async (topicName: string) => {
-    try {
-      const topicRes = await getTopic(topicName, config);
-      if (topicRes) {
-        if (isCreate) {
-          setInvalidText(t('topic.already_exists', { name: topicName }));
-          setTopicValidated(ValidatedOptions.error);
+  const fetchTopic = useCallback(
+    async (topicName: string) => {
+      try {
+        const topicRes = await getTopic(topicName, config);
+        if (topicRes) {
+          if (isCreate) {
+            setInvalidText(t('topic.already_exists', { name: topicName }));
+            setTopicValidated(ValidatedOptions.error);
+            setIsLoading(false);
+          } else {
+            setInitialPartition(topicRes?.partitions?.length);
+          }
+        }
+      } catch (err) {
+        let code: number | undefined;
+        if (err && isAxiosError(err)) {
+          code = err.response?.data.code;
+        }
+        if (isCreate && code === 404) {
+          setTopicValidated(ValidatedOptions.default);
           setIsLoading(false);
-        } else {
-          setInitialPartition(topicRes?.partitions?.length);
+          saveTopic();
         }
       }
-    } catch (err) {
-      let code: number | undefined;
-      if (err && isAxiosError(err)) {
-        code = err.response?.data.code;
-      }
-      if (isCreate && code === 404) {
-        setTopicValidated(ValidatedOptions.default);
-        setIsLoading(false);
-        saveTopic();
-      }
-    }
-  };
+    },
+    [t, isCreate, saveTopic, config]
+  );
 
   const onConfirm = () => {
     if (!isCreate) {
