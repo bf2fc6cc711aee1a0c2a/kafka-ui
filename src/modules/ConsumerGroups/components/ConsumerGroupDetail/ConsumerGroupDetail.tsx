@@ -126,10 +126,9 @@ const ConsumerGroupDetail: React.FunctionComponent<
             </Text>
             <Text component={TextVariants.p}>
               <Text component={TextVariants.h2}>
-                {consumerGroupDetail &&
-                  consumerGroupDetail.consumers.reduce(function (prev, cur) {
-                    return prev + (cur.partition != -1 ? 1 : 0);
-                  }, 0)}
+                {(consumerGroupDetail &&
+                  consumerGroupDetail.metrics?.activeConsumers) ||
+                  0}
               </Text>
             </Text>
           </FlexItem>
@@ -143,10 +142,7 @@ const ConsumerGroupDetail: React.FunctionComponent<
             </Text>
             <Text component={TextVariants.p}>
               <Text component={TextVariants.h2}>
-                {consumerGroupDetail &&
-                  consumerGroupDetail.consumers.reduce(function (prev, cur) {
-                    return prev + (cur.lag > 0 ? 1 : 0);
-                  }, 0)}
+                {consumerGroupDetail?.metrics?.laggingPartitions || 0}
               </Text>
             </Text>
           </FlexItem>

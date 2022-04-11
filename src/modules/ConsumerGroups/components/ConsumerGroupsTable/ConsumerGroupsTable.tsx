@@ -90,16 +90,12 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
   const preparedTableCells = () => {
     const tableRow: (IRowData | string[])[] | undefined = [];
     consumerGroups?.map((row: IRowData) => {
-      const { groupId, consumers, state } = row;
+      const { groupId, state, metrics } = row;
       tableRow.push({
         cells: [
           groupId,
-          consumers.reduce(function (prev: number, cur: { partition: number }) {
-            return prev + (cur.partition != -1 ? 1 : 0);
-          }, 0),
-          consumers.reduce(function (prev: number, cur: { lag: number }) {
-            return prev + (cur.lag > 0 ? 1 : 0);
-          }, 0),
+          metrics.activeConsumers,
+          metrics.laggingPartitions,
           ConsumerGroupState(state),
         ],
         originalData: { ...row, rowId: groupId },
