@@ -8,17 +8,17 @@ export const ConsumerGroupState = (
 
   switch (state) {
     case ConsumerGroupStateEnum.Stable:
-      return t('consumerGroup.stable_state');
+      return t('consumerGroup.state.stable');
     case ConsumerGroupStateEnum.Empty:
-      return t('consumerGroup.empty_state');
+      return t('consumerGroup.state.empty');
     case ConsumerGroupStateEnum.Dead:
-      return t('consumerGroup.dead_state');
+      return t('consumerGroup.state.dead');
     case ConsumerGroupStateEnum.CompletingRebalance:
-      return t('consumerGroup.completing_rebalance_state');
+      return t('consumerGroup.state.completing_rebalance');
     case ConsumerGroupStateEnum.PreparingRebalance:
-      return t('consumerGroup.preparing_rebalance_state');
+      return t('consumerGroup.state.preparing_rebalance');
     case ConsumerGroupStateEnum.Unknown:
-      return t('consumerGroup.unknown_state');
+      return t('consumerGroup.state.unknown');
     default:
       return null;
   }
