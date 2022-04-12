@@ -41,7 +41,7 @@
   "dependencies": {
     "@rhoas/kafka-instance-sdk": "0.30.0",
     "object-hash": "2.2.0",
-    "react-i18next": "11.16.5",
+    "react-i18next": "11.16.6",
     "sentence-case": "3.0.4",
     "snake-case": "3.0.4",
     "tslib": "2.3.1",
