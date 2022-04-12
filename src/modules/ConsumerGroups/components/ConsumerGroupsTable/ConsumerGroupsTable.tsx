@@ -78,7 +78,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
         }),
       ],
     },
-    { title: t('consumerGroup.state_label') },
+    { title: t('consumerGroup.state') },
   ];
 
   useEffect(() => {
