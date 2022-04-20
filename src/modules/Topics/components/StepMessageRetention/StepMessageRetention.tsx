@@ -47,6 +47,10 @@ export const StepMessageRetention: React.FC<StepMessageRetentionProps> = ({
           ? topicData['retention.ms']
           : `${RetentionTimeUnitToValue[value]}`,
       selectedRetentionTimeOption: value,
+      'retention.ms.unit':
+        value === RetentionTimeUnits.DAY
+          ? value
+          : topicData['retention.ms.unit'],
     });
   };
 
