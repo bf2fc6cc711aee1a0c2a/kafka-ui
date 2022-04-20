@@ -27,7 +27,7 @@ export enum RetentionTimeUnits {
   SECOND = 'seconds',
   MINUTE = 'minutes',
   HOUR = 'hours',
-  DAY = 'day',
+  DAY = 'days',
   WEEK = 'weeks',
   CUSTOM = 'custom',
   UNLIMITED = 'unlimited',
@@ -72,8 +72,8 @@ type ConversionUnit = {
 
 export const millisecondsToTime = (value: number): ConversionUnit => {
   if (value) {
-    if (value % unitsToMilliSecond.day == 0)
-      return { value: value / unitsToMilliSecond.day, unit: 'days' };
+    if (value % unitsToMilliSecond.days == 0)
+      return { value: value / unitsToMilliSecond.days, unit: 'days' };
     if (value % unitsToMilliSecond.hours == 0)
       return { value: value / unitsToMilliSecond.hours, unit: 'hours' };
     if (value % unitsToMilliSecond.minutes == 0)
