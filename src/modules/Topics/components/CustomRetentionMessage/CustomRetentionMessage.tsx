@@ -35,6 +35,7 @@ const CustomRetentionMessage: React.FC<CustomRetentionMessageProps> = ({
   name,
 }) => {
   const onSelectRetentionUnit = (
+    event: React.MouseEvent | React.ChangeEvent,
     fieldName: string,
     selection: string | SelectOptionObject
   ) => {
@@ -55,7 +56,7 @@ const CustomRetentionMessage: React.FC<CustomRetentionMessageProps> = ({
       });
     }
 
-    onToggle(false);
+    onToggle(false, event);
   };
 
   const handleTouchSpin = (name: string, operator: string) => {
@@ -115,7 +116,9 @@ const CustomRetentionMessage: React.FC<CustomRetentionMessageProps> = ({
             variant={SelectVariant.single}
             aria-label='Select Input'
             onToggle={onToggle}
-            onSelect={(_, selection) => onSelectRetentionUnit(name, selection)}
+            onSelect={(event, selection) =>
+              onSelectRetentionUnit(event, name, selection)
+            }
             selections={
               topicData[
                 `${kebabToDotSeparated(name)}.unit` as keyof IAdvancedTopic

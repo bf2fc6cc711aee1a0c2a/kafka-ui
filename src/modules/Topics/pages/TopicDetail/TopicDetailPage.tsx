@@ -1,4 +1,11 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import {
+  createRef,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+  VoidFunctionComponent,
+} from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -27,92 +34,27 @@ import {
   useModal,
 } from '@rhoas/app-services-ui-shared';
 import '../style.css';
+import {
+  KafkaMessageBrowser,
+  KafkaMessageBrowserProps,
+} from '@rhoas/app-services-ui-components';
+import { Configuration, RecordsApi } from '@rhoas/kafka-instance-sdk';
+import { Loading } from '@app/components';
 
-export const TopicDetailPage: React.FC = () => {
-  const {
-    activeTab = 2,
-    kafkaName,
-    kafkaPageLink,
-    kafkaInstanceLink,
-    onError,
-    showSchemas,
-  } = useFederated() || {};
+export const TopicDetailPage: VoidFunctionComponent = () => {
+  const { kafkaName, kafkaPageLink, kafkaInstanceLink, showSchemas } =
+    useFederated() || {};
 
-  const history = useHistory();
   const { topicName } = useParams<{ topicName: string }>();
-  const { getBasename } = useBasename() || { getBasename: () => '' };
-  const basename = getBasename();
-
-  const [topicDetail, setTopicDetail] = useState<IAdvancedTopic>({
-    name: topicName,
-    numPartitions: '',
-    'retention.ms': '',
-    'retention.ms.unit': 'milliseconds',
-    'retention.bytes': '',
-    'retention.bytes.unit': 'bytes',
-    'cleanup.policy': '',
-  });
-  const [activeTabKey, setActiveTabKey] = useState(activeTab);
-  const config = useContext(ConfigContext);
-  const { addAlert } = useAlert() || {
-    addAlert: () => {
-      // No-op
-    },
-  };
+  const [activeTabKey, setActiveTabKey] = useState(1);
   const { t } = useTranslation(['kafkaTemporaryFixMe']);
-  const contentRefConsumerGroup = React.createRef<HTMLElement>();
-  const contentRefProperties = React.createRef<HTMLElement>();
-  const contentRefSchemas = React.createRef<HTMLElement>();
-  const { showModal } = useModal<ModalType.KafkaDeleteTopic>();
-
-  const onDeleteTopic = () => {
-    //Redirect on topics  viewpage after delete topic successfuly
-    history.push(`${basename}/topics`);
-  };
-
-  const fetchTopicDetail = useCallback(
-    async (topicName: string) => {
-      if (activeTab === 2) {
-        try {
-          await getTopicDetail(topicName, config).then((response) => {
-            setTopicDetail(response);
-          });
-        } catch (err) {
-          if (isAxiosError(err)) {
-            if (onError) {
-              onError(
-                err.response?.data.code || -1,
-                err.response?.data.error_message
-              );
-            }
-            if (err.response?.status === 404) {
-              // then it's a non-existent topic
-              addAlert({
-                title: t('topic.topic_not_found', { name: topicName }),
-                variant: AlertVariant.danger,
-              });
-            }
-          }
-        }
-      }
-    },
-    [activeTab, addAlert, config, onError, t]
-  );
+  const contentRefMessages = createRef<HTMLElement>();
+  const contentRefConsumerGroup = createRef<HTMLElement>();
+  const contentRefProperties = createRef<HTMLElement>();
+  const contentRefSchemas = createRef<HTMLElement>();
 
   const handleTabClick: TabsProps['onSelect'] = (_, tabIndex) => {
     setActiveTabKey(tabIndex as number);
-  };
-
-  // Make the get request
-  useEffect(() => {
-    fetchTopicDetail(topicName);
-  }, [fetchTopicDetail, topicName]);
-
-  const deleteTopic = () => {
-    showModal(ModalType.KafkaDeleteTopic, {
-      topicName,
-      onDeleteTopic,
-    });
   };
 
   return (
@@ -142,16 +84,23 @@ export const TopicDetailPage: React.FC = () => {
             }
             tabContentId='kafka-ui-TabcontentConsumerGroupList'
             tabContentRef={contentRefConsumerGroup}
-          ></Tab>
+          />
           <Tab
             eventKey={2}
+            data-testid='pageTopic-tabMessages'
+            title={<TabTitleText>{t('topic.messages')}</TabTitleText>}
+            tabContentId='kafka-ui-TabcontentMessages'
+            tabContentRef={contentRefMessages}
+          />
+          <Tab
+            eventKey={3}
             title={<TabTitleText>{t('common.properties')}</TabTitleText>}
             data-testid='pageTopic-tabProperties'
             tabContentId='kafka-ui-TabcontentProperties'
             tabContentRef={contentRefProperties}
           />
           <Tab
-            eventKey={3}
+            eventKey={4}
             title={<TabTitleText>{t('common.schemas')}</TabTitleText>}
             data-testid='pageTopic-tabSchemas'
             tabContentId='kafka-ui-TabSchemas'
@@ -161,7 +110,7 @@ export const TopicDetailPage: React.FC = () => {
       </PageSection>
       <PageSection
         variant={
-          activeTabKey === 2
+          activeTabKey === 3
             ? PageSectionVariants.light
             : PageSectionVariants.default
         }
@@ -171,36 +120,160 @@ export const TopicDetailPage: React.FC = () => {
           id='kafka-ui-TabcontentConsumerGroupList'
           ref={contentRefConsumerGroup}
           className='kafka-ui-m-full-height'
-          aria-label='Consumer groups.'
+          aria-label='Consumer groups'
           hidden={activeTabKey != 1}
         >
-          <ConsumerGroups
-            consumerGroupByTopic={true}
-            topic={topicName}
-            rowDataTestId='tableTopicConsumers-row'
-          />
+          {activeTabKey === 1 && (
+            <ConsumerGroups
+              consumerGroupByTopic={true}
+              topic={topicName}
+              rowDataTestId='tableTopicConsumers-row'
+            />
+          )}
         </TabContent>
         <TabContent
           eventKey={2}
-          id='kafka-ui-TabcontentProperties'
-          ref={contentRefProperties}
+          id='kafka-ui-TabcontentMessages'
+          ref={contentRefMessages}
           className='kafka-ui-m-full-height'
-          aria-label='Topic properties.'
+          aria-label='Messages'
           hidden={activeTabKey != 2}
         >
-          <TopicDetailView topic={topicDetail} deleteTopic={deleteTopic} />
+          {activeTabKey === 2 && <MessagesConnected topicName={topicName} />}
         </TabContent>
         <TabContent
           eventKey={3}
+          id='kafka-ui-TabcontentProperties'
+          ref={contentRefProperties}
+          className='kafka-ui-m-full-height'
+          aria-label='Topic properties'
+          hidden={activeTabKey != 3}
+        >
+          {activeTabKey === 3 && (
+            <TopicDetailsViewConnected topicName={topicName} />
+          )}
+        </TabContent>
+        <TabContent
+          eventKey={4}
           id='kafka-ui-TabSchemas'
           ref={contentRefSchemas}
           className='kafka-ui-m-full-height'
           aria-label='Schemas mapping'
-          hidden={activeTabKey != 3}
+          hidden={activeTabKey != 4}
         >
-          {showSchemas}
+          {activeTabKey === 4 && showSchemas}
         </TabContent>
       </PageSection>
     </>
   );
+};
+
+const TopicDetailsViewConnected: VoidFunctionComponent<{
+  topicName: string;
+}> = ({ topicName }) => {
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
+  const { showModal } = useModal<ModalType.KafkaDeleteTopic>();
+  const config = useContext(ConfigContext);
+  const { addAlert } = useAlert() || {
+    addAlert: () => {
+      // No-op
+    },
+  };
+  const { getBasename } = useBasename() || { getBasename: () => '' };
+  const history = useHistory();
+  const basename = getBasename();
+  const { onError } = useFederated() || {};
+
+  const [topicDetail, setTopicDetail] = useState<IAdvancedTopic>();
+
+  const onDeleteTopic = () => {
+    //Redirect on topics  viewpage after delete topic successfuly
+    history.push(`${basename}/topics`);
+  };
+
+  const fetchTopicDetail = useCallback(
+    async (topicName: string) => {
+      try {
+        await getTopicDetail(topicName, config).then((response) => {
+          setTopicDetail(response);
+        });
+      } catch (err) {
+        if (isAxiosError(err)) {
+          if (onError) {
+            onError(
+              err.response?.data.code || -1,
+              err.response?.data.error_message
+            );
+          }
+          if (err.response?.status === 404) {
+            // then it's a non-existent topic
+            addAlert({
+              title: t('topic.topic_not_found', { name: topicName }),
+              variant: AlertVariant.danger,
+            });
+          }
+        }
+      }
+    },
+    [addAlert, config, onError, t]
+  );
+
+  // Make the get request
+  useEffect(() => {
+    fetchTopicDetail(topicName);
+  }, [fetchTopicDetail, topicName]);
+
+  const deleteTopic = () => {
+    showModal(ModalType.KafkaDeleteTopic, {
+      topicName,
+      onDeleteTopic,
+    });
+  };
+
+  return topicDetail ? (
+    <TopicDetailView topic={topicDetail} deleteTopic={deleteTopic} />
+  ) : (
+    <Loading />
+  );
+};
+
+const MessagesConnected: VoidFunctionComponent<{
+  topicName: string;
+}> = ({ topicName }) => {
+  const config = useContext(ConfigContext);
+
+  const getMessages: KafkaMessageBrowserProps['getMessages'] = useCallback(
+    async ({ offset, partition, limit, timestamp }) => {
+      const accessToken = await config?.getToken();
+
+      const api = new RecordsApi(
+        new Configuration({
+          accessToken,
+          basePath: config?.basePath,
+        })
+      );
+      const { data } = await api.consumeRecords(
+        topicName,
+        undefined,
+        limit,
+        offset,
+        partition,
+        timestamp
+      );
+      return {
+        partitions: 1,
+        messages: data.items.map((m) => ({
+          partition: m.partition,
+          offset: m.offset,
+          timestamp: m.timestamp,
+          key: m.key,
+          value: m.value,
+          headers: m.headers || {},
+        })),
+      };
+    },
+    [config, topicName]
+  );
+
+  return <KafkaMessageBrowser getMessages={getMessages} />;
 };
