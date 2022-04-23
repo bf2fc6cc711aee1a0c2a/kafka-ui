@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -69,9 +69,11 @@ const MainViewHeader: React.FC<MainViewHeaderProps> = ({ activeTabKey }) => {
 
   const mainBreadcrumbs = (
     <Breadcrumb>
-      <BreadcrumbItem to={kafkaPageLink || '#'}>
-        {t('common.kafka_instance')}
-      </BreadcrumbItem>
+      <BreadcrumbItem
+        render={() => (
+          <Link to={kafkaPageLink || '#'}>{t('common.kafka_instance')}</Link>
+        )}
+      />
       <BreadcrumbItem to='#' isActive>
         {kafkaName || t('common.kafka_instance_name')}
       </BreadcrumbItem>
