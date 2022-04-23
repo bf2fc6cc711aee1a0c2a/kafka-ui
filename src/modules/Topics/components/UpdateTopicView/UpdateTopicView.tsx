@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AlertVariant } from '@patternfly/react-core';
@@ -96,8 +96,12 @@ export const UpdateTopicView: React.FunctionComponent<UpdateTopicViewProps> = ({
     [addAlert, config, onCancelUpdateTopic, onError, topicData]
   );
 
+  const previousTopicName = useRef<string>();
   useEffect(() => {
-    fetchTopic(topicName);
+    if (previousTopicName.current !== topicName) {
+      previousTopicName.current = topicName;
+      fetchTopic(topicName);
+    }
   }, [fetchTopic, topicName]);
 
   const saveTopic = async () => {
