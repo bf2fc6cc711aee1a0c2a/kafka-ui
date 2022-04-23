@@ -10,6 +10,7 @@ import {
   PageSectionVariants,
 } from '@patternfly/react-core';
 import '../TopicDetailView/TopicDetailView.css';
+import { Link } from 'react-router-dom';
 
 export type TopicDetailHeadProps = {
   topicName: string;
@@ -30,12 +31,20 @@ export const TopicDetailHead: React.FC<TopicDetailHeadProps> = ({
     <>
       <section className='pf-c-page__main-breadcrumb'>
         <Breadcrumb>
-          <BreadcrumbItem to={kafkaPageLink || '#'}>
-            {t('common.kafka_instance')}
-          </BreadcrumbItem>
-          <BreadcrumbItem to={kafkaInstanceLink || '#'}>
-            {kafkaName || t('common.kafka_instance_name')}
-          </BreadcrumbItem>
+          <BreadcrumbItem
+            render={() => (
+              <Link to={kafkaPageLink || '#'}>
+                {t('common.kafka_instance')}
+              </Link>
+            )}
+          />
+          <BreadcrumbItem
+            render={() => (
+              <Link to={kafkaInstanceLink || '#'}>
+                {kafkaName || t('common.kafka_instance_name')}
+              </Link>
+            )}
+          />
           <BreadcrumbItem>{topicName}</BreadcrumbItem>
         </Breadcrumb>
       </section>

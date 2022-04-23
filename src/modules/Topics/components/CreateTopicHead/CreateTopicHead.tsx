@@ -8,6 +8,7 @@ import {
   Breadcrumb,
   BreadcrumbItem,
 } from '@patternfly/react-core';
+import { Link } from 'react-router-dom';
 
 export type CreateTopicProps = {
   isSwitchChecked: boolean;
@@ -28,10 +29,18 @@ export const CreateTopichead: React.FC<CreateTopicProps> = ({
 
   const mainBreadcrumbs = (
     <Breadcrumb>
-      <BreadcrumbItem to={kafkaPageLink || '#'}>Kafka Instances</BreadcrumbItem>
-      <BreadcrumbItem to={kafkaInstanceLink || '#'}>
-        {kafkaName || t('common.kafka_instance_name')}
-      </BreadcrumbItem>
+      <BreadcrumbItem
+        render={() => (
+          <Link to={kafkaPageLink || '#'}>{t('common.kafka_instance')}</Link>
+        )}
+      />
+      <BreadcrumbItem
+        render={() => (
+          <Link to={kafkaInstanceLink || '#'}>
+            {kafkaName || t('common.kafka_instance_name')}
+          </Link>
+        )}
+      />
       <BreadcrumbItem to='#' isActive>
         {t('topic.create_topic')}
       </BreadcrumbItem>
