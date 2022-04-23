@@ -38,7 +38,11 @@ import {
   KafkaMessageBrowser,
   KafkaMessageBrowserProps,
 } from '@rhoas/app-services-ui-components';
-import { Configuration, RecordsApi } from '@rhoas/kafka-instance-sdk';
+import {
+  Configuration,
+  RecordsApi,
+  TopicsApi,
+} from '@rhoas/kafka-instance-sdk';
 import { Loading } from '@app/components';
 
 export const TopicDetailPage: VoidFunctionComponent = () => {
@@ -237,22 +241,32 @@ const TopicDetailsViewConnected: VoidFunctionComponent<{
   );
 };
 
+export type Unpromise<T extends Promise<any>> = T extends Promise<infer U>
+  ? U
+  : never;
+
 const MessagesConnected: VoidFunctionComponent<{
   topicName: string;
 }> = ({ topicName }) => {
   const config = useContext(ConfigContext);
 
-  const getMessages: KafkaMessageBrowserProps['getMessages'] = useCallback(
-    async ({ offset, partition, limit, timestamp }) => {
+  const consumeRecords = useCallback(
+    async ({
+      offset,
+      partition,
+      limit,
+      timestamp,
+    }: Parameters<KafkaMessageBrowserProps['getMessages']>[0]): Promise<
+      Unpromise<ReturnType<KafkaMessageBrowserProps['getMessages']>>['messages']
+    > => {
       const accessToken = await config?.getToken();
-
-      const api = new RecordsApi(
+      const recordsApi = new RecordsApi(
         new Configuration({
           accessToken,
           basePath: config?.basePath,
         })
       );
-      const { data } = await api.consumeRecords(
+      const { data } = await recordsApi.consumeRecords(
         topicName,
         undefined,
         limit,
@@ -260,19 +274,42 @@ const MessagesConnected: VoidFunctionComponent<{
         partition,
         timestamp
       );
-      return {
-        partitions: 1,
-        messages: data.items.map((m) => ({
-          partition: m.partition,
-          offset: m.offset,
-          timestamp: m.timestamp,
-          key: m.key,
-          value: m.value,
-          headers: m.headers || {},
-        })),
-      };
+      return data.items.map((m) => ({
+        partition: m.partition,
+        offset: m.offset,
+        timestamp: m.timestamp,
+        key: m.key,
+        value: m.value,
+        headers: m.headers || {},
+      }));
     },
     [config, topicName]
+  );
+
+  const getTopicPartitions = useCallback(async () => {
+    const accessToken = await config?.getToken();
+    const topicsApi = new TopicsApi(
+      new Configuration({
+        accessToken,
+        basePath: config?.basePath,
+      })
+    );
+    const { data } = await topicsApi.getTopic(topicName);
+    return data.partitions?.length || 0;
+  }, [config, topicName]);
+
+  const getMessages: KafkaMessageBrowserProps['getMessages'] = useCallback(
+    async (opts) => {
+      const [messages, partitions] = await Promise.all([
+        consumeRecords(opts),
+        getTopicPartitions(),
+      ]);
+      return {
+        partitions,
+        messages,
+      };
+    },
+    [consumeRecords, getTopicPartitions]
   );
 
   return <KafkaMessageBrowser getMessages={getMessages} />;
