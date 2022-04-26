@@ -56,7 +56,7 @@ const ConsumerGroupsFederated: React.FC<ConsumerGroupsFederatedProps> = ({
         <ModalProvider>
           <PaginationProvider>
             <MainViewHeader activeTabKey={3} />
-            <PageSection isFilled>
+            <PageSection hasOverflowScroll={true}>
               <ConsumerGroups consumerGroupByTopic={false} />
               <KafkaModalLoader />
             </PageSection>

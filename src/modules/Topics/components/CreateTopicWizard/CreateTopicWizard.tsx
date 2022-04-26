@@ -187,7 +187,10 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
       {isSwitchChecked ? (
         <>
           <Divider className='kafka-ui--divider--FlexShrink' />
-          <PageSection variant={PageSectionVariants.light}>
+          <PageSection
+            variant={PageSectionVariants.light}
+            hasOverflowScroll={true}
+          >
             <TopicAdvanceConfig
               isCreate={true}
               saveTopic={saveTopic}
@@ -201,7 +204,7 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
         <PageSection
           variant={PageSectionVariants.light}
           type={PageSectionTypes.wizard}
-          isFilled
+          hasOverflowScroll={true}
         >
           <Wizard
             navAriaLabel={`${title} steps`}

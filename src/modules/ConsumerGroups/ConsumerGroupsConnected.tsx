@@ -7,7 +7,7 @@ const ConsumerGroupsConnected: React.FC = () => {
   return (
     <>
       <MainViewHeader activeTabKey={3} />
-      <PageSection isFilled>
+      <PageSection hasOverflowScroll={true}>
         <ConsumerGroups consumerGroupByTopic={false} />
       </PageSection>
     </>

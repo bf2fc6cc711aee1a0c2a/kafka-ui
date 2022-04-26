@@ -10,9 +10,9 @@ const TopicAdvanceJumpLinks: React.FC = () => {
       <JumpLinks
         isVertical
         label={t('topic.jump_to_section')}
-        scrollableSelector='.pf-c-page__main[tabindex="-1"]'
+        scrollableSelector='.pf-c-page__main-section.pf-m-overflow-scroll'
         style={{ position: 'sticky' }}
-        offset={-164} // for header
+        // offset={-164} // for header
       >
         <JumpLinksItem key={0} href='#core-configuration'>
           {t('topic.core_configuration')}

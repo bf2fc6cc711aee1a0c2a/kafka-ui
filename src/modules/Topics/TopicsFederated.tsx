@@ -57,7 +57,7 @@ const TopicsFederated: React.FC<TopicsFederatedProps> = ({
         <ModalProvider>
           <PaginationProvider>
             <MainViewHeader activeTabKey={2} />
-            <PageSection isFilled>
+            <PageSection hasOverflowScroll={true}>
               <Topics />
               <KafkaModalLoader />
             </PageSection>

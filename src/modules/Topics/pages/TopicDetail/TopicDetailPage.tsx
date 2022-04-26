@@ -118,6 +118,7 @@ export const TopicDetailPage: VoidFunctionComponent = () => {
             ? PageSectionVariants.light
             : PageSectionVariants.default
         }
+        hasOverflowScroll={true}
       >
         <TabContent
           eventKey={1}
