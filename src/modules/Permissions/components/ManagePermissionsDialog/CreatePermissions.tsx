@@ -11,7 +11,10 @@ import {
   ButtonVariant,
 } from '@patternfly/react-core';
 
-import { PermissionsDropdown } from '@rhoas/app-services-ui-components';
+import {
+  PermissionsDropdown,
+  PermissionsDropdownProps,
+} from '@rhoas/app-services-ui-components';
 import {
   TableComposable,
   Thead,
@@ -117,9 +120,13 @@ export const CreatePermissions: React.FunctionComponent<
     });
   };
 
-  const onAddPermission = () => {
+  const onAddPermission: PermissionsDropdownProps['onAddPermission'] = ((
+    e: React.MouseEvent
+  ) => {
+    e.stopPropagation();
+    e.preventDefault();
     setAcls((prevState) => [...prevState, createEmptyNewAcl()]);
-  };
+  }) as PermissionsDropdownProps['onAddPermission'];
 
   const onShortcutConsumeTopic = () => {
     const newState = [

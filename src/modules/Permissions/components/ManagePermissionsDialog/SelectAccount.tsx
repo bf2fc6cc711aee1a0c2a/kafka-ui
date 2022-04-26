@@ -171,7 +171,7 @@ export const SelectAccount: React.VFC<SelectAccountProps> = ({
         selections={id.value}
         onFilter={customFilter}
         isOpen={isOpen}
-        isInputValuePersisted={true}
+        // isInputValuePersisted={true}
         placeholderText={t(
           'permission.manage_permissions_dialog.account_id_typeahead_placeholder'
         )}

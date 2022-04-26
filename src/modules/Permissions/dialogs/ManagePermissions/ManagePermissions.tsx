@@ -1,4 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { AclBinding } from '@rhoas/app-services-ui-shared/dist/esm/contexts/modals/kafka-modals';
+import React, {
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  VoidFunctionComponent,
+} from 'react';
 import {
   Button,
   Form,
@@ -23,7 +30,10 @@ import {
   useAuth,
 } from '@rhoas/app-services-ui-shared';
 import { SelectAccount } from '@app/modules/Permissions/components/ManagePermissionsDialog/SelectAccount';
-import { CreatePermissions } from '@app/modules/Permissions/components/ManagePermissionsDialog/CreatePermissions';
+import {
+  CreatePermissions,
+  CreatePermissionsProps,
+} from '@app/modules/Permissions/components/ManagePermissionsDialog/CreatePermissions';
 import { Validated } from '@app/modules/Permissions/components/ManagePermissionsDialog/validated';
 import {
   AclShortcutType,
@@ -31,7 +41,7 @@ import {
   NewAcl,
   NewAcls,
 } from '@app/modules/Permissions/components/ManagePermissionsDialog/acls';
-import { FormGroupWithPopover, MASLoading } from '@app/components';
+import { FormGroupWithPopover } from '@app/components';
 import { useValidateTopic } from '@app/modules/Topics/utils';
 import { ExistingAclTable } from '@app/modules/Permissions/components/ManagePermissionsDialog/ExistingAclTable';
 import {
@@ -326,107 +336,9 @@ export const ManagePermissionsModal: React.FC<
     }
   };
 
-  const isFormInvalid = (newAcls: NewAcls[]): boolean => {
-    return newAcls.some((value) => {
-      value = Array.isArray(value) ? value : [value];
-      return value?.some(
-        (v) =>
-          v.operation.validated === 'error' ||
-          v.patternType.validated === 'error' ||
-          v.resource.validated === 'error' ||
-          v.resourceType.validated === 'error'
-      );
-    });
-  };
-
-  const Step2 = () => {
-    if (step === 2) {
-      if (resourceOperations === undefined) {
-        return <MASLoading />;
-      }
-      const menuAppendTo =
-        document.getElementById('manage-permissions-modal') || undefined;
-
-      const FormValidAlert: React.FunctionComponent = () => {
-        if (isFormInvalid(newAcls)) {
-          return (
-            <FormAlert>
-              <Alert
-                variant='danger'
-                title={t('common:form_invalid_alert')}
-                aria-live='polite'
-                isInline
-              />
-            </FormAlert>
-          );
-        }
-        return <></>;
-      };
-      return (
-        <>
-          <FormValidAlert />
-          <ExistingAclTable
-            existingAcls={acls.filter(
-              (i) =>
-                i.principal === `${selectedAccount.value}` ||
-                i.principal === '*'
-            )}
-            selectedAccountId={selectedAccount.value}
-            onRemove={(acl) =>
-              setRemoveAcls((prevState) => {
-                return [...prevState, acl];
-              })
-            }
-          />
-          <CreatePermissions
-            acls={newAcls}
-            setAcls={setNewAcls}
-            topicNames={topicNames}
-            consumerGroupIds={consumerGroupIds}
-            selectedAccount={selectedAccount.value}
-            setEscapeClosesModal={setEscapeClosesModal}
-            resourceOperations={resourceOperations}
-            menuAppendTo={menuAppendTo}
-            kafkaName={kafkaName}
-          />
-        </>
-      );
-    }
-    return <></>;
-  };
-
   const principal = principals
     .getAllPrincipals()
     .filter((p) => p.id !== currentlyLoggedInuser && p.id !== kafka?.owner);
-
-  const Account = () => {
-    if (step === 1) {
-      return (
-        <SelectAccount
-          id={selectedAccount}
-          setId={setSelectedAccount}
-          initialOptions={principal}
-          setEscapeClosesModal={setEscapeClosesModal}
-        />
-      );
-    }
-    return (
-      <FormGroupWithPopover
-        labelHead={t('permission.manage_permissions_dialog.account_id_title')}
-        fieldId='kafka-instance-name'
-        fieldLabel={t('permission.manage_permissions_dialog.account_id_title')}
-        labelBody={t('permission.manage_permissions_dialog.account_id_help')}
-        buttonAriaLabel={t(
-          'permission.manage_permissions_dialog.account_id_aria'
-        )}
-        isRequired={true}
-      >
-        {selectedAccount.value === '*'
-          ? t('permission.manage_permissions_dialog.all_accounts_title')
-          : selectedAccount.value}
-      </FormGroupWithPopover>
-    );
-  };
 
   const setEscapeClosesModal = (closes: boolean) => {
     escapeClosesModal.current = closes;
@@ -440,43 +352,6 @@ export const ManagePermissionsModal: React.FC<
 
   const isDisabledSaveButton = !(
     newAcls?.some((p) => isNewAclModified(p)) || removeAcls.length > 0
-  );
-
-  const SubmitButton: React.FunctionComponent = () => {
-    if (step === 1) {
-      return (
-        <Button
-          variant='primary'
-          onClick={() => setStep(2)}
-          isDisabled={selectedAccount.value === undefined}
-        >
-          {t('permission.manage_permissions_dialog.step_1_submit_button')}
-        </Button>
-      );
-    }
-    return (
-      <Button
-        variant='primary'
-        onClick={save}
-        key={1}
-        isDisabled={isDisabledSaveButton}
-      >
-        {t('permission.manage_permissions_dialog.step_2_submit_button')}
-      </Button>
-    );
-  };
-
-  const ModalForm: React.FunctionComponent = () => (
-    <Form>
-      <FormGroup
-        fieldId='kafka-instance-name'
-        label={t('permission.manage_permissions_dialog.kafka_instance_title')}
-      >
-        {kafkaName}
-      </FormGroup>
-      <Account />
-      <Step2 />
-    </Form>
   );
 
   const closePermissionModal = () => {
@@ -509,8 +384,30 @@ export const ManagePermissionsModal: React.FC<
       onClose={closePermissionModal}
       onEscapePress={onEscapePress}
       actions={[
-        <SubmitButton key={1} />,
-        <Button onClick={closePermissionModal} key={2} variant='secondary'>
+        step === 1 ? (
+          <Button
+            key={'step1'}
+            variant='primary'
+            onClick={() => setStep(2)}
+            isDisabled={selectedAccount.value === undefined}
+          >
+            {t('permission.manage_permissions_dialog.step_1_submit_button')}
+          </Button>
+        ) : (
+          <Button
+            variant='primary'
+            onClick={save}
+            key={'step2'}
+            isDisabled={isDisabledSaveButton}
+          >
+            {t('permission.manage_permissions_dialog.step_2_submit_button')}
+          </Button>
+        ),
+        <Button
+          onClick={closePermissionModal}
+          key={'cancel'}
+          variant='secondary'
+        >
           {t('permission.manage_permissions_dialog.cancel_button')}
         </Button>,
       ]}
@@ -520,9 +417,137 @@ export const ManagePermissionsModal: React.FC<
         closeModal={closePreCancelModal}
         resumeEditing={resumeEditingPermissions}
       />
-      <ModalForm />
+      <Form>
+        <FormGroup
+          fieldId='kafka-instance-name'
+          label={t('permission.manage_permissions_dialog.kafka_instance_title')}
+        >
+          {kafkaName}
+        </FormGroup>
+        {step === 1 ? (
+          <SelectAccount
+            id={selectedAccount}
+            setId={setSelectedAccount}
+            initialOptions={principal}
+            setEscapeClosesModal={setEscapeClosesModal}
+          />
+        ) : (
+          <FormGroupWithPopover
+            labelHead={t(
+              'permission.manage_permissions_dialog.account_id_title'
+            )}
+            fieldId='kafka-instance-name'
+            fieldLabel={t(
+              'permission.manage_permissions_dialog.account_id_title'
+            )}
+            labelBody={t(
+              'permission.manage_permissions_dialog.account_id_help'
+            )}
+            buttonAriaLabel={t(
+              'permission.manage_permissions_dialog.account_id_aria'
+            )}
+            isRequired={true}
+          >
+            {selectedAccount.value === '*'
+              ? t('permission.manage_permissions_dialog.all_accounts_title')
+              : selectedAccount.value}
+          </FormGroupWithPopover>
+        )}
+        {step === 2 && resourceOperations && (
+          <Step2
+            onRemoveAcl={(acl) =>
+              setRemoveAcls((prevState) => {
+                return [...prevState, acl];
+              })
+            }
+            setAcls={setNewAcls}
+            setEscapeClosesModal={setEscapeClosesModal}
+            acls={acls}
+            consumerGroupIds={consumerGroupIds}
+            selectedAccount={selectedAccount}
+            selectedAccountId={selectedAccountId}
+            newAcls={newAcls}
+            topicNames={topicNames}
+            resourceOperations={resourceOperations}
+            kafkaName={kafkaName}
+          />
+        )}
+      </Form>
     </Modal>
   );
 };
+
+type Step2Props = {
+  selectedAccount: Validated<string | undefined>;
+  selectedAccountId: string | undefined;
+  acls: Array<AclBinding>;
+  newAcls: NewAcls[];
+  onRemoveAcl: (acl: EnhancedAclBinding) => void;
+} & Omit<CreatePermissionsProps, 'acls' | 'menuAppendTo' | 'selectedAccount'>;
+const Step2: VoidFunctionComponent<Step2Props> = ({
+  kafkaName,
+  topicNames,
+  consumerGroupIds,
+  selectedAccount,
+  selectedAccountId,
+  resourceOperations,
+  acls,
+  newAcls,
+  onRemoveAcl,
+  setAcls,
+  setEscapeClosesModal,
+}) => {
+  const { t } = useTranslation(['kafkaTemporaryFixMe']);
+
+  const menuAppendTo =
+    document.getElementById('manage-permissions-modal') || undefined;
+
+  return (
+    <>
+      {isFormInvalid(newAcls) && (
+        <FormAlert>
+          <Alert
+            variant='danger'
+            title={t('common:form_invalid_alert')}
+            aria-live='polite'
+            isInline
+          />
+        </FormAlert>
+      )}
+      <ExistingAclTable
+        existingAcls={(acls || []).filter(
+          (i) =>
+            i.principal === `${selectedAccount.value}` || i.principal === '*'
+        )}
+        selectedAccountId={selectedAccountId}
+        onRemove={onRemoveAcl}
+      />
+      <CreatePermissions
+        acls={newAcls}
+        setAcls={setAcls}
+        topicNames={topicNames}
+        consumerGroupIds={consumerGroupIds}
+        selectedAccount={selectedAccount.value}
+        setEscapeClosesModal={setEscapeClosesModal}
+        resourceOperations={resourceOperations}
+        menuAppendTo={menuAppendTo}
+        kafkaName={kafkaName}
+      />
+    </>
+  );
+};
+
+function isFormInvalid(newAcls: NewAcls[]): boolean {
+  return newAcls.some((value) => {
+    value = Array.isArray(value) ? value : [value];
+    return value?.some(
+      (v) =>
+        v.operation.validated === 'error' ||
+        v.patternType.validated === 'error' ||
+        v.resource.validated === 'error' ||
+        v.resourceType.validated === 'error'
+    );
+  });
+}
 
 export default ManagePermissions;
