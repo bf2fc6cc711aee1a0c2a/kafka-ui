@@ -4,16 +4,22 @@
 .kafka-ui--select--limit-height .pf-c-select__menu {
   max-height: 120px;
   overflow: auto;
+}
 
-  @media (min-height: 485px) {
+@media (min-height: 485px) {
+  .kafka-ui--select--limit-height .pf-c-select__menu {
     max-height: 225px;
   }
+}
 
-  @media (min-height: 560px) {
+@media (min-height: 560px) {
+  .kafka-ui--select--limit-height .pf-c-select__menu {
     max-height: 300px;
   }
+}
 
-  @media (min-height: 660px) {
+@media (min-height: 660px) {
+  .kafka-ui--select--limit-height .pf-c-select__menu {
     max-height: 400px;
   }
 }
