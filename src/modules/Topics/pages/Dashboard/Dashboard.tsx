@@ -1,3 +1,4 @@
+import { PageSection } from '@patternfly/react-core';
 import React from 'react';
 import { MainViewHeader } from '@app/components';
 import { FederatedProps, FederatedContext } from '@app/contexts';
@@ -35,7 +36,9 @@ const Dashboard: React.FC<DashboardProps> = ({
       }}
     >
       <MainViewHeader activeTabKey={1} />
-      {showMetrics}
+      <PageSection hasOverflowScroll={true} padding={{ default: 'noPadding' }}>
+        {showMetrics}
+      </PageSection>
     </FederatedContext.Provider>
   );
 };

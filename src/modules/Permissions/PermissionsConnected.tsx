@@ -7,7 +7,7 @@ const PermissionsConnected: React.FC = () => {
   return (
     <>
       <MainViewHeader activeTabKey={4} />
-      <PageSection isFilled>
+      <PageSection hasOverflowScroll={true}>
         <PermissionsTableView kafkaName={'test'} />
       </PageSection>
     </>

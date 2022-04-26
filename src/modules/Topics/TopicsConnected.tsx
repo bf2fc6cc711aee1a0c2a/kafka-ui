@@ -7,7 +7,7 @@ const TopicsConnected: React.FC = () => {
   return (
     <>
       <MainViewHeader activeTabKey={2} />
-      <PageSection isFilled>
+      <PageSection hasOverflowScroll={true}>
         <Topics />
       </PageSection>
     </>

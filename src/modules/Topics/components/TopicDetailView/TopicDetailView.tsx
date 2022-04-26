@@ -73,9 +73,8 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
           <JumpLinks
             isVertical
             label={t('topic.jump_to_section')}
-            offset={-164} // for header
             style={{ position: 'sticky' }}
-            scrollableSelector='.pf-c-page__main[tabindex="-1"]'
+            scrollableSelector='.pf-c-page__main-section.pf-m-light.pf-m-overflow-scroll'
           >
             <JumpLinksItem key={0} href='#core-configuration'>
               {t('topic.core_configuration')}
@@ -104,7 +103,11 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
           </JumpLinks>
         </SidebarPanel>
         <SidebarContent>
-          <PageGroup hasOverflowScroll id='topic-detail-view'>
+          <PageGroup
+            hasOverflowScroll
+            id='topic-detail-view'
+            className={'pf-u-mb-4xl'}
+          >
             <PageSection padding={{ default: 'noPadding' }}>
               <Split>
                 <SplitItem isFilled>

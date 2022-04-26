@@ -56,7 +56,7 @@ const PermissionsFederated: React.FC<PermissionsFederatedProps> = ({
         <ModalProvider>
           <PaginationProvider>
             <MainViewHeader activeTabKey={4} />
-            <PageSection isFilled>
+            <PageSection hasOverflowScroll={true}>
               <PermissionsTableView kafkaName={kafkaName} />
               <KafkaModalLoader />
             </PageSection>
