@@ -33,7 +33,12 @@ import {
   ModalTypePropsMap,
   useModal,
 } from '@rhoas/app-services-ui-shared';
-import { MASPagination, MASTable, usePaginationParams } from '@app/components';
+import {
+  Loading,
+  MASPagination,
+  MASTable,
+  usePaginationParams,
+} from '@app/components';
 
 export type PermissionsTableProps = {
   permissionsService: PermissionsService;
@@ -229,11 +234,10 @@ const PermissionsTable: React.FC<PermissionsTableProps> = ({
     return resolver;
   };
 
-  if (
-    aclPage === undefined ||
-    aclPage.items === undefined ||
-    aclPage.items.length === 0
-  ) {
+  if (aclPage === undefined) {
+    return <Loading />;
+  }
+  if (aclPage.items === undefined || aclPage.items.length === 0) {
     return (
       <PermissionsTableEmptyState
         openManagePermissions={() => openManagePermissions()}
