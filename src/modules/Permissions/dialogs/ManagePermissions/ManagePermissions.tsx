@@ -371,6 +371,12 @@ export const ManagePermissionsModal: React.FC<
     setIsOpenPreCancelModal(false);
   };
 
+  const aclsForSelectedAccount = (acls || []).filter(
+    (i) =>
+      (selectedAccount.value && i.principal === `${selectedAccount.value}`) ||
+      i.principal === '*'
+  );
+
   return (
     <Modal
       id='manage-permissions-modal'
@@ -462,10 +468,10 @@ export const ManagePermissionsModal: React.FC<
             }
             setAcls={setNewAcls}
             setEscapeClosesModal={setEscapeClosesModal}
-            acls={acls}
+            acls={aclsForSelectedAccount}
             consumerGroupIds={consumerGroupIds}
             selectedAccount={selectedAccount}
-            selectedAccountId={selectedAccountId}
+            selectedAccountId={selectedAccount.value}
             newAcls={newAcls}
             topicNames={topicNames}
             resourceOperations={resourceOperations}
@@ -515,10 +521,7 @@ const Step2: VoidFunctionComponent<Step2Props> = ({
         </FormAlert>
       )}
       <ExistingAclTable
-        existingAcls={(acls || []).filter(
-          (i) =>
-            i.principal === `${selectedAccount.value}` || i.principal === '*'
-        )}
+        existingAcls={acls}
         selectedAccountId={selectedAccountId}
         onRemove={onRemoveAcl}
       />
