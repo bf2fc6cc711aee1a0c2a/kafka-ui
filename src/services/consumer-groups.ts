@@ -12,8 +12,6 @@ import { SortByDirection } from '@patternfly/react-table';
 
 const getConsumerGroups = async (
   config: IConfiguration | undefined,
-  offset?: number,
-  limit?: number,
   size?: number,
   page?: number,
   topic?: string,
@@ -31,8 +29,8 @@ const getConsumerGroups = async (
   );
   const response: AxiosResponse<ConsumerGroupList> =
     await api.getConsumerGroups(
-      offset,
-      limit,
+      undefined,
+      undefined,
       size,
       page,
       topic,

@@ -40,7 +40,7 @@ const Topics: React.FC = () => {
   const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
   const config = useContext(ConfigContext);
-  const { page = 1, perPage = 10 } = usePaginationParams() || {};
+  const { page = 1, perPage = 10, setPage } = usePaginationParams() || {};
   const history = useHistory();
   const { getBasename } = useBasename() || { getBasename: () => '' };
   const basename = getBasename();
@@ -50,6 +50,14 @@ const Topics: React.FC = () => {
   const [order, setOrder] = useState<SortByDirection>();
   const [orderKey, setOrderKey] = useState<OrderKey>();
   const [sortBy, setSortBy] = useState<ISortBy>({ index: 0, direction: 'asc' });
+
+  const onSearch = useCallback(
+    (value: string) => {
+      setSearchTopicName(value);
+      setPage && setPage(1);
+    },
+    [setPage]
+  );
 
   const onClickCreateTopic = () => {
     history.push(`${basename}/topic/create`);
@@ -101,61 +109,63 @@ const Topics: React.FC = () => {
 
   useTimeout(() => fetchTopic(), 5000);
 
-  const renderTopicsTable = () => {
-    if (topicsList?.items === undefined) {
-      return (
-        <PageSection
-          className='kafka-ui-m-full-height'
-          variant={PageSectionVariants.light}
-          padding={{ default: 'noPadding' }}
-        >
-          <MASLoading />
-        </PageSection>
-      );
-    } else if (topicsList?.items?.length < 1 && searchTopicName.length < 1) {
-      return (
-        <EmptyState
-          emptyStateProps={{
-            variant: MASEmptyStateVariant.NoItems,
-            'data-ouia-page-id': 'emptyStateTopics',
-          }}
-          titleProps={{
-            title: t('topic.empty_topics_title'),
-          }}
-          emptyStateBodyProps={{
-            body: t('topic.empty_topics_body'),
-          }}
-          buttonProps={{
-            title: t('topic.create_topic'),
-            onClick: onClickCreateTopic,
-            'data-testid': 'actionCreateTopic',
-          }}
-        />
-      );
-    } else if (topicsList?.items) {
-      return (
-        <TopicsTable
-          total={topicsList?.total || 0}
-          page={page}
-          perPage={perPage}
-          onCreateTopic={onClickCreateTopic}
-          topicItems={topicsList?.items}
-          filteredValue={searchTopicName}
-          setFilteredValue={setSearchTopicName}
-          refreshTopics={fetchTopic}
-          onEdit={onEdit}
-          onSort={onSort}
-          sortBy={sortBy}
-        />
-      );
-    }
-    return <></>;
-  };
-
   return (
     <>
       <Card className='kafka-ui-m-full-height' data-ouia-page-id='tableTopics'>
-        {renderTopicsTable()}
+        {(() => {
+          switch (true) {
+            case topicsList?.items === undefined:
+              return (
+                <PageSection
+                  className='kafka-ui-m-full-height'
+                  variant={PageSectionVariants.light}
+                  padding={{ default: 'noPadding' }}
+                >
+                  <MASLoading />
+                </PageSection>
+              );
+            case topicsList &&
+              topicsList?.items?.length < 1 &&
+              searchTopicName.length < 1:
+              return (
+                <EmptyState
+                  emptyStateProps={{
+                    variant: MASEmptyStateVariant.NoItems,
+                    'data-ouia-page-id': 'emptyStateTopics',
+                  }}
+                  titleProps={{
+                    title: t('topic.empty_topics_title'),
+                  }}
+                  emptyStateBodyProps={{
+                    body: t('topic.empty_topics_body'),
+                  }}
+                  buttonProps={{
+                    title: t('topic.create_topic'),
+                    onClick: onClickCreateTopic,
+                    'data-testid': 'actionCreateTopic',
+                  }}
+                />
+              );
+            case topicsList?.items !== undefined:
+              return (
+                <TopicsTable
+                  total={topicsList?.total || 0}
+                  page={page}
+                  perPage={perPage}
+                  onCreateTopic={onClickCreateTopic}
+                  topicItems={topicsList?.items || []}
+                  filteredValue={searchTopicName}
+                  setFilteredValue={onSearch}
+                  refreshTopics={fetchTopic}
+                  onEdit={onEdit}
+                  onSort={onSort}
+                  sortBy={sortBy}
+                />
+              );
+            default:
+              return <></>;
+          }
+        })()}
       </Card>
     </>
   );

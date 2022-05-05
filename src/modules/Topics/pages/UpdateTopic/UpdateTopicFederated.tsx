@@ -6,7 +6,7 @@ import {
   FederatedProps,
   IConfiguration,
 } from '@app/contexts';
-import { KafkaModalLoader } from '@app/components/KafkaModal';
+import { KafkaModalLoader, PaginationProvider } from '@app/components';
 import { ModalProvider } from '@rhoas/app-services-ui-components';
 
 export type UpdateTopicFederatedProps = FederatedProps &
@@ -35,7 +35,9 @@ const UpdateTopicFederated: FunctionComponent<UpdateTopicFederatedProps> = ({
         }}
       >
         <ModalProvider>
-          <UpdateTopicPage />
+          <PaginationProvider>
+            <UpdateTopicPage />
+          </PaginationProvider>
           <KafkaModalLoader />
         </ModalProvider>
       </FederatedContext.Provider>
