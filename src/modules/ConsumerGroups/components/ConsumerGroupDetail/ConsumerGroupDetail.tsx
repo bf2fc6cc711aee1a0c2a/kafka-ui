@@ -150,7 +150,7 @@ const ConsumerGroupDetail: React.FunctionComponent<
             </Text>
             <Text component={TextVariants.p}>
               <Text component={TextVariants.h2}>
-                {ConsumerGroupState(consumerGroupDetail?.state)}
+                <ConsumerGroupState state={consumerGroupDetail?.state} />
               </Text>
             </Text>
           </FlexItem>

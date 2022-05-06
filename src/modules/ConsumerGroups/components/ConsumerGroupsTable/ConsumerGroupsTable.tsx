@@ -95,7 +95,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
           groupId,
           metrics.activeConsumers,
           metrics.laggingPartitions,
-          ConsumerGroupState(state),
+          { title: <ConsumerGroupState state={state} /> },
         ],
         originalData: { ...row, rowId: groupId },
       });

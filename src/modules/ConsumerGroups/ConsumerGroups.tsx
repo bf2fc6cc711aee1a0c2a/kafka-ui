@@ -119,56 +119,6 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
     setConsumerGroupDetail(consumerGroup);
   };
 
-  const RenderTable = () => {
-    switch (true) {
-      case consumerGroups === undefined:
-        return (
-          <PageSection
-            className='kafka-ui-m-full-height'
-            variant={PageSectionVariants.light}
-            padding={{ default: 'noPadding' }}
-          >
-            <MASLoading />
-          </PageSection>
-        );
-      case (!consumerGroups?.items?.length ||
-        consumerGroups?.items?.length < 1) &&
-        search.length < 1:
-        return (
-          <EmptyState
-            emptyStateProps={{
-              variant: MASEmptyStateVariant.NoConsumerGroups,
-            }}
-            titleProps={{
-              title: t('consumerGroup.empty_consumer_title'),
-            }}
-            emptyStateBodyProps={{
-              body: t('consumerGroup.empty_consumer_body'),
-            }}
-          />
-        );
-      case consumerGroups?.items !== undefined:
-        return (
-          <ConsumerGroupsTable
-            consumerGroups={consumerGroups?.items}
-            total={consumerGroups?.total || 0}
-            page={page}
-            perPage={perPage}
-            search={search}
-            setSearch={onSearch}
-            rowDataTestId={rowDataTestId}
-            onViewConsumerGroup={onViewConsumerGroup}
-            isDrawerOpen={isExpanded}
-            refreshConsumerGroups={fetchConsumerGroups}
-            onSort={onSort}
-            sortBy={sortBy}
-          />
-        );
-      default:
-        return <></>;
-    }
-  };
-
   return (
     <Suspense fallback={<MASLoading />}>
       <MASDrawer
@@ -183,7 +133,55 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
         refreshConsumerGroups={fetchConsumerGroups}
         consumerGroupDetail={consumerGroupDetail}
       >
-        <RenderTable />
+        {(() => {
+          switch (true) {
+            case consumerGroups === undefined:
+              return (
+                <PageSection
+                  className='kafka-ui-m-full-height'
+                  variant={PageSectionVariants.light}
+                  padding={{ default: 'noPadding' }}
+                >
+                  <MASLoading />
+                </PageSection>
+              );
+            case (!consumerGroups?.items?.length ||
+              consumerGroups?.items?.length < 1) &&
+              search.length < 1:
+              return (
+                <EmptyState
+                  emptyStateProps={{
+                    variant: MASEmptyStateVariant.NoConsumerGroups,
+                  }}
+                  titleProps={{
+                    title: t('consumerGroup.empty_consumer_title'),
+                  }}
+                  emptyStateBodyProps={{
+                    body: t('consumerGroup.empty_consumer_body'),
+                  }}
+                />
+              );
+            case consumerGroups?.items !== undefined:
+              return (
+                <ConsumerGroupsTable
+                  consumerGroups={consumerGroups?.items}
+                  total={consumerGroups?.total || 0}
+                  page={page}
+                  perPage={perPage}
+                  search={search}
+                  setSearch={onSearch}
+                  rowDataTestId={rowDataTestId}
+                  onViewConsumerGroup={onViewConsumerGroup}
+                  isDrawerOpen={isExpanded}
+                  refreshConsumerGroups={fetchConsumerGroups}
+                  onSort={onSort}
+                  sortBy={sortBy}
+                />
+              );
+            default:
+              return <></>;
+          }
+        })()}
       </MASDrawer>
     </Suspense>
   );
