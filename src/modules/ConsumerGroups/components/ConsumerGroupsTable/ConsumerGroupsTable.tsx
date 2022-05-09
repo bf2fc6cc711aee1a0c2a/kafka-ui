@@ -29,7 +29,6 @@ import {
   useModal,
 } from '@rhoas/app-services-ui-shared';
 import { ConsumerGroupState } from '../ConsumerGroupState';
-// import { ConsumerGroupState } from '@rhoas/kafka-instance-sdk';
 
 export type ConsumerGroupsTableProps = ConsumerGroupToolbarProps & {
   consumerGroups?: ConsumerGroup[];
@@ -96,7 +95,7 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
           groupId,
           metrics.activeConsumers,
           metrics.laggingPartitions,
-          ConsumerGroupState(state),
+          { title: <ConsumerGroupState state={state} /> },
         ],
         originalData: { ...row, rowId: groupId },
       });
@@ -192,6 +191,8 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
     }
   };
 
+  const rows = preparedTableCells();
+
   return (
     <>
       <ConsumerGroupToolbar
@@ -204,9 +205,9 @@ const ConsumerGroupsTable: React.FC<ConsumerGroupsTableProps> = ({
       <MASTable
         tableProps={{
           cells: tableColumns,
-          rows: preparedTableCells(),
+          rows,
           'aria-label': t('consumerGroup.consumer_group_list'),
-          actionResolver: actionResolver,
+          actionResolver,
           shouldDefaultCustomRowWrapper: true,
           variant: TableVariant.compact,
           onSort,

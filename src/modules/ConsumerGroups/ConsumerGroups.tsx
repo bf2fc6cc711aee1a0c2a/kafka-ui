@@ -40,7 +40,6 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
   topic,
   rowDataTestId,
 }) => {
-  const [offset, setOffset] = useState<number>(0);
   const [order, setOrder] = useState<SortByDirection>();
   const [orderKey, setOrderKey] = useState<'name' | undefined>();
   const [sortBy, setSortBy] = useState<ISortBy>({
@@ -56,11 +55,15 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
 
   const config = useContext(ConfigContext);
   const { t } = useTranslation(['kafkaTemporaryFixMe']);
-  const { page = 1, perPage = 10 } = usePaginationParams() || {};
+  const { page = 1, perPage = 10, setPage } = usePaginationParams() || {};
 
-  useEffect(() => {
-    setOffset(perPage * (page - 1));
-  }, [page, perPage]);
+  const onSearch = useCallback(
+    (value: string) => {
+      setSearch(value);
+      setPage && setPage(1);
+    },
+    [setPage]
+  );
 
   const onSort: OnSort = (_event, index, direction) => {
     setOrder(direction);
@@ -69,11 +72,8 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
   };
 
   const fetchConsumerGroups = useCallback(async () => {
-    const limit = 100;
     await getConsumerGroups(
       config,
-      offset,
-      limit,
       perPage,
       page,
       topic,
@@ -83,20 +83,19 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
     ).then((response) => {
       setConsumerGroups(response);
     });
-  }, [config, offset, order, orderKey, page, perPage, search, topic]);
+  }, [config, order, orderKey, page, perPage, search, topic]);
 
   useEffect(() => {
     fetchConsumerGroups();
-  }, [search, order, fetchConsumerGroups]);
+  }, [search, order, page, perPage, fetchConsumerGroups]);
 
   useEffect(() => {
     //update setConsumerGroupDetail state after reset offset value
     //so that values will update on page
     const filteredGroup =
       consumerGroups &&
-      consumerGroups.items?.filter((g) => g.groupId === groupId);
-    if (filteredGroup && filteredGroup.length > 0)
-      setConsumerGroupDetail(filteredGroup[0]);
+      consumerGroups.items?.find((g) => g.groupId === groupId);
+    if (filteredGroup) setConsumerGroupDetail(filteredGroup);
   }, [consumerGroups, groupId]);
 
   useTimeout(() => fetchConsumerGroups(), 5000);
@@ -120,62 +119,6 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
     setConsumerGroupDetail(consumerGroup);
   };
 
-  const renderConsumerTable = () => {
-    if (consumerGroups === undefined) {
-      return (
-        <PageSection
-          className='kafka-ui-m-full-height'
-          variant={PageSectionVariants.light}
-          padding={{ default: 'noPadding' }}
-        >
-          <MASLoading />
-        </PageSection>
-      );
-    } else if (
-      (!consumerGroups?.items?.length || consumerGroups?.items?.length < 1) &&
-      search.length < 1
-    ) {
-      return (
-        <EmptyState
-          emptyStateProps={{
-            variant: MASEmptyStateVariant.NoConsumerGroups,
-          }}
-          titleProps={{
-            title: t('consumerGroup.empty_consumer_title'),
-          }}
-          emptyStateBodyProps={{
-            body: t('consumerGroup.empty_consumer_body'),
-          }}
-        />
-      );
-    } else if (consumerGroups) {
-      return (
-        <ConsumerGroupsTable
-          consumerGroups={
-            search
-              ? consumerGroups?.items?.slice(0, perPage)
-              : consumerGroups?.items?.slice(
-                  consumerGroups?.items.length > 1 ? offset : 0,
-                  offset + perPage
-                )
-          }
-          total={consumerGroups?.items?.length || 0}
-          page={page}
-          perPage={perPage}
-          search={search}
-          setSearch={setSearch}
-          rowDataTestId={rowDataTestId}
-          onViewConsumerGroup={onViewConsumerGroup}
-          isDrawerOpen={isExpanded}
-          refreshConsumerGroups={fetchConsumerGroups}
-          onSort={onSort}
-          sortBy={sortBy}
-        />
-      );
-    }
-    return <></>;
-  };
-
   return (
     <Suspense fallback={<MASLoading />}>
       <MASDrawer
@@ -190,7 +133,55 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
         refreshConsumerGroups={fetchConsumerGroups}
         consumerGroupDetail={consumerGroupDetail}
       >
-        {renderConsumerTable()}
+        {(() => {
+          switch (true) {
+            case consumerGroups === undefined:
+              return (
+                <PageSection
+                  className='kafka-ui-m-full-height'
+                  variant={PageSectionVariants.light}
+                  padding={{ default: 'noPadding' }}
+                >
+                  <MASLoading />
+                </PageSection>
+              );
+            case (!consumerGroups?.items?.length ||
+              consumerGroups?.items?.length < 1) &&
+              search.length < 1:
+              return (
+                <EmptyState
+                  emptyStateProps={{
+                    variant: MASEmptyStateVariant.NoConsumerGroups,
+                  }}
+                  titleProps={{
+                    title: t('consumerGroup.empty_consumer_title'),
+                  }}
+                  emptyStateBodyProps={{
+                    body: t('consumerGroup.empty_consumer_body'),
+                  }}
+                />
+              );
+            case consumerGroups?.items !== undefined:
+              return (
+                <ConsumerGroupsTable
+                  consumerGroups={consumerGroups?.items}
+                  total={consumerGroups?.total || 0}
+                  page={page}
+                  perPage={perPage}
+                  search={search}
+                  setSearch={onSearch}
+                  rowDataTestId={rowDataTestId}
+                  onViewConsumerGroup={onViewConsumerGroup}
+                  isDrawerOpen={isExpanded}
+                  refreshConsumerGroups={fetchConsumerGroups}
+                  onSort={onSort}
+                  sortBy={sortBy}
+                />
+              );
+            default:
+              return <></>;
+          }
+        })()}
       </MASDrawer>
     </Suspense>
   );
