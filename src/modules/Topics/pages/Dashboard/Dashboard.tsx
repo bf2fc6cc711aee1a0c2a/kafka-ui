@@ -18,6 +18,7 @@ const Dashboard: React.FC<DashboardProps> = ({
 
   const onDeleteInstance = () => {
     showModal &&
+      kafka &&
       showModal(ModalType.KasDeleteInstance, {
         kafka,
         onDelete: redirectAfterDeleteInstance,

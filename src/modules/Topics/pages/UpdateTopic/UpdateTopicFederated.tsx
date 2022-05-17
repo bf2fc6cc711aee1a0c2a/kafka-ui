@@ -21,7 +21,10 @@ const UpdateTopicFederated: FunctionComponent<UpdateTopicFederatedProps> = ({
   kafkaPageLink,
   kafkaInstanceLink,
   onError,
+  kafka,
 }) => {
+  const { replicationFactor, minInSyncReplicas } = kafka || {};
+
   return (
     <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
       <FederatedContext.Provider
@@ -31,7 +34,9 @@ const UpdateTopicFederated: FunctionComponent<UpdateTopicFederatedProps> = ({
           kafkaPageLink,
           kafkaInstanceLink,
           onError,
-          kafka: {},
+          kafka: undefined,
+          replicationFactor,
+          minInSyncReplicas,
         }}
       >
         <ModalProvider>

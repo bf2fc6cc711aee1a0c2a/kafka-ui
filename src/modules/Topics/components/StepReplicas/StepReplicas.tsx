@@ -14,11 +14,13 @@ import { TextWithLabelPopover } from '@app/components/TextWithLabelPopover';
 export type StepReplicasProps = {
   replicationFactor: number;
   minInSyncReplica: number;
+  isMultiAZ: boolean | undefined;
 };
 
 export const StepReplicas: React.FC<StepReplicasProps> = ({
   replicationFactor,
   minInSyncReplica,
+  isMultiAZ,
 }) => {
   const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
@@ -38,7 +40,11 @@ export const StepReplicas: React.FC<StepReplicasProps> = ({
         <Alert
           variant='info'
           isInline
-          title={t('topic.replicas_helper_text')}
+          title={
+            isMultiAZ
+              ? t('topic.replicas_helper_text_multi_az')
+              : t('topic.replicas_helper_text_single_az')
+          }
         />
 
         <TextWithLabelPopover

@@ -23,17 +23,17 @@ import {
   NewTopicInput,
   TopicsApi,
 } from '@rhoas/kafka-instance-sdk';
-import { serializeTopic } from '@app/modules/Topics/utils';
-import { ConfigContext } from '@app/contexts';
-import { getTopic } from '@app/services';
-import { useAlert } from '@rhoas/app-services-ui-shared';
-import './CreateTopicWizard.css';
-import { isAxiosError } from '@app/utils/axios';
 import {
+  serializeTopic,
   IAdvancedTopic,
   RetentionSizeUnits,
   RetentionTimeUnits,
 } from '@app/modules/Topics/utils';
+import { ConfigContext, useFederated } from '@app/contexts';
+import { getTopic } from '@app/services';
+import { useAlert } from '@rhoas/app-services-ui-shared';
+import './CreateTopicWizard.css';
+import { isAxiosError } from '@app/utils/axios';
 
 export type CreateTopicWizardProps = {
   isSwitchChecked: boolean;
@@ -52,6 +52,12 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
       // No-op
     },
   };
+
+  const {
+    replicationFactor = 0,
+    minInSyncReplicas = 0,
+    isMultiAZ,
+  } = useFederated() || {};
 
   const initialFieldsValue = {
     name: '',
@@ -162,7 +168,13 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
     {
       name: t('common.replicas'),
       canJumpTo: topicData?.name.trim() !== '',
-      component: <StepReplicas replicationFactor={3} minInSyncReplica={2} />,
+      component: (
+        <StepReplicas
+          replicationFactor={replicationFactor}
+          minInSyncReplica={minInSyncReplicas}
+          isMultiAZ={isMultiAZ}
+        />
+      ),
       nextButtonText: t('common.finish'),
     },
   ];

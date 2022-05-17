@@ -24,11 +24,8 @@ import {
   retentionTimeSelectOptions,
   retentionSizeSelectOptions,
 } from '@app/modules/Topics/utils';
-import {
-  MAX_PARTITIONS,
-  DEFAULT_REPLICAS,
-  DEFAULT_MIN_INSYNC_REPLICAS,
-} from '@app/constant';
+import { MAX_PARTITIONS } from '@app/constant';
+import { useFederated } from '@app/contexts';
 
 export type CoreConfigurationProps = {
   isCreate?: boolean;
@@ -59,6 +56,7 @@ const CoreConfiguration: React.FC<CoreConfigurationProps> = ({
 }) => {
   const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const { validateName } = useValidateTopic();
+  const { replicationFactor, minInSyncReplicas } = useFederated() || {};
 
   //states
   const [partitionsValidated, setPartitionsValidated] =
@@ -294,7 +292,9 @@ const CoreConfiguration: React.FC<CoreConfigurationProps> = ({
         fieldId='replicas'
         btnAriaLabel={t('topic.replicas')}
         fieldLabel={t('topic.replicas')}
-        fieldValue={isCreate ? DEFAULT_REPLICAS : topicData.replicationFactor}
+        fieldValue={
+          isCreate ? replicationFactor?.toString() : topicData.replicationFactor
+        }
         popoverBody={t('topic.replicas_description')}
         popoverHeader={t('topic.replicas')}
       />
@@ -302,7 +302,7 @@ const CoreConfiguration: React.FC<CoreConfigurationProps> = ({
         fieldId='min-insync-replicas'
         btnAriaLabel='topic detail min-in-sync replica'
         fieldLabel='Minimum in-sync replicas'
-        fieldValue={DEFAULT_MIN_INSYNC_REPLICAS}
+        fieldValue={minInSyncReplicas?.toString()}
         popoverBody={t('topic.min_insync_replicas_description')}
         popoverHeader={t('topic.min_insync_replicas')}
       />

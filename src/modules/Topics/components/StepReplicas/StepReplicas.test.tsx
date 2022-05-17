@@ -5,6 +5,7 @@ import { StepReplicas, StepReplicasProps } from './StepReplicas';
 const replicasProps: StepReplicasProps = {
   minInSyncReplica: 1,
   replicationFactor: 1,
+  isMultiAZ: true,
 };
 
 const setup = () => {
