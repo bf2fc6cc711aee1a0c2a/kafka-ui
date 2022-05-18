@@ -34,7 +34,6 @@ const PermissionsFederated: React.FC<PermissionsFederatedProps> = ({
 
   const onDeleteInstance = () => {
     showModal &&
-      kafka &&
       showModal(ModalType.KasDeleteInstance, {
         kafka,
         onDelete: redirectAfterDeleteInstance,

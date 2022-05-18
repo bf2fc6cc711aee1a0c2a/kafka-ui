@@ -35,7 +35,6 @@ const TopicsFederated: React.FC<TopicsFederatedProps> = ({
 
   const onDeleteInstance = () => {
     showModal &&
-      kafka &&
       showModal(ModalType.KasDeleteInstance, {
         kafka,
         onDelete: redirectAfterDeleteInstance,

@@ -34,7 +34,6 @@ const ConsumerGroupsFederated: React.FC<ConsumerGroupsFederatedProps> = ({
 
   const onDeleteInstance = () => {
     showModal &&
-      kafka &&
       showModal(ModalType.KasDeleteInstance, {
         kafka,
         onDelete: redirectAfterDeleteInstance,
