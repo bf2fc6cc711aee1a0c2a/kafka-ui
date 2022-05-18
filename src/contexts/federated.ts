@@ -2,8 +2,10 @@ import React, { useContext } from 'react';
 import { KafkaInstance } from '@rhoas/app-services-ui-shared';
 
 export type KafkaInstanceWithTopicConfig = KafkaInstance & {
-  replication_factor?: number;
-  min_in_sync_replicas?: number;
+  size?: {
+    replication_factor?: number;
+    min_in_sync_replicas?: number;
+  };
 };
 
 export type FederatedProps = {

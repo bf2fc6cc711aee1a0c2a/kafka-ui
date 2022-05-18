@@ -23,7 +23,7 @@ const UpdateTopicFederated: FunctionComponent<UpdateTopicFederatedProps> = ({
   onError,
   kafka,
 }) => {
-  const { replication_factor, min_in_sync_replicas } = kafka || {};
+  const { replication_factor, min_in_sync_replicas } = kafka?.size || {};
 
   return (
     <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>

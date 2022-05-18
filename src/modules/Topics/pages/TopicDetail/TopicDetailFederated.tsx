@@ -24,7 +24,7 @@ const TopicDetailFederated: FunctionComponent<TopicDetailFederatedProps> = ({
   showSchemas,
   kafka,
 }) => {
-  const { replication_factor, min_in_sync_replicas } = kafka || {};
+  const { replication_factor, min_in_sync_replicas } = kafka?.size || {};
 
   return (
     <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>

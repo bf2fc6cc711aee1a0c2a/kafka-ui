@@ -21,7 +21,7 @@ const CreateTopicFederated: FunctionComponent<CreateTopicFederatedProps> = ({
   kafkaInstanceLink,
   kafka,
 }) => {
-  const { replication_factor, min_in_sync_replicas, multi_az } = kafka || {};
+  const { replication_factor, min_in_sync_replicas } = kafka?.size || {};
 
   return (
     <ConfigContext.Provider value={{ basePath: apiBasePath, getToken }}>
@@ -33,7 +33,7 @@ const CreateTopicFederated: FunctionComponent<CreateTopicFederatedProps> = ({
           kafka: {},
           replicationFactor: replication_factor,
           minInSyncReplicas: min_in_sync_replicas,
-          isMultiAZ: multi_az,
+          isMultiAZ: kafka?.multi_az,
         }}
       >
         <ModalProvider>
