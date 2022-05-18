@@ -271,6 +271,7 @@ const MessagesConnected: VoidFunctionComponent<{
         topicName,
         undefined,
         limit,
+        undefined,
         offset,
         partition,
         timestamp
