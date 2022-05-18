@@ -29,21 +29,22 @@ import {
   DEFAULT_MAXIMUM_MESSAGE_BYTES,
   DEFAULT_MINIMUM_COMPACTION_LAG_TIME,
   DEFAULT_MIN_CLEANBLE_RATIO,
-  DEFAULT_MIN_INSYNC_REPLICAS,
   DEFAULT_SEGMENT_INDEX_SIZE,
   DEFAULT_SEGMENT_JITTER_TIME,
   DEFAULT_SEGMENT_TIME,
   DEFAULT_MAX_MESSAGE_TIMESTAMP_DIFF,
   DEFAULT_FLUSH_INTERVAL_MESSAGES,
   DEFAULT_FLUSH_INTERVAL_TIME,
+  DEFAULT_MIN_INSYNC_REPLICAS,
 } from '@app/constant';
 import './TopicDetailView.css';
 import { TextWithLabelPopover } from '@app/components/TextWithLabelPopover';
-import { IAdvancedTopic } from '@app/modules/Topics/utils';
 import {
   formattedRetentionSize,
   formattedRetentionTime,
+  IAdvancedTopic,
 } from '@app/modules/Topics/utils';
+import { useFederated } from '@app/contexts';
 
 export type TopicViewDetailProps = {
   /** Topic details */
@@ -61,6 +62,7 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
   const { getBasename } = useBasename() || { getBasename: () => '' };
   const basename = getBasename();
   const { t } = useTranslation(['kafkaTemporaryFixMe']);
+  const { minInSyncReplicas } = useFederated() || {};
 
   const updateTopic = () => {
     history.push(`${basename}/topic/update/${topicName}`);
@@ -157,7 +159,10 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                         fieldId='min-insync-replicas'
                         btnAriaLabel={t('topic.min_insync_replicas')}
                         fieldLabel={t('topic.min_insync_replicas')}
-                        fieldValue={DEFAULT_MIN_INSYNC_REPLICAS}
+                        fieldValue={
+                          minInSyncReplicas?.toString() ||
+                          DEFAULT_MIN_INSYNC_REPLICAS
+                        }
                         popoverBody={t('topic.min_insync_replicas_description')}
                         popoverHeader={t('topic.min_insync_replicas')}
                       />

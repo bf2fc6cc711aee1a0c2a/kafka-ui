@@ -1,7 +1,14 @@
 import React, { useContext } from 'react';
-import { DeleteInstanceProps } from '@rhoas/app-services-ui-shared';
+import { KafkaInstance } from '@rhoas/app-services-ui-shared';
 
-export type FederatedProps = Pick<DeleteInstanceProps, 'kafka'> & {
+export type KafkaInstanceWithTopicConfig = KafkaInstance & {
+  size?: {
+    replication_factor?: number;
+    min_in_sync_replicas?: number;
+  };
+};
+
+export type FederatedProps = {
   activeTab?: number;
   kafkaName?: string;
   kafkaPageLink?: string;
@@ -18,6 +25,10 @@ export type FederatedProps = Pick<DeleteInstanceProps, 'kafka'> & {
   showSchemas?: JSX.Element | undefined;
   redirectAfterDeleteInstance?: () => void;
   onDeleteInstance?: () => void;
+  kafka: KafkaInstanceWithTopicConfig;
+  replicationFactor?: number;
+  minInSyncReplicas?: number;
+  isMultiAZ?: boolean;
 };
 
 export const FederatedContext = React.createContext<FederatedProps | undefined>(
