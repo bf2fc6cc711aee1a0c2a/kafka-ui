@@ -35,13 +35,14 @@ import {
   DEFAULT_MAX_MESSAGE_TIMESTAMP_DIFF,
   DEFAULT_FLUSH_INTERVAL_MESSAGES,
   DEFAULT_FLUSH_INTERVAL_TIME,
+  DEFAULT_MIN_INSYNC_REPLICAS,
 } from '@app/constant';
 import './TopicDetailView.css';
 import { TextWithLabelPopover } from '@app/components/TextWithLabelPopover';
-import { IAdvancedTopic } from '@app/modules/Topics/utils';
 import {
   formattedRetentionSize,
   formattedRetentionTime,
+  IAdvancedTopic,
 } from '@app/modules/Topics/utils';
 import { useFederated } from '@app/contexts';
 
@@ -158,7 +159,10 @@ export const TopicDetailView: React.FunctionComponent<TopicViewDetailProps> = ({
                         fieldId='min-insync-replicas'
                         btnAriaLabel={t('topic.min_insync_replicas')}
                         fieldLabel={t('topic.min_insync_replicas')}
-                        fieldValue={minInSyncReplicas?.toString()}
+                        fieldValue={
+                          minInSyncReplicas?.toString() ||
+                          DEFAULT_MIN_INSYNC_REPLICAS
+                        }
                         popoverBody={t('topic.min_insync_replicas_description')}
                         popoverHeader={t('topic.min_insync_replicas')}
                       />

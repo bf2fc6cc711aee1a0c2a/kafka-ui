@@ -24,7 +24,7 @@ import {
   retentionTimeSelectOptions,
   retentionSizeSelectOptions,
 } from '@app/modules/Topics/utils';
-import { MAX_PARTITIONS } from '@app/constant';
+import { MAX_PARTITIONS, DEFAULT_MIN_INSYNC_REPLICAS } from '@app/constant';
 import { useFederated } from '@app/contexts';
 
 export type CoreConfigurationProps = {
@@ -302,7 +302,9 @@ const CoreConfiguration: React.FC<CoreConfigurationProps> = ({
         fieldId='min-insync-replicas'
         btnAriaLabel='topic detail min-in-sync replica'
         fieldLabel='Minimum in-sync replicas'
-        fieldValue={minInSyncReplicas?.toString()}
+        fieldValue={
+          minInSyncReplicas?.toString() || DEFAULT_MIN_INSYNC_REPLICAS
+        }
         popoverBody={t('topic.min_insync_replicas_description')}
         popoverHeader={t('topic.min_insync_replicas')}
       />
