@@ -82,7 +82,7 @@
     "css-loader": "6.7.1",
     "css-minimizer-webpack-plugin": "3.4.1",
     "dotenv-webpack": "7.1.0",
-    "eslint": "8.15.0",
+    "eslint": "8.16.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-i18next": "5.2.1",
     "eslint-plugin-jest": "26.2.2",
