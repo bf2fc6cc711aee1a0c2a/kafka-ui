@@ -40,7 +40,7 @@
   "homepage": "https://github.com/strimzi/strimzi-ui#readme",
   "dependencies": {
     "@rhoas/kafka-instance-sdk": "0.34.1",
-    "object-hash": "2.2.0",
+    "object-hash": "3.0.0",
     "react-i18next": "11.16.9",
     "sentence-case": "3.0.4",
     "snake-case": "3.0.4",
