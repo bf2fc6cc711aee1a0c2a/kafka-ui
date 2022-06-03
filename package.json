@@ -115,7 +115,7 @@
     "style-loader": "3.3.1",
     "stylelint": "14.8.5",
     "stylelint-config-prettier": "9.0.3",
-    "stylelint-config-recommended": "6.0.0",
+    "stylelint-config-recommended": "7.0.0",
     "stylelint-config-sass-guidelines": "9.0.1",
     "stylelint-config-standard": "25.0.0",
     "stylelint-selector-bem-pattern": "2.1.1",
