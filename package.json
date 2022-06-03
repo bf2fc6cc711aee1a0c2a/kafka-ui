@@ -78,7 +78,7 @@
     "@typescript-eslint/parser": "5.27.0",
     "axios": "0.27.2",
     "compression-webpack-plugin": "10.0.0",
-    "copy-webpack-plugin": "10.2.4",
+    "copy-webpack-plugin": "11.0.0",
     "css-loader": "6.7.1",
     "css-minimizer-webpack-plugin": "4.0.0",
     "dotenv-webpack": "7.1.0",
