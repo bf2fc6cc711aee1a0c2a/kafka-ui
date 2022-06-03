@@ -41,7 +41,6 @@
   "dependencies": {
     "@rhoas/kafka-instance-sdk": "0.34.1",
     "object-hash": "3.0.0",
-    "react-i18next": "11.16.11",
     "sentence-case": "3.0.4",
     "snake-case": "3.0.4",
     "tslib": "2.4.0",
@@ -95,6 +94,7 @@
     "prettier": "2.6.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-i18next": "11.16.11",
     "react-router-dom": "5.2.1",
     "style-loader": "3.3.1",
     "terser-webpack-plugin": "5.3.3",
