@@ -166,6 +166,7 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
           sortBy,
         }}
         rowDataTestId={rowDataTestId || 'tableTopics-row'}
+        ouiaId={'card-controlplanetable'}
       />
       {topicItems?.length < 1 && filteredValue.length > 0 && (
         <EmptyState

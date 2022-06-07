@@ -33,13 +33,22 @@ export const WizardCustomFooter: React.FC<IWizardFooter> = ({
                   isLoading={isLoading}
                   onClick={() => onValidate(onNext)}
                   isDisabled={topicNameValidated == 'default' ? false : true}
+                  ouiaId={'button-next'}
                 >
                   {t('common.next')}
                 </Button>
-                <Button variant='secondary' isDisabled={true}>
+                <Button
+                  ouiaId={'button-back'}
+                  variant='secondary'
+                  isDisabled={true}
+                >
                   {t('common.back')}
                 </Button>
-                <Button variant='link' onClick={closeWizard}>
+                <Button
+                  ouiaId={'button-cancel'}
+                  variant='link'
+                  onClick={closeWizard}
+                >
                   {t('common.cancel')}
                 </Button>
               </>
@@ -54,13 +63,22 @@ export const WizardCustomFooter: React.FC<IWizardFooter> = ({
                   type='submit'
                   onClick={onNext}
                   isLoading={isLoading}
+                  ouiaId={'button-finish'}
                 >
                   {t('common.finish')}
                 </Button>
-                <Button variant='secondary' onClick={onBack}>
+                <Button
+                  ouiaId={'button-back'}
+                  variant='secondary'
+                  onClick={onBack}
+                >
                   {t('common.back')}
                 </Button>
-                <Button variant='link' onClick={closeWizard}>
+                <Button
+                  ouiaId={'button-cancel'}
+                  variant='link'
+                  onClick={closeWizard}
+                >
                   {t('common.cancel')}
                 </Button>
               </>
@@ -68,13 +86,26 @@ export const WizardCustomFooter: React.FC<IWizardFooter> = ({
           }
           return (
             <>
-              <Button variant='primary' type='submit' onClick={onNext}>
+              <Button
+                ouiaId={'button-next'}
+                variant='primary'
+                type='submit'
+                onClick={onNext}
+              >
                 {t('common.next')}
               </Button>
-              <Button variant='secondary' onClick={onBack}>
+              <Button
+                ouiaId={'button-back'}
+                variant='secondary'
+                onClick={onBack}
+              >
                 {t('common.back')}
               </Button>
-              <Button variant='link' onClick={closeWizard}>
+              <Button
+                ouiaId={'button-cancel'}
+                variant='link'
+                onClick={closeWizard}
+              >
                 {t('common.cancel')}
               </Button>
             </>

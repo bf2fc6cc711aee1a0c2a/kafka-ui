@@ -41,6 +41,7 @@ export type EmptyStateProps = {
     title?: string;
     onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     'data-testid'?: string;
+    ouiaId?: string;
   };
   children?: React.ReactNode;
 };

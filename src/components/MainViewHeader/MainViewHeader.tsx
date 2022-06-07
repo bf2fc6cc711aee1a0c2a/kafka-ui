@@ -136,6 +136,7 @@ const MainViewHeader: React.FC<MainViewHeaderProps> = ({ activeTabKey }) => {
             id='dashboard-tab-section'
             aria-label={t('dashboard.dashboard')}
             tabContentId='kafka-ui-TabcontentDashboard'
+            ouiaId={'tab-Dashboard'}
           />
           <Tab
             title={<TabTitleText>{t('topic.topics')}</TabTitleText>}
@@ -144,6 +145,7 @@ const MainViewHeader: React.FC<MainViewHeaderProps> = ({ activeTabKey }) => {
             id='topics-tab-section'
             aria-label={t('topic.topics')}
             tabContentId='kafka-ui-TabcontentTopicsList'
+            ouiaId={'tab-Topics'}
           />
           <Tab
             title={
@@ -154,6 +156,7 @@ const MainViewHeader: React.FC<MainViewHeaderProps> = ({ activeTabKey }) => {
             id='consumer-groups-tab-section'
             aria-label={t('consumerGroup.consumer_groups')}
             tabContentId='kafka-ui-TabcontentConsumersList'
+            ouiaId={'tab-Consumers'}
           />
           <Tab
             title={<TabTitleText>{t('permission.tab.label')}</TabTitleText>}
@@ -162,6 +165,7 @@ const MainViewHeader: React.FC<MainViewHeaderProps> = ({ activeTabKey }) => {
             id='permissions-tab-section'
             aria-label={t('permission.tab.label')}
             tabContentId='kafka-ui-TabcontentPermissions'
+            ouiaId={'tab-Permissions'}
           />
         </Tabs>
       </PageSection>

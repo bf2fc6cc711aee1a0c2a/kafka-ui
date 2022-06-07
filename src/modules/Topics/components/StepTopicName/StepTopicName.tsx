@@ -79,6 +79,7 @@ export const StepTopicName: React.FC<StepTopicNameProps> = ({
           isRequired
         >
           <TextInput
+            ouiaId={'text-input'}
             isRequired
             type='text'
             id='step-topic-name-input'

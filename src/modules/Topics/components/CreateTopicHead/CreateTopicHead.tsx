@@ -28,7 +28,7 @@ export const CreateTopichead: React.FC<CreateTopicProps> = ({
   const { t } = useTranslation(['kafkaTemporaryFixMe']);
 
   const mainBreadcrumbs = (
-    <Breadcrumb>
+    <Breadcrumb ouiaId={'breadcrumb'}>
       <BreadcrumbItem
         render={() => (
           <Link to={kafkaPageLink || '#'}>{t('common.kafka_instance')}</Link>
@@ -57,6 +57,7 @@ export const CreateTopichead: React.FC<CreateTopicProps> = ({
         </Title>
         <br />
         <Switch
+          ouiaId={'toggle-switch-off'}
           id='simple-switch'
           label={t('topic.show_all_options')}
           labelOff={t('topic.show_all_options')}

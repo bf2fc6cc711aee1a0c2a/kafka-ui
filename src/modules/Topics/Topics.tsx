@@ -143,6 +143,7 @@ const Topics: React.FC = () => {
                     title: t('topic.create_topic'),
                     onClick: onClickCreateTopic,
                     'data-testid': 'actionCreateTopic',
+                    ouiaId: 'button-create',
                   }}
                 />
               );
