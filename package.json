@@ -84,7 +84,7 @@
     "file-loader": "6.2.0",
     "html-webpack-plugin": "5.5.0",
     "husky": "8.0.1",
-    "i18next": "21.8.8",
+    "i18next": "21.8.9",
     "jest": "27.5.1",
     "lint-staged": "12.5.0",
     "lodash.merge": "4.6.2",
