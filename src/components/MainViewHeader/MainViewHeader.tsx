@@ -68,7 +68,7 @@ const MainViewHeader: React.FC<MainViewHeaderProps> = ({ activeTabKey }) => {
   };
 
   const mainBreadcrumbs = (
-    <Breadcrumb>
+    <Breadcrumb ouiaId={'breadcrumb'}>
       <BreadcrumbItem
         render={() => (
           <Link to={kafkaPageLink || '#'}>{t('common.kafka_instance')}</Link>
