@@ -110,7 +110,13 @@ const MainViewHeader: React.FC<MainViewHeaderProps> = ({ activeTabKey }) => {
           </Title>
           <Dropdown
             onSelect={onSelect}
-            toggle={<KebabToggle onToggle={onToggle} id='toggle-data-plane' />}
+            toggle={
+              <KebabToggle
+                data-ouia-component-id={'kebab-menu'}
+                onToggle={onToggle}
+                id='toggle-data-plane'
+              />
+            }
             isOpen={isOpen}
             isPlain
             dropdownItems={dropdownItems}

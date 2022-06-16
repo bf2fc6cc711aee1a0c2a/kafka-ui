@@ -94,11 +94,13 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
       {
         title: t('common.delete'),
         ['data-testid']: 'tableTopics-actionDelete',
+        ['data-ouia-component-id']: 'kebab-menu-delete',
         onClick: () => onSelectKebabDropdownOption(originalData, 'delete'),
       },
       {
         title: t('common.edit'),
         ['data-testid']: 'tableTopics-actionEdit',
+        ['data-ouia-component-id']: 'kebab-menu-edit',
         onClick: () => onSelectKebabDropdownOption(originalData, 'edit'),
       },
     ];
