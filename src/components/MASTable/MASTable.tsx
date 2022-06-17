@@ -21,6 +21,7 @@ export type MASTableProps = CustomRowWrapperContextProps & {
   tableHeaderProps?: Omit<HeaderProps, 'children'>;
   tableBodyProps?: Omit<TableBodyProps, 'children'>;
   children?: React.ReactNode;
+  ouiaId?: string;
 };
 
 const MASTable: FunctionComponent<MASTableProps> = ({
@@ -32,6 +33,7 @@ const MASTable: FunctionComponent<MASTableProps> = ({
   onRowClick,
   rowDataTestId,
   loggedInUser,
+  ouiaId,
 }) => {
   const {
     cells,
@@ -75,6 +77,7 @@ const MASTable: FunctionComponent<MASTableProps> = ({
         onSort={onSort}
         sortBy={sortBy}
         {...restProps}
+        ouiaId={ouiaId}
       >
         <TableHeader {...tableHeaderProps} />
         <TableBody {...tableBodyProps} />

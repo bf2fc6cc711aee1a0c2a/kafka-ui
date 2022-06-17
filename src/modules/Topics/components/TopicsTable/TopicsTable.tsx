@@ -94,11 +94,13 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
       {
         title: t('common.delete'),
         ['data-testid']: 'tableTopics-actionDelete',
+        ['data-ouia-component-id']: 'kebab-menu-delete',
         onClick: () => onSelectKebabDropdownOption(originalData, 'delete'),
       },
       {
         title: t('common.edit'),
         ['data-testid']: 'tableTopics-actionEdit',
+        ['data-ouia-component-id']: 'kebab-menu-edit',
         onClick: () => onSelectKebabDropdownOption(originalData, 'edit'),
       },
     ];
@@ -122,6 +124,7 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
             title: (
               <Link
                 data-testid='tableTopics-linkTopic'
+                data-ouia-component-id='table-link'
                 to={`${basename}/topics/${name}`}
               >
                 {name}
@@ -166,6 +169,7 @@ const TopicsTable: React.FC<TopicsTableProps> = ({
           sortBy,
         }}
         rowDataTestId={rowDataTestId || 'tableTopics-row'}
+        ouiaId={'card-table'}
       />
       {topicItems?.length < 1 && filteredValue.length > 0 && (
         <EmptyState
