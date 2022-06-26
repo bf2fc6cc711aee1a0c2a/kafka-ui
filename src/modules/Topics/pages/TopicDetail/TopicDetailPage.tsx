@@ -40,6 +40,7 @@ import {
 } from '@rhoas/app-services-ui-components';
 import {
   Configuration,
+  Record,
   RecordsApi,
   TopicsApi,
 } from '@rhoas/kafka-instance-sdk';
@@ -276,7 +277,7 @@ const MessagesConnected: VoidFunctionComponent<{
         partition,
         timestamp
       );
-      return data.items.map((m) => ({
+      return data.items.map((m: Record) => ({
         partition: m.partition,
         offset: m.offset,
         timestamp: m.timestamp,
