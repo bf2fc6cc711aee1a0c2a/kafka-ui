@@ -29,6 +29,7 @@ export type FederatedProps = {
   replicationFactor?: number;
   minInSyncReplicas?: number;
   isMultiAZ?: boolean;
+  showSettings?: JSX.Element | undefined;
 };
 
 export const FederatedContext = React.createContext<FederatedProps | undefined>(
