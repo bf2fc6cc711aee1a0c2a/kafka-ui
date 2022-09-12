@@ -20,8 +20,8 @@ const Settings: React.FC<SettingsProps> = ({
         showSettings,
       }}
     >
-      <MainViewHeader activeTabKey={1} />
-      <PageSection hasOverflowScroll={true} padding={{ default: 'noPadding' }}>
+      <MainViewHeader activeTabKey={5} />
+      <PageSection padding={{ default: 'noPadding' }}>
         {showSettings}
       </PageSection>
     </FederatedContext.Provider>
