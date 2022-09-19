@@ -282,8 +282,5 @@
       "preparing_rebalance_state": "PreparingRebalance",
       "unknown_state": "Unknown"
     }
-  },
-  "settings": {
-    "settings": "Settings"
   }
 }
