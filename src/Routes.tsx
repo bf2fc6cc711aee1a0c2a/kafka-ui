@@ -5,6 +5,7 @@ import {
   UpdateTopicPage,
   TopicDetailPage,
   DashboardConnected,
+  SettingsConnected,
 } from '@app/modules/Topics/pages';
 import { TopicsConnected } from '@app/modules/Topics';
 import { ConsumerGroupsConnected } from '@app/modules/ConsumerGroups';
@@ -23,6 +24,7 @@ const Routes: React.FC = () => {
           exact
         />
         <Route path='/acls' component={PermissionsConnected} exact />
+        <Route path='/settings' component={SettingsConnected} exact />
         <Route path='/topics/:topicName' component={TopicDetailPage} exact />
         <Route path='/topic/create' component={CreateTopicPage} />
         <Route

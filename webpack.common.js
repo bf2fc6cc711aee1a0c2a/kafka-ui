@@ -114,6 +114,7 @@ module.exports = (env, argv) => {
           './ConsumerGroups':
             './src/modules/ConsumerGroups/ConsumerGroupsFederated',
           './AclPermissions': './src/modules/Permissions/PermissionsFederated',
+          './Settings': './src/modules/Topics/pages/Settings/Settings'
         },
         shared: {
           ...dependencies,

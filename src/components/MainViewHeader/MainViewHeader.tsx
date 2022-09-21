@@ -59,6 +59,9 @@ const MainViewHeader: React.FC<MainViewHeaderProps> = ({ activeTabKey }) => {
       case 4:
         redirectPath = 'acls';
         break;
+      case 5:
+        redirectPath = 'settings';
+        break;
       default:
         redirectPath = 'dashboard';
         break;
@@ -172,6 +175,15 @@ const MainViewHeader: React.FC<MainViewHeaderProps> = ({ activeTabKey }) => {
             aria-label={t('permission.tab.label')}
             tabContentId='kafka-ui-TabcontentPermissions'
             ouiaId={'tab-Permissions'}
+          />
+          <Tab
+            title={<TabTitleText>{t('settings.settings')}</TabTitleText>}
+            eventKey={5}
+            data-testid='pageKafka-tabSettings'
+            id='settings-tab-section'
+            aria-label={t('settings.settings')}
+            tabContentId='kafka-ui-TabcontentSettings'
+            ouiaId={'tab-Settings'}
           />
         </Tabs>
       </PageSection>
