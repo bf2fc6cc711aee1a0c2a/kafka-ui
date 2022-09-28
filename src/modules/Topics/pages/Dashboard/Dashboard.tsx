@@ -36,9 +36,7 @@ const Dashboard: React.FC<DashboardProps> = ({
       }}
     >
       <MainViewHeader activeTabKey={1} />
-      <PageSection hasOverflowScroll={true} padding={{ default: 'noPadding' }}>
-        {showMetrics}
-      </PageSection>
+      {showMetrics}
     </FederatedContext.Provider>
   );
 };
