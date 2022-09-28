@@ -1,4 +1,3 @@
-import { PageSection } from '@patternfly/react-core';
 import React from 'react';
 import { MainViewHeader } from '@app/components';
 import { FederatedProps, FederatedContext } from '@app/contexts';
