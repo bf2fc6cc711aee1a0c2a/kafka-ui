@@ -181,7 +181,11 @@ export const serializeTopic = (
         (topic.selectedRetentionTimeOption === RetentionTimeUnits.UNLIMITED &&
           key === 'retention.ms') ||
         (topic.selectedRetentionSizeOption === RetentionSizeUnits.UNLIMITED &&
-          key === 'retention.bytes')
+          key === 'retention.bytes') ||
+        (topic['retention.bytes.unit'] === RetentionSizeUnits.UNLIMITED &&
+          key === 'retention.bytes') ||
+        (topic['retention.ms.unit'] === RetentionTimeUnits.UNLIMITED &&
+          key === 'retention.ms')
       ) {
         value = '-1';
       } else if (key === 'retention.ms' || key === 'retention.bytes') {

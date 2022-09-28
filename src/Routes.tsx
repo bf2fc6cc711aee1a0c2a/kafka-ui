@@ -1,11 +1,11 @@
 import React from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import {
-  CreateTopicPage,
   UpdateTopicPage,
   TopicDetailPage,
   DashboardConnected,
   SettingsConnected,
+  CreateTopic,
 } from '@app/modules/Topics/pages';
 import { TopicsConnected } from '@app/modules/Topics';
 import { ConsumerGroupsConnected } from '@app/modules/ConsumerGroups';
@@ -26,7 +26,7 @@ const Routes: React.FC = () => {
         <Route path='/acls' component={PermissionsConnected} exact />
         <Route path='/settings' component={SettingsConnected} exact />
         <Route path='/topics/:topicName' component={TopicDetailPage} exact />
-        <Route path='/topic/create' component={CreateTopicPage} />
+        <Route path='/topic/create' component={CreateTopic} />
         <Route
           path='/topic/update/:topicName'
           component={UpdateTopicPage}

@@ -1,5 +1,4 @@
 import { FunctionComponent } from 'react';
-import { CreateTopicPage } from '@app/modules/Topics/pages/CreateTopic/CreateTopicPage';
 import {
   FederatedContext,
   FederatedProps,
@@ -7,6 +6,7 @@ import {
   IConfiguration,
 } from '@app/contexts';
 import { ModalProvider } from '@rhoas/app-services-ui-components';
+import { CreateTopic } from './CreateTopic';
 
 export type CreateTopicFederatedProps = FederatedProps &
   IConfiguration & {
@@ -37,7 +37,7 @@ const CreateTopicFederated: FunctionComponent<CreateTopicFederatedProps> = ({
         }}
       >
         <ModalProvider>
-          <CreateTopicPage />
+          <CreateTopic />
         </ModalProvider>
       </FederatedContext.Provider>
     </ConfigContext.Provider>
