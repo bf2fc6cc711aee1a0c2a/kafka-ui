@@ -1,4 +1,3 @@
-import { PageSection } from '@patternfly/react-core';
 import React from 'react';
 import { MainViewHeader } from '@app/components';
 import { FederatedProps, FederatedContext } from '@app/contexts';
@@ -35,9 +34,7 @@ const Settings: React.FC<SettingsProps> = ({
       }}
     >
       <MainViewHeader activeTabKey={5} />
-      <PageSection padding={{ default: 'noPadding' }}>
-        {showSettings}
-      </PageSection>
+      {showSettings}
     </FederatedContext.Provider>
   );
 };
