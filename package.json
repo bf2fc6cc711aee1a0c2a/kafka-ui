@@ -70,7 +70,7 @@
     "@types/uuid": "8.3.4",
     "@typescript-eslint/eslint-plugin": "5.42.1",
     "@typescript-eslint/parser": "5.42.1",
-    "axios": "0.27.2",
+    "axios": "1.1.3",
     "copy-webpack-plugin": "11.0.0",
     "css-loader": "6.7.1",
     "css-minimizer-webpack-plugin": "4.2.2",
@@ -121,7 +121,7 @@
     "@redhat-cloud-services/frontend-components-utilities": "3.3.0",
     "@rhoas/app-services-ui-components": "2.14.2",
     "@rhoas/app-services-ui-shared": "0.16.4",
-    "axios": "0.27.2",
+    "axios": "1.1.3",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-router-dom": "5.2.1"
