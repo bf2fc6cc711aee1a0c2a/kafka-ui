@@ -17,7 +17,7 @@ import {
 import { sentenceCase } from 'sentence-case';
 import { displayName } from '@app/modules/Permissions/utils';
 import { useFederated } from '@app/contexts';
-import { SolidLabel } from './SolidLabel';
+import { SolidLabel } from '@app/modules/Permissions/components/ManagePermissionsDialog/SolidLabel';
 
 export type CellBuilder<T extends EnhancedAclBinding> = (
   item: T,
