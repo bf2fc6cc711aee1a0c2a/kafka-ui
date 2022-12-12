@@ -1,4 +1,5 @@
-import React, { useContext, useState } from 'react';
+import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   AlertVariant,
@@ -45,6 +46,7 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
   isSwitchChecked,
   onCloseCreateTopic,
 }) => {
+  const { analytics } = useChrome();
   const config = useContext(ConfigContext);
   const { t } = useTranslation(['kafkaTemporaryFixMe']);
   const { addAlert } = useAlert() || {
@@ -57,7 +59,15 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
     replicationFactor = 0,
     minInSyncReplicas = 0,
     isMultiAZ,
+    kafka,
   } = useFederated() || {};
+
+  useEffect(() => {
+    analytics.track('RHOSAK Create Topic', {
+      entityId: kafka?.id,
+      status: 'prompt',
+    });
+  }, [analytics, kafka?.id]);
 
   const initialFieldsValue = {
     name: '',
@@ -98,6 +108,11 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
     )
       .createTopic(topic)
       .then(() => {
+        analytics.track('RHOSAK Create Topic', {
+          entityId: kafka?.id,
+          topic: topic.name,
+          status: 'success',
+        });
         addAlert({
           variant: AlertVariant.success,
           title: t('topic.topic_successfully_created'),
@@ -106,6 +121,11 @@ export const CreateTopicWizard: React.FC<CreateTopicWizardProps> = ({
         closeWizard();
       })
       .catch((err) => {
+        analytics.track('RHOSAK Create Topic', {
+          entityId: kafka?.id,
+          topic: topic.name,
+          status: 'failure',
+        });
         setIsLoading(false);
         addAlert({
           variant: AlertVariant.danger,
