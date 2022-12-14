@@ -8,7 +8,11 @@ import {
   useURLSearchParamsChips,
 } from '@rhoas/app-services-ui-components';
 import { ConfigContext, useFederated } from '@app/contexts';
-import { useBasename } from '@rhoas/app-services-ui-shared';
+import {
+  ModalType,
+  useBasename,
+  useModal,
+} from '@rhoas/app-services-ui-shared';
 import './Topics.css';
 import { KafkaTopic } from '@rhoas/app-services-ui-components/types/src/Kafka/KafkaTopics/types';
 import { useTimeout } from '@app/hooks';
@@ -17,6 +21,8 @@ import { isAxiosError } from '@app/utils/axios';
 
 const Topics: React.FC = () => {
   const { onError } = useFederated() || {};
+
+  const { showModal } = useModal<ModalType.KafkaDeleteTopic>();
 
   const config = useContext(ConfigContext);
   const history = useHistory();
@@ -38,13 +44,13 @@ const Topics: React.FC = () => {
   const [isColumnSortable, sort, sortDirection] = useSortableSearchParams(
     KafkaTopicsSortableColumns,
     {
-      name: 'TODO name',
-      partitions: 'TODO partitions',
-      'retention.bytes': 'TODO retention bytes',
-      'retention.ms': 'TODO retention ms',
+      name: 'Name',
+      partitions: 'partitions',
+      'retention.bytes': 'Retention size',
+      'retention.ms': 'Retention time',
     },
     'name',
-    'desc'
+    'asc'
   );
 
   const onClickCreateTopic = () => {
@@ -59,9 +65,15 @@ const Topics: React.FC = () => {
     onEditTopic && onEditTopic(topicName);
   };
 
+  const onDelete = (topicName: string) => {
+    showModal(ModalType.KafkaDeleteTopic, {
+      topicName,
+    });
+  };
+
   const fetchTopic = useCallback(async () => {
     try {
-      return await getTopics(
+      await getTopics(
         config,
         page,
         perPage,
@@ -90,35 +102,34 @@ const Topics: React.FC = () => {
     fetchTopic();
   }, [topicsChips.chips, sort, sortDirection, page, perPage, fetchTopic]);
 
-  useTimeout(() => fetchTopic(), 5000);
+  useTimeout(() => fetchTopic(), 1000);
 
   return (
-    <>
-      <Card className='kafka-ui-m-full-height' data-ouia-page-id='tableTopics'>
-        <KafkaTopics
-          topics={topicsList || []}
-          getUrlFortopic={(row) => `${basename}/topics/${row.topic_name}`}
-          onDelete={(row) => onEdit(row.topic_name)}
-          onEdit={(row) => onEdit(row.topic_name)}
-          onSearchTopic={(value) => {
-            topicsChips.clear();
-            topicsChips.toggle(value);
-          }}
-          onClearAllFilters={topicsChips.clear}
-          topicName={topicsChips.chips}
-          onRemoveTopicChip={topicsChips.clear}
-          onRemoveTopicChips={topicsChips.clear}
-          onTopicLinkClick={(row) => {
-            row.topic_name;
-          }}
-          page={page}
-          itemCount={count || 0}
-          onPageChange={setPagination}
-          onCreateTopic={onClickCreateTopic}
-          isColumnSortable={isColumnSortable}
-        />
-      </Card>
-    </>
+    <Card className='kafka-ui-m-full-height' data-ouia-page-id='tableTopics'>
+      <KafkaTopics
+        topics={topicsList}
+        getUrlFortopic={(row) => `${basename}/topics/${row.topic_name}`}
+        onDelete={(row) => onDelete(row.topic_name)}
+        onEdit={(row) => onEdit(row.topic_name)}
+        onSearchTopic={(value) => {
+          topicsChips.clear();
+          topicsChips.toggle(value);
+        }}
+        onClearAllFilters={topicsChips.clear}
+        topicName={topicsChips.chips}
+        onRemoveTopicChip={topicsChips.clear}
+        onRemoveTopicChips={topicsChips.clear}
+        onTopicLinkClick={(row) => {
+          row.topic_name;
+        }}
+        page={page}
+        perPage={perPage}
+        itemCount={count}
+        onPageChange={setPagination}
+        onCreateTopic={onClickCreateTopic}
+        isColumnSortable={isColumnSortable}
+      />
+    </Card>
   );
 };
 

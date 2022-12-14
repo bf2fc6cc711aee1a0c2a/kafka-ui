@@ -3,7 +3,7 @@ import { usePermissionsService } from '@app/services/acls';
 import { PermissionsTable } from '@app/modules/Permissions/components/PermissionsTable';
 import { ConfigContext } from '@app/contexts';
 import { getConsumerGroups, getTopics } from '@app/services';
-import { Topic } from '@rhoas/kafka-instance-sdk';
+import { KafkaTopic } from '@rhoas/app-services-ui-components/types/src/Kafka/KafkaTopics/types';
 
 export type PermissionsTableViewProps = {
   kafkaName?: string;
@@ -20,8 +20,8 @@ export const PermissionsTableView: React.FunctionComponent<
   useEffect(() => {
     const fetchTopicNames = async () => {
       const response = await getTopics(config);
-      const topicNames = response.items?.map(
-        (topic: Topic) => topic.name || ''
+      const topicNames = response.topics.map(
+        (topic: KafkaTopic) => topic.topic_name || ''
       );
       setTopicNames(topicNames || []);
     };
