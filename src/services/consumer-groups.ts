@@ -1,24 +1,29 @@
 import { AxiosResponse } from 'axios';
 import {
   Configuration,
-  ConsumerGroup,
   ConsumerGroupList,
   OffsetType,
   ConsumerGroupResetOffsetResult,
   GroupsApi,
+  ConsumerGroupOrderKey,
+  ConsumerGroupState,
+  ConsumerGroup as ConsumerGroupDetail,
 } from '@rhoas/kafka-instance-sdk';
 import { IConfiguration } from '@app/contexts';
-import { SortByDirection } from '@patternfly/react-table';
+import {
+  ConsumerGroup,
+  SortDirection,
+} from '@rhoas/app-services-ui-components';
 
 const getConsumerGroups = async (
   config: IConfiguration | undefined,
-  size?: number,
   page?: number,
+  perPage?: number,
+  sort?: KafkaConsumerGroupSortableColumn,
+  direction?: SortDirection,
   topic?: string,
-  groupIdFilter?: string,
-  order: SortByDirection = SortByDirection.asc,
-  orderKey?: 'name' | undefined
-): Promise<ConsumerGroupList> => {
+  groupId?: string
+): Promise<{ groups: ConsumerGroup[]; count: number }> => {
   const accessToken = await config?.getToken();
 
   const api = new GroupsApi(
@@ -31,14 +36,21 @@ const getConsumerGroups = async (
     await api.getConsumerGroups(
       undefined,
       undefined,
-      size,
+      perPage,
       page,
       topic,
-      groupIdFilter,
-      order,
-      orderKey
+      groupId,
+      direction,
+      sort
     );
-  return response.data;
+  const groups = (response.data.items || []).map<ConsumerGroup>((t) => ({
+    consumerGroupId: t.groupId || '',
+    activeMembers: t.metrics?.activeConsumers || 0,
+    partitionsWithLag: t.metrics?.laggingPartitions || 0,
+    state: stateMapping[t.state as ConsumerGroupState],
+  }));
+  const count = response.data.total;
+  return { count, groups };
 };
 
 const deleteConsumerGroup = async (
@@ -60,7 +72,7 @@ const deleteConsumerGroup = async (
 const getConsumerGroupDetail = async (
   consumerGroupId: string,
   config: IConfiguration | undefined
-): Promise<ConsumerGroup> => {
+): Promise<ConsumerGroupDetail> => {
   const accessToken = await config?.getToken();
 
   const api = new GroupsApi(
@@ -69,9 +81,8 @@ const getConsumerGroupDetail = async (
       basePath: config?.basePath,
     })
   );
-  const response: AxiosResponse<ConsumerGroup> = await api.getConsumerGroupById(
-    consumerGroupId
-  );
+  const response: AxiosResponse<ConsumerGroupDetail> =
+    await api.getConsumerGroupById(consumerGroupId);
   return response.data;
 };
 
@@ -106,3 +117,20 @@ export {
   getConsumerGroupDetail,
   consumerGroupResetOffset,
 };
+
+const stateMapping: { [state in ConsumerGroupState]: ConsumerGroup['state'] } =
+  {
+    DEAD: 'Dead',
+    EMPTY: 'Empty',
+    STABLE: 'Stable',
+    UNKNOWN: 'Unknown',
+    COMPLETING_REBALANCE: 'CompletingRebalance',
+    PREPARING_REBALANCE: 'PreparingRebalance',
+  };
+
+export const KafkaConsumerGroupSortableColumns = [
+  ...Object.values(ConsumerGroupOrderKey),
+] as const;
+
+export type KafkaConsumerGroupSortableColumn =
+  typeof KafkaConsumerGroupSortableColumns[number];

@@ -11,15 +11,19 @@ import {
 } from '@patternfly/react-core';
 import { deleteConsumerGroup } from '@app/services';
 import { ConfigContext } from '@app/contexts';
-import { ConsumerGroupState } from '@rhoas/kafka-instance-sdk';
 import { isAxiosError } from '@app/utils/axios';
 import {
   BaseModalProps,
   DeleteConsumerGroupProps,
+  ModalType,
   useAlert,
 } from '@rhoas/app-services-ui-shared';
+import {
+  DeleteConsumerGroup,
+  ConsumerGroupState,
+} from '@rhoas/app-services-ui-components';
 
-const DeleteConsumerGroup: React.FC<
+const ConsumerGroupDelete: React.FC<
   DeleteConsumerGroupProps & BaseModalProps
 > = ({ consumerName, refreshConsumerGroups, hideModal, state }) => {
   const { t } = useTranslation(['kafkaTemporaryFixMe']);
@@ -29,7 +33,6 @@ const DeleteConsumerGroup: React.FC<
       // No-op
     },
   };
-  const isConsumerConnected = state === ConsumerGroupState.Stable;
 
   const onClose = () => {
     hideModal();
@@ -63,54 +66,13 @@ const DeleteConsumerGroup: React.FC<
   };
 
   return (
-    <Modal
-      variant={ModalVariant.small}
-      isOpen={true}
-      aria-label={t('consumerGroup.delete')}
-      title={t('consumerGroup.delete')}
-      showClose={true}
-      aria-describedby='modal-message'
+    <DeleteConsumerGroup
+      isModalOpen={true}
+      consumerName={consumerName}
+      state={state as ConsumerGroupState}
+      onDeleteConsumer={onDelete}
       onClose={onClose}
-      actions={[
-        <Button
-          variant={ButtonVariant.primary}
-          onClick={onDelete}
-          key={1}
-          isDisabled={isConsumerConnected}
-        >
-          {t('common.delete')}
-        </Button>,
-        <Button variant='link' onClick={onClose} key={2}>
-          {t('common.cancel')}
-        </Button>,
-      ]}
-    >
-      {!isConsumerConnected && (
-        <Text id='modal-message'>
-          <label
-            htmlFor='instance-name-input'
-            dangerouslySetInnerHTML={{
-              __html: t('common.confirm_delete_modal_text', {
-                name: consumerName,
-              }),
-            }}
-          />
-        </Text>
-      )}
-      {isConsumerConnected && (
-        <Alert
-          className='modal-alert'
-          variant='danger'
-          isInline
-          title={t('consumerGroup.delete_consumer_connected_alert_title', {
-            name: consumerName,
-          })}
-        >
-          <p>{t('consumerGroup.delete_consumer_connected_alert_body')}</p>
-        </Alert>
-      )}
-    </Modal>
+      appendTo={() => document.body}
+    />
   );
 };
-
-export default DeleteConsumerGroup;
