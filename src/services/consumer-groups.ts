@@ -48,6 +48,7 @@ const getConsumerGroups = async (
     activeMembers: t.metrics?.activeConsumers || 0,
     partitionsWithLag: t.metrics?.laggingPartitions || 0,
     state: stateMapping[t.state as ConsumerGroupState],
+    consumers: t.consumers,
   }));
   const count = response.data.total;
   return { count, groups };

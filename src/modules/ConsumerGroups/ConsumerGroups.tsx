@@ -2,187 +2,143 @@ import React, {
   useContext,
   useState,
   useEffect,
-  lazy,
   Suspense,
   useCallback,
 } from 'react';
-import { useTranslation } from 'react-i18next';
-import { PageSection, PageSectionVariants } from '@patternfly/react-core';
+import { MASLoading } from '@app/components';
 import {
-  EmptyState,
-  MASEmptyStateVariant,
-  MASLoading,
-  MASDrawer,
-  usePaginationParams,
-} from '@app/components';
-import { getConsumerGroups } from '@app/services';
+  getConsumerGroups,
+  KafkaConsumerGroupSortableColumns,
+} from '@app/services';
 import { ConfigContext } from '@app/contexts';
-import { ConsumerGroupList, ConsumerGroup } from '@rhoas/kafka-instance-sdk';
 import { useTimeout } from '@app/hooks/useTimeOut';
-import { ISortBy, OnSort, SortByDirection } from '@patternfly/react-table';
-import { ConsumerGroupsTableProps } from '@app/modules/ConsumerGroups/components';
-
-const ConsumerGroupDetail = lazy(
-  () => import('./components/ConsumerGroupDetail/ConsumerGroupDetail')
-);
-const ConsumerGroupsTable = lazy(
-  () => import('./components/ConsumerGroupsTable/ConsumerGroupsTable')
-);
+import {
+  usePaginationSearchParams,
+  useSortableSearchParams,
+  useURLSearchParamsChips,
+  ConsumerGroup,
+  ConsumerGroupsTable,
+  ConsumerGroupDrawer,
+} from '@rhoas/app-services-ui-components';
+import { ModalType, useModal } from '@rhoas/app-services-ui-shared';
 
 export type ConsumerGroupsProps = {
   consumerGroupByTopic: boolean;
   topic?: string;
-  rowDataTestId?: string;
 };
 
 const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
   consumerGroupByTopic,
   topic,
-  rowDataTestId,
 }) => {
-  const [order, setOrder] = useState<SortByDirection>();
-  const [orderKey, setOrderKey] = useState<'name' | undefined>();
-  const [sortBy, setSortBy] = useState<ISortBy>({
-    index: undefined,
-    direction: 'asc',
-  });
-  const [consumerGroups, setConsumerGroups] = useState<ConsumerGroupList>();
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const [search, setSearch] = useState<string>('');
-  const [consumerGroupDetail, setConsumerGroupDetail] =
-    useState<ConsumerGroup>();
-  const [groupId, setGroupId] = useState<string>();
+  const [consumerGroups, setConsumerGroups] = useState<ConsumerGroup[]>();
+  const [count, setCount] = useState<number>();
 
   const config = useContext(ConfigContext);
-  const { t } = useTranslation(['kafkaTemporaryFixMe']);
-  const { page = 1, perPage = 10, setPage } = usePaginationParams() || {};
 
-  const onSearch = useCallback(
-    (value: string) => {
-      setSearch(value);
-      setPage && setPage(1);
-    },
-    [setPage]
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+
+  const [consumerGroup, setConsumerGroup] = useState<ConsumerGroup>();
+
+  // const { showModal: showResetOffsetModal } =
+  //   useModal<ModalType.KafkaConsumerGroupResetOffset>();
+
+  const { showModal } = useModal<ModalType.KafkaDeleteConsumerGroup>();
+
+  const { page, perPage, setPagination, setPaginationQuery } =
+    usePaginationSearchParams();
+  const resetPaginationQuery = useCallback(
+    () => setPaginationQuery(1, perPage),
+    [perPage, setPaginationQuery]
   );
 
-  const onSort: OnSort = (_event, index, direction) => {
-    setOrder(direction);
-    setOrderKey('name');
-    setSortBy({ index, direction });
-  };
+  const consumerName = useURLSearchParamsChips(
+    'consumer',
+    resetPaginationQuery
+  );
+  const [isColumnSortable, sort, sortDirection] = useSortableSearchParams(
+    KafkaConsumerGroupSortableColumns,
+    {
+      name: 'TODO name',
+    },
+    'name',
+    'desc'
+  );
 
   const fetchConsumerGroups = useCallback(async () => {
     await getConsumerGroups(
       config,
-      perPage,
       page,
+      perPage,
+      sort!,
+      sortDirection,
       topic,
-      search,
-      order,
-      orderKey
-    ).then((response) => {
-      setConsumerGroups(response);
+      consumerName.chips[0]
+    ).then(({ groups, count }) => {
+      setConsumerGroups(groups);
+      setCount(count);
     });
-  }, [config, order, orderKey, page, perPage, search, topic]);
+  }, [config, page, perPage, sort, sortDirection, topic, consumerName.chips]);
 
   useEffect(() => {
     fetchConsumerGroups();
-  }, [search, order, page, perPage, fetchConsumerGroups]);
-
-  useEffect(() => {
-    //update setConsumerGroupDetail state after reset offset value
-    //so that values will update on page
-    const filteredGroup =
-      consumerGroups &&
-      consumerGroups.items?.find((g) => g.groupId === groupId);
-    if (filteredGroup) setConsumerGroupDetail(filteredGroup);
-  }, [consumerGroups, groupId]);
+  }, [page, perPage, sort, sortDirection, fetchConsumerGroups]);
 
   useTimeout(() => fetchConsumerGroups(), 5000);
 
-  const panelBodyContent = (
-    <ConsumerGroupDetail
-      consumerGroupDetail={consumerGroupDetail}
-      consumerGroupByTopic={consumerGroupByTopic}
-    />
-  );
+  const onSelectDeleteConsumerGroup = (consumer: ConsumerGroup) => {
+    showModal(ModalType.KafkaDeleteConsumerGroup, {
+      consumerName: consumer.consumerGroupId,
+      state: consumer.state,
+    });
+  };
 
   const onClose = () => {
     setIsExpanded(false);
   };
 
-  const onViewConsumerGroup: ConsumerGroupsTableProps['onViewConsumerGroup'] = (
-    consumerGroup
-  ) => {
+  const onViewConsumerGroup = (consumer: ConsumerGroup) => {
     setIsExpanded(true);
-    setGroupId(consumerGroup?.groupId);
-    setConsumerGroupDetail(consumerGroup);
+    setConsumerGroup(consumer);
   };
 
   return (
     <Suspense fallback={<MASLoading />}>
-      <MASDrawer
+      <ConsumerGroupDrawer
+        consumerGroupByTopic={consumerGroupByTopic}
+        state={consumerGroup?.state || 'Stable'}
+        activeMembers={consumerGroup?.activeMembers || 0}
+        partitionsWithLag={consumerGroup?.partitionsWithLag || 0}
+        consumers={consumerGroup?.consumers || []}
+        groupId={consumerGroup?.consumerGroupId || ''}
+        onSelectDeleteConsumerGroup={() => {}}
+        onSelectResetOffsetConsumerGroup={() => {}}
         isExpanded={isExpanded}
-        onClose={onClose}
-        panelBodyContent={panelBodyContent}
-        drawerHeaderProps={{
-          text: { label: t('consumerGroup.consumer_group_id') },
-          title: { value: consumerGroupDetail?.groupId, headingLevel: 'h1' },
-        }}
-        data-ouia-app-id='dataPlane-consumerGroupDetails'
-        refreshConsumerGroups={fetchConsumerGroups}
-        consumerGroupDetail={consumerGroupDetail}
+        onClickClose={onClose}
       >
-        {(() => {
-          switch (true) {
-            case consumerGroups === undefined:
-              return (
-                <PageSection
-                  className='kafka-ui-m-full-height'
-                  variant={PageSectionVariants.light}
-                  padding={{ default: 'noPadding' }}
-                >
-                  <MASLoading />
-                </PageSection>
-              );
-            case (!consumerGroups?.items?.length ||
-              consumerGroups?.items?.length < 1) &&
-              search.length < 1:
-              return (
-                <EmptyState
-                  emptyStateProps={{
-                    variant: MASEmptyStateVariant.NoConsumerGroups,
-                  }}
-                  titleProps={{
-                    title: t('consumerGroup.empty_consumer_title'),
-                  }}
-                  emptyStateBodyProps={{
-                    body: t('consumerGroup.empty_consumer_body'),
-                  }}
-                />
-              );
-            case consumerGroups?.items !== undefined:
-              return (
-                <ConsumerGroupsTable
-                  consumerGroups={consumerGroups?.items}
-                  total={consumerGroups?.total || 0}
-                  page={page}
-                  perPage={perPage}
-                  search={search}
-                  setSearch={onSearch}
-                  rowDataTestId={rowDataTestId}
-                  onViewConsumerGroup={onViewConsumerGroup}
-                  isDrawerOpen={isExpanded}
-                  refreshConsumerGroups={fetchConsumerGroups}
-                  onSort={onSort}
-                  sortBy={sortBy}
-                />
-              );
-            default:
-              return <></>;
-          }
-        })()}
-      </MASDrawer>
+        <ConsumerGroupsTable
+          consumers={consumerGroups}
+          page={page}
+          perPage={perPage}
+          consumerName={consumerName.chips}
+          isRowSelected={() => true}
+          isColumnSortable={isColumnSortable}
+          onDelete={(row) => onSelectDeleteConsumerGroup(row)}
+          onSearchConsumer={(value) => {
+            consumerName.clear();
+            consumerName.toggle(value);
+          }}
+          onClearAllFilters={consumerName.clear}
+          onPageChange={setPagination}
+          onRemoveConsumerChip={consumerName.clear}
+          onRemoveConsumerChips={consumerName.clear}
+          onViewPartition={(row) => onViewConsumerGroup(row)}
+          onViewResetOffset={(row) => {
+            row;
+          }}
+          itemCount={count}
+        />
+      </ConsumerGroupDrawer>
     </Suspense>
   );
 };

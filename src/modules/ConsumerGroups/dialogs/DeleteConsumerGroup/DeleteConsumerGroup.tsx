@@ -1,21 +1,12 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  Alert,
-  AlertVariant,
-  Button,
-  ButtonVariant,
-  Modal,
-  ModalVariant,
-  Text,
-} from '@patternfly/react-core';
+import { AlertVariant } from '@patternfly/react-core';
 import { deleteConsumerGroup } from '@app/services';
 import { ConfigContext } from '@app/contexts';
 import { isAxiosError } from '@app/utils/axios';
 import {
   BaseModalProps,
   DeleteConsumerGroupProps,
-  ModalType,
   useAlert,
 } from '@rhoas/app-services-ui-shared';
 import {
@@ -76,3 +67,5 @@ const ConsumerGroupDelete: React.FC<
     />
   );
 };
+
+export default ConsumerGroupDelete;

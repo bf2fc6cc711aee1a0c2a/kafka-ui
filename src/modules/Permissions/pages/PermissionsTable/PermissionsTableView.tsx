@@ -31,8 +31,8 @@ export const PermissionsTableView: React.FunctionComponent<
   useEffect(() => {
     const fetchConsumerGroupNames = async () => {
       const response = await getConsumerGroups(config);
-      const consumerGroupNames = response.items?.map(
-        (consumerGroup) => consumerGroup.groupId || ''
+      const consumerGroupNames = response.groups?.map(
+        (consumerGroup) => consumerGroup.consumerGroupId || ''
       );
       setConsumerGroupNames(consumerGroupNames || []);
     };
