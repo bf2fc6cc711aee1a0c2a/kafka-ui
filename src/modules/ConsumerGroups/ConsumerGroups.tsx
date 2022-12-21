@@ -111,8 +111,12 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
         partitionsWithLag={consumerGroup?.partitionsWithLag || 0}
         consumers={consumerGroup?.consumers || []}
         groupId={consumerGroup?.consumerGroupId || ''}
-        onSelectDeleteConsumerGroup={() => {}}
-        onSelectResetOffsetConsumerGroup={() => {}}
+        onSelectDeleteConsumerGroup={() =>
+          onSelectDeleteConsumerGroup(consumerGroup)
+        }
+        onSelectResetOffsetConsumerGroup={() =>
+          onSelectDeleteConsumerGroup(consumerGroup)
+        }
         isExpanded={isExpanded}
         onClickClose={onClose}
       >
