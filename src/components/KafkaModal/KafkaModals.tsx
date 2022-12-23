@@ -15,6 +15,8 @@ import {
 
 export const useKafkaModals = (): ModalRegistry => {
   const { t } = useTranslation(['kafkaTemporaryFixMe']);
+  const params = new URLSearchParams(document.location.search);
+  const testRelease = params.get('testRelease');
   return {
     [ModalType.KafkaDeleteTopic]: {
       lazyComponent: React.lazy(
@@ -59,11 +61,14 @@ export const useKafkaModals = (): ModalRegistry => {
       variant: 'large',
     },
     [ModalType.KafkaManagePermissions]: {
-      lazyComponent: React.lazy(
-        () =>
-          import(
-            /* webpackPrefetch: true */ '@app/modules/Permissions/dialogs/ManagePermissions/ManagePermissions'
-          )
+      lazyComponent: React.lazy(() =>
+        testRelease
+          ? import(
+              /* webpackPrefetch: true */ '@app/modules/Permissions/dialogs/ManagePermissions/ManagePermissionsV2'
+            )
+          : import(
+              /* webpackPrefetch: true */ '@app/modules/Permissions/dialogs/ManagePermissions/ManagePermissions'
+            )
       ) as React.LazyExoticComponent<
         React.FunctionComponent<ManagePermissionsProps>
       >,
