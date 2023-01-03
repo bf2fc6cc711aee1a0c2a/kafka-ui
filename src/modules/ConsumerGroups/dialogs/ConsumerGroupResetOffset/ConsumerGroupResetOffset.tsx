@@ -11,10 +11,9 @@ import {
   useAlert,
 } from '@rhoas/app-services-ui-shared';
 import {
-  // ConsumerGroupResetOffset,
+  ConsumerGroupResetOffset,
   ConsumerRow,
   OffsetValue,
-  ConsumerGroupResetOffset,
 } from '@rhoas/app-services-ui-components';
 
 const ResetOffsetConsumerGroup: React.FC<
@@ -33,9 +32,7 @@ const ResetOffsetConsumerGroup: React.FC<
 
   const [isConsumerSelected, setIsConsumerSelected] = useState<boolean>(false);
 
-  const [newConsumers, setNewConsumer] = useState<ConsumerRow[]>(
-    consumerGroupData?.consumers || []
-  );
+  const [consumers, setConsumers] = useState<ConsumerRow[]>([]);
 
   const { addAlert } = useAlert() || {
     addAlert: () => {
@@ -70,7 +67,7 @@ const ResetOffsetConsumerGroup: React.FC<
       consumerGroupData.consumers.filter(
         (consumer) => consumer.topic === selectedTopic
       );
-    setNewConsumer(filteredConsumers || []);
+    setConsumers(filteredConsumers || []);
   }, [consumerGroupData, selectedTopic]);
 
   const onConfirmationChange = (checked: boolean) => {
@@ -91,8 +88,8 @@ const ResetOffsetConsumerGroup: React.FC<
 
   const onSelectAllConsumer = (isSelecting = true) => {
     setIsConsumerSelected(isSelecting);
-    setNewConsumer(
-      newConsumers.map((consumer) => {
+    setConsumers(
+      consumers.map((consumer) => {
         consumer.selected = isSelecting;
         return consumer;
       })
@@ -101,15 +98,15 @@ const ResetOffsetConsumerGroup: React.FC<
 
   const onSelectRow = (rowId: number, selecting: boolean) => {
     setIsConsumerSelected(false);
-    const selectedConsumers = [...newConsumers];
+    const selectedConsumers = [...consumers];
     selectedConsumers[rowId].selected = !selecting;
     setIsConsumerSelected(!selecting);
-    setNewConsumer(selectedConsumers);
+    setConsumers(selectedConsumers);
   };
 
   const handleConsumerGroupResetOffset = async () => {
     try {
-      const partitions = newConsumers
+      const partitions = consumers
         .filter(({ selected }) => selected === true)
         .map(({ partition }) => partition);
       if (selectedOffset === OffsetType.Absolute) {
@@ -155,12 +152,12 @@ const ResetOffsetConsumerGroup: React.FC<
     <ConsumerGroupResetOffset
       isModalOpen={true}
       isDisconnected={isDisconnected}
-      groupId={'console-consumer-119'}
+      groupId={consumerGroupData?.groupId ? consumerGroupData?.groupId : ''}
       topics={getTopics()}
       selectedTopic={selectedTopic}
       customOffsetValue={customOffsetValue}
       setcustomOffsetValue={onCustomOffsetChange}
-      consumers={newConsumers}
+      consumers={consumers}
       isSelected={isConsumerSelected}
       onClickClose={hideModal}
       onClickResetOffset={handleConsumerGroupResetOffset}

@@ -20,7 +20,11 @@ import {
   ConsumerGroupsTable,
   ConsumerGroupDrawer,
 } from '@rhoas/app-services-ui-components';
-import { ModalType, useModal } from '@rhoas/app-services-ui-shared';
+import {
+  ModalType,
+  ModalTypePropsMap,
+  useModal,
+} from '@rhoas/app-services-ui-shared';
 
 export type ConsumerGroupsProps = {
   consumerGroupByTopic: boolean;
@@ -40,8 +44,8 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
 
   const [consumerGroup, setConsumerGroup] = useState<ConsumerGroup>();
 
-  // const { showModal: showResetOffsetModal } =
-  //   useModal<ModalType.KafkaConsumerGroupResetOffset>();
+  const { showModal: showResetOffsetModal } =
+    useModal<ModalType.KafkaConsumerGroupResetOffset>();
 
   const { showModal } = useModal<ModalType.KafkaDeleteConsumerGroup>();
 
@@ -93,6 +97,13 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
     });
   };
 
+  const onSelectResetOffsetConsumerGroup = (data: ConsumerGroup) => {
+    showResetOffsetModal(ModalType.KafkaConsumerGroupResetOffset, {
+      consumerGroupData:
+        data as unknown as ModalTypePropsMap[ModalType.KafkaConsumerGroupResetOffset]['consumerGroupData'],
+    });
+  };
+
   const onClose = () => {
     setIsExpanded(false);
   };
@@ -115,7 +126,7 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
           onSelectDeleteConsumerGroup(consumerGroup)
         }
         onSelectResetOffsetConsumerGroup={() =>
-          onSelectDeleteConsumerGroup(consumerGroup)
+          onSelectResetOffsetConsumerGroup(consumerGroup)
         }
         isExpanded={isExpanded}
         onClickClose={onClose}
@@ -137,9 +148,7 @@ const ConsumerGroups: React.FunctionComponent<ConsumerGroupsProps> = ({
           onRemoveConsumerChip={consumerName.clear}
           onRemoveConsumerChips={consumerName.clear}
           onViewPartition={(row) => onViewConsumerGroup(row)}
-          onViewResetOffset={(row) => {
-            row;
-          }}
+          onViewResetOffset={(row) => onSelectResetOffsetConsumerGroup(row)}
           itemCount={count}
         />
       </ConsumerGroupDrawer>
