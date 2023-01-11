@@ -5,11 +5,13 @@ import {
   Topic,
   TopicSettings,
   TopicsList,
+  TopicOrderKey,
+  SortDirection,
 } from '@rhoas/kafka-instance-sdk';
 import { Configuration } from '@rhoas/kafka-instance-sdk';
 import { IConfiguration } from '@app/contexts';
 import { IAdvancedTopic } from '@app/modules/Topics/utils';
-import { SortByDirection } from '@patternfly/react-table';
+import { KafkaTopic } from '@rhoas/app-services-ui-components/types/src/Kafka/KafkaTopics/types';
 
 export enum OrderKey {
   name = 'name',
@@ -21,11 +23,11 @@ export enum OrderKey {
 export const getTopics = async (
   config: IConfiguration | undefined,
   page?: number,
-  size?: number,
-  filter?: string,
-  order: SortByDirection = SortByDirection.asc,
-  orderKey?: OrderKey
-): Promise<TopicsList> => {
+  perPage?: number,
+  sort?: KafkaTopicsSortableColumn,
+  direction?: SortDirection,
+  filter?: string
+): Promise<{ topics: KafkaTopic[]; count: number }> => {
   const accessToken = await config?.getToken();
 
   const api = new TopicsApi(
@@ -37,13 +39,22 @@ export const getTopics = async (
   const response: AxiosResponse<TopicsList> = await api.getTopics(
     undefined,
     undefined,
-    size,
+    perPage,
     filter,
     page,
-    order,
-    orderKey
+    direction,
+    sort
   );
-  return response.data;
+  const topics = (response.data.items || []).map((t: Topic) => ({
+    topic_name: t.name!,
+    partitions: t.partitions?.length || 0,
+    retention_size:
+      t.config?.find(({ key }) => key === 'retention.bytes')?.value || '',
+    retention_time:
+      t.config?.find(({ key }) => key === 'retention.ms')?.value || '',
+  }));
+  const count = response.data.total;
+  return { count, topics };
 };
 
 export const getTopicDetail = async (
@@ -148,3 +159,10 @@ export const deleteTopic = async (
   await api.deleteTopic(topicName);
   return;
 };
+
+export const KafkaTopicsSortableColumns = [
+  ...Object.values(TopicOrderKey),
+] as const;
+
+export type KafkaTopicsSortableColumn =
+  (typeof KafkaTopicsSortableColumns)[number];
