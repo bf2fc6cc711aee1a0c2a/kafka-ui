@@ -165,4 +165,4 @@ export const KafkaTopicsSortableColumns = [
 ] as const;
 
 export type KafkaTopicsSortableColumn =
-  typeof KafkaTopicsSortableColumns[number];
+  (typeof KafkaTopicsSortableColumns)[number];
