@@ -173,7 +173,12 @@ export const ManagePermissionsModal: React.FC<
           case 'manual': {
             await permissionsService
               .addPermission({
-                resourceName: value.resourceName ? value.resourceName : '',
+                resourceName:
+                  value.resourceType == 'kafka-instance'
+                    ? 'kafka-cluster'
+                    : value.resourceName
+                    ? value.resourceName
+                    : '',
                 resourceType: transformResourceType(value.resourceType),
                 patternType:
                   value.resourcePrefix == 'Is' ? 'LITERAL' : 'PREFIXED',
