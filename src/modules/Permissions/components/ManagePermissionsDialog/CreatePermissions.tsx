@@ -120,11 +120,7 @@ export const CreatePermissions: React.FunctionComponent<
     });
   };
 
-  const onAddPermission: PermissionsDropdownProps['onAddPermission'] = ((
-    e: React.MouseEvent
-  ) => {
-    e.stopPropagation();
-    e.preventDefault();
+  const onAddPermission: PermissionsDropdownProps['onAddPermission'] = (() => {
     setAcls((prevState) => [...prevState, createEmptyNewAcl()]);
   }) as PermissionsDropdownProps['onAddPermission'];
 
