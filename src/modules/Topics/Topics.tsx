@@ -6,6 +6,8 @@ import {
   usePaginationSearchParams,
   useSortableSearchParams,
   useURLSearchParamsChips,
+  KafkaTopic,
+  useTopicLabels,
 } from '@rhoas/app-services-ui-components';
 import { ConfigContext, useFederated } from '@app/contexts';
 import {
@@ -14,13 +16,14 @@ import {
   useModal,
 } from '@rhoas/app-services-ui-shared';
 import './Topics.css';
-import { KafkaTopic } from '@rhoas/app-services-ui-components/types/src/Kafka/KafkaTopics/types';
 import { useTimeout } from '@app/hooks';
 import { getTopics, KafkaTopicsSortableColumns } from '@app/services';
 import { isAxiosError } from '@app/utils/axios';
 
 const Topics: React.FC = () => {
   const { onError } = useFederated() || {};
+
+  const labels = useTopicLabels();
 
   const { showModal } = useModal<ModalType.KafkaDeleteTopic>();
 
@@ -43,14 +46,7 @@ const Topics: React.FC = () => {
   const topicsChips = useURLSearchParamsChips('topics', resetPaginationQuery);
   const [isColumnSortable, sort, sortDirection] = useSortableSearchParams(
     KafkaTopicsSortableColumns,
-    {
-      name: 'Name',
-      partitions: 'partitions',
-      'retention.bytes': 'Retention size',
-      'retention.ms': 'Retention time',
-    },
-    'name',
-    'asc'
+    labels.fields
   );
 
   const onClickCreateTopic = () => {
@@ -108,9 +104,9 @@ const Topics: React.FC = () => {
     <Card className='kafka-ui-m-full-height' data-ouia-page-id='tableTopics'>
       <KafkaTopics
         topics={topicsList}
-        getUrlFortopic={(row) => `${basename}/topics/${row.topic_name}`}
-        onDelete={(row) => onDelete(row.topic_name)}
-        onEdit={(row) => onEdit(row.topic_name)}
+        getUrlFortopic={(row) => `${basename}/topics/${row.name}`}
+        onDelete={(row) => onDelete(row.name)}
+        onEdit={(row) => onEdit(row.name)}
         onSearchTopic={(value) => {
           topicsChips.clear();
           topicsChips.toggle(value);
@@ -120,7 +116,7 @@ const Topics: React.FC = () => {
         onRemoveTopicChip={topicsChips.clear}
         onRemoveTopicChips={topicsChips.clear}
         onTopicLinkClick={(row) => {
-          row.topic_name;
+          row.name;
         }}
         page={page}
         perPage={perPage}

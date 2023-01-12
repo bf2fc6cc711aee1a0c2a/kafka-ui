@@ -5,13 +5,12 @@ import {
   Topic,
   TopicSettings,
   TopicsList,
-  TopicOrderKey,
   SortDirection,
 } from '@rhoas/kafka-instance-sdk';
 import { Configuration } from '@rhoas/kafka-instance-sdk';
 import { IConfiguration } from '@app/contexts';
 import { IAdvancedTopic } from '@app/modules/Topics/utils';
-import { KafkaTopic } from '@rhoas/app-services-ui-components/types/src/Kafka/KafkaTopics/types';
+import { KafkaTopic } from '@rhoas/app-services-ui-components';
 
 export enum OrderKey {
   name = 'name',
@@ -24,7 +23,7 @@ export const getTopics = async (
   config: IConfiguration | undefined,
   page?: number,
   perPage?: number,
-  sort?: KafkaTopicsSortableColumn,
+  sort?: KafkaTopicsSortableColumns,
   direction?: SortDirection,
   filter?: string
 ): Promise<{ topics: KafkaTopic[]; count: number }> => {
@@ -46,11 +45,11 @@ export const getTopics = async (
     sort
   );
   const topics = (response.data.items || []).map((t: Topic) => ({
-    topic_name: t.name!,
+    name: t.name!,
     partitions: t.partitions?.length || 0,
-    retention_size:
+    'retention.bytes':
       t.config?.find(({ key }) => key === 'retention.bytes')?.value || '',
-    retention_time:
+    'retention.ms':
       t.config?.find(({ key }) => key === 'retention.ms')?.value || '',
   }));
   const count = response.data.total;
@@ -161,8 +160,10 @@ export const deleteTopic = async (
 };
 
 export const KafkaTopicsSortableColumns = [
-  ...Object.values(TopicOrderKey),
+  'partitions',
+  'retention.ms',
+  'retention.bytes',
 ] as const;
 
-export type KafkaTopicsSortableColumn =
+export type KafkaTopicsSortableColumns =
   (typeof KafkaTopicsSortableColumns)[number];
