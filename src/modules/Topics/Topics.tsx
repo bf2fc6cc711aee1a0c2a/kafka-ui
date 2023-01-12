@@ -32,7 +32,9 @@ const Topics: React.FC = () => {
   const { getBasename } = useBasename() || { getBasename: () => '' };
   const basename = getBasename();
 
-  const [topicsList, setTopicsList] = useState<KafkaTopic[]>();
+  const [topicsList, setTopicsList] = useState<KafkaTopic[] | undefined | null>(
+    null
+  );
 
   const [count, setCount] = useState<number>();
 
@@ -100,6 +102,11 @@ const Topics: React.FC = () => {
 
   useTimeout(() => fetchTopic(), 1000);
 
+  const onClearAllFilters = useCallback(() => {
+    setTopicsList(undefined);
+    topicsChips.clear();
+  }, [topicsChips]);
+
   return (
     <Card className='kafka-ui-m-full-height' data-ouia-page-id='tableTopics'>
       <KafkaTopics
@@ -111,7 +118,7 @@ const Topics: React.FC = () => {
           topicsChips.clear();
           topicsChips.toggle(value);
         }}
-        onClearAllFilters={topicsChips.clear}
+        onClearAllFilters={onClearAllFilters}
         topicName={topicsChips.chips}
         onRemoveTopicChip={topicsChips.clear}
         onRemoveTopicChips={topicsChips.clear}
