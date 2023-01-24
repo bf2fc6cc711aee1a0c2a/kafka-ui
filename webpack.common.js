@@ -114,7 +114,7 @@ module.exports = (env, argv) => {
           './ConsumerGroups':
             './src/modules/ConsumerGroups/ConsumerGroupsFederated',
           './AclPermissions': './src/modules/Permissions/PermissionsFederated',
-          './Settings': './src/modules/Topics/pages/Settings/Settings'
+          './Settings': './src/modules/Topics/pages/Settings/Settings',
         },
         shared: {
           ...dependencies,
@@ -143,6 +143,10 @@ module.exports = (env, argv) => {
           '@rhoas/app-services-ui-shared': {
             singleton: true,
             requiredVersion: peerDependencies['@rhoas/app-services-ui-shared'],
+          },
+          '@scalprum/react-core': {
+            singleton: true,
+            requiredVersion: '*',
           },
         },
       }),

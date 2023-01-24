@@ -1,3 +1,4 @@
+import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Card } from '@patternfly/react-core';
@@ -21,7 +22,8 @@ import { getTopics, KafkaTopicsSortableColumns } from '@app/services';
 import { isAxiosError } from '@app/utils/axios';
 
 const Topics: React.FC = () => {
-  const { onError } = useFederated() || {};
+  const { analytics } = useChrome();
+  const { kafka, onError } = useFederated() || {};
 
   const labels = useTopicLabels();
 
@@ -64,8 +66,20 @@ const Topics: React.FC = () => {
   };
 
   const onDelete = (topicName: string) => {
+    analytics.track('RHOSAK Delete Topic', {
+      entityId: kafka?.id,
+      topic: topicName,
+      status: 'prompt',
+    });
     showModal(ModalType.KafkaDeleteTopic, {
       topicName,
+      onDeleteTopic: () => {
+        analytics.track('RHOSAK Delete Topic', {
+          entityId: kafka?.id,
+          topic: topicName,
+          status: 'success',
+        });
+      },
     });
   };
 
