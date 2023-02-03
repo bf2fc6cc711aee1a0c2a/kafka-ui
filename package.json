@@ -47,11 +47,11 @@
     "uuid": "9.0.0"
   },
   "devDependencies": {
-    "@patternfly/patternfly": "4.222.4",
-    "@patternfly/react-charts": "6.94.15",
-    "@patternfly/react-core": "4.267.6",
-    "@patternfly/react-icons": "4.93.3",
-    "@patternfly/react-table": "4.112.6",
+    "@patternfly/patternfly": "4.224.2",
+    "@patternfly/react-charts": "6.94.18",
+    "@patternfly/react-core": "4.276.6",
+    "@patternfly/react-icons": "4.93.6",
+    "@patternfly/react-table": "4.112.39",
     "@redhat-cloud-services/frontend-components": "3.9.29",
     "@redhat-cloud-services/frontend-components-config": "4.6.39",
     "@redhat-cloud-services/frontend-components-notifications": "3.2.12",
@@ -112,10 +112,10 @@
     "webpack-merge": "5.8.0"
   },
   "peerDependencies": {
-    "@patternfly/patternfly": "4.222.4",
-    "@patternfly/react-core": "4.267.6",
-    "@patternfly/react-icons": "4.93.3",
-    "@patternfly/react-table": "4.112.6",
+    "@patternfly/patternfly": "4.224.2",
+    "@patternfly/react-core": "4.276.6",
+    "@patternfly/react-icons": "4.93.6",
+    "@patternfly/react-table": "4.112.39",
     "@redhat-cloud-services/frontend-components": "3.9.29",
     "@redhat-cloud-services/frontend-components-notifications": "3.2.12",
     "@redhat-cloud-services/frontend-components-utilities": "3.3.12",
