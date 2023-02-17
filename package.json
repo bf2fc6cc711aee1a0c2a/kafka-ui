@@ -59,7 +59,7 @@
     "@rhoas/api-mock": "0.53.0",
     "@rhoas/app-services-ui-components": "2.20.4",
     "@rhoas/app-services-ui-shared": "0.16.6",
-    "@testing-library/dom": "8.20.0",
+    "@testing-library/dom": "9.0.0",
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "12.1.5",
     "@testing-library/user-event": "13.5.0",
