@@ -1,2 +1,2 @@
-export * from './CreateTopicPage';
+export * from './CreateTopic';
 export * from './CreateTopicFederated';
